@@ -11,44 +11,63 @@ import SwiftUI
 
 class EventDetailsVC: UIViewController {
 
+    @IBOutlet weak var superView: UIView!
+    @IBOutlet weak var eventImg: UIImageView!
+    @IBOutlet weak var dateCreateLbl: UILabel!
+    @IBOutlet weak var timeCreateLbl: UILabel!
     @IBOutlet weak var chartContainerView: UIView!
-    @IBOutlet weak var pieChartView: PieChartView!
+    @IBOutlet weak var chartView: UIView!
+    @IBOutlet weak var attendLbl: UILabel!
+    @IBOutlet weak var statisticsView: UIView!
+    @IBOutlet weak var malePercentageLbl: UILabel!
+    @IBOutlet weak var femalePercentageLbl: UILabel!
+    @IBOutlet weak var otherPercentageLbl: UILabel!
+    @IBOutlet weak var detailsView: UIView!
+    @IBOutlet weak var categoryNameLbl: UILabel!
+    @IBOutlet weak var descreptionLbl: UILabel!
+    @IBOutlet weak var editBtn: UIButton!
+    @IBOutlet weak var leaveBtn: UIButton!
+    @IBOutlet weak var joinBtn: UIButton!
     
-    var child = UIHostingController(rootView: CircleView())
-
-//    var pieChart = PieChartView()
     var numbers:[Double] = [1,2,3]
     var genders:[String] = ["Men","Women","Other"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        child.view.translatesAutoresizingMaskIntoConstraints = false
-        child.view.frame = chartContainerView.bounds
-        chartContainerView.addSubview(child.view)
-
-//        setChart(months: genders, numbers: numbers)
-//        chartContainerView.cornerRadiusView(radius: 21)
+        initBackButton(btnColor: .white)
+//        setupViews()
     }
     
-    func setChart(months: [String], numbers: [Double]) {
-        pieChartView.delegate = self
-
-        var entries = [ChartDataEntry]()
-        for i in 0..<numbers.count {
-            entries.append(ChartDataEntry(x: Double(i), y: numbers[i]))
-        }
-        
-        let set = PieChartDataSet(entries: entries)
-        set.colors = ChartColorTemplates.colorful()
-        let data = PieChartData(dataSet: set)
-        pieChartView.data = data
-        set.drawValuesEnabled = true
-        pieChartView.backgroundColor = .white
-        
+    override func viewWillAppear(_ animated: Bool) {
+        clearNavigationBar()
+        setupViews()
     }
-}
-
-extension EventDetailsVC :ChartViewDelegate {
+    
+    func setupViews() {
+        let child = UIHostingController(rootView: CircleView())
+        child.view.translatesAutoresizingMaskIntoConstraints = true
+        child.view.frame = CGRect(x: 0, y: 0, width: chartView.bounds.width, height: chartView.bounds.height)
+        chartView.addSubview(child.view)
+        chartContainerView.cornerRadiusView(radius: 21)
+        
+        editBtn.cornerRadiusView(radius: 8)
+        joinBtn.cornerRadiusView(radius: 8)
+        leaveBtn.cornerRadiusView(radius: 8)
+        detailsView.cornerRadiusView(radius: 21)
+        statisticsView.cornerRadiusView(radius: 21)
+    }
+    
+    @IBAction func editBtn(_ sender: Any) {
+        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @IBAction func joinBtn(_ sender: Any) {
+    }
+    
+    @IBAction func leaveBtn(_ sender: Any) {
+    }
+    
     
 }

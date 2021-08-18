@@ -9,7 +9,9 @@ import Foundation
 import UIKit
 
 class AddEventVC: UIViewController {
-
+    
+    @IBOutlet weak var eventImg: UIImageView!
+    @IBOutlet weak var addImg: UIButton!
     @IBOutlet weak var addTitleTxt: UITextField!
     @IBOutlet weak var switchAllDays: UISwitch!
     @IBOutlet weak var startDayLbl: UILabel!
@@ -20,8 +22,15 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var descriptionTxtView: UITextView!
     @IBOutlet weak var limitUsersView: UIView!
     @IBOutlet weak var limitUsersTxt: UITextField!
-        
-    
+    @IBOutlet weak var categoryLbl: UILabel!
+    @IBOutlet weak var chooseCatBtn: UIButton!
+    @IBOutlet weak var datesView: UIView!
+    @IBOutlet weak var datesViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var startDateBtn: UIButton!
+    @IBOutlet weak var endDateBtn: UIButton!
+    @IBOutlet weak var startTimeBtn: UIButton!
+    @IBOutlet weak var endTimeBtn: UIButton!
+
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
     lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
     
@@ -30,6 +39,9 @@ class AddEventVC: UIViewController {
     var nday = ""
     var nyear = ""
     
+    let imagePicker = UIImagePickerController()
+    var attachedImg = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,6 +55,7 @@ class AddEventVC: UIViewController {
     }
     
     func setup() {
+        eventImg.cornerRadiusView(radius: 6)
         limitUsersView.cornerRadiusView(radius: 5)
         descriptionTxtView.cornerRadiusView(radius: 5)
         descriptionTxtView.delegate = self
@@ -56,12 +69,74 @@ class AddEventVC: UIViewController {
         formattrTime.dateFormat = "HH:mm a"
         self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
         self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
+        
+        if switchAllDays.isOn {
+            datesView.isHidden = true
+            datesViewHeight.constant = 0
+            startDateBtn.isHidden = true
+            endDateBtn.isHidden = true
+            startTimeBtn.isHidden = true
+            endTimeBtn.isHidden = true
+        }else {
+            datesView.isHidden = false
+            datesViewHeight.constant = 70
+            startDateBtn.isHidden = false
+            endDateBtn.isHidden = false
+            startTimeBtn.isHidden = false
+            endTimeBtn.isHidden = false
+        }
     }
     
+    @IBAction func addImgBtn(_ sender: Any) {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+            
+            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openCamera()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openLibrary()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+
+            present(settingsActionSheet, animated:true, completion:nil)
+
+        }else {
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+            
+            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openCamera()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openLibrary()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+
+            present(settingsActionSheet, animated:true, completion:nil)
+        }
+    }
+    
+    @IBAction func chooseCatBtn(_ sender: Any) {
+    }
     
     @IBAction func switchAllDaysBtn(_ sender: Any) {
+        if switchAllDays.isOn {
+            self.datesView.isHidden = true
+            self.datesViewHeight.constant = 0
+            self.startDateBtn.isHidden = true
+            self.endDateBtn.isHidden = true
+            self.startTimeBtn.isHidden = true
+            self.endTimeBtn.isHidden = true
+        }else {
+            self.datesView.isHidden = false
+            self.datesViewHeight.constant = 70
+            self.startDateBtn.isHidden = false
+            self.endDateBtn.isHidden = false
+            self.startTimeBtn.isHidden = false
+            self.endTimeBtn.isHidden = false
+        }
+        
     }
-    
     
     @IBAction func startDayBtn(_ sender: Any) {
         dateAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -308,5 +383,38 @@ extension AddEventVC {
             dateAlertView?.dayLbl.text = dayname + ", " + monthname + " " + nday
             dateAlertView?.yearLbl.text = nyear
         }
+    }
+}
+
+extension AddEventVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+    //MARK:- Take Picture
+    func openCamera(){
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerController.SourceType.camera;
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    func openLibrary(){
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        picker.dismiss(animated:true, completion: {
+            self.eventImg.image = image
+            self.attachedImg = true
+        })
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated:true, completion: nil)
     }
 }
