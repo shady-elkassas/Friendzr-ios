@@ -24,6 +24,7 @@ class EventsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        clearNavigationBar()
     }
     
     func setup() {

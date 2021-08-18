@@ -30,9 +30,14 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var endDateBtn: UIButton!
     @IBOutlet weak var startTimeBtn: UIButton!
     @IBOutlet weak var endTimeBtn: UIButton!
-
+    @IBOutlet weak var categoriesView: UIView!
+    @IBOutlet weak var categoriesViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var tableView: UITableView!
+    
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
     lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
+    
+    let catCellID = "CategoryTableViewCell"
     
     var dayname = ""
     var monthname = ""
@@ -85,6 +90,8 @@ class AddEventVC: UIViewController {
             startTimeBtn.isHidden = false
             endTimeBtn.isHidden = false
         }
+        
+        tableView.register(UINib(nibName: catCellID, bundle: nil), forCellReuseIdentifier: catCellID)
     }
     
     @IBAction func addImgBtn(_ sender: Any) {
@@ -117,6 +124,13 @@ class AddEventVC: UIViewController {
     }
     
     @IBAction func chooseCatBtn(_ sender: Any) {
+        categoriesView.isHidden = !categoriesView.isHidden
+        
+        if categoriesView.isHidden == false {
+            categoriesViewHeight.constant = CGFloat((10*50) + 20)
+        }else {
+            categoriesViewHeight.constant = 0
+        }
     }
     
     @IBAction func switchAllDaysBtn(_ sender: Any) {
@@ -416,5 +430,22 @@ extension AddEventVC : UIImagePickerControllerDelegate,UINavigationControllerDel
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated:true, completion: nil)
+    }
+}
+
+extension AddEventVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: catCellID, for: indexPath) as? CategoryTableViewCell else {return UITableViewCell()}
+        return cell
+    }
+}
+
+extension AddEventVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
     }
 }

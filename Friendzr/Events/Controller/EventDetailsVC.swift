@@ -36,7 +36,6 @@ class EventDetailsVC: UIViewController {
         super.viewDidLoad()
         
         initBackButton(btnColor: .white)
-//        setupViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,6 +67,4 @@ class EventDetailsVC: UIViewController {
     
     @IBAction func leaveBtn(_ sender: Any) {
     }
-    
-    
 }

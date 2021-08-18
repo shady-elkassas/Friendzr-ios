@@ -98,6 +98,8 @@
 		43D545C126CBEC5B0064660A /* EventDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545C026CBEC5B0064660A /* EventDetailsVC.swift */; };
 		43D545C526CCE9E50064660A /* CirclesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545C426CCE9E50064660A /* CirclesView.swift */; };
 		43D545C926CCFBA10064660A /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545C826CCFBA10064660A /* CircleView.swift */; };
+		43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545CC26CD49F40064660A /* CategoryTableViewCell.swift */; };
+		43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D545CD26CD49F40064660A /* CategoryTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -217,6 +219,8 @@
 		43D545C026CBEC5B0064660A /* EventDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsVC.swift; sourceTree = "<group>"; };
 		43D545C426CCE9E50064660A /* CirclesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirclesView.swift; sourceTree = "<group>"; };
 		43D545C826CCFBA10064660A /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
+		43D545CC26CD49F40064660A /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		43D545CD26CD49F40064660A /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
 		FEE62193B6EE621B033E5DF9 /* Pods-Friendzr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Friendzr.release.xcconfig"; path = "Target Support Files/Pods-Friendzr/Pods-Friendzr.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -307,8 +311,6 @@
 				43D545A526CBB01B0064660A /* CustomViews */,
 				430A352326CAB30C00477A94 /* cell */,
 				430A352126CAB04B00477A94 /* Events.storyboard */,
-				43D545C426CCE9E50064660A /* CirclesView.swift */,
-				43D545C826CCFBA10064660A /* CircleView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -329,6 +331,8 @@
 			children = (
 				430A352426CAB32600477A94 /* EventsTableViewCell.swift */,
 				430A352526CAB32600477A94 /* EventsTableViewCell.xib */,
+				43D545CC26CD49F40064660A /* CategoryTableViewCell.swift */,
+				43D545CD26CD49F40064660A /* CategoryTableViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -745,6 +749,8 @@
 		43D545A526CBB01B0064660A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				43D545C426CCE9E50064660A /* CirclesView.swift */,
+				43D545C826CCFBA10064660A /* CircleView.swift */,
 				43D545A626CBB02D0064660A /* EventCalendarView.xib */,
 				43D545A826CBB0450064660A /* EventCalendarView.swift */,
 				43D545AC26CBB6270064660A /* EventTimeCalenderView.xib */,
@@ -894,6 +900,7 @@
 				430A351026CA7A2200477A94 /* MoreTableViewCell.xib in Resources */,
 				436288A226C9186C00B51E51 /* FeedsTableViewCell.xib in Resources */,
 				43D545AD26CBB6270064660A /* EventTimeCalenderView.xib in Resources */,
+				43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */,
 				430A350126CA4A0900477A94 /* BlockAlertView.xib in Resources */,
 				4333DA7526C3B1E50029F2B0 /* Register.storyboard in Resources */,
 				4382ACB126C29001005C1857 /* Splach.storyboard in Resources */,
@@ -1011,6 +1018,7 @@
 				430A352626CAB32600477A94 /* EventsTableViewCell.swift in Sources */,
 				4382AC4C26C2748B005C1857 /* UIColorExtension.swift in Sources */,
 				43D545C126CBEC5B0064660A /* EventDetailsVC.swift in Sources */,
+				43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */,
 				4382AC1726C27195005C1857 /* AppDelegate.swift in Sources */,
 				43D545B526CBD81E0064660A /* Magnetic.swift in Sources */,
 				4382AC1926C27195005C1857 /* SceneDelegate.swift in Sources */,
