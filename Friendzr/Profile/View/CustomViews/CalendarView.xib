@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Medium.ttf">
+            <string>Montserrat-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" restorationIdentifier="CalendarView" id="4sZ-uY-iCS" customClass="CalendarView" customModule="Friendzr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <visualEffectView opaque="NO" alpha="0.40000000596046448" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R2e-hl-VM8">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="a1N-J9-hds">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lR8-q6-UHU">
+                                <rect key="frame" x="-1" y="0.0" width="414" height="895"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="F3w-wS-rU2">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="895"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <vibrancyEffect>
+                                    <blurEffect style="light"/>
+                                </vibrancyEffect>
+                            </visualEffectView>
+                        </subviews>
+                    </view>
+                    <blurEffect style="dark"/>
+                </visualEffectView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gLp-DM-igw">
+                    <rect key="frame" x="34.5" y="257.5" width="345" height="391"/>
+                    <subviews>
+                        <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="wes-OE-6P9">
+                            <rect key="frame" x="0.0" y="0.0" width="345" height="319"/>
+                        </datePicker>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="05k-VL-bk0">
+                            <rect key="frame" x="191" y="335" width="129" height="40"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7y-8L-dQD">
+                                    <rect key="frame" x="0.0" y="0.0" width="81" height="40"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
+                                    <state key="normal" title="CANCEL">
+                                        <color key="titleColor" red="0.043137254901960784" green="0.74509803921568629" blue="0.63137254901960782" alpha="1" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="cancelBtn:" destination="4sZ-uY-iCS" eventType="touchUpInside" id="rm5-ji-8VR"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MlG-KS-3Ub">
+                                    <rect key="frame" x="89" y="0.0" width="40" height="40"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="40" id="kel-OZ-kye"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
+                                    <state key="normal" title="OK">
+                                        <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="okBtn:" destination="4sZ-uY-iCS" eventType="touchUpInside" id="NtG-Ff-Dk9"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="wZW-B9-KGG"/>
+                            </constraints>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="05k-VL-bk0" secondAttribute="trailing" constant="25" id="B8F-vS-lJV"/>
+                        <constraint firstItem="wes-OE-6P9" firstAttribute="top" secondItem="gLp-DM-igw" secondAttribute="top" id="GEc-5x-A8f"/>
+                        <constraint firstAttribute="bottom" secondItem="05k-VL-bk0" secondAttribute="bottom" constant="16" id="ZYX-qG-j5u"/>
+                        <constraint firstItem="05k-VL-bk0" firstAttribute="top" secondItem="wes-OE-6P9" secondAttribute="bottom" constant="16" id="ekJ-WS-VYh"/>
+                        <constraint firstAttribute="trailing" secondItem="wes-OE-6P9" secondAttribute="trailing" id="lmQ-V9-Aru"/>
+                        <constraint firstItem="wes-OE-6P9" firstAttribute="leading" secondItem="gLp-DM-igw" secondAttribute="leading" id="rHT-zx-WFI"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <integer key="value" value="15"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="l0w-kI-nCz"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="gLp-DM-igw" firstAttribute="width" secondItem="4sZ-uY-iCS" secondAttribute="width" multiplier="1:1.2" id="OZM-Ss-BPT"/>
+                <constraint firstAttribute="bottom" secondItem="R2e-hl-VM8" secondAttribute="bottom" id="Z7j-z1-5m8"/>
+                <constraint firstItem="R2e-hl-VM8" firstAttribute="trailing" secondItem="l0w-kI-nCz" secondAttribute="trailing" id="eZT-aW-do9"/>
+                <constraint firstItem="gLp-DM-igw" firstAttribute="centerY" secondItem="l0w-kI-nCz" secondAttribute="centerY" id="rA7-ya-1A6"/>
+                <constraint firstItem="R2e-hl-VM8" firstAttribute="leading" secondItem="4sZ-uY-iCS" secondAttribute="leading" id="res-aT-qgq"/>
+                <constraint firstItem="gLp-DM-igw" firstAttribute="centerX" secondItem="l0w-kI-nCz" secondAttribute="centerX" id="u9w-AT-I9v"/>
+                <constraint firstItem="R2e-hl-VM8" firstAttribute="top" secondItem="4sZ-uY-iCS" secondAttribute="top" id="zhM-cH-2c4"/>
+            </constraints>
+            <connections>
+                <outlet property="calendarView" destination="wes-OE-6P9" id="rMV-Al-2J7"/>
+                <outlet property="containerView" destination="gLp-DM-igw" id="2G1-fY-7ML"/>
+            </connections>
+            <point key="canvasLocation" x="-135" y="56"/>
+        </view>
+    </objects>
+</document>

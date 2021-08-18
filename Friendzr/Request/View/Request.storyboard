@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="un6-eD-9hn">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-SemiBold.ttf">
+            <string>Montserrat-SemiBold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--RequestVC-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="RequestVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="RequestVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Requests" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCa-hH-fEw">
+                                <rect key="frame" x="28.5" y="108" width="121.5" height="20"/>
+                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="16"/>
+                                <color key="textColor" red="0.14117647058823529" green="0.074509803921568626" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3UA-gv-YKq">
+                                <rect key="frame" x="162" y="108" width="9.5" height="20"/>
+                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="16"/>
+                                <color key="textColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3Ys-WA-6bE">
+                                <rect key="frame" x="0.0" y="148" width="414" height="665"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Y6W-OH-hqX" id="DgO-To-7V8"/>
+                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="ZD8-cX-PQf"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" red="0.95686274509803915" green="0.97254901960784312" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="3UA-gv-YKq" firstAttribute="centerY" secondItem="KCa-hH-fEw" secondAttribute="centerY" id="Bdn-kZ-yb0"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="3Ys-WA-6bE" secondAttribute="bottom" id="IcI-ux-9RV"/>
+                            <constraint firstItem="3Ys-WA-6bE" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="LzT-vF-0GD"/>
+                            <constraint firstItem="KCa-hH-fEw" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="28.5" id="XCk-uw-kZR"/>
+                            <constraint firstItem="KCa-hH-fEw" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="jMZ-zp-Qac"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="3Ys-WA-6bE" secondAttribute="trailing" id="mvf-wd-qNR"/>
+                            <constraint firstItem="3UA-gv-YKq" firstAttribute="leading" secondItem="KCa-hH-fEw" secondAttribute="trailing" constant="12" id="phn-Ge-Td5"/>
+                            <constraint firstItem="3Ys-WA-6bE" firstAttribute="top" secondItem="KCa-hH-fEw" secondAttribute="bottom" constant="20" id="zUo-CC-YSy"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="TGt-Y0-f73"/>
+                    <connections>
+                        <outlet property="tableView" destination="3Ys-WA-6bE" id="Qq4-Ha-fda"/>
+                        <outlet property="totalRequestLbl" destination="3UA-gv-YKq" id="8MM-3p-i7e"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1010.144927536232" y="73.660714285714278"/>
+        </scene>
+        <!--Request-->
+        <scene sceneID="4wq-AB-mfz">
+            <objects>
+                <navigationController storyboardIdentifier="RequestNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="un6-eD-9hn" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Request" image="request_unselected_ic" selectedImage="request_selected_ic" id="GNJ-PD-aW6"/>
+                    <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ver-Lg-rhG">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="lOp-K6-Igw"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vsM-YT-GJ8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="100.00000000000001" y="73.660714285714278"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="request_selected_ic" width="27" height="27"/>
+        <image name="request_unselected_ic" width="19" height="16"/>
+    </resources>
+</document>
