@@ -3,4 +3,54 @@
    uuid = "0D717912-4D5C-419F-8D05-5DA7B840D87A"
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D0B8AE31-0A9E-4F48-9C9F-096349B259DA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Friendzr/Chat/Data Generation/SampleData.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "randomMessageType()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D0B8AE31-0A9E-4F48-9C9F-096349B259DA - a494f2701b02efd9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Friendzr.SampleData.randomMessageType() -&gt; Friendzr.SampleData.MessageTypes"
+                  moduleName = "Friendzr"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Chat/Data%20Generation/SampleData.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "164"
+                  endingLineNumber = "164"
+                  offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "D0B8AE31-0A9E-4F48-9C9F-096349B259DA - c993e0f9c365723a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Friendzr.SampleData.MessageTypes) -&gt; Swift.Optional&lt;Friendzr.SampleData.MessageTypes&gt; in Friendzr.SampleData.randomMessageType() -&gt; Friendzr.SampleData.MessageTypes"
+                  moduleName = "Friendzr"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Chat/Data%20Generation/SampleData.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "165"
+                  endingLineNumber = "165"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

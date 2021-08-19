@@ -9,18 +9,21 @@ import UIKit
 
 class MainVC: UIViewController {
 
+    //MARK:- Outlets
     @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
 
+    //MARK: - Properties
     let cellID = "ChatListTableViewCell"
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
         initProfileBarButton()
-        initNewMessageBarButton()
+        initNewConversationBarButton()
         self.title = "Inbox"
     }
     
@@ -28,6 +31,7 @@ class MainVC: UIViewController {
         setupNavBar()
     }
     
+    //MARK: - Helper
     func setup() {
         setupSearchBar()
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
@@ -50,6 +54,7 @@ class MainVC: UIViewController {
     }
 }
 
+//MARK: - Extensions
 extension MainVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
@@ -57,6 +62,9 @@ extension MainVC:UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ChatListTableViewCell else {return UITableViewCell()}
+        if indexPath.row == 2 {
+            cell.underView.isHidden = true
+        }
         return cell
     }
     
@@ -64,8 +72,14 @@ extension MainVC:UITableViewDataSource {
 }
 extension MainVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 110
+        return 100
     }
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let detailViewController = MessageContainerController()
+//        appDelegate.window?.rootViewController = detailViewController
+//        appDelegate.window?.makeKeyAndVisible()
+//    }
 }
 
 extension MainVC: UISearchBarDelegate{
@@ -74,18 +88,22 @@ extension MainVC: UISearchBarDelegate{
         print(text)
     }
     
-    func initNewMessageBarButton() {
+    func initNewConversationBarButton() {
         let button = UIButton.init(type: .custom)
-        let image = UIImage(named: "newMessage_ic")?.withRenderingMode(.alwaysOriginal)
+        button.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        let image = UIImage(named: "newMessage_ic")?.withRenderingMode(.automatic)
         
         button.setImage(image, for: .normal)
         button.tintColor = .black
-        button.addTarget(self, action: #selector(PresentNewMessageVC), for: .touchUpInside)
+        button.addTarget(self, action: #selector(PresentNewConversation), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.rightBarButtonItem = barButton
     }
     
-    @objc func PresentNewMessageVC() {
-        print("PresentNewMessageVC")
+    @objc func PresentNewConversation() {
+        print("PresentNewConversation")
+        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "NewConversationNC") as? UINavigationController, let _ = controller.viewControllers.first as? NewConversationVC {
+            self.present(controller, animated: true)
+        }
     }
 }

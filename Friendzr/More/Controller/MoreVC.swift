@@ -10,25 +10,27 @@ import MessageUI
 
 class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     
+    //MARK:- Outlets
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
+    //MARK: - Properties
     let cellID = "MoreTableViewCell"
-    
     var moreList : [(String,UIImage)] = []
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         clearNavigationBar()
     }
     
+    //MARK: - Helper
     func setup() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         containerView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 50)
@@ -36,6 +38,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
         moreList.append(("Events".localizedString, UIImage(named: "Events_ic")!))
         moreList.append(("Notifications".localizedString, UIImage(named: "notificationList_ic")!))
         moreList.append(("Settings".localizedString, UIImage(named: "Settings_ic")!))
+        moreList.append(("Block List".localizedString, UIImage(named: "blocked_ic")!))
         moreList.append(("Contact Us".localizedString, UIImage(named: "Contactus_ic")!))
         moreList.append(("About Us".localizedString, UIImage(named: "information_ic")!))
         moreList.append(("Terms & Conditions".localizedString, UIImage(named: "Terms_ic")!))
@@ -60,7 +63,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
         self.dismiss(animated: true, completion: nil)
     }
 }
-
+//MARK: - Extensions
 extension MoreVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return moreList.count
@@ -94,7 +97,9 @@ extension MoreVC : UITableViewDelegate {
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
             break
-        case 4: //contactus
+        case 4: //block list
+            break
+        case 5: //contactus
             let emailTitle = ""
             let messageBody = ""
             let toRecipents = ["friend@stackoverflow.com"]
@@ -105,17 +110,17 @@ extension MoreVC : UITableViewDelegate {
             mc.setToRecipients(toRecipents)
             self.present(mc, animated: true, completion: nil)
             break
-        case 5://aboutus
+        case 6://aboutus
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
             vc.titleVC = "About Us"
             self.navigationController?.pushViewController(vc, animated: true)
             break
-        case 6://terms
+        case 7://terms
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
             vc.titleVC = "Terms & Conditions"
             self.navigationController?.pushViewController(vc, animated: true)
             break
-        case 7://share
+        case 8://share
             // Setting description
             let firstActivityItem = "Description you want.."
             
@@ -156,7 +161,7 @@ extension MoreVC : UITableViewDelegate {
             activityViewController.isModalInPresentation = true
             self.present(activityViewController, animated: true, completion: nil)
             break
-        case 8://logout
+        case 9://logout
             Router().toLogin()
             break
         default:

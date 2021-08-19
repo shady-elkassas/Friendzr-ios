@@ -9,16 +9,19 @@ import UIKit
 
 class EventsVC: UIViewController {
     
+    //MARK:- Outlets
     @IBOutlet weak var totlaEventsLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
+    //MARK: - Properties
     let cellID = "EventsTableViewCell"
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Events"
-        setup()
+        setupView()
         initAddNewEventBarButton()
         initBackButton()
     }
@@ -27,11 +30,13 @@ class EventsVC: UIViewController {
         clearNavigationBar()
     }
     
-    func setup() {
+    //MARK: - Helper
+    func setupView() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
     }
 }
 
+//MARK: - Extensions
 extension EventsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
@@ -66,9 +71,6 @@ extension EventsVC {
     }
     
     @objc func goToAddEventVC() {
-//        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventNC") as? UINavigationController, let _ = controller.viewControllers.first as? AddEventVC {
-//            self.present(controller, animated: true)
-//        }
         guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
         self.navigationController?.pushViewController(vc, animated: true)
     }

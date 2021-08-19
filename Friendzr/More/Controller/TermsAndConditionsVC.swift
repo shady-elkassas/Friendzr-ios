@@ -9,12 +9,15 @@ import UIKit
 import WebKit
 
 class TermsAndConditionsVC: UIViewController {
-
     
+    //MARK:- Outlets
     @IBOutlet weak var viewForEmbeddingWebView: UIView!
+    
+    //MARK: - Properties
     var webView: WKWebView!
     var titleVC = ""
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,6 +27,7 @@ class TermsAndConditionsVC: UIViewController {
         self.title = titleVC
     }
     
+    //MARK: - Helper
     func setupWebView() {
         webView = WKWebView(frame: viewForEmbeddingWebView.bounds, configuration: WKWebViewConfiguration() )
         self.viewForEmbeddingWebView.addSubview(webView)

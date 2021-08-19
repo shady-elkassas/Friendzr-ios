@@ -9,6 +9,7 @@ import UIKit
 
 class EditMyProfileVC: UIViewController {
     
+    //MARK:- Outlets
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var superView: UIView!
     @IBOutlet weak var nameTxt: UITextField!
@@ -22,11 +23,13 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var otherImg: UIImageView!
     @IBOutlet weak var saveBtn: UIButton!
     
+    //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("CalendarView", owner: self, options: nil)?.first as? CalendarView
     var genderString = ""
     let imagePicker = UIImagePickerController()
     var attachedImg = false
 
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,6 +42,7 @@ class EditMyProfileVC: UIViewController {
         clearNavigationBar()
     }
     
+    //MARK: - Helpers
     func setup() {
         saveBtn.cornerRadiusView(radius: 8)
         nameView.cornerRadiusView(radius: 8)
@@ -47,6 +51,7 @@ class EditMyProfileVC: UIViewController {
         profileImg.cornerRadiusForHeight()
     }
     
+    //MARK: - Actions
     @IBAction func editProfileImgBtn(_ sender: Any) {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
@@ -152,7 +157,7 @@ class EditMyProfileVC: UIViewController {
     }
 }
 
-
+//MARK: - Extensions
 extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     //MARK:- Take Picture
     func openCamera(){

@@ -10,6 +10,7 @@ import SkyFloatingLabelTextField
 
 class RegisterVC: UIViewController {
 
+    //MARK:- Outlets
     @IBOutlet weak var userNameView: UIView!
     @IBOutlet weak var emailView: UIView!
     @IBOutlet weak var passwordView: UIView!
@@ -24,6 +25,8 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var appleView: UIView!
     @IBOutlet weak var registerBtn: UIButton!
     
+    
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,6 +40,7 @@ class RegisterVC: UIViewController {
         hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
+    //MARK: - Actions
     @IBAction func registerBtn(_ sender: Any) {
     }
     
@@ -57,6 +61,7 @@ class RegisterVC: UIViewController {
     @IBAction func appleBtn(_ sender: Any) {
     }
     
+    //MARK: - Helper
     func setup() {
         userNameView.setBorder(color: UIColor.color("#DDDFDD")?.cgColor, width: 1)
         emailView.setBorder(color: UIColor.color("#DDDFDD")?.cgColor, width: 1)

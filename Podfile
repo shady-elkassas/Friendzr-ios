@@ -12,15 +12,13 @@ target 'Friendzr' do
   pod 'FBSDKLoginKit'
   pod 'Firebase'
   pod 'Firebase/Auth'
-  pod 'Firebase/Database'
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Storage'
   pod 'Firebase/Crashlytics'
   pod 'GoogleSignIn'
   pod 'Firebase/Messaging'
   pod 'IQKeyboardManager'
-  pod 'Charts'
+
   pod 'MessageKit'
-  
+  pod 'Kingfisher', '~> 6.0'
+
   pod 'SkyFloatingLabelTextField', '~> 3.0'
 end

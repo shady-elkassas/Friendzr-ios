@@ -6,11 +6,11 @@
 //
 
 import UIKit
-import Charts
 import SwiftUI
 
 class EventDetailsVC: UIViewController {
 
+    //MARK:- Outlets
     @IBOutlet weak var superView: UIView!
     @IBOutlet weak var eventImg: UIImageView!
     @IBOutlet weak var dateCreateLbl: UILabel!
@@ -29,9 +29,12 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var leaveBtn: UIButton!
     @IBOutlet weak var joinBtn: UIButton!
     
+    //MARK: - Properties
     var numbers:[Double] = [1,2,3]
     var genders:[String] = ["Men","Women","Other"]
     
+    
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,6 +46,7 @@ class EventDetailsVC: UIViewController {
         setupViews()
     }
     
+    //MARK: - Helpers
     func setupViews() {
         let child = UIHostingController(rootView: CircleView())
         child.view.translatesAutoresizingMaskIntoConstraints = true
@@ -57,6 +61,7 @@ class EventDetailsVC: UIViewController {
         statisticsView.cornerRadiusView(radius: 21)
     }
     
+    //MARK: - Actions
     @IBAction func editBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
         self.navigationController?.pushViewController(vc, animated: true)

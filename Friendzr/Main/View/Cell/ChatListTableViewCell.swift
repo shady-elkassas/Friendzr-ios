@@ -9,9 +9,18 @@ import UIKit
 
 class ChatListTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var nameLbl: UILabel!
+    @IBOutlet weak var profileImg: UIImageView!
+    @IBOutlet weak var lastMessageLbl: UILabel!
+    @IBOutlet weak var lastMessageDateLbl: UILabel!
+    @IBOutlet weak var underView: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        profileImg.cornerRadiusForHeight()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -19,5 +28,4 @@ class ChatListTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
 }

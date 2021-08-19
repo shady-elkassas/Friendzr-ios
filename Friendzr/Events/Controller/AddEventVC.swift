@@ -10,6 +10,7 @@ import UIKit
 
 class AddEventVC: UIViewController {
     
+    //MARK:- Outlets
     @IBOutlet weak var eventImg: UIImageView!
     @IBOutlet weak var addImg: UIButton!
     @IBOutlet weak var addTitleTxt: UITextField!
@@ -31,15 +32,12 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var startTimeBtn: UIButton!
     @IBOutlet weak var endTimeBtn: UIButton!
     
-//    @IBOutlet weak var categoriesView: UIView!
-//    @IBOutlet weak var categoriesViewHeight: NSLayoutConstraint!
-//    @IBOutlet weak var tableView: UITableView!
-    
+    //MARK: - Properties
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
     lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
     
     lazy var catsAlertView = Bundle.main.loadNibNamed("CategoriesView", owner: self, options: nil)?.first as? CategoriesView
-
+    
     var dayname = ""
     var monthname = ""
     var nday = ""
@@ -47,57 +45,22 @@ class AddEventVC: UIViewController {
     
     let imagePicker = UIImagePickerController()
     var attachedImg = false
-
+    
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Add Event".localizedString
-        setup()
+        setupView()
         initBackButton()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
         initSaveBarButton()
     }
     
-    func setup() {
-        eventImg.cornerRadiusView(radius: 6)
-        limitUsersView.cornerRadiusView(radius: 5)
-        descriptionTxtView.cornerRadiusView(radius: 5)
-        descriptionTxtView.delegate = self
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMM d,yyyy"
-        self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
-        self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
-        
-        let formattrTime = DateFormatter()
-        formattrTime.dateFormat = "HH:mm a"
-        self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
-        self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
-        
-        if switchAllDays.isOn {
-            datesView.isHidden = true
-            datesViewHeight.constant = 0
-            startDateBtn.isHidden = true
-            endDateBtn.isHidden = true
-            startTimeBtn.isHidden = true
-            endTimeBtn.isHidden = true
-        }else {
-            datesView.isHidden = false
-            datesViewHeight.constant = 70
-            startDateBtn.isHidden = false
-            endDateBtn.isHidden = false
-            startTimeBtn.isHidden = false
-            endTimeBtn.isHidden = false
-        }
-    }
-    
-    func OnCategoryCallBack(_ data: String, _ value: String) -> () {
-        print(data, value)
-        categoryLbl.text = data
-    }
-    
+    //MARK: - Actions
     @IBAction func addImgBtn(_ sender: Any) {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
@@ -109,9 +72,9 @@ class AddEventVC: UIViewController {
                 self.openLibrary()
             }))
             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-
+            
             present(settingsActionSheet, animated:true, completion:nil)
-
+            
         }else {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
             
@@ -122,7 +85,7 @@ class AddEventVC: UIViewController {
                 self.openLibrary()
             }))
             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-
+            
             present(settingsActionSheet, animated:true, completion:nil)
         }
     }
@@ -290,6 +253,46 @@ class AddEventVC: UIViewController {
         
         self.view.addSubview((timeAlertView)!)
     }
+    
+    
+    //MARK: - Helper
+    func setupView() {
+        eventImg.cornerRadiusView(radius: 6)
+        limitUsersView.cornerRadiusView(radius: 5)
+        descriptionTxtView.cornerRadiusView(radius: 5)
+        descriptionTxtView.delegate = self
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMM d,yyyy"
+        self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+        self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+        
+        let formattrTime = DateFormatter()
+        formattrTime.dateFormat = "HH:mm a"
+        self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
+        self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
+        
+        if switchAllDays.isOn {
+            datesView.isHidden = true
+            datesViewHeight.constant = 0
+            startDateBtn.isHidden = true
+            endDateBtn.isHidden = true
+            startTimeBtn.isHidden = true
+            endTimeBtn.isHidden = true
+        }else {
+            datesView.isHidden = false
+            datesViewHeight.constant = 70
+            startDateBtn.isHidden = false
+            endDateBtn.isHidden = false
+            startTimeBtn.isHidden = false
+            endTimeBtn.isHidden = false
+        }
+    }
+    
+    func OnCategoryCallBack(_ data: String, _ value: String) -> () {
+        print(data, value)
+        categoryLbl.text = data
+    }
 }
 
 extension AddEventVC {
@@ -309,6 +312,7 @@ extension AddEventVC {
     }
 }
 
+//MARK: - Extensions
 extension AddEventVC : UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         hiddenLbl.isHidden = !textView.text.isEmpty
@@ -413,6 +417,7 @@ extension AddEventVC : UIImagePickerControllerDelegate,UINavigationControllerDel
             self.present(imagePicker, animated: true, completion: nil)
         }
     }
+    //MARK:- Open Library
     func openLibrary(){
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.delegate = self

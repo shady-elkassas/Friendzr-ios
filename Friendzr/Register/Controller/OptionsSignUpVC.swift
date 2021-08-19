@@ -9,11 +9,15 @@ import UIKit
 
 class OptionsSignUpVC: UIViewController {
 
+    //MARK:- Outlets
     @IBOutlet weak var emailView: UIView!
     @IBOutlet weak var facebookView: UIView!
     @IBOutlet weak var appleView: UIView!
     @IBOutlet weak var googleView: UIView!
     
+    //MARK: - Properties
+
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,6 +28,7 @@ class OptionsSignUpVC: UIViewController {
         hideNavigationBar(NavigationBar: true, BackButton: true)
     }
     
+    //MARK: - Helper
     func setup() {
         emailView.cornerRadiusView(radius: 6)
         facebookView.cornerRadiusView(radius: 6)
@@ -32,6 +37,7 @@ class OptionsSignUpVC: UIViewController {
         googleView.setBorder()
     }
     
+    //MARK: - Actions
     @IBAction func loginBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .Login, AndContollerID: "LoginVC") as? LoginVC else {return}
         self.navigationController?.pushViewController(vc, animated: true)

@@ -5,9 +5,6 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
-  - Charts (3.6.0):
-    - Charts/Core (= 3.6.0)
-  - Charts/Core (3.6.0)
   - FBAEMKit (11.1.0):
     - FBAEMKit/AEM (= 11.1.0)
   - FBAEMKit/AEM (11.1.0):
@@ -27,8 +24,6 @@ PODS:
     - FBSDKCoreKit_Basics (~> 11.1.0)
   - Firebase (8.5.0):
     - Firebase/Core (= 8.5.0)
-  - Firebase/Analytics (8.5.0):
-    - Firebase/Core
   - Firebase/Auth (8.5.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 8.5.0)
@@ -40,15 +35,9 @@ PODS:
   - Firebase/Crashlytics (8.5.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 8.5.0)
-  - Firebase/Database (8.5.0):
-    - Firebase/CoreOnly
-    - FirebaseDatabase (~> 8.5.0)
   - Firebase/Messaging (8.5.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 8.5.0)
-  - Firebase/Storage (8.5.0):
-    - Firebase/CoreOnly
-    - FirebaseStorage (~> 8.5.0)
   - FirebaseAnalytics (8.5.0):
     - FirebaseAnalytics/AdIdSupport (= 8.5.0)
     - FirebaseCore (~> 8.0)
@@ -88,9 +77,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.4)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - FirebaseDatabase (8.5.0):
-    - FirebaseCore (~> 8.0)
-    - leveldb-library (~> 1.22)
   - FirebaseInstallations (8.5.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.4)
@@ -103,9 +89,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/Reachability (~> 7.4)
     - GoogleUtilities/UserDefaults (~> 7.4)
-  - FirebaseStorage (8.5.0):
-    - FirebaseCore (~> 8.0)
-    - GTMSessionFetcher/Core (~> 1.5)
   - GoogleAppMeasurement (8.5.0):
     - GoogleAppMeasurement/AdIdSupport (= 8.5.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
@@ -154,7 +137,7 @@ PODS:
     - InputBarAccessoryView/Core (= 5.3.1)
   - InputBarAccessoryView/Core (5.3.1)
   - IQKeyboardManager (6.5.6)
-  - leveldb-library (1.22.1)
+  - Kingfisher (6.3.1)
   - MessageKit (3.6.1):
     - InputBarAccessoryView (~> 5.3.1)
   - nanopb (2.30908.0):
@@ -171,17 +154,14 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.0.0-rc.3)
-  - Charts
   - FBSDKLoginKit
   - Firebase
-  - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Crashlytics
-  - Firebase/Database
   - Firebase/Messaging
-  - Firebase/Storage
   - GoogleSignIn
   - IQKeyboardManager
+  - Kingfisher (~> 6.0)
   - MessageKit
   - ObjectMapper
   - SDWebImage
@@ -191,7 +171,6 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - AppAuth
-    - Charts
     - FBAEMKit
     - FBSDKCoreKit
     - FBSDKCoreKit_Basics
@@ -202,10 +181,8 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCrashlytics
-    - FirebaseDatabase
     - FirebaseInstallations
     - FirebaseMessaging
-    - FirebaseStorage
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleSignIn
@@ -214,7 +191,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - InputBarAccessoryView
     - IQKeyboardManager
-    - leveldb-library
+    - Kingfisher
     - MessageKit
     - nanopb
     - ObjectMapper
@@ -225,7 +202,6 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: df2f8f826963b08b9a870791ad48e07a10090b2e
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
-  Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
   FBAEMKit: 5c8a8d08e5b2c79628490784883e0fcc75b12615
   FBSDKCoreKit: 7ccb8b4bb2b5ee2ad94327b774dc23f03509675d
   FBSDKCoreKit_Basics: 8f978bce195845f609b0ec6b425949d0d24f525b
@@ -236,10 +212,8 @@ SPEC CHECKSUMS:
   FirebaseCore: 1c1ca72483b59b17050f5b4cec4fb748425a3901
   FirebaseCoreDiagnostics: 7bf55d386f9fc690d971b70a582142321a390eb8
   FirebaseCrashlytics: 8e7cf678cb149d421198388c6fc3d3acfd266539
-  FirebaseDatabase: 65c3742ed355f9b9db222036fd154e699ab7d672
   FirebaseInstallations: f2bc590b291d25fb40a9a05b8281c02a881b5117
   FirebaseMessaging: 0705ec705c21705efc51c071fba924c8e25c63e7
-  FirebaseStorage: 2c176ca64a68b45bddc3c7d4d2c0c839927ad92c
   GoogleAppMeasurement: 8d10c1c470fcb0e5143ed74fddd164f0a0384800
   GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
   GoogleSignIn: 1b0c4ec33a6fe282f4fa35d8ac64263230ddaf36
@@ -248,7 +222,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
   InputBarAccessoryView: 1f75d8c9f75e5e57f3ffac36ed58635a8005e0bc
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
-  leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
+  Kingfisher: 016c8b653a35add51dd34a3aba36b580041acc74
   MessageKit: d153fbbbcb12f3f4045a1ba8874298924dacfb62
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
@@ -256,6 +230,6 @@ SPEC CHECKSUMS:
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
 
-PODFILE CHECKSUM: 340aa5263b34703dba94b0a1e165820ee4da80e7
+PODFILE CHECKSUM: b68043b9498d0402528576c80015abff9d5f66ed
 
 COCOAPODS: 1.10.2

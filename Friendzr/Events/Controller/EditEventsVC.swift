@@ -9,6 +9,7 @@ import UIKit
 
 class EditEventsVC: UIViewController {
     
+    //MARK:- Outlets
     @IBOutlet weak var eventImg: UIImageView!
     @IBOutlet weak var addImg: UIButton!
     @IBOutlet weak var addTitleTxt: UITextField!
@@ -28,6 +29,7 @@ class EditEventsVC: UIViewController {
     @IBOutlet weak var startTimeBtn: UIButton!
     @IBOutlet weak var endTimeBtn: UIButton!
     
+    //MARK: - Properties
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
     lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
     
@@ -39,6 +41,7 @@ class EditEventsVC: UIViewController {
     let imagePicker = UIImagePickerController()
     var attachedImg = false
 
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,6 +54,7 @@ class EditEventsVC: UIViewController {
         initSaveBarButton()
     }
     
+    //MARK: - Helpers
     func setup() {
         eventImg.cornerRadiusView(radius: 6)
         limitUsersView.cornerRadiusView(radius: 5)
@@ -84,6 +88,7 @@ class EditEventsVC: UIViewController {
         }
     }
     
+    //MARK: - Actions
     @IBAction func addImgBtn(_ sender: Any) {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
@@ -270,6 +275,8 @@ class EditEventsVC: UIViewController {
     }
 }
 
+
+//MARK: - Extensions
 extension EditEventsVC {
     func initSaveBarButton() {
         let button = UIButton.init(type: .custom)
@@ -381,7 +388,6 @@ extension EditEventsVC {
 }
 
 extension EditEventsVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-    //MARK:- Take Picture
     func openCamera(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
             let imagePicker = UIImagePickerController()

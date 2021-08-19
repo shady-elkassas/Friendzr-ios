@@ -9,10 +9,13 @@ import UIKit
 
 class FeedVC: UIViewController {
     
+    //MARK:- Outlets
     @IBOutlet weak var tableView: UITableView!
     
+    //MARK: - Properties
     let cellID = "FeedsTableViewCell"
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,17 +24,17 @@ class FeedVC: UIViewController {
         setup()
         initSwitchBarButton()
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
     }
     
+    //MARK: - Helper
     func setup() {
         tableView.register(UINib(nibName:cellID, bundle: nil), forCellReuseIdentifier: cellID)
     }
 }
 
-
+//MARK: - Extensions
 extension FeedVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
@@ -57,7 +60,7 @@ extension FeedVC:UITableViewDataSource {
 
 extension FeedVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 80
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -69,6 +72,7 @@ extension FeedVC:UITableViewDelegate {
 extension FeedVC {
     func initSwitchBarButton() {
         let button = UISwitch()
+        button.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         button.onTintColor = UIColor.FriendzrColors.primary
         button.thumbTintColor = .white
         button.addTarget(self, action: #selector(handleSwitchBtn), for: .touchUpInside)

@@ -9,6 +9,7 @@ import UIKit
 
 class MyProfileVC: UIViewController {
 
+    //MARK:- Outlets
     @IBOutlet weak var superView: UIView!
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var bgView: UIView!
@@ -19,11 +20,13 @@ class MyProfileVC: UIViewController {
     @IBOutlet weak var aboutMeLBl: UILabel!
     @IBOutlet weak var editBtn: UIButton!
     
+    //MARK: - Properties
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setup()
+        setupView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,9 +34,12 @@ class MyProfileVC: UIViewController {
         clearNavigationBar()
     }
     
-    func setup() {
+    //MARK: - Helper
+    func setupView() {
         editBtn.cornerRadiusForHeight()
     }
+    
+    //MARK: - Actions
     @IBAction func editBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC else {return}
         self.navigationController?.pushViewController(vc, animated: true)

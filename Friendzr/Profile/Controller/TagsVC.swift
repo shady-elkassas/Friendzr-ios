@@ -10,6 +10,7 @@ import SpriteKit
 
 class TagsVC: UIViewController {
     
+    //MARK:- Outlets
     @IBOutlet weak var magneticView: MagneticView! {
         didSet {
             magnetic.magneticDelegate = self
@@ -27,6 +28,7 @@ class TagsVC: UIViewController {
         return magneticView.magnetic
     }
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -44,7 +46,7 @@ class TagsVC: UIViewController {
         }
     }
     
-    
+    //MARK: - Actions
     @IBAction func add(_ sender: UIControl?) {
         let name = UIImage.names.randomItem()
         let color = UIColor.colors.randomItem()

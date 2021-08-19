@@ -76,7 +76,8 @@ extension UIViewController {
     
     func initProfileBarButton(_ color: UIColor? = .white) {
         let button = UIButton.init(type: .custom)
-        let image = UIImage(named: "avatar")?.withRenderingMode(.alwaysOriginal)
+        button.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        let image = UIImage(named: "avatar")?.withRenderingMode(.automatic)
         
         button.setImage(image, for: .normal)
         button.tintColor = color

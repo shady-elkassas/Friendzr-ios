@@ -9,33 +9,41 @@ import UIKit
 
 class SettingsVC: UIViewController {
     
+    //MARK:- Outlets
     @IBOutlet weak var pushNotificationView: UIView!
     @IBOutlet weak var deleteAccountView: UIView!
     @IBOutlet weak var allowMyLocationBtn: UISwitch!
     @IBOutlet weak var ghostModeBtn: UISwitch!
     @IBOutlet weak var pushNotificationBtn: UISwitch!
     
+    //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("HideMyLocationView", owner: self, options: nil)?.first as? HideMyLocationView
 
     lazy var deleteAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
 
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Settings".localizedString
         setup()
     }
-   
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
         initBackButton()
     }
     
+    //MARK: - Helper
     func setup() {
+        allowMyLocationBtn.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        ghostModeBtn.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        pushNotificationBtn.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+
         pushNotificationView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
         deleteAccountView.setCornerforBottom(withShadow: false, cornerMask: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 16)
     }
     
+    //MARK: - Actions
     @IBAction func pushNotificationBtn(_ sender: Any) {
     }
     

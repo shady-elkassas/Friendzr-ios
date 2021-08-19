@@ -9,7 +9,8 @@ import UIKit
 import SkyFloatingLabelTextField
 
 class LoginVC: UIViewController {
-
+    
+    //MARK:- Outlets
     @IBOutlet weak var emailView: UIView!
     @IBOutlet weak var passwordView: UIView!
     @IBOutlet weak var emailTxt: SkyFloatingLabelTextField!
@@ -21,11 +22,12 @@ class LoginVC: UIViewController {
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var showPasswordBtn: UIButton!
-
     
+    
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         initBackButton()
         setup()
         clearNavigationBar()
@@ -36,6 +38,7 @@ class LoginVC: UIViewController {
         hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
+    //MARK: - Actions
     @IBAction func loginBtn(_ sender: Any) {
         Router().toHome()
     }
@@ -44,12 +47,14 @@ class LoginVC: UIViewController {
         guard let vc = UIViewController.viewController(withStoryboard: .Register, AndContollerID: "RegisterVC") as? RegisterVC else {return}
         self.navigationController?.pushViewController(vc, animated: true)
     }
-  
+    
     @IBAction func showPasswordBtn(_ sender: Any) {
         passwordTxt.isSecureTextEntry = !passwordTxt.isSecureTextEntry
     }
     
     @IBAction func forgetPasswordBtn(_ sender: Any) {
+        guard let vc = UIViewController.viewController(withStoryboard: .Login, AndContollerID: "ForgetPasswordVC") as? ForgetPasswordVC else {return}
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func facebookBtn(_ sender: Any) {
@@ -61,10 +66,11 @@ class LoginVC: UIViewController {
     @IBAction func appleBtn(_ sender: Any) {
     }
     
+    //MARK: - Helper
     func setup() {
         emailView.setBorder(color: UIColor.color("#DDDFDD")?.cgColor, width: 1)
         passwordView.setBorder(color: UIColor.color("#DDDFDD")?.cgColor, width: 1)
-
+        
         emailView.cornerRadiusView(radius: 6)
         passwordView.cornerRadiusView(radius: 6)
         

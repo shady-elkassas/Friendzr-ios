@@ -9,6 +9,7 @@ import UIKit
 
 class FriendProfileVC: UIViewController {
     
+    //MARK:- Outlets
     @IBOutlet weak var superView: UIView!
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var bgView: UIView!
@@ -22,8 +23,10 @@ class FriendProfileVC: UIViewController {
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var aboutFriendLbl: UILabel!
     
+    //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,13 +41,7 @@ class FriendProfileVC: UIViewController {
         clearNavigationBar()
     }
     
-    func setup() {
-        sendRequestBtn.cornerRadiusForHeight()
-        unfriendBtn.cornerRadiusForHeight()
-        blockBtn.cornerRadiusForHeight()
-        blockBtn.setBorder(color: UIColor.white.cgColor, width: 1)
-    }
-    
+    //MARK: - Actions
     @IBAction func sendRequestBtn(_ sender: Any) {
         sendRequestBtn.isHidden = true
         svBtns.isHidden = false
@@ -116,6 +113,13 @@ class FriendProfileVC: UIViewController {
         self.view.addSubview((alertView)!)
     }
     
+    //MARK: - Helpers
+    func setup() {
+        sendRequestBtn.cornerRadiusForHeight()
+        unfriendBtn.cornerRadiusForHeight()
+        blockBtn.cornerRadiusForHeight()
+        blockBtn.setBorder(color: UIColor.white.cgColor, width: 1)
+    }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         // handling code

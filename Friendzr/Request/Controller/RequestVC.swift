@@ -9,12 +9,14 @@ import UIKit
 
 class RequestVC: UIViewController {
 
+    //MARK:- Outlets
     @IBOutlet weak var totalRequestLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    
+    //MARK: - Properties
     let cellID = "RequestTableViewCell"
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,11 +29,13 @@ class RequestVC: UIViewController {
         initProfileBarButton()
     }
     
+    //MARK: - Helper
     func setup() {
         tableView.register(UINib(nibName:cellID, bundle: nil), forCellReuseIdentifier: cellID)
     }
 }
 
+//MARK: - Extensions
 extension RequestVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
