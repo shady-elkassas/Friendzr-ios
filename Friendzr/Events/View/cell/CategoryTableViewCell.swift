@@ -2,7 +2,7 @@
 //  CategoryTableViewCell.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 18/08/2021.
+//  Created by Muhammad Sabri Saad on 18/08/2021.
 //
 
 import UIKit
@@ -17,8 +17,7 @@ class CategoryTableViewCell: UITableViewCell {
         super.awakeFromNib()
 
         containerView.cornerRadiusView(radius: 6)
-        containerView.setBorder()
-        
+//        containerView.setBorder()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

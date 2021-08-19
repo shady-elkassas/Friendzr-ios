@@ -20,6 +20,7 @@ target 'Friendzr' do
   pod 'Firebase/Messaging'
   pod 'IQKeyboardManager'
   pod 'Charts'
+  pod 'MessageKit'
   
   pod 'SkyFloatingLabelTextField', '~> 3.0'
 end

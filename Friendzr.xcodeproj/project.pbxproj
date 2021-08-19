@@ -28,6 +28,9 @@
 		4333DA7726C3BC350029F2B0 /* OptionsSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333DA7626C3BC350029F2B0 /* OptionsSignUpVC.swift */; };
 		4333DA8226C3CFEC0029F2B0 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333DA8126C3CFEC0029F2B0 /* RegisterVC.swift */; };
 		4333DA8626C405CC0029F2B0 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333DA8526C405CC0029F2B0 /* LoginVC.swift */; };
+		4344107C26CD54D600F8233E /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344107B26CD54D600F8233E /* CategoriesView.swift */; };
+		4344107E26CD54E000F8233E /* CategoriesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4344107D26CD54E000F8233E /* CategoriesView.xib */; };
+		4344108626CE4BE700F8233E /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344108526CE4BE700F8233E /* ChatListView.swift */; };
 		4362887F26C8FECB00B51E51 /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4362887E26C8FECB00B51E51 /* Map.storyboard */; };
 		4362888126C8FEDE00B51E51 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362888026C8FEDE00B51E51 /* MapVC.swift */; };
 		4362888626C8FF3A00B51E51 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362888526C8FF3A00B51E51 /* FeedVC.swift */; };
@@ -143,6 +146,9 @@
 		4333DA7626C3BC350029F2B0 /* OptionsSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsSignUpVC.swift; sourceTree = "<group>"; };
 		4333DA8126C3CFEC0029F2B0 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		4333DA8526C405CC0029F2B0 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		4344107B26CD54D600F8233E /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
+		4344107D26CD54E000F8233E /* CategoriesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoriesView.xib; sourceTree = "<group>"; };
+		4344108526CE4BE700F8233E /* ChatListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListView.swift; sourceTree = "<group>"; };
 		4362887E26C8FECB00B51E51 /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		4362888026C8FEDE00B51E51 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		4362888526C8FF3A00B51E51 /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
@@ -308,9 +314,9 @@
 		430A351B26CAB00500477A94 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				430A352126CAB04B00477A94 /* Events.storyboard */,
 				43D545A526CBB01B0064660A /* CustomViews */,
 				430A352326CAB30C00477A94 /* cell */,
-				430A352126CAB04B00477A94 /* Events.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -525,6 +531,7 @@
 			isa = PBXGroup;
 			children = (
 				4382AC1A26C27195005C1857 /* MainVC.swift */,
+				4344108526CE4BE700F8233E /* ChatListView.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -755,6 +762,8 @@
 				43D545A826CBB0450064660A /* EventCalendarView.swift */,
 				43D545AC26CBB6270064660A /* EventTimeCalenderView.xib */,
 				43D545AA26CBB61F0064660A /* EventTimeCalenderView.swift */,
+				4344107B26CD54D600F8233E /* CategoriesView.swift */,
+				4344107D26CD54E000F8233E /* CategoriesView.xib */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -883,6 +892,7 @@
 				4362889726C8FFA200B51E51 /* More.storyboard in Resources */,
 				436288A626C9334900B51E51 /* ChatListTableViewCell.xib in Resources */,
 				4382AC2626C27195005C1857 /* LaunchScreen.storyboard in Resources */,
+				4344107E26CD54E000F8233E /* CategoriesView.xib in Resources */,
 				4362887F26C8FECB00B51E51 /* Map.storyboard in Resources */,
 				4382AC9D26C27FF2005C1857 /* Montserrat-Regular.ttf in Resources */,
 				430A350726CA5AFD00477A94 /* CalendarView.xib in Resources */,
@@ -984,6 +994,7 @@
 				436288B126C95B1300B51E51 /* FriendProfileVC.swift in Sources */,
 				4382ACBE26C2AFF7005C1857 /* SplachFourVC.swift in Sources */,
 				4382AC6726C27D33005C1857 /* UIFontExtension.swift in Sources */,
+				4344107C26CD54D600F8233E /* CategoriesView.swift in Sources */,
 				4382ACBA26C2AFC2005C1857 /* SplachTwoVC.swift in Sources */,
 				430A351E26CAB01A00477A94 /* EditEventsVC.swift in Sources */,
 				4382AC5026C2788D005C1857 /* StringExtension.swift in Sources */,
@@ -1023,6 +1034,7 @@
 				43D545B526CBD81E0064660A /* Magnetic.swift in Sources */,
 				4382AC1926C27195005C1857 /* SceneDelegate.swift in Sources */,
 				43D545C526CCE9E50064660A /* CirclesView.swift in Sources */,
+				4344108626CE4BE700F8233E /* ChatListView.swift in Sources */,
 				436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */,
 				4382ACBC26C2AFE9005C1857 /* SplachThreeVC.swift in Sources */,
 				430A350326CA4A3600477A94 /* BlockAlertView.swift in Sources */,
