@@ -7,12 +7,22 @@
 
 import UIKit
 import CoreData
+import GoogleMaps
+import GooglePlaces
+import FBSDKCoreKit
+import FBSDKLoginKit
+import GoogleSignIn
+import AuthenticationServices
+import Firebase
+import FirebaseMessaging
+import FirebaseAnalytics
+import FirebaseCrashlytics
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -25,11 +35,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.overrideUserInterfaceStyle = .light
         }
         
+        ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
+        
         if #available(iOS 13, *) {
         } else {
             Router().toSplachOne()
         }
         
+        FirebaseApp.configure()
+        GMSServices.provideAPIKey("AIzaSyChBrhOHIhxIiYkEUak_3TKNR_bEFcfbyI")
+        GMSPlacesClient.provideAPIKey("AIzaSyChBrhOHIhxIiYkEUak_3TKNR_bEFcfbyI")
+        
+        GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
+          if error != nil || user == nil {
+            // Show the app's signed-out state.
+          } else {
+            // Show the app's signed-in state.
+          }
+        }
         return true
     }
     
@@ -45,6 +68,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+    }
+    
+    internal func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        
+        let sourceApplication: String? = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String
+        let googleDidHandle = GIDSignIn.sharedInstance.handle((url as URL?)!)
+        let facebookDidHandle = ApplicationDelegate.shared.application(app, open: url, sourceApplication: sourceApplication, annotation: nil)
+        
+        return googleDidHandle || facebookDidHandle
     }
     
     // MARK: - Core Data stack

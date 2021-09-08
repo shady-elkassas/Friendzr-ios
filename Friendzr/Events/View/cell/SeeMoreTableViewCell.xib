@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Medium.ttf">
+            <string>Montserrat-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SeeMoreTableViewCell" id="KGk-i7-Jjw" customClass="SeeMoreTableViewCell" customModule="Friendzr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SW8-fC-aZv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="See More" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CnD-jH-Zrn">
+                                <rect key="frame" x="25" y="14.5" width="57" height="15"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_left" translatesAutoresizingMaskIntoConstraints="NO" id="6Km-6n-9AS">
+                                <rect key="frame" x="280" y="14.5" width="15" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="15" id="8Mi-MZ-mma"/>
+                                    <constraint firstAttribute="height" constant="15" id="L5A-Ow-sea"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="CnD-jH-Zrn" firstAttribute="leading" secondItem="SW8-fC-aZv" secondAttribute="leading" constant="25" id="2mW-i2-VjF"/>
+                            <constraint firstItem="CnD-jH-Zrn" firstAttribute="centerY" secondItem="SW8-fC-aZv" secondAttribute="centerY" id="EjC-wd-GU2"/>
+                            <constraint firstItem="6Km-6n-9AS" firstAttribute="centerY" secondItem="SW8-fC-aZv" secondAttribute="centerY" id="cgR-E4-1py"/>
+                            <constraint firstAttribute="trailing" secondItem="6Km-6n-9AS" secondAttribute="trailing" constant="25" id="dXf-h8-Xa3"/>
+                        </constraints>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7vJ-xX-lEK">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <connections>
+                            <action selector="attendessBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="x14-ck-tXN"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="7vJ-xX-lEK" firstAttribute="centerX" secondItem="SW8-fC-aZv" secondAttribute="centerX" id="343-py-yyz"/>
+                    <constraint firstItem="7vJ-xX-lEK" firstAttribute="centerY" secondItem="SW8-fC-aZv" secondAttribute="centerY" id="96g-Bm-Did"/>
+                    <constraint firstAttribute="bottom" secondItem="SW8-fC-aZv" secondAttribute="bottom" id="KCv-JM-O3p"/>
+                    <constraint firstAttribute="trailing" secondItem="SW8-fC-aZv" secondAttribute="trailing" id="UiH-WG-aJf"/>
+                    <constraint firstItem="7vJ-xX-lEK" firstAttribute="width" secondItem="SW8-fC-aZv" secondAttribute="width" id="Vh9-rJ-DJG"/>
+                    <constraint firstItem="SW8-fC-aZv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Y2q-Z3-nGv"/>
+                    <constraint firstItem="SW8-fC-aZv" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="jaK-je-Bv2"/>
+                    <constraint firstItem="7vJ-xX-lEK" firstAttribute="height" secondItem="SW8-fC-aZv" secondAttribute="height" id="p1P-2J-W6Y"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="attendeesBtn" destination="7vJ-xX-lEK" id="hND-LQ-Hjw"/>
+                <outlet property="containerView" destination="SW8-fC-aZv" id="KPb-e2-k2q"/>
+            </connections>
+            <point key="canvasLocation" x="69.565217391304358" y="89.732142857142847"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="arrow_left" width="6.5" height="11"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

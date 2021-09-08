@@ -1,15 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "icn_send.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icons8-sent.png",
+      "filename" : "icn_send@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "icn_send@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

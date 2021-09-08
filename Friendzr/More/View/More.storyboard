@@ -41,7 +41,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8UJ-DC-w0L">
                                 <rect key="frame" x="0.0" y="261.5" width="414" height="551.5"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fgx-u5-X0C">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fgx-u5-X0C">
                                         <rect key="frame" x="0.0" y="20" width="414" height="531.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
@@ -464,8 +464,8 @@
         <image name="email_ic" width="17.5" height="13.5"/>
         <image name="ghostMode_ic" width="15.5" height="11.5"/>
         <image name="location_ic" width="14" height="14"/>
-        <image name="more_selected_ic" width="27" height="27"/>
-        <image name="more_unselected_ic" width="16" height="16.5"/>
+        <image name="more_selected_ic" width="16" height="16"/>
+        <image name="more_unselected_ic" width="12" height="12"/>
         <image name="notifications_ic" width="13.5" height="15"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

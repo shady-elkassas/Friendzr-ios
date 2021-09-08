@@ -28,6 +28,8 @@ class EditEventsVC: UIViewController {
     @IBOutlet weak var endDateBtn: UIButton!
     @IBOutlet weak var startTimeBtn: UIButton!
     @IBOutlet weak var endTimeBtn: UIButton!
+    @IBOutlet weak var categoryNameLbl: UILabel!
+    @IBOutlet weak var saveBtn: UIButton!
     
     //MARK: - Properties
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
@@ -37,104 +39,133 @@ class EditEventsVC: UIViewController {
     var monthname = ""
     var nday = ""
     var nyear = ""
-    
+    var startDate = ""
+    var endDate = ""
+    var startTime = ""
+    var endTime = ""
+
     let imagePicker = UIImagePickerController()
     var attachedImg = false
-
+    
+    var eventImage:String = ""
+    var eventModel:EventObj? = nil
+    var viewmodel:EditEventViewModel = EditEventViewModel()
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Add Event".localizedString
+        self.title = "Edit Event".localizedString
         setup()
         initBackButton()
+        setupData()
     }
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
-        initSaveBarButton()
     }
     
     //MARK: - Helpers
     func setup() {
         eventImg.cornerRadiusView(radius: 6)
+        saveBtn.cornerRadiusView(radius: 6)
         limitUsersView.cornerRadiusView(radius: 5)
         descriptionTxtView.cornerRadiusView(radius: 5)
         descriptionTxtView.delegate = self
+        switchAllDays.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMM d,yyyy"
-        self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
-        self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+//        if switchAllDays.isOn {
+////            datesView.isHidden = true
+////            datesViewHeight.constant = 0
+//            startDateBtn.isHidden = true
+//            endDateBtn.isHidden = true
+//            startTimeBtn.isHidden = true
+//            endTimeBtn.isHidden = true
+//        }else {
+////            datesView.isHidden = false
+////            datesViewHeight.constant = 70
+//            startDateBtn.isHidden = false
+//            endDateBtn.isHidden = false
+//            startTimeBtn.isHidden = false
+//            endTimeBtn.isHidden = false
+//        }
+    }
+    
+    func setupData() {
+        eventImg.sd_setImage(with: URL(string: eventModel?.image ?? "" ), placeholderImage: UIImage(named: "photo_img"))
+        categoryNameLbl.text = eventModel?.categorie
+        addTitleTxt.text = eventModel?.title
         
-        let formattrTime = DateFormatter()
-        formattrTime.dateFormat = "HH:mm a"
-        self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
-        self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
-        
-        if switchAllDays.isOn {
-            datesView.isHidden = true
-            datesViewHeight.constant = 0
-            startDateBtn.isHidden = true
-            endDateBtn.isHidden = true
-            startTimeBtn.isHidden = true
-            endTimeBtn.isHidden = true
-        }else {
-            datesView.isHidden = false
-            datesViewHeight.constant = 70
-            startDateBtn.isHidden = false
-            endDateBtn.isHidden = false
-            startTimeBtn.isHidden = false
-            endTimeBtn.isHidden = false
-        }
+        startDayLbl.text = eventModel?.eventdate?.formattedDate(with: "EEEE, MMM d,yyyy")
+        endDayLbl.text = eventModel?.eventdateto?.formattedDate(with: "EEEE, MMM d,yyyy")
+        startTimeLbl.text = eventModel?.timefrom?.formattedDate(with: "HH:mm a")
+        endTimeLbl.text = eventModel?.timeto?.formattedDate(with: "HH:mm a")
+        descriptionTxtView.text = eventModel?.descriptionEvent
+        limitUsersTxt.text = "\(eventModel?.totalnumbert ?? 0)"
+                
+        startDate = eventModel?.eventdate ?? ""
+        endDate = eventModel?.eventdateto ?? ""
+        startTime = eventModel?.timefrom ?? ""
+        endTime = eventModel?.timeto ?? ""
+
+        //Use image's path to create NSData
+        let url:URL = URL(string : (eventModel?.image)!)!
+        //Now use image to create into NSData format
+        let imageData = NSData(contentsOf: url)! as Data
+        eventImage = imageData.base64EncodedString(options: .lineLength64Characters)
     }
     
     //MARK: - Actions
-    @IBAction func addImgBtn(_ sender: Any) {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+    
+    @IBAction func saveBtn(_ sender: Any) {
+        self.showLoading()
+        viewmodel.editEvent(withID: "\(eventModel?.id ?? 0)", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndImage: eventImage, AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime) { error, data in
             
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-
-            present(settingsActionSheet, animated:true, completion:nil)
-
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+            self.hideLoading()
+            if let error = error {
+                self.showAlert(withMessage: error)
+                return
+            }
             
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-
-            present(settingsActionSheet, animated:true, completion:nil)
+            guard let _ = data else {return}
+            self.view.makeToast("Edit Save successfully")
         }
     }
     
-    @IBAction func switchAllDaysBtn(_ sender: Any) {
-        if switchAllDays.isOn {
-            self.datesView.isHidden = true
-            self.datesViewHeight.constant = 0
-            self.startDateBtn.isHidden = true
-            self.endDateBtn.isHidden = true
-            self.startTimeBtn.isHidden = true
-            self.endTimeBtn.isHidden = true
-        }else {
-            self.datesView.isHidden = false
-            self.datesViewHeight.constant = 70
-            self.startDateBtn.isHidden = false
-            self.endDateBtn.isHidden = false
-            self.startTimeBtn.isHidden = false
-            self.endTimeBtn.isHidden = false
-        }
+    @IBAction func addImgBtn(_ sender: Any) {
+//        if UIDevice.current.userInterfaceIdiom == .pad {
+//            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+//
+//            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+//                self.openCamera()
+//            }))
+//            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+//                self.openLibrary()
+//            }))
+//            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+//
+//            present(settingsActionSheet, animated:true, completion:nil)
+//
+//        }else {
+//            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+//
+//            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+//                self.openCamera()
+//            }))
+//            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+//                self.openLibrary()
+//            }))
+//            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+//
+//            present(settingsActionSheet, animated:true, completion:nil)
+//        }
         
+        self.eventImg.image = UIImage(named: "dominican republic")
+        self.eventImage = self.eventImg.image?.convertImageToBase64String() ?? ""
+        print(self.eventImage)
+    }
+    
+    @IBAction func switchAllDaysBtn(_ sender: Any) {
     }
     
     @IBAction func startDayBtn(_ sender: Any) {
@@ -147,6 +178,10 @@ class EditEventsVC: UIViewController {
             formatter.dateFormat = "EEEE, MMM d,yyyy"
             self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
             
+            let formatter2 = DateFormatter()
+            formatter2.dateFormat = "yyyy-MM-dd"
+            self.startDate = formatter2.string(from: (self.dateAlertView?.calenderView.date)!)
+
             UIView.animate(withDuration: 0.3, animations: {
                 self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.dateAlertView?.alpha = 0
@@ -182,6 +217,11 @@ class EditEventsVC: UIViewController {
             formatter.dateFormat = "EEEE, MMM d,yyyy"
             self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
             
+            let formatter2 = DateFormatter()
+            formatter2.dateFormat = "yyyy-MM-dd"
+            self.endDate = formatter2.string(from: (self.dateAlertView?.calenderView.date)!)
+
+            
             UIView.animate(withDuration: 0.3, animations: {
                 self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.dateAlertView?.alpha = 0
@@ -216,6 +256,10 @@ class EditEventsVC: UIViewController {
             formatter.dateFormat = "h:mm a"
             self.startTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
             
+            let formatter2 = DateFormatter()
+            formatter2.dateFormat = "h:mm"
+            self.startTime = formatter2.string(from: (self.timeAlertView?.timeView.date)!)
+
             UIView.animate(withDuration: 0.3, animations: {
                 self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.timeAlertView?.alpha = 0
@@ -249,6 +293,10 @@ class EditEventsVC: UIViewController {
             formatter.dateFormat = "h:mm a"
             self.endTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
             
+            let formatter2 = DateFormatter()
+            formatter2.dateFormat = "h:mm"
+            self.endTime = formatter2.string(from: (self.timeAlertView?.timeView.date)!)
+
             UIView.animate(withDuration: 0.3, animations: {
                 self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.timeAlertView?.alpha = 0
@@ -273,27 +321,17 @@ class EditEventsVC: UIViewController {
         
         self.view.addSubview((timeAlertView)!)
     }
+    
+    
+    @IBAction func attendeesBtn(_ sender: Any) {
+        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AttendeesVC") as? AttendeesVC else {return}
+        vc.eventID = eventModel?.id ?? 0
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 
 //MARK: - Extensions
-extension EditEventsVC {
-    func initSaveBarButton() {
-        let button = UIButton.init(type: .custom)
-        button.tintColor = UIColor.color("#141414")
-        button.setTitle("SAVE".localizedString, for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.init(name: "Montserrat-SemiBold", size: 12)
-        button.addTarget(self, action: #selector(handleSaveButton), for: .touchUpInside)
-        let barButton = UIBarButtonItem(customView: button)
-        self.navigationItem.rightBarButtonItem = barButton
-    }
-    
-    @objc func handleSaveButton() {
-        
-    }
-}
-
 extension EditEventsVC : UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         hiddenLbl.isHidden = !textView.text.isEmpty

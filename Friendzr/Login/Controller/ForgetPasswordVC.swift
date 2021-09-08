@@ -6,17 +6,18 @@
 //
 
 import UIKit
-import SkyFloatingLabelTextField
+//import SkyFloatingLabelTextField
 
 class ForgetPasswordVC: UIViewController {
 
     //MARK:- Outlets
     @IBOutlet weak var emailView: UIView!
-    @IBOutlet weak var emailTxt: SkyFloatingLabelTextField!
+    @IBOutlet weak var emailTxt: UITextField!
     @IBOutlet weak var resetBtnView: UIView!
     @IBOutlet weak var resetBtn: UIButton!
 
     //MARK: - Properties
+    var viewmodel:ForgetPasswordViewModel = ForgetPasswordViewModel()
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -35,6 +36,15 @@ class ForgetPasswordVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func resetBtn(_ sender: Any) {
+        viewmodel.ResetPassword(withEmail: emailTxt.text!) { error, data in
+            self.hideLoading()
+            if let error = error {
+                self.showAlert(withMessage: error)
+                return
+            }
+            guard let data = data else {return}
+            self.showAlert(withMessage: data.code)
+        }
     }
     
     //MARK: - Helpers
@@ -42,7 +52,7 @@ class ForgetPasswordVC: UIViewController {
         emailView.setBorder(color: UIColor.color("#DDDFDD")?.cgColor, width: 1)
         emailView.cornerRadiusView(radius: 6)
         
-        updateTextField(iView: emailView, txtField: emailTxt, placeholder: "Email", titleLbl: "Email")
+//        updateTextField(iView: emailView, txtField: emailTxt, placeholder: "Email", titleLbl: "Email")
         let fistColor = UIColor.color("#7BE495")!
         let lastColor = UIColor.color("#329D9C")!
         let gradient = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [fistColor.cgColor,lastColor.cgColor], type: .radial)

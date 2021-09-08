@@ -18,6 +18,8 @@ class CategoriesView: UIView {
     var parentVC = UIViewController()
     var catID = 0
     var onCategoryCallBackResponse: ((_ data: String, _ value: String) -> ())?
+    var catsModel:[CategoryObj]? = [CategoryObj]()
+    var catname = ""
     
     override func awakeFromNib() {
         
@@ -34,11 +36,12 @@ class CategoriesView: UIView {
 
 extension CategoriesView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        return catsModel?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: catCellID, for: indexPath) as? CategoryTableViewCell else {return UITableViewCell()}
+        cell.titleLbl.text = catsModel?[indexPath.row].name
         return cell
     }
 }
@@ -49,10 +52,10 @@ extension CategoriesView: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        catID = indexPath.row
-        print("\(catID)")
-        onCategoryCallBackResponse!("\(catID)","\(catID)")
+        let model = catsModel?[indexPath.row]
+        catID = model?.id ?? 0
+        catname = model?.name ?? ""
+        onCategoryCallBackResponse!("\(catID)","\(catname)")
         // handling code
         UIView.animate(withDuration: 0.3, animations: {
             self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)

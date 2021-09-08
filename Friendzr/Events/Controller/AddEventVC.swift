@@ -31,6 +31,7 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var endDateBtn: UIButton!
     @IBOutlet weak var startTimeBtn: UIButton!
     @IBOutlet weak var endTimeBtn: UIButton!
+    @IBOutlet weak var saveBtn: UIButton!
     
     //MARK: - Properties
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
@@ -43,8 +44,21 @@ class AddEventVC: UIViewController {
     var nday = ""
     var nyear = ""
     
+    var startDate = ""
+    var endDate = ""
+    var startTime = ""
+    var endTime = ""
+    
     let imagePicker = UIImagePickerController()
-    var attachedImg = false
+    var eventImage:String = ""
+    
+    var viewmodel:AddEventViewModel = AddEventViewModel()
+    var locationLat:Double = 0.0
+    var locationLng:Double = 0.0
+    var catsVM:AllCategoriesViewModel = AllCategoriesViewModel()
+    var cats:[CategoryObj] = [CategoryObj]()
+    var catID = ""
+    var catName = ""
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -53,68 +67,78 @@ class AddEventVC: UIViewController {
         self.title = "Add Event".localizedString
         setupView()
         initBackButton()
+        getCats()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
-        initSaveBarButton()
+    }
+    
+    
+    //MARK:- APIs
+    func getCats() {
+        catsVM.getAllCategories()
+        catsVM.cats.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                cats = value
+            }
+        }
+        
+        // Set View Model Event Listener
+        catsVM.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                self.showAlert(withMessage: error)
+            }
+        }
     }
     
     //MARK: - Actions
     @IBAction func addImgBtn(_ sender: Any) {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-            
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-        }
+        self.eventImg.image = UIImage(named: "dominican republic")
+        let imageData:Data = self.eventImg.image!.jpeg(.lowest)! as Data
+        let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
+        self.eventImage = strBase64
+        print(strBase64)
+        
+//        if UIDevice.current.userInterfaceIdiom == .pad {
+//            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+//
+//            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+//                self.openCamera()
+//            }))
+//            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+//                self.openLibrary()
+//            }))
+//            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+//
+//            present(settingsActionSheet, animated:true, completion:nil)
+//
+//        }else {
+//            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+//
+//            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+//                self.openCamera()
+//            }))
+//            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+//                self.openLibrary()
+//            }))
+//            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+//
+//            present(settingsActionSheet, animated:true, completion:nil)
+//        }
     }
     
     @IBAction func chooseCatBtn(_ sender: Any) {
         catsAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         catsAlertView?.parentVC = self
-        catsAlertView?.tableViewHeight.constant = CGFloat(8*50)
+        catsAlertView?.catsModel = cats
+        catsAlertView?.tableViewHeight.constant = CGFloat(cats.count * 50)
         catsAlertView?.onCategoryCallBackResponse = OnCategoryCallBack
         self.view.addSubview((catsAlertView)!)
     }
     
     @IBAction func switchAllDaysBtn(_ sender: Any) {
-        if switchAllDays.isOn {
-            self.datesView.isHidden = true
-            self.datesViewHeight.constant = 0
-            self.startDateBtn.isHidden = true
-            self.endDateBtn.isHidden = true
-            self.startTimeBtn.isHidden = true
-            self.endTimeBtn.isHidden = true
-        }else {
-            self.datesView.isHidden = false
-            self.datesViewHeight.constant = 70
-            self.startDateBtn.isHidden = false
-            self.endDateBtn.isHidden = false
-            self.startTimeBtn.isHidden = false
-            self.endTimeBtn.isHidden = false
-        }
-        
     }
     
     @IBAction func startDayBtn(_ sender: Any) {
@@ -127,6 +151,11 @@ class AddEventVC: UIViewController {
             formatter.dateFormat = "EEEE, MMM d,yyyy"
             self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
             
+            let formatter2 = DateFormatter()
+            formatter2.dateFormat = "yyyy-MM-dd"
+            self.startDate = formatter2.string(from: (self.dateAlertView?.calenderView.date)!)
+                
+                
             UIView.animate(withDuration: 0.3, animations: {
                 self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.dateAlertView?.alpha = 0
@@ -162,6 +191,10 @@ class AddEventVC: UIViewController {
             formatter.dateFormat = "EEEE, MMM d,yyyy"
             self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
             
+            let formatter2 = DateFormatter()
+            formatter2.dateFormat = "yyyy-MM-dd"
+            self.endDate = formatter2.string(from: (self.dateAlertView?.calenderView.date)!)
+
             UIView.animate(withDuration: 0.3, animations: {
                 self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.dateAlertView?.alpha = 0
@@ -196,6 +229,10 @@ class AddEventVC: UIViewController {
             formatter.dateFormat = "h:mm a"
             self.startTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
             
+            let formatter2 = DateFormatter()
+            formatter2.dateFormat = "h:mm"
+            self.startTime = formatter2.string(from: (self.timeAlertView?.timeView.date)!)
+
             UIView.animate(withDuration: 0.3, animations: {
                 self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.timeAlertView?.alpha = 0
@@ -229,6 +266,10 @@ class AddEventVC: UIViewController {
             formatter.dateFormat = "h:mm a"
             self.endTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
             
+            let formatter2 = DateFormatter()
+            formatter2.dateFormat = "h:mm"
+            self.endTime = formatter2.string(from: (self.timeAlertView?.timeView.date)!)
+
             UIView.animate(withDuration: 0.3, animations: {
                 self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.timeAlertView?.alpha = 0
@@ -254,10 +295,26 @@ class AddEventVC: UIViewController {
         self.view.addSubview((timeAlertView)!)
     }
     
+    @IBAction func saveBtn(_ sender: Any) {
+        self.showLoading()
+        viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndImage: eventImage, AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime) { error, data in
+            self.hideLoading()
+            if let error = error {
+                self.showAlert(withMessage: error)
+                return
+            }
+            
+            guard let _ = data else {return}
+            DispatchQueue.main.async {
+                self.view.makeToast("Your event added successfully")
+            }
+        }
+    }
     
     //MARK: - Helper
     func setupView() {
         eventImg.cornerRadiusView(radius: 6)
+        saveBtn.cornerRadiusView(radius: 6)
         limitUsersView.cornerRadiusView(radius: 5)
         descriptionTxtView.cornerRadiusView(radius: 5)
         descriptionTxtView.delegate = self
@@ -272,43 +329,28 @@ class AddEventVC: UIViewController {
         self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
         self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
         
-        if switchAllDays.isOn {
-            datesView.isHidden = true
-            datesViewHeight.constant = 0
-            startDateBtn.isHidden = true
-            endDateBtn.isHidden = true
-            startTimeBtn.isHidden = true
-            endTimeBtn.isHidden = true
-        }else {
-            datesView.isHidden = false
-            datesViewHeight.constant = 70
-            startDateBtn.isHidden = false
-            endDateBtn.isHidden = false
-            startTimeBtn.isHidden = false
-            endTimeBtn.isHidden = false
-        }
+//        if switchAllDays.isOn {
+////            datesView.isHidden = true
+////            datesViewHeight.constant = 0
+//            startDateBtn.isHidden = true
+//            endDateBtn.isHidden = true
+//            startTimeBtn.isHidden = true
+//            endTimeBtn.isHidden = true
+//        }else {
+////            datesView.isHidden = false
+////            datesViewHeight.constant = 70
+//            startDateBtn.isHidden = false
+//            endDateBtn.isHidden = false
+//            startTimeBtn.isHidden = false
+//            endTimeBtn.isHidden = false
+//        }
     }
     
     func OnCategoryCallBack(_ data: String, _ value: String) -> () {
         print(data, value)
-        categoryLbl.text = data
-    }
-}
-
-extension AddEventVC {
-    func initSaveBarButton() {
-        let button = UIButton.init(type: .custom)
-        button.tintColor = UIColor.color("#141414")
-        button.setTitle("SAVE".localizedString, for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.init(name: "Montserrat-SemiBold", size: 12)
-        button.addTarget(self, action: #selector(handleSaveButton), for: .touchUpInside)
-        let barButton = UIBarButtonItem(customView: button)
-        self.navigationItem.rightBarButtonItem = barButton
-    }
-    
-    @objc func handleSaveButton() {
-        
+        categoryLbl.text = value
+        catID = data
+        catName = value
     }
 }
 
@@ -429,10 +471,13 @@ extension AddEventVC : UIImagePickerControllerDelegate,UINavigationControllerDel
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        let image = info[.originalImage] as! UIImage
         picker.dismiss(animated:true, completion: {
             self.eventImg.image = image
-            self.attachedImg = true
+            let imageData:Data = image.jpeg(.lowest)! as Data
+            let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
+//            self.eventImage = strBase64
+            print(strBase64)
         })
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

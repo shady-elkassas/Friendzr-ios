@@ -28,6 +28,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         clearNavigationBar()
+        setupUserData()
     }
     
     //MARK: - Helper
@@ -44,6 +45,12 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
         moreList.append(("Terms & Conditions".localizedString, UIImage(named: "Terms_ic")!))
         moreList.append(("Share".localizedString, UIImage(named: "Share_ic")!))
         moreList.append(("Log Out".localizedString, UIImage(named: "logout_ic")!))
+        
+    }
+    
+    func setupUserData() {
+        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "avatar"))
+        nameLbl.text = Defaults.userName
     }
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {

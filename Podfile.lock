@@ -1,10 +1,11 @@
 PODS:
-  - Alamofire (5.0.5)
+  - Alamofire (4.9.1)
   - AppAuth (1.4.0):
     - AppAuth/Core (= 1.4.0)
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
+  - DropDown (2.3.13)
   - FBAEMKit (11.1.0):
     - FBAEMKit/AEM (= 11.1.0)
   - FBAEMKit/AEM (11.1.0):
@@ -24,6 +25,8 @@ PODS:
     - FBSDKCoreKit_Basics (~> 11.1.0)
   - Firebase (8.5.0):
     - Firebase/Core (= 8.5.0)
+  - Firebase/Analytics (8.5.0):
+    - Firebase/Core
   - Firebase/Auth (8.5.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 8.5.0)
@@ -35,9 +38,15 @@ PODS:
   - Firebase/Crashlytics (8.5.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 8.5.0)
+  - Firebase/Database (8.5.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (~> 8.5.0)
   - Firebase/Messaging (8.5.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 8.5.0)
+  - Firebase/Storage (8.5.0):
+    - Firebase/CoreOnly
+    - FirebaseStorage (~> 8.5.0)
   - FirebaseAnalytics (8.5.0):
     - FirebaseAnalytics/AdIdSupport (= 8.5.0)
     - FirebaseCore (~> 8.0)
@@ -77,6 +86,9 @@ PODS:
     - GoogleUtilities/Environment (~> 7.4)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
+  - FirebaseDatabase (8.5.0):
+    - FirebaseCore (~> 8.0)
+    - leveldb-library (~> 1.22)
   - FirebaseInstallations (8.5.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.4)
@@ -89,6 +101,9 @@ PODS:
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/Reachability (~> 7.4)
     - GoogleUtilities/UserDefaults (~> 7.4)
+  - FirebaseStorage (8.5.0):
+    - FirebaseCore (~> 8.0)
+    - GTMSessionFetcher/Core (~> 1.5)
   - GoogleAppMeasurement (8.5.0):
     - GoogleAppMeasurement/AdIdSupport (= 8.5.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
@@ -106,6 +121,12 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleMaps (5.1.0):
+    - GoogleMaps/Maps (= 5.1.0)
+  - GoogleMaps/Base (5.1.0)
+  - GoogleMaps/Maps (5.1.0):
+    - GoogleMaps/Base
+  - GooglePlaces (5.0.0)
   - GoogleSignIn (6.0.1):
     - AppAuth (~> 1.4)
     - GTMAppAuth (~> 1.0)
@@ -137,7 +158,9 @@ PODS:
     - InputBarAccessoryView/Core (= 5.3.1)
   - InputBarAccessoryView/Core (5.3.1)
   - IQKeyboardManager (6.5.6)
+  - JGProgressHUD (2.2)
   - Kingfisher (6.3.1)
+  - leveldb-library (1.22.1)
   - MessageKit (3.6.1):
     - InputBarAccessoryView (~> 5.3.1)
   - nanopb (2.30908.0):
@@ -150,27 +173,44 @@ PODS:
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
+  - SignalRSwift (2.0.3):
+    - Alamofire (~> 4.2)
+    - Starscream (~> 3.0)
   - SkyFloatingLabelTextField (3.8.0)
+  - Starscream (3.1.1)
+  - SwiftMessages (9.0.3):
+    - SwiftMessages/App (= 9.0.3)
+  - SwiftMessages/App (9.0.3)
 
 DEPENDENCIES:
-  - Alamofire (~> 5.0.0-rc.3)
+  - Alamofire (~> 4.2-rc.3)
+  - DropDown
   - FBSDKLoginKit
   - Firebase
+  - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Crashlytics
+  - Firebase/Database
   - Firebase/Messaging
+  - Firebase/Storage
+  - GoogleMaps
+  - GooglePlaces
   - GoogleSignIn
   - IQKeyboardManager
+  - JGProgressHUD
   - Kingfisher (~> 6.0)
   - MessageKit
   - ObjectMapper
   - SDWebImage
+  - SignalRSwift (~> 2.0.3)
   - SkyFloatingLabelTextField (~> 3.0)
+  - SwiftMessages
 
 SPEC REPOS:
   trunk:
     - Alamofire
     - AppAuth
+    - DropDown
     - FBAEMKit
     - FBSDKCoreKit
     - FBSDKCoreKit_Basics
@@ -181,27 +221,37 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCrashlytics
+    - FirebaseDatabase
     - FirebaseInstallations
     - FirebaseMessaging
+    - FirebaseStorage
     - GoogleAppMeasurement
     - GoogleDataTransport
+    - GoogleMaps
+    - GooglePlaces
     - GoogleSignIn
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
     - InputBarAccessoryView
     - IQKeyboardManager
+    - JGProgressHUD
     - Kingfisher
+    - leveldb-library
     - MessageKit
     - nanopb
     - ObjectMapper
     - PromisesObjC
     - SDWebImage
+    - SignalRSwift
     - SkyFloatingLabelTextField
+    - Starscream
+    - SwiftMessages
 
 SPEC CHECKSUMS:
-  Alamofire: df2f8f826963b08b9a870791ad48e07a10090b2e
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
   FBAEMKit: 5c8a8d08e5b2c79628490784883e0fcc75b12615
   FBSDKCoreKit: 7ccb8b4bb2b5ee2ad94327b774dc23f03509675d
   FBSDKCoreKit_Basics: 8f978bce195845f609b0ec6b425949d0d24f525b
@@ -212,24 +262,33 @@ SPEC CHECKSUMS:
   FirebaseCore: 1c1ca72483b59b17050f5b4cec4fb748425a3901
   FirebaseCoreDiagnostics: 7bf55d386f9fc690d971b70a582142321a390eb8
   FirebaseCrashlytics: 8e7cf678cb149d421198388c6fc3d3acfd266539
+  FirebaseDatabase: 65c3742ed355f9b9db222036fd154e699ab7d672
   FirebaseInstallations: f2bc590b291d25fb40a9a05b8281c02a881b5117
   FirebaseMessaging: 0705ec705c21705efc51c071fba924c8e25c63e7
+  FirebaseStorage: 2c176ca64a68b45bddc3c7d4d2c0c839927ad92c
   GoogleAppMeasurement: 8d10c1c470fcb0e5143ed74fddd164f0a0384800
   GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
+  GoogleMaps: 086ae1dab659eaa7339bdb30fc88e2f44e7c597c
+  GooglePlaces: 5d87ca13ed98b7a937e0d8bc7026f718c7263271
   GoogleSignIn: 1b0c4ec33a6fe282f4fa35d8ac64263230ddaf36
   GoogleUtilities: eea970f4a389963963bffe8d8fabe43540678b9c
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
   InputBarAccessoryView: 1f75d8c9f75e5e57f3ffac36ed58635a8005e0bc
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
+  JGProgressHUD: d83d7a981b85d11205e19ff8ad5bb9c40571c847
   Kingfisher: 016c8b653a35add51dd34a3aba36b580041acc74
+  leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   MessageKit: d153fbbbcb12f3f4045a1ba8874298924dacfb62
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
+  SignalRSwift: 6f30893680780d4f4e9981795478ea43f5b63f3e
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
+  Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
+  SwiftMessages: 077f19126c24033fe24042237ecc20261adb46e4
 
-PODFILE CHECKSUM: b68043b9498d0402528576c80015abff9d5f66ed
+PODFILE CHECKSUM: a0abb1e2090d49f6cd272c678b2dbad983355f0f
 
 COCOAPODS: 1.10.2

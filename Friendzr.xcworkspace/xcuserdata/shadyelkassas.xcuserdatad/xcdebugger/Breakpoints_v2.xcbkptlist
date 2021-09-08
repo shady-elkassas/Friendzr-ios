@@ -7,49 +7,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D0B8AE31-0A9E-4F48-9C9F-096349B259DA"
+            uuid = "F9F5CFB2-DAF3-45F7-89A9-CA5976E5CFBF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/MessageKit/Sources/Layout/MessagesCollectionViewFlowLayout.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "messagesLayoutDelegate"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "47BE0AC5-6C48-47A4-97F5-0D9434241ACC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Friendzr/Login/Controller/LoginVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "76E67A66-AABC-4141-B95C-7EC04836FA72"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Friendzr/Chat/Data Generation/SampleData.swift"
+            filePath = "Friendzr/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
-            landmarkName = "randomMessageType()"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "setupMarker(for:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D0B8AE31-0A9E-4F48-9C9F-096349B259DA - a494f2701b02efd9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Friendzr.SampleData.randomMessageType() -&gt; Friendzr.SampleData.MessageTypes"
-                  moduleName = "Friendzr"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Chat/Data%20Generation/SampleData.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "164"
-                  endingLineNumber = "164"
-                  offsetFromSymbolStart = "88">
-               </Location>
-               <Location
-                  uuid = "D0B8AE31-0A9E-4F48-9C9F-096349B259DA - c993e0f9c365723a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Friendzr.SampleData.MessageTypes) -&gt; Swift.Optional&lt;Friendzr.SampleData.MessageTypes&gt; in Friendzr.SampleData.randomMessageType() -&gt; Friendzr.SampleData.MessageTypes"
-                  moduleName = "Friendzr"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Chat/Data%20Generation/SampleData.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "165"
-                  endingLineNumber = "165"
-                  offsetFromSymbolStart = "44">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

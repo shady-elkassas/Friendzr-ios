@@ -6,7 +6,27 @@
 //
 
 import UIKit
+import SwiftUI
+import JGProgressHUD
 
+class UserChatList {
+    var name = ""
+    var profileImg = ""
+    var date = ""
+    var message = ""
+    var isMute = false
+    var isArchive = false
+    
+    
+    init(name:String,profileImg:String,date:String,message:String,isMute:Bool,isArchive:Bool) {
+        self.date = date
+        self.name = name
+        self.profileImg = profileImg
+        self.message = message
+        self.isArchive = isArchive
+        self.isMute = isMute
+    }
+}
 class MainVC: UIViewController {
 
     //MARK:- Outlets
@@ -16,7 +36,8 @@ class MainVC: UIViewController {
 
     //MARK: - Properties
     let cellID = "ChatListTableViewCell"
-    
+    var UsersList = [UserChatList]()
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,16 +46,24 @@ class MainVC: UIViewController {
         initProfileBarButton()
         initNewConversationBarButton()
         self.title = "Inbox"
+        setupNavBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setupNavBar()
+        hideNavigationBar(NavigationBar: false, BackButton: true)
     }
     
     //MARK: - Helper
     func setup() {
         setupSearchBar()
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        
+        UsersList.append(UserChatList(name: "Ahmed", profileImg: "Dan-Leonard", date: "11:23 AM", message: "Hey Cody, you should definitely check out Yoga Six for hot yoga! They have…",isMute: false,isArchive: false))
+        UsersList.append(UserChatList(name: "Ebrahim", profileImg: "Tim-Cook", date: "11:23 AM", message: "Hey Cody, you should definitely check out Yoga Six for hot yoga! They have…",isMute: false,isArchive: false))
+        UsersList.append(UserChatList(name: "kamal", profileImg: "Dan-Leonard", date: "11:23 AM", message: "Hey Cody, you should definitely check out Yoga Six for hot yoga! They have…",isMute: false,isArchive: false))
+        UsersList.append(UserChatList(name: "Muhammed Sabri", profileImg: "Dan-Leonard", date: "11:23 AM", message: "Hey Cody, you should definitely check out Yoga Six for hot yoga! They have…",isMute: false,isArchive: false))
+        UsersList.append(UserChatList(name: "Esraa", profileImg: "p1", date: "11:23 AM", message: "Hey Cody, you should definitely check out Yoga Six for hot yoga! They have…",isMute: false,isArchive: false))
+        UsersList.append(UserChatList(name: "Mona", profileImg: "p0", date: "11:23 AM", message: "Hey Cody, you should definitely check out Yoga Six for hot yoga! They have…",isMute: false,isArchive: false))
     }
     
     func setupSearchBar() {
@@ -57,14 +86,29 @@ class MainVC: UIViewController {
 //MARK: - Extensions
 extension MainVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return UsersList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ChatListTableViewCell else {return UITableViewCell()}
-        if indexPath.row == 2 {
+        let model = UsersList[indexPath.row]
+        cell.nameLbl.text = model.name
+        cell.lastMessageLbl.text = model.message
+        cell.lastMessageDateLbl.text = model.date
+        cell.profileImg.image = UIImage(named: model.profileImg)
+        
+        if indexPath.row == (UsersList.count - 1) {
             cell.underView.isHidden = true
         }
+        
+        if model.isArchive {
+            cell.containerView.backgroundColor = .systemBlue
+        }else if model.isMute {
+            cell.containerView.backgroundColor = .systemGreen
+        }else {
+            cell.containerView.backgroundColor = .white
+        }
+        
         return cell
     }
     
@@ -75,11 +119,50 @@ extension MainVC:UITableViewDelegate {
         return 100
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let detailViewController = MessageContainerController()
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let detailViewController = BasicExampleViewController()
 //        appDelegate.window?.rootViewController = detailViewController
 //        appDelegate.window?.makeKeyAndVisible()
-//    }
+        
+        let vc = ChatVC()
+//        vc.title = "Muhammed Sabri"
+//        vc.navigationItem.largeTitleDisplayMode = .never
+//        vc.isNewConversation = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        
+        let archiveTitle = self.UsersList[indexPath.row].isArchive ? "UnArchive" : "Archive"
+        let muteTitle = self.UsersList[indexPath.row].isMute ? "UnMute" : "Mute"
+
+        let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { action, indexPath in
+            print("deleteAction")
+            self.UsersList.remove(at: indexPath.row)
+            tableView.reloadData()
+            self.view.makeToast("Deleted")
+        }
+        let archiveAction = UITableViewRowAction(style: .default, title: archiveTitle) { action, indexPath in
+            print("archiveAction")
+            self.UsersList[indexPath.row].isArchive.toggle()
+            tableView.reloadData()
+            self.view.makeToast("Archived")
+        }
+        let muteAction = UITableViewRowAction(style: .default, title: muteTitle) { action, indexPath in
+            print("muteAction")
+            self.UsersList[indexPath.row].isMute.toggle()
+            tableView.reloadData()
+            self.view.makeToast("Muted")
+        }
+        
+        archiveAction.backgroundColor = .systemBlue
+        muteAction.backgroundColor = .systemGreen
+        return [deleteAction,archiveAction,muteAction]
+    }
 }
 
 extension MainVC: UISearchBarDelegate{

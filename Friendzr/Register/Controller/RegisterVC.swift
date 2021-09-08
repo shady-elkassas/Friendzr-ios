@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import SkyFloatingLabelTextField
+//import SkyFloatingLabelTextField
 
 class RegisterVC: UIViewController {
 
@@ -15,15 +15,18 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var emailView: UIView!
     @IBOutlet weak var passwordView: UIView!
     @IBOutlet weak var confirmPasswordView: UIView!
-    @IBOutlet weak var userNameTxt: SkyFloatingLabelTextField!
-    @IBOutlet weak var emailTxt: SkyFloatingLabelTextField!
-    @IBOutlet weak var passwordTxt: SkyFloatingLabelTextField!
-    @IBOutlet weak var confirmPasswordTxt: SkyFloatingLabelTextField!
+    @IBOutlet weak var userNameTxt: UITextField!
+    @IBOutlet weak var emailTxt: UITextField!
+    @IBOutlet weak var passwordTxt: UITextField!
+    @IBOutlet weak var confirmPasswordTxt: UITextField!
     @IBOutlet weak var registerBtnView: UIView!
     @IBOutlet weak var facebookView: UIView!
     @IBOutlet weak var googleView: UIView!
     @IBOutlet weak var appleView: UIView!
     @IBOutlet weak var registerBtn: UIButton!
+    
+    var checkUserNameVM:CheckUserNameViewModel = CheckUserNameViewModel()
+    var registerVM:RegisterViewModel = RegisterViewModel()
     
     
     //MARK: - Life Cycle
@@ -34,14 +37,38 @@ class RegisterVC: UIViewController {
         setup()
         clearNavigationBar()
         removeNavigationBorder()
+        userNameTxt.addTarget(self, action: #selector(handleCheckUserName), for: .allEvents)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
+    @objc func handleCheckUserName() {
+        checkUserNameVM.checkUserName(withUserName: userNameTxt.text!) { error, data in
+            if let error = error {
+                self.view.makeToast(error)
+                return
+            }
+            
+            guard let _ = data else {return}
+            self.view.makeToast("Done successfully")
+        }
+    }
+    
     //MARK: - Actions
     @IBAction func registerBtn(_ sender: Any) {
+        self.showLoading()
+        registerVM.RegisterNewUser(withUserName: userNameTxt.text!, AndEmail: emailTxt.text!, password: passwordTxt.text!) { error, data in
+            self.hideLoading()
+            if let error = error {
+                self.showAlert(withMessage: error)
+                return
+            }
+            
+            guard let _ = data else {return}
+            self.showAlert(withMessage: "Please check your email")
+        }
     }
     
     @IBAction func showPasswordBtn(_ sender: Any) {
@@ -73,10 +100,10 @@ class RegisterVC: UIViewController {
         passwordView.cornerRadiusView(radius: 6)
         confirmPasswordView.cornerRadiusView(radius: 6)
         
-        updateTextField(iView: userNameView, txtField: userNameTxt, placeholder: "User Name", titleLbl: "User Name")
-        updateTextField(iView: emailView, txtField: emailTxt, placeholder: "Email", titleLbl: "Email")
-        updateTextField(iView: passwordView, txtField: passwordTxt, placeholder: "Password", titleLbl: "Password")
-        updateTextField(iView: confirmPasswordView, txtField: confirmPasswordTxt, placeholder: "Confirm Password", titleLbl: "Confirm Password")
+//        updateTextField(iView: userNameView, txtField: userNameTxt, placeholder: "User Name", titleLbl: "User Name")
+//        updateTextField(iView: emailView, txtField: emailTxt, placeholder: "Email", titleLbl: "Email")
+//        updateTextField(iView: passwordView, txtField: passwordTxt, placeholder: "Password", titleLbl: "Password")
+//        updateTextField(iView: confirmPasswordView, txtField: confirmPasswordTxt, placeholder: "Confirm Password", titleLbl: "Confirm Password")
         
         
         facebookView.cornerRadiusView(radius: 6)

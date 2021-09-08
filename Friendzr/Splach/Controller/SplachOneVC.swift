@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import LocalAuthentication
 
 class SplachOneVC: UIViewController {
 
@@ -29,7 +30,30 @@ class SplachOneVC: UIViewController {
     }
     
     @IBAction func getStartBtn(_ sender: Any) {
-//        Router().toSplach2()
-        Router().toHome()
+        if Defaults.token != "" {
+            Router().toHome()
+        }else {
+            Router().toSplach2()
+        }
+
+//            let context = LAContext()
+//            var error: NSError? = nil
+//            let reason = "Please authorize with touch id!"
+//            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+//                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, error in
+//                    DispatchQueue.main.async {
+//                        guard  success,error == nil
+//                        else {
+//                            self?.view.makeToast("Failed, Please Tri Again.")
+//                            return
+//                        }
+//
+//                        self?.view.makeToast("Success")
+//                        Router().toHome()
+//                    }
+//                }
+//            }else {
+//                self.view.makeToast("Unavilable")
+//            }
     }
 }

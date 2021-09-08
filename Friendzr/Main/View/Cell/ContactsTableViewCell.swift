@@ -2,7 +2,7 @@
 //  ContactsTableViewCell.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 19/08/2021.
+//  Created by Muhammad Sabri Saad on 19/08/2021.
 //
 
 import UIKit

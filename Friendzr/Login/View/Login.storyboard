@@ -31,10 +31,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UtY-FO-ois">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UtY-FO-ois">
                                 <rect key="frame" x="0.0" y="88" width="414" height="878"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UZg-7K-EqS" userLabel="X">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UZg-7K-EqS">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="618"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log In" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EHD-G1-Axg">
@@ -49,8 +49,8 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wun-WY-uGE">
                                                         <rect key="frame" x="0.0" y="0.0" width="364" height="44"/>
                                                         <subviews>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CnX-OK-17D" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                                <rect key="frame" x="16" y="5" width="332" height="34"/>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CnX-OK-17D">
+                                                                <rect key="frame" x="16" y="2" width="332" height="40"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress" textContentType="email"/>
@@ -64,16 +64,16 @@
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="CnX-OK-17D" secondAttribute="trailing" constant="16" id="YYU-SV-jq8"/>
                                                             <constraint firstAttribute="height" constant="44" id="Z6S-h6-zgj"/>
-                                                            <constraint firstAttribute="bottom" secondItem="CnX-OK-17D" secondAttribute="bottom" constant="5" id="f26-GR-OCz"/>
-                                                            <constraint firstItem="CnX-OK-17D" firstAttribute="top" secondItem="wun-WY-uGE" secondAttribute="top" constant="5" id="rIU-fM-XCi"/>
+                                                            <constraint firstAttribute="bottom" secondItem="CnX-OK-17D" secondAttribute="bottom" constant="2" id="f26-GR-OCz"/>
+                                                            <constraint firstItem="CnX-OK-17D" firstAttribute="top" secondItem="wun-WY-uGE" secondAttribute="top" constant="2" id="rIU-fM-XCi"/>
                                                             <constraint firstItem="CnX-OK-17D" firstAttribute="leading" secondItem="wun-WY-uGE" secondAttribute="leading" constant="16" id="yhG-YR-ohU"/>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nEL-bY-beY">
                                                         <rect key="frame" x="0.0" y="56" width="364" height="44"/>
                                                         <subviews>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gF8-o7-Qzf" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                                <rect key="frame" x="16" y="5" width="308" height="34"/>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gF8-o7-Qzf">
+                                                                <rect key="frame" x="16" y="2" width="308" height="40"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
@@ -98,8 +98,8 @@
                                                         <constraints>
                                                             <constraint firstItem="ADs-mm-DfW" firstAttribute="centerY" secondItem="nEL-bY-beY" secondAttribute="centerY" id="BWU-Iy-OOt"/>
                                                             <constraint firstAttribute="trailing" secondItem="ADs-mm-DfW" secondAttribute="trailing" constant="5" id="Kf1-WI-tfJ"/>
-                                                            <constraint firstItem="gF8-o7-Qzf" firstAttribute="top" secondItem="nEL-bY-beY" secondAttribute="top" constant="5" id="PeD-Ya-4fY"/>
-                                                            <constraint firstAttribute="bottom" secondItem="gF8-o7-Qzf" secondAttribute="bottom" constant="5" id="Rcc-Um-HC2"/>
+                                                            <constraint firstItem="gF8-o7-Qzf" firstAttribute="top" secondItem="nEL-bY-beY" secondAttribute="top" constant="2" id="PeD-Ya-4fY"/>
+                                                            <constraint firstAttribute="bottom" secondItem="gF8-o7-Qzf" secondAttribute="bottom" constant="2" id="Rcc-Um-HC2"/>
                                                             <constraint firstItem="ADs-mm-DfW" firstAttribute="leading" secondItem="gF8-o7-Qzf" secondAttribute="trailing" constant="5" id="ZMK-4a-zul"/>
                                                             <constraint firstItem="gF8-o7-Qzf" firstAttribute="leading" secondItem="nEL-bY-beY" secondAttribute="leading" constant="16" id="bNe-9G-3l6"/>
                                                         </constraints>
@@ -407,7 +407,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Io6-if-Hq4">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Io6-if-Hq4">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZbP-Av-5jw">
@@ -425,8 +425,8 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i8q-Ra-hqJ">
                                                         <rect key="frame" x="0.0" y="0.0" width="364" height="44"/>
                                                         <subviews>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vgO-eY-COc" customClass="SkyFloatingLabelTextField" customModule="SkyFloatingLabelTextField">
-                                                                <rect key="frame" x="16" y="5" width="332" height="34"/>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vgO-eY-COc">
+                                                                <rect key="frame" x="16" y="2" width="332" height="40"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress" textContentType="email"/>
@@ -438,8 +438,8 @@
                                                         </subviews>
                                                         <color key="backgroundColor" red="0.87843137250000003" green="0.92549019610000005" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="bottom" secondItem="vgO-eY-COc" secondAttribute="bottom" constant="5" id="09p-iY-5lV"/>
-                                                            <constraint firstItem="vgO-eY-COc" firstAttribute="top" secondItem="i8q-Ra-hqJ" secondAttribute="top" constant="5" id="22S-OJ-kE6"/>
+                                                            <constraint firstAttribute="bottom" secondItem="vgO-eY-COc" secondAttribute="bottom" constant="2" id="09p-iY-5lV"/>
+                                                            <constraint firstItem="vgO-eY-COc" firstAttribute="top" secondItem="i8q-Ra-hqJ" secondAttribute="top" constant="2" id="22S-OJ-kE6"/>
                                                             <constraint firstAttribute="trailing" secondItem="vgO-eY-COc" secondAttribute="trailing" constant="16" id="90l-zc-fjb"/>
                                                             <constraint firstAttribute="height" constant="44" id="IB7-An-Y47"/>
                                                             <constraint firstItem="vgO-eY-COc" firstAttribute="leading" secondItem="i8q-Ra-hqJ" secondAttribute="leading" constant="16" id="x1S-wV-WM3"/>
@@ -540,6 +540,17 @@
             <point key="canvasLocation" x="3522" y="331"/>
         </scene>
     </scenes>
+    <designables>
+        <designable name="CnX-OK-17D">
+            <size key="intrinsicContentSize" width="40.5" height="19"/>
+        </designable>
+        <designable name="gF8-o7-Qzf">
+            <size key="intrinsicContentSize" width="69" height="18"/>
+        </designable>
+        <designable name="vgO-eY-COc">
+            <size key="intrinsicContentSize" width="40.5" height="19"/>
+        </designable>
+    </designables>
     <resources>
         <image name="apple_ic" width="32" height="32"/>
         <image name="facebook_ic" width="18.5" height="18.5"/>

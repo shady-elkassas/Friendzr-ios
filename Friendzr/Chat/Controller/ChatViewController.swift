@@ -308,8 +308,7 @@ extension ChatViewController: MessageLabelDelegate {
 
 extension ChatViewController: InputBarAccessoryViewDelegate {
 
-    @objc
-    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+    @objc func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         processInputBar(messageInputBar)
     }
 

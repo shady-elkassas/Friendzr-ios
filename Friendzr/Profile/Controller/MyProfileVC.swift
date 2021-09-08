@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class MyProfileVC: UIViewController {
 
@@ -21,17 +22,36 @@ class MyProfileVC: UIViewController {
     @IBOutlet weak var editBtn: UIButton!
     
     //MARK: - Properties
-    
+    var viewmodel: ProfileViewModel = ProfileViewModel()
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
+        getProfileInformation()
     }
-    
     override func viewWillAppear(_ animated: Bool) {
-        initBackButton(btnColor: .white)
+        initBackButton(btnColor: .black)
         clearNavigationBar()
+    }
+
+    //MARK: - API
+    func getProfileInformation() {
+        viewmodel.getProfileInfo()
+        viewmodel.userModel.bind { [unowned self]value in
+            
+            DispatchQueue.main.async {
+                self.setProfileData()
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                print(error)
+            }
+        }
     }
     
     //MARK: - Helper
@@ -39,9 +59,20 @@ class MyProfileVC: UIViewController {
         editBtn.cornerRadiusForHeight()
     }
     
+    func setProfileData() {
+        let model = viewmodel.userModel.value
+        aboutMeLBl.text = model?.bio
+        userNameLbl.text = model?.userName
+        nameLbl.text = model?.userName
+//        ageLbl.text = model?.
+        genderLbl.text = model?.gender
+        profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
+    }
+    
     //MARK: - Actions
     @IBAction func editBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC else {return}
+        vc.userModel = viewmodel.userModel.value
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

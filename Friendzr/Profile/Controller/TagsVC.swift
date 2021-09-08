@@ -10,6 +10,12 @@ import SpriteKit
 
 class TagsVC: UIViewController {
     
+    var vm = InterestsViewModel()
+    var normalInterests:[InterestObj]!
+    var onInterestsCallBackResponse: ((_ data: [Int], _ value: [String]) -> ())?
+    var ids:[Int] = [Int]()
+    var names:[String] = [String]()
+
     //MARK:- Outlets
     @IBOutlet weak var magneticView: MagneticView! {
         didSet {
@@ -36,31 +42,89 @@ class TagsVC: UIViewController {
         initBackButton()
         self.title = "Tags"
         clearNavigationBar()
+        
+        self.showLoading()
+        vm.getAllInterests(completion: { (error, cats) in
+            self.hideLoading()
+            if let error = error {
+                self.showAlert(withMessage: error)
+                return
+            }
+            guard let data = cats else {return}
+            for item in data {
+                self.addCats(node: item)
+            }
+            self.normalInterests = data
+        })
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    func addCats(node:InterestObj)  {
+        let name = node.name
+        let color = UIColor.colors.randomItem()
         
-        for _ in 0..<12 {
-            add(nil)
-        }
+        let node = Node(nodeId: node.id ?? 0, text: name?.capitalized, image: UIImage(named: ""), color: color, radius: 40)
+        node.scaleToFitContent = true
+        node.selectedColor = UIColor.FriendzrColors.primary
+        magnetic.addChild(node)
     }
+    
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//
+//        for _ in 0..<12 {
+//            add(nil)
+//        }
+//    }
+    
     
     //MARK: - Actions
     @IBAction func add(_ sender: UIControl?) {
-        let name = UIImage.names.randomItem()
-        let color = UIColor.colors.randomItem()
-        let node = Node(nodeId:"\(sender?.tag ?? 0)", text: name.capitalized, image: UIImage(named: name), color: color, radius: 40)
-        node.scaleToFitContent = true
-        node.selectedColor = UIColor.colors.randomItem()
-        magnetic.addChild(node)
+//        if self.magnetic.selectedChildren.count == 0 {
+//            self.showAlert(withMessage: "you have to select Interests".localizedString)
+//        } else {
+//
+//        }
+//
+        for itm in self.magnetic.selectedChildren {
+            print("selected item")
+            print(itm.nodeId)
+            
+            ids.append(itm.nodeId)
+            names.append(itm.text!)
+            onInterestsCallBackResponse!(ids,names)
+        }
+        
+        if ids.count == 0 {
+            self.showAlert(withMessage: "you have to select Interests".localizedString)
+            return
+        }else {
+            self.onPopup()
+        }
     }
     
     @IBAction func reset(_ sender: UIControl?) {
         magneticView.magnetic.reset()
-        
-        for _ in 0..<12 {
-            add(nil)
+        DispatchQueue.main.async() {
+            if self.normalInterests.count > 0 {
+                for item in  self.normalInterests {
+                    self.addCats(node: item)
+                }
+            } else {
+                self.showLoading()
+                self.vm.getAllInterests(completion: { (error, cats) in
+                    self.hideLoading()
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    guard let data = cats else {return}
+                    for item in data {
+                        self.addCats(node: item)
+                    }
+                    self.normalInterests = data
+                    
+                })
+            }
         }
     }
 }

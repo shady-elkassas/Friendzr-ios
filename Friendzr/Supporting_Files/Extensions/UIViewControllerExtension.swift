@@ -49,7 +49,7 @@ extension UIViewController {
         return String(format:"%02i:%02i", minutes, seconds)
     }
     
-    func initBackButton(btnColor: UIColor? = .black) {
+    func initBackButton(btnColor: UIColor? = .white) {
         var imageName = ""
         if Language.currentLanguage() == "ar" {
             imageName = "back_icon"
@@ -57,10 +57,20 @@ extension UIViewController {
             imageName = "back_icon"
         }
         
+        let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)
-        let btn = UIBarButtonItem.init(image: image, style: .plain, target: self, action: #selector(onPopup))
-        btn.tintColor = btnColor ?? .black
-        navigationItem.leftBarButtonItem = btn
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.setImage(image, for: .normal)
+        button.backgroundColor = .black.withAlphaComponent(0.2)
+        button.tintColor = btnColor ?? .white
+        button.cornerRadiusView(radius: 20)
+        button.addTarget(self, action:  #selector(onPopup), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.leftBarButtonItem = barButton
+
+//        let btn = UIBarButtonItem.init(image: image, style: .plain, target: self, action: #selector(onPopup))
+//        btn.tintColor = btnColor ?? .black
+//        navigationItem.leftBarButtonItem = btn
     }
     
     func initCloseBarButton(_ color: UIColor? = .black) {
@@ -122,7 +132,7 @@ extension UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-SemiBold", size: 14) ?? "",NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!]
         self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.navigationBar.barTintColor = .white
-        self.navigationController?.navigationBar.shadowImage = UIImage()
+//        self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage() , for:UIBarMetrics.default)
     }
     
@@ -144,18 +154,6 @@ extension UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    // error show
-    func initWorningTitleBarButton(_ text : String) {
-        self.title = ""
-        let button = UIButton.init(type: .custom)
-        button.setTitle(text, for: .normal)
-        button.titleLabel?.font = UIFont(name: "Tajawal-Medium", size: 12)
-        button.setTitleColor( .white, for: .normal)
-        navigationController?.navigationBar.tintColor = .red
-        let barButton = UIBarButtonItem(customView: button)
-        self.navigationItem.leftBarButtonItem = barButton
-    }
-    
     func initSkipBarButton() {
         let skipBtn = UIButton()
         skipBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
@@ -166,6 +164,78 @@ extension UIViewController {
         self.navigationItem.leftBarButtonItem = skipButton
     }
     
+    func updateTitleView(title: String, subtitle: String?, baseColor: UIColor = .white) {
+        
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: -2, width: 0, height: 0))
+        titleLabel.backgroundColor = UIColor.clear
+        titleLabel.textColor = baseColor
+        titleLabel.font = UIFont.init(name: "Montserrat-Medium", size: 12)
+        titleLabel.text = title
+        titleLabel.textAlignment = .center
+        titleLabel.adjustsFontSizeToFitWidth = true
+        titleLabel.sizeToFit()
+        
+        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 18, width: 0, height: 0))
+        subtitleLabel.textColor = baseColor.withAlphaComponent(0.95)
+        subtitleLabel.font = UIFont.init(name: "Montserrat-Medium", size: 12)
+        subtitleLabel.text = subtitle
+        subtitleLabel.textAlignment = .center
+        subtitleLabel.adjustsFontSizeToFitWidth = true
+        subtitleLabel.sizeToFit()
+        
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(titleLabel.frame.size.width, subtitleLabel.frame.size.width), height: 30))
+        titleView.addSubview(titleLabel)
+        if subtitle != nil {
+            titleView.addSubview(subtitleLabel)
+        } else {
+            titleLabel.frame = titleView.frame
+        }
+        let widthDiff = subtitleLabel.frame.size.width - titleLabel.frame.size.width
+        if widthDiff < 0 {
+            let newX = widthDiff / 2
+            subtitleLabel.frame.origin.x = abs(newX)
+        } else {
+            let newX = widthDiff / 2
+            titleLabel.frame.origin.x = newX
+        }
+        
+        navigationItem.titleView = titleView
+    }
+    
+    
+    func updateTitleView(image: String, subtitle: String?, baseColor: UIColor = .white) {
+        
+        let imageUser = UIImageView(frame: CGRect(x: 0, y: -5, width: 25, height: 25))
+        imageUser.backgroundColor = UIColor.clear
+        imageUser.image = UIImage(named: image)
+        imageUser.contentMode = .scaleToFill
+        
+        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 20, width: 0, height: 0))
+        subtitleLabel.textColor = baseColor.withAlphaComponent(0.95)
+        subtitleLabel.font = UIFont.init(name: "Montserrat-Medium", size: 12)
+        subtitleLabel.text = subtitle
+        subtitleLabel.textAlignment = .center
+        subtitleLabel.adjustsFontSizeToFitWidth = true
+        subtitleLabel.sizeToFit()
+        
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(imageUser.frame.size.width, subtitleLabel.frame.size.width), height: 30))
+        titleView.addSubview(imageUser)
+        if subtitle != nil {
+            titleView.addSubview(subtitleLabel)
+        } else {
+            imageUser.frame = titleView.frame
+        }
+        let widthDiff = subtitleLabel.frame.size.width - imageUser.frame.size.width
+        if widthDiff < 0 {
+            let newX = widthDiff / 2
+            subtitleLabel.frame.origin.x = abs(newX)
+        } else {
+            let newX = widthDiff / 2
+            imageUser.frame.origin.x = newX
+        }
+        
+        navigationItem.titleView = titleView
+    }
     
     @objc func handleSkipBtn(){
         Router().toHome()
@@ -177,7 +247,7 @@ extension UIViewController {
         
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         
-        let attributes = [NSAttributedString.Key.font: UIFont(name: "Tajawal-Medium", size: 17)]
+        let attributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 17)]
         
         let rectangleHeight = String(text).boundingRect(with: size, options: options, attributes: attributes as [NSAttributedString.Key : Any], context: nil).height
         
@@ -190,7 +260,7 @@ extension UIViewController {
         
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         
-        let attributes = [NSAttributedString.Key.font: UIFont(name: "Tajawal-Medium", size: 12)]
+        let attributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 12)]
         
         let rectangleWidth = String(text).boundingRect(with: size, options: options, attributes: attributes as [NSAttributedString.Key : Any], context: nil).width
         
