@@ -88,7 +88,7 @@ import SpriteKit
             resize()
         }
     }
-    var nodeId:Int = 0
+    var nodeId:String = ""
     /**
      The scale of the selected animation
     */
@@ -191,7 +191,7 @@ import SpriteKit
      
      - Returns: A new node.
      */
-    public init(nodeId:Int,text: String? = nil, image: UIImage? = nil, color: UIColor, path: CGPath, marginScale: CGFloat = 1.01) {
+    public init(nodeId:String,text: String? = nil, image: UIImage? = nil, color: UIColor, path: CGPath, marginScale: CGFloat = 1.01) {
         super.init()
         self.path = path
         regeneratePhysicsBody(withPath: path)
@@ -213,7 +213,7 @@ import SpriteKit
      
      - Returns: A new node.
      */
-    public convenience init(nodeId:Int,text: String? = nil, image: UIImage? = nil, color: UIColor, radius: CGFloat, marginScale: CGFloat = 1.01) {
+    public convenience init(nodeId:String,text: String? = nil, image: UIImage? = nil, color: UIColor, radius: CGFloat, marginScale: CGFloat = 1.01) {
         let path = SKShapeNode(circleOfRadius: radius).path!
         self.init(nodeId:nodeId,text: text, image: image, color: color, path: path, marginScale: marginScale)
     }
@@ -222,7 +222,7 @@ import SpriteKit
         fatalError("init(coder:) has not been implemented")
     }
     
-    open func configure(id:Int,text: String?, image: UIImage?, color: UIColor) {
+    open func configure(id:String,text: String?, image: UIImage?, color: UIColor) {
         self.text = text
         self.image = image
         self.color = color

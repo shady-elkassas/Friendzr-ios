@@ -68,4 +68,17 @@ extension String {
         map.forEach { str = str.replacingOccurrences(of: $0, with: $1) }
         return str
     }
+    
+    
+    func widthOfString(usingFont font: UIFont) -> CGFloat {
+         let fontAttributes = [NSAttributedString.Key.font: font]
+         let size = self.size(withAttributes: fontAttributes)
+         return size.width
+     }
+
+     func heightOfString(usingFont font: UIFont) -> CGFloat {
+         let fontAttributes = [NSAttributedString.Key.font: font]
+         let size = self.size(withAttributes: fontAttributes)
+         return size.height
+     }
 }

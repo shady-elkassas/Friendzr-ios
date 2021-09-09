@@ -20,13 +20,14 @@ class LeaveEventViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- leave Event
-    func leaveEvent(ByEventid eventid:Int, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+    func leaveEvent(ByEventid eventid:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         
         let url = URLs.baseURLFirst + "Events/leaveEvent"
         let headers = RequestComponent.headerComponent([.type,.authorization])
-        let bodyData = "EventDataid=\(eventid)".data(using: .utf8)
-        
-        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: bodyData, andHeaders: headers) { (data,error) in
+//        let bodyData = "EventDataid=\(eventid)".data(using: .utf8)
+        let parameters:[String : Any] = ["EventDataid": eventid]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<EventModel>().map(JSON: data!) else {
                 self.errorMsg = error!
                 completion(self.errorMsg, nil)

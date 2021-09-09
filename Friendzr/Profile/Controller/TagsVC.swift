@@ -12,8 +12,8 @@ class TagsVC: UIViewController {
     
     var vm = InterestsViewModel()
     var normalInterests:[InterestObj]!
-    var onInterestsCallBackResponse: ((_ data: [Int], _ value: [String]) -> ())?
-    var ids:[Int] = [Int]()
+    var onInterestsCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
+    var ids:[String] = [String]()
     var names:[String] = [String]()
 
     //MARK:- Outlets
@@ -62,7 +62,7 @@ class TagsVC: UIViewController {
         let name = node.name
         let color = UIColor.colors.randomItem()
         
-        let node = Node(nodeId: node.id ?? 0, text: name?.capitalized, image: UIImage(named: ""), color: color, radius: 40)
+        let node = Node(nodeId:(node.id ?? ""), text: name?.capitalized, image: UIImage(named: ""), color: color, radius: 40)
         node.scaleToFitContent = true
         node.selectedColor = UIColor.FriendzrColors.primary
         magnetic.addChild(node)

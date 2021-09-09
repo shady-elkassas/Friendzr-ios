@@ -46,16 +46,16 @@ class EventModel: Mappable {
 
 class EventObj: Mappable {
     
-    var allday: Bool?
-    var eventdate: String?
-    var timefrom: String?
-    var timeto: String?
-    var title: String?
-    var image: String?
-    var id: Int?
-    var totalnumbert: Int?
+    var allday: Bool? = false
+    var eventdate: String? = ""
+    var timefrom: String? = ""
+    var timeto: String? = ""
+    var title: String? = ""
+    var image: String? = ""
+    var id: String? = ""
+    var totalnumbert: Int? = 0
     var interests: InterestsObj?
-    var joined: Int?
+    var joined: Int? = 0
     var attendees: [AttendeesObj]? = [AttendeesObj]()
     var categorie:String? = ""
     var descriptionEvent:String? = ""

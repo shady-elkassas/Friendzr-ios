@@ -18,7 +18,7 @@ class LogoutViewModel {
     var isLoading : Bool = false
     var errorMsg : String = ""
     
-    func logoutRequest( completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
+    func logoutRequest( completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         
         let url = URLs.baseURLFirst + "Account/logout"
         let headers = RequestComponent.headerComponent([.authorization,.lang])
@@ -35,7 +35,7 @@ class LogoutViewModel {
             }
             else {
                 // When set the listener (if any) will be notified
-                if let toAdd = userResponse.data {
+                if let toAdd = userResponse.message {
                     print("toAdd ::: \(toAdd)")
                     completion(nil,toAdd)
                 }

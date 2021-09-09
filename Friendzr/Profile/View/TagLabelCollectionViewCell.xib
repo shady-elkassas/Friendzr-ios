@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TagLabelCollectionViewCell" id="gTV-IL-0wX" customClass="TagLabelCollectionViewCell" customModule="Friendzr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="137" height="64"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="137" height="64"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mVC-7S-SHR">
+                        <rect key="frame" x="5" y="5" width="127" height="54"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Wh-Gw-WHZ">
+                                <rect key="frame" x="5" y="5" width="117" height="44"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="labelColor"/>
+                        <constraints>
+                            <constraint firstItem="7Wh-Gw-WHZ" firstAttribute="leading" secondItem="mVC-7S-SHR" secondAttribute="leading" constant="5" id="221-NC-zYm"/>
+                            <constraint firstItem="7Wh-Gw-WHZ" firstAttribute="top" secondItem="mVC-7S-SHR" secondAttribute="top" constant="5" id="Sdh-M9-NCQ"/>
+                            <constraint firstAttribute="trailing" secondItem="7Wh-Gw-WHZ" secondAttribute="trailing" constant="5" id="y49-wo-IuI"/>
+                            <constraint firstAttribute="bottom" secondItem="7Wh-Gw-WHZ" secondAttribute="bottom" constant="5" id="z6z-ms-9Tz"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="mVC-7S-SHR" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="IWo-mS-18F"/>
+                <constraint firstAttribute="trailing" secondItem="mVC-7S-SHR" secondAttribute="trailing" constant="5" id="Q7K-kZ-dnE"/>
+                <constraint firstAttribute="bottom" secondItem="mVC-7S-SHR" secondAttribute="bottom" constant="5" id="vyx-JY-1ai"/>
+                <constraint firstItem="mVC-7S-SHR" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="xVX-ii-X4H"/>
+            </constraints>
+            <size key="customSize" width="137" height="64"/>
+            <connections>
+                <outlet property="containerView" destination="mVC-7S-SHR" id="12e-xC-PVT"/>
+                <outlet property="titleLbl" destination="7Wh-Gw-WHZ" id="qDC-MQ-oxz"/>
+            </connections>
+            <point key="canvasLocation" x="131.15942028985509" y="94.419642857142847"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

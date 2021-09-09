@@ -82,7 +82,7 @@ extension EventsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
-        vc.eventId = viewmodel.events.value?[indexPath.row].id ?? 0
+        vc.eventId = viewmodel.events.value?[indexPath.row].id ?? ""
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

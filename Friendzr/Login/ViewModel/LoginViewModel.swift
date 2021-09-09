@@ -40,9 +40,12 @@ class LoginViewModel {
         }
         
         let url = URLs.baseURLFirst + "Authenticat/login"
-        let dataThing = "email=\(email)&Password=\(password)".data(using: .utf8)
+//        let dataThing = "email=\(email)&Password=\(password)".data(using: .utf8)
+        let parameters:[String : Any] = ["email": email,"Password":password]
+
+        
         let headers = RequestComponent.headerComponent([.type])
-        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: dataThing, andHeaders: headers) { data, error in
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { data, error in
             guard let userResponse = Mapper<LoginModel>().map(JSON: data!) else {
                 self.errorMsg = error!
                 completion(self.errorMsg, nil)

@@ -58,9 +58,9 @@ class EditEventViewModel {
         
         let url = URLs.baseURLFirst + "Events/updateEventData"
         let headers = RequestComponent.headerComponent([.type,.authorization])
-        let bodyData = "Id=\(eventid)&Title=\(title ?? "")&description=\(description ?? "")&status=\(status ?? "")&image=\(image ?? "")&categorieId=\(categoryId ?? "")&lang=\(lang )&lat=\(lat )&totalnumbert=\(totalnumbert ?? "")&allday=\(allday ?? false)&eventdate=\(eventdateFrom ?? "")&eventdateto=\(eventDateto ?? "")&eventfrom=\(eventfrom ?? "")&eventto=\(eventto ?? "")".data(using: .utf8)
-        
-        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: bodyData, andHeaders: headers) { (data,error) in
+        let parameters:[String : Any] = ["Id":eventid,"Title": title,"description":description,"status":status,"categorieId":categoryId,"lang":lang,"lat":lat,"totalnumbert":totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<EventModel>().map(JSON: data!) else {
                 self.errorMsg = error!
                 completion(self.errorMsg, nil)

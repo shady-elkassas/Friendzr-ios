@@ -43,11 +43,12 @@ class EventsViewModel {
         }
     }
     
-    func getEventByID(id:Int) {
+    func getEventByID(id:String) {
         let url = URLs.baseURLFirst + "Events/getEvent"
         let headers = RequestComponent.headerComponent([.authorization,.type])
-        let param = "id=\(id)".data(using: .utf8)
-        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: param, andHeaders: headers) { (data,error) in
+        let parameters:[String : Any] = ["id": id]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<EventModel>().map(JSON: data!) else {
                 self.error.value = error

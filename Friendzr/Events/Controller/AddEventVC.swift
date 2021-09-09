@@ -50,7 +50,7 @@ class AddEventVC: UIViewController {
     var endTime = ""
     
     let imagePicker = UIImagePickerController()
-    var eventImage:String = ""
+    var attachedImg = false
     
     var viewmodel:AddEventViewModel = AddEventViewModel()
     var locationLat:Double = 0.0
@@ -96,10 +96,7 @@ class AddEventVC: UIViewController {
     //MARK: - Actions
     @IBAction func addImgBtn(_ sender: Any) {
         self.eventImg.image = UIImage(named: "dominican republic")
-        let imageData:Data = self.eventImg.image!.jpeg(.lowest)! as Data
-        let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
-        self.eventImage = strBase64
-        print(strBase64)
+        self.attachedImg = true
         
 //        if UIDevice.current.userInterfaceIdiom == .pad {
 //            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
@@ -297,7 +294,7 @@ class AddEventVC: UIViewController {
     
     @IBAction func saveBtn(_ sender: Any) {
         self.showLoading()
-        viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndImage: eventImage, AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime) { error, data in
+        viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
             self.hideLoading()
             if let error = error {
                 self.showAlert(withMessage: error)
@@ -474,10 +471,7 @@ extension AddEventVC : UIImagePickerControllerDelegate,UINavigationControllerDel
         let image = info[.originalImage] as! UIImage
         picker.dismiss(animated:true, completion: {
             self.eventImg.image = image
-            let imageData:Data = image.jpeg(.lowest)! as Data
-            let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
-//            self.eventImage = strBase64
-            print(strBase64)
+            self.attachedImg = true
         })
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

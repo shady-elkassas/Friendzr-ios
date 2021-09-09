@@ -33,7 +33,7 @@ class EditMyProfileVC: UIViewController {
     var userImg:String = ""
     var viewmodel:EditProfileViewModel = EditProfileViewModel()
     var userModel: ProfileObj? = nil
-    var tagsid:[Int] = [Int]()
+    var tagsid:[String] = [String]()
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -65,8 +65,17 @@ class EditMyProfileVC: UIViewController {
         nameTxt.text = userModel?.userName
         bioTxtView.text = userModel?.bio
         dateBirthLbl.text = userModel?.birthdate
+        dateBirthLbl.textColor = .black
+        
         profileImg.sd_setImage(with: URL(string: userModel?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
 
+        var tags = ""
+        for itm in userModel?.listoftagsmodel ?? [] {
+            tags = itm.tagname + " ," + tags
+        }
+        
+        tagsLbl.text = String(tags.dropLast())
+        tagsLbl.textColor = .black
         
         if userModel?.gender == "male" {
             maleImg.image = UIImage(named: "select_ic")
@@ -89,7 +98,7 @@ class EditMyProfileVC: UIViewController {
         }
     }
     
-    func OnInterestsCallBack(_ data: [Int], _ value: [String]) -> () {
+    func OnInterestsCallBack(_ data: [String], _ value: [String]) -> () {
         print(data, value)
         
         var items = ""

@@ -59,7 +59,7 @@ class RegisterVC: UIViewController {
     //MARK: - Actions
     @IBAction func registerBtn(_ sender: Any) {
         self.showLoading()
-        registerVM.RegisterNewUser(withUserName: userNameTxt.text!, AndEmail: emailTxt.text!, password: passwordTxt.text!) { error, data in
+        registerVM.RegisterNewUser(withUserName: userNameTxt.text!, AndEmail: emailTxt.text!, password: passwordTxt.text!,confirmPassword:confirmPasswordTxt.text!) { error, data in
             self.hideLoading()
             if let error = error {
                 self.showAlert(withMessage: error)
@@ -67,7 +67,14 @@ class RegisterVC: UIViewController {
             }
             
             guard let _ = data else {return}
-            self.showAlert(withMessage: "Please check your email")
+            
+            DispatchQueue.main.async {
+                self.view.makeToast("Please check your email")
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3 , execute: {
+                Router().toLogin()
+            })
         }
     }
     

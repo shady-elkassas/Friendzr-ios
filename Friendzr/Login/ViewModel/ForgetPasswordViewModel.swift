@@ -38,7 +38,8 @@ class ForgetPasswordViewModel {
         }
         
         let url = URLs.baseURLFirst + "Authenticat/forgetpass"
-        let parameters = "email=\(email)".data(using: .utf8)
+//        let parameters = "email=\(email)".data(using: .utf8)
+        let parameters:[String : Any] = ["email": email]
         let headers = RequestComponent.headerComponent([.type])
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

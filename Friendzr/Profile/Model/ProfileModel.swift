@@ -54,7 +54,7 @@ class ProfileObj: Mappable {
     }
     
     
-    var userid = 0
+    var userid = ""
     var userImage = ""
     var phoneNumber = ""
     var email = ""
@@ -65,7 +65,7 @@ class ProfileObj: Mappable {
     var gender = ""
     var birthdate = ""
     var linkAccountmodel:LinkAccountModel? = nil
-    var listoftagsmodel:TagsModel? = nil
+    var listoftagsmodel:[TagsModel]? = nil
     var facebook = ""
     var instagram = ""
     var snapchat = ""
@@ -92,22 +92,6 @@ class ChangeMobileModel: Mappable {
 }
 
 class ChangePasswordModel: Mappable {
-    
-    var isSuccessful: Bool?
-    var message: String?
-    var data: UserObj? = nil
-    
-    required init?(map: Map) {
-    }
-    // Mappable
-    func mapping(map: Map) {
-        data    <- map["model"]
-        isSuccessful   <- map["isSuccessful"]
-        message  <- map["message"]
-    }
-}
-
-class LogoutModel: Mappable {
     
     var isSuccessful: Bool?
     var message: String?

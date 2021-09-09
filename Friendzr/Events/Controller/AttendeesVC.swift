@@ -15,7 +15,7 @@ class AttendeesVC: UIViewController {
 
     let cellID = "AttendeesTableViewCell"
     var viewmodel:AttendeesViewModel = AttendeesViewModel()
-    var eventID:Int = 0
+    var eventID:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()

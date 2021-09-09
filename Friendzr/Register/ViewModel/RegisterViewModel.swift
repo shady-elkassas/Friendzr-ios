@@ -16,7 +16,8 @@ class RegisterViewModel {
     let userNameViewModel = UserNameViewModel()
     let emailViewModel = EmailViewModel()
     let passwordViewModel = PasswordViewModel()
-    
+    let confirmPasswordViewModel = ConfirmPasswordViewModel()
+
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var isLoading : Bool = false
@@ -24,9 +25,9 @@ class RegisterViewModel {
     
     func validateRegisterCredentials() -> Bool{
         
-        isSuccess =  userNameViewModel.validateCredentials() && emailViewModel.validateCredentials() && passwordViewModel.validateCredentials()
+        isSuccess =  userNameViewModel.validateCredentials() && emailViewModel.validateCredentials() && passwordViewModel.validateCredentials() && confirmPasswordViewModel.validateCredentials() && confirmPasswordViewModel.validateConfirmation(fstPass: passwordViewModel.data)
         
-        errorMsg = "\(userNameViewModel.errorValue ?? "")\(passwordViewModel.errorValue ?? "")\(emailViewModel.errorValue ?? "")"
+        errorMsg = "\(userNameViewModel.errorValue ?? "")\(passwordViewModel.errorValue ?? "")\(emailViewModel.errorValue ?? "") \(confirmPasswordViewModel.errorValue ?? "")"
         
         return isSuccess
     }
@@ -34,12 +35,13 @@ class RegisterViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Register
-    func RegisterNewUser(withUserName userName:String,AndEmail email:String, password: String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
+    func RegisterNewUser(withUserName userName:String,AndEmail email:String, password: String,confirmPassword:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
         
         userNameViewModel.data = userName
         emailViewModel.data = email
         passwordViewModel.data = password
-        
+        confirmPasswordViewModel.data = confirmPassword
+
         guard validateRegisterCredentials() else {
             completion(errorMsg, nil)
             return
@@ -47,8 +49,9 @@ class RegisterViewModel {
         
         let url = URLs.baseURLFirst + "Authenticat/register"
         let headers = RequestComponent.headerComponent([.type])
-        let bodyData = "UserName=\(userName)&Email=\(email)&Password=\(password)".data(using: .utf8)
-        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: bodyData, andHeaders: headers) { (data,error) in
+        let parameters:[String : Any] = ["UserName": userName,"Email":email,"Password":password]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<LoginModel>().map(JSON: data!) else {
                 self.errorMsg = error!
                 completion(self.errorMsg, nil)

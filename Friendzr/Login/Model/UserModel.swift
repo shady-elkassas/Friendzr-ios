@@ -37,7 +37,7 @@ class UserObj: Mappable {
     }
     
     
-    var id = 0
+    var id = ""
     var userImage = ""
     var phoneNumber = ""
     var email = ""

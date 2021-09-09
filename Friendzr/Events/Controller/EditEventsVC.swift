@@ -119,7 +119,7 @@ class EditEventsVC: UIViewController {
     
     @IBAction func saveBtn(_ sender: Any) {
         self.showLoading()
-        viewmodel.editEvent(withID: "\(eventModel?.id ?? 0)", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndImage: eventImage, AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime) { error, data in
+        viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndImage: eventImage, AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime) { error, data in
             
             self.hideLoading()
             if let error = error {
@@ -325,7 +325,7 @@ class EditEventsVC: UIViewController {
     
     @IBAction func attendeesBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AttendeesVC") as? AttendeesVC else {return}
-        vc.eventID = eventModel?.id ?? 0
+        vc.eventID = eventModel?.id ?? ""
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

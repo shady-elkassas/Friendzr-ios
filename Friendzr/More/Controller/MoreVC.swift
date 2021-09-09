@@ -19,6 +19,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     //MARK: - Properties
     let cellID = "MoreTableViewCell"
     var moreList : [(String,UIImage)] = []
+    var logoutVM:LogoutViewModel = LogoutViewModel()
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -169,7 +170,21 @@ extension MoreVC : UITableViewDelegate {
             self.present(activityViewController, animated: true, completion: nil)
             break
         case 9://logout
-            Router().toLogin()
+            self.showLoading()
+            logoutVM.logoutRequest { error, data in
+                self.hideLoading()
+                if let error = error {
+                    self.showAlert(withMessage: error)
+                    return
+                }
+                
+                guard let _ = data else {return}
+                
+                Defaults.deleteUserData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
+                    Router().toLogin()
+                })
+            }
             break
         default:
             break

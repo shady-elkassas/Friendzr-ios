@@ -16,7 +16,7 @@ class CategoriesView: UIView {
     
     let catCellID = "CategoryTableViewCell"
     var parentVC = UIViewController()
-    var catID = 0
+    var catID = ""
     var onCategoryCallBackResponse: ((_ data: String, _ value: String) -> ())?
     var catsModel:[CategoryObj]? = [CategoryObj]()
     var catname = ""
@@ -53,7 +53,7 @@ extension CategoriesView: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = catsModel?[indexPath.row]
-        catID = model?.id ?? 0
+        catID = model?.id ?? ""
         catname = model?.name ?? ""
         onCategoryCallBackResponse!("\(catID)","\(catname)")
         // handling code

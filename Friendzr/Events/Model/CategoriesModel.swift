@@ -28,8 +28,8 @@ class CategoriesModel: Mappable {
 
 class CategoryObj: Mappable {
     
-    var id: Int?
-    var name: String?
+    var id: String? = ""
+    var name: String? = ""
     
     required init?(map: Map) {
     }

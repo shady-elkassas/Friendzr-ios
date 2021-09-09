@@ -37,7 +37,7 @@ class EventDetailsVC: UIViewController {
     let cellID = "InterestsTableViewCell"
     let attendeesCellID = "AttendeesTableViewCell"
     private var footerCellID = "SeeMoreTableViewCell"
-    var eventId:Int = 0
+    var eventId:String = ""
     var viewmodel:EventsViewModel = EventsViewModel()
     var joinVM:JoinEventViewModel = JoinEventViewModel()
     var  leaveVM:LeaveEventViewModel = LeaveEventViewModel()
@@ -138,7 +138,7 @@ class EventDetailsVC: UIViewController {
     
     @IBAction func joinBtn(_ sender: Any) {
         self.showLoading()
-        joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? 0) { error, data in
+        joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in
             self.hideLoading()
             if let error = error {
                 self.showAlert(withMessage: error)
@@ -157,7 +157,7 @@ class EventDetailsVC: UIViewController {
     
     @IBAction func leaveBtn(_ sender: Any) {
         self.showLoading()
-        leaveVM.leaveEvent(ByEventid: viewmodel.event.value?.id ?? 0) { error, data in
+        leaveVM.leaveEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in
             self.hideLoading()
             if let error = error {
                 self.showAlert(withMessage: error)
@@ -210,7 +210,7 @@ extension EventDetailsVC: UITableViewDataSource {
             
             footerView.HandleSeeMoreBtn = {
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AttendeesVC") as? AttendeesVC else {return}
-                vc.eventID = self.viewmodel.event.value?.id ?? 0
+                vc.eventID = self.viewmodel.event.value?.id ?? ""
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             return footerView

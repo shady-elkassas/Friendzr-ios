@@ -40,13 +40,13 @@ class Defaults {
         }
     }
     
-    static var userId: Int {
+    static var userId: String {
         set{
             UserDefaults.standard.set(newValue, forKey: "userId")
             UserDefaults.standard.synchronize()
         }
         get{
-            return UserDefaults.standard.integer(forKey: "userId")
+            return UserDefaults.standard.string(forKey: "userId") ?? ""
         }
     }
     
@@ -164,12 +164,6 @@ class Defaults {
         }
     }
     
-//    "facebook": null,
-//         "instagram": null,
-//         "snapchat": null,
-//         "tiktok": null,
-
-    
     static func initUser(user:UserObj)  {
         Defaults.userId = user.id
         Defaults.Mobile = user.phoneNumber
@@ -188,7 +182,12 @@ class Defaults {
         defaults.removeObject(forKey: "Email")
         defaults.removeObject(forKey: "token")
         defaults.removeObject(forKey: "Image")
-        
+        defaults.removeObject(forKey: "key")
+        defaults.removeObject(forKey: "bio")
+        defaults.removeObject(forKey: "gender")
+        defaults.removeObject(forKey: "birthdate")
+        defaults.removeObject(forKey: "interestIds")
+
         if let token = AccessToken.current,
            !token.isExpired {
             // User is logged in, do work such as go to next view controller.

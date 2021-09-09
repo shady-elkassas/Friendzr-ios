@@ -14,6 +14,7 @@ class FeedVC: UIViewController {
     
     //MARK: - Properties
     let cellID = "FeedsTableViewCell"
+    var viewmodel:FeedViewModel = FeedViewModel()
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -23,9 +24,33 @@ class FeedVC: UIViewController {
         initProfileBarButton()
         setup()
         initSwitchBarButton()
+        getAllFeeds()
     }
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
+    }
+    
+    
+    //MARK:- APIs
+    func getAllFeeds() {
+        self.showLoading()
+        viewmodel.getAllUsers()
+        viewmodel.feeds.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                self.showAlert(withMessage: error)
+            }
+        }
     }
     
     //MARK: - Helper
@@ -37,11 +62,14 @@ class FeedVC: UIViewController {
 //MARK: - Extensions
 extension FeedVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return viewmodel.feeds.value?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? FeedsTableViewCell else {return UITableViewCell()}
+        let model = viewmodel.feeds.value?[indexPath.row]
+        cell.friendRequestNameLbl.text = model?.userName
+        cell.friendRequestUserNameLbl.text = model?.displayedUserName
         
         cell.HandleRequestSentBtn = {
             cell.requestSentBtn.isHidden = true

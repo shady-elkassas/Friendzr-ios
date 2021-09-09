@@ -144,17 +144,21 @@
                                             </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fyl-NG-nX6">
                                                 <rect key="frame" x="25" y="464" width="364" height="1"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="kMw-Ea-VO6"/>
                                                 </constraints>
-                                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="UWL-BI-mAY">
+                                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="UWL-BI-mAY">
                                                     <size key="itemSize" width="128" height="128"/>
                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                 </collectionViewFlowLayout>
                                                 <cells/>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="5M5-JY-jOb" id="1OC-kP-un1"/>
+                                                    <outlet property="delegate" destination="5M5-JY-jOb" id="9gf-eR-Ywa"/>
+                                                </connections>
                                             </collectionView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Obsessed with Fahim MD's YouTube channel, love to go shopping on weekends and loveee food #foodielife" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7C-9n-Sr5">
                                                 <rect key="frame" x="25" y="481" width="364" height="51.5"/>
@@ -261,6 +265,8 @@
                         <outlet property="aboutMeLBl" destination="D7C-9n-Sr5" id="jIR-8j-jQa"/>
                         <outlet property="ageLbl" destination="7UY-ne-JR2" id="S5S-su-A1x"/>
                         <outlet property="bgView" destination="NWj-BI-g73" id="SDH-J9-M57"/>
+                        <outlet property="collectionView" destination="fyl-NG-nX6" id="y71-vA-BPb"/>
+                        <outlet property="collectionViewHeight" destination="kMw-Ea-VO6" id="7pV-fb-r8N"/>
                         <outlet property="editBtn" destination="T9L-me-A7i" id="0ee-Ju-JJG"/>
                         <outlet property="genderLbl" destination="nU2-pa-3wr" id="IRz-JK-xFr"/>
                         <outlet property="nameLbl" destination="M3b-g6-nYa" id="H7M-9Q-IjS"/>
@@ -424,20 +430,6 @@
                                                 <color key="textColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="OkB-Is-y6o">
-                                                <rect key="frame" x="25" y="464" width="364" height="1"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="1" id="QPp-al-m8A"/>
-                                                </constraints>
-                                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="QJF-V4-Qa1">
-                                                    <size key="itemSize" width="128" height="128"/>
-                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                </collectionViewFlowLayout>
-                                                <cells/>
-                                            </collectionView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Obsessed with Fahim MD's YouTube channel, love to go shopping on weekends and loveee food #foodielife" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dty-ud-Fb4">
                                                 <rect key="frame" x="25" y="481" width="364" height="51.5"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
@@ -479,39 +471,46 @@
                                                     </button>
                                                 </subviews>
                                             </stackView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oCC-lV-S90">
+                                                <rect key="frame" x="25" y="464" width="364" height="1"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="maa-DR-9pZ"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="VCi-8N-57P" firstAttribute="leading" secondItem="O3S-IZ-33t" secondAttribute="leading" constant="25" id="0Ft-D4-PNO"/>
                                             <constraint firstItem="u8L-X9-SeZ" firstAttribute="top" secondItem="dty-ud-Fb4" secondAttribute="bottom" constant="16" id="1R5-AA-9gp"/>
-                                            <constraint firstItem="dty-ud-Fb4" firstAttribute="top" secondItem="OkB-Is-y6o" secondAttribute="bottom" constant="16" id="7Xj-fk-jQM"/>
                                             <constraint firstItem="5T3-uO-Vwb" firstAttribute="top" secondItem="A6X-uq-Oup" secondAttribute="bottom" constant="25" id="8Hc-61-kYi"/>
                                             <constraint firstAttribute="trailing" secondItem="swe-9C-Z49" secondAttribute="trailing" id="AHS-DE-6h6"/>
                                             <constraint firstItem="GXS-GT-HNh" firstAttribute="leading" secondItem="u8L-X9-SeZ" secondAttribute="leading" id="Caz-BO-SHH"/>
                                             <constraint firstItem="bZZ-2z-Pub" firstAttribute="leading" secondItem="u8L-X9-SeZ" secondAttribute="leading" id="Gcd-Jk-TNX"/>
-                                            <constraint firstItem="dty-ud-Fb4" firstAttribute="leading" secondItem="OkB-Is-y6o" secondAttribute="leading" id="Gp5-wf-bzl"/>
+                                            <constraint firstItem="dty-ud-Fb4" firstAttribute="top" secondItem="oCC-lV-S90" secondAttribute="bottom" constant="16" id="I8l-5l-hCc"/>
                                             <constraint firstItem="C2e-5U-0Qj" firstAttribute="centerY" secondItem="kSm-SU-GQD" secondAttribute="centerY" id="Mc3-wE-bPb"/>
+                                            <constraint firstItem="dty-ud-Fb4" firstAttribute="trailing" secondItem="oCC-lV-S90" secondAttribute="trailing" id="NB8-ab-SzB"/>
                                             <constraint firstItem="kSm-SU-GQD" firstAttribute="leading" secondItem="5T3-uO-Vwb" secondAttribute="leading" id="PLn-9v-dR3"/>
                                             <constraint firstItem="A6X-uq-Oup" firstAttribute="leading" secondItem="O3S-IZ-33t" secondAttribute="leading" id="RSl-PF-Dan"/>
                                             <constraint firstItem="u8L-X9-SeZ" firstAttribute="leading" secondItem="dty-ud-Fb4" secondAttribute="leading" id="RZn-bC-otN"/>
-                                            <constraint firstItem="OkB-Is-y6o" firstAttribute="leading" secondItem="O3S-IZ-33t" secondAttribute="leading" constant="25" id="SaM-Fy-DoA"/>
+                                            <constraint firstItem="oCC-lV-S90" firstAttribute="leading" secondItem="O3S-IZ-33t" secondAttribute="leading" constant="25" id="SIx-K7-hYO"/>
                                             <constraint firstAttribute="bottom" secondItem="bZZ-2z-Pub" secondAttribute="bottom" constant="20" id="UA2-KX-qX8"/>
-                                            <constraint firstAttribute="trailing" secondItem="OkB-Is-y6o" secondAttribute="trailing" constant="25" id="YA8-55-dJq"/>
                                             <constraint firstAttribute="trailing" secondItem="SKa-1q-dCs" secondAttribute="trailing" constant="25" id="ZCb-zX-KO4"/>
                                             <constraint firstItem="SKa-1q-dCs" firstAttribute="centerY" secondItem="dIh-t8-SLV" secondAttribute="centerY" id="ajE-ed-YzP"/>
                                             <constraint firstItem="dIh-t8-SLV" firstAttribute="centerY" secondItem="VCi-8N-57P" secondAttribute="centerY" id="b1C-Qz-a12"/>
-                                            <constraint firstItem="OkB-Is-y6o" firstAttribute="top" secondItem="kSm-SU-GQD" secondAttribute="bottom" constant="10" id="cge-xa-sFY"/>
+                                            <constraint firstAttribute="trailing" secondItem="oCC-lV-S90" secondAttribute="trailing" constant="25" id="fsb-Co-D5E"/>
                                             <constraint firstItem="A6X-uq-Oup" firstAttribute="top" secondItem="O3S-IZ-33t" secondAttribute="top" id="hWK-63-jBr"/>
                                             <constraint firstItem="VCi-8N-57P" firstAttribute="centerY" secondItem="swe-9C-Z49" secondAttribute="centerY" id="jue-zf-2Q7"/>
                                             <constraint firstItem="5T3-uO-Vwb" firstAttribute="leading" secondItem="O3S-IZ-33t" secondAttribute="leading" constant="25" id="kNi-dO-7HP"/>
                                             <constraint firstItem="swe-9C-Z49" firstAttribute="bottom" secondItem="A6X-uq-Oup" secondAttribute="bottom" id="lGS-OM-L3x"/>
                                             <constraint firstAttribute="trailing" secondItem="A6X-uq-Oup" secondAttribute="trailing" id="m37-4z-aPx"/>
+                                            <constraint firstItem="dty-ud-Fb4" firstAttribute="leading" secondItem="oCC-lV-S90" secondAttribute="leading" id="mKp-nD-U8s"/>
                                             <constraint firstItem="C2e-5U-0Qj" firstAttribute="leading" secondItem="kSm-SU-GQD" secondAttribute="trailing" constant="3" id="qQ1-f1-yDz"/>
                                             <constraint firstItem="dIh-t8-SLV" firstAttribute="leading" secondItem="VCi-8N-57P" secondAttribute="trailing" constant="20" id="rsB-0F-cJv"/>
                                             <constraint firstItem="kSm-SU-GQD" firstAttribute="top" secondItem="5T3-uO-Vwb" secondAttribute="bottom" constant="3" id="s3A-UH-KIu"/>
+                                            <constraint firstItem="oCC-lV-S90" firstAttribute="top" secondItem="kSm-SU-GQD" secondAttribute="bottom" constant="10" id="slH-4n-5XX"/>
                                             <constraint firstItem="swe-9C-Z49" firstAttribute="leading" secondItem="O3S-IZ-33t" secondAttribute="leading" id="tx2-y1-ZKl"/>
                                             <constraint firstItem="bZZ-2z-Pub" firstAttribute="top" secondItem="u8L-X9-SeZ" secondAttribute="bottom" constant="5" id="xDe-cL-gsV"/>
-                                            <constraint firstItem="dty-ud-Fb4" firstAttribute="trailing" secondItem="OkB-Is-y6o" secondAttribute="trailing" id="yZc-Cd-Ttf"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -556,7 +555,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uec-ed-jXi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2649" y="108"/>
+            <point key="canvasLocation" x="2647.826086956522" y="107.8125"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Mkd-Yl-Xav">

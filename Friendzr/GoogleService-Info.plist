@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>926947993090-o1kcsgkbqvd4h5d2lhlkprsuk91jeo03.apps.googleusercontent.com</string>
+	<string>43837105804-ms94r0cs6lnp60r6oau5pc2jgmb0sv86.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.926947993090-o1kcsgkbqvd4h5d2lhlkprsuk91jeo03</string>
+	<string>com.googleusercontent.apps.43837105804-ms94r0cs6lnp60r6oau5pc2jgmb0sv86</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>43837105804-drl7sqkat7pohcgtufvea4gsrd1emmi5.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDaIib5t59pM3k5WMSB1fnajvVyZZqV19o</string>
+	<string>AIzaSyBuHQVBvPaf1ckpnaKbbwSBo6OK6p5q9GA</string>
 	<key>GCM_SENDER_ID</key>
-	<string>926947993090</string>
+	<string>43837105804</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.Friendzr-ios</string>
 	<key>PROJECT_ID</key>
-	<string>friendzr-296f0</string>
+	<string>friendzr-1631017594822</string>
 	<key>STORAGE_BUCKET</key>
-	<string>friendzr-296f0.appspot.com</string>
+	<string>friendzr-1631017594822.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:926947993090:ios:ace7d10a149743aa5be91b</string>
+	<string>1:43837105804:ios:ff0005cdb8785731c3bda9</string>
 </dict>
 </plist>

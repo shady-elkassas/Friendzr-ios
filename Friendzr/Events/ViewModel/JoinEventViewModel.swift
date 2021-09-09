@@ -20,13 +20,13 @@ class JoinEventViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Add event
-    func joinEvent(ByEventid eventid:Int, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+    func joinEvent(ByEventid eventid:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         
         let url = URLs.baseURLFirst + "Events/joinEvent"
         let headers = RequestComponent.headerComponent([.type,.authorization])
-        let bodyData = "EventDataid=\(eventid)".data(using: .utf8)
-        
-        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: bodyData, andHeaders: headers) { (data,error) in
+        let parameters:[String : Any] = ["EventDataid": eventid]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<EventModel>().map(JSON: data!) else {
                 self.errorMsg = error!
                 completion(self.errorMsg, nil)

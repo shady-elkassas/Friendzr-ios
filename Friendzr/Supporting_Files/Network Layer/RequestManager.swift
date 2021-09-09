@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 class RequestManager  {
-    func request(fromUrl url: String, byMethod method: String? = nil, withParameters parameters: Data? = nil
+    func request(fromUrl url: String, byMethod method: String? = nil, withParameters parameters: [String:Any]?
                  , andHeaders headers: HTTPHeaders?, completion: @escaping (_ response:[String:Any]?, _ error: String?) -> ()) {
         
         let file = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
@@ -22,7 +22,13 @@ class RequestManager  {
         var urlRequest = URLRequest(url: url)
         
         urlRequest.httpMethod = method
-        urlRequest.httpBody = parameters
+        
+        var bodyData = Data()
+        for (key,value) in parameters ?? [:] {
+            bodyData.append("\(key)=\(value)&".data(using: .utf8)!)
+        }
+        
+        urlRequest.httpBody = bodyData.dropLast()
         
         urlRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         urlRequest.addValue("Bearer \(Defaults.token)", forHTTPHeaderField: "Authorization")
@@ -45,7 +51,7 @@ class RequestManager  {
                 print(httpResponse!)
                 print("statusCode: \(code!)")
                 print("**MD** response: \(response)")
-
+                
                 if code == 200 || code == 201 {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
@@ -56,24 +62,15 @@ class RequestManager  {
                         print(error)
                     }
                 }else {
-//                    if code == 400 {
-//                        //invalid url: your sent a request that this server could not understand.
-//                        completion([:],"invalidurl")//valJsonBlock["error"] as? String")
-//                        
-//                    } else if code == 401 {
-//                        //Unauthorized error: the page you were trying to access cannot be loaded until you first log in with a valid user ID and password
-//                        completion([:],"Unauthorized")//valJsonBlock["error"] as? String)
-                        
-//                    }else {
-                        do {
-                            let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-                            print(json)
-                            let valJsonBlock = json as! [String : Any]
-                            completion([:],valJsonBlock["message"] as? String)
-                        } catch {
-                            print(error)
-                        }
-//                    }
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                        print(json)
+                        let valJsonBlock = json as! [String : Any]
+                        completion([:],valJsonBlock["message"] as? String)
+                    } catch {
+                        print(error)
+                    }
+                    //                    }
                 }
             }
         })

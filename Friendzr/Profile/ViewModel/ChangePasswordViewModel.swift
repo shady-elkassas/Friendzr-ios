@@ -47,8 +47,9 @@ class ChangePasswordViewModel {
         
         let url = URLs.baseURLFirst + "Account/changepass"
         let headers = RequestComponent.headerComponent([.authorization,.type])
-        let parameters = "oldPassword=\(oldPassword)&newPassword=\(newPassword)".data(using: .utf8)
-        
+//        let parameters = "oldPassword=\(oldPassword)&newPassword=\(newPassword)".data(using: .utf8)
+        let parameters:[String : Any] = ["oldPassword": oldPassword,"newPassword":newPassword]
+
         if confirmNewPassword != newPassword {
             self.errorMsg = confirmNewPasswordViewModel.confirmErrorMessage
             completion(self.errorMsg, nil)
