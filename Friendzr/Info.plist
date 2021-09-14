@@ -25,7 +25,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.43837105804-ms94r0cs6lnp60r6oau5pc2jgmb0sv86</string>
+				<string>com.googleusercontent.apps.43837105804-he5jci75mbf7jrhush4cps45plripdvp</string>
 			</array>
 		</dict>
 		<dict>
@@ -38,11 +38,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>546251653295074</string>
 	<key>FacebookDisplayName</key>
 	<string>Friendzr</string>
+	<key>FirebaseMessagingAutoInitEnabled</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>comgooglemaps</string>
@@ -135,6 +137,7 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
+		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

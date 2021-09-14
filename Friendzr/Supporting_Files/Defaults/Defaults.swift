@@ -30,6 +30,16 @@ class Defaults {
         }
     }
     
+    static var fcmToken: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "fcmToken")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "fcmToken") ?? ""
+        }
+    }
+    
     static var isVerified: Bool {
         set{
             UserDefaults.standard.set(newValue, forKey: "isVerified")
@@ -187,6 +197,7 @@ class Defaults {
         defaults.removeObject(forKey: "gender")
         defaults.removeObject(forKey: "birthdate")
         defaults.removeObject(forKey: "interestIds")
+        defaults.removeObject(forKey: "fcmToken")
 
         if let token = AccessToken.current,
            !token.isExpired {

@@ -18,7 +18,7 @@ class EditProfileViewModel {
     let genderViewModel = GenderViewModel()
     let bioViewModel = BioViewModel()
     let birthdateViewModel = BirthdateViewModel()
-//    let userImageViewModel = UserImageViewModel()
+    //    let userImageViewModel = UserImageViewModel()
     let generatedUserNameViewModel = GeneratedUserNameViewModel()
     
     // Fields that bind to our view's
@@ -37,16 +37,16 @@ class EditProfileViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Edit Profile
-    func editProfile(withUserName userName:String,AndEmail email:String,AndGender gender:String,AndGeneratedUserName generatedUserName:String,AndBio bio:String,AndBirthdate birthdate:String,AndUserImage userImage:String,tagsId:[String],completion: @escaping (_ error: String?, _ data: ProfileObj?) -> ()) {
+    func editProfile(withUserName userName:String,AndEmail email:String,AndGender gender:String,AndGeneratedUserName generatedUserName:String,AndBio bio:String,AndBirthdate birthdate:String,tagsId:[String],attachedImg:Bool,AndUserImage userImage:UIImage,completion: @escaping (_ error: String?, _ data: ProfileObj?) -> ()) {
         
         userNameViewModel.data = userName
         emailViewModel.data = email
         genderViewModel.data = gender
         bioViewModel.data = bio
         birthdateViewModel.data = birthdate
-//        userImageViewModel.data = userImage
+        //        userImageViewModel.data = userImage
         generatedUserNameViewModel.data = generatedUserName
-
+        
         guard validateEditProfileCredentials() else {
             completion(errorMsg, nil)
             return
@@ -54,35 +54,65 @@ class EditProfileViewModel {
         
         let url = URLs.baseURLFirst + "Account/update"
         let headers = RequestComponent.headerComponent([.type,.authorization])
-        let parms:[String:Any] = ["Gender":gender,"bio":bio,"birthdate":birthdate,"Username":userName,"Email":email,"listoftags":tagsId]
         
-//        if attachedImg {
-//            guard let urlRequest = URL(string: url) else { return }
-//            var request = URLRequest(url: urlRequest)
-//            var body = Data()
-//            let boundary = generateBoundaryString()
-//            headers["Content-Type"] = "multipart/form-data; boundary=\(boundary)"
-//            let imageData = userImage.jpegData(compressionQuality: 0.5)
-//            body.append(imageData!)
-//
-//            let session = URLSession.shared
-//            session.dataTask(with: request) { (data, response, error) in
-//                if let response = response {
-//                    print(response)
-//                }
-//
-//                if let data = data {
-//                    do {
-//                        let json = try JSONSerialization.jsonObject(with: data, options: [])
-//                        print(json)
-//                    } catch {
-//                        print(error)
-//                    }
-//                }
-//            }
-//        }else {
-            RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parms, andHeaders: headers) { (data,error) in
-
+        
+        guard let dataList = try? JSONSerialization.data(withJSONObject: tagsId, options: []) else {return}
+        let listoftag = NSString(data: dataList, encoding: String.Encoding.utf8.rawValue)
+        let listoftagStr = String(describing: listoftag)
+        let parameters:[String:Any] = ["Gender":gender,"bio":bio,"birthdate":birthdate,"Username":userName,"Email":email,"listoftags[]": listoftagStr]
+        
+        if attachedImg {
+            guard let mediaImage = Media(withImage: userImage, forKey: "UserImags") else { return }
+            guard let urlRequest = URL(string: url) else { return }
+            var request = URLRequest(url: urlRequest)
+            request.httpMethod = "POST"
+            let boundary = generateBoundary()
+            
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            request.addValue("Bearer \(Defaults.token)", forHTTPHeaderField: "Authorization")
+            let dataBody = createDataBody(withParameters: parameters, media: [mediaImage], boundary: boundary)
+            request.httpBody = dataBody
+            
+            print(dataBody as Data)
+            
+            let session = URLSession.shared
+            
+            session.dataTask(with: request) { (data, response, error) in
+                
+                let httpResponse = response as? HTTPURLResponse
+                let code  = httpResponse?.statusCode
+                print(httpResponse!)
+                print("statusCode: \(code!)")
+                print("**MD** response: \(response)")
+                
+                if let data = data {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        let valJsonBlock = json as! [String : Any]
+                        guard let userResponse = Mapper<ProfileModel>().map(JSON: valJsonBlock) else {
+                            completion(self.errorMsg, nil)
+                            return
+                        }
+                        
+                        if let error = userResponse.message {
+                            print ("Error while fetching data \(error)")
+                            self.errorMsg = error
+                            completion(self.errorMsg,nil)
+                        }
+                        else {
+                            // When set the listener (if any) will be notified
+                            if let toAdd = userResponse.data {
+                                completion(nil,toAdd)
+                            }
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+            }.resume()
+        }else {
+            RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+                
                 guard let userResponse = Mapper<ProfileModel>().map(JSON: data!) else {
                     self.errorMsg = error!
                     completion(self.errorMsg, nil)
@@ -100,7 +130,7 @@ class EditProfileViewModel {
                     }
                 }
             }
-//        }
+        }
     }
     
     
@@ -118,5 +148,37 @@ class EditProfileViewModel {
             }
         }
         return "application/octet-stream"
+    }
+    
+    func createDataBody(withParameters params: Parameters?, media: [Media]?, boundary: String) -> Data {
+        
+        let lineBreak = "\r\n"
+        var body = Data()
+        
+        if let parameters = params {
+            for (key, value) in parameters {
+                body.append("--\(boundary + lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(key)\"\(lineBreak + lineBreak)")
+                body.append("\("\(value)" + lineBreak)")
+            }
+        }
+        
+        if let media = media {
+            for photo in media {
+                body.append("--\(boundary + lineBreak)")
+                body.append("Content-Disposition: form-data; name=\"\(photo.key)\"; filename=\"\(photo.filename)\"\(lineBreak)")
+                body.append("Content-Type: \(photo.mimeType + lineBreak + lineBreak)")
+                body.append(photo.data)
+                body.append(lineBreak)
+            }
+        }
+        
+        body.append("--\(boundary)--\(lineBreak)")
+        
+        return body
+    }
+    
+    func generateBoundary() -> String {
+        return "Boundary-\(NSUUID().uuidString)"
     }
 }

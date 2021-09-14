@@ -59,10 +59,10 @@ class AddEventViewModel {
         
         let url = URLs.baseURLFirst + "Events/AddEventData"
         let headers = RequestComponent.headerComponent([.type,.authorization])
-        let parameters:[String : Any] = ["Title": title,"description":description,"status":status,"categorieId":categoryId,"lang":lang,"lat":lat,"totalnumbert":totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto]
+        let parameters:[String : Any] = ["Title": title,"description":description,"status":status,"categoryid":categoryId,"lang":lang,"lat":lat,"totalnumbert": totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto]
         
         if attachedImg {
-            guard let mediaImage = Media(withImage: image, forKey: "image") else { return }
+            guard let mediaImage = Media(withImage: image, forKey: "Eventimage") else { return }
             guard let urlRequest = URL(string: url) else { return }
             var request = URLRequest(url: urlRequest)
             request.httpMethod = "POST"

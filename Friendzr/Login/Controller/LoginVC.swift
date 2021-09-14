@@ -28,7 +28,7 @@ class LoginVC: UIViewController {
     @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var showPasswordBtn: UIButton!
     
-    let signInConfig = GIDConfiguration.init(clientID: "926947993090-o1kcsgkbqvd4h5d2lhlkprsuk91jeo03.apps.googleusercontent.com")
+    let signInConfig = GIDConfiguration.init(clientID: "43837105804-he5jci75mbf7jrhush4cps45plripdvp.apps.googleusercontent.com")
     var UserFBID = ""
     var UserFBMobile = ""
     var UserFBEmail = ""
@@ -46,12 +46,7 @@ class LoginVC: UIViewController {
     var UserG_userName = ""
     var socialMediaImge = ""
     
-    var UserTwitterID = ""
-    var UserTwitterEmail = ""
-    var UserTwitterName = ""
-    var UserTwitterToken = ""
-    
-//    let socialMediaVM: SocialMediaLoginViewModel = SocialMediaLoginViewModel()
+    let socialMediaVM: SocialMediaLoginViewModel = SocialMediaLoginViewModel()
     var loginVM:LoginViewModel = LoginViewModel()
     
     //MARK: - Life Cycle
@@ -147,6 +142,22 @@ class LoginVC: UIViewController {
                     let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
                     
                     print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
+                    
+                    self.showLoading()
+                    self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName) { (error, data) in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let data = data else {return}
+                        Defaults.token = data.token
+                        Defaults.initUser(user: data)
+                        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: nil)
+                        
+                        Router().toHome()
+                    }
                 }
                 
             }
@@ -157,7 +168,7 @@ class LoginVC: UIViewController {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
-
+        
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
@@ -171,10 +182,6 @@ class LoginVC: UIViewController {
         
         emailView.cornerRadiusView(radius: 6)
         passwordView.cornerRadiusView(radius: 6)
-        
-//        updateTextField(iView: emailView, txtField: emailTxt, placeholder: "Email", titleLbl: "Email")
-//        updateTextField(iView: passwordView, txtField: passwordTxt, placeholder: "Password", titleLbl: "Password")
-
         facebookView.cornerRadiusView(radius: 6)
         googleView.cornerRadiusView(radius: 6)
         appleView.cornerRadiusView(radius: 6)
@@ -230,11 +237,26 @@ extension LoginVC {
                     }
                     
                     print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
+                    
+                    self.showLoading()
+                    self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName) { (error, data) in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let data = data else {return}
+                        Defaults.token = data.token
+                        Defaults.initUser(user: data)
+                        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: nil)
+                        Router().toHome()
+                    }
                 }
             })
         }
     }
- }
+}
 
 @available(iOS 13.0, *)
 extension LoginVC: ASAuthorizationControllerDelegate {
@@ -297,55 +319,34 @@ extension LoginVC: ASAuthorizationControllerDelegate {
     
     private func showResultViewController(userIdentifier: String, fullName: PersonNameComponents?, email: String?) {
         
-//        DispatchQueue.main.async {
-//            self.showLoading()
-//            self.socialMediaVM.SocialMediaLogin(BySocialMediaId: userIdentifier) { (error, data) in
-//                if let error = error {
-//                    var usernameApple = "Apple User"
-//                    var useremailApple = userIdentifier
-//                    if let givenName = fullName?.givenName {
-//                        usernameApple = givenName
-//                    }
-//
-//                    if let email = email {
-//                        useremailApple = email
-//                    }
-//                    self.socialMediaVM.SocialMediaRegisteration(withUserName:  usernameApple, AndMobile: "", AndSocialMediaId:  userIdentifier , AndSocialMediaType: "APPLE", imgURL: "", email:  useremailApple) { (error, data) in
-//                        self.hideLoading()
-//                        if error != nil && error != "" {
-//                            self.showAlert(withMessage: error!)
-//                        }
-//                        guard let data = data else {return}
-//                        Defaults.token = data.token
-//                        Defaults.initUser(user: data)
-//                        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: nil)
-//                        if data.user?.isVerified == false {
-//                            Router().toVerification(code:data.smsToken)
-//                        }else {
-//                            Router().toHome()
-//                        }
-//                        return
-//                    }
-//
-//                    return
-//                }
-//
-//                guard let data = data else {return}
-//                Defaults.token = data.token
-//                Defaults.initUser(user: data)
-//                NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: nil)
-//                self.hideLoading()
-//                if data.user?.isVerified == false {
-//                    Router().toVerification(code:data.smsToken)
-//                }else {
-//                    Router().toHome()
-//                }
-//                //                        }
-//            }
-//
-//        }
+        var usernameApple = "Apple User"
+        var useremailApple = userIdentifier
         
+        if let givenName = fullName?.givenName {
+            usernameApple = givenName
+        }
         
+        if let email = email {
+            useremailApple = email
+        }
+        
+        DispatchQueue.main.async {
+            self.showLoading()
+            self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
+                self.hideLoading()
+                if let error = error {
+                    self.showAlert(withMessage: error)
+                    return
+                }
+                
+                guard let data = data else {return}
+                Defaults.token = data.token
+                Defaults.initUser(user: data)
+                NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: nil)
+                
+                Router().toHome()
+            }
+        }
     }
     
     private func showPasswordCredentialAlert(username: String, password: String) {

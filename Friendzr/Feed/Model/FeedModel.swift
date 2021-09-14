@@ -8,7 +8,7 @@
 import Foundation
 import ObjectMapper
 
-typealias UserFeedList = [UserFeedObj]
+typealias UsersList = [UserFeedObj]
 
 class FeedModel: Mappable {
     
@@ -25,6 +25,7 @@ class FeedModel: Mappable {
         message  <- map["message"]
     }
 }
+
 class UserFeedObj: Mappable {
     
     var userId: String?
@@ -33,6 +34,8 @@ class UserFeedObj: Mappable {
     var displayedUserName: String?
     var email: String?
     var userName: String?
+    var image: String?
+    var key: Int?
 
     required init?(map: Map) {
     }
@@ -44,5 +47,7 @@ class UserFeedObj: Mappable {
         displayedUserName    <- map["displayedUserName"]
         email    <- map["email"]
         userName    <- map["userName"]
+        image    <- map["image"]
+        key    <- map["key"]
     }
 }

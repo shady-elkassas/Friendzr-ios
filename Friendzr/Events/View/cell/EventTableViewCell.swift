@@ -21,6 +21,7 @@ class EventTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        containerView.setBorder()
         containerView.cornerRadiusView(radius: 12)
         bgView.setCornerforBottom()
         eventImg.cornerRadiusView(radius: 12)

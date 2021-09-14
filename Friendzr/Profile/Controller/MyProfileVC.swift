@@ -60,11 +60,9 @@ class MyProfileVC: UIViewController {
                 collectionView.delegate = self
                 collectionView.dataSource = self
                 collectionView.reloadData()
-                
-                let tagsCount = value.listoftagsmodel?.count
-                
-                collectionViewHeight.constant = CGFloat(((tagsCount! / 2) * 30))
                 self.setProfileData()
+                let tagsCount = value.listoftagsmodel?.count
+                collectionViewHeight.constant = CGFloat(((tagsCount! / 2) * 30))
             }
         }
         
@@ -87,12 +85,9 @@ class MyProfileVC: UIViewController {
         aboutMeLBl.text = model?.bio
         userNameLbl.text = model?.userName
         nameLbl.text = model?.userName
-//        ageLbl.text = model?.
+        ageLbl.text = "\(model?.age ?? 0)"
         genderLbl.text = model?.gender
         profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
-        
-        
-        
     }
     
     //MARK: - Actions

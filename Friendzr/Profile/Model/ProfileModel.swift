@@ -51,6 +51,7 @@ class ProfileObj: Mappable {
         key <- map["key"]
         lang <- map["lang"]
         lat <- map["lat"]
+        age <- map["age"]
     }
     
     
@@ -73,6 +74,7 @@ class ProfileObj: Mappable {
     var key = ""
     var lang = ""
     var lat = ""
+    var age = 0
 }
 
 class ChangeMobileModel: Mappable {

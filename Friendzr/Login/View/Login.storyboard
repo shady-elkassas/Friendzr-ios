@@ -183,8 +183,8 @@
                                                                     <constraint firstAttribute="height" constant="15" id="bbJ-Xe-kgA"/>
                                                                 </constraints>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SIGN UP WITH FACEBOOK" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KUY-xt-1c8">
-                                                                <rect key="frame" x="99.5" y="14.5" width="165.5" height="15"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SIGN IN WITH FACEBOOK" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KUY-xt-1c8">
+                                                                <rect key="frame" x="101.5" y="14.5" width="161" height="15"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
@@ -210,8 +210,8 @@
                                                                     <constraint firstAttribute="height" constant="15" id="dRi-c8-4LU"/>
                                                                 </constraints>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SIGN UP WITH GOOGLE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zfc-5m-HeB">
-                                                                <rect key="frame" x="108" y="14.5" width="148" height="15"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SIGN IN WITH GOOGLE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zfc-5m-HeB">
+                                                                <rect key="frame" x="110.5" y="14.5" width="143.5" height="15"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
                                                                 <color key="textColor" red="0.41176470590000003" green="0.41176470590000003" blue="0.41176470590000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -234,8 +234,8 @@
                                                                     <constraint firstAttribute="width" constant="15" id="SNE-i0-88b"/>
                                                                 </constraints>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SIGN UP WITH APPLE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MSa-tt-xuH">
-                                                                <rect key="frame" x="114" y="14.5" width="136" height="15"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SIGN IN WITH APPLE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MSa-tt-xuH">
+                                                                <rect key="frame" x="116.5" y="14.5" width="131.5" height="15"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <nil key="highlightedColor"/>
@@ -540,17 +540,6 @@
             <point key="canvasLocation" x="3522" y="331"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="CnX-OK-17D">
-            <size key="intrinsicContentSize" width="40.5" height="19"/>
-        </designable>
-        <designable name="gF8-o7-Qzf">
-            <size key="intrinsicContentSize" width="69" height="18"/>
-        </designable>
-        <designable name="vgO-eY-COc">
-            <size key="intrinsicContentSize" width="40.5" height="19"/>
-        </designable>
-    </designables>
     <resources>
         <image name="apple_ic" width="32" height="32"/>
         <image name="facebook_ic" width="18.5" height="18.5"/>

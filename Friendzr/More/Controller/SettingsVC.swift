@@ -120,18 +120,6 @@ class SettingsVC: UIViewController {
             }
         }
         
-        deleteAlertView?.HandleUnConfirmBtn = {
-            // handling code
-            UIView.animate(withDuration: 0.3, animations: {
-                self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.deleteAlertView?.alpha = 0
-            }) { (success: Bool) in
-                self.deleteAlertView?.removeFromSuperview()
-                self.deleteAlertView?.alpha = 1
-                self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
         self.view.addSubview((deleteAlertView)!)
     }
 }

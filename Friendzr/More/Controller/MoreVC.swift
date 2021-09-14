@@ -50,6 +50,8 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     }
     
     func setupUserData() {
+        profileImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 2)
+        profileImg.cornerRadiusForHeight()
         profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "avatar"))
         nameLbl.text = Defaults.userName
     }

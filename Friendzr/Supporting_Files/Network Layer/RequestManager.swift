@@ -29,7 +29,7 @@ class RequestManager  {
         }
         
         urlRequest.httpBody = bodyData.dropLast()
-        
+        print(String(data: bodyData.dropLast(), encoding: .utf8)!)
         urlRequest.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         urlRequest.addValue("Bearer \(Defaults.token)", forHTTPHeaderField: "Authorization")
         

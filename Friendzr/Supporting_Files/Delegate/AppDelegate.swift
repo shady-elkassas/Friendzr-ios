@@ -22,6 +22,7 @@ import FirebaseCrashlytics
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    let gcmMessageIDKey = "gcm.message_id"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -36,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
-        
+
         if #available(iOS 13, *) {
         } else {
             Router().toSplachOne()
@@ -53,6 +54,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Show the app's signed-in state.
           }
         }
+        
+        if #available(iOS 10.0, *) {
+          // For iOS 10 display notification (sent via APNS)
+          UNUserNotificationCenter.current().delegate = self
+
+          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+          UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { _, _ in }
+          )
+        } else {
+          let settings: UIUserNotificationSettings =
+            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+          application.registerUserNotificationSettings(settings)
+        }
+        
+        Messaging.messaging().delegate = self
+        application.registerForRemoteNotifications()
         return true
     }
     
@@ -65,9 +84,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        // Called when the user discards a scene session.
-        // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-        // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
@@ -76,7 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
         let sourceApplication: String? = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String
-        let googleDidHandle = GIDSignIn.sharedInstance.handle((url as URL?)!)
+        let googleDidHandle = GIDSignIn.sharedInstance.handle(url as URL)
         let facebookDidHandle = ApplicationDelegate.shared.application(app, open: url, sourceApplication: sourceApplication, annotation: nil)
         
         return googleDidHandle || facebookDidHandle
@@ -127,5 +143,107 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        // Print message ID.
+        print("Notification Data is : \(userInfo.debugDescription)")
+        print("Notification Data is : \(userInfo.debugDescription)")
+        let alert = UIAlertController(title: "", message: "\(userInfo.debugDescription)", preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: "OK".localizedString, style: .default, handler: { action in
+            
+        })
+        let cancel = UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: { action in
+        })
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        DispatchQueue.main.async(execute: {
+            self.window?.rootViewController?.present(alert, animated: true)
+        })
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print(userInfo)
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        
+    }
+    
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult)
+                       -> Void) {
+      // If you are receiving a notification message while your app is in the background,
+      // this callback will not be fired till the user taps on the notification launching the application.
+      // TODO: Handle data of notification
+
+      // With swizzling disabled you must let Messaging know about the message, for Analytics
+      // Messaging.messaging().appDidReceiveMessage(userInfo)
+
+      // Print message ID.
+      if let messageID = userInfo[gcmMessageIDKey] {
+        print("Message ID: \(messageID)")
+      }
+
+      // Print full message.
+      print(userInfo)
+
+      completionHandler(UIBackgroundFetchResult.newData)
+    }
+
+    func application(_ application: UIApplication,
+    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+      Messaging.messaging().apnsToken = deviceToken
+    }
 }
 
+
+extension AppDelegate : MessagingDelegate{
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("Firebase registration token: \(String(describing: fcmToken))")
+        
+        Defaults.fcmToken = fcmToken!
+    }
+}
+
+@available(iOS 10, *)
+extension AppDelegate : UNUserNotificationCenterDelegate {
+    
+    // Receive displayed notifications for iOS 10 devices.
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = notification.request.content.userInfo
+        
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
+        
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print(userInfo)
+        
+        // Change this to your preferred presentation option
+        completionHandler([[.alert, .sound]])
+    }
+    
+    private func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print(userInfo)
+        
+        completionHandler([.alert, .badge, .sound])
+    }
+}

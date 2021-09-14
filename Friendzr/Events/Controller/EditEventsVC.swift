@@ -119,7 +119,7 @@ class EditEventsVC: UIViewController {
     
     @IBAction func saveBtn(_ sender: Any) {
         self.showLoading()
-        viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndImage: eventImage, AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime) { error, data in
+        viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
             
             self.hideLoading()
             if let error = error {
@@ -160,9 +160,8 @@ class EditEventsVC: UIViewController {
 //            present(settingsActionSheet, animated:true, completion:nil)
 //        }
         
-        self.eventImg.image = UIImage(named: "dominican republic")
-        self.eventImage = self.eventImg.image?.convertImageToBase64String() ?? ""
-        print(self.eventImage)
+        self.eventImg.image = UIImage(named: "bolivia")
+        self.attachedImg = true
     }
     
     @IBAction func switchAllDaysBtn(_ sender: Any) {

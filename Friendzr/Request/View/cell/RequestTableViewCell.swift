@@ -8,7 +8,7 @@
 import UIKit
 
 class RequestTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var friendRequestImg: UIImageView!
     @IBOutlet weak var friendRequestNameLbl: UILabel!
@@ -23,14 +23,14 @@ class RequestTableViewCell: UITableViewCell {
     var HandleDeleteBtn: (() -> ())?
     var HandleAcceptBtn: (() -> ())?
     var HandleMessageBtn: (() -> ())?
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         friendRequestImg.cornerRadiusForHeight()
         messageBtn.cornerRadiusView(radius: 6)
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
@@ -44,5 +44,4 @@ class RequestTableViewCell: UITableViewCell {
     @IBAction func messageBtn(_ sender: Any) {
         HandleMessageBtn?()
     }
-    
 }
