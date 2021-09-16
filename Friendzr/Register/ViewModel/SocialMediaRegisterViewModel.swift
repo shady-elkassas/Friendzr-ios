@@ -21,7 +21,7 @@ class SocialMediaRegisterViewModel {
     func socialMediaRegisterUser(withSocialMediaId socialMediaId:String,AndEmail email:String,username:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
         
         let url = URLs.baseURLFirst + "Authenticat/register"
-        let parameters:[String : Any] = ["UserId":socialMediaId,"email": email,"logintype":1,"FcmToken":Defaults.fcmToken,"username":username,"Password":"Password1234"]
+        let parameters:[String : Any] = ["UserId":socialMediaId,"email": email,"registertype":1,"FcmToken":Defaults.fcmToken,"username":username,"Password":"Password1234"]
         
         let headers = RequestComponent.headerComponent([.type])
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { data, error in

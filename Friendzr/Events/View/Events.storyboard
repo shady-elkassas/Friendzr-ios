@@ -515,7 +515,7 @@
                                 <rect key="frame" x="0.0" y="-56" width="414" height="1322"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ebq-RJ-wR1">
-                                        <rect key="frame" x="0.0" y="-100" width="414" height="1284.5"/>
+                                        <rect key="frame" x="0.0" y="-100" width="414" height="1049.5"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo_img" translatesAutoresizingMaskIntoConstraints="NO" id="i2t-hE-qlt">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="393.5"/>
@@ -614,8 +614,8 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="364" height="0.0"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <connections>
-                                                            <outlet property="dataSource" destination="00m-AZ-Wea" id="Bbv-PI-nvL"/>
-                                                            <outlet property="delegate" destination="00m-AZ-Wea" id="UBi-aN-dTy"/>
+                                                            <outlet property="dataSource" destination="00m-AZ-Wea" id="xjP-uc-n5e"/>
+                                                            <outlet property="delegate" destination="00m-AZ-Wea" id="MaI-cd-K5L"/>
                                                         </connections>
                                                     </tableView>
                                                 </subviews>
@@ -656,7 +656,7 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="754-0g-81S">
-                                                <rect key="frame" x="138" y="1214.5" width="138" height="40"/>
+                                                <rect key="frame" x="138" y="979.5" width="138" height="40"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cFs-8G-ykA">
                                                         <rect key="frame" x="0.0" y="0.0" width="138" height="40"/>
@@ -697,7 +697,7 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="khf-tp-S69">
-                                                <rect key="frame" x="25" y="884.5" width="364" height="300"/>
+                                                <rect key="frame" x="25" y="884.5" width="364" height="65"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attendees" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pIS-2V-vBf">
                                                         <rect key="frame" x="140" y="15" width="84" height="20"/>
@@ -706,7 +706,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="JFU-bu-sTA">
-                                                        <rect key="frame" x="0.0" y="43" width="364" height="249"/>
+                                                        <rect key="frame" x="0.0" y="43" width="364" height="14"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <connections>
                                                             <outlet property="dataSource" destination="00m-AZ-Wea" id="ayR-4F-5Lp"/>
@@ -716,7 +716,7 @@
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="300" id="83q-qq-4et"/>
+                                                    <constraint firstAttribute="height" constant="65" id="83q-qq-4et"/>
                                                     <constraint firstItem="pIS-2V-vBf" firstAttribute="top" secondItem="khf-tp-S69" secondAttribute="top" constant="15" id="8nh-Nr-CJ7"/>
                                                     <constraint firstItem="pIS-2V-vBf" firstAttribute="centerX" secondItem="khf-tp-S69" secondAttribute="centerX" id="AMJ-uG-DWK"/>
                                                     <constraint firstAttribute="trailing" secondItem="JFU-bu-sTA" secondAttribute="trailing" id="Hf0-L2-KQY"/>
@@ -796,11 +796,11 @@
                         <outlet property="editBtn" destination="cFs-8G-ykA" id="BIE-MD-Zgw"/>
                         <outlet property="eventImg" destination="i2t-hE-qlt" id="ova-08-8Pv"/>
                         <outlet property="interestsStatisticsView" destination="CHi-IY-LtZ" id="wgG-2W-Iby"/>
+                        <outlet property="interestsTableView" destination="8bA-XW-q1m" id="9Ql-MU-Rzu"/>
                         <outlet property="interestsViewHeight" destination="hcs-Du-rwz" id="NRO-VE-yj7"/>
                         <outlet property="joinBtn" destination="J72-IK-cyb" id="8ol-5W-0oN"/>
                         <outlet property="leaveBtn" destination="ANd-ec-8iz" id="oGS-Gz-bJV"/>
                         <outlet property="superView" destination="Ebq-RJ-wR1" id="tgq-Gb-dC6"/>
-                        <outlet property="tableView" destination="8bA-XW-q1m" id="jA0-yY-SwA"/>
                         <outlet property="timeCreateLbl" destination="k6r-AU-PgH" id="mf4-ih-EKS"/>
                     </connections>
                 </viewController>

@@ -12,9 +12,7 @@ import Alamofire
 
 
 class ChangePasswordViewModel {
-    
-    var changePasswordModel : UserObj? = nil
-    
+        
     // Initialise ViewModel's
     let oldPasswordViewModel = PasswordViewModel()
     let newPasswordViewModel = PasswordViewModel()
@@ -34,7 +32,7 @@ class ChangePasswordViewModel {
         return isSuccess
     }
     
-    func changePasswordRequest(witholdPassword oldPassword:String, AndNewPassword newPassword: String,AndConfirmNewPassword confirmNewPassword :String ,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
+    func changePasswordRequest(witholdPassword oldPassword:String, AndNewPassword newPassword: String,AndConfirmNewPassword confirmNewPassword :String ,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         
         oldPasswordViewModel.data = oldPassword
         newPasswordViewModel.data = newPassword
@@ -47,7 +45,6 @@ class ChangePasswordViewModel {
         
         let url = URLs.baseURLFirst + "Account/changepass"
         let headers = RequestComponent.headerComponent([.authorization,.type])
-//        let parameters = "oldPassword=\(oldPassword)&newPassword=\(newPassword)".data(using: .utf8)
         let parameters:[String : Any] = ["oldPassword": oldPassword,"newPassword":newPassword]
 
         if confirmNewPassword != newPassword {
@@ -58,7 +55,7 @@ class ChangePasswordViewModel {
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
-            guard let changePasswordResponse = Mapper<ChangePasswordModel>().map(JSON: data!) else {
+            guard let changePasswordResponse = Mapper<ProfileModel>().map(JSON: data!) else {
                 self.errorMsg = error ?? ""
                 completion(self.errorMsg, nil)
                 return
@@ -72,7 +69,7 @@ class ChangePasswordViewModel {
             
             else {
                 // When set the listener (if any) will be notified
-                if let toAdd = changePasswordResponse.data {
+                if let toAdd = changePasswordResponse.message {
                     completion(nil,toAdd)
                 }
             }

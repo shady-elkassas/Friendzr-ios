@@ -35,6 +35,8 @@ class EditEventsVC: UIViewController {
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
     lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
     
+    lazy var deleteAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
+
     var dayname = ""
     var monthname = ""
     var nday = ""
@@ -50,6 +52,7 @@ class EditEventsVC: UIViewController {
     var eventImage:String = ""
     var eventModel:EventObj? = nil
     var viewmodel:EditEventViewModel = EditEventViewModel()
+    var deleteEventVM:DeleteEventViewModel = DeleteEventViewModel()
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -59,6 +62,7 @@ class EditEventsVC: UIViewController {
         setup()
         initBackButton()
         setupData()
+        initDeleteEventButton(btnColor: .red)
     }
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
@@ -72,23 +76,54 @@ class EditEventsVC: UIViewController {
         descriptionTxtView.cornerRadiusView(radius: 5)
         descriptionTxtView.delegate = self
         switchAllDays.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-
+    }
+    
+    func initDeleteEventButton(btnColor: UIColor? = .red) {
+        let button = UIButton.init(type: .custom)
+        button.setTitle("Delete Event", for: .normal)
+        button.setTitleColor(btnColor, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Montserrat-Medium", size: 12)
+        button.addTarget(self, action:  #selector(handleDeleteEvent), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
+    }
+    
+    @objc func handleDeleteEvent() {
         
-//        if switchAllDays.isOn {
-////            datesView.isHidden = true
-////            datesViewHeight.constant = 0
-//            startDateBtn.isHidden = true
-//            endDateBtn.isHidden = true
-//            startTimeBtn.isHidden = true
-//            endTimeBtn.isHidden = true
-//        }else {
-////            datesView.isHidden = false
-////            datesViewHeight.constant = 70
-//            startDateBtn.isHidden = false
-//            endDateBtn.isHidden = false
-//            startTimeBtn.isHidden = false
-//            endTimeBtn.isHidden = false
-//        }
+            deleteAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+
+            deleteAlertView?.titleLbl.text = "Confirm?".localizedString
+            deleteAlertView?.detailsLbl.text = "Are you sure you want to delete your event?".localizedString
+            
+            deleteAlertView?.HandleConfirmBtn = {
+                self.showLoading()
+                self.deleteEventVM.deleteEvent(ByEventid: self.eventModel?.id ?? "") { error, data in
+                    self.hideLoading()
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    
+                    guard let _ = data else {return}
+                    NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
+                        Router().toMore()
+                    })
+                }
+                
+                // handling code
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                    self.deleteAlertView?.alpha = 0
+                }) { (success: Bool) in
+                    self.deleteAlertView?.removeFromSuperview()
+                    self.deleteAlertView?.alpha = 1
+                    self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                }
+            }
+            
+            self.view.addSubview((deleteAlertView)!)
     }
     
     func setupData() {
@@ -96,10 +131,11 @@ class EditEventsVC: UIViewController {
         categoryNameLbl.text = eventModel?.categorie
         addTitleTxt.text = eventModel?.title
         
-        startDayLbl.text = eventModel?.eventdate?.formattedDate(with: "EEEE, MMM d,yyyy")
-        endDayLbl.text = eventModel?.eventdateto?.formattedDate(with: "EEEE, MMM d,yyyy")
-        startTimeLbl.text = eventModel?.timefrom?.formattedDate(with: "HH:mm a")
-        endTimeLbl.text = eventModel?.timeto?.formattedDate(with: "HH:mm a")
+        startDayLbl.text = eventModel?.eventdate
+        endDayLbl.text = eventModel?.eventdateto
+        startTimeLbl.text = eventModel?.timefrom
+        endTimeLbl.text = eventModel?.timeto
+        
         descriptionTxtView.text = eventModel?.descriptionEvent
         limitUsersTxt.text = "\(eventModel?.totalnumbert ?? 0)"
                 
@@ -107,12 +143,6 @@ class EditEventsVC: UIViewController {
         endDate = eventModel?.eventdateto ?? ""
         startTime = eventModel?.timefrom ?? ""
         endTime = eventModel?.timeto ?? ""
-
-        //Use image's path to create NSData
-        let url:URL = URL(string : (eventModel?.image)!)!
-        //Now use image to create into NSData format
-        let imageData = NSData(contentsOf: url)! as Data
-        eventImage = imageData.base64EncodedString(options: .lineLength64Characters)
     }
     
     //MARK: - Actions
@@ -128,7 +158,8 @@ class EditEventsVC: UIViewController {
             }
             
             guard let _ = data else {return}
-            self.view.makeToast("Edit Save successfully")
+            self.showAlert(withMessage: "Edit Save successfully")
+            NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
         }
     }
     

@@ -28,16 +28,18 @@ class AttendeesModel: Mappable {
 
 class AttendeesObj: Mappable {
     
-    var primaryId: Int?
+    var id: String?
     var stutus: Int?
     var userName: String?
+    var image:String?
     
     required init?(map: Map) {
     }
     // Mappable
     func mapping(map: Map) {
-        primaryId    <- map["primaryId"]
+        id    <- map["id"]
         userName   <- map["userName"]
         stutus <- map["stutus"]
+        image <- map["image"]
     }
 }

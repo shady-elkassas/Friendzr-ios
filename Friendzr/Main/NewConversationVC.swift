@@ -16,6 +16,8 @@ class NewConversationVC: UIViewController {
     
     //MARK: - Properties
     let cellID = "ContactsTableViewCell"
+    var viewmodel:AllFriendesViewModel = AllFriendesViewModel()
+    
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -26,6 +28,8 @@ class NewConversationVC: UIViewController {
         setupNavBar()
         setupSearchBar()
         setupViews()
+        
+        getAllFriends()
     }
     
     //MARK: - Helper
@@ -48,6 +52,29 @@ class NewConversationVC: UIViewController {
     func setupViews() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
     }
+    
+    
+    //MARK:- APIs
+    func getAllFriends() {
+        self.showLoading()
+        viewmodel.getAllFriendes()
+        viewmodel.friends.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                self.showAlert(withMessage: error)
+            }
+        }
+    }
 }
 
 //MARK: - Extensions
@@ -60,14 +87,19 @@ extension NewConversationVC : UISearchBarDelegate {
 
 extension NewConversationVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 9
+        return viewmodel.friends.value?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ContactsTableViewCell else {return UITableViewCell()}
-        if indexPath.row == 8 {
+        let model = viewmodel.friends.value?[indexPath.row]
+        cell.nameLbl.text = model?.userName
+        cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
+        
+        if indexPath.row == ((viewmodel.friends.value?.count ?? 0) - 1 ) {
             cell.underView.isHidden = true
         }
+        
         return cell
     }
 }
@@ -75,5 +107,12 @@ extension NewConversationVC: UITableViewDataSource {
 extension NewConversationVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = viewmodel.friends.value?[indexPath.row]
+        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+        vc.userID = model?.userid ?? ""
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

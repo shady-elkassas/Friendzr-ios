@@ -20,7 +20,7 @@ class FeedViewModel {
     
     func getAllUsers() {
         
-        let url = URLs.baseURLFirst + "FrindRequest/AllUsers"
+        let url = URLs.baseURLFirst + "FrindRequest/AllUsers?pageNumber=\(0)&pageSize=\(100)"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in

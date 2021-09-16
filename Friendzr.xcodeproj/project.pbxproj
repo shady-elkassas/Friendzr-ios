@@ -53,9 +53,21 @@
 		43119D7A26E4F08D00AD2260 /* LocationEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D7926E4F08D00AD2260 /* LocationEventViewModel.swift */; };
 		43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D7B26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift */; };
 		43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D7D26E4F6D100AD2260 /* AddEventViewModel.swift */; };
+		4320A64626F1FC7B003604EE /* AllFriendesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */; };
+		4320A64826F1FD50003604EE /* AllFriendesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64726F1FD50003604EE /* AllFriendesModel.swift */; };
+		4320A64A26F20E5D003604EE /* AllBlockedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64926F20E5D003604EE /* AllBlockedViewModel.swift */; };
+		4320A64C26F20FF7003604EE /* BlockedListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64B26F20FF7003604EE /* BlockedListVC.swift */; };
+		4320A64F26F21180003604EE /* BlockedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64D26F21180003604EE /* BlockedTableViewCell.swift */; };
+		4320A65026F21180003604EE /* BlockedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4320A64E26F21180003604EE /* BlockedTableViewCell.xib */; };
+		4320A65226F234BF003604EE /* UpdateLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A65126F234BF003604EE /* UpdateLocationViewModel.swift */; };
+		4325E20C26F0A048008F73C4 /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E20B26F0A048008F73C4 /* ChangePasswordVC.swift */; };
+		4325E21026F0AF34008F73C4 /* DeleteEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E20F26F0AF34008F73C4 /* DeleteEventViewModel.swift */; };
 		432940F926EE0EED0066BE87 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432940F826EE0EED0066BE87 /* FriendViewModel.swift */; };
 		432940FB26EE0FB60066BE87 /* FriendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432940FA26EE0FB60066BE87 /* FriendModel.swift */; };
 		4329410826EE44930066BE87 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4329410726EE44920066BE87 /* GoogleService-Info.plist */; };
+		432C6AD726F33BD60029FB89 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C6AD626F33BD60029FB89 /* TagView.swift */; };
+		432C6AD926F33BDF0029FB89 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C6AD826F33BDF0029FB89 /* TagListView.swift */; };
+		432C6ADB26F33BE70029FB89 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C6ADA26F33BE70029FB89 /* CloseButton.swift */; };
 		4330757026E75EDC002940DF /* AttendeesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4330756F26E75EDC002940DF /* AttendeesVC.swift */; };
 		4330757526E76CB3002940DF /* SeeMoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4330757326E76CB3002940DF /* SeeMoreTableViewCell.swift */; };
 		4330757626E76CB3002940DF /* SeeMoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4330757426E76CB3002940DF /* SeeMoreTableViewCell.xib */; };
@@ -281,9 +293,21 @@
 		43119D7926E4F08D00AD2260 /* LocationEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEventViewModel.swift; sourceTree = "<group>"; };
 		43119D7B26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotlalNumberEventViewModel.swift; sourceTree = "<group>"; };
 		43119D7D26E4F6D100AD2260 /* AddEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventViewModel.swift; sourceTree = "<group>"; };
+		4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFriendesViewModel.swift; sourceTree = "<group>"; };
+		4320A64726F1FD50003604EE /* AllFriendesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFriendesModel.swift; sourceTree = "<group>"; };
+		4320A64926F20E5D003604EE /* AllBlockedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllBlockedViewModel.swift; sourceTree = "<group>"; };
+		4320A64B26F20FF7003604EE /* BlockedListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedListVC.swift; sourceTree = "<group>"; };
+		4320A64D26F21180003604EE /* BlockedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedTableViewCell.swift; sourceTree = "<group>"; };
+		4320A64E26F21180003604EE /* BlockedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BlockedTableViewCell.xib; sourceTree = "<group>"; };
+		4320A65126F234BF003604EE /* UpdateLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateLocationViewModel.swift; sourceTree = "<group>"; };
+		4325E20B26F0A048008F73C4 /* ChangePasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
+		4325E20F26F0AF34008F73C4 /* DeleteEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteEventViewModel.swift; sourceTree = "<group>"; };
 		432940F826EE0EED0066BE87 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		432940FA26EE0FB60066BE87 /* FriendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendModel.swift; sourceTree = "<group>"; };
 		4329410726EE44920066BE87 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		432C6AD626F33BD60029FB89 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
+		432C6AD826F33BDF0029FB89 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
+		432C6ADA26F33BE70029FB89 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		4330756F26E75EDC002940DF /* AttendeesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendeesVC.swift; sourceTree = "<group>"; };
 		4330757326E76CB3002940DF /* SeeMoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeMoreTableViewCell.swift; sourceTree = "<group>"; };
 		4330757426E76CB3002940DF /* SeeMoreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SeeMoreTableViewCell.xib; sourceTree = "<group>"; };
@@ -536,7 +560,9 @@
 		4308EB7C26EA34D600D71379 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				4336D13826DB95D20093C7A6 /* ChangePasswordViewModel.swift */,
 				4336D13426DB94ED0093C7A6 /* LogoutViewModel.swift */,
+				4320A64926F20E5D003604EE /* AllBlockedViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -557,6 +583,8 @@
 			children = (
 				430A350D26CA7A2200477A94 /* MoreTableViewCell.swift */,
 				430A350E26CA7A2200477A94 /* MoreTableViewCell.xib */,
+				4320A64D26F21180003604EE /* BlockedTableViewCell.swift */,
+				4320A64E26F21180003604EE /* BlockedTableViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -627,6 +655,7 @@
 			children = (
 				430D426A26D3BF1F00188E42 /* SimpleDataModel.swift */,
 				430D426C26D3C10900188E42 /* MessageItem.swift */,
+				4320A64726F1FD50003604EE /* AllFriendesModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -642,8 +671,20 @@
 		430D427B26D4D6D100188E42 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */,
+				4320A65126F234BF003604EE /* UpdateLocationViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		432C6AD526F33BCC0029FB89 /* TagListView */ = {
+			isa = PBXGroup;
+			children = (
+				432C6AD626F33BD60029FB89 /* TagView.swift */,
+				432C6AD826F33BDF0029FB89 /* TagListView.swift */,
+				432C6ADA26F33BE70029FB89 /* CloseButton.swift */,
+			);
+			path = TagListView;
 			sourceTree = "<group>";
 		};
 		4333DA6C26C3B19B0029F2B0 /* Login */ = {
@@ -749,7 +790,6 @@
 			children = (
 				4336D13A26DB96C20093C7A6 /* ProfileViewModel.swift */,
 				43119D6526E4BFDB00AD2260 /* EditProfileViewModel.swift */,
-				4336D13826DB95D20093C7A6 /* ChangePasswordViewModel.swift */,
 				43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */,
 				43119D6726E4C18A00AD2260 /* GenderViewModel.swift */,
 				43119D6926E4C1A000AD2260 /* BioViewModel.swift */,
@@ -877,6 +917,8 @@
 				4362889326C8FF9300B51E51 /* MoreVC.swift */,
 				430A351126CA8A1200477A94 /* TermsAndConditionsVC.swift */,
 				430A351326CA999800477A94 /* SettingsVC.swift */,
+				4325E20B26F0A048008F73C4 /* ChangePasswordVC.swift */,
+				4320A64B26F20FF7003604EE /* BlockedListVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -947,6 +989,7 @@
 			isa = PBXGroup;
 			children = (
 				430A34FF26CA496300477A94 /* CustomViews */,
+				432C6AD526F33BCC0029FB89 /* TagListView */,
 				436288AC26C93B5C00B51E51 /* Profile.storyboard */,
 				436460B326E8E8AA007C3F27 /* TagLabelCollectionViewCell.swift */,
 				436460B426E8E8AA007C3F27 /* TagLabelCollectionViewCell.xib */,
@@ -1315,6 +1358,7 @@
 				43F473B226E6175F001E4FAE /* AllCategoriesViewModel.swift */,
 				4330757B26E79299002940DF /* JoinEventViewModel.swift */,
 				437EE47126E8B39700765089 /* LeaveEventViewModel.swift */,
+				4325E20F26F0AF34008F73C4 /* DeleteEventViewModel.swift */,
 				4330757926E7918B002940DF /* AttendeesViewModel.swift */,
 				43119D7126E4EFEB00AD2260 /* TitleEventViewModel.swift */,
 				43119D7326E4F00000AD2260 /* DescriptionViewModel.swift */,
@@ -1438,6 +1482,7 @@
 				4382AC2626C27195005C1857 /* LaunchScreen.storyboard in Resources */,
 				4344107E26CD54E000F8233E /* CategoriesView.xib in Resources */,
 				43FBA21F26D4F105005F4FBF /* sound2.m4a in Resources */,
+				4320A65026F21180003604EE /* BlockedTableViewCell.xib in Resources */,
 				4362887F26C8FECB00B51E51 /* Map.storyboard in Resources */,
 				4382AC9D26C27FF2005C1857 /* Montserrat-Regular.ttf in Resources */,
 				43FBA22026D4F105005F4FBF /* sound1.m4a in Resources */,
@@ -1588,6 +1633,7 @@
 				4336D12926DB89370093C7A6 /* PasswordViewModel.swift in Sources */,
 				43FBA21126D4F105005F4FBF /* CustomLayoutExampleViewController.swift in Sources */,
 				436288B126C95B1300B51E51 /* FriendProfileVC.swift in Sources */,
+				4325E20C26F0A048008F73C4 /* ChangePasswordVC.swift in Sources */,
 				43FBA22826D4F105005F4FBF /* Lorem.swift in Sources */,
 				4382ACBE26C2AFF7005C1857 /* SplachFourVC.swift in Sources */,
 				4382AC6726C27D33005C1857 /* UIFontExtension.swift in Sources */,
@@ -1613,12 +1659,15 @@
 				430D425D26D38D9B00188E42 /* AttendeesTableViewCell.swift in Sources */,
 				430A350526CA504100477A94 /* EditMyProfileVC.swift in Sources */,
 				4308EB7A26EA0FD500D71379 /* FeedModel.swift in Sources */,
+				4320A65226F234BF003604EE /* UpdateLocationViewModel.swift in Sources */,
 				43F473BB26E63FAE001E4FAE /* EditEventViewModel.swift in Sources */,
 				43FBA22626D4F105005F4FBF /* CameraInputBarAccessoryView.swift in Sources */,
 				43FBA21B26D4F105005F4FBF /* UIViewController+Extensions.swift in Sources */,
 				43D545B726CBD8340064660A /* MagneticView.swift in Sources */,
+				432C6AD926F33BDF0029FB89 /* TagListView.swift in Sources */,
 				4344110226CE63AF00F8233E /* NewConversationVC.swift in Sources */,
 				430D427026D3C33B00188E42 /* AudioVC.swift in Sources */,
+				432C6ADB26F33BE70029FB89 /* CloseButton.swift in Sources */,
 				4309E73D26EF89FE001B227D /* SocialMediaRegisterViewModel.swift in Sources */,
 				436288AF26C93B7600B51E51 /* MyProfileVC.swift in Sources */,
 				4336D12726DB89210093C7A6 /* UserNameViewModel.swift in Sources */,
@@ -1637,7 +1686,9 @@
 				43FED20A26DE3FCF00255B96 /* EventModel.swift in Sources */,
 				43119D7026E4C1E800AD2260 /* GeneratedUserNameViewModel.swift in Sources */,
 				43FBA21926D4F105005F4FBF /* NavigationController.swift in Sources */,
+				4325E21026F0AF34008F73C4 /* DeleteEventViewModel.swift in Sources */,
 				43FBA22426D4F105005F4FBF /* CustomMessageContentCell.swift in Sources */,
+				4320A64626F1FC7B003604EE /* AllFriendesViewModel.swift in Sources */,
 				4336D11226DB7F490093C7A6 /* RequestComponent.swift in Sources */,
 				4308EB7E26EA34FC00D71379 /* LogoutModel.swift in Sources */,
 				43F473B726E61E7F001E4FAE /* InterestsViewModel.swift in Sources */,
@@ -1656,6 +1707,7 @@
 				43FBA22526D4F105005F4FBF /* MessagesView.swift in Sources */,
 				43F473B926E61EAA001E4FAE /* InterestsModel.swift in Sources */,
 				43FBA20B26D4F105005F4FBF /* MockMessage.swift in Sources */,
+				4320A64C26F20FF7003604EE /* BlockedListVC.swift in Sources */,
 				430A351226CA8A1200477A94 /* TermsAndConditionsVC.swift in Sources */,
 				4382ACA826C2843E005C1857 /* KeychainItem.swift in Sources */,
 				4382ACA426C28307005C1857 /* Router.swift in Sources */,
@@ -1666,6 +1718,7 @@
 				4336ACCA26D6377E00C8FD33 /* ShowImageVC.swift in Sources */,
 				43D545B926CBD8470064660A /* Node.swift in Sources */,
 				43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */,
+				432C6AD726F33BD60029FB89 /* TagView.swift in Sources */,
 				430A350F26CA7A2200477A94 /* MoreTableViewCell.swift in Sources */,
 				4382AC5526C27911005C1857 /* Language.swift in Sources */,
 				4336D13B26DB96C20093C7A6 /* ProfileViewModel.swift in Sources */,
@@ -1691,6 +1744,7 @@
 				43FBA22C26D5330F005F4FBF /* SendLocationChatVC.swift in Sources */,
 				43FBA21D26D4F105005F4FBF /* UIColor+Extensions.swift in Sources */,
 				43FBA20E26D4F105005F4FBF /* CustomLayoutSizeCalculator.swift in Sources */,
+				4320A64F26F21180003604EE /* BlockedTableViewCell.swift in Sources */,
 				43D545B526CBD81E0064660A /* Magnetic.swift in Sources */,
 				4382AC1926C27195005C1857 /* SceneDelegate.swift in Sources */,
 				43FBA22926D4F105005F4FBF /* SampleData.swift in Sources */,
@@ -1698,12 +1752,14 @@
 				4336D13126DB92830093C7A6 /* ForgetPasswordViewModel.swift in Sources */,
 				4330757A26E7918B002940DF /* AttendeesViewModel.swift in Sources */,
 				4330757026E75EDC002940DF /* AttendeesVC.swift in Sources */,
+				4320A64826F1FD50003604EE /* AllFriendesModel.swift in Sources */,
 				436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */,
 				4382ACBC26C2AFE9005C1857 /* SplachThreeVC.swift in Sources */,
 				43119D6C26E4C1BF00AD2260 /* BirthdateViewModel.swift in Sources */,
 				4336D11926DB7F780093C7A6 /* Defaults.swift in Sources */,
 				430A350326CA4A3600477A94 /* BlockAlertView.swift in Sources */,
 				4330757826E78AA1002940DF /* UIImageExtension.swift in Sources */,
+				4320A64A26F20E5D003604EE /* AllBlockedViewModel.swift in Sources */,
 				4308EB7826EA0FCD00D71379 /* FeedViewModel.swift in Sources */,
 				4336D11426DB7F570093C7A6 /* RequestManager.swift in Sources */,
 				430A352026CAB02700477A94 /* EventsVC.swift in Sources */,
@@ -1930,7 +1986,7 @@
 		};
 		4382AC4226C27195005C1857 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FEE62193B6EE621B033E5DF9 /* Pods-Friendzr.release.xcconfig */;
+			baseConfigurationReference = 06E1CB890D75E84719ECEFB5 /* Pods-Friendzr.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

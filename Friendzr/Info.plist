@@ -103,6 +103,8 @@
 	<string>This identifier will be used to deliver personalized ads to you.</string>
 	<key>RequestOpenAccess</key>
 	<true/>
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<false/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Black.ttf</string>

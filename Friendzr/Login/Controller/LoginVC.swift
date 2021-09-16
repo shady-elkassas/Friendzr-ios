@@ -6,7 +6,6 @@
 //
 
 import UIKit
-//import SkyFloatingLabelTextField
 import FBSDKCoreKit
 import FBSDKLoginKit
 import GoogleSignIn
@@ -63,6 +62,11 @@ class LoginVC: UIViewController {
         hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        performExistingAccountSetupFlows()
+    }
+    
     //MARK: - Actions
     @IBAction func loginBtn(_ sender: Any) {
         self.showLoading()
@@ -76,7 +80,11 @@ class LoginVC: UIViewController {
             Defaults.initUser(user: data)
             
             DispatchQueue.main.async {
-                Router().toHome()
+                if Defaults.needUpdate == 1 {
+                    Router().toEditProfileVC()
+                }else {
+                    Router().toHome()
+                }
             }
         }
     }
@@ -154,9 +162,14 @@ class LoginVC: UIViewController {
                         guard let data = data else {return}
                         Defaults.token = data.token
                         Defaults.initUser(user: data)
-                        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: nil)
                         
-                        Router().toHome()
+                        DispatchQueue.main.async {
+                            if Defaults.needUpdate == 1 {
+                                Router().toEditProfileVC()
+                            }else {
+                                Router().toHome()
+                            }
+                        }
                     }
                 }
                 
@@ -170,6 +183,20 @@ class LoginVC: UIViewController {
         request.requestedScopes = [.fullName, .email]
         
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+    
+    // - Tag: perform_appleid_password_request
+    /// Prompts the user if an existing iCloud Keychain credential or Apple ID credential is found.
+    func performExistingAccountSetupFlows() {
+        // Prepare requests for both Apple ID and password providers.
+        let requests = [ASAuthorizationAppleIDProvider().createRequest(),
+                        ASAuthorizationPasswordProvider().createRequest()]
+        
+        // Create an authorization controller with the given requests.
+        let authorizationController = ASAuthorizationController(authorizationRequests: requests)
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
@@ -249,8 +276,13 @@ extension LoginVC {
                         guard let data = data else {return}
                         Defaults.token = data.token
                         Defaults.initUser(user: data)
-                        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: nil)
-                        Router().toHome()
+                        DispatchQueue.main.async {
+                            if Defaults.needUpdate == 1 {
+                                Router().toEditProfileVC()
+                            }else {
+                                Router().toHome()
+                            }
+                        }
                     }
                 }
             })
@@ -262,7 +294,6 @@ extension LoginVC {
 extension LoginVC: ASAuthorizationControllerDelegate {
     /// - Tag: did_complete_authorization
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        
         switch authorization.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
             
@@ -311,9 +342,9 @@ extension LoginVC: ASAuthorizationControllerDelegate {
     
     private func saveUserInKeychain(_ userIdentifier: String) {
         do {
-            try KeychainItem(service: "com.Alef.coupouns-ios", account: "userIdentifier").saveItem(userIdentifier)
+            try KeychainItem(service: "com.FriendzSocialMediaLimited.Friendzr-ios", account: "userIdentifier").saveItem(userIdentifier)
         } catch {
-            //            print("Unable to save userIdentifier to keychain.")
+            print("Unable to save userIdentifier to keychain.")
         }
     }
     
@@ -322,15 +353,16 @@ extension LoginVC: ASAuthorizationControllerDelegate {
         var usernameApple = "Apple User"
         var useremailApple = userIdentifier
         
-        if let givenName = fullName?.givenName {
-            usernameApple = givenName
-        }
-        
-        if let email = email {
-            useremailApple = email
-        }
         
         DispatchQueue.main.async {
+            if let givenName = fullName?.givenName {
+                usernameApple = givenName
+            }
+            
+            if let email = email {
+                useremailApple = email
+            }
+            
             self.showLoading()
             self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
                 self.hideLoading()
@@ -342,9 +374,14 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                 guard let data = data else {return}
                 Defaults.token = data.token
                 Defaults.initUser(user: data)
-                NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: nil)
                 
-                Router().toHome()
+                DispatchQueue.main.async {
+                    if Defaults.needUpdate == 1 {
+                        Router().toEditProfileVC()
+                    }else {
+                        Router().toHome()
+                    }
+                }
             }
         }
     }

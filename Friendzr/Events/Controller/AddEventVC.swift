@@ -95,35 +95,35 @@ class AddEventVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func addImgBtn(_ sender: Any) {
-        self.eventImg.image = UIImage(named: "dominican republic")
+        self.eventImg.image = UIImage(named: "costa rica")
         self.attachedImg = true
         
-//        if UIDevice.current.userInterfaceIdiom == .pad {
-//            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-//
-//            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                self.openCamera()
-//            }))
-//            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                self.openLibrary()
-//            }))
-//            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-//
-//            present(settingsActionSheet, animated:true, completion:nil)
-//
-//        }else {
-//            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-//
-//            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                self.openCamera()
-//            }))
-//            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                self.openLibrary()
-//            }))
-//            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-//
-//            present(settingsActionSheet, animated:true, completion:nil)
-//        }
+        //        if UIDevice.current.userInterfaceIdiom == .pad {
+        //            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+        //
+        //            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+        //                self.openCamera()
+        //            }))
+        //            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+        //                self.openLibrary()
+        //            }))
+        //            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+        //
+        //            present(settingsActionSheet, animated:true, completion:nil)
+        //
+        //        }else {
+        //            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+        //
+        //            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+        //                self.openCamera()
+        //            }))
+        //            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+        //                self.openLibrary()
+        //            }))
+        //            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+        //
+        //            present(settingsActionSheet, animated:true, completion:nil)
+        //        }
     }
     
     @IBAction func chooseCatBtn(_ sender: Any) {
@@ -151,8 +151,8 @@ class AddEventVC: UIViewController {
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "yyyy-MM-dd"
             self.startDate = formatter2.string(from: (self.dateAlertView?.calenderView.date)!)
-                
-                
+            
+            
             UIView.animate(withDuration: 0.3, animations: {
                 self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.dateAlertView?.alpha = 0
@@ -191,7 +191,7 @@ class AddEventVC: UIViewController {
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "yyyy-MM-dd"
             self.endDate = formatter2.string(from: (self.dateAlertView?.calenderView.date)!)
-
+            
             UIView.animate(withDuration: 0.3, animations: {
                 self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.dateAlertView?.alpha = 0
@@ -229,7 +229,7 @@ class AddEventVC: UIViewController {
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "h:mm"
             self.startTime = formatter2.string(from: (self.timeAlertView?.timeView.date)!)
-
+            
             UIView.animate(withDuration: 0.3, animations: {
                 self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.timeAlertView?.alpha = 0
@@ -266,7 +266,7 @@ class AddEventVC: UIViewController {
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "h:mm"
             self.endTime = formatter2.string(from: (self.timeAlertView?.timeView.date)!)
-
+            
             UIView.animate(withDuration: 0.3, animations: {
                 self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.timeAlertView?.alpha = 0
@@ -302,9 +302,12 @@ class AddEventVC: UIViewController {
             }
             
             guard let _ = data else {return}
+            
             DispatchQueue.main.async {
-                self.view.makeToast("Your event added successfully")
+                self.showAlert(withMessage: "Your event added successfully")
             }
+            
+            NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
         }
     }
     
@@ -326,21 +329,21 @@ class AddEventVC: UIViewController {
         self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
         self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
         
-//        if switchAllDays.isOn {
-////            datesView.isHidden = true
-////            datesViewHeight.constant = 0
-//            startDateBtn.isHidden = true
-//            endDateBtn.isHidden = true
-//            startTimeBtn.isHidden = true
-//            endTimeBtn.isHidden = true
-//        }else {
-////            datesView.isHidden = false
-////            datesViewHeight.constant = 70
-//            startDateBtn.isHidden = false
-//            endDateBtn.isHidden = false
-//            startTimeBtn.isHidden = false
-//            endTimeBtn.isHidden = false
-//        }
+        //        if switchAllDays.isOn {
+        ////            datesView.isHidden = true
+        ////            datesViewHeight.constant = 0
+        //            startDateBtn.isHidden = true
+        //            endDateBtn.isHidden = true
+        //            startTimeBtn.isHidden = true
+        //            endTimeBtn.isHidden = true
+        //        }else {
+        ////            datesView.isHidden = false
+        ////            datesViewHeight.constant = 70
+        //            startDateBtn.isHidden = false
+        //            endDateBtn.isHidden = false
+        //            startTimeBtn.isHidden = false
+        //            endTimeBtn.isHidden = false
+        //        }
     }
     
     func OnCategoryCallBack(_ data: String, _ value: String) -> () {

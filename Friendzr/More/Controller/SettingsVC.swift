@@ -100,6 +100,8 @@ class SettingsVC: UIViewController {
     }
     
     @IBAction func changePasswordBtn(_ sender: Any) {
+        guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "ChangePasswordVC") as? ChangePasswordVC else {return}
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func deleteAccountBtn(_ sender: Any) {

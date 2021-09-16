@@ -168,9 +168,14 @@ class RegisterVC: UIViewController {
                         guard let data = data else {return}
                         Defaults.token = data.token
                         Defaults.initUser(user: data)
-                        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: nil)
                         
-                        Router().toHome()
+                        DispatchQueue.main.async {
+                            if Defaults.needUpdate == 1 {
+                                Router().toEditProfileVC()
+                            }else {
+                                Router().toHome()
+                            }
+                        }
                     }
                 }
                 
@@ -268,8 +273,14 @@ extension RegisterVC {
                         guard let data = data else {return}
                         Defaults.token = data.token
                         Defaults.initUser(user: data)
-                        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: nil)
-                        Router().toHome()
+
+                        DispatchQueue.main.async {
+                            if Defaults.needUpdate == 1 {
+                                Router().toEditProfileVC()
+                            }else {
+                                Router().toHome()
+                            }
+                        }
                     }
                 }
             })
@@ -330,7 +341,7 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
     
     private func saveUserInKeychain(_ userIdentifier: String) {
         do {
-            try KeychainItem(service: "com.Alef.coupouns-ios", account: "userIdentifier").saveItem(userIdentifier)
+            try KeychainItem(service: "com.FriendzSocialMediaLimited.Friendzr-ios", account: "userIdentifier").saveItem(userIdentifier)
         } catch {
             //            print("Unable to save userIdentifier to keychain.")
         }
@@ -341,15 +352,16 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
         var usernameApple = "Apple User"
         var useremailApple = userIdentifier
         
-        if let givenName = fullName?.givenName {
-            usernameApple = givenName
-        }
-        
-        if let email = email {
-            useremailApple = email
-        }
         
         DispatchQueue.main.async {
+            if let givenName = fullName?.givenName {
+                usernameApple = givenName
+            }
+            
+            if let email = email {
+                useremailApple = email
+            }
+
             self.showLoading()
             self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
                 self.hideLoading()
@@ -361,9 +373,14 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
                 guard let data = data else {return}
                 Defaults.token = data.token
                 Defaults.initUser(user: data)
-                NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: nil)
                 
-                Router().toHome()
+                DispatchQueue.main.async {
+                    if Defaults.needUpdate == 1 {
+                        Router().toEditProfileVC()
+                    }else {
+                        Router().toHome()
+                    }
+                }
             }
         }
     }

@@ -58,7 +58,7 @@ class AddEventViewModel {
         }
         
         let url = URLs.baseURLFirst + "Events/AddEventData"
-        let headers = RequestComponent.headerComponent([.type,.authorization])
+//        let headers = RequestComponent.headerComponent([.type,.authorization])
         let parameters:[String : Any] = ["Title": title,"description":description,"status":status,"categoryid":categoryId,"lang":lang,"lat":lat,"totalnumbert": totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto]
         
         if attachedImg {
@@ -92,15 +92,17 @@ class AddEventViewModel {
                             return
                         }
                         
-                        if let error = userResponse.message {
-                            print ("Error while fetching data \(error)")
-                            self.errorMsg = error
-                            completion(self.errorMsg,nil)
-                        }
-                        else {
+                        if code == 200 || code == 201 {
                             // When set the listener (if any) will be notified
                             if let toAdd = userResponse.data {
                                 completion(nil,toAdd)
+                            }
+
+                        }else {
+                            if let error = userResponse.message {
+                                print ("Error while fetching data \(error)")
+                                self.errorMsg = error
+                                completion(self.errorMsg,nil)
                             }
                         }
                     } catch {
@@ -109,24 +111,54 @@ class AddEventViewModel {
                 }
             }.resume()
         }else {
-            RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
-                guard let userResponse = Mapper<EventModel>().map(JSON: data!) else {
-                    self.errorMsg = error!
-                    completion(self.errorMsg, nil)
-                    return
-                }
-                if let error = error {
-                    print ("Error while fetching data \(error)")
-                    self.errorMsg = error
-                    completion(self.errorMsg, nil)
-                }
-                else {
-                    // When set the listener (if any) will be notified
-                    if let toAdd = userResponse.data {
-                        completion(nil,toAdd)
+//            guard let mediaImage = Media(withImage: image, forKey: "Eventimage") else { return }
+            guard let urlRequest = URL(string: url) else { return }
+            var request = URLRequest(url: urlRequest)
+            request.httpMethod = "POST"
+            let boundary = generateBoundary()
+            
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            request.addValue("Bearer \(Defaults.token)", forHTTPHeaderField: "Authorization")
+            let dataBody = createDataBody(withParameters: parameters, media: nil, boundary: boundary)
+            request.httpBody = dataBody
+            
+            let session = URLSession.shared
+            
+            session.dataTask(with: request) { (data, response, error) in
+                
+                let httpResponse = response as? HTTPURLResponse
+                let code  = httpResponse?.statusCode
+                print(httpResponse!)
+                print("statusCode: \(code!)")
+                print("**MD** response: \(response)")
+                
+                if let data = data {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        let valJsonBlock = json as! [String : Any]
+                        guard let userResponse = Mapper<EventModel>().map(JSON: valJsonBlock) else {
+                            completion(self.errorMsg, nil)
+                            return
+                        }
+                        
+                        if code == 200 || code == 201 {
+                            // When set the listener (if any) will be notified
+                            if let toAdd = userResponse.data {
+                                completion(nil,toAdd)
+                            }
+
+                        }else {
+                            if let error = userResponse.message {
+                                print ("Error while fetching data \(error)")
+                                self.errorMsg = error
+                                completion(self.errorMsg,nil)
+                            }
+                        }
+                    } catch {
+                        print(error)
                     }
                 }
-            }
+            }.resume()
         }
         
     }

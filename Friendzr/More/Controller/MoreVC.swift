@@ -7,6 +7,7 @@
 
 import UIKit
 import MessageUI
+import AuthenticationServices
 
 class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     
@@ -108,6 +109,8 @@ extension MoreVC : UITableViewDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
             break
         case 4: //block list
+            guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "BlockedListVC") as? BlockedListVC else {return}
+            self.navigationController?.pushViewController(vc, animated: true)
             break
         case 5: //contactus
             let emailTitle = ""
@@ -183,8 +186,12 @@ extension MoreVC : UITableViewDelegate {
                 guard let _ = data else {return}
                 
                 Defaults.deleteUserData()
+                
+                // For the purpose of this demo app, delete the user identifier that was previously stored in the keychain.
+                KeychainItem.deleteUserIdentifierFromKeychain()
+
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
-                    Router().toLogin()
+                    Router().toOptionsSignUpVC()
                 })
             }
             break

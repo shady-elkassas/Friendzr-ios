@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 import JGProgressHUD
+import CoreLocation
 
 class UserChatList {
     var name = ""
@@ -27,7 +28,7 @@ class UserChatList {
         self.isMute = isMute
     }
 }
-class MainVC: UIViewController {
+class MainVC: UIViewController, CLLocationManagerDelegate {
 
     //MARK:- Outlets
     @IBOutlet weak var searchContainerView: UIView!
@@ -37,6 +38,11 @@ class MainVC: UIViewController {
     //MARK: - Properties
     let cellID = "ChatListTableViewCell"
     var UsersList = [UserChatList]()
+    var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
+    
+    var locationManager: CLLocationManager!
+    var locationLat = 0.0
+    var locationLng = 0.0
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -51,6 +57,7 @@ class MainVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         hideNavigationBar(NavigationBar: false, BackButton: true)
+        setupCLLocationManager()
     }
     
     //MARK: - Helper
@@ -80,6 +87,65 @@ class MainVC: UIViewController {
         placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
         searchBar.searchTextField.attributedPlaceholder = placeHolder
         searchBar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
+    }
+    
+    func updateMyLocation() {
+        updateLocationVM.updatelocation(ByLat: self.locationLat, AndLng: self.locationLng) { error, data in
+            if let error = error {
+                self.showAlert(withMessage: error)
+                return
+            }
+            guard let _ = data else {return}
+        }
+    }
+    
+    
+    func setupCLLocationManager() {
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled(){
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let userLocation :CLLocation = locations[0] as CLLocation
+        
+        manager.stopUpdatingLocation()
+        print("user latitude = \(userLocation.coordinate.latitude)")
+        print("user longitude = \(userLocation.coordinate.longitude)")
+        
+        self.locationLat = userLocation.coordinate.latitude
+        self.locationLng = userLocation.coordinate.longitude
+        Defaults.LocationLat = "\(self.locationLat )"
+        Defaults.LocationLng = "\(self.locationLng )"
+        
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
+            if (error != nil){
+                print("error in reverseGeocode")
+            }
+            
+            let placemark = (placemarks ?? []) as [CLPlacemark]
+            if placemark.count>0{
+                let placemark = placemarks![0]
+                print(placemark.locality!)
+                print(placemark.administrativeArea!)
+                print(placemark.country!)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.updateMyLocation()
+                }
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error \(error)")
+//        self.checkLocationPermission()
     }
 }
 

@@ -15,7 +15,8 @@ class EventsVC: UIViewController {
     //MARK: - Properties
     let cellID = "EventTableViewCell"
     var viewmodel:EventsViewModel = EventsViewModel()
-    
+    var refreshControl = UIRefreshControl()
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,8 @@ class EventsVC: UIViewController {
         setupView()
         getAllEvents()
         initBackButton()
+        pullToRefresh()
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshAllEvents), name: Notification.Name("refreshAllEvents"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,6 +59,22 @@ class EventsVC: UIViewController {
     func setupView() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
     }
+    
+    func pullToRefresh() {
+        self.refreshControl.attributedTitle = NSAttributedString(string: "")
+        self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+        self.tableView.addSubview(refreshControl)
+    }
+    
+    @objc func didPullToRefresh() {
+        print("Refersh")
+        getAllEvents()
+        self.refreshControl.endRefreshing()
+    }
+    
+    @objc func refreshAllEvents() {
+        getAllEvents()
+    }
 }
 
 //MARK: - Extensions
@@ -66,7 +85,7 @@ extension EventsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? EventTableViewCell else {return UITableViewCell()}
         let model = viewmodel.events.value?[indexPath.row]
-        cell.attendeesLbl.text = "Attendees : \(model?.attendees?.count ?? 0) / \(model?.totalnumbert ?? 0)"
+        cell.attendeesLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
         cell.eventTitleLbl.text = model?.title
         cell.categoryLbl.text = model?.categorie
         cell.dateLbl.text = model?.eventdate

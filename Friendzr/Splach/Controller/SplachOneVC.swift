@@ -30,10 +30,14 @@ class SplachOneVC: UIViewController {
     }
     
     @IBAction func getStartBtn(_ sender: Any) {
-        if Defaults.token != "" {
-            Router().toHome()
+        if Defaults.needUpdate == 1 {
+            Router().toEditProfileVC()
         }else {
-            Router().toSplach2()
+            if Defaults.token != "" {
+                Router().toHome()
+            }else {
+                Router().toSplach2()
+            }
         }
 
 //            let context = LAContext()

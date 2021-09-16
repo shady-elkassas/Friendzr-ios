@@ -15,7 +15,6 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var nameTxt: UITextField!
     @IBOutlet weak var dateBirthLbl: UILabel!
     @IBOutlet weak var bioTxtView: UITextView!
-    @IBOutlet weak var tagsLbl: UILabel!
     @IBOutlet weak var dateView: UIView!
     @IBOutlet weak var nameView: UIView!
     @IBOutlet weak var maleImg: UIImageView!
@@ -25,14 +24,16 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var tagsView: UIView!
     @IBOutlet weak var aboutMeView: UIView!
     @IBOutlet weak var placeHolderLbl: UILabel!
+    @IBOutlet weak var tagsViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var tagsListView: TagListView!
+    
     
     //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("CalendarView", owner: self, options: nil)?.first as? CalendarView
     var genderString = ""
     let imagePicker = UIImagePickerController()
-    //    var userImg:String = ""
     var viewmodel:EditProfileViewModel = EditProfileViewModel()
-    var userModel: ProfileObj? = nil
+    var profileVM: ProfileViewModel = ProfileViewModel()
     var tagsid:[String] = [String]()
     var attachedImg:Bool = false
     var birthDay = ""
@@ -44,6 +45,7 @@ class EditMyProfileVC: UIViewController {
         self.title = "Edit Profile"
         setup()
         setupDate()
+        getProfileInformation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,38 +63,56 @@ class EditMyProfileVC: UIViewController {
         aboutMeView.cornerRadiusView(radius: 8)
         profileImg.cornerRadiusForHeight()
         bioTxtView.delegate = self
+        tagsListView.delegate = self
     }
     
-    func setupDate() {
-        nameTxt.text = userModel?.userName
-        bioTxtView.text = userModel?.bio
-        dateBirthLbl.text = userModel?.birthdate
-        
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "yyyy-MM-dd"
-//        var birthDayData = Date()
-//        birthDayData = (userModel?.birthdate.data(using: .utf8))!
-//        birthDay = formatter.string(from: birthDayData)
-        
-        dateBirthLbl.textColor = .black
-        
-        profileImg.sd_setImage(with: URL(string: userModel?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
-        
-        var tags = ""
-        for itm in userModel?.listoftagsmodel ?? [] {
-            tags = itm.tagname + " ," + tags
+    //MARK: - API
+    func getProfileInformation() {
+        profileVM.getProfileInfo()
+        profileVM.userModel.bind { [unowned self]value in
+            DispatchQueue.main.async {
+                setupDate()
+            }
         }
         
-        tagsLbl.text = String(tags.dropLast())
-        tagsLbl.textColor = .black
+        // Set View Model Event Listener
+        profileVM.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                print(error)
+            }
+        }
+    }
+    
+    
+    func setupDate() {
+        let model = profileVM.userModel.value
+        nameTxt.text = model?.userName
+        bioTxtView.text = model?.bio
+        dateBirthLbl.text = model?.birthdate
+        dateBirthLbl.textColor = .black
         
-        if userModel?.gender == "male" {
+        profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
+        
+        for itm in model?.listoftagsmodel ?? [] {
+            tagsListView.addTag(itm.tagname)
+            tagsid.append(itm.tagID)
+        }
+        
+        if tagsListView.rows == 0 {
+            tagsViewHeight.constant = 45
+        }else {
+            tagsViewHeight.constant = CGFloat(tagsListView.rows * 30) + 10
+        }
+        
+        tagsListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
+        
+        if model?.gender == "male" {
             maleImg.image = UIImage(named: "select_ic")
             femaleImg.image = UIImage(named: "unSelect_ic")
             otherImg.image = UIImage(named: "unSelect_ic")
             
             genderString = "male"
-        }else if userModel?.gender == "female" {
+        }else if model?.gender == "female" {
             femaleImg.image = UIImage(named: "select_ic")
             maleImg.image = UIImage(named: "unSelect_ic")
             otherImg.image = UIImage(named: "unSelect_ic")
@@ -110,56 +130,51 @@ class EditMyProfileVC: UIViewController {
     func OnInterestsCallBack(_ data: [String], _ value: [String]) -> () {
         print(data, value)
         
-        var items = ""
+        tagsListView.removeAllTags()
         for item in value {
-            items = item + " ," + items
+            tagsListView.addTag(item)
+        }
+        
+        if tagsListView.rows == 0 {
+            tagsViewHeight.constant = 45
+        }else {
+            tagsViewHeight.constant = CGFloat(tagsListView.rows * 30) + 10
         }
         
         tagsid.removeAll()
         for tag in data {
             tagsid.append(tag)
         }
-        
-        self.tagsLbl.text = String(items.dropLast())
-        self.tagsLbl.textColor = .black
     }
     
     //MARK: - Actions
     @IBAction func editProfileImgBtn(_ sender: Any) {
-        
-        self.profileImg.image = UIImage(named: "nicaragua")
-        self.attachedImg =  true
-        //        let imageData:Data = self.profileImg.image!.jpeg(.lowest)! as Data
-        //        let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
-        //        self.userImg = strBase64
-        //        print(strBase64)
-        
-        //        if UIDevice.current.userInterfaceIdiom == .pad {
-        //            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-        //
-        //            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-        //                self.openCamera()
-        //            }))
-        //            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-        //                self.openLibrary()
-        //            }))
-        //            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-        //
-        //            present(settingsActionSheet, animated:true, completion:nil)
-        //
-        //        }else {
-        //            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-        //
-        //            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-        //                self.openCamera()
-        //            }))
-        //            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-        //                self.openLibrary()
-        //            }))
-        //            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-        //
-        //            present(settingsActionSheet, animated:true, completion:nil)
-        //        }
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+            
+            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openCamera()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openLibrary()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            
+            present(settingsActionSheet, animated:true, completion:nil)
+            
+        }else {
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+            
+            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openCamera()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openLibrary()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            
+            present(settingsActionSheet, animated:true, completion:nil)
+        }
     }
     
     @IBAction func dateBtn(_ sender: Any) {
@@ -238,7 +253,7 @@ class EditMyProfileVC: UIViewController {
     
     @IBAction func saveBtn(_ sender: Any) {
         self.showLoading()
-        viewmodel.editProfile(withUserName: nameTxt.text!, AndEmail: Defaults.Email, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in
+        viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in
             self.hideLoading()
             if let error = error {
                 self.showAlert(withMessage: error)
@@ -246,7 +261,15 @@ class EditMyProfileVC: UIViewController {
             }
             
             guard let _ = data else {return}
-            self.showAlert(withMessage: "edit save")
+            //            self.showAlert(withMessage: "Edits Saved")
+            
+            DispatchQueue.main.async {
+                if Defaults.needUpdate == 1 {
+                    return
+                }else {
+                    Router().toHome()
+                }
+            }
         }
     }
 }
@@ -277,12 +300,8 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         picker.dismiss(animated:true, completion: {
             
-            self.profileImg.image = UIImage(named: "bolivia")
+            self.profileImg.image = image
             self.attachedImg = true
-//            let imageData:Data = image.jpeg(.lowest)! as Data
-//            let strBase64 = imageData.base64EncodedString(options: .lineLength64Characters)
-//            self.userImg = strBase64
-//            print(strBase64)
         })
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -298,5 +317,19 @@ extension EditMyProfileVC: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (bioTxtView.text as NSString).replacingCharacters(in: range, with: text)
         return newText.count < 250
+    }
+}
+
+extension EditMyProfileVC : TagListViewDelegate {
+    
+    // MARK: TagListViewDelegate
+    func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
+        print("Tag pressed: \(title), \(sender)")
+//        tagView.isSelected = !tagView.isSelected
+    }
+    
+    func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {
+        print("Tag Remove pressed: \(title), \(sender)")
+//        sender.removeTagView(tagView)
     }
 }

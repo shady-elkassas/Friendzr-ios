@@ -40,6 +40,17 @@ class Defaults {
         }
     }
     
+    static var generatedusername: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "generatedusername")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "generatedusername") ?? ""
+        }
+    }
+    
+    
     static var isVerified: Bool {
         set{
             UserDefaults.standard.set(newValue, forKey: "isVerified")
@@ -174,13 +185,83 @@ class Defaults {
         }
     }
     
+    static var needUpdate: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "needUpdate")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "needUpdate")
+        }
+    }
+    
+    
+    static var facebook: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "facebook")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "facebook") ?? ""
+        }
+    }
+    static var instagram: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "instagram")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "instagram") ?? ""
+        }
+    }
+    static var snapchat: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "snapchat")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "snapchat") ?? ""
+        }
+    }
+    static var tiktok: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "tiktok")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "tiktok") ?? ""
+        }
+    }
+    
+    static var age: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "age")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "age")
+        }
+    }
+    
     static func initUser(user:UserObj)  {
-        Defaults.userId = user.id
-        Defaults.Mobile = user.phoneNumber
         Defaults.userName = user.userName
         Defaults.Email = user.email
-        Defaults.token = user.token
         Defaults.Image = user.userImage
+        Defaults.token = user.token
+        Defaults.generatedusername = user.generatedusername
+        Defaults.bio = user.bio
+        Defaults.gender = user.gender
+        Defaults.birthdate = user.birthdate
+        Defaults.facebook = user.facebook
+        Defaults.instagram = user.instagram
+        Defaults.snapchat = user.snapchat
+        Defaults.tiktok = user.tiktok
+        Defaults.key = user.key
+        Defaults.LocationLng = user.lang
+        Defaults.LocationLat = user.lat
+        Defaults.age = user.age
+        Defaults.userId = user.userid
+        Defaults.needUpdate = user.needUpdate
     }
     
     static func deleteUserData(){
@@ -198,7 +279,13 @@ class Defaults {
         defaults.removeObject(forKey: "birthdate")
         defaults.removeObject(forKey: "interestIds")
         defaults.removeObject(forKey: "fcmToken")
-
+        defaults.removeObject(forKey: "age")
+        defaults.removeObject(forKey: "tiktok")
+        defaults.removeObject(forKey: "snapchat")
+        defaults.removeObject(forKey: "instagram")
+        defaults.removeObject(forKey: "facebook")
+        defaults.removeObject(forKey: "generatedusername")
+        
         if let token = AccessToken.current,
            !token.isExpired {
             // User is logged in, do work such as go to next view controller.

@@ -86,6 +86,9 @@ extension RequestVC:UITableViewDataSource {
         let model = viewmodel.requests.value?[indexPath.row]
         
         cell.friendRequestNameLbl.text = model?.userName
+        cell.friendRequestUserNameLbl.text = model?.displayedUserName
+        cell.friendRequestDateLbl.text = model?.regestdata
+        cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "avatar"))
         
         cell.HandleAcceptBtn = {
             self.showLoading()
@@ -138,7 +141,9 @@ extension RequestVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = viewmodel.requests.value?[indexPath.row]
         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+        vc.userID = model?.userId ?? ""
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

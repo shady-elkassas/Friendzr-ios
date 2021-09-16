@@ -39,64 +39,80 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B00C0904-9A0D-48EA-82BB-A14C94A5465B"
-            shouldBeEnabled = "Yes"
+            uuid = "ED234164-C18C-47BE-B8DA-EF2FCCD63A06"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Friendzr/Profile/ViewModel/EditProfileViewModel.swift"
+            filePath = "Friendzr/Login/Controller/LoginVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "editProfile(withUserName:AndEmail:AndGender:AndGeneratedUserName:AndBio:AndBirthdate:tagsId:attachedImg:AndUserImage:completion:)"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "facebookBtn(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C6992679-76CD-4356-955A-51508D3F7ABE"
+            uuid = "EEF1930E-A7CA-4CB7-80C6-0DB3F1A3A0EE"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Friendzr/Profile/ViewModel/EditProfileViewModel.swift"
+            filePath = "Friendzr/Register/Controller/RegisterVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "editProfile(withUserName:AndEmail:AndGender:AndGeneratedUserName:AndBio:AndBirthdate:tagsId:attachedImg:AndUserImage:completion:)"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "googleBtn(_:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "EEF1930E-A7CA-4CB7-80C6-0DB3F1A3A0EE - d8246422f99aa64c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;__C.GIDGoogleUser&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Friendzr.RegisterVC.googleBtn(Any) -&gt; ()"
+                  moduleName = "Friendzr"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Register/Controller/RegisterVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "161"
+                  endingLineNumber = "161"
+                  offsetFromSymbolStart = "4352">
+               </Location>
+               <Location
+                  uuid = "EEF1930E-A7CA-4CB7-80C6-0DB3F1A3A0EE - 2f415fed01ad7581"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Friendzr.UserObj&gt;) -&gt; () in closure #1 (Swift.Optional&lt;__C.GIDGoogleUser&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Friendzr.RegisterVC.googleBtn(Any) -&gt; ()"
+                  moduleName = "Friendzr"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Register/Controller/RegisterVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "162"
+                  endingLineNumber = "162"
+                  offsetFromSymbolStart = "232">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E64C02DF-1826-47CF-95F0-03B7B35D1C2A"
-            shouldBeEnabled = "Yes"
+            uuid = "792F61D4-0F4B-47D7-AA23-E3C409004006"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Friendzr/Events/ViewModel/AddEventViewModel.swift"
+            filePath = "Friendzr/Events/Controller/EventDetailsVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "addNewEvent(withTitle:AndDescription:AndStatus:AndCategory:lang:lat:totalnumbert:allday:eventdateFrom:eventDateto:eventfrom:eventto:attachedImg:AndImage:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "60F7304A-53EB-4DD5-A56F-87B25CB97EE3"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Friendzr/Events/ViewModel/AddEventViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "addNewEvent(withTitle:AndDescription:AndStatus:AndCategory:lang:lat:totalnumbert:allday:eventdateFrom:eventDateto:eventfrom:eventto:attachedImg:AndImage:completion:)"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "getEventDetails()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

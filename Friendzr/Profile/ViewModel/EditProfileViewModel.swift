@@ -14,7 +14,7 @@ class EditProfileViewModel {
     
     // Initialise ViewModel's
     let userNameViewModel = UserNameViewModel()
-    let emailViewModel = EmailViewModel()
+//    let emailViewModel = EmailViewModel()
     let genderViewModel = GenderViewModel()
     let bioViewModel = BioViewModel()
     let birthdateViewModel = BirthdateViewModel()
@@ -27,9 +27,9 @@ class EditProfileViewModel {
     var errorMsg : String = ""
     
     func validateEditProfileCredentials() -> Bool{
-        isSuccess =  userNameViewModel.validateCredentials() && emailViewModel.validateCredentials() && genderViewModel.validateCredentials() && bioViewModel.validateCredentials() && birthdateViewModel.validateCredentials() && /*userImageViewModel.validateCredentials() &&*/ generatedUserNameViewModel.validateCredentials()
+        isSuccess =  userNameViewModel.validateCredentials() && genderViewModel.validateCredentials() && bioViewModel.validateCredentials() && birthdateViewModel.validateCredentials() && /*userImageViewModel.validateCredentials() &&*/ generatedUserNameViewModel.validateCredentials()
         
-        errorMsg = "\(userNameViewModel.errorValue ?? "")\(emailViewModel.errorValue ?? "")\(genderViewModel.errorValue ?? "")\(bioViewModel.errorValue ?? "")\(birthdateViewModel.errorValue ?? "")\(generatedUserNameViewModel.errorValue ?? "")"
+        errorMsg = "\(userNameViewModel.errorValue ?? "")\(genderViewModel.errorValue ?? "")\(bioViewModel.errorValue ?? "")\(birthdateViewModel.errorValue ?? "")\(generatedUserNameViewModel.errorValue ?? "")"
         
         return isSuccess
     }
@@ -37,14 +37,13 @@ class EditProfileViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Edit Profile
-    func editProfile(withUserName userName:String,AndEmail email:String,AndGender gender:String,AndGeneratedUserName generatedUserName:String,AndBio bio:String,AndBirthdate birthdate:String,tagsId:[String],attachedImg:Bool,AndUserImage userImage:UIImage,completion: @escaping (_ error: String?, _ data: ProfileObj?) -> ()) {
+    func editProfile(withUserName userName:String,AndGender gender:String,AndGeneratedUserName generatedUserName:String,AndBio bio:String,AndBirthdate birthdate:String,tagsId:[String],attachedImg:Bool,AndUserImage userImage:UIImage,completion: @escaping (_ error: String?, _ data: ProfileObj?) -> ()) {
         
         userNameViewModel.data = userName
-        emailViewModel.data = email
+//        emailViewModel.data = email
         genderViewModel.data = gender
         bioViewModel.data = bio
         birthdateViewModel.data = birthdate
-        //        userImageViewModel.data = userImage
         generatedUserNameViewModel.data = generatedUserName
         
         guard validateEditProfileCredentials() else {
@@ -53,13 +52,14 @@ class EditProfileViewModel {
         }
         
         let url = URLs.baseURLFirst + "Account/update"
-        let headers = RequestComponent.headerComponent([.type,.authorization])
+//        let headers = RequestComponent.headerComponent([.type,.authorization])
         
         
         guard let dataList = try? JSONSerialization.data(withJSONObject: tagsId, options: []) else {return}
-        let listoftag = NSString(data: dataList, encoding: String.Encoding.utf8.rawValue)
-        let listoftagStr = String(describing: listoftag)
-        let parameters:[String:Any] = ["Gender":gender,"bio":bio,"birthdate":birthdate,"Username":userName,"Email":email,"listoftags[]": listoftagStr]
+        let listoftag = String(data: dataList, encoding: String.Encoding.utf8)
+//        let listoftagStr = String(describing: listoftag)
+        
+        let parameters:[String:Any] = ["Gender":gender,"bio":bio,"birthdate":birthdate,"Username":userName,"listoftags[]": tagsId]
         
         if attachedImg {
             guard let mediaImage = Media(withImage: userImage, forKey: "UserImags") else { return }
@@ -74,7 +74,6 @@ class EditProfileViewModel {
             request.httpBody = dataBody
             
             print(dataBody as Data)
-            
             let session = URLSession.shared
             
             session.dataTask(with: request) { (data, response, error) in
@@ -94,15 +93,16 @@ class EditProfileViewModel {
                             return
                         }
                         
-                        if let error = userResponse.message {
-                            print ("Error while fetching data \(error)")
-                            self.errorMsg = error
-                            completion(self.errorMsg,nil)
-                        }
-                        else {
-                            // When set the listener (if any) will be notified
+                        if code == 200 || code == 201 {
                             if let toAdd = userResponse.data {
+                                self.initProfileCash(user: toAdd)
                                 completion(nil,toAdd)
+                            }
+                        }else {
+                            if let error = userResponse.message {
+                                print ("Error while fetching data \(error)")
+                                self.errorMsg = error
+                                completion(self.errorMsg,nil)
                             }
                         }
                     } catch {
@@ -111,28 +111,76 @@ class EditProfileViewModel {
                 }
             }.resume()
         }else {
-            RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+//            guard let mediaImage = Media(withImage: UIImage(), forKey: "UserImags") else { return }
+            guard let urlRequest = URL(string: url) else { return }
+            var request = URLRequest(url: urlRequest)
+            request.httpMethod = "POST"
+            let boundary = generateBoundary()
+            
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            request.addValue("Bearer \(Defaults.token)", forHTTPHeaderField: "Authorization")
+            let dataBody = createDataBody(withParameters: parameters, media: nil, boundary: boundary)
+            request.httpBody = dataBody
+            
+            print(dataBody as Data)
+            let session = URLSession.shared
+            
+            session.dataTask(with: request) { (data, response, error) in
                 
-                guard let userResponse = Mapper<ProfileModel>().map(JSON: data!) else {
-                    self.errorMsg = error!
-                    completion(self.errorMsg, nil)
-                    return
-                }
-                if let error = error {
-                    print ("Error while fetching data \(error)")
-                    self.errorMsg = error
-                    completion(self.errorMsg, nil)
-                }
-                else {
-                    // When set the listener (if any) will be notified
-                    if let toAdd = userResponse.data {
-                        completion(nil,toAdd)
+                let httpResponse = response as? HTTPURLResponse
+                let code  = httpResponse?.statusCode
+                print(httpResponse!)
+                print("statusCode: \(code!)")
+                print("**MD** response: \(response)")
+                
+                if let data = data {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        let valJsonBlock = json as! [String : Any]
+                        guard let userResponse = Mapper<ProfileModel>().map(JSON: valJsonBlock) else {
+                            completion(self.errorMsg, nil)
+                            return
+                        }
+                        
+                        if code == 200 || code == 201 {
+                            if let toAdd = userResponse.data {
+                                self.initProfileCash(user: toAdd)
+                                completion(nil,toAdd)
+                            }
+                        }else {
+                            if let error = userResponse.message {
+                                print ("Error while fetching data \(error)")
+                                self.errorMsg = error
+                                completion(self.errorMsg,nil)
+                            }
+                        }
+                    } catch {
+                        print(error)
                     }
                 }
-            }
+            }.resume()
         }
     }
     
+    func initProfileCash(user:ProfileObj) {
+        Defaults.userName = user.userName
+        Defaults.Email = user.email
+        Defaults.Image = user.userImage
+        Defaults.generatedusername = user.generatedusername
+        Defaults.bio = user.bio
+        Defaults.gender = user.gender
+        Defaults.birthdate = user.birthdate
+        Defaults.facebook = user.facebook
+        Defaults.instagram = user.instagram
+        Defaults.snapchat = user.snapchat
+        Defaults.tiktok = user.tiktok
+        Defaults.key = user.key
+        Defaults.LocationLng = user.lang
+        Defaults.LocationLat = user.lat
+        Defaults.age = user.age
+        Defaults.userId = user.userid
+        Defaults.needUpdate = user.needUpdate
+    }
     
     
     private func generateBoundaryString() -> String {

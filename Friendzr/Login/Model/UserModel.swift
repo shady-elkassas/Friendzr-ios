@@ -14,7 +14,7 @@ class UserObj: Mappable {
     }
     
     func mapping(map: Map) {
-        id <- map["userid"]
+        userid <- map["userid"]
         userImage <- map["userImage"]
         phoneNumber <- map["phoneNumber"]
         email <- map["email"]
@@ -34,10 +34,12 @@ class UserObj: Mappable {
         key <- map["key"]
         lang <- map["lang"]
         lat <- map["lat"]
+        needUpdate <- map["needUpdate"]
+        age <- map["age"]
     }
     
     
-    var id = ""
+    var userid = ""
     var userImage = ""
     var phoneNumber = ""
     var email = ""
@@ -57,6 +59,8 @@ class UserObj: Mappable {
     var key = ""
     var lang = ""
     var lat = ""
+    var needUpdate:Int = 0
+    var age:Int = 0
 }
 
 
@@ -82,10 +86,13 @@ class TagsModel : Mappable {
     
     func mapping(map: Map) {
         tagname <- map["tagname"]
+        tagID <- map["tagID"]
+        
     }
     
     
     var tagname = ""
+    var tagID = ""
 }
 
 
@@ -102,7 +109,7 @@ struct LoginResponse: Codable {
 }
 
 struct UserObj22: Codable {
-//    var id:String
+    //    var id:String
     var userImage:String
     var phoneNumber :String
     var email:String
@@ -113,8 +120,8 @@ struct UserObj22: Codable {
     var bio:String
     var gender:String
     var birthdate:String
-//    var linkAccountmodel:LinkAccountModel? = nil
-//    var listoftagsmodel:TagsModel? = nil
+    //    var linkAccountmodel:LinkAccountModel? = nil
+    //    var listoftagsmodel:TagsModel? = nil
     
     enum CodingKeys: String, CodingKey {
         case userImage = "userImage"

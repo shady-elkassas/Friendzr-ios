@@ -27,7 +27,7 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var joinBtn: UIButton!
     @IBOutlet weak var interestsStatisticsView: UIView!
     @IBOutlet weak var interestsViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var interestsTableView: UITableView!
     @IBOutlet weak var attendeesTableView: UITableView!
     @IBOutlet weak var attendeesViewHeight: NSLayoutConstraint!
     
@@ -40,7 +40,8 @@ class EventDetailsVC: UIViewController {
     var eventId:String = ""
     var viewmodel:EventsViewModel = EventsViewModel()
     var joinVM:JoinEventViewModel = JoinEventViewModel()
-    var  leaveVM:LeaveEventViewModel = LeaveEventViewModel()
+    var leaveVM:LeaveEventViewModel = LeaveEventViewModel()
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +68,7 @@ class EventDetailsVC: UIViewController {
         leaveBtn.cornerRadiusView(radius: 8)
         detailsView.cornerRadiusView(radius: 21)
         interestsStatisticsView.cornerRadiusView(radius: 21)
-        tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        interestsTableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         interestsViewHeight.constant = CGFloat(3*50) + 20
         
         attendeesTableView.register(UINib(nibName: attendeesCellID, bundle: nil), forCellReuseIdentifier: attendeesCellID)
@@ -78,17 +79,11 @@ class EventDetailsVC: UIViewController {
         let model = viewmodel.event.value
         dateCreateLbl.text = model?.eventdate
         timeCreateLbl.text = model?.timefrom
-        attendLbl.text = "Attendees : \(model?.attendees?.count ?? 0) / \(model?.totalnumbert ?? 0)"
+        attendLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
         categoryNameLbl.text = model?.categorie
         descreptionLbl.text = model?.descriptionEvent
         eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "photo_img"))
         if model?.key == 1 {
-            if model?.attendees?.count == 0 {
-                attendeesViewHeight.constant = 0
-            }else {
-                attendeesViewHeight.constant = CGFloat(50 * (model?.attendees?.count ?? 0)) + 85
-            }
-            
             editBtn.isHidden = false
             joinBtn.isHidden = true
             leaveBtn.isHidden = true
@@ -112,10 +107,21 @@ class EventDetailsVC: UIViewController {
         viewmodel.event.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.hideLoading()
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                interestsTableView.delegate = self
+                interestsTableView.dataSource = self
+                interestsTableView.reloadData()
+                
+                attendeesTableView.delegate = self
+                attendeesTableView.dataSource = self
+                attendeesTableView.reloadData()
+
                 setupData()
+                
+                if value.attendees?.count == 0 {
+                    attendeesViewHeight.constant = 0
+                }else {
+                    attendeesViewHeight.constant = CGFloat(50 * (value.attendees?.count ?? 0)) + 85
+                }
             }
         }
         
@@ -186,9 +192,11 @@ extension EventDetailsVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == attendeesTableView {
-            guard let cell = attendeesTableView.dequeueReusableCell(withIdentifier: attendeesCellID, for: indexPath) as? AttendeesTableViewCell else {return UITableViewCell()}
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: attendeesCellID, for: indexPath) as? AttendeesTableViewCell else {return UITableViewCell()}
+            let model = viewmodel.event.value?.attendees?[indexPath.row]
             cell.dropDownBtn.isHidden = true
             cell.joinDateLbl.isHidden = true
+            cell.friendNameLbl.text = model?.userName
             return cell
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? InterestsTableViewCell else {return UITableViewCell()}
@@ -231,6 +239,10 @@ extension EventDetailsVC: UITableViewDataSource {
 
 extension EventDetailsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        if tableView == attendeesTableView {
+            return 50
+        }else {
+            return 50
+        }
     }
 }

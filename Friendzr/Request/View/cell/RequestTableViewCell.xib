@@ -38,7 +38,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="itv-da-iDI">
                                 <rect key="frame" x="65" y="11" width="203" height="46.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dho-fR-gho">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dho-fR-gho">
                                         <rect key="frame" x="0.0" y="0.0" width="203" height="17.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <color key="textColor" red="0.078431372549019607" green="0.078431372549019607" blue="0.078431372549019607" alpha="1" colorSpace="calibratedRGB"/>
@@ -148,8 +148,8 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="acceptRequest_ic" width="29" height="29"/>
+        <image name="acceptRequest_ic" width="52" height="52"/>
         <image name="avatar" width="31" height="31"/>
-        <image name="deleteRequest_ic" width="29" height="29"/>
+        <image name="deleteRequest_ic" width="52" height="52"/>
     </resources>
 </document>

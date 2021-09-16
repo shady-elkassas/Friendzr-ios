@@ -39,7 +39,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="reO-Ya-h3d">
                                 <rect key="frame" x="85" y="39" width="39" height="32"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SuI-ZI-y9r">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SuI-ZI-y9r">
                                         <rect key="frame" x="0.0" y="0.0" width="39" height="17.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <color key="textColor" red="0.078431372550000003" green="0.078431372550000003" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -139,6 +139,7 @@
                             <constraint firstItem="JYV-M0-z7e" firstAttribute="leading" secondItem="igJ-gy-USL" secondAttribute="leading" constant="25" id="9Mc-Fs-G51"/>
                             <constraint firstItem="JYV-M0-z7e" firstAttribute="centerY" secondItem="igJ-gy-USL" secondAttribute="centerY" id="Iea-re-tl3"/>
                             <constraint firstItem="reO-Ya-h3d" firstAttribute="centerY" secondItem="JYV-M0-z7e" secondAttribute="centerY" id="g9s-LK-fOU"/>
+                            <constraint firstItem="PGC-jE-WUn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="reO-Ya-h3d" secondAttribute="trailing" constant="8" id="h0B-vx-73E"/>
                             <constraint firstItem="reO-Ya-h3d" firstAttribute="leading" secondItem="JYV-M0-z7e" secondAttribute="trailing" constant="10" id="nHt-Al-tt1"/>
                             <constraint firstItem="PGC-jE-WUn" firstAttribute="centerY" secondItem="reO-Ya-h3d" secondAttribute="centerY" id="uhM-2O-mFq"/>
                         </constraints>

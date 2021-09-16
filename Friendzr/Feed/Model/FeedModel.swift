@@ -36,7 +36,8 @@ class UserFeedObj: Mappable {
     var userName: String?
     var image: String?
     var key: Int?
-
+    var regestdata:String?
+    
     required init?(map: Map) {
     }
     // Mappable
@@ -49,5 +50,6 @@ class UserFeedObj: Mappable {
         userName    <- map["userName"]
         image    <- map["image"]
         key    <- map["key"]
+        regestdata    <- map["regestdata"]
     }
 }

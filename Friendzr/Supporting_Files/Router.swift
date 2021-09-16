@@ -77,6 +77,24 @@ class Router {
         go(withVC: nextVC)
     }
     
+    func toMore()  {
+        let id = "MainTBC"
+        guard let nextVC = Initializer.createViewController(storyBoard: .Main, andId: id) as? UITabBarController else {return}
+        nextVC.selectedIndex = 4
+        go(withVC: nextVC)
+    }
+    
+    func toEventsVC()  {
+        let id = "EventsNC"
+        let nextVC = Initializer.createViewController(storyBoard: .Events, andId: id)
+        go(withVC: nextVC)
+    }
+    
+    func toEditProfileVC() {
+        let id = "EditMyProfileNC"
+        let nextVC = Initializer.createViewController(storyBoard: .Profile, andId: id)
+        go(withVC: nextVC)
+    }
 }
 
 class HomeNC: UINavigationController {

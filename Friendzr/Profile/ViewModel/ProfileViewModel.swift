@@ -35,7 +35,7 @@ class ProfileViewModel {
             else {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
-                    self.initUser(user: toAdd)
+                    self.initProfileCash(user: toAdd)
                     self.userModel.value = toAdd
                 }
                 print ("\(#function) List is \(String(describing: self.userModel))")
@@ -44,18 +44,24 @@ class ProfileViewModel {
     }
     
     
-    func initUser(user:ProfileObj)  {
-        Defaults.userId = user.userid
-        Defaults.Mobile = user.phoneNumber
+    func initProfileCash(user:ProfileObj) {
         Defaults.userName = user.userName
         Defaults.Email = user.email
         Defaults.Image = user.userImage
+        Defaults.generatedusername = user.generatedusername
+        Defaults.bio = user.bio
+        Defaults.gender = user.gender
+        Defaults.birthdate = user.birthdate
+        Defaults.facebook = user.facebook
+        Defaults.instagram = user.instagram
+        Defaults.snapchat = user.snapchat
+        Defaults.tiktok = user.tiktok
+        Defaults.key = user.key
         Defaults.LocationLng = user.lang
         Defaults.LocationLat = user.lat
-        Defaults.bio = user.bio
-        Defaults.birthdate = user.birthdate
-        Defaults.gender = user.gender
-        Defaults.key = user.key
+        Defaults.age = user.age
+        Defaults.userId = user.userid
+        Defaults.needUpdate = user.needUpdate
     }
 }
 

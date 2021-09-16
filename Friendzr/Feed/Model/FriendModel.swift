@@ -44,6 +44,7 @@ class FriendObj: Mappable {
     var birthdate:String?
     var linkAccountmodel:[String]?
     var listoftagsmodel:[TagsModel]?
+    var regestdata:String? = ""
     
     required init?(map: Map) {
     }
@@ -67,5 +68,6 @@ class FriendObj: Mappable {
         birthdate    <- map["birthdate"]
         linkAccountmodel    <- map["linkAccountmodel"]
         listoftagsmodel    <- map["listoftagsmodel"]
+        regestdata    <- map["regestdata"]
     }
 }

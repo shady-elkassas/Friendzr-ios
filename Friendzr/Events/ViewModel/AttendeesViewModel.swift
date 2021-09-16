@@ -22,7 +22,7 @@ class AttendeesViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Add event
-    func editAttendees(ByUserAttendId userAttendId:String,AndEventid eventid:String,AndStutus stutus:Int, completion: @escaping (_ error: String?, _ data: EventObj?) -> ()) {
+    func editAttendees(ByUserAttendId userAttendId:String,AndEventid eventid:String,AndStutus stutus:Int, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         
         let url = URLs.baseURLFirst + "Events/Clickoutevent"
         let headers = RequestComponent.headerComponent([.type,.authorization])
@@ -42,7 +42,7 @@ class AttendeesViewModel {
             }
             else {
                 // When set the listener (if any) will be notified
-                if let toAdd = userResponse.data {
+                if let toAdd = userResponse.message {
                     completion(nil,toAdd)
                 }
             }

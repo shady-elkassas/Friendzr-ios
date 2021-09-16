@@ -52,6 +52,7 @@ class ProfileObj: Mappable {
         lang <- map["lang"]
         lat <- map["lat"]
         age <- map["age"]
+        needUpdate <- map["needUpdate"]
     }
     
     
@@ -75,36 +76,5 @@ class ProfileObj: Mappable {
     var lang = ""
     var lat = ""
     var age = 0
-}
-
-class ChangeMobileModel: Mappable {
-    
-    var isSuccessful: Bool?
-    var message: String?
-    var data: UserObj? = nil
-    
-    required init?(map: Map) {
-    }
-    // Mappable
-    func mapping(map: Map) {
-        data    <- map["model"]
-        isSuccessful   <- map["isSuccessful"]
-        message  <- map["message"]
-    }
-}
-
-class ChangePasswordModel: Mappable {
-    
-    var isSuccessful: Bool?
-    var message: String?
-    var data: UserObj? = nil
-    
-    required init?(map: Map) {
-    }
-    // Mappable
-    func mapping(map: Map) {
-        data    <- map["model"]
-        isSuccessful   <- map["isSuccessful"]
-        message  <- map["message"]
-    }
+    var needUpdate = 0
 }

@@ -22,11 +22,11 @@ class FriendProfileVC: UIViewController {
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var aboutFriendLbl: UILabel!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     @IBOutlet weak var cancelRequestBtn: UIButton!
     @IBOutlet weak var respondBtn: UIButton!
     @IBOutlet weak var unblockBtn: UIButton!
+    @IBOutlet weak var tagListView: TagListView!
+    @IBOutlet weak var tagListViewHeight: NSLayoutConstraint!
     
     
     //MARK: - Properties
@@ -62,14 +62,13 @@ class FriendProfileVC: UIViewController {
         viewmodel.getFriendDetails(ById: userID)
         viewmodel.model.bind { [unowned self]value in
             DispatchQueue.main.async {
-                collectionView.dataSource = self
-                collectionView.delegate = self
-                collectionView.reloadData()
-                
                 setupData()
+                for item in value.listoftagsmodel ?? [] {
+                    tagListView.addTag("#\(item.tagname)")
+                }
                 
-                let tagsCount = value.listoftagsmodel?.count
-                collectionViewHeight.constant = CGFloat(((tagsCount! / 2) * 30))
+                print("tagListView.rows \(tagListView.rows)")
+                tagListViewHeight.constant = CGFloat(tagListView.rows * 35)
             }
         }
         
@@ -85,7 +84,7 @@ class FriendProfileVC: UIViewController {
     func setupData() {
         let model = viewmodel.model.value
         aboutFriendLbl.text = model?.bio
-        userNameLbl.text = model?.userName
+        userNameLbl.text = model?.generatedusername
         nameLbl.text = model?.userName
         ageLbl.text = "\(model?.age ?? 0)"
         genderLbl.text = model?.gender
@@ -392,6 +391,8 @@ class FriendProfileVC: UIViewController {
     
     //MARK: - Helpers
     func setup() {
+        tagListView.delegate = self
+        tagListView.textFont = UIFont(name: "Montserrat-Regular", size: 12)!
         sendRequestBtn.cornerRadiusView(radius: 15)
         cancelRequestBtn.cornerRadiusView(radius: 15)
         respondBtn.cornerRadiusView(radius: 15)
@@ -399,7 +400,6 @@ class FriendProfileVC: UIViewController {
         blockBtn.cornerRadiusView(radius: 15)
         blockBtn.setBorder(color: UIColor.white.cgColor, width: 1)
         cancelRequestBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1)
-        collectionView.register(UINib(nibName: cellID, bundle: nil), forCellWithReuseIdentifier: cellID)
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
@@ -415,45 +415,16 @@ class FriendProfileVC: UIViewController {
     }
 }
 
-extension FriendProfileVC: UICollectionViewDataSource {
+extension FriendProfileVC : TagListViewDelegate {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewmodel.model.value?.listoftagsmodel?.count ?? 0
+    // MARK: TagListViewDelegate
+    func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
+        print("Tag pressed: \(title), \(sender)")
+        tagView.isSelected = !tagView.isSelected
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? TagLabelCollectionViewCell else {return UICollectionViewCell()}
-        let model = viewmodel.model.value?.listoftagsmodel?[indexPath.row]
-        cell.titleLbl.text = "#\(model?.tagname ?? "")"
-        cell.containerView.cornerRadiusView(radius: 8)
-        return cell
-    }
-}
-
-extension FriendProfileVC: UICollectionViewDelegateFlowLayout,UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let model = viewmodel.model.value?.listoftagsmodel?[indexPath.row]
-        strWidth = (model?.tagname.widthOfString(usingFont: UIFont(name: "Montserrat-Regular", size: 12)!))!
-        strheight = (model?.tagname.heightOfString(usingFont: UIFont(name: "Montserrat-Regular", size: 12)!))!
-        print("strWidth = \(strWidth)","strheight = \(strheight)")
-        
-        let width = collectionView.bounds.width
-        let height = collectionView.bounds.height
-        return CGSize(width: width / 4, height: 30)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        //        if UIDevice.current.userInterfaceIdiom == .pad {
-        //            return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        //        }
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {
+        print("Tag Remove pressed: \(title), \(sender)")
+//        sender.removeTagView(tagView)
     }
 }
