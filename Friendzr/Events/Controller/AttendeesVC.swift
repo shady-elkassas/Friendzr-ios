@@ -161,7 +161,7 @@ extension AttendeesVC:UITableViewDataSource {
         let model = viewmodel.attendees.value?[indexPath.row]
         cell.friendNameLbl.text = model?.userName
         cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "photo_img"))
-        //        cell.joinDateLbl.text = model.date
+//        cell.joinDateLbl.text = model
         cell.HandleDropDownBtn = {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)

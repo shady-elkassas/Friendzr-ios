@@ -40,7 +40,6 @@
 		430D426B26D3BF1F00188E42 /* SimpleDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D426A26D3BF1F00188E42 /* SimpleDataModel.swift */; };
 		430D426D26D3C10900188E42 /* MessageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D426C26D3C10900188E42 /* MessageItem.swift */; };
 		430D427026D3C33B00188E42 /* AudioVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D426F26D3C33B00188E42 /* AudioVC.swift */; };
-		430D428126D4E2B300188E42 /* GoogleMapsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D428026D4E2B300188E42 /* GoogleMapsHelper.swift */; };
 		43119D6626E4BFDB00AD2260 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D6526E4BFDB00AD2260 /* EditProfileViewModel.swift */; };
 		43119D6826E4C18A00AD2260 /* GenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D6726E4C18A00AD2260 /* GenderViewModel.swift */; };
 		43119D6A26E4C1A000AD2260 /* BioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D6926E4C1A000AD2260 /* BioViewModel.swift */; };
@@ -164,6 +163,10 @@
 		4382ACBE26C2AFF7005C1857 /* SplachFourVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382ACBD26C2AFF7005C1857 /* SplachFourVC.swift */; };
 		4382ACC426C2C37A005C1857 /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4382ACC326C2C37A005C1857 /* Lato-Semibold.ttf */; };
 		4382ACC526C2CE5C005C1857 /* Pods_Friendzr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C5FB046276499FF1CB3316 /* Pods_Friendzr.framework */; };
+		439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */; };
+		439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */; };
+		439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */; };
+		439DDE9426F749DC00E09FC1 /* EventsInLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */; };
 		43D545A426CB9DDD0064660A /* AddEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545A326CB9DDD0064660A /* AddEventVC.swift */; };
 		43D545A726CBB02D0064660A /* EventCalendarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D545A626CBB02D0064660A /* EventCalendarView.xib */; };
 		43D545A926CBB0450064660A /* EventCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545A826CBB0450064660A /* EventCalendarView.swift */; };
@@ -280,7 +283,6 @@
 		430D426A26D3BF1F00188E42 /* SimpleDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleDataModel.swift; sourceTree = "<group>"; };
 		430D426C26D3C10900188E42 /* MessageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
 		430D426F26D3C33B00188E42 /* AudioVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVC.swift; sourceTree = "<group>"; };
-		430D428026D4E2B300188E42 /* GoogleMapsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsHelper.swift; sourceTree = "<group>"; };
 		43119D6526E4BFDB00AD2260 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		43119D6726E4C18A00AD2260 /* GenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderViewModel.swift; sourceTree = "<group>"; };
 		43119D6926E4C1A000AD2260 /* BioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioViewModel.swift; sourceTree = "<group>"; };
@@ -409,6 +411,10 @@
 		4382ACBB26C2AFE9005C1857 /* SplachThreeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachThreeVC.swift; sourceTree = "<group>"; };
 		4382ACBD26C2AFF7005C1857 /* SplachFourVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachFourVC.swift; sourceTree = "<group>"; };
 		4382ACC326C2C37A005C1857 /* Lato-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Semibold.ttf"; sourceTree = "<group>"; };
+		439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeViewModel.swift; sourceTree = "<group>"; };
+		439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeModel.swift; sourceTree = "<group>"; };
+		439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsInLocationTableViewCell.swift; sourceTree = "<group>"; };
+		439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventsInLocationTableViewCell.xib; sourceTree = "<group>"; };
 		43D545A326CB9DDD0064660A /* AddEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventVC.swift; sourceTree = "<group>"; };
 		43D545A626CBB02D0064660A /* EventCalendarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventCalendarView.xib; sourceTree = "<group>"; };
 		43D545A826CBB0450064660A /* EventCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCalendarView.swift; sourceTree = "<group>"; };
@@ -812,6 +818,8 @@
 		4362887B26C8FEAD00B51E51 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				439DDE8A26F7309B00E09FC1 /* ViewModel */,
+				439DDE8926F7308800E09FC1 /* Model */,
 				4362887D26C8FEC300B51E51 /* View */,
 				4362887C26C8FEB700B51E51 /* Controller */,
 			);
@@ -822,7 +830,6 @@
 			isa = PBXGroup;
 			children = (
 				4362888026C8FEDE00B51E51 /* MapVC.swift */,
-				430D428026D4E2B300188E42 /* GoogleMapsHelper.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -831,6 +838,7 @@
 			isa = PBXGroup;
 			children = (
 				4362887E26C8FECB00B51E51 /* Map.storyboard */,
+				439DDE9526F74E2500E09FC1 /* Cell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1205,6 +1213,31 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		439DDE8926F7308800E09FC1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		439DDE8A26F7309B00E09FC1 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		439DDE9526F74E2500E09FC1 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */,
+				439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		43D545A526CBB01B0064660A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -1517,6 +1550,7 @@
 				4382AC1E26C27195005C1857 /* Main.storyboard in Resources */,
 				43D545A726CBB02D0064660A /* EventCalendarView.xib in Resources */,
 				4329410826EE44930066BE87 /* GoogleService-Info.plist in Resources */,
+				439DDE9426F749DC00E09FC1 /* EventsInLocationTableViewCell.xib in Resources */,
 				4333DA7026C3B1C10029F2B0 /* Login.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1643,6 +1677,7 @@
 				43FED20C26DE3FD900255B96 /* EventsViewModel.swift in Sources */,
 				430A351E26CAB01A00477A94 /* EditEventsVC.swift in Sources */,
 				432940FB26EE0FB60066BE87 /* FriendModel.swift in Sources */,
+				439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */,
 				43119D7426E4F00000AD2260 /* DescriptionViewModel.swift in Sources */,
 				4382AC5026C2788D005C1857 /* StringExtension.swift in Sources */,
 				43FBA21726D4F105005F4FBF /* LaunchViewController.swift in Sources */,
@@ -1719,6 +1754,7 @@
 				43D545B926CBD8470064660A /* Node.swift in Sources */,
 				43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */,
 				432C6AD726F33BD60029FB89 /* TagView.swift in Sources */,
+				439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */,
 				430A350F26CA7A2200477A94 /* MoreTableViewCell.swift in Sources */,
 				4382AC5526C27911005C1857 /* Language.swift in Sources */,
 				4336D13B26DB96C20093C7A6 /* ProfileViewModel.swift in Sources */,
@@ -1756,6 +1792,7 @@
 				436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */,
 				4382ACBC26C2AFE9005C1857 /* SplachThreeVC.swift in Sources */,
 				43119D6C26E4C1BF00AD2260 /* BirthdateViewModel.swift in Sources */,
+				439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */,
 				4336D11926DB7F780093C7A6 /* Defaults.swift in Sources */,
 				430A350326CA4A3600477A94 /* BlockAlertView.swift in Sources */,
 				4330757826E78AA1002940DF /* UIImageExtension.swift in Sources */,
@@ -1782,7 +1819,6 @@
 				43FBA20D26D4F105005F4FBF /* MockUser.swift in Sources */,
 				43D545BF26CBD8BB0064660A /* Toast.swift in Sources */,
 				43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */,
-				430D428126D4E2B300188E42 /* GoogleMapsHelper.swift in Sources */,
 				4344110426CE796300F8233E /* ForgetPasswordVC.swift in Sources */,
 				4336D11026DB7F410093C7A6 /* Constants.swift in Sources */,
 				43F473B526E61791001E4FAE /* CategoriesModel.swift in Sources */,

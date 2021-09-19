@@ -23,22 +23,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "76E67A66-AABC-4141-B95C-7EC04836FA72"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Friendzr/Map/Controller/MapVC.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
-            landmarkName = "setupMarker(for:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "ED234164-C18C-47BE-B8DA-EF2FCCD63A06"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -80,7 +64,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "161"
                   endingLineNumber = "161"
-                  offsetFromSymbolStart = "4352">
+                  offsetFromSymbolStart = "5219">
                </Location>
                <Location
                   uuid = "EEF1930E-A7CA-4CB7-80C6-0DB3F1A3A0EE - 2f415fed01ad7581"
@@ -95,7 +79,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "162"
                   endingLineNumber = "162"
-                  offsetFromSymbolStart = "232">
+                  offsetFromSymbolStart = "239">
                </Location>
             </Locations>
          </BreakpointContent>

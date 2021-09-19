@@ -2,7 +2,7 @@
 //  AllFriendesModel.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 15/09/2021.
+//  Created by Muhammad Sabri Saad on 15/09/2021.
 //
 
 import Foundation

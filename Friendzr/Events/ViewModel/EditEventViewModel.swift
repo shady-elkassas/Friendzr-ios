@@ -36,13 +36,13 @@ class EditEventViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Edit event
-    func editEvent(withID eventid:String,AndTitle title:String?,AndDescription description:String?,AndStatus status: String?,AndCategory categoryId:String?,lang:String,lat:String,totalnumbert:String?,allday:Bool?,eventdateFrom:String?,eventDateto:String?,eventfrom:String?,eventto:String?,attachedImg:Bool,AndImage image:UIImage?,completion: @escaping (_ error: String?, _ data: EventObj?) -> ()) {
+    func editEvent(withID eventid:String,AndTitle title:String,AndDescription description:String,AndStatus status: String,AndCategory categoryId:String,lang:String,lat:String,totalnumbert:String,allday:Bool,eventdateFrom:String,eventDateto:String,eventfrom:String,eventto:String,attachedImg:Bool,AndImage image:UIImage,completion: @escaping (_ error: String?, _ data: EventObj?) -> ()) {
         
-        titleEventViewModel.data = title ?? ""
-        descriptionViewModel.data = description ?? ""
-        categoryEventViewModel.data = categoryId ?? ""
+        titleEventViewModel.data = title
+        descriptionViewModel.data = description
+        categoryEventViewModel.data = categoryId
         locationEventViewModel.data = "\(lat)"
-        totlalNumberEventViewModel.data = totalnumbert ?? ""
+        totlalNumberEventViewModel.data = totalnumbert
         
         
         guard validateEditEventCredentials() else {
@@ -55,7 +55,7 @@ class EditEventViewModel {
         let parameters:[String : Any] = ["eventId":eventid,"Title": title,"description":description,"status":status,"categorieId":categoryId,"lang":lang,"lat":lat,"totalnumbert":totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto]
         
         if attachedImg {
-            guard let mediaImage = Media(withImage: image!, forKey: "Eventimage") else { return }
+            guard let mediaImage = Media(withImage: image, forKey: "Eventimage") else { return }
             guard let urlRequest = URL(string: url) else { return }
             var request = URLRequest(url: urlRequest)
             request.httpMethod = "POST"

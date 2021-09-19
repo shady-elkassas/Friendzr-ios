@@ -2,7 +2,7 @@
 //  TagView.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 16/09/2021.
+//  Created by Muhammad Sabri Saad on 16/09/2021.
 //
 
 import Foundation
