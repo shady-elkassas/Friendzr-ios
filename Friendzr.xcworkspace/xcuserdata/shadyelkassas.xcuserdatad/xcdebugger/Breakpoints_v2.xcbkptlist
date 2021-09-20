@@ -46,8 +46,8 @@
             filePath = "Friendzr/Register/Controller/RegisterVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "googleBtn(_:)"
             landmarkType = "7">
             <Locations>
@@ -64,7 +64,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "161"
                   endingLineNumber = "161"
-                  offsetFromSymbolStart = "5219">
+                  offsetFromSymbolStart = "4352">
                </Location>
                <Location
                   uuid = "EEF1930E-A7CA-4CB7-80C6-0DB3F1A3A0EE - 2f415fed01ad7581"
@@ -79,7 +79,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "162"
                   endingLineNumber = "162"
-                  offsetFromSymbolStart = "239">
+                  offsetFromSymbolStart = "232">
                </Location>
             </Locations>
          </BreakpointContent>

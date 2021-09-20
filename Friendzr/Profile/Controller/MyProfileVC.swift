@@ -85,7 +85,6 @@ class MyProfileVC: UIViewController {
     //MARK: - Actions
     @IBAction func editBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC else {return}
-//        vc.userModel = viewmodel.userModel.value
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -19,7 +19,7 @@ class BlockAlertView: UIView {
     
     
     var HandleConfirmBtn: (()->())?
-//    var HandleUnConfirmBtn: (()->())?
+    var HandleCancelBtn: (()->())?
 
     override func awakeFromNib() {
         containerView.shadow()
@@ -28,6 +28,7 @@ class BlockAlertView: UIView {
     
     
     @IBAction func unConfirmBtn (_ sender: UIButton) {
+        HandleCancelBtn?()
         // handling code
         UIView.animate(withDuration: 0.3, animations: {
             self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)

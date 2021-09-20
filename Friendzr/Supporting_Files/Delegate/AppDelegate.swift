@@ -101,26 +101,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Core Data stack
     
     lazy var persistentContainer: NSPersistentContainer = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-         */
         let container = NSPersistentContainer(name: "Friendzr")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
@@ -196,6 +179,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
       Messaging.messaging().apnsToken = deviceToken
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        // retrieve the root view controller (which is a tab bar controller)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            guard let rootViewController = Initializer.getWindow().rootViewController else {
+                return
+            }
+            
+            let userInfo = response.notification.request.content.userInfo
+            let aps = userInfo["aps"] as? [String:Any] //?[""]
+            if let cat = aps?["category"] as? String {
+                if cat == "view_request" || cat == "view_subscription"  {
+                    //                    if let orderobj = userInfo["data"]  as? [String:Any] {
+                    if let orderid = userInfo["id"] as? NSString {
+                        let delCharSet = NSCharacterSet(charactersIn: "\"\"")
+//
+                        let id = orderid.trimmingCharacters(in: delCharSet as CharacterSet)
+
+                    }
+                    //                    }
+                }else if cat == "" {
+                    if let orderid = userInfo["id"] as? NSString {
+                        let delCharSet = NSCharacterSet(charactersIn: "\"\"")
+                    }
+                }
+            }
+        }
+        
+        completionHandler()
     }
 }
 

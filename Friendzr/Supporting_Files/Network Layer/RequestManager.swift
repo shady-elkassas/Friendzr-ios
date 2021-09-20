@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import Alamofire
 
 class RequestManager  {
@@ -62,7 +63,13 @@ class RequestManager  {
                     } catch {
                         print(error)
                     }
-                }else {
+                }
+                else if code == 401 {
+                    DispatchQueue.main.async {
+                        Router().toOptionsSignUpVC()
+                    }
+                }
+                else {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
                         print(json)

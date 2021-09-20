@@ -61,6 +61,8 @@
 		4320A65226F234BF003604EE /* UpdateLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A65126F234BF003604EE /* UpdateLocationViewModel.swift */; };
 		4325E20C26F0A048008F73C4 /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E20B26F0A048008F73C4 /* ChangePasswordVC.swift */; };
 		4325E21026F0AF34008F73C4 /* DeleteEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E20F26F0AF34008F73C4 /* DeleteEventViewModel.swift */; };
+		4326A8F526F87AD400D471E0 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4326A8F426F87AD400D471E0 /* SettingsModel.swift */; };
+		4326A8F726F87AE000D471E0 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4326A8F626F87AE000D471E0 /* SettingsViewModel.swift */; };
 		432940F926EE0EED0066BE87 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432940F826EE0EED0066BE87 /* FriendViewModel.swift */; };
 		432940FB26EE0FB60066BE87 /* FriendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432940FA26EE0FB60066BE87 /* FriendModel.swift */; };
 		4329410826EE44930066BE87 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4329410726EE44920066BE87 /* GoogleService-Info.plist */; };
@@ -304,6 +306,8 @@
 		4320A65126F234BF003604EE /* UpdateLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateLocationViewModel.swift; sourceTree = "<group>"; };
 		4325E20B26F0A048008F73C4 /* ChangePasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
 		4325E20F26F0AF34008F73C4 /* DeleteEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteEventViewModel.swift; sourceTree = "<group>"; };
+		4326A8F426F87AD400D471E0 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		4326A8F626F87AE000D471E0 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		432940F826EE0EED0066BE87 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		432940FA26EE0FB60066BE87 /* FriendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendModel.swift; sourceTree = "<group>"; };
 		4329410726EE44920066BE87 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -559,6 +563,7 @@
 			isa = PBXGroup;
 			children = (
 				4308EB7D26EA34FC00D71379 /* LogoutModel.swift */,
+				4326A8F426F87AD400D471E0 /* SettingsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -569,6 +574,7 @@
 				4336D13826DB95D20093C7A6 /* ChangePasswordViewModel.swift */,
 				4336D13426DB94ED0093C7A6 /* LogoutViewModel.swift */,
 				4320A64926F20E5D003604EE /* AllBlockedViewModel.swift */,
+				4326A8F626F87AE000D471E0 /* SettingsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1092,10 +1098,10 @@
 		4382AC4926C27297005C1857 /* Supporting_Files */ = {
 			isa = PBXGroup;
 			children = (
+				4382ACAC26C28EB9005C1857 /* Delegate */,
 				4336D11726DB7F6B0093C7A6 /* Defaults */,
 				4336D10E26DB7F300093C7A6 /* Network Layer */,
 				43D545B026CBD7C30064660A /* Source */,
-				4382ACAC26C28EB9005C1857 /* Delegate */,
 				4382ACAA26C28E9D005C1857 /* Core Data */,
 				4382AC6826C27DA5005C1857 /* Font */,
 				4382AC5126C278CA005C1857 /* Language */,
@@ -1707,6 +1713,7 @@
 				436288AF26C93B7600B51E51 /* MyProfileVC.swift in Sources */,
 				4336D12726DB89210093C7A6 /* UserNameViewModel.swift in Sources */,
 				43D545C926CCFBA10064660A /* CircleView.swift in Sources */,
+				4326A8F526F87AD400D471E0 /* SettingsModel.swift in Sources */,
 				4382ACB326C29019005C1857 /* SplachOneVC.swift in Sources */,
 				4330757C26E79299002940DF /* JoinEventViewModel.swift in Sources */,
 				43FBA21026D4F105005F4FBF /* ChatViewController.swift in Sources */,
@@ -1812,6 +1819,7 @@
 				43FBA21226D4F105005F4FBF /* AutocompleteExampleViewController.swift in Sources */,
 				4382AC6226C27BC7005C1857 /* LoadingView.swift in Sources */,
 				430D426126D3A10F00188E42 /* EventTableViewCell.swift in Sources */,
+				4326A8F726F87AE000D471E0 /* SettingsViewModel.swift in Sources */,
 				4382AC5326C278D9005C1857 /* Localizer.swift in Sources */,
 				43F473B326E6175F001E4FAE /* AllCategoriesViewModel.swift in Sources */,
 				43FBA21A26D4F105005F4FBF /* SettingsViewController.swift in Sources */,

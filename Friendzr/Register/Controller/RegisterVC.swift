@@ -12,7 +12,7 @@ import GoogleSignIn
 import AuthenticationServices
 
 class RegisterVC: UIViewController {
-
+    
     //MARK:- Outlets
     @IBOutlet weak var userNameView: UIView!
     @IBOutlet weak var emailView: UIView!
@@ -49,11 +49,11 @@ class RegisterVC: UIViewController {
     var userG_mailAccessToken = ""
     var UserG_userName = ""
     var socialMediaImge = ""
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         initBackButton()
         setup()
         clearNavigationBar()
@@ -91,8 +91,6 @@ class RegisterVC: UIViewController {
             
             DispatchQueue.main.async {
                 self.showAlert(withMessage: "Please check your email")
-
-                //                self.view.makeToast("Please check your email")
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3 , execute: {
@@ -200,7 +198,7 @@ class RegisterVC: UIViewController {
         emailView.setBorder(color: UIColor.color("#DDDFDD")?.cgColor, width: 1)
         passwordView.setBorder(color: UIColor.color("#DDDFDD")?.cgColor, width: 1)
         confirmPasswordView.setBorder(color: UIColor.color("#DDDFDD")?.cgColor, width: 1)
-
+        
         userNameView.cornerRadiusView(radius: 6)
         emailView.cornerRadiusView(radius: 6)
         passwordView.cornerRadiusView(radius: 6)
@@ -273,7 +271,7 @@ extension RegisterVC {
                         guard let data = data else {return}
                         Defaults.token = data.token
                         Defaults.initUser(user: data)
-
+                        
                         DispatchQueue.main.async {
                             if Defaults.needUpdate == 1 {
                                 Router().toEditProfileVC()
@@ -361,7 +359,7 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
             if let email = email {
                 useremailApple = email
             }
-
+            
             self.showLoading()
             self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
                 self.hideLoading()

@@ -285,7 +285,8 @@ class Defaults {
         defaults.removeObject(forKey: "instagram")
         defaults.removeObject(forKey: "facebook")
         defaults.removeObject(forKey: "generatedusername")
-        
+        defaults.removeObject(forKey: "needUpdate")
+
         if let token = AccessToken.current,
            !token.isExpired {
             // User is logged in, do work such as go to next view controller.

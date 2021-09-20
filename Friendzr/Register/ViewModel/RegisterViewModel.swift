@@ -35,7 +35,7 @@ class RegisterViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Register
-    func RegisterNewUser(withUserName userName:String,AndEmail email:String, password: String,confirmPassword:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
+    func RegisterNewUser(withUserName userName:String,AndEmail email:String, password: String,confirmPassword:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         
         userNameViewModel.data = userName
         emailViewModel.data = email
@@ -64,7 +64,7 @@ class RegisterViewModel {
             }
             else {
                 // When set the listener (if any) will be notified
-                if let toAdd = userResponse.data {
+                if let toAdd = userResponse.message {
                     completion(nil,toAdd)
                 }
             }
