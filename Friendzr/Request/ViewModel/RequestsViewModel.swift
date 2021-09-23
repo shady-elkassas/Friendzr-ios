@@ -18,6 +18,7 @@ class RequestsViewModel {
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
+    //Get All Requests
     func getAllRequests() {
         
         let url = URLs.baseURLFirst + "FrindRequest/Allrequest?pageNumber=\(0)&pageSize=\(100)"

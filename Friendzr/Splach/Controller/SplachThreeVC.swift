@@ -8,10 +8,12 @@
 import UIKit
 
 class SplachThreeVC: UIViewController {
-
+    
+    //MARK:- Outlets
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var nextBtn: UIButton!
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,9 +26,8 @@ class SplachThreeVC: UIViewController {
         hideNavigationBar(NavigationBar: true, BackButton: true)
     }
     
+    //MARK: - Actions
     @IBAction func nextBtn(_ sender: Any) {
         Router().toSplach4()
     }
-    
-    
 }

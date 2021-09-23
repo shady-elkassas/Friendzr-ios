@@ -20,7 +20,6 @@ class OptionsSignUpVC: UIViewController {
     @IBOutlet weak var googleView: UIView!
     
     //MARK: - Properties
-
     let signInConfig = GIDConfiguration.init(clientID: "43837105804-he5jci75mbf7jrhush4cps45plripdvp.apps.googleusercontent.com")
     var UserFBID = ""
     var UserFBMobile = ""
@@ -45,7 +44,7 @@ class OptionsSignUpVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setup()
+        setupView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,7 +52,7 @@ class OptionsSignUpVC: UIViewController {
     }
     
     //MARK: - Helper
-    func setup() {
+    func setupView() {
         emailView.cornerRadiusView(radius: 6)
         facebookView.cornerRadiusView(radius: 6)
         appleView.cornerRadiusView(radius: 6)
@@ -160,7 +159,7 @@ class OptionsSignUpVC: UIViewController {
     }
 }
 
-
+//extension for fb register
 extension OptionsSignUpVC {
     
     func getFBUserData(completion:@escaping (_ : [String: Any]?,_ : Error?) -> Void) {
@@ -180,11 +179,11 @@ extension OptionsSignUpVC {
         if((AccessToken.current) != nil){
             
             let request = GraphRequest(graphPath: "/me", parameters: ["fields": "id, picture.type(large), name,email"], httpMethod: HTTPMethod(rawValue: "GET"))
-            request.start (completionHandler: { (connection, result, error) in
+            request.start { (connection, result, error) in
                 
                 
                 if let error = error {
-                    //                    print("\(error.localizedDescription)")
+                    print("\(error.localizedDescription)")
                 } else{
                     let userInfo = result as! [String : AnyObject]
                     
@@ -221,7 +220,7 @@ extension OptionsSignUpVC {
                         }
                     }
                 }
-            })
+            }
         }
     }
 }

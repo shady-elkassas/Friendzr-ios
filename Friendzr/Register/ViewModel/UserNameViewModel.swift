@@ -15,7 +15,7 @@ class UserNameViewModel : ValidationViewModel{
     
     func validateCredentials() -> Bool {
         
-        guard validateLength(text: data, size: (2,40)) else {
+        guard validateLength(text: data, size: (3,32)) else {
             errorValue = errorMessage
             return false
         }

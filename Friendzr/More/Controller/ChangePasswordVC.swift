@@ -9,6 +9,7 @@ import UIKit
 
 class ChangePasswordVC: UIViewController {
     
+    //MARK:- Outlets
     @IBOutlet var views: [UIView]!
     @IBOutlet weak var oldPasswordTxt: UITextField!
     @IBOutlet weak var newPasswordTxt: UITextField!
@@ -19,10 +20,10 @@ class ChangePasswordVC: UIViewController {
     @IBOutlet weak var showNewPasswordBtn: UIButton!
     @IBOutlet weak var showPasswordBtn: UIButton!
     
-    
-    
+    //MARK: - Properties
     var viewmodel:ChangePasswordViewModel = ChangePasswordViewModel()
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,8 +31,6 @@ class ChangePasswordVC: UIViewController {
         setupViews()
         clearNavigationBar()
         removeNavigationBorder()
-        
-        
     }
     
     //MARK: - Helpers
@@ -50,6 +49,7 @@ class ChangePasswordVC: UIViewController {
         saveBtnView.cornerRadiusView(radius: 8)
     }
     
+    //MARK:- Actions
     @IBAction func saveBtn(_ sender: Any) {
         self.showLoading()
         viewmodel.changePasswordRequest(witholdPassword: oldPasswordTxt.text!, AndNewPassword: newPasswordTxt.text!, AndConfirmNewPassword: confirmNewPasswordTxt.text!) { error, data in

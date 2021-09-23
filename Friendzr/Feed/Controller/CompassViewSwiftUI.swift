@@ -2,7 +2,7 @@
 //  CompassViewSwiftUI.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 22/09/2021.
+//  Created by Muhammad Sabri Saad on 22/09/2021.
 //
 
 import SwiftUI
@@ -45,7 +45,7 @@ struct CompassMarkerView: View {
     var body: some View {
         VStack {
             Text(marker.degreeText())
-                .fontWeight(.light)
+                .fontWeight(.medium)
                 .rotationEffect(self.textAngle())
                 .foregroundColor(.white)
             Capsule()
@@ -87,13 +87,14 @@ struct CompassViewSwiftUI: View {
 
     var body: some View {
         ZStack{
-//            Color.gray
-//                .edgesIgnoringSafeArea(.all)
+            Color.white
+                .edgesIgnoringSafeArea(.all)
             VStack {
                 Capsule()
+                    .foregroundColor(.blue)
                     .frame(width: 5,
                        height: 50)
-
+                
                 ZStack {
                     Circle()
                         .stroke(Color.black,style: StrokeStyle(lineWidth: 150))

@@ -27,6 +27,8 @@ class LoginVC: UIViewController {
     @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var showPasswordBtn: UIButton!
     
+    
+    //MARK: - Properties
     let signInConfig = GIDConfiguration.init(clientID: "43837105804-he5jci75mbf7jrhush4cps45plripdvp.apps.googleusercontent.com")
     var UserFBID = ""
     var UserFBMobile = ""
@@ -133,8 +135,8 @@ class LoginVC: UIViewController {
     @IBAction func googleBtn(_ sender: Any) {
         GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
             guard error == nil else { return }
-            // If sign in succeeded, display the app's main content View.
             
+            // If sign in succeeded, display the app's main content View.
             if let error = error {
                 print("\(error.localizedDescription)")
             } else {
@@ -147,7 +149,7 @@ class LoginVC: UIViewController {
                     self.userG_mailAccessToken = user.authentication.idToken ?? ""
                     self.UserG_userName = self.UserG_mailFirstName + " " + self.UserG_mailLastName
                     //            user.profile = user.profile.hasImage
-                    let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
+//                    let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
                     
                     print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
                     
@@ -215,6 +217,7 @@ class LoginVC: UIViewController {
         googleView.setBorder()
         
         
+        //Create Gradient in login Btn
         let fistColor = UIColor.color("#7BE495")!
         let lastColor = UIColor.color("#329D9C")!
         let gradient = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [fistColor.cgColor,lastColor.cgColor], type: .radial)
@@ -244,11 +247,10 @@ extension LoginVC {
         if((AccessToken.current) != nil){
             
             let request = GraphRequest(graphPath: "/me", parameters: ["fields": "id, picture.type(large), name,email"], httpMethod: HTTPMethod(rawValue: "GET"))
-            request.start (completionHandler: { (connection, result, error) in
-                
+            request.start { (connection, result, error) in
                 
                 if let error = error {
-                    //                    print("\(error.localizedDescription)")
+                    print("\(error.localizedDescription)")
                 } else{
                     let userInfo = result as! [String : AnyObject]
                     
@@ -285,7 +287,7 @@ extension LoginVC {
                         }
                     }
                 }
-            })
+            }
         }
     }
 }

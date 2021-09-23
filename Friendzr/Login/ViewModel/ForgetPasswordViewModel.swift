@@ -27,7 +27,7 @@ class ForgetPasswordViewModel {
     }
     
     // create a method for calling api which is return a Observable
-    //MARK:- Login
+    //MARK:- Reset Password Request
     func ResetPassword(withEmail email:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
         
         emailViewModel.data = email
@@ -38,7 +38,6 @@ class ForgetPasswordViewModel {
         }
         
         let url = URLs.baseURLFirst + "Authenticat/forgetpass"
-//        let parameters = "email=\(email)".data(using: .utf8)
         let parameters:[String : Any] = ["email": email]
         let headers = RequestComponent.headerComponent([.type])
 

@@ -30,7 +30,7 @@ class SettingsVC: UIViewController {
         super.viewDidLoad()
         
         self.title = "Settings".localizedString
-        setup()
+        setupView()
         getUserSettings()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -40,7 +40,7 @@ class SettingsVC: UIViewController {
     
     //MARK:- APIs
     func getUserSettings() {
-//        self.showLoading()
+        self.showLoading()
         viewmodel.getUserSetting()
         viewmodel.userSettings.bind { [unowned self]value in
             DispatchQueue.main.async {
@@ -93,7 +93,7 @@ class SettingsVC: UIViewController {
     }
     
     //MARK: - Helper
-    func setup() {
+    func setupView() {
         allowMyLocationBtn.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         ghostModeBtn.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         pushNotificationBtn.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)

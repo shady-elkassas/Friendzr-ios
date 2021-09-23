@@ -28,8 +28,6 @@ class SplachTwoVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func nextBtn(_ sender: Any) {
-//        let numbers = [0]
-//        let _ = numbers[1]
         Router().toSplach3()
     }
 }

@@ -14,12 +14,14 @@ class BlockedListVC: UIViewController {
     @IBOutlet weak var searchBarView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
+    //MARK: - Properties
     let cellID = "BlockedTableViewCell"
     var viewmodel:AllBlockedViewModel = AllBlockedViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
 
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
 
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -56,7 +58,6 @@ class BlockedListVC: UIViewController {
     func setupViews() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
     }
-    
     
     //MARK:- APIs
     func getAllBlockedList() {

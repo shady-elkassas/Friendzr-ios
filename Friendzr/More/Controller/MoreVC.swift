@@ -28,15 +28,16 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setup()
+        setupView()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         clearNavigationBar()
         setupUserData()
     }
     
     //MARK: - Helper
-    func setup() {
+    func setupView() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         containerView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 50)
         moreList.append(("Profile".localizedString, UIImage(named: "Profile_ic")!))
@@ -59,6 +60,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
         nameLbl.text = Defaults.userName
     }
     
+    //mail compose controller
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         switch result {
         case .cancelled:

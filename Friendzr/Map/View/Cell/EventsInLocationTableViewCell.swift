@@ -17,7 +17,6 @@ class EventsInLocationTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
         eventImg.cornerRadiusView(radius: 10)
     }
 }

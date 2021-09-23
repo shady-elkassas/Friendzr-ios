@@ -14,7 +14,7 @@ class LoginViewModel {
     // Initialise ViewModel's
     let passwordViewModel = PasswordViewModel()
     let emailViewModel = EmailViewModel()
-
+    
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var isLoading : Bool = false
@@ -28,7 +28,7 @@ class LoginViewModel {
     }
     
     // create a method for calling api which is return a Observable
-    //MARK:- Login
+    //MARK:- Login request
     func LoginUser(withEmail email:String, password: String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
         
         emailViewModel.data = email
@@ -40,11 +40,11 @@ class LoginViewModel {
         }
         
         let url = URLs.baseURLFirst + "Authenticat/login"
-//        let dataThing = "email=\(email)&Password=\(password)".data(using: .utf8)
+        
         let parameters:[String : Any] = ["email": email,"Password":password,"logintype":0,"FcmToken":Defaults.fcmToken,"platform":2]
-
         
         let headers = RequestComponent.headerComponent([.type])
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { data, error in
             guard let userResponse = Mapper<LoginModel>().map(JSON: data!) else {
                 self.errorMsg = error!
@@ -52,7 +52,7 @@ class LoginViewModel {
                 return
             }
             if let error = error {
-//                print ("Error while fetching data \(error)")
+                //                print ("Error while fetching data \(error)")
                 self.errorMsg = error
                 completion(self.errorMsg, nil)
             }

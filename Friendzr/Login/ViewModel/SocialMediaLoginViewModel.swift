@@ -17,7 +17,7 @@ class SocialMediaLoginViewModel {
     var errorMsg : String = ""
     
     // create a method for calling api which is return a Observable
-    //MARK:- Social Media
+    //MARK:- Social Media Request
     func socialMediaLoginUser(withSocialMediaId socialMediaId:String,AndEmail email:String,username:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
         
         let url = URLs.baseURLFirst + "Authenticat/login"

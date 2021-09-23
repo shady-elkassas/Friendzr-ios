@@ -16,6 +16,7 @@ class RequestFriendStatusViewModel {
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
+    //add Request Friend Status
     func requestFriendStatus(withID id:String,AndKey key:Int,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         
         let url = URLs.baseURLFirst + "FrindRequest/RequestFriendStatus"

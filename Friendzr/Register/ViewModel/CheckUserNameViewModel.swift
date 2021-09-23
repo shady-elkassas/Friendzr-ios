@@ -12,14 +12,12 @@ import Alamofire
 
 class CheckUserNameViewModel {
     
-    
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var isLoading : Bool = false
     var errorMsg : String = ""
     
-    //MARK:- Register
-    
+    //MARK:- Check User Name Request
     func checkUserName(withUserName userName:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
         
         let url = URLs.baseURLFirst + "Authenticat/CheckUserName?UserName=\(userName)"

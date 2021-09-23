@@ -17,7 +17,7 @@ class PasswordViewModel : ValidationViewModel {
     
     func validateCredentials() -> Bool {
         
-        guard validateLength(text: data, size: (8,30)) else {
+        guard validateLength(text: data, size: (8,32)) else {
             errorValue = errorMessage
             return false;
         }
@@ -51,7 +51,7 @@ class ConfirmPasswordViewModel : ValidationViewModel {
     
     func validateCredentials() -> Bool {
         
-        guard validateLength(text: data, size: (8,30)) else {
+        guard validateLength(text: data, size: (8,32)) else {
             errorValue = errorMessage
             return false;
         }

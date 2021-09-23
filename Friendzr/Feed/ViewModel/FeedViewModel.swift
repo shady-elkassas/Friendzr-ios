@@ -18,8 +18,8 @@ class FeedViewModel {
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
+    //MARK:- Get All Users Request
     func getAllUsers() {
-        
         let url = URLs.baseURLFirst + "FrindRequest/AllUsers?pageNumber=\(0)&pageSize=\(100)"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         

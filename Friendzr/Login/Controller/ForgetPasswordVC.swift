@@ -6,7 +6,6 @@
 //
 
 import UIKit
-//import SkyFloatingLabelTextField
 
 class ForgetPasswordVC: UIViewController {
 
@@ -52,7 +51,7 @@ class ForgetPasswordVC: UIViewController {
         emailView.setBorder(color: UIColor.color("#DDDFDD")?.cgColor, width: 1)
         emailView.cornerRadiusView(radius: 6)
         
-//        updateTextField(iView: emailView, txtField: emailTxt, placeholder: "Email", titleLbl: "Email")
+        //Create Gradient in reset Btn
         let fistColor = UIColor.color("#7BE495")!
         let lastColor = UIColor.color("#329D9C")!
         let gradient = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [fistColor.cgColor,lastColor.cgColor], type: .radial)

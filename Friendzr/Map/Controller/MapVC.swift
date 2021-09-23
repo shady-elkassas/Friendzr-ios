@@ -10,7 +10,7 @@ import GoogleMaps
 import CoreLocation
 import GooglePlaces
 
-//select location
+//select location protocol
 protocol PickingLocationFromTheMap {
     func selectLocation(With placeMark:CLPlacemark,location:CLLocationCoordinate2D)
 }
@@ -46,7 +46,6 @@ class MapVC: UIViewController {
     
     var transparentView = UIView()
     var eventsTableView = UITableView()
-    //    var eventsTableViewHeight:CGFloat = 400
     var eventCellID = "EventsInLocationTableViewCell"
     
     private var tableView: UITableView!
@@ -277,7 +276,7 @@ class MapVC: UIViewController {
     }
 }
 
-//MARK:- GMSMapViewDelegate
+//MARK:- GMSMap View Delegate
 extension MapVC : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         self.location = coordinate
@@ -432,6 +431,7 @@ extension MapVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
             self.transparentView.alpha = 0.0
@@ -444,4 +444,3 @@ extension MapVC:UITableViewDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
-

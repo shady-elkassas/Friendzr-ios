@@ -28,6 +28,7 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var appleView: UIView!
     @IBOutlet weak var registerBtn: UIButton!
     
+    //MARK: - Properties
     var checkUserNameVM:CheckUserNameViewModel = CheckUserNameViewModel()
     var registerVM:RegisterViewModel = RegisterViewModel()
     var socailMediaVM:SocialMediaRegisterViewModel = SocialMediaRegisterViewModel()
@@ -151,7 +152,7 @@ class RegisterVC: UIViewController {
                     self.userG_mailAccessToken = user.authentication.idToken ?? ""
                     self.UserG_userName = self.UserG_mailFirstName + " " + self.UserG_mailLastName
                     //            user.profile = user.profile.hasImage
-                    let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
+//                    let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
                     
                     print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
                     
@@ -209,7 +210,7 @@ class RegisterVC: UIViewController {
         appleView.cornerRadiusView(radius: 6)
         googleView.setBorder()
         
-        
+        //Create gradient for registerBtn
         let fistColor = UIColor.color("#7BE495")!
         let lastColor = UIColor.color("#329D9C")!
         let gradient = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [fistColor.cgColor,lastColor.cgColor], type: .radial)
@@ -221,7 +222,6 @@ class RegisterVC: UIViewController {
 }
 
 extension RegisterVC {
-    
     func getFBUserData(completion:@escaping (_ : [String: Any]?,_ : Error?) -> Void) {
         
         GraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, picture.type(large), email, phone"]).start { (connection, response, error)  in
@@ -239,11 +239,11 @@ extension RegisterVC {
         if((AccessToken.current) != nil){
             
             let request = GraphRequest(graphPath: "/me", parameters: ["fields": "id, picture.type(large), name,email"], httpMethod: HTTPMethod(rawValue: "GET"))
-            request.start (completionHandler: { (connection, result, error) in
+            request.start { (connection, result, error) in
                 
                 
                 if let error = error {
-                    //                    print("\(error.localizedDescription)")
+                    print("\(error.localizedDescription)")
                 } else{
                     let userInfo = result as! [String : AnyObject]
                     
@@ -281,7 +281,7 @@ extension RegisterVC {
                         }
                     }
                 }
-            })
+            }
         }
     }
 }

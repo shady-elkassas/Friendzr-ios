@@ -25,12 +25,12 @@ target 'Friendzr' do
   pod 'SwiftMessages'
   
   pod 'MessageKit'
-  pod 'JGProgressHUD'
   pod 'SignalRSwift', '~> 2.0.3'
   pod 'Kingfisher', '~> 6.0'
-  pod 'DropDown'
-  pod 'SkyFloatingLabelTextField', '~> 3.0'
-  
+#  pod 'DropDown'
+#  pod 'SkyFloatingLabelTextField', '~> 3.0'
+#  pod 'JGProgressHUD'
+
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|
       config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"

@@ -34,7 +34,7 @@ class RegisterViewModel {
     
     // create a method for calling api which is return a Observable
     
-    //MARK:- Register
+    //MARK:- Register Request
     func RegisterNewUser(withUserName userName:String,AndEmail email:String, password: String,confirmPassword:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         
         userNameViewModel.data = userName

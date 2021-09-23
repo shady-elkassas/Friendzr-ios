@@ -18,6 +18,7 @@ class FriendViewModel {
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
+    //Get Friend Details Request
     func getFriendDetails(ById id:String) {
         let url = URLs.baseURLFirst + "FrindRequest/Userprofil"
         

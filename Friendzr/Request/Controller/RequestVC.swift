@@ -72,11 +72,12 @@ class RequestVC: UIViewController {
     }
     
     func setup() {
+        //register cell in table view
         tableView.register(UINib(nibName:cellID, bundle: nil), forCellReuseIdentifier: cellID)
     }
 }
 
-//MARK: - Extensions
+//MARK: - Extensions Table View Data Source
 extension RequestVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.requests.value?.count ?? 0
@@ -135,6 +136,7 @@ extension RequestVC:UITableViewDataSource {
     }
 }
 
+//MARK: - Extensions Table View Delegate
 extension RequestVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
