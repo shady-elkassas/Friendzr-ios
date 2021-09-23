@@ -43,6 +43,8 @@
 	<string>546251653295074</string>
 	<key>FacebookDisplayName</key>
 	<string>Friendzr</string>
+	<key>FirebaseAutomaticScreenReportingEnabled</key>
+	<false/>
 	<key>FirebaseMessagingAutoInitEnabled</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -89,24 +91,22 @@
 	<string>$(PRODUCT_NAME) requires access to the camera to take a picture for the profile when you need it.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Can i use the face id?</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This application requiers location services to display the nearest friends arround you.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This application requiers location services to display the nearest friends arround you.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This application requiers location services to display the nearest friends arround you.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Can i use the mic?</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires access to the photo library to take a picture for the profile when you need it.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires access to the photo library to take a picture for the profile when you need it.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This application requiers location services to display the nearest friends arround you.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This application requiers location services to display the nearest friends arround you.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This application requiers location services to display the nearest friends arround you.</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>This application requiers location services to display the nearest friends arround you.</string>
 	<key>RequestOpenAccess</key>
 	<true/>
-	<key>FirebaseAutomaticScreenReportingEnabled</key>
-	<false/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Black.ttf</string>

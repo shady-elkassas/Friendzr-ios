@@ -9,23 +9,27 @@ import UIKit
 
 class SplachTwoVC: UIViewController {
 
+    //MARK:- Outlets
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var nextBtn: UIButton!
     
-    
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
      
         pageControl.currentPage = 1
         nextBtn.cornerRadiusForHeight()
-        nextBtn.layer.applySketchShadow()
+        nextBtn.layer.applySketchShadow()        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         hideNavigationBar(NavigationBar: true, BackButton: true)
     }
     
+    //MARK: - Actions
     @IBAction func nextBtn(_ sender: Any) {
+//        let numbers = [0]
+//        let _ = numbers[1]
         Router().toSplach3()
     }
 }

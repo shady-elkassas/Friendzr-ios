@@ -46,15 +46,15 @@ class MapVC: UIViewController {
     
     var transparentView = UIView()
     var eventsTableView = UITableView()
-//    var eventsTableViewHeight:CGFloat = 400
+    //    var eventsTableViewHeight:CGFloat = 400
     var eventCellID = "EventsInLocationTableViewCell"
     
     private var tableView: UITableView!
     private var searchBar: UISearchBar!
     private var tableDataSource: GMSAutocompleteTableDataSource!
-
+    
     let screenSize = UIScreen.main.bounds.size
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +64,7 @@ class MapVC: UIViewController {
         initProfileBarButton()
         setupViews()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         mapView.clear()
@@ -138,10 +138,10 @@ class MapVC: UIViewController {
         }
         
         mapView.setMinZoom(15, maxZoom: 15)
-
+        
         self.mapView.camera = camera
         let marker = GMSMarker(position: position)
-//        marker.title = "locTitle"
+        //        marker.title = "locTitle"
         marker.icon = UIImage.init(named: "pin")
         
         marker.map = mapView
@@ -308,7 +308,7 @@ extension MapVC : GMSMapViewDelegate {
             self.showAlert(withMessage: error.localizedDescription)
         }
     }
-        
+    
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         var locationEvent: CLLocationCoordinate2D? = nil
         locationEvent = marker.position
@@ -334,7 +334,6 @@ extension MapVC : CLLocationManagerDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             //check  location permissions
             self.checkLocationPermission()
-            
         }
     }
     
@@ -445,3 +444,4 @@ extension MapVC:UITableViewDelegate {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
+

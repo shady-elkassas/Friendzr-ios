@@ -22,6 +22,8 @@ class SettingsVC: UIViewController {
     lazy var deleteAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
     var viewmodel:SettingsViewModel = SettingsViewModel()
+    var allowmylocationtype:Int = 0
+    var model:SettingsObj? = nil
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -38,12 +40,13 @@ class SettingsVC: UIViewController {
     
     //MARK:- APIs
     func getUserSettings() {
-        self.showLoading()
+//        self.showLoading()
         viewmodel.getUserSetting()
         viewmodel.userSettings.bind { [unowned self]value in
             DispatchQueue.main.async {
                 self.hideLoading()
-                setupData()
+                self.model = value
+                self.setupData()
             }
         }
         
@@ -57,8 +60,6 @@ class SettingsVC: UIViewController {
     }
     
     func setupData() {
-        let model = viewmodel.userSettings.value
-        
         if model?.allowmylocation == true {
             allowMyLocationBtn.isOn = true
         }else {
@@ -79,14 +80,15 @@ class SettingsVC: UIViewController {
     }
     
     func updateSetting() {
-        self.viewmodel.updatUserSetting(withPushNotification: self.pushNotificationBtn.isOn, AndAllowMyLocation: self.allowMyLocationBtn.isOn, AndGhostMode: self.ghostModeBtn.isOn) { error, data in
+        self.viewmodel.updatUserSetting(withPushNotification: self.pushNotificationBtn.isOn, AndAllowMyLocation: self.allowMyLocationBtn.isOn, AndGhostMode: self.ghostModeBtn.isOn,allowmylocationtype:allowmylocationtype) { error, data in
             if let error = error {
                 self.showAlert(withMessage: error)
                 return
             }
             
-            guard let _ = data else {return}
-            self.getUserSettings()
+            guard let data = data else {return}
+            self.model = data
+            self.setupData()
         }
     }
     
@@ -102,7 +104,7 @@ class SettingsVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func pushNotificationBtn(_ sender: Any) {
-        if pushNotificationBtn.isOn == true {
+        if pushNotificationBtn.isOn == false {
             updateSettingAlert(message: "Are you sure you want to turn off notifications?")
         }else {
             updateSettingAlert(message: "Are you sure you want to turn on notifications?")
@@ -110,18 +112,14 @@ class SettingsVC: UIViewController {
     }
     
     @IBAction func ghostModeBtn(_ sender: Any) {
-        if ghostModeBtn.isOn == true {
-            updateSettingAlert(message: "Are you sure you want to turn off ghost mode?")
-        }else {
-            updateSettingAlert(message: "Are you sure you want to turn on ghost mode?")
-        }
-    }
-    
-    @IBAction func allowMyLocationBtn(_ sender: Any) {
-        if allowMyLocationBtn.isOn == false {
+        if allowMyLocationBtn.isOn == true {
             alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             alertView?.HandleHideFromEveryOneBtn = {
+                self.allowmylocationtype = 1
+                
+                self.updateSettingAlert(message: "Are you sure you want to turn on ghost mode from every one?")
+                
                 // handling code
                 UIView.animate(withDuration: 0.3, animations: {
                     self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -134,6 +132,9 @@ class SettingsVC: UIViewController {
             }
             
             alertView?.HandleHideFromMenBtn = {
+                self.allowmylocationtype = 2
+                self.updateSettingAlert(message: "Are you sure you want to turn on ghost mode from men?")
+                
                 // handling code
                 UIView.animate(withDuration: 0.3, animations: {
                     self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -146,6 +147,10 @@ class SettingsVC: UIViewController {
             }
             
             alertView?.HandleHideFromWomenBtn = {
+                self.allowmylocationtype = 3
+                
+                self.updateSettingAlert(message: "Are you sure you want to turn on ghost mode from women?")
+                
                 // handling code
                 UIView.animate(withDuration: 0.3, animations: {
                     self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -159,7 +164,17 @@ class SettingsVC: UIViewController {
             
             self.view.addSubview((alertView)!)
         }else {
-            
+            self.allowmylocationtype = 0
+            self.updateSettingAlert(message: "Are you sure you want to turn off ghost mode?")
+        }
+        
+    }
+    
+    @IBAction func allowMyLocationBtn(_ sender: Any) {
+        if allowMyLocationBtn.isOn == false {
+            updateSettingAlert(message: "Are you sure you want to turn off your location?")
+        }else {
+            updateSettingAlert(message: "Are you sure you want to turn on your location?")
         }
     }
     

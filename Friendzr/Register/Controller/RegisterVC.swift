@@ -156,7 +156,7 @@ class RegisterVC: UIViewController {
                     print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
                     
                     self.showLoading()
-                    self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName) { (error, data) in
+                    self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, socialUser: "\(2)") { (error, data) in
                         self.hideLoading()
                         if let error = error {
                             self.showAlert(withMessage: error)
@@ -261,7 +261,7 @@ extension RegisterVC {
                     print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
                     
                     self.showLoading()
-                    self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName) { (error, data) in
+                    self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName, socialUser: "\(1)") { (error, data) in
                         self.hideLoading()
                         if let error = error {
                             self.showAlert(withMessage: error)
@@ -361,7 +361,7 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
             }
             
             self.showLoading()
-            self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
+            self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple, socialUser: "\(3)") { (error, data) in
                 self.hideLoading()
                 if let error = error {
                     self.showAlert(withMessage: error)

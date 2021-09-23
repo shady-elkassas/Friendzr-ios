@@ -95,6 +95,13 @@ class Router {
         let nextVC = Initializer.createViewController(storyBoard: .Profile, andId: id)
         go(withVC: nextVC)
     }
+    
+    func toMap()  {
+        let id = "MainTBC"
+        guard let nextVC = Initializer.createViewController(storyBoard: .Main, andId: id) as? UITabBarController else { return}
+        nextVC.selectedIndex = 1
+        go(withVC: nextVC)
+    }
 }
 
 class HomeNC: UINavigationController {

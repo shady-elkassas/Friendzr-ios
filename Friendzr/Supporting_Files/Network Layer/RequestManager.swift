@@ -86,30 +86,30 @@ class RequestManager  {
     }
 }
 
-public enum ServerError: Error {
-    
-    case systemError(Error)
-    case customError(String)
-    // add http status errors
-    public var details:(code:Int, message:String){
-        switch self {
-        case .customError(let errorMesg):
-            return (0,errorMesg)
-        case .systemError(let errCode) :
-            return (errCode._code,errCode.localizedDescription)
-            
-        }
-    }
-}
-
-public enum ServerErrorCodes:Int {
-    case noMoreMovies = 10001
-    case genericError = 20001
-    
-}
-
-public enum ServerErrorMessages:String {
-    case noMoreData = "No More Data"
-    case genericError = "Unknown Server Error"
-    
-}
+//public enum ServerError: Error {
+//
+//    case systemError(Error)
+//    case customError(String)
+//    // add http status errors
+//    public var details:(code:Int, message:String){
+//        switch self {
+//        case .customError(let errorMesg):
+//            return (0,errorMesg)
+//        case .systemError(let errCode) :
+//            return (errCode._code,errCode.localizedDescription)
+//
+//        }
+//    }
+//}
+//
+//public enum ServerErrorCodes:Int {
+//    case noMoreMovies = 10001
+//    case genericError = 20001
+//
+//}
+//
+//public enum ServerErrorMessages:String {
+//    case noMoreData = "No More Data"
+//    case genericError = "Unknown Server Error"
+//
+//}

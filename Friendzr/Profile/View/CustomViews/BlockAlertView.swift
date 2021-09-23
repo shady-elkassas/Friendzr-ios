@@ -20,7 +20,7 @@ class BlockAlertView: UIView {
     
     var HandleConfirmBtn: (()->())?
     var HandleCancelBtn: (()->())?
-
+    
     override func awakeFromNib() {
         containerView.shadow()
         containerView.cornerRadiusView(radius: 8)

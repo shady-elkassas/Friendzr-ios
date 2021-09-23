@@ -126,6 +126,9 @@
 		436460B626E8E8AA007C3F27 /* TagLabelCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436460B426E8E8AA007C3F27 /* TagLabelCollectionViewCell.xib */; };
 		436460BA26E8EE2E007C3F27 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436460B826E8EE2E007C3F27 /* LoginModel.swift */; };
 		436460BB26E8EE2E007C3F27 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436460B926E8EE2E007C3F27 /* UserModel.swift */; };
+		437A4E8F26FB6A30007AAEF9 /* FiltringDirectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E8E26FB6A30007AAEF9 /* FiltringDirectionVC.swift */; };
+		437A4E9326FB7315007AAEF9 /* CompassHeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9226FB7315007AAEF9 /* CompassHeading.swift */; };
+		437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */; };
 		437EE47226E8B39700765089 /* LeaveEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437EE47126E8B39700765089 /* LeaveEventViewModel.swift */; };
 		437EE47426E8BC1C00765089 /* AttendeesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437EE47326E8BC1C00765089 /* AttendeesModel.swift */; };
 		4382AC1726C27195005C1857 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1626C27195005C1857 /* AppDelegate.swift */; };
@@ -371,6 +374,9 @@
 		436460B426E8E8AA007C3F27 /* TagLabelCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagLabelCollectionViewCell.xib; sourceTree = "<group>"; };
 		436460B826E8EE2E007C3F27 /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		436460B926E8EE2E007C3F27 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		437A4E8E26FB6A30007AAEF9 /* FiltringDirectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltringDirectionVC.swift; sourceTree = "<group>"; };
+		437A4E9226FB7315007AAEF9 /* CompassHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassHeading.swift; sourceTree = "<group>"; };
+		437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassViewSwiftUI.swift; sourceTree = "<group>"; };
 		437EE47126E8B39700765089 /* LeaveEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveEventViewModel.swift; sourceTree = "<group>"; };
 		437EE47326E8BC1C00765089 /* AttendeesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendeesModel.swift; sourceTree = "<group>"; };
 		4382AC1326C27195005C1857 /* Friendzr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Friendzr.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -873,6 +879,9 @@
 			isa = PBXGroup;
 			children = (
 				4362888526C8FF3A00B51E51 /* FeedVC.swift */,
+				437A4E8E26FB6A30007AAEF9 /* FiltringDirectionVC.swift */,
+				437A4E9226FB7315007AAEF9 /* CompassHeading.swift */,
+				437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1419,9 +1428,9 @@
 				4382AC0F26C27195005C1857 /* Sources */,
 				4382AC1026C27195005C1857 /* Frameworks */,
 				4382AC1126C27195005C1857 /* Resources */,
-				43FBA1DB26D4EE35005F4FBF /* ShellScript */,
 				8C2DF167947801A0F0602B67 /* [CP] Embed Pods Frameworks */,
 				EB1C659C194284AA43697728 /* [CP] Copy Pods Resources */,
+				43FBA1DB26D4EE35005F4FBF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1587,6 +1596,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
 			);
 			outputFileListPaths = (
 			);
@@ -1668,6 +1678,7 @@
 				430A351926CAA97F00477A94 /* HideMyLocationView.swift in Sources */,
 				4336D12F26DB8AF80093C7A6 /* CheckUserNameViewModel.swift in Sources */,
 				430D426D26D3C10900188E42 /* MessageItem.swift in Sources */,
+				437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */,
 				4309E73926EF813A001B227D /* SocialMediaLoginViewModel.swift in Sources */,
 				4382AC4E26C2778C005C1857 /* UIViewExtension.swift in Sources */,
 				4336D12926DB89370093C7A6 /* PasswordViewModel.swift in Sources */,
@@ -1707,6 +1718,7 @@
 				43D545B726CBD8340064660A /* MagneticView.swift in Sources */,
 				432C6AD926F33BDF0029FB89 /* TagListView.swift in Sources */,
 				4344110226CE63AF00F8233E /* NewConversationVC.swift in Sources */,
+				437A4E9326FB7315007AAEF9 /* CompassHeading.swift in Sources */,
 				430D427026D3C33B00188E42 /* AudioVC.swift in Sources */,
 				432C6ADB26F33BE70029FB89 /* CloseButton.swift in Sources */,
 				4309E73D26EF89FE001B227D /* SocialMediaRegisterViewModel.swift in Sources */,
@@ -1832,6 +1844,7 @@
 				43F473B526E61791001E4FAE /* CategoriesModel.swift in Sources */,
 				437EE47426E8BC1C00765089 /* AttendeesModel.swift in Sources */,
 				4382ACA626C28327005C1857 /* Initializer.swift in Sources */,
+				437A4E8F26FB6A30007AAEF9 /* FiltringDirectionVC.swift in Sources */,
 				4309E73726EF422F001B227D /* RequestFriendStatusViewModel.swift in Sources */,
 				43D545AF26CBD76E0064660A /* TagsVC.swift in Sources */,
 			);
@@ -2013,6 +2026,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

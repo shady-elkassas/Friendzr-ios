@@ -18,7 +18,8 @@ class FeedVC: UIViewController {
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     
     var refreshControl = UIRefreshControl()
-    
+    let switchBarButton = UISwitch()
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +38,7 @@ class FeedVC: UIViewController {
     
     //MARK:- APIs
     func getAllFeeds() {
-        self.showLoading()
+//        self.showLoading()
         viewmodel.getAllUsers()
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -253,15 +254,20 @@ extension FeedVC:UITableViewDelegate {
 
 extension FeedVC {
     func initSwitchBarButton() {
-        let button = UISwitch()
-        button.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-        button.onTintColor = UIColor.FriendzrColors.primary
-        button.thumbTintColor = .white
-        button.addTarget(self, action: #selector(handleSwitchBtn), for: .touchUpInside)
-        let barButton = UIBarButtonItem(customView: button)
+        switchBarButton.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        switchBarButton.onTintColor = UIColor.FriendzrColors.primary
+        switchBarButton.thumbTintColor = .white
+        switchBarButton.addTarget(self, action: #selector(handleSwitchBtn), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: switchBarButton)
         self.navigationItem.rightBarButtonItem = barButton
     }
     
     @objc func handleSwitchBtn() {
+        print("\(switchBarButton.isOn)")
+        
+        if switchBarButton.isOn {
+            guard let vc = UIViewController.viewController(withStoryboard: .Feed, AndContollerID: "FiltringDirectionVC") as? FiltringDirectionVC else {return}
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

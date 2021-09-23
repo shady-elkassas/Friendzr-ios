@@ -45,11 +45,11 @@ class SettingsViewModel {
     }
     
     
-    func updatUserSetting(withPushNotification pushNotification:Bool, AndAllowMyLocation allowMyLocation: Bool,AndGhostMode ghostMode :Bool ,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
+    func updatUserSetting(withPushNotification pushNotification:Bool, AndAllowMyLocation allowMyLocation: Bool,AndGhostMode ghostMode :Bool,allowmylocationtype:Int ,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
         
         let url = URLs.baseURLFirst + "Account/updatSetting"
         let headers = RequestComponent.headerComponent([.authorization,.type])
-        let parameters:[String : Any] = ["pushnotification": pushNotification,"allowmylocation":allowMyLocation,"ghostmode":ghostMode]
+        let parameters:[String : Any] = ["pushnotification": pushNotification,"allowmylocation":allowMyLocation,"ghostmode":ghostMode,"allowmylocationtype":allowmylocationtype]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             

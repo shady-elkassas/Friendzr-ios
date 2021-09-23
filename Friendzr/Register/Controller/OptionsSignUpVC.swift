@@ -116,12 +116,12 @@ class OptionsSignUpVC: UIViewController {
                     self.userG_mailAccessToken = user.authentication.idToken ?? ""
                     self.UserG_userName = self.UserG_mailFirstName + " " + self.UserG_mailLastName
                     //            user.profile = user.profile.hasImage
-                    let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
+//                    let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
                     
                     print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
                     
                     self.showLoading()
-                    self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName) { (error, data) in
+                    self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, socialUser: "\(2)") { (error, data) in
                         self.hideLoading()
                         if let error = error {
                             self.showAlert(withMessage: error)
@@ -202,7 +202,7 @@ extension OptionsSignUpVC {
                     print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
                     
                     self.showLoading()
-                    self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName) { (error, data) in
+                    self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName, socialUser: "\(1)") { (error, data) in
                         self.hideLoading()
                         if let error = error {
                             self.showAlert(withMessage: error)
@@ -302,7 +302,7 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
             }
 
             self.showLoading()
-            self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: userIdentifier, AndEmail: emailApple ?? "",username:nameApple) { (error, data) in
+            self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: userIdentifier, AndEmail: emailApple ?? "",username:nameApple, socialUser: "\(3)") { (error, data) in
                 self.hideLoading()
                 if let error = error {
                     self.showAlert(withMessage: error)

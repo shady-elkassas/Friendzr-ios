@@ -30,7 +30,8 @@ class SettingsObj: Mappable {
     var ghostmode: Bool?
     var pushnotification: Bool?
     var allowmylocation: Bool?
-    
+    var allowmylocationtype: Int?
+
     required init?(map: Map) {
     }
     // Mappable
@@ -38,5 +39,6 @@ class SettingsObj: Mappable {
         ghostmode    <- map["ghostmode"]
         pushnotification   <- map["pushnotification"]
         allowmylocation  <- map["allowmylocation"]
+        allowmylocationtype  <- map["allowmylocationtype"]
     }
 }

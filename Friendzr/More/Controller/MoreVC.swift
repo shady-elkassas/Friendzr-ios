@@ -22,6 +22,8 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     var moreList : [(String,UIImage)] = []
     var logoutVM:LogoutViewModel = LogoutViewModel()
     
+    lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -175,25 +177,43 @@ extension MoreVC : UITableViewDelegate {
             self.present(activityViewController, animated: true, completion: nil)
             break
         case 9://logout
-            self.showLoading()
-            logoutVM.logoutRequest { error, data in
-                self.hideLoading()
-                if let error = error {
-                    self.showAlert(withMessage: error)
-                    return
+            alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            
+            alertView?.titleLbl.text = "Confirm?".localizedString
+            alertView?.detailsLbl.text = "Are you sure you want to logout?".localizedString
+            
+            alertView?.HandleConfirmBtn = {
+                self.showLoading()
+                self.logoutVM.logoutRequest { error, data in
+                    self.hideLoading()
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    
+                    guard let _ = data else {return}
+                    Defaults.deleteUserData()
+                    
+                    // For the purpose of this demo app, delete the user identifier that was previously stored in the keychain.
+                    KeychainItem.deleteUserIdentifierFromKeychain()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
+                        Router().toOptionsSignUpVC()
+                    })
                 }
                 
-                guard let _ = data else {return}
-                
-                Defaults.deleteUserData()
-                
-                // For the purpose of this demo app, delete the user identifier that was previously stored in the keychain.
-                KeychainItem.deleteUserIdentifierFromKeychain()
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
-                    Router().toOptionsSignUpVC()
-                })
+                // handling code
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                    self.alertView?.alpha = 0
+                }) { (success: Bool) in
+                    self.alertView?.removeFromSuperview()
+                    self.alertView?.alpha = 1
+                    self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                }
             }
+            
+            self.view.addSubview((alertView)!)
             break
         default:
             break
