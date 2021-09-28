@@ -41,7 +41,11 @@ class LoginViewModel {
         
         let url = URLs.baseURLFirst + "Authenticat/login"
         
-        let parameters:[String : Any] = ["email": email,"Password":password,"logintype":0,"FcmToken":Defaults.fcmToken,"platform":2]
+        var parameters:[String : Any] = ["email": email,"Password":password,"logintype":0,"FcmToken":Defaults.fcmToken,"platform":2]
+        
+        if Defaults.fcmToken == "" {
+        parameters = ["email": email,"Password":password,"logintype":0,"platform":2]
+        }
         
         let headers = RequestComponent.headerComponent([.type])
         

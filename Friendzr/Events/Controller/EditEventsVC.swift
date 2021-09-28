@@ -48,7 +48,8 @@ class EditEventsVC: UIViewController {
 
     let imagePicker = UIImagePickerController()
     var attachedImg = false
-    
+    var internetConect:Bool = false
+
     var eventImage:String = ""
     var eventModel:EventObj? = nil
     var viewmodel:EditEventViewModel = EditEventViewModel()
@@ -63,12 +64,41 @@ class EditEventsVC: UIViewController {
         initBackButton()
         setupData()
         initDeleteEventButton(btnColor: .red)
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
     }
     
-    //MARK: - Helpers
+    //MARK: - Helper
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+        case .wifi:
+            internetConect = true
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func HandleInternetConnection() {
+        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+    }
+    
     func setup() {
         eventImg.cornerRadiusView(radius: 6)
         saveBtn.cornerRadiusView(radius: 6)
@@ -90,8 +120,12 @@ class EditEventsVC: UIViewController {
     
     @objc func handleDeleteEvent() {
         
+        updateUserInterface()
+        
+        if internetConect == true {
+            
             deleteAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-
+            
             deleteAlertView?.titleLbl.text = "Confirm?".localizedString
             deleteAlertView?.detailsLbl.text = "Are you sure you want to delete your event?".localizedString
             
@@ -124,6 +158,9 @@ class EditEventsVC: UIViewController {
             }
             
             self.view.addSubview((deleteAlertView)!)
+        }else {
+            return
+        }
     }
     
     func setupData() {
@@ -148,18 +185,23 @@ class EditEventsVC: UIViewController {
     //MARK: - Actions
     
     @IBAction func saveBtn(_ sender: Any) {
-        self.showLoading()
-        viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
-            
-            self.hideLoading()
-            if let error = error {
-                self.showAlert(withMessage: error)
-                return
+        updateUserInterface()
+        if internetConect == true {
+            self.showLoading()
+            viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
+                
+                self.hideLoading()
+                if let error = error {
+                    self.showAlert(withMessage: error)
+                    return
+                }
+                
+                guard let _ = data else {return}
+                self.showAlert(withMessage: "Edit Save successfully")
+                NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
             }
-            
-            guard let _ = data else {return}
-            self.showAlert(withMessage: "Edit Save successfully")
-            NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
+        }else {
+            return
         }
     }
     
@@ -277,7 +319,6 @@ class EditEventsVC: UIViewController {
         self.view.addSubview((dateAlertView)!)
     }
     
-    
     @IBAction func startTimeBtn(_ sender: Any) {
         timeAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
@@ -352,11 +393,14 @@ class EditEventsVC: UIViewController {
         self.view.addSubview((timeAlertView)!)
     }
     
-    
     @IBAction func attendeesBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AttendeesVC") as? AttendeesVC else {return}
         vc.eventID = eventModel?.id ?? ""
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @IBAction func tryAgainBtn(_ sender: Any) {
+        updateUserInterface()
     }
 }
 

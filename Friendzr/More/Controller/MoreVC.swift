@@ -23,7 +23,10 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     var logoutVM:LogoutViewModel = LogoutViewModel()
     
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
-
+    
+    var internetConect:Bool = false
+    var btnsSelcted:Bool = false
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,10 +36,39 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         clearNavigationBar()
-        setupUserData()
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
-    //MARK: - Helper
+    //MARK: - Helpers
+    
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+            setupUserData()
+        case .wifi:
+            internetConect = true
+            setupUserData()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func HandleInternetConnection() {
+        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+    }
+    
     func setupView() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         containerView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 50)
@@ -51,11 +83,11 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
         moreList.append(("Share".localizedString, UIImage(named: "Share_ic")!))
         moreList.append(("Log Out".localizedString, UIImage(named: "logout_ic")!))
         
+        profileImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 2)
+        profileImg.cornerRadiusForHeight()
     }
     
     func setupUserData() {
-        profileImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 2)
-        profileImg.cornerRadiusForHeight()
         profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "avatar"))
         nameLbl.text = Defaults.userName
     }
@@ -77,6 +109,94 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
         
         self.dismiss(animated: true, completion: nil)
     }
+    
+    func shareApp() {
+        // Setting description
+        let firstActivityItem = "Description you want.."
+        
+        // Setting url
+        let secondActivityItem : NSURL = NSURL(string: "http://your-url.com/")!
+        
+        // If you want to use an image
+        let image : UIImage = UIImage(named: "Share_ic")!
+        
+        let activityViewController : UIActivityViewController = UIActivityViewController(
+            activityItems: [firstActivityItem, secondActivityItem, image], applicationActivities: nil)
+        
+        // This lines is for the popover you need to show in iPad
+        activityViewController.popoverPresentationController?.sourceView = activityViewController.view
+        
+        // This line remove the arrow of the popover to show in iPad
+        activityViewController.popoverPresentationController?.permittedArrowDirections =  UIPopoverArrowDirection.down
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+        
+        // Pre-configuring activity items
+        activityViewController.activityItemsConfiguration = [
+            UIActivity.ActivityType.message
+        ] as? UIActivityItemsConfigurationReading
+        
+        // Anything you want to exclude
+        activityViewController.excludedActivityTypes = [
+            UIActivity.ActivityType.postToWeibo,
+            UIActivity.ActivityType.print,
+            UIActivity.ActivityType.assignToContact,
+            UIActivity.ActivityType.saveToCameraRoll,
+            UIActivity.ActivityType.addToReadingList,
+            UIActivity.ActivityType.postToFlickr,
+            UIActivity.ActivityType.postToVimeo,
+            UIActivity.ActivityType.postToTencentWeibo,
+            UIActivity.ActivityType.postToFacebook
+        ]
+        
+        activityViewController.isModalInPresentation = true
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    
+    func logout() {
+        alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        alertView?.titleLbl.text = "Confirm?".localizedString
+        alertView?.detailsLbl.text = "Are you sure you want to logout?".localizedString
+        
+        alertView?.HandleConfirmBtn = {
+            self.updateUserInterface()
+            if self.internetConect {
+                self.showLoading()
+                self.logoutVM.logoutRequest { error, data in
+                    self.hideLoading()
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    
+                    guard let _ = data else {return}
+                    Defaults.deleteUserData()
+                    
+                    // For the purpose of this demo app, delete the user identifier that was previously stored in the keychain.
+                    KeychainItem.deleteUserIdentifierFromKeychain()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
+                        Router().toOptionsSignUpVC()
+                    })
+                }
+            }else {
+                return
+            }
+
+            // handling code
+            UIView.animate(withDuration: 0.3, animations: {
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alertView?.alpha = 0
+            }) { (success: Bool) in
+                self.alertView?.removeFromSuperview()
+                self.alertView?.alpha = 1
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((alertView)!)
+    }
 }
 //MARK: - Extensions
 extension MoreVC : UITableViewDataSource {
@@ -97,10 +217,13 @@ extension MoreVC : UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        updateUserInterface()
         switch indexPath.row {
         case 0: //profile
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
-            self.navigationController?.pushViewController(vc, animated: true)
+            if internetConect {
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             break
         case 1: //Events
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventsVC") as? EventsVC else {return}
@@ -109,113 +232,49 @@ extension MoreVC : UITableViewDelegate {
         case 2://notificationList
             break
         case 3: //settings
-            guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC else {return}
-            self.navigationController?.pushViewController(vc, animated: true)
+            if internetConect {
+                guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC else {return}
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             break
         case 4: //block list
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "BlockedListVC") as? BlockedListVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
             break
         case 5: //contactus
-            let emailTitle = ""
-            let messageBody = ""
-            let toRecipents = ["friend@stackoverflow.com"]
-            let mc: MFMailComposeViewController = MFMailComposeViewController()
-            mc.mailComposeDelegate = self
-            mc.setSubject(emailTitle)
-            mc.setMessageBody(messageBody, isHTML: false)
-            mc.setToRecipients(toRecipents)
-            self.present(mc, animated: true, completion: nil)
+            if internetConect {
+                let emailTitle = ""
+                let messageBody = ""
+                let toRecipents = ["friend@stackoverflow.com"]
+                let mc: MFMailComposeViewController = MFMailComposeViewController()
+                mc.mailComposeDelegate = self
+                mc.setSubject(emailTitle)
+                mc.setMessageBody(messageBody, isHTML: false)
+                mc.setToRecipients(toRecipents)
+                self.present(mc, animated: true, completion: nil)
+            }
             break
         case 6://aboutus
-            guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
-            vc.titleVC = "About Us"
-            self.navigationController?.pushViewController(vc, animated: true)
+            if internetConect {
+                guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
+                vc.titleVC = "About Us"
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             break
         case 7://terms
-            guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
-            vc.titleVC = "Terms & Conditions"
-            self.navigationController?.pushViewController(vc, animated: true)
+            if internetConect {
+                guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
+                vc.titleVC = "Terms & Conditions"
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             break
-        case 8://share
-            // Setting description
-            let firstActivityItem = "Description you want.."
-            
-            // Setting url
-            let secondActivityItem : NSURL = NSURL(string: "http://your-url.com/")!
-            
-            // If you want to use an image
-            let image : UIImage = UIImage(named: "Share_ic")!
-            
-            let activityViewController : UIActivityViewController = UIActivityViewController(
-                activityItems: [firstActivityItem, secondActivityItem, image], applicationActivities: nil)
-            
-            // This lines is for the popover you need to show in iPad
-            activityViewController.popoverPresentationController?.sourceView = activityViewController.view
-            
-            // This line remove the arrow of the popover to show in iPad
-            activityViewController.popoverPresentationController?.permittedArrowDirections =  UIPopoverArrowDirection.down
-            activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
-            
-            // Pre-configuring activity items
-            activityViewController.activityItemsConfiguration = [
-                UIActivity.ActivityType.message
-            ] as? UIActivityItemsConfigurationReading
-            
-            // Anything you want to exclude
-            activityViewController.excludedActivityTypes = [
-                UIActivity.ActivityType.postToWeibo,
-                UIActivity.ActivityType.print,
-                UIActivity.ActivityType.assignToContact,
-                UIActivity.ActivityType.saveToCameraRoll,
-                UIActivity.ActivityType.addToReadingList,
-                UIActivity.ActivityType.postToFlickr,
-                UIActivity.ActivityType.postToVimeo,
-                UIActivity.ActivityType.postToTencentWeibo,
-                UIActivity.ActivityType.postToFacebook
-            ]
-            
-            activityViewController.isModalInPresentation = true
-            self.present(activityViewController, animated: true, completion: nil)
+        case 8: //share
+            if internetConect {
+                shareApp()
+            }
             break
         case 9://logout
-            alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-            
-            alertView?.titleLbl.text = "Confirm?".localizedString
-            alertView?.detailsLbl.text = "Are you sure you want to logout?".localizedString
-            
-            alertView?.HandleConfirmBtn = {
-                self.showLoading()
-                self.logoutVM.logoutRequest { error, data in
-                    self.hideLoading()
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
-                    }
-                    
-                    guard let _ = data else {return}
-                    Defaults.deleteUserData()
-                    
-                    // For the purpose of this demo app, delete the user identifier that was previously stored in the keychain.
-                    KeychainItem.deleteUserIdentifierFromKeychain()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
-                        Router().toOptionsSignUpVC()
-                    })
-                }
-                
-                // handling code
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                    self.alertView?.alpha = 0
-                }) { (success: Bool) in
-                    self.alertView?.removeFromSuperview()
-                    self.alertView?.alpha = 1
-                    self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                }
-            }
-            
-            self.view.addSubview((alertView)!)
+            logout()
             break
         default:
             break

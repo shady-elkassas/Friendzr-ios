@@ -49,8 +49,13 @@ class RegisterViewModel {
         
         let url = URLs.baseURLFirst + "Authenticat/register"
         let headers = RequestComponent.headerComponent([.type])
-        let parameters:[String : Any] = ["UserName": userName,"Email":email,"Password":password,"registertype": 0 ,"FcmToken":Defaults.fcmToken,"platform":2]
+        
+        var parameters:[String : Any] = ["UserName": userName,"Email":email,"Password":password,"registertype": 0 ,"FcmToken":Defaults.fcmToken,"platform":2]
 
+        if Defaults.fcmToken == "" {
+        parameters = ["UserName": userName,"Email":email,"Password":password,"registertype": 0 ,"platform":2]
+        }
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<LoginModel>().map(JSON: data!) else {
                 self.errorMsg = error!

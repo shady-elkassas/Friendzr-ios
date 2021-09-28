@@ -54,6 +54,9 @@ class MapVC: UIViewController {
     
     let screenSize = UIScreen.main.bounds.size
     
+    var internetConect:Bool = false
+//    var btnsSelect:Bool = false
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,10 +74,13 @@ class MapVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         appendNewLocation = false
-        bindToModel()
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
-    //MARK:- APIs
+    //MARK: - APIs
     func bindToModel() {
         viewmodel.getAllEventsAroundMe()
         viewmodel.locations.bind { [unowned self] value in
@@ -113,8 +119,33 @@ class MapVC: UIViewController {
         }
     }
     
-    //MARK:- Helpers
+    //MARK: - Helpers
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+            bindToModel()
+        case .wifi:
+            internetConect = true
+            bindToModel()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
     
+    func HandleInternetConnection() {
+        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+    }
+
     // locations markers
     func setupMarkers() {
         let model = viewmodel.locations.value
@@ -136,7 +167,7 @@ class MapVC: UIViewController {
             mapView.clear()
         }
         
-        mapView.setMinZoom(15, maxZoom: 15)
+        mapView.setMinZoom(15, maxZoom: 17)
         
         self.mapView.camera = camera
         let marker = GMSMarker(position: position)
@@ -196,7 +227,7 @@ class MapVC: UIViewController {
         self.mapView.isMyLocationEnabled = true
         self.mapView.isBuildingsEnabled = true
         self.mapView.isIndoorEnabled = true
-        let camera = GMSCameraPosition.camera(withLatitude: location!.latitude, longitude: location!.longitude, zoom: 15.0)
+        let camera = GMSCameraPosition.camera(withLatitude: location!.latitude, longitude: location!.longitude, zoom: 17.0)
         self.mapView.animate(to: camera)
         geocode(latitude: location!.latitude, longitude: location!.longitude) { (PM, error) in
             
@@ -272,7 +303,7 @@ class MapVC: UIViewController {
     //MARK:- Actions
     @IBAction func addEventBtn(_ sender: Any) {
         self.appendNewLocation = true
-        self.showAlert(withMessage: "Please pick the event location")
+        self.view.makeToast("Please pick the event location")
     }
 }
 
@@ -282,7 +313,7 @@ extension MapVC : GMSMapViewDelegate {
         self.location = coordinate
         let camera = GMSCameraPosition.camera(withLatitude: (location?.latitude)!, longitude: (location?.longitude)!, zoom: 17.0)
         mapView.animate(to: camera)
-        //        self.setupMarker(for: location!)
+        
         geocode(latitude: location!.latitude, longitude: location!.longitude) { (PM, error) in
             
             guard let error = error else {
@@ -290,16 +321,22 @@ extension MapVC : GMSMapViewDelegate {
                 self.currentPlaceMark = PM!
                 
                 if self.appendNewLocation {
-                    self.setupMarker(for: self.location!, locTitle: (PM?.name)!)
-                    
-                    self.locations.append(EventsLocation(location: self.location!, titleLocation: (PM?.name)!))
-                    self.view.makeToast((PM?.name)!)
-                    
-                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
-                    vc.locationLat = self.location!.latitude
-                    vc.locationLng = self.location!.longitude
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    self.updateUserInterface()
+                    if self.internetConect {
+                        self.setupMarker(for: self.location!, locTitle: (PM?.name)!)
+                        
+                        self.locations.append(EventsLocation(location: self.location!, titleLocation: (PM?.name)!))
+                        self.view.makeToast((PM?.name)!)
+                        
+                        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
+                        vc.locationLat = self.location!.latitude
+                        vc.locationLng = self.location!.longitude
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }else {
+                        return
+                    }
                 }
+                
                 print(self.locationName)
                 print("\(self.location!.latitude) : \(self.location!.longitude)")
                 return
@@ -309,13 +346,19 @@ extension MapVC : GMSMapViewDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        var locationEvent: CLLocationCoordinate2D? = nil
-        locationEvent = marker.position
-        print("locationEvent: \(locationEvent?.latitude ?? 0.0),\(locationEvent?.longitude ?? 0.0)")
         
-        //Events by location
-        getEvents(By: locationEvent?.latitude ?? 0.0, lng: locationEvent?.longitude ?? 0.0)
-        CreateSlideUpMenu()
+        updateUserInterface()
+        
+        if internetConect {
+            var locationEvent: CLLocationCoordinate2D? = nil
+            locationEvent = marker.position
+            print("locationEvent: \(locationEvent?.latitude ?? 0.0),\(locationEvent?.longitude ?? 0.0)")
+            
+            //Events by location
+            getEvents(By: locationEvent?.latitude ?? 0.0, lng: locationEvent?.longitude ?? 0.0)
+            CreateSlideUpMenu()
+        }
+        
         return true
     }
 }
@@ -433,14 +476,18 @@ extension MapVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
-            self.transparentView.alpha = 0.0
-            self.eventsTableView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height/2.05)
-        }
+        updateUserInterface()
         
-        let model = viewmodel.events.value?[indexPath.row]
-        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
-        vc.eventId = model?.id ?? ""
-        self.navigationController?.pushViewController(vc, animated: true)
+        if internetConect {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
+                self.transparentView.alpha = 0.0
+                self.eventsTableView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height/2.05)
+            }
+            
+            let model = viewmodel.events.value?[indexPath.row]
+            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
+            vc.eventId = model?.id ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

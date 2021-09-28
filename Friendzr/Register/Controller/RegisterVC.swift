@@ -51,6 +51,9 @@ class RegisterVC: UIViewController {
     var UserG_userName = ""
     var socialMediaImge = ""
     
+    var internetConect:Bool = false
+    //    var btnsSelect:Bool = false
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,23 +83,28 @@ class RegisterVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func registerBtn(_ sender: Any) {
-        self.showLoading()
-        registerVM.RegisterNewUser(withUserName: userNameTxt.text!, AndEmail: emailTxt.text!, password: passwordTxt.text!,confirmPassword:confirmPasswordTxt.text!) { error, data in
-            self.hideLoading()
-            if let error = error {
-                self.showAlert(withMessage: error)
-                return
+        updateUserInterface()
+        if internetConect {
+            self.showLoading()
+            registerVM.RegisterNewUser(withUserName: userNameTxt.text!, AndEmail: emailTxt.text!, password: passwordTxt.text!,confirmPassword:confirmPasswordTxt.text!) { error, data in
+                self.hideLoading()
+                if let error = error {
+                    self.showAlert(withMessage: error)
+                    return
+                }
+                
+                guard let _ = data else {return}
+                
+                DispatchQueue.main.async {
+                    self.showAlert(withMessage: "Please check your email")
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3 , execute: {
+                    Router().toLogin()
+                })
             }
-            
-            guard let _ = data else {return}
-            
-            DispatchQueue.main.async {
-                self.showAlert(withMessage: "Please check your email")
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3 , execute: {
-                Router().toLogin()
-            })
+        }else {
+            return
         }
     }
     
@@ -109,88 +117,105 @@ class RegisterVC: UIViewController {
     }
     
     @IBAction func facebookBtn(_ sender: Any) {
-        
-        if let token = AccessToken.current,
-           !token.isExpired {
-            // User is logged in, do work such as go to next view controller.
-            getFBUserData()
-        }
-        else {
-            let fbLoginManager : LoginManager = LoginManager()
-            
-            fbLoginManager.logIn(permissions: ["email"], from: self) { (result, error) -> Void in
+        updateUserInterface()
+        if internetConect {
+            if let token = AccessToken.current,
+               !token.isExpired {
+                // User is logged in, do work such as go to next view controller.
+                getFBUserData()
+            }
+            else {
+                let fbLoginManager : LoginManager = LoginManager()
                 
-                if (error == nil) {
-                    //                let fbloginresult : LoginManagerLoginResult = result!
-                    // if user cancel the login
-                    if error != nil {
-                        //                        print("Process error")
-                    }else if (result?.isCancelled)!{
-                        return
-                    }else {
-                        self.getFBUserData()
+                fbLoginManager.logIn(permissions: ["email"], from: self) { (result, error) -> Void in
+                    
+                    if (error == nil) {
+                        //                let fbloginresult : LoginManagerLoginResult = result!
+                        // if user cancel the login
+                        if error != nil {
+                            //                        print("Process error")
+                        }else if (result?.isCancelled)!{
+                            return
+                        }else {
+                            self.getFBUserData()
+                        }
                     }
                 }
             }
+        }else {
+            return
         }
+        
     }
     
     @IBAction func googleBtn(_ sender: Any) {
-        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
-            guard error == nil else { return }
-            // If sign in succeeded, display the app's main content View.
-            
-            if let error = error {
-                print("\(error.localizedDescription)")
-            } else {
-                // Perform any operations on signed in user here.
-                if let user = user {
-                    self.UserG_mailID = user.userID ?? ""      // For client-side use only!
-                    self.UserG_mailFirstName = user.profile?.givenName ?? ""
-                    self.UserG_mailLastName = (user.profile?.familyName)!
-                    self.UserG_mailEmail = user.profile?.email ?? ""
-                    self.userG_mailAccessToken = user.authentication.idToken ?? ""
-                    self.UserG_userName = self.UserG_mailFirstName + " " + self.UserG_mailLastName
-                    //            user.profile = user.profile.hasImage
-//                    let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
-                    
-                    print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
-                    
-                    self.showLoading()
-                    self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, socialUser: "\(2)") { (error, data) in
-                        self.hideLoading()
-                        if let error = error {
-                            self.showAlert(withMessage: error)
-                            return
-                        }
+        updateUserInterface()
+        if internetConect {
+            GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
+                guard error == nil else { return }
+                // If sign in succeeded, display the app's main content View.
+                
+                if let error = error {
+                    print("\(error.localizedDescription)")
+                } else {
+                    // Perform any operations on signed in user here.
+                    if let user = user {
+                        self.UserG_mailID = user.userID ?? ""      // For client-side use only!
+                        self.UserG_mailFirstName = user.profile?.givenName ?? ""
+                        self.UserG_mailLastName = (user.profile?.familyName)!
+                        self.UserG_mailEmail = user.profile?.email ?? ""
+                        self.userG_mailAccessToken = user.authentication.idToken ?? ""
+                        self.UserG_userName = self.UserG_mailFirstName + " " + self.UserG_mailLastName
+                        //            user.profile = user.profile.hasImage
+                        //                    let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
                         
-                        guard let data = data else {return}
-                        Defaults.token = data.token
-                        Defaults.initUser(user: data)
+                        print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
                         
-                        DispatchQueue.main.async {
-                            if Defaults.needUpdate == 1 {
-                                Router().toEditProfileVC()
-                            }else {
-                                Router().toHome()
+                        self.showLoading()
+                        self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, socialUser: "\(2)") { (error, data) in
+                            self.hideLoading()
+                            if let error = error {
+                                self.showAlert(withMessage: error)
+                                return
+                            }
+                            
+                            guard let data = data else {return}
+                            Defaults.token = data.token
+                            Defaults.initUser(user: data)
+                            
+                            DispatchQueue.main.async {
+                                if Defaults.needUpdate == 1 {
+                                    Router().toEditProfileVC()
+                                }else {
+                                    Router().toHome()
+                                }
                             }
                         }
                     }
+                    
                 }
-                
             }
+        }else {
+            return
         }
+        
     }
     
     @IBAction func appleBtn(_ sender: Any) {
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-        
-        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-        authorizationController.delegate = self
-        authorizationController.presentationContextProvider = self
-        authorizationController.performRequests()
+        updateUserInterface()
+        if internetConect {
+            let appleIDProvider = ASAuthorizationAppleIDProvider()
+            let request = appleIDProvider.createRequest()
+            request.requestedScopes = [.fullName, .email]
+            
+            let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+            authorizationController.delegate = self
+            authorizationController.presentationContextProvider = self
+            authorizationController.performRequests()
+            
+        }else {
+            return
+        }
     }
     
     //MARK: - Helper
@@ -218,6 +243,30 @@ class RegisterVC: UIViewController {
         registerBtn.layer.addSublayer(gradient)
         registerBtn.cornerRadiusView(radius: 8)
         registerBtnView.cornerRadiusView(radius: 8)
+    }
+    
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+        case .wifi:
+            internetConect = true
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func HandleInternetConnection() {
+        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
     }
 }
 

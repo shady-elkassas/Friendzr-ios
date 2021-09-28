@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="g1W-9u-D4q">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -78,7 +78,7 @@
                                                 </connections>
                                             </button>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="9bm-BJ-IDP">
-                                                <rect key="frame" x="137.5" y="583.5" width="139" height="16"/>
+                                                <rect key="frame" x="121" y="583.5" width="172.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="D8T-u8-RhD"/>
                                                 </constraints>
@@ -139,7 +139,36 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bng-JX-rLC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3655.0724637681164" y="832.36607142857144"/>
+            <point key="canvasLocation" x="4565.217391304348" y="832.36607142857144"/>
+        </scene>
+        <!--SplachVC-->
+        <scene sceneID="DRA-nT-Lv2">
+            <objects>
+                <viewController storyboardIdentifier="SplachVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="HZK-22-RHD" customClass="SplachVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gSg-zf-tiZ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashImg" translatesAutoresizingMaskIntoConstraints="NO" id="Sw3-Wv-KbS">
+                                <rect key="frame" x="41.5" y="282.5" width="331" height="331"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Sw3-Wv-KbS" secondAttribute="height" id="h9r-cp-bMF"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="FvU-Dy-hhD"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Sw3-Wv-KbS" firstAttribute="centerX" secondItem="gSg-zf-tiZ" secondAttribute="centerX" id="KVH-Jx-RFZ"/>
+                            <constraint firstItem="Sw3-Wv-KbS" firstAttribute="centerY" secondItem="gSg-zf-tiZ" secondAttribute="centerY" id="OrM-9a-JO9"/>
+                            <constraint firstItem="Sw3-Wv-KbS" firstAttribute="width" secondItem="gSg-zf-tiZ" secondAttribute="width" multiplier="0.8" id="vQC-FR-9p8"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="05c-Sw-Uvd"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Oec-uK-3iG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2905.7971014492755" y="827.67857142857144"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="GDi-sz-DWZ">
@@ -157,7 +186,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zU8-KW-lEd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2744.9275362318845" y="832.36607142857144"/>
+            <point key="canvasLocation" x="3655.0724637681164" y="832.36607142857144"/>
         </scene>
         <!--Splach TwoVC-->
         <scene sceneID="XpC-1d-GDt">
@@ -214,7 +243,7 @@
                                                 </connections>
                                             </button>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="7dQ-Og-eAD">
-                                                <rect key="frame" x="137.5" y="583.5" width="139" height="16"/>
+                                                <rect key="frame" x="121" y="583.5" width="172.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="goN-9V-fgG"/>
                                                 </constraints>
@@ -275,7 +304,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wno-YU-XHY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5177" y="856"/>
+            <point key="canvasLocation" x="6086.9565217391309" y="855.80357142857144"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="De2-34-cjv">
@@ -293,7 +322,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1tK-ky-TqL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4433" y="846"/>
+            <point key="canvasLocation" x="5342.0289855072469" y="845.75892857142856"/>
         </scene>
         <!--Splach ThreeVC-->
         <scene sceneID="BRd-jT-aue">
@@ -350,7 +379,7 @@
                                                 </connections>
                                             </button>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="zeZ-UA-ciq">
-                                                <rect key="frame" x="137.5" y="583.5" width="139" height="16"/>
+                                                <rect key="frame" x="121" y="583.5" width="172.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="1GJ-h0-94m"/>
                                                 </constraints>
@@ -411,7 +440,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hwj-MH-Vad" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6452" y="880"/>
+            <point key="canvasLocation" x="7360.8695652173919" y="879.91071428571422"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="W0c-11-YxH">
@@ -429,7 +458,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aL8-k7-6Cj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5820" y="856"/>
+            <point key="canvasLocation" x="6728.985507246377" y="855.80357142857144"/>
         </scene>
         <!--Splach FourVC-->
         <scene sceneID="WTw-cW-bkb">
@@ -689,7 +718,7 @@
                                                 </constraints>
                                             </view>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="BGB-Ce-TMi">
-                                                <rect key="frame" x="137.5" y="620" width="139" height="16"/>
+                                                <rect key="frame" x="121" y="620" width="172.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="TWQ-zM-3G3"/>
                                                 </constraints>
@@ -756,7 +785,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UE9-tv-1tE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7895.652173913044" y="879.91071428571422"/>
+            <point key="canvasLocation" x="8805.7971014492759" y="879.91071428571422"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="iHK-bQ-2AJ">
@@ -774,7 +803,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MnU-jy-vpY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7172" y="880"/>
+            <point key="canvasLocation" x="8081.1594202898559" y="879.91071428571422"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Nts-Ja-n7e">
+            <objects>
+                <navigationController storyboardIdentifier="SplachNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="g1W-9u-D4q" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EV5-gE-TyJ">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="HZK-22-RHD" kind="relationship" relationship="rootViewController" id="3bJ-HU-bdl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2gG-ms-m3X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1995.6521739130437" y="827.67857142857144"/>
         </scene>
     </scenes>
     <resources>
@@ -783,6 +830,7 @@
         <image name="splash2" width="336" height="230.5"/>
         <image name="splash3" width="335" height="296"/>
         <image name="splash4" width="360" height="99"/>
+        <image name="splashImg" width="1280" height="1280"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

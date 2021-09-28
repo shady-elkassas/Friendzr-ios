@@ -33,6 +33,7 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var endTimeBtn: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
     
+    
     //MARK: - Properties
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
     lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
@@ -60,6 +61,8 @@ class AddEventVC: UIViewController {
     var catID = ""
     var catName = ""
     
+    var internetConect:Bool = false
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +70,10 @@ class AddEventVC: UIViewController {
         self.title = "Add Event".localizedString
         setupView()
         initBackButton()
-        getCats()
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,7 +85,7 @@ class AddEventVC: UIViewController {
     func getCats() {
         catsVM.getAllCategories()
         catsVM.cats.bind { [unowned self] value in
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
                 cats = value
             }
         }
@@ -95,8 +101,8 @@ class AddEventVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func addImgBtn(_ sender: Any) {
-//        self.eventImg.image = UIImage(named: "costa rica")
-//        self.attachedImg = true
+        //        self.eventImg.image = UIImage(named: "costa rica")
+        //        self.attachedImg = true
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
@@ -293,25 +299,56 @@ class AddEventVC: UIViewController {
     }
     
     @IBAction func saveBtn(_ sender: Any) {
-        self.showLoading()
-        viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
-            self.hideLoading()
-            if let error = error {
-                self.showAlert(withMessage: error)
-                return
+        updateUserInterface()
+        if internetConect == true {
+            self.showLoading()
+            viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
+                self.hideLoading()
+                if let error = error {
+                    self.showAlert(withMessage: error)
+                    return
+                }
+                
+                guard let _ = data else {return}
+                
+                DispatchQueue.main.async {
+                    self.showAlert(withMessage: "Your event added successfully")
+                }
+                
+                NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
             }
-            
-            guard let _ = data else {return}
-            
-            DispatchQueue.main.async {
-                self.showAlert(withMessage: "Your event added successfully")
-            }
-            
-            NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
+        }else {
+            return
         }
     }
     
     //MARK: - Helper
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+            getCats()
+        case .wifi:
+            internetConect = true
+            getCats()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func HandleInternetConnection() {
+        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+    }
+    
     func setupView() {
         eventImg.cornerRadiusView(radius: 6)
         saveBtn.cornerRadiusView(radius: 6)
@@ -328,22 +365,6 @@ class AddEventVC: UIViewController {
         formattrTime.dateFormat = "HH:mm a"
         self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
         self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
-        
-        //        if switchAllDays.isOn {
-        ////            datesView.isHidden = true
-        ////            datesViewHeight.constant = 0
-        //            startDateBtn.isHidden = true
-        //            endDateBtn.isHidden = true
-        //            startTimeBtn.isHidden = true
-        //            endTimeBtn.isHidden = true
-        //        }else {
-        ////            datesView.isHidden = false
-        ////            datesViewHeight.constant = 70
-        //            startDateBtn.isHidden = false
-        //            endDateBtn.isHidden = false
-        //            startTimeBtn.isHidden = false
-        //            endTimeBtn.isHidden = false
-        //        }
     }
     
     func OnCategoryCallBack(_ data: String, _ value: String) -> () {

@@ -30,7 +30,7 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var interestsTableView: UITableView!
     @IBOutlet weak var attendeesTableView: UITableView!
     @IBOutlet weak var attendeesViewHeight: NSLayoutConstraint!
-    
+        
     //MARK: - Properties
     var numbers:[Double] = [1,2,3]
     var genders:[String] = ["Men","Women","Other"]
@@ -42,20 +42,51 @@ class EventDetailsVC: UIViewController {
     var joinVM:JoinEventViewModel = JoinEventViewModel()
     var leaveVM:LeaveEventViewModel = LeaveEventViewModel()
     
+    var internetConect:Bool = false
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initBackButton()
-        getEventDetails()
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
+        setupViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         clearNavigationBar()
-        setupViews()
     }
     
-    //MARK: - Helpers
+    //MARK: - Helper
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+            getEventDetails()
+        case .wifi:
+            internetConect = true
+            getEventDetails()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func HandleInternetConnection() {
+            self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+    }
+
     func setupViews() {
         let child = UIHostingController(rootView: CircleView())
         child.view.translatesAutoresizingMaskIntoConstraints = true
@@ -114,7 +145,7 @@ class EventDetailsVC: UIViewController {
                 attendeesTableView.delegate = self
                 attendeesTableView.dataSource = self
                 attendeesTableView.reloadData()
-
+                
                 setupData()
                 
                 if value.attendees?.count == 0 {
@@ -134,49 +165,64 @@ class EventDetailsVC: UIViewController {
         }
     }
     
-    
     //MARK: - Actions
     @IBAction func editBtn(_ sender: Any) {
-        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
-        vc.eventModel = viewmodel.event.value
-        self.navigationController?.pushViewController(vc, animated: true)
+        updateUserInterface()
+        if internetConect == true {
+            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
+            vc.eventModel = viewmodel.event.value
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            return
+        }
     }
     
     @IBAction func joinBtn(_ sender: Any) {
-        self.showLoading()
-        joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in
-            self.hideLoading()
-            if let error = error {
-                self.showAlert(withMessage: error)
-                return
+        updateUserInterface()
+        
+        if internetConect == true {
+            self.showLoading()
+            joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in
+                self.hideLoading()
+                if let error = error {
+                    self.showAlert(withMessage: error)
+                    return
+                }
+                
+                guard let _ = data else {return}
+                
+                DispatchQueue.main.async {
+                    self.view.makeToast("You have successfully subscribed to event")
+                }
+                
+                self.getEventDetails()
             }
-            
-            guard let _ = data else {return}
-            
-            DispatchQueue.main.async {
-                self.view.makeToast("You have successfully subscribed to event")
-            }
-            
-            self.getEventDetails()
+        }else {
+            return
         }
     }
     
     @IBAction func leaveBtn(_ sender: Any) {
-        self.showLoading()
-        leaveVM.leaveEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in
-            self.hideLoading()
-            if let error = error {
-                self.showAlert(withMessage: error)
-                return
+        updateUserInterface()
+        if internetConect == true {
+            self.showLoading()
+            leaveVM.leaveEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in
+                self.hideLoading()
+                if let error = error {
+                    self.showAlert(withMessage: error)
+                    return
+                }
+                
+                guard let _ = data else {return}
+                
+                DispatchQueue.main.async {
+                    self.view.makeToast("You have successfully leave event")
+                }
+                
+                self.getEventDetails()
             }
-            
-            guard let _ = data else {return}
-            
-            DispatchQueue.main.async {
-                self.view.makeToast("You have successfully leave event")
-            }
-            
-            self.getEventDetails()
+        }else {
+            return
         }
     }
 }

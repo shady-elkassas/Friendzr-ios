@@ -13,18 +13,25 @@ class RequestVC: UIViewController {
     @IBOutlet weak var totalRequestLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var tryAgainBtn: UIButton!
+    @IBOutlet weak var emptyLbl: UILabel!
+    @IBOutlet weak var emptyImg: UIImageView!
+    
     //MARK: - Properties
     let cellID = "RequestTableViewCell"
     var viewmodel:RequestsViewModel = RequestsViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var refreshControl = UIRefreshControl()
     
+    var cellSelected:Bool = false
+    var internetConnect:Bool = false
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
-        
         pullToRefresh()
     }
     
@@ -32,7 +39,10 @@ class RequestVC: UIViewController {
         self.title = "Request"
         setupNavBar()
         initProfileBarButton()
-        getAllUserRequests()
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     //MARK:- APIs
@@ -47,6 +57,8 @@ class RequestVC: UIViewController {
                 tableView.reloadData()
                 
                 totalRequestLbl.text = " \(value.count)"
+                
+                showEmptyView()
             }
         }
         
@@ -54,11 +66,76 @@ class RequestVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 self.hideLoading()
-                self.showAlert(withMessage: error)
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else if error == "Bad Request" {
+                    HandleinvalidUrl()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
             }
         }
     }
+    
     //MARK: - Helper
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            self.emptyView.isHidden = false
+            internetConnect = false
+            HandleInternetConnection()
+        case .wwan:
+            self.emptyView.isHidden = true
+            internetConnect = true
+            getAllUserRequests()
+        case .wifi:
+            self.emptyView.isHidden = true
+            internetConnect = true
+            getAllUserRequests()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func showEmptyView() {
+        if viewmodel.requests.value?.count == 0 {
+            emptyView.isHidden = false
+            emptyLbl.text = "You haven't any data yet".localizedString
+        }else {
+            emptyView.isHidden = true
+        }
+        
+        tryAgainBtn.alpha = 0.0
+    }
+    
+    func HandleinvalidUrl() {
+        emptyView.isHidden = false
+        emptyImg.image = UIImage.init(named: "maskGroup9")
+        emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
+        tryAgainBtn.alpha = 1.0
+    }
+    
+    func HandleInternetConnection() {
+        if cellSelected {
+            emptyView.isHidden = true
+            self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        }else {
+            emptyView.isHidden = false
+            emptyImg.image = UIImage.init(named: "nointernet")
+            emptyLbl.text = "No avaliable newtwok ,Please try again!".localizedString
+            tryAgainBtn.alpha = 1.0
+        }
+    }
+    
+    func HandleUnauthorized() {
+    }
+    
     func pullToRefresh() {
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -74,6 +151,12 @@ class RequestVC: UIViewController {
     func setup() {
         //register cell in table view
         tableView.register(UINib(nibName:cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        tryAgainBtn.cornerRadiusView(radius: 8)
+    }
+    
+    //MARK:- Actions
+    @IBAction func tryAgainBtn(_ sender: Any) {
+        updateUserInterface()
     }
 }
 
@@ -87,7 +170,7 @@ extension RequestVC:UITableViewDataSource {
         let model = viewmodel.requests.value?[indexPath.row]
         
         cell.friendRequestNameLbl.text = model?.userName
-        cell.friendRequestUserNameLbl.text = model?.displayedUserName
+        cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
         cell.friendRequestDateLbl.text = model?.regestdata
         cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "avatar"))
         
@@ -143,9 +226,15 @@ extension RequestVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = viewmodel.requests.value?[indexPath.row]
-        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
-        vc.userID = model?.userId ?? ""
-        self.navigationController?.pushViewController(vc, animated: true)
+        cellSelected = true
+        updateUserInterface()
+        if internetConnect {
+            let model = viewmodel.requests.value?[indexPath.row]
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+            vc.userID = model?.userId ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            return
+        }
     }
 }

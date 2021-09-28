@@ -33,17 +33,17 @@ class SplachOneVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func getStartBtn(_ sender: Any) {
-        //        if Defaults.needUpdate == 1 {
-        //            Router().toEditProfileVC()
-        //        }else {
-        //            if Defaults.token != "" {
-        //                Router().toHome()
-        //            }else {
-        //                Router().toSplach2()
-        //            }
-        //        }
+                if Defaults.needUpdate == 1 {
+                    Router().toEditProfileVC()
+                }else {
+                    if Defaults.token != "" {
+                        Router().toHome()
+                    }else {
+                        Router().toSplach2()
+                    }
+                }
         
-        Router().toMap()
+//        Router().toMap()
         
         //            let context = LAContext()
         //            var error: NSError? = nil

@@ -18,6 +18,8 @@ class ForgetPasswordVC: UIViewController {
     //MARK: - Properties
     var viewmodel:ForgetPasswordViewModel = ForgetPasswordViewModel()
     
+    var internetConect:Bool = false
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,14 +37,20 @@ class ForgetPasswordVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func resetBtn(_ sender: Any) {
-        viewmodel.ResetPassword(withEmail: emailTxt.text!) { error, data in
-            self.hideLoading()
-            if let error = error {
-                self.showAlert(withMessage: error)
-                return
+        updateUserInterface()
+        if internetConect {
+            self.showLoading()
+            viewmodel.ResetPassword(withEmail: emailTxt.text!) { error, data in
+                self.hideLoading()
+                if let error = error {
+                    self.showAlert(withMessage: error)
+                    return
+                }
+                guard let data = data else {return}
+                self.showAlert(withMessage: data.code)
             }
-            guard let data = data else {return}
-            self.showAlert(withMessage: data.code)
+        }else {
+            return
         }
     }
     
@@ -60,4 +68,29 @@ class ForgetPasswordVC: UIViewController {
         resetBtn.cornerRadiusView(radius: 8)
         resetBtnView.cornerRadiusView(radius: 8)
     }
+    
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+        case .wifi:
+            internetConect = true
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func HandleInternetConnection() {
+        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+    }
+
 }

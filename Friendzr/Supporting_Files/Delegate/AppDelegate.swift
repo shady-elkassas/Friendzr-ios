@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if #available(iOS 13, *) {
         } else {
-            Router().toSplachOne()
+            Router().toSplach()
         }
         
         FirebaseApp.configure()
@@ -72,6 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Messaging.messaging().delegate = self
         application.registerForRemoteNotifications()
+        
+        networkReachability()
         return true
     }
     
@@ -98,6 +100,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return googleDidHandle || facebookDidHandle
     }
     
+    
+    func networkReachability() {
+        do {
+            try Network.reachability = Reachability(hostname: URLs.baseURLFirst)
+        }
+        catch {
+            switch error as? Network.Error {
+            case let .failedToCreateWith(hostname)?:
+                print("Network error:\nFailed to create reachability object With host named:", hostname)
+            case let .failedToInitializeWith(address)?:
+                print("Network error:\nFailed to initialize reachability object With address:", address)
+            case .failedToSetCallout?:
+                print("Network error:\nFailed to set callout")
+            case .failedToSetDispatchQueue?:
+                print("Network error:\nFailed to set DispatchQueue")
+            case .none:
+                print(error)
+            }
+        }
+    }
     // MARK: - Core Data stack
     
     lazy var persistentContainer: NSPersistentContainer = {
@@ -216,8 +238,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate : MessagingDelegate{
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("Firebase registration token: \(String(describing: fcmToken))")
         
+        let dataDict:[String: String] = ["token": fcmToken!]
+        print("Firebase registration token: \(String(describing: fcmToken))")
         Defaults.fcmToken = fcmToken!
     }
 }
@@ -246,7 +269,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler([[.alert, .sound]])
     }
     
-    private func userNotificationCenter(_ center: UNUserNotificationCenter,
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = response.notification.request.content.userInfo

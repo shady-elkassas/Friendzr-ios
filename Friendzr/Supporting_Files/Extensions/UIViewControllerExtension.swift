@@ -7,9 +7,9 @@
 
 import Foundation
 import UIKit
-import SkyFloatingLabelTextField
 
-let appDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
+let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
 extension UIViewController {
     
@@ -87,7 +87,7 @@ extension UIViewController {
     func initProfileBarButton(_ color: UIColor? = .white) {
         let button = UIButton.init(type: .custom)
         button.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-        let image = UIImage(named: "avatar")?.withRenderingMode(.automatic)
+        let image = UIImage(named: "avatar_ic")?.withRenderingMode(.automatic)
         
         button.setImage(image, for: .normal)
         button.tintColor = color
@@ -130,7 +130,7 @@ extension UIViewController {
         
     func setupNavBar() {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-SemiBold", size: 14) ?? "",NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!]
-        self.navigationController?.navigationBar.isTranslucent = false
+        self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.barTintColor = .white
 //        self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage() , for:UIBarMetrics.default)
@@ -278,15 +278,15 @@ extension UIViewController {
     }
     
     
-    func updateTextField(iView:UIView,txtField:SkyFloatingLabelTextField,placeholder:String,titleLbl:String) {
-        txtField.placeholder = placeholder
-        txtField.title = titleLbl
-        txtField.backgroundColor = .clear
-        txtField.placeholderFont = UIFont(name: "Montserrat-Medium", size: 14)!
-        txtField.textColor = UIColor.color("#141414")
-        txtField.titleFont = UIFont(name: "Montserrat-Medium", size: 16)!
-        txtField.lineView = UIView()
-        txtField.selectedTitleColor = UIColor.FriendzrColors.primary!
-        iView.addSubview(txtField)
-    }
+//    func updateTextField(iView:UIView,txtField:SkyFloatingLabelTextField,placeholder:String,titleLbl:String) {
+//        txtField.placeholder = placeholder
+//        txtField.title = titleLbl
+//        txtField.backgroundColor = .clear
+//        txtField.placeholderFont = UIFont(name: "Montserrat-Medium", size: 14)!
+//        txtField.textColor = UIColor.color("#141414")
+//        txtField.titleFont = UIFont(name: "Montserrat-Medium", size: 16)!
+//        txtField.lineView = UIView()
+//        txtField.selectedTitleColor = UIColor.FriendzrColors.primary!
+//        iView.addSubview(txtField)
+//    }
 }

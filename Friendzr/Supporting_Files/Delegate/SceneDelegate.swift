@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import JGProgressHUD
 import FBSDKCoreKit
 import FBSDKLoginKit
 import GoogleSignIn
@@ -31,7 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         guard let _ = (scene as? UIWindowScene) else { return }
-        Router().toSplachOne()
+        Router().toSplach()
     }
     
     

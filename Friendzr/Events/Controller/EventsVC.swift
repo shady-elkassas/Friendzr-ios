@@ -11,28 +11,40 @@ class EventsVC: UIViewController {
     
     //MARK:- Outlets
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var tryAgainBtn: UIButton!
+    @IBOutlet weak var emptyLbl: UILabel!
+    @IBOutlet weak var emptyImg: UIImageView!
     
     //MARK: - Properties
     let cellID = "EventTableViewCell"
     var viewmodel:EventsViewModel = EventsViewModel()
     var refreshControl = UIRefreshControl()
-
+    
+    var internetConect:Bool = false
+    var cellSelect:Bool = false
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Events"
         setupView()
-        getAllEvents()
+        
         initBackButton()
         pullToRefresh()
         NotificationCenter.default.addObserver(self, selector: #selector(refreshAllEvents), name: Notification.Name("refreshAllEvents"), object: nil)
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         clearNavigationBar()
     }
     
+    //MARK:- APIs
     func getAllEvents() {
         self.showLoading()
         viewmodel.getAllEvents()
@@ -43,6 +55,8 @@ class EventsVC: UIViewController {
                 tableView.dataSource = self
                 tableView.reloadData()
                 initAddNewEventBarButton(total: value.count)
+                
+                showEmptyView()
             }
         }
         
@@ -50,14 +64,79 @@ class EventsVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 self.hideLoading()
-                self.showAlert(withMessage: error)
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else if error == "Bad Request" {
+                    HandleinvalidUrl()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
             }
         }
     }
     
     //MARK: - Helper
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            self.emptyView.isHidden = false
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+            self.emptyView.isHidden = true
+            getAllEvents()
+        case .wifi:
+            internetConect = true
+            self.emptyView.isHidden = true
+            getAllEvents()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func showEmptyView() {
+        if viewmodel.events.value?.count == 0 {
+            emptyView.isHidden = false
+            emptyLbl.text = "You haven't any data yet".localizedString
+        }else {
+            emptyView.isHidden = true
+        }
+        
+        tryAgainBtn.alpha = 0.0
+    }
+    
+    func HandleinvalidUrl() {
+        emptyView.isHidden = false
+        emptyImg.image = UIImage.init(named: "emptyImage")
+        emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
+        tryAgainBtn.alpha = 1.0
+    }
+    
+    func HandleInternetConnection() {
+        if cellSelect {
+            emptyView.isHidden = true
+            self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        }else {
+            emptyView.isHidden = false
+            emptyImg.image = UIImage.init(named: "nointernet")
+            emptyLbl.text = "No avaliable newtwok ,Please try again!".localizedString
+            tryAgainBtn.alpha = 1.0
+        }
+    }
+    
+    func HandleUnauthorized() {
+    }
+    
     func setupView() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        tryAgainBtn.cornerRadiusView(radius: 8)
     }
     
     func pullToRefresh() {
@@ -68,12 +147,18 @@ class EventsVC: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        getAllEvents()
+        updateUserInterface()
         self.refreshControl.endRefreshing()
     }
     
     @objc func refreshAllEvents() {
-        getAllEvents()
+        updateUserInterface()
+    }
+    
+    //MARK:- Actions
+    @IBAction func tryAgainBtn(_ sender: Any) {
+        cellSelect = false
+        updateUserInterface()
     }
 }
 
@@ -100,9 +185,15 @@ extension EventsVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
-        vc.eventId = viewmodel.events.value?[indexPath.row].id ?? ""
-        self.navigationController?.pushViewController(vc, animated: true)
+        cellSelect = true
+        updateUserInterface()
+        if internetConect == true {
+            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
+            vc.eventId = viewmodel.events.value?[indexPath.row].id ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            return
+        }
     }
 }
 

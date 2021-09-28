@@ -7,7 +7,6 @@
 
 import UIKit
 import MessageKit
-import JGProgressHUD
 import InputBarAccessoryView
 import MapKit
 import AVFoundation

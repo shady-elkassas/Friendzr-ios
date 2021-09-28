@@ -27,7 +27,6 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var tagsViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tagsListView: TagListView!
     
-    
     //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("CalendarView", owner: self, options: nil)?.first as? CalendarView
     var genderString = ""
@@ -38,6 +37,8 @@ class EditMyProfileVC: UIViewController {
     var attachedImg:Bool = false
     var birthDay = ""
     
+    var internetConect:Bool = false
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,7 +46,10 @@ class EditMyProfileVC: UIViewController {
         self.title = "Edit Profile"
         setup()
         setupDate()
-        getProfileInformation()
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,6 +58,33 @@ class EditMyProfileVC: UIViewController {
     }
     
     //MARK: - Helpers
+    
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+            getProfileInformation()
+        case .wifi:
+            internetConect = true
+            getProfileInformation()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func HandleInternetConnection() {
+        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+    }
+
     func setup() {
         saveBtn.cornerRadiusView(radius: 8)
         nameView.cornerRadiusView(radius: 8)
@@ -78,11 +109,15 @@ class EditMyProfileVC: UIViewController {
         // Set View Model Event Listener
         profileVM.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                print(error)
+                self.hideLoading()
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
             }
         }
     }
-    
     
     func setupDate() {
         let model = profileVM.userModel.value
@@ -93,6 +128,7 @@ class EditMyProfileVC: UIViewController {
         
         profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
         
+        tagsListView.removeAllTags()
         for itm in model?.listoftagsmodel ?? [] {
             tagsListView.addTag(itm.tagname)
             tagsid.append(itm.tagID)
@@ -103,7 +139,6 @@ class EditMyProfileVC: UIViewController {
         }else {
             tagsViewHeight.constant = CGFloat(tagsListView.rows * 30) + 10
         }
-        
         tagsListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
         
         if model?.gender == "male" {
@@ -218,6 +253,7 @@ class EditMyProfileVC: UIViewController {
         
         genderString = "male"
     }
+    
     @IBAction func femaleBtn(_ sender: Any) {
         femaleImg.image = UIImage(named: "select_ic")
         maleImg.image = UIImage(named: "unSelect_ic")
@@ -225,6 +261,7 @@ class EditMyProfileVC: UIViewController {
         
         genderString = "female"
     }
+    
     @IBAction func otherBtn(_ sender: Any) {
         otherImg.image = UIImage(named: "select_ic")
         maleImg.image = UIImage(named: "unSelect_ic")
@@ -234,9 +271,14 @@ class EditMyProfileVC: UIViewController {
     }
     
     @IBAction func tagsBtn(_ sender: Any) {
-        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "TagsVC") as? TagsVC else {return}
-        vc.onInterestsCallBackResponse = self.OnInterestsCallBack
-        self.navigationController?.pushViewController(vc, animated: true)
+        updateUserInterface()
+        if internetConect {
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "TagsVC") as? TagsVC else {return}
+            vc.onInterestsCallBackResponse = self.OnInterestsCallBack
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            return
+        }
     }
     
     @IBAction func integrationInstgramBtn(_ sender: Any) {
@@ -252,24 +294,30 @@ class EditMyProfileVC: UIViewController {
     }
     
     @IBAction func saveBtn(_ sender: Any) {
-        self.showLoading()
-        viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in
-            self.hideLoading()
-            if let error = error {
-                self.showAlert(withMessage: error)
-                return
-            }
-            
-            guard let _ = data else {return}
-            //            self.showAlert(withMessage: "Edits Saved")
-            
-            DispatchQueue.main.async {
-                if Defaults.needUpdate == 1 {
+        updateUserInterface()
+        
+        if internetConect {
+            self.showLoading()
+            viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in
+                self.hideLoading()
+                if let error = error {
+                    self.showAlert(withMessage: error)
                     return
-                }else {
-                    Router().toHome()
+                }
+                
+                guard let _ = data else {return}
+                //            self.showAlert(withMessage: "Edits Saved")
+                
+                DispatchQueue.main.async {
+                    if Defaults.needUpdate == 1 {
+                        return
+                    }else {
+                        Router().toHome()
+                    }
                 }
             }
+        }else {
+            return
         }
     }
 }
@@ -325,11 +373,11 @@ extension EditMyProfileVC : TagListViewDelegate {
     // MARK: TagListViewDelegate
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag pressed: \(title), \(sender)")
-//        tagView.isSelected = !tagView.isSelected
+        //        tagView.isSelected = !tagView.isSelected
     }
     
     func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag Remove pressed: \(title), \(sender)")
-//        sender.removeTagView(tagView)
+        //        sender.removeTagView(tagView)
     }
 }

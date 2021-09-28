@@ -51,6 +51,12 @@ class Router {
         go(withVC: nextVC)
     }
     
+    func toSplach()  {
+        let id = "SplachNC"
+        let nextVC = Initializer.createViewController(storyBoard: .Splach, andId: id)
+        go(withVC: nextVC)
+    }
+    
     func toSplachOne()  {
         let id = "SplachOneNC"
         let nextVC = Initializer.createViewController(storyBoard: .Splach, andId: id)

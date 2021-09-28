@@ -63,10 +63,42 @@ class RequestManager  {
                     } catch {
                         print(error)
                     }
+                }else if code == 400 {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                        print(json)
+                        completion([:],"Bad Request")
+                    } catch {
+                        print(error)
+                    }
                 }
                 else if code == 401 {
-                    DispatchQueue.main.async {
-                        Router().toOptionsSignUpVC()
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                        print(json)
+                        completion([:],"Unauthorized")
+                        
+                        DispatchQueue.main.async {
+                            Router().toOptionsSignUpVC()
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }else if code == 500 {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                        print(json)
+                        completion([:],"Internal Server Error")
+                    } catch {
+                        print(error)
+                    }
+                }else if code! > 500 && code! < 600 {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                        print(json)
+                        completion([:],"Internal Server Error")
+                    } catch {
+                        print(error)
                     }
                 }
                 else {

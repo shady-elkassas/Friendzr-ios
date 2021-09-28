@@ -14,12 +14,20 @@ class BlockedListVC: UIViewController {
     @IBOutlet weak var searchBarView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var tryAgainBtn: UIButton!
+    @IBOutlet weak var emptyLbl: UILabel!
+    @IBOutlet weak var emptyImg: UIImageView!
+
     //MARK: - Properties
     let cellID = "BlockedTableViewCell"
     var viewmodel:AllBlockedViewModel = AllBlockedViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
 
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
+    var refreshControl = UIRefreshControl()
+    var internetConect:Bool = false
+    var btnsSelect:Bool = false
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -30,14 +38,47 @@ class BlockedListVC: UIViewController {
         setupNavBar()
         setupSearchBar()
         setupViews()
-        getAllBlockedList()
         
-        
+        pullToRefresh()
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         alertView?.addGestureRecognizer(tap)
     }
     
-
+    override func viewWillAppear(_ animated: Bool) {
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
+    }
+    
+    //MARK:- APIs
+    func getAllBlockedList() {
+        self.showLoading()
+        viewmodel.getAllBlockedList()
+        viewmodel.blocklist.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+                showEmptyView()
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else if error == "Bad Request" {
+                    HandleinvalidUrl()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
+            }
+        }
+    }
+        
     //MARK: - Helper
     func setupSearchBar() {
         searchbar.delegate = self
@@ -56,29 +97,66 @@ class BlockedListVC: UIViewController {
     }
     
     func setupViews() {
+        tryAgainBtn.cornerRadiusView(radius: 8)
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
     }
-    
-    //MARK:- APIs
-    func getAllBlockedList() {
-        self.showLoading()
-        viewmodel.getAllBlockedList()
-        viewmodel.blocklist.bind { [unowned self] value in
-            DispatchQueue.main.async {
-                self.hideLoading()
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
-            }
+
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            self.emptyView.isHidden = false
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+            self.emptyView.isHidden = true
+            getAllBlockedList()
+        case .wifi:
+            internetConect = true
+            self.emptyView.isHidden = true
+            getAllBlockedList()
         }
         
-        // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
-            DispatchQueue.main.async {
-                self.hideLoading()
-                self.showAlert(withMessage: error)
-            }
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func showEmptyView() {
+        if viewmodel.blocklist.value?.count == 0 {
+            emptyView.isHidden = false
+            emptyLbl.text = "You haven't any data yet".localizedString
+        }else {
+            emptyView.isHidden = true
         }
+        
+        tryAgainBtn.alpha = 0.0
+    }
+    
+    func HandleinvalidUrl() {
+        emptyView.isHidden = false
+        emptyImg.image = UIImage.init(named: "emptyImage")
+        emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
+        tryAgainBtn.alpha = 1.0
+    }
+    
+    func HandleInternetConnection() {
+        if btnsSelect {
+            emptyView.isHidden = true
+            self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        }else {
+            emptyView.isHidden = false
+            emptyImg.image = UIImage.init(named: "nointernet")
+            emptyLbl.text = "No avaliable newtwok ,Please try again!".localizedString
+            tryAgainBtn.alpha = 1.0
+        }
+    }
+    
+    func HandleUnauthorized() {
     }
     
     
@@ -93,6 +171,30 @@ class BlockedListVC: UIViewController {
             self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
         }
     }
+    
+    
+    func pullToRefresh() {
+        self.refreshControl.attributedTitle = NSAttributedString(string: "")
+        self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+        self.tableView.addSubview(refreshControl)
+    }
+    
+    @objc func didPullToRefresh() {
+        print("Refersh")
+        updateUserInterface()
+        self.refreshControl.endRefreshing()
+    }
+    
+    @objc func refreshAllEvents() {
+        updateUserInterface()
+    }
+    
+    //MARK:- Actions
+    @IBAction func tryAgainBtn(_ sender: Any) {
+        btnsSelect = false
+        updateUserInterface()
+    }
+
 }
 
 //MARK: - Extensions
@@ -126,23 +228,28 @@ extension BlockedListVC: UITableViewDataSource {
             
             self.alertView?.HandleConfirmBtn = {
                 // handling code
+                self.btnsSelect = true
+                self.updateUserInterface()
                 
-                self.showLoading()
-                self.requestFriendVM.requestFriendStatus(withID: model?.userid ?? "", AndKey: 4) { error, message in
-                    self.hideLoading()
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
+                if self.internetConect {
+                    self.showLoading()
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userid ?? "", AndKey: 4) { error, message in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let message = message else {return}
+                        self.showAlert(withMessage: message)
+                        
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
                     }
-                    
-                    guard let message = message else {return}
-                    self.showAlert(withMessage: message)
-                    
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
+                }else {
+                    return
                 }
-                
                 
                 UIView.animate(withDuration: 0.3, animations: {
                     self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -167,9 +274,15 @@ extension BlockedListVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = viewmodel.blocklist.value?[indexPath.row]
-        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
-        vc.userID = model?.userid ?? ""
-        self.navigationController?.pushViewController(vc, animated: true)
+        btnsSelect = true
+        updateUserInterface()
+        if internetConect {
+            let model = viewmodel.blocklist.value?[indexPath.row]
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+            vc.userID = model?.userid ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            return
+        }
     }
 }

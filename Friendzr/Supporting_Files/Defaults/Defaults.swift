@@ -243,6 +243,16 @@ class Defaults {
         }
     }
     
+    static var allowMyLocation: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "allowMyLocation")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "allowMyLocation")
+        }
+    }
+    
     static func initUser(user:UserObj)  {
         Defaults.userName = user.userName
         Defaults.Email = user.email
@@ -286,6 +296,7 @@ class Defaults {
         defaults.removeObject(forKey: "facebook")
         defaults.removeObject(forKey: "generatedusername")
         defaults.removeObject(forKey: "needUpdate")
+        defaults.removeObject(forKey: "allowMyLocation")
 
         if let token = AccessToken.current,
            !token.isExpired {

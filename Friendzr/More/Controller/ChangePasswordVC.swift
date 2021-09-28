@@ -22,7 +22,8 @@ class ChangePasswordVC: UIViewController {
     
     //MARK: - Properties
     var viewmodel:ChangePasswordViewModel = ChangePasswordViewModel()
-    
+    var internetConect:Bool = false
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,31 @@ class ChangePasswordVC: UIViewController {
     }
     
     //MARK: - Helpers
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+        case .wifi:
+            internetConect = true
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func HandleInternetConnection() {
+        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+    }
+
+    
     func setupViews() {
         for item in views {
             item.setBorder(color: UIColor.color("#DDDFDD")?.cgColor, width: 1)
@@ -51,21 +77,26 @@ class ChangePasswordVC: UIViewController {
     
     //MARK:- Actions
     @IBAction func saveBtn(_ sender: Any) {
-        self.showLoading()
-        viewmodel.changePasswordRequest(witholdPassword: oldPasswordTxt.text!, AndNewPassword: newPasswordTxt.text!, AndConfirmNewPassword: confirmNewPasswordTxt.text!) { error, data in
-            self.hideLoading()
-            if let error = error{
-                self.showAlert(withMessage: error)
-                return
+        updateUserInterface()
+        if internetConect {
+            self.showLoading()
+            viewmodel.changePasswordRequest(witholdPassword: oldPasswordTxt.text!, AndNewPassword: newPasswordTxt.text!, AndConfirmNewPassword: confirmNewPasswordTxt.text!) { error, data in
+                self.hideLoading()
+                if let error = error{
+                    self.showAlert(withMessage: error)
+                    return
+                }
+                guard let _ = data else {return}
+                self.showAlert(withMessage:"Password changed successfully".localizedString)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
+                    self.oldPasswordTxt.text = ""
+                    self.newPasswordTxt.text = ""
+                    self.confirmNewPasswordTxt.text = ""
+                })
             }
-            guard let _ = data else {return}
-            self.showAlert(withMessage:"Password changed successfully".localizedString)
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
-                self.oldPasswordTxt.text = ""
-                self.newPasswordTxt.text = ""
-                self.confirmNewPasswordTxt.text = ""
-            })
+        }else {
+            return
         }
     }
     

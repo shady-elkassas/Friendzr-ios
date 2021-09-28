@@ -10,6 +10,11 @@ import SpriteKit
 
 class TagsVC: UIViewController {
     
+    @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var tryAgainBtn: UIButton!
+    @IBOutlet weak var emptyLbl: UILabel!
+    @IBOutlet weak var emptyImg: UIImageView!
+
     var vm = InterestsViewModel()
     var normalInterests:[InterestObj]!
     var onInterestsCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
@@ -35,6 +40,8 @@ class TagsVC: UIViewController {
     }
     
     //MARK: - Life Cycle
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -43,19 +50,9 @@ class TagsVC: UIViewController {
         self.title = "Tags"
         clearNavigationBar()
         
-        self.showLoading()
-        vm.getAllInterests(completion: { (error, cats) in
-            self.hideLoading()
-            if let error = error {
-                self.showAlert(withMessage: error)
-                return
-            }
-            guard let data = cats else {return}
-            for item in data {
-                self.addCats(node: item)
-            }
-            self.normalInterests = data
-        })
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     func addCats(node:InterestObj)  {
@@ -77,6 +74,85 @@ class TagsVC: UIViewController {
 //    }
     
     
+    //MARK: - APIs
+    
+    func getAllTags() {
+        self.showLoading()
+        vm.getAllInterests(completion: { (error, cats) in
+            self.hideLoading()
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    if error == "Internal Server Error" {
+                        self.HandleInternetConnection()
+                    }else if error == "Bad Request" {
+                        self.HandleinvalidUrl()
+                    }else {
+                        self.showAlert(withMessage: error)
+                    }
+                }
+                
+                return
+            }
+            
+            
+            guard let data = cats else {return}
+            
+            if data.count == 0 {
+                self.emptyView.isHidden = false
+                self.emptyLbl.text = "You haven't any data yet".localizedString
+                self.tryAgainBtn.alpha = 0.0
+
+            }else {
+                self.emptyView.isHidden = true
+                self.tryAgainBtn.alpha = 0.0
+                
+                for item in data {
+                    self.addCats(node: item)
+                }
+                self.normalInterests = data
+            }
+        })
+    }
+    
+    //MARK: - Helper
+    
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            self.emptyView.isHidden = false
+            HandleInternetConnection()
+        case .wwan:
+            self.emptyView.isHidden = true
+            getAllTags()
+        case .wifi:
+            self.emptyView.isHidden = true
+            getAllTags()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func HandleinvalidUrl() {
+        emptyView.isHidden = false
+        emptyImg.image = UIImage.init(named: "maskGroup9")
+        emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
+        tryAgainBtn.alpha = 1.0
+    }
+    
+    func HandleInternetConnection() {
+        emptyView.isHidden = false
+        emptyImg.image = UIImage.init(named: "nointernet")
+        emptyLbl.text = "No avaliable newtwok ,Please try again!".localizedString
+        tryAgainBtn.alpha = 1.0
+    }
+
     //MARK: - Actions
     @IBAction func add(_ sender: UIControl?) {
 //        if self.magnetic.selectedChildren.count == 0 {
@@ -126,6 +202,10 @@ class TagsVC: UIViewController {
                 })
             }
         }
+    }
+    
+    @IBAction func tryAgainBtn(_ sender: Any) {
+        updateUserInterface()
     }
 }
 

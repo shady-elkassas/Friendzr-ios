@@ -31,7 +31,7 @@ class FiltringDirectionVC: UIViewController {
         let child = UIHostingController(rootView: CompassViewSwiftUI())
         child.view.translatesAutoresizingMaskIntoConstraints = true
         child.view.sizeToFit()
-        child.view.frame = CGRect(x: 0, y: 0, width: CompassView.bounds.width - 20, height: CompassView.bounds.height - 100)
+        child.view.frame = CGRect(x: 0, y: 0, width: CompassView.bounds.width, height: CompassView.bounds.height - 100)
         CompassView.addSubview(child.view)
     }
     

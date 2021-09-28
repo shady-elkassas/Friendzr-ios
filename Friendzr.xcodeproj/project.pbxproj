@@ -172,6 +172,7 @@
 		439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */; };
 		439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */; };
 		439DDE9426F749DC00E09FC1 /* EventsInLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */; };
+		43BA37992700A121003F28FA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BA37982700A121003F28FA /* Reachability.swift */; };
 		43D545A426CB9DDD0064660A /* AddEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545A326CB9DDD0064660A /* AddEventVC.swift */; };
 		43D545A726CBB02D0064660A /* EventCalendarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D545A626CBB02D0064660A /* EventCalendarView.xib */; };
 		43D545A926CBB0450064660A /* EventCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545A826CBB0450064660A /* EventCalendarView.swift */; };
@@ -231,6 +232,7 @@
 		43FBA22826D4F105005F4FBF /* Lorem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FBA20726D4F105005F4FBF /* Lorem.swift */; };
 		43FBA22926D4F105005F4FBF /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FBA20826D4F105005F4FBF /* SampleData.swift */; };
 		43FBA22C26D5330F005F4FBF /* SendLocationChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FBA22B26D5330F005F4FBF /* SendLocationChatVC.swift */; };
+		43FDDD7A2701D9F400550876 /* SplachVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FDDD792701D9F400550876 /* SplachVC.swift */; };
 		43FED20A26DE3FCF00255B96 /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FED20926DE3FCF00255B96 /* EventModel.swift */; };
 		43FED20C26DE3FD900255B96 /* EventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FED20B26DE3FD900255B96 /* EventsViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -425,6 +427,7 @@
 		439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeModel.swift; sourceTree = "<group>"; };
 		439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsInLocationTableViewCell.swift; sourceTree = "<group>"; };
 		439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventsInLocationTableViewCell.xib; sourceTree = "<group>"; };
+		43BA37982700A121003F28FA /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		43D545A326CB9DDD0064660A /* AddEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventVC.swift; sourceTree = "<group>"; };
 		43D545A626CBB02D0064660A /* EventCalendarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventCalendarView.xib; sourceTree = "<group>"; };
 		43D545A826CBB0450064660A /* EventCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCalendarView.swift; sourceTree = "<group>"; };
@@ -486,6 +489,7 @@
 		43FBA20726D4F105005F4FBF /* Lorem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lorem.swift; sourceTree = "<group>"; };
 		43FBA20826D4F105005F4FBF /* SampleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		43FBA22B26D5330F005F4FBF /* SendLocationChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendLocationChatVC.swift; sourceTree = "<group>"; };
+		43FDDD792701D9F400550876 /* SplachVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachVC.swift; sourceTree = "<group>"; };
 		43FED20926DE3FCF00255B96 /* EventModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
 		43FED20B26DE3FD900255B96 /* EventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
 		FEE62193B6EE621B033E5DF9 /* Pods-Friendzr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Friendzr.release.xcconfig"; path = "Target Support Files/Pods-Friendzr/Pods-Friendzr.release.xcconfig"; sourceTree = "<group>"; };
@@ -886,14 +890,14 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		4362888926C8FF4900B51E51 /* Request */ = {
+		4362888926C8FF4900B51E51 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
 				4308EB6F26E9FC3A00D71379 /* ViewModel */,
 				4362888B26C8FF5200B51E51 /* Controller */,
 				4362888A26C8FF4D00B51E51 /* View */,
 			);
-			path = Request;
+			path = Requests;
 			sourceTree = "<group>";
 		};
 		4362888A26C8FF4D00B51E51 /* View */ = {
@@ -1071,7 +1075,7 @@
 				430A351A26CAAF9E00477A94 /* Events */,
 				436288A926C93B2D00B51E51 /* Profile */,
 				4362889026C8FF7700B51E51 /* More */,
-				4362888926C8FF4900B51E51 /* Request */,
+				4362888926C8FF4900B51E51 /* Requests */,
 				4362888226C8FF1100B51E51 /* Feed */,
 				4362887B26C8FEAD00B51E51 /* Map */,
 				4333DA7126C3B1CF0029F2B0 /* Register */,
@@ -1119,6 +1123,7 @@
 				4382AC5826C27A65005C1857 /* StoryBoard.swift */,
 				4382ACA526C28327005C1857 /* Initializer.swift */,
 				4382ACA726C2843E005C1857 /* KeychainItem.swift */,
+				43BA37982700A121003F28FA /* Reachability.swift */,
 			);
 			path = Supporting_Files;
 			sourceTree = "<group>";
@@ -1220,6 +1225,7 @@
 		4382ACAF26C28FF1005C1857 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				43FDDD792701D9F400550876 /* SplachVC.swift */,
 				4382ACB226C29019005C1857 /* SplachOneVC.swift */,
 				4382ACB926C2AFC2005C1857 /* SplachTwoVC.swift */,
 				4382ACBB26C2AFE9005C1857 /* SplachThreeVC.swift */,
@@ -1670,6 +1676,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4362888D26C8FF6500B51E51 /* RequestVC.swift in Sources */,
+				43BA37992700A121003F28FA /* Reachability.swift in Sources */,
 				4330757526E76CB3002940DF /* SeeMoreTableViewCell.swift in Sources */,
 				4336D11626DB7F610093C7A6 /* ValidationViewModel.swift in Sources */,
 				4362888626C8FF3A00B51E51 /* FeedVC.swift in Sources */,
@@ -1829,6 +1836,7 @@
 				43FBA21C26D4F105005F4FBF /* AlertService.swift in Sources */,
 				43FBA21E26D4F105005F4FBF /* Settings+UserDefaults.swift in Sources */,
 				43FBA21226D4F105005F4FBF /* AutocompleteExampleViewController.swift in Sources */,
+				43FDDD7A2701D9F400550876 /* SplachVC.swift in Sources */,
 				4382AC6226C27BC7005C1857 /* LoadingView.swift in Sources */,
 				430D426126D3A10F00188E42 /* EventTableViewCell.swift in Sources */,
 				4326A8F726F87AE000D471E0 /* SettingsViewModel.swift in Sources */,
@@ -2044,7 +2052,7 @@
 		};
 		4382AC4226C27195005C1857 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06E1CB890D75E84719ECEFB5 /* Pods-Friendzr.debug.xcconfig */;
+			baseConfigurationReference = FEE62193B6EE621B033E5DF9 /* Pods-Friendzr.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

@@ -13,6 +13,11 @@ class AttendeesVC: UIViewController {
     @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     
+    @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var tryAgainBtn: UIButton!
+    @IBOutlet weak var emptyLbl: UILabel!
+    @IBOutlet weak var emptyImg: UIImageView!
+
     let cellID = "AttendeesTableViewCell"
     var viewmodel:AttendeesViewModel = AttendeesViewModel()
     var eventID:String = ""
@@ -26,10 +31,16 @@ class AttendeesVC: UIViewController {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         initBackButton(btnColor: .black)
         title = "Attendees"
-        getAllAttendees()
+        tryAgainBtn.cornerRadiusView(radius: 8)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         alertView?.addGestureRecognizer(tap)
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
+        
+        tryAgainBtn.cornerRadiusView(radius: 8)
     }
     
     func setupSearchBar() {
@@ -57,6 +68,8 @@ class AttendeesVC: UIViewController {
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
+                
+                showEmptyView()
             }
         }
         
@@ -64,7 +77,13 @@ class AttendeesVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 self.hideLoading()
-                self.showAlert(withMessage: error)
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else if error == "Bad Request" {
+                    HandleinvalidUrl()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
             }
         }
     }
@@ -107,8 +126,6 @@ class AttendeesVC: UIViewController {
         self.view.addSubview((self.alertView)!)
     }
     
-    
-    
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         // handling code
         UIView.animate(withDuration: 0.3, animations: {
@@ -121,6 +138,56 @@ class AttendeesVC: UIViewController {
         }
     }
     
+    @IBAction func tryAgainBtn(_ sender: Any) {
+        updateUserInterface()
+    }
+    
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            self.emptyView.isHidden = false
+            HandleInternetConnection()
+        case .wwan:
+            self.emptyView.isHidden = true
+            getAllAttendees()
+        case .wifi:
+            self.emptyView.isHidden = true
+            getAllAttendees()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func showEmptyView() {
+        if viewmodel.attendees.value?.count == 0 {
+            emptyView.isHidden = false
+            emptyLbl.text = "You haven't any data yet".localizedString
+        }else {
+            emptyView.isHidden = true
+        }
+        
+        tryAgainBtn.alpha = 0.0
+    }
+    
+    func HandleinvalidUrl() {
+        emptyView.isHidden = false
+        emptyImg.image = UIImage.init(named: "maskGroup9")
+        emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
+        tryAgainBtn.alpha = 1.0
+    }
+    
+    func HandleInternetConnection() {
+        emptyView.isHidden = false
+        emptyImg.image = UIImage.init(named: "nointernet")
+        emptyLbl.text = "No avaliable newtwok ,Please try again!".localizedString
+        tryAgainBtn.alpha = 1.0
+    }
 }
 
 //MARK: - SearchBar Delegate
