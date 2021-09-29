@@ -18,13 +18,16 @@ class RequestsViewModel {
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
+    var requestsTemp : UsersList = UsersList()
+
     //Get All Requests
-    func getAllRequests() {
+    func getAllRequests(pageNumber:Int) {
         
-        let url = URLs.baseURLFirst + "FrindRequest/Allrequest?pageNumber=\(0)&pageSize=\(100)"
+        let url = URLs.baseURLFirst + "FrindRequest/Allrequest"
         let headers = RequestComponent.headerComponent([.authorization,.type])
-        
-        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
+        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<FeedModel>().map(JSON: data!) else {
                 self.error.value = error
@@ -37,7 +40,17 @@ class RequestsViewModel {
             else {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
-                    self.requests.value = toAdd
+                    if pageNumber > 0 {
+                        for itm in toAdd {
+                            if !self.requestsTemp.contains(where: { $0.userId == itm.userId }) {
+                                self.requestsTemp.append(itm)
+                            }
+                        }
+                        self.requests.value = self.requestsTemp
+                    } else {
+                        self.requests.value = toAdd
+                        self.requestsTemp = toAdd
+                    }
                 }
             }
         }

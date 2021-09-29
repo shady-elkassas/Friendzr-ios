@@ -18,12 +18,16 @@ class FeedViewModel {
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
+    var feedsTemp : UsersList = UsersList()
+
     //MARK:- Get All Users Request
-    func getAllUsers() {
-        let url = URLs.baseURLFirst + "FrindRequest/AllUsers?pageNumber=\(0)&pageSize=\(100)"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+    func getAllUsers(pageNumber:Int) {
         
-        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
+        let url = URLs.baseURLFirst + "FrindRequest/AllUsers"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<FeedModel>().map(JSON: data!) else {
                 self.error.value = error
@@ -36,7 +40,53 @@ class FeedViewModel {
             else {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
-                    self.feeds.value = toAdd
+                    if pageNumber > 0 {
+                        for itm in toAdd {
+                            if !self.feedsTemp.contains(where: { $0.userId == itm.userId }) {
+                                self.feedsTemp.append(itm)
+                            }
+                        }
+                        self.feeds.value = self.feedsTemp
+                    } else {
+                        self.feeds.value = toAdd
+                        self.feedsTemp = toAdd
+                    }
+                }
+            }
+        }
+    }
+    
+    //MARK:- Get All Users Request
+    func filterFeeds(Bydegree degree:Double,pageNumber:Int) {
+        
+        let url = URLs.baseURLFirst + "FrindRequest/AllUsers"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10,"degree":degree]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            
+            guard let userResponse = Mapper<FeedModel>().map(JSON: data!) else {
+                self.error.value = error
+                return
+            }
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.error.value = error
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = userResponse.data {
+                    if pageNumber > 0 {
+                        for itm in toAdd {
+                            if !self.feedsTemp.contains(where: { $0.userId == itm.userId }) {
+                                self.feedsTemp.append(itm)
+                            }
+                        }
+                        self.feeds.value = self.feedsTemp
+                    } else {
+                        self.feeds.value = toAdd
+                        self.feedsTemp = toAdd
+                    }
                 }
             }
         }

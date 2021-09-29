@@ -15,16 +15,20 @@ class EventsViewModel {
     var events : DynamicType<EventsList> = DynamicType<EventsList>()
     var event : DynamicType<Event> = DynamicType<Event>()
 
+    var eventsTemp : EventsList = EventsList()
+
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
-    func getAllEvents() {
+    func getAllEvents(pageNumber:Int) {
         
-        let url = URLs.baseURLFirst + "Events/getallEvent?pageNumber=\(0)&pageSize=\(100)"
+        let url = URLs.baseURLFirst + "Events/getallEvent"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
-        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
+        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<EventsListModel>().map(JSON: data!) else {
                 self.error.value = error
@@ -37,7 +41,17 @@ class EventsViewModel {
             else {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
-                    self.events.value = toAdd
+                    if pageNumber > 0 {
+                        for itm in toAdd {
+                            if !self.eventsTemp.contains(where: { $0.id == itm.id }) {
+                                self.eventsTemp.append(itm)
+                            }
+                        }
+                        self.events.value = self.eventsTemp
+                    } else {
+                        self.events.value = toAdd
+                        self.eventsTemp = toAdd
+                    }
                 }
             }
         }

@@ -53,6 +53,7 @@ class EventDetailsVC: UIViewController {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
         setupViews()
     }
     
@@ -105,6 +106,28 @@ class EventDetailsVC: UIViewController {
         attendeesTableView.register(UINib(nibName: attendeesCellID, bundle: nil), forCellReuseIdentifier: attendeesCellID)
         attendeesTableView.register(UINib(nibName: footerCellID, bundle: nil), forHeaderFooterViewReuseIdentifier: footerCellID)
     }
+    
+    
+  func showNewtworkConnected() {
+       appDelegate.networkReachability()
+       
+       switch Network.reachability.status {
+       case .unreachable:
+           internetConect = false
+           HandleInternetConnection()
+       case .wwan:
+           internetConect = true
+       case .wifi:
+           internetConect = true
+       }
+      
+      print("Reachability Summary")
+      print("Status:", Network.reachability.status)
+      print("HostName:", Network.reachability.hostname ?? "nil")
+      print("Reachable:", Network.reachability.isReachable)
+      print("Wifi:", Network.reachability.isReachableViaWiFi)
+
+   }
     
     func setupData() {
         let model = viewmodel.event.value
@@ -167,7 +190,7 @@ class EventDetailsVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func editBtn(_ sender: Any) {
-        updateUserInterface()
+        showNewtworkConnected()
         if internetConect == true {
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
             vc.eventModel = viewmodel.event.value
@@ -178,7 +201,7 @@ class EventDetailsVC: UIViewController {
     }
     
     @IBAction func joinBtn(_ sender: Any) {
-        updateUserInterface()
+        showNewtworkConnected()
         
         if internetConect == true {
             self.showLoading()
@@ -203,7 +226,7 @@ class EventDetailsVC: UIViewController {
     }
     
     @IBAction func leaveBtn(_ sender: Any) {
-        updateUserInterface()
+        showNewtworkConnected()
         if internetConect == true {
             self.showLoading()
             leaveVM.leaveEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in

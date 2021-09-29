@@ -8,15 +8,26 @@
 import UIKit
 
 class NewConversationVC: UIViewController {
-
+    
     //MARK:- Outlets
     @IBOutlet weak var searchbar: UISearchBar!
     @IBOutlet weak var searchBarView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var tryAgainBtn: UIButton!
+    @IBOutlet weak var emptyLbl: UILabel!
+    @IBOutlet weak var emptyImg: UIImageView!
+    
     //MARK: - Properties
     let cellID = "ContactsTableViewCell"
     var viewmodel:AllFriendesViewModel = AllFriendesViewModel()
+    
+    var cellSelected:Bool = false
+    var internetConnect:Bool = false
+    
+    var currentPage : Int = 0
+    var isLoadingList : Bool = false
     
     
     //MARK: - Life Cycle
@@ -29,10 +40,71 @@ class NewConversationVC: UIViewController {
         setupSearchBar()
         setupViews()
         
-        getAllFriends()
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     //MARK: - Helper
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            self.emptyView.isHidden = false
+            internetConnect = false
+            HandleInternetConnection()
+        case .wwan:
+            self.emptyView.isHidden = true
+            internetConnect = true
+            getAllFriends(pageNumber: 0)
+        case .wifi:
+            self.emptyView.isHidden = true
+            internetConnect = true
+            getAllFriends(pageNumber: 0)
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func updateNetworkForBtns() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            self.emptyView.isHidden = false
+            internetConnect = false
+            HandleInternetConnection()
+        case .wwan:
+            self.emptyView.isHidden = true
+            internetConnect = true
+        case .wifi:
+            self.emptyView.isHidden = true
+            internetConnect = true
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func showEmptyView() {
+        if viewmodel.friends.value?.count == 0 {
+            emptyView.isHidden = false
+            emptyLbl.text = "You haven't any data yet".localizedString
+        }else {
+            emptyView.isHidden = true
+        }
+        
+        tryAgainBtn.alpha = 0.0
+    }
+    
     func setupSearchBar() {
         searchbar.delegate = self
         searchBarView.cornerRadiusView(radius: 6)
@@ -51,19 +123,42 @@ class NewConversationVC: UIViewController {
     
     func setupViews() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        tryAgainBtn.cornerRadiusView(radius: 8)
+    }
+    
+    func HandleInternetConnection() {
+        if cellSelected {
+            emptyView.isHidden = true
+            self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        }else {
+            emptyView.isHidden = false
+            emptyImg.image = UIImage.init(named: "nointernet")
+            emptyLbl.text = "No avaliable newtwok ,Please try again!".localizedString
+            tryAgainBtn.alpha = 1.0
+        }
     }
     
     
     //MARK:- APIs
-    func getAllFriends() {
+    func loadMoreItemsForList(){
+        currentPage += 1
+        getAllFriends(pageNumber: currentPage)
+    }
+    
+    func getAllFriends(pageNumber:Int) {
         self.showLoading()
-        viewmodel.getAllFriendes()
+        viewmodel.getAllFriendes(pageNumber: pageNumber)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.hideLoading()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
+                
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+                
+                showEmptyView()
             }
         }
         
@@ -71,9 +166,27 @@ class NewConversationVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 self.hideLoading()
-                self.showAlert(withMessage: error)
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
             }
         }
+    }
+    
+    func createFooterView() -> UIView {
+        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.center = footerview.center
+        footerview.addSubview(indicatorView)
+        indicatorView.startAnimating()
+        return footerview
+    }
+    
+    //MARK:- Actions
+    @IBAction func tryAgainBtn(_ sender: Any) {
+        updateUserInterface()
     }
 }
 
@@ -109,10 +222,29 @@ extension NewConversationVC: UITableViewDelegate {
         return 60
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let model = viewmodel.friends.value?[indexPath.row]
-//        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
-//        vc.userID = model?.userid ?? ""
-//        self.navigationController?.pushViewController(vc, animated: true)
-//    }
+    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //        cellSelected = true
+    //        updateNetworkForBtns()
+    //        if internetConnect {
+    //            let model = viewmodel.friends.value?[indexPath.row]
+    //            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+    //            vc.userID = model?.userid ?? ""
+    //            self.navigationController?.pushViewController(vc, animated: true)
+    //        }else {
+    //            return
+    //        }
+    //    }
+    
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+            self.isLoadingList = true
+            self.tableView.tableFooterView = self.createFooterView()
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                print("self.currentPage >> \(self.currentPage)")
+                self.loadMoreItemsForList()
+            }
+        }
+    }
+    
 }

@@ -24,6 +24,9 @@ class EventsVC: UIViewController {
     var internetConect:Bool = false
     var cellSelect:Bool = false
     
+    var currentPage : Int = 0
+    var isLoadingList : Bool = false
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,10 +47,15 @@ class EventsVC: UIViewController {
         clearNavigationBar()
     }
     
+    func loadMoreItemsForList(){
+        currentPage += 1
+        getAllEvents(pageNumber: currentPage)
+    }
+
     //MARK:- APIs
-    func getAllEvents() {
+    func getAllEvents(pageNumber:Int) {
         self.showLoading()
-        viewmodel.getAllEvents()
+        viewmodel.getAllEvents(pageNumber: pageNumber)
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.hideLoading()
@@ -56,6 +64,9 @@ class EventsVC: UIViewController {
                 tableView.reloadData()
                 initAddNewEventBarButton(total: value.count)
                 
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+
                 showEmptyView()
             }
         }
@@ -87,11 +98,11 @@ class EventsVC: UIViewController {
         case .wwan:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllEvents()
+            getAllEvents(pageNumber: currentPage)
         case .wifi:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllEvents()
+            getAllEvents(pageNumber: currentPage)
         }
         
         print("Reachability Summary")
@@ -131,9 +142,6 @@ class EventsVC: UIViewController {
         }
     }
     
-    func HandleUnauthorized() {
-    }
-    
     func setupView() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
@@ -153,6 +161,15 @@ class EventsVC: UIViewController {
     
     @objc func refreshAllEvents() {
         updateUserInterface()
+    }
+    
+    func createFooterView() -> UIView {
+        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.center = footerview.center
+        footerview.addSubview(indicatorView)
+        indicatorView.startAnimating()
+        return footerview
     }
     
     //MARK:- Actions
@@ -195,6 +212,17 @@ extension EventsVC: UITableViewDelegate {
             return
         }
     }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+          if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+              self.isLoadingList = true
+              self.tableView.tableFooterView = self.createFooterView()
+              DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                  print("self.currentPage >> \(self.currentPage)")
+                  self.loadMoreItemsForList()
+              }
+          }
+      }
 }
 
 extension EventsVC {

@@ -29,6 +29,9 @@ class FeedVC: UIViewController {
     var btnsSelected:Bool = false
     var internetConnect:Bool = false
     
+    var currentPage : Int = 0
+    var isLoadingList : Bool = false
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,19 +41,24 @@ class FeedVC: UIViewController {
         setup()
         initSwitchBarButton()
         pullToRefresh()
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        setupNavBar()
+        
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
     }
+    override func viewWillAppear(_ animated: Bool) {
+        setupNavBar()
+    }
     
     
     //MARK:- APIs
-    func getAllFeeds() {
-        //        self.showLoading()
-        viewmodel.getAllUsers()
+    func loadMoreItemsForList(){
+        currentPage += 1
+        getAllFeeds(pageNumber: currentPage)
+    }
+    func getAllFeeds(pageNumber:Int) {
+        self.showLoading()
+        viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.hideLoading()
@@ -58,6 +66,9 @@ class FeedVC: UIViewController {
                 tableView.dataSource = self
                 tableView.reloadData()
                 
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+
                 showEmptyView()
             }
         }
@@ -83,11 +94,34 @@ class FeedVC: UIViewController {
         case .wwan:
             self.emptyView.isHidden = true
             internetConnect = true
-            getAllFeeds()
+            getAllFeeds(pageNumber: 0)
         case .wifi:
             self.emptyView.isHidden = true
             internetConnect = true
-            getAllFeeds()
+            getAllFeeds(pageNumber: 0)
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func updateNetworkForBtns() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            self.emptyView.isHidden = false
+            internetConnect = false
+            HandleInternetConnection()
+        case .wwan:
+            self.emptyView.isHidden = true
+            internetConnect = true
+        case .wifi:
+            self.emptyView.isHidden = true
+            internetConnect = true
         }
         
         print("Reachability Summary")
@@ -138,12 +172,22 @@ class FeedVC: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        getAllFeeds()
+        updateUserInterface()
         self.refreshControl.endRefreshing()
+    }
+    
+    func createFooterView() -> UIView {
+        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.center = footerview.center
+        footerview.addSubview(indicatorView)
+        indicatorView.startAnimating()
+        return footerview
     }
     
     func setup() {
         tableView.register(UINib(nibName:cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        tryAgainBtn.cornerRadiusView(radius: 8)
     }
     
     
@@ -226,7 +270,7 @@ extension FeedVC:UITableViewDataSource {
         
         cell.HandleSendRequestBtn = { //send request
             self.btnsSelected = true
-            self.updateUserInterface()
+            self.updateNetworkForBtns()
             if self.internetConnect {
                 self.showLoading()
                 self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1) { error, message in
@@ -238,7 +282,7 @@ extension FeedVC:UITableViewDataSource {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    self.getAllFeeds()
+                    self.getAllFeeds(pageNumber: 0)
                 }
             }else {
                 return
@@ -247,7 +291,7 @@ extension FeedVC:UITableViewDataSource {
         
         cell.HandleRespondBtn = { //respond request
             self.btnsSelected = true
-            self.updateUserInterface()
+            self.updateNetworkForBtns()
             
             if self.internetConnect {
                 self.showLoading()
@@ -260,7 +304,7 @@ extension FeedVC:UITableViewDataSource {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    self.getAllFeeds()
+                    self.getAllFeeds(pageNumber: 0)
                 }
             }else {
                 return
@@ -269,7 +313,7 @@ extension FeedVC:UITableViewDataSource {
         
         cell.HandleBlockBtn = { //block account
             self.btnsSelected = true
-            self.updateUserInterface()
+            self.updateNetworkForBtns()
             
             if self.self.internetConnect {
                 self.showLoading()
@@ -282,7 +326,7 @@ extension FeedVC:UITableViewDataSource {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    self.getAllFeeds()
+                    self.getAllFeeds(pageNumber: 0)
                 }
             }else {
                 return
@@ -291,7 +335,7 @@ extension FeedVC:UITableViewDataSource {
         
         cell.HandleUnblocktBtn = { //unblock account
             self.btnsSelected = true
-            self.updateUserInterface()
+            self.updateNetworkForBtns()
             
             if self.internetConnect {
                 self.showLoading()
@@ -304,7 +348,7 @@ extension FeedVC:UITableViewDataSource {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    self.getAllFeeds()
+                    self.getAllFeeds(pageNumber: 0)
                 }
             }else {
                 return
@@ -314,7 +358,7 @@ extension FeedVC:UITableViewDataSource {
         
         cell.HandleUnfreiendBtn = { //unfriend account
             self.btnsSelected = true
-            self.updateUserInterface()
+            self.updateNetworkForBtns()
             
             if self.internetConnect {
                 self.showLoading()
@@ -327,7 +371,7 @@ extension FeedVC:UITableViewDataSource {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    self.getAllFeeds()
+                    self.getAllFeeds(pageNumber: 0)
                 }
             }else {
                 return
@@ -337,7 +381,7 @@ extension FeedVC:UITableViewDataSource {
         cell.HandleCancelRequestBtn = { // cancel request
             
             self.btnsSelected = true
-            self.updateUserInterface()
+            self.updateNetworkForBtns()
             
             if self.internetConnect {
                 self.showLoading()
@@ -350,7 +394,7 @@ extension FeedVC:UITableViewDataSource {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    self.getAllFeeds()
+                    self.getAllFeeds(pageNumber: 0)
                 }
             }else {
                 return
@@ -368,7 +412,7 @@ extension FeedVC:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         btnsSelected = true
-        updateUserInterface()
+        updateNetworkForBtns()
         
         if internetConnect {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
@@ -378,6 +422,17 @@ extension FeedVC:UITableViewDelegate {
             return
         }
     }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+          if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+              self.isLoadingList = true
+              self.tableView.tableFooterView = self.createFooterView()
+              DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                  print("self.currentPage >> \(self.currentPage)")
+                  self.loadMoreItemsForList()
+              }
+          }
+      }
 }
 
 extension FeedVC {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jS5-dJ-03B">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jS5-dJ-03B">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,6 +11,9 @@
     <customFonts key="customFonts">
         <array key="Montserrat-Medium.ttf">
             <string>Montserrat-Medium</string>
+        </array>
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
         </array>
     </customFonts>
     <scenes>
@@ -111,6 +114,50 @@
                                     <outlet property="delegate" destination="8Cn-Uc-Obg" id="VBR-HG-Cnv"/>
                                 </connections>
                             </tableView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gnp-7L-Xjo">
+                                <rect key="frame" x="0.0" y="155" width="414" height="741"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emptyImage" translatesAutoresizingMaskIntoConstraints="NO" id="Lgp-lW-7W6">
+                                        <rect key="frame" x="103.5" y="167" width="207" height="207"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Lgp-lW-7W6" secondAttribute="height" multiplier="1:1" id="9FM-6Z-QYl"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ajx-2K-RQb">
+                                        <rect key="frame" x="103.5" y="409" width="207" height="16.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SrE-I2-0bx">
+                                        <rect key="frame" x="124" y="445.5" width="166" height="42"/>
+                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="42" id="yDP-cx-hfy"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Try Again!">
+                                            <fontDescription key="titleFontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="tryAgainBtn:" destination="8Cn-Uc-Obg" eventType="touchUpInside" id="9z4-M1-7Ys"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="Lgp-lW-7W6" firstAttribute="width" secondItem="Gnp-7L-Xjo" secondAttribute="width" multiplier="1:2" id="9Dp-91-RCF"/>
+                                    <constraint firstItem="SrE-I2-0bx" firstAttribute="width" secondItem="Gnp-7L-Xjo" secondAttribute="width" multiplier="1:2.5" id="Hwm-du-MsI"/>
+                                    <constraint firstItem="ajx-2K-RQb" firstAttribute="centerX" secondItem="Gnp-7L-Xjo" secondAttribute="centerX" id="dsg-gi-cA9"/>
+                                    <constraint firstItem="Lgp-lW-7W6" firstAttribute="centerY" secondItem="Gnp-7L-Xjo" secondAttribute="centerY" constant="-100" id="eVO-bN-o3C"/>
+                                    <constraint firstItem="ajx-2K-RQb" firstAttribute="top" secondItem="Lgp-lW-7W6" secondAttribute="bottom" constant="35" id="hlh-NL-Ebf"/>
+                                    <constraint firstItem="SrE-I2-0bx" firstAttribute="top" secondItem="ajx-2K-RQb" secondAttribute="bottom" constant="20" id="iBZ-C7-nLr"/>
+                                    <constraint firstItem="ajx-2K-RQb" firstAttribute="width" secondItem="Lgp-lW-7W6" secondAttribute="width" id="u4v-t5-tmh"/>
+                                    <constraint firstItem="Lgp-lW-7W6" firstAttribute="centerX" secondItem="Gnp-7L-Xjo" secondAttribute="centerX" id="xiP-Ry-ik0"/>
+                                    <constraint firstItem="SrE-I2-0bx" firstAttribute="centerX" secondItem="Gnp-7L-Xjo" secondAttribute="centerX" id="zQp-Du-c4l"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wRN-PF-oGO">
                                 <rect key="frame" x="0.0" y="88" width="414" height="67"/>
                                 <subviews>
@@ -150,16 +197,24 @@
                             <constraint firstItem="seO-DF-4GI" firstAttribute="leading" secondItem="cFT-q0-gxC" secondAttribute="leading" id="3To-cf-eG4"/>
                             <constraint firstItem="wRN-PF-oGO" firstAttribute="leading" secondItem="s4B-Co-hk3" secondAttribute="leading" id="7xp-mG-GMJ"/>
                             <constraint firstItem="cFT-q0-gxC" firstAttribute="trailing" secondItem="wRN-PF-oGO" secondAttribute="trailing" id="BaF-as-OtC"/>
+                            <constraint firstItem="Gnp-7L-Xjo" firstAttribute="top" secondItem="wRN-PF-oGO" secondAttribute="bottom" id="EDQ-R5-Qr2"/>
+                            <constraint firstItem="Gnp-7L-Xjo" firstAttribute="leading" secondItem="cFT-q0-gxC" secondAttribute="leading" id="FWa-nM-3SH"/>
                             <constraint firstItem="wRN-PF-oGO" firstAttribute="top" secondItem="cFT-q0-gxC" secondAttribute="top" id="Prc-qQ-o9T"/>
                             <constraint firstAttribute="bottom" secondItem="seO-DF-4GI" secondAttribute="bottom" id="bL7-QB-Jsj"/>
+                            <constraint firstAttribute="bottom" secondItem="Gnp-7L-Xjo" secondAttribute="bottom" id="gKt-LK-M2l"/>
+                            <constraint firstAttribute="trailing" secondItem="Gnp-7L-Xjo" secondAttribute="trailing" id="p5s-h5-OAb"/>
                             <constraint firstItem="seO-DF-4GI" firstAttribute="top" secondItem="wRN-PF-oGO" secondAttribute="bottom" id="wX3-zc-Yvw"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="zX4-9o-j8x"/>
                     <connections>
+                        <outlet property="emptyImg" destination="Lgp-lW-7W6" id="lIx-zZ-qYt"/>
+                        <outlet property="emptyLbl" destination="ajx-2K-RQb" id="XGr-N5-9Pb"/>
+                        <outlet property="emptyView" destination="Gnp-7L-Xjo" id="JON-Lq-FC7"/>
                         <outlet property="searchBarView" destination="1bB-Gg-uND" id="4KI-JD-Gs9"/>
                         <outlet property="searchbar" destination="50Q-Ux-eL4" id="AfM-St-UBq"/>
                         <outlet property="tableView" destination="seO-DF-4GI" id="Rt9-Yp-3HH"/>
+                        <outlet property="tryAgainBtn" destination="SrE-I2-0bx" id="icZ-0w-vkV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H7m-w9-3g6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -508,6 +563,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="emptyImage" width="512" height="512"/>
         <image name="inbox_selected_ic" width="27" height="27"/>
         <image name="inbox_unselected_ic" width="16" height="16"/>
         <systemColor name="darkTextColor">

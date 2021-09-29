@@ -14,16 +14,20 @@ class AllFriendesViewModel {
     
     var friends : DynamicType<FriendsList> = DynamicType<FriendsList>()
 
+    var friendsTemp : FriendsList = FriendsList()
+
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
-    func getAllFriendes() {
+    func getAllFriendes(pageNumber:Int) {
         
-        let url = URLs.baseURLFirst + "FrindRequest/AllFriendes?pageNumber=\(0)&pageSize=\(100)"
+        let url = URLs.baseURLFirst + "FrindRequest/AllFriendes"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
-        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
+        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<AllFriendesModel>().map(JSON: data!) else {
                 self.error.value = error
@@ -36,7 +40,17 @@ class AllFriendesViewModel {
             else {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
-                    self.friends.value = toAdd
+                    if pageNumber > 0 {
+                        for itm in toAdd {
+                            if !self.friendsTemp.contains(where: { $0.userid == itm.userid }) {
+                                self.friendsTemp.append(itm)
+                            }
+                        }
+                        self.friends.value = self.friendsTemp
+                    } else {
+                        self.friends.value = toAdd
+                        self.friendsTemp = toAdd
+                    }
                 }
             }
         }

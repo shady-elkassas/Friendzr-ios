@@ -60,7 +60,8 @@ class EditProfileViewModel {
 //        let listoftagStr = String(describing: listoftag)
         
         let parameters:[String:Any] = ["Gender":gender,"bio":bio,"birthdate":birthdate,"Username":userName,"listoftags[]": tagsId]
-        
+        let o = NSString(string: parameters.description)
+        print(o)
         if attachedImg {
             guard let mediaImage = Media(withImage: userImage, forKey: "UserImags") else { return }
             guard let urlRequest = URL(string: url) else { return }

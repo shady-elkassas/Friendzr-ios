@@ -27,18 +27,21 @@ class RequestVC: UIViewController {
     var cellSelected:Bool = false
     var internetConnect:Bool = false
     
+    var currentPage : Int = 0
+    var isLoadingList : Bool = false
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
+        initProfileBarButton()
         pullToRefresh()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.title = "Request"
         setupNavBar()
-        initProfileBarButton()
         
         DispatchQueue.main.async {
             self.updateUserInterface()
@@ -46,9 +49,14 @@ class RequestVC: UIViewController {
     }
     
     //MARK:- APIs
-    func getAllUserRequests() {
+    func loadMoreItemsForList(){
+        currentPage += 1
+        getAllUserRequests(pageNumber: currentPage)
+    }
+    
+    func getAllUserRequests(pageNumber:Int) {
         self.showLoading()
-        viewmodel.getAllRequests()
+        viewmodel.getAllRequests(pageNumber: pageNumber)
         viewmodel.requests.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.hideLoading()
@@ -58,6 +66,9 @@ class RequestVC: UIViewController {
                 
                 totalRequestLbl.text = " \(value.count)"
                 
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+
                 showEmptyView()
             }
         }
@@ -68,8 +79,6 @@ class RequestVC: UIViewController {
                 self.hideLoading()
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
-                }else if error == "Bad Request" {
-                    HandleinvalidUrl()
                 }else {
                     self.showAlert(withMessage: error)
                 }
@@ -89,11 +98,34 @@ class RequestVC: UIViewController {
         case .wwan:
             self.emptyView.isHidden = true
             internetConnect = true
-            getAllUserRequests()
+            getAllUserRequests(pageNumber: 0)
         case .wifi:
             self.emptyView.isHidden = true
             internetConnect = true
-            getAllUserRequests()
+            getAllUserRequests(pageNumber: 0)
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func updateNetworkForBtns() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            self.emptyView.isHidden = false
+            internetConnect = false
+            HandleInternetConnection()
+        case .wwan:
+            self.emptyView.isHidden = true
+            internetConnect = true
+        case .wifi:
+            self.emptyView.isHidden = true
+            internetConnect = true
         }
         
         print("Reachability Summary")
@@ -142,9 +174,19 @@ class RequestVC: UIViewController {
         self.tableView.addSubview(refreshControl)
     }
     
+    
+    func createFooterView() -> UIView {
+        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.center = footerview.center
+        footerview.addSubview(indicatorView)
+        indicatorView.startAnimating()
+        return footerview
+    }
+    
     @objc func didPullToRefresh() {
         print("Refersh")
-        getAllUserRequests()
+        updateUserInterface()
         self.refreshControl.endRefreshing()
     }
     
@@ -175,40 +217,52 @@ extension RequestVC:UITableViewDataSource {
         cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "avatar"))
         
         cell.HandleAcceptBtn = {
-            self.showLoading()
-            self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
-                self.hideLoading()
-                if let error = error {
-                    self.showAlert(withMessage: error)
-                    return
+            self.cellSelected = true
+            self.updateNetworkForBtns()
+            if self.internetConnect {
+                
+                self.showLoading()
+                self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
+                    self.hideLoading()
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    
+                    guard let message = message else {return}
+                    self.showAlert(withMessage: message)
+                    
+                    cell.stackViewBtns.isHidden = true
+                    cell.messageBtn.isHidden = false
+                    cell.requestRemovedLbl.isHidden = true
                 }
-                
-                guard let message = message else {return}
-                self.showAlert(withMessage: message)
-                
-                cell.stackViewBtns.isHidden = true
-                cell.messageBtn.isHidden = false
-                cell.requestRemovedLbl.isHidden = true
+            }else {
+                return
             }
         }
         
         cell.HandleDeleteBtn = {
-            self.showLoading()
-            self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
-                self.hideLoading()
-                if let error = error {
-                    self.showAlert(withMessage: error)
-                    return
+            self.cellSelected = true
+            self.updateNetworkForBtns()
+            if self.internetConnect {
+                self.showLoading()
+                self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
+                    self.hideLoading()
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    
+                    guard let message = message else {return}
+                    self.showAlert(withMessage: message)
+                    
+                    cell.stackViewBtns.isHidden = true
+                    cell.messageBtn.isHidden = true
+                    cell.requestRemovedLbl.isHidden = false
                 }
-                
-                guard let message = message else {return}
-                self.showAlert(withMessage: message)
-                
-                cell.stackViewBtns.isHidden = true
-                cell.messageBtn.isHidden = true
-                cell.requestRemovedLbl.isHidden = false
+            }else {
+                return
             }
-            
         }
         
         cell.HandleMessageBtn = {
@@ -227,7 +281,7 @@ extension RequestVC:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cellSelected = true
-        updateUserInterface()
+        updateNetworkForBtns()
         if internetConnect {
             let model = viewmodel.requests.value?[indexPath.row]
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
@@ -237,4 +291,15 @@ extension RequestVC:UITableViewDelegate {
             return
         }
     }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+          if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+              self.isLoadingList = true
+              self.tableView.tableFooterView = self.createFooterView()
+              DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                  print("self.currentPage >> \(self.currentPage)")
+                  self.loadMoreItemsForList()
+              }
+          }
+      }
 }

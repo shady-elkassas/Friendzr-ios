@@ -8,7 +8,7 @@
 import UIKit
 
 class BlockedListVC: UIViewController {
-
+    
     //MARK:- Outlets
     @IBOutlet weak var searchbar: UISearchBar!
     @IBOutlet weak var searchBarView: UIView!
@@ -18,21 +18,25 @@ class BlockedListVC: UIViewController {
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
-
+    
     //MARK: - Properties
     let cellID = "BlockedTableViewCell"
     var viewmodel:AllBlockedViewModel = AllBlockedViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
-
+    
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     var refreshControl = UIRefreshControl()
+    
     var internetConect:Bool = false
     var btnsSelect:Bool = false
-
+    
+    var currentPage : Int = 0
+    var isLoadingList : Bool = false
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.title = "Blocked List"
         initBackButton()
         setupNavBar()
@@ -51,15 +55,24 @@ class BlockedListVC: UIViewController {
     }
     
     //MARK:- APIs
-    func getAllBlockedList() {
+    func loadMoreItemsForList(){
+        currentPage += 1
+        getAllBlockedList(pageNumber: currentPage)
+    }
+    
+    func getAllBlockedList(pageNumber:Int) {
         self.showLoading()
-        viewmodel.getAllBlockedList()
+        viewmodel.getAllBlockedList(pageNumber: pageNumber)
         viewmodel.blocklist.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.hideLoading()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
+                
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+                
                 showEmptyView()
             }
         }
@@ -78,7 +91,7 @@ class BlockedListVC: UIViewController {
             }
         }
     }
-        
+    
     //MARK: - Helper
     func setupSearchBar() {
         searchbar.delegate = self
@@ -100,7 +113,7 @@ class BlockedListVC: UIViewController {
         tryAgainBtn.cornerRadiusView(radius: 8)
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
     }
-
+    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -172,6 +185,14 @@ class BlockedListVC: UIViewController {
         }
     }
     
+    func createFooterView() -> UIView {
+        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.center = footerview.center
+        footerview.addSubview(indicatorView)
+        indicatorView.startAnimating()
+        return footerview
+    }
     
     func pullToRefresh() {
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
@@ -194,7 +215,7 @@ class BlockedListVC: UIViewController {
         btnsSelect = false
         updateUserInterface()
     }
-
+    
 }
 
 //MARK: - Extensions
@@ -283,6 +304,17 @@ extension BlockedListVC: UITableViewDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
         }else {
             return
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+            self.isLoadingList = true
+            self.tableView.tableFooterView = self.createFooterView()
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                print("self.currentPage >> \(self.currentPage)")
+                self.loadMoreItemsForList()
+            }
         }
     }
 }
