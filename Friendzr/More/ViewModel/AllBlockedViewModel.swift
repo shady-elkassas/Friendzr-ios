@@ -14,7 +14,7 @@ class AllBlockedViewModel {
     
     var blocklist : DynamicType<FriendsList> = DynamicType<FriendsList>()
     
-    var blocklistTemp : FriendsList = FriendsList()
+    var blocklistTemp : FriendsList = AllFriendesDataModel()
     
     // Fields that bind to our view's
     var isSuccess : Bool = false
@@ -26,7 +26,7 @@ class AllBlockedViewModel {
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]
         
-        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<AllFriendesModel>().map(JSON: data!) else {
                 self.error.value = error
@@ -40,15 +40,15 @@ class AllBlockedViewModel {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
                     if pageNumber > 0 {
-                        for itm in toAdd {
-                            if !self.friendsTemp.contains(where: { $0.userid == itm.userid }) {
-                                self.friendsTemp.append(itm)
+                        for itm in toAdd.data ?? [] {
+                            if !(self.blocklistTemp.data?.contains(where: { $0.userid == itm.userid }) ?? false) {
+                                self.blocklistTemp.data?.append(itm)
                             }
                         }
-                        self.friends.value = self.friendsTemp
+                        self.blocklist.value = self.blocklistTemp
                     } else {
-                        self.friends.value = toAdd
-                        self.friendsTemp = toAdd
+                        self.blocklist.value = toAdd
+                        self.blocklistTemp = toAdd
                     }
                 }
             }

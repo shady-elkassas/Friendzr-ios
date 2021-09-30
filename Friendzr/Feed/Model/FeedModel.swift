@@ -8,13 +8,13 @@
 import Foundation
 import ObjectMapper
 
-typealias UsersList = [UserFeedObj]
+typealias UsersList = FeedDataModel
 
 class FeedModel: Mappable {
     
     var isSuccessful: Bool?
     var message: String?
-    var data: [UserFeedObj]? = nil
+    var data: FeedDataModel? = nil
     
     required init?(map: Map) {
     }
@@ -26,7 +26,31 @@ class FeedModel: Mappable {
     }
 }
 
-class UserFeedObj: Mappable {
+class FeedDataModel: Mappable {
+    
+    var pageSize: Int?
+    var totalRecords: Int?
+    var totalPages: Int?
+    var pageNumber: Int?
+    var data: [UserFeedObj]? = []
+    
+    required init?(map: Map) {
+    }
+    
+    init() {
+    }
+    
+    // Mappable
+    func mapping(map: Map) {
+        data    <- map["data"]
+        pageNumber   <- map["pageNumber"]
+        pageSize  <- map["pageSize"]
+        totalRecords  <- map["totalRecords"]
+        totalPages  <- map["totalPages"]
+    }
+}
+
+class UserFeedObj: NSObject,Mappable {
     
     var userId: String?
     var lang: String?
@@ -40,6 +64,11 @@ class UserFeedObj: Mappable {
     
     required init?(map: Map) {
     }
+    
+    override init() {
+        super.init()
+    }
+    
     // Mappable
     func mapping(map: Map) {
         userId    <- map["userId"]

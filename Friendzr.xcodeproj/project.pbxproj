@@ -52,6 +52,7 @@
 		43119D7A26E4F08D00AD2260 /* LocationEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D7926E4F08D00AD2260 /* LocationEventViewModel.swift */; };
 		43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D7B26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift */; };
 		43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D7D26E4F6D100AD2260 /* AddEventViewModel.swift */; };
+		431505782705F90E002387A1 /* DegreeScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431505772705F90E002387A1 /* DegreeScaleView.swift */; };
 		4320A64626F1FC7B003604EE /* AllFriendesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */; };
 		4320A64826F1FD50003604EE /* AllFriendesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64726F1FD50003604EE /* AllFriendesModel.swift */; };
 		4320A64A26F20E5D003604EE /* AllBlockedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64926F20E5D003604EE /* AllBlockedViewModel.swift */; };
@@ -302,6 +303,7 @@
 		43119D7926E4F08D00AD2260 /* LocationEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEventViewModel.swift; sourceTree = "<group>"; };
 		43119D7B26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotlalNumberEventViewModel.swift; sourceTree = "<group>"; };
 		43119D7D26E4F6D100AD2260 /* AddEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventViewModel.swift; sourceTree = "<group>"; };
+		431505772705F90E002387A1 /* DegreeScaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeScaleView.swift; sourceTree = "<group>"; };
 		4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFriendesViewModel.swift; sourceTree = "<group>"; };
 		4320A64726F1FD50003604EE /* AllFriendesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFriendesModel.swift; sourceTree = "<group>"; };
 		4320A64926F20E5D003604EE /* AllBlockedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllBlockedViewModel.swift; sourceTree = "<group>"; };
@@ -886,6 +888,7 @@
 				437A4E8E26FB6A30007AAEF9 /* FiltringDirectionVC.swift */,
 				437A4E9226FB7315007AAEF9 /* CompassHeading.swift */,
 				437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */,
+				431505772705F90E002387A1 /* DegreeScaleView.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1688,6 +1691,7 @@
 				437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */,
 				4309E73926EF813A001B227D /* SocialMediaLoginViewModel.swift in Sources */,
 				4382AC4E26C2778C005C1857 /* UIViewExtension.swift in Sources */,
+				431505782705F90E002387A1 /* DegreeScaleView.swift in Sources */,
 				4336D12926DB89370093C7A6 /* PasswordViewModel.swift in Sources */,
 				43FBA21126D4F105005F4FBF /* CustomLayoutExampleViewController.swift in Sources */,
 				436288B126C95B1300B51E51 /* FriendProfileVC.swift in Sources */,

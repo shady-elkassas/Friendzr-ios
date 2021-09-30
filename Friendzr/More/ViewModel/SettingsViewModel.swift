@@ -100,4 +100,145 @@ class SettingsViewModel {
             }
         }
     }
+    
+    func togglePushNotification(pushNotification:Bool,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
+        
+        let url = URLs.baseURLFirst + "Account/updatSetting"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let parameters:[String : Any] = ["pushnotification": pushNotification]//"allowmylocation":allowMyLocation,"ghostmode":ghostMode,"allowmylocationtype":allowmylocationtype,"Manualdistancecontrol":12,"agefrom":10,"ageto":122,"Filteringaccordingtoage":true]
+        
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            
+            guard let settingsResponse = Mapper<SettingsModel>().map(JSON: data!) else {
+                self.errorMsg.value = error ?? ""
+                completion(self.errorMsg.value, nil)
+                return
+            }
+            
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.errorMsg.value = error
+                completion(self.errorMsg.value, nil)
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = settingsResponse.data {
+                    completion(nil,toAdd)
+                }
+            }
+        }
+    }
+    
+    func toggleAllowMyLocation(allowMyLocation: Bool,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
+        
+        let url = URLs.baseURLFirst + "Account/updatSetting"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let parameters:[String : Any] = ["allowmylocation":allowMyLocation]
+        
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            
+            guard let settingsResponse = Mapper<SettingsModel>().map(JSON: data!) else {
+                self.errorMsg.value = error ?? ""
+                completion(self.errorMsg.value, nil)
+                return
+            }
+            
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.errorMsg.value = error
+                completion(self.errorMsg.value, nil)
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = settingsResponse.data {
+                    completion(nil,toAdd)
+                }
+            }
+        }
+    }
+    
+    func toggleGhostMode(ghostMode :Bool,allowmylocationtype:Int,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
+        
+        let url = URLs.baseURLFirst + "Account/updatSetting"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let parameters:[String : Any] = ["ghostmode":ghostMode,"allowMyAppearanceType":allowmylocationtype]
+        
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            
+            guard let settingsResponse = Mapper<SettingsModel>().map(JSON: data!) else {
+                self.errorMsg.value = error ?? ""
+                completion(self.errorMsg.value, nil)
+                return
+            }
+            
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.errorMsg.value = error
+                completion(self.errorMsg.value, nil)
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = settingsResponse.data {
+                    completion(nil,toAdd)
+                }
+            }
+        }
+    }
+    
+    func updateManualdistanceControl(manualdistancecontrol: Double ,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
+        
+        let url = URLs.baseURLFirst + "Account/updatSetting"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let parameters:[String : Any] = ["Manualdistancecontrol": manualdistancecontrol]
+        
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            
+            guard let settingsResponse = Mapper<SettingsModel>().map(JSON: data!) else {
+                self.errorMsg.value = error ?? ""
+                completion(self.errorMsg.value, nil)
+                return
+            }
+            
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.errorMsg.value = error
+                completion(self.errorMsg.value, nil)
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = settingsResponse.data {
+                    completion(nil,toAdd)
+                }
+            }
+        }
+    }
+    
+    func filteringAccordingToAge(filteringaccordingtoage : Bool, agefrom: Int,ageto :Int,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
+        
+        let url = URLs.baseURLFirst + "Account/updatSetting"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let parameters:[String : Any] = ["agefrom":agefrom,"ageto":ageto,"Filteringaccordingtoage":filteringaccordingtoage]
+        
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            
+            guard let settingsResponse = Mapper<SettingsModel>().map(JSON: data!) else {
+                self.errorMsg.value = error ?? ""
+                completion(self.errorMsg.value, nil)
+                return
+            }
+            
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.errorMsg.value = error
+                completion(self.errorMsg.value, nil)
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = settingsResponse.data {
+                    completion(nil,toAdd)
+                }
+            }
+        }
+    }
+    
 }

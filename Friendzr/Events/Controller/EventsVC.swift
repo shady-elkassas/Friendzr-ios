@@ -62,7 +62,7 @@ class EventsVC: UIViewController {
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
-                initAddNewEventBarButton(total: value.count)
+                initAddNewEventBarButton(total: value.totalRecords ?? 0)
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
@@ -98,11 +98,11 @@ class EventsVC: UIViewController {
         case .wwan:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllEvents(pageNumber: currentPage)
+            getAllEvents(pageNumber: 0)
         case .wifi:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllEvents(pageNumber: currentPage)
+            getAllEvents(pageNumber: 0)
         }
         
         print("Reachability Summary")
@@ -113,7 +113,7 @@ class EventsVC: UIViewController {
     }
     
     func showEmptyView() {
-        if viewmodel.events.value?.count == 0 {
+        if viewmodel.events.value?.data?.count == 0 {
             emptyView.isHidden = false
             emptyLbl.text = "You haven't any data yet".localizedString
         }else {
@@ -182,11 +182,11 @@ class EventsVC: UIViewController {
 //MARK: - Extensions
 extension EventsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.events.value?.count ?? 0
+        return viewmodel.events.value?.data?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? EventTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.events.value?[indexPath.row]
+        let model = viewmodel.events.value?.data?[indexPath.row]
         cell.attendeesLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
         cell.eventTitleLbl.text = model?.title
         cell.categoryLbl.text = model?.categorie
@@ -206,7 +206,7 @@ extension EventsVC: UITableViewDelegate {
         updateUserInterface()
         if internetConect == true {
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
-            vc.eventId = viewmodel.events.value?[indexPath.row].id ?? ""
+            vc.eventId = viewmodel.events.value?.data?[indexPath.row].id ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
         }else {
             return
@@ -216,10 +216,19 @@ extension EventsVC: UITableViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
           if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
               self.isLoadingList = true
-              self.tableView.tableFooterView = self.createFooterView()
-              DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
-                  print("self.currentPage >> \(self.currentPage)")
-                  self.loadMoreItemsForList()
+              if currentPage < viewmodel.events.value?.totalPages ?? 0 {
+                  self.tableView.tableFooterView = self.createFooterView()
+                  
+                  DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                      print("self.currentPage >> \(self.currentPage)")
+                      self.loadMoreItemsForList()
+                  }
+              }else {
+                  self.tableView.tableFooterView = nil
+                  DispatchQueue.main.async {
+                      self.view.makeToast("No more data here")
+                  }
+                  return
               }
           }
       }

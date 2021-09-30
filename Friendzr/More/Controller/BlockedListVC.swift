@@ -125,11 +125,11 @@ class BlockedListVC: UIViewController {
         case .wwan:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllBlockedList()
+            getAllBlockedList(pageNumber: 0)
         case .wifi:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllBlockedList()
+            getAllBlockedList(pageNumber: 0)
         }
         
         print("Reachability Summary")
@@ -140,7 +140,7 @@ class BlockedListVC: UIViewController {
     }
     
     func showEmptyView() {
-        if viewmodel.blocklist.value?.count == 0 {
+        if viewmodel.blocklist.value?.data?.count == 0 {
             emptyView.isHidden = false
             emptyLbl.text = "You haven't any data yet".localizedString
         }else {
@@ -228,16 +228,16 @@ extension BlockedListVC : UISearchBarDelegate {
 
 extension BlockedListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.blocklist.value?.count ?? 0
+        return viewmodel.blocklist.value?.data?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? BlockedTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.blocklist.value?[indexPath.row]
+        let model = viewmodel.blocklist.value?.data?[indexPath.row]
         cell.nameLbl.text = model?.userName
         cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
         
-        if indexPath.row == ((viewmodel.blocklist.value?.count ?? 0) - 1 ) {
+        if indexPath.row == ((viewmodel.blocklist.value?.data?.count ?? 0) - 1 ) {
             cell.underView.isHidden = true
         }
         
@@ -298,7 +298,7 @@ extension BlockedListVC: UITableViewDelegate {
         btnsSelect = true
         updateUserInterface()
         if internetConect {
-            let model = viewmodel.blocklist.value?[indexPath.row]
+            let model = viewmodel.blocklist.value?.data?[indexPath.row]
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
             vc.userID = model?.userid ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
@@ -310,10 +310,20 @@ extension BlockedListVC: UITableViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
             self.isLoadingList = true
-            self.tableView.tableFooterView = self.createFooterView()
-            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
-                print("self.currentPage >> \(self.currentPage)")
-                self.loadMoreItemsForList()
+            
+            if currentPage < viewmodel.blocklist.value?.totalPages ?? 0 {
+                self.tableView.tableFooterView = self.createFooterView()
+                
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                    print("self.currentPage >> \(self.currentPage)")
+                    self.loadMoreItemsForList()
+                }
+            }else {
+                self.tableView.tableFooterView = nil
+                DispatchQueue.main.async {
+                    self.view.makeToast("No more data here")
+                }
+                return
             }
         }
     }

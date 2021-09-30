@@ -82,3 +82,23 @@ extension String {
          return size.height
      }
 }
+
+extension String {
+    
+    /// Longitude and latitude conversion: (degree°minute′second" format)
+    ///-Parameter d: The latitude and longitude value to be converted
+    func DegreeToString(d: Double) -> String {
+        /// Spend
+        let degree = Int(d)
+        print("Spend：\(degree)°")
+        /// Temporary points
+        let tempMinute = Float(d - Double(degree)) * 60
+        /// Minute
+        let minutes = Int(tempMinute)   // Rounding
+        print("Minute：\(minutes)‘")
+        /// Second
+        let second = Int((tempMinute - Float(minutes)) * 60)
+        print("Second： \(second)\"")
+        return "\(degree)°\(minutes)′\(second)″"
+    }
+}

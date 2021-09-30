@@ -31,7 +31,12 @@ class SettingsObj: Mappable {
     var pushnotification: Bool?
     var allowmylocation: Bool?
     var allowmylocationtype: Int?
+    var agefrom: Int?
+    var ageto: Int?
+    var filteringaccordingtoage:Bool?
+    var manualdistancecontrol: Double?
 
+    
     required init?(map: Map) {
     }
     // Mappable
@@ -40,5 +45,9 @@ class SettingsObj: Mappable {
         pushnotification   <- map["pushnotification"]
         allowmylocation  <- map["allowmylocation"]
         allowmylocationtype  <- map["allowmylocationtype"]
+        agefrom  <- map["agefrom"]
+        ageto  <- map["ageto"]
+        filteringaccordingtoage  <- map["filteringaccordingtoage"]
+        manualdistancecontrol  <- map["manualdistancecontrol"]
     }
 }

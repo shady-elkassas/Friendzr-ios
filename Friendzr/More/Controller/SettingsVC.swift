@@ -18,20 +18,17 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
     @IBOutlet weak var allowMyLocationBtn: UISwitch!
     @IBOutlet weak var ghostModeBtn: UISwitch!
     @IBOutlet weak var pushNotificationBtn: UISwitch!
-    
     @IBOutlet weak var transparentView: UIView!
-    
     @IBOutlet weak var ageSliderView: UIView!
     @IBOutlet weak var ageSliderBtn: UIButton!
     @IBOutlet weak var ageSlider: MultiSlider!
-    
     @IBOutlet weak var distanceSliderView: UIView!
     @IBOutlet weak var distanceSliderBtn: UIButton!
     @IBOutlet weak var distanceSlider: MultiSlider!
-    
     @IBOutlet weak var manualDistanceLbl: UILabel!
     @IBOutlet weak var ageFromLbl: UILabel!
     @IBOutlet weak var ageToLbl: UILabel!
+    
     
     //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("HideMyLocationView", owner: self, options: nil)?.first as? HideMyLocationView
@@ -52,6 +49,10 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
     
     var internetConect:Bool = false
 //    var btnsSelect:Bool = false
+    
+    var ageFrom:Int = 0
+    var ageTo:Int = 0
+    var manualdistancecontrol:Double = 0.0
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -372,14 +373,32 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
         createDistanceSlider()
     }
     
-    
     //save actions btns
     @IBAction func ageSaveBtn(_ sender: Any) {
+        self.showLoading()
+        self.viewmodel.filteringAccordingToAge(filteringaccordingtoage: true, agefrom: ageFrom, ageto: ageTo) { error, data in
+            self.hideLoading()
+            if let error = error {
+                self.showAlert(withMessage: error)
+                return
+            }
+            
+            guard let _ = data else {return}
+        }
     }
     
     @IBAction func distanceSaveBtn(_ sender: Any) {
+        self.showLoading()
+        self.viewmodel.updateManualdistanceControl(manualdistancecontrol: manualdistancecontrol) { error, data in
+            self.hideLoading()
+            if let error = error {
+                self.showAlert(withMessage: error)
+                return
+            }
+            
+            guard let _ = data else {return}
+        }
     }
-    
     
     func createDistanceSlider() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
@@ -415,8 +434,9 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
         print("now thumbs are at \(slider.value)") // e.g., [1.0, 5.0]
         
         manualDistanceLbl.text = String(describing: Double(slider.value[0]).rounded(toPlaces: 1))
+        
+        manualdistancecontrol = Double(slider.value[0]).rounded(toPlaces: 1)
     }
-    
     
     func createAgeSlider() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
@@ -452,6 +472,9 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
         
         ageFromLbl.text = String(describing: Int(slider.value[0]))
         ageToLbl.text = String(describing: Int(slider.value[1]))
+        
+        ageFrom = Int(slider.value[0])
+        ageTo = Int(slider.value[1])
     }
     
     
@@ -463,7 +486,6 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
             self.ageSliderView.isHidden = true
         }
     }
-    
     
     func updateSettingAlert(message:String) {
         deleteAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)

@@ -159,7 +159,7 @@ class EventDetailsVC: UIViewController {
         self.showLoading()
         viewmodel.getEventByID(id: eventId)
         viewmodel.event.bind { [unowned self] value in
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
                 self.hideLoading()
                 interestsTableView.delegate = self
                 interestsTableView.dataSource = self

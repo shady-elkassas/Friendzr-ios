@@ -6,19 +6,55 @@
 //
 
 import UIKit
+import SwiftUI
+import CoreLocation
+import Contacts
+
+let screenH: CGFloat = UIScreen.main.bounds.height
+let screenW: CGFloat = UIScreen.main.bounds.width
 
 class FeedVC: UIViewController {
     
     //MARK:- Outlets
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
-    
+    @IBOutlet weak var compassContanierView: UIView!
+    @IBOutlet weak var compassContainerViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var filterBtn: UIButton!
     
     //MARK: - Properties
+    private lazy var currLocation: CLLocation = CLLocation()
+    private lazy var locationManager : CLLocationManager = CLLocationManager()
+    
+    /// Scale view
+    private lazy var dScaView: DegreeScaleView = {
+        let viewF = CGRect(x: 0, y: 0, width: screenW, height: screenW)
+        let scaleV = DegreeScaleView(frame: viewF)
+        scaleV.backgroundColor = .black
+        return scaleV
+    }()
+    
+    private func createLocationManager() {
+        locationManager.delegate = self
+        locationManager.distanceFilter = 0
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.allowsBackgroundLocationUpdates = true
+        if CLLocationManager.locationServicesEnabled() && CLLocationManager.headingAvailable() {
+            locationManager.startUpdatingLocation()     //Start location service
+            locationManager.startUpdatingHeading()      //Start getting device orientation
+            print("Start Positioning")
+        }else {
+            print("Cannot get heading data")
+        }
+    }
+    
+    var compassDegree:Double = 0.0
+    var filterDir = false
+    
     let cellID = "FeedsTableViewCell"
     var viewmodel:FeedViewModel = FeedViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
@@ -32,6 +68,8 @@ class FeedVC: UIViewController {
     var currentPage : Int = 0
     var isLoadingList : Bool = false
 
+    var isSendRequest:Bool = false
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +86,8 @@ class FeedVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
+        
+        filterDir = switchBarButton.isOn
     }
     
     
@@ -56,6 +96,7 @@ class FeedVC: UIViewController {
         currentPage += 1
         getAllFeeds(pageNumber: currentPage)
     }
+    
     func getAllFeeds(pageNumber:Int) {
         self.showLoading()
         viewmodel.getAllUsers(pageNumber: pageNumber)
@@ -70,6 +111,34 @@ class FeedVC: UIViewController {
                 self.tableView.tableFooterView = nil
 
                 showEmptyView()
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                self.showAlert(withMessage: error)
+            }
+        }
+    }
+        
+    func filterFeedsBy(degree:Double,pageNumber:Int) {
+        self.showLoading()
+        viewmodel.filterFeeds(Bydegree: degree, pageNumber: pageNumber)
+        viewmodel.feeds.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+                
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+                
+                showEmptyView()
+                
+                isSendRequest = false
             }
         }
         
@@ -132,7 +201,7 @@ class FeedVC: UIViewController {
     }
     
     func showEmptyView() {
-        if viewmodel.feeds.value?.count == 0 {
+        if viewmodel.feeds.value?.data?.count == 0 {
             emptyView.isHidden = false
             emptyLbl.text = "You haven't any data yet".localizedString
         }else {
@@ -160,10 +229,7 @@ class FeedVC: UIViewController {
             tryAgainBtn.alpha = 1.0
         }
     }
-    
-    func HandleUnauthorized() {
-    }
-    
+
     func pullToRefresh() {
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -196,18 +262,21 @@ class FeedVC: UIViewController {
         updateUserInterface()
     }
 
+    @IBAction func filterBtn(_ sender: Any) {
+        filterFeedsBy(degree: compassDegree, pageNumber: 0)
+    }
 }
 
 //MARK: - Extensions
 extension FeedVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.feeds.value?.count ?? 0
+        return viewmodel.feeds.value?.data?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? FeedsTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.feeds.value?[indexPath.row]
+        let model = viewmodel.feeds.value?.data?[indexPath.row]
         cell.friendRequestNameLbl.text = model?.userName
         cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
         cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "avatar"))
@@ -355,7 +424,6 @@ extension FeedVC:UITableViewDataSource {
             }
         }
         
-        
         cell.HandleUnfreiendBtn = { //unfriend account
             self.btnsSelected = true
             self.updateNetworkForBtns()
@@ -404,6 +472,7 @@ extension FeedVC:UITableViewDataSource {
         return cell
     }
 }
+
 //extension Table View Delegate
 extension FeedVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -416,7 +485,7 @@ extension FeedVC:UITableViewDelegate {
         
         if internetConnect {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
-            vc.userID = viewmodel.feeds.value?[indexPath.row].userId ?? ""
+            vc.userID = viewmodel.feeds.value?.data?[indexPath.row].userId ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
         }else {
             return
@@ -426,16 +495,27 @@ extension FeedVC:UITableViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
           if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
               self.isLoadingList = true
-              self.tableView.tableFooterView = self.createFooterView()
-              DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
-                  print("self.currentPage >> \(self.currentPage)")
-                  self.loadMoreItemsForList()
+              
+              if currentPage < viewmodel.feeds.value?.totalPages ?? 0 {
+                  self.tableView.tableFooterView = self.createFooterView()
+                  
+                  DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                      print("self.currentPage >> \(self.currentPage)")
+                      self.loadMoreItemsForList()
+                  }
+              }else {
+                  self.tableView.tableFooterView = nil
+                  DispatchQueue.main.async {
+                      self.view.makeToast("No more data here")
+                  }
+                  return
               }
           }
       }
 }
 
-extension FeedVC {
+extension FeedVC: CLLocationManagerDelegate {
+    
     func initSwitchBarButton() {
         switchBarButton.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
         switchBarButton.onTintColor = UIColor.FriendzrColors.primary
@@ -448,9 +528,222 @@ extension FeedVC {
     @objc func handleSwitchBtn() {
         print("\(switchBarButton.isOn)")
         
+        // Azimuth
         if switchBarButton.isOn {
-            guard let vc = UIViewController.viewController(withStoryboard: .Feed, AndContollerID: "FiltringDirectionVC") as? FiltringDirectionVC else {return}
-            self.navigationController?.pushViewController(vc, animated: true)
+            createLocationManager()
+            filterDir = true
+            filterBtn.isHidden = false
+            compassContanierView.isHidden = false
+            compassContainerViewHeight.constant = screenW
+            compassContanierView.addSubview(dScaView)
+        }else {
+//            locationManager.stopUpdatingHeading()
+            filterDir = false
+            getAllFeeds(pageNumber: 0)
+            compassContanierView.isHidden = true
+            filterBtn.isHidden = true
+            compassContainerViewHeight.constant = 0
+            locationManager.stopUpdatingLocation()
+            locationManager.stopUpdatingHeading()
         }
+    }
+
+    //Navigation related methods
+    // Callback method after successful positioning, as long as the position changes, this method will be called
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+       
+        // Get the latest coordinates
+        currLocation = locations.last!
+        
+        /// Longitude
+        let longitudeStr = String(format: "%3.4f", currLocation.coordinate.longitude)
+        
+        /// Latitude
+        let latitudeStr = String(format: "%3.4f", currLocation.coordinate.latitude)
+        
+        /// Altitude
+        let altitudeStr = "\(Int(currLocation.altitude))"
+        
+        /// East longitude of the new stitching
+        let newLongitudeStr = longitudeStr.DegreeToString(d: Double(longitudeStr)!)
+        
+        /// Newly stitched north latitude
+        let newlatitudeStr = latitudeStr.DegreeToString(d: Double(latitudeStr)!)
+        
+        print("north latitude：\(newlatitudeStr)")
+        print("East longitude：\(newLongitudeStr)")
+        
+        print("North Latitude \(newlatitudeStr)  East Longitude \(newLongitudeStr)")
+        print("altitude\(altitudeStr)Meter")
+        
+        // Anti-geocoding
+        /// Create CLGeocoder object
+        let geocoder = CLGeocoder()
+
+        /*** Reverse geocoding request ***/
+
+        // Reverse analysis based on the given latitude and longitude address to get the string address.
+        geocoder.reverseGeocodeLocation(currLocation) { (placemarks, error) in
+
+            guard let placeM = placemarks else { return }
+            // If the analysis is successful, execute the following code
+            guard placeM.count > 0 else { return }
+            /* placemark: a structure containing all location information */
+            // Landmark object containing district, street and other information
+            let placemark: CLPlacemark = placeM[0]
+
+            /// Store street, province and city information
+            let addressDictionary = placemark.postalAddress
+
+            /// nation
+            guard let country = addressDictionary?.country else { return }
+
+            /// city
+            guard let city = addressDictionary?.city else { return }
+
+            /// Sub location
+            guard let subLocality = addressDictionary?.subLocality else { return }
+
+            /// Street
+            guard let street = addressDictionary?.street else { return }
+
+            print("\(country)\(city) \(subLocality) \(street)")
+        }
+    }
+    
+    // Obtain the device's geographic and geomagnetic orientation data, so as to turn the geographic scale table and the text label on the table
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        /*
+         trueHeading: true north direction
+                     magneticHeading: magnetic north direction
+         */
+        /// Get the current device
+        let device = UIDevice.current
+        
+        // 1. Determine whether the current magnetometer angle is valid (if this value is less than 0, the angle is invalid) The smaller the more accurate
+        if newHeading.headingAccuracy > 0 {
+            
+            // 2. Get the current device orientation (magnetic north direction) data
+            let magneticHeading: Float = heading(Float(newHeading.magneticHeading), fromOrirntation: device.orientation)
+            
+            // Geographic heading data: trueHeading
+            //let trueHeading: Float = heading(Float(newHeading.trueHeading), fromOrirntation: device.orientation)
+         
+            /// Geomagnetic north direction
+            let headi: Float = -1.0 * Float.pi * Float(newHeading.magneticHeading) / 180.0
+            // Set the angle label text
+            print("magneticHeading \(Int(magneticHeading))")
+            
+            compassDegree = Double(magneticHeading)
+            
+            // 3. Rotation transformation
+            dScaView.resetDirection(CGFloat(headi))
+            
+            // 4. The current direction of the mobile phone (camera)
+            update(newHeading)
+        }
+    }
+    
+    // Determine whether the device needs to be verified, when it is interfered by an external magnetic field
+    func locationManagerShouldDisplayHeadingCalibration(_ manager: CLLocationManager) -> Bool {
+        return true
+    }
+    
+    // Failed to locate the agent callback
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Positioning failed....\(error)")
+    }
+    
+    /// If the authorization status changes, call
+        ///
+        ///-Parameters:
+        ///-manager: location manager
+        ///-status: current authorization status
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+ 
+        switch status {
+        case .notDetermined:
+            print("User undecided")
+        case .restricted:
+            print("Restricted")
+        case .denied:
+            // Determine whether the current device supports positioning and whether the positioning service is enabled
+            if CLLocationManager.locationServicesEnabled() {
+                print("Positioning turned on and rejected")
+            }else {
+                print("Location service is off")
+            }
+        case .authorizedAlways:
+            print("Front and backstage positioning authorization")
+        case .authorizedWhenInUse:
+            print("Front desk positioning authorization")
+        @unknown default:
+            fatalError()
+        }
+    }
+    
+    
+    /// Update the current direction of the mobile phone (camera)
+    /// - Parameter newHeading: Towards
+    private func update(_ newHeading: CLHeading) {
+        
+        /// Towards
+        let theHeading: CLLocationDirection = newHeading.magneticHeading > 0 ? newHeading.magneticHeading : newHeading.trueHeading
+        
+        /// angle
+        let angle = Int(theHeading)
+        
+        switch angle {
+        case 0:
+            print("N")
+        case 90:
+            print("E")
+        case 180:
+            print("S")
+        case 270:
+            print("W")
+        default:
+            break
+        }
+        
+        if angle > 0 && angle < 90 {
+            print("NorthEast")
+        }else if angle > 90 && angle < 180 {
+            print("SouthEast")
+        }else if angle > 180 && angle < 270 {
+            print("SouthWest")
+        }else if angle > 270 {
+            print("NorthWest")
+        }
+    }
+    
+    /// Get the current device orientation (magnetic north direction)
+    ///
+    /// - Parameters:
+    ///   - heading: Towards
+    ///   - orientation: Device direction
+    /// - Returns: Float
+    private func heading(_ heading: Float, fromOrirntation orientation: UIDeviceOrientation) -> Float {
+        
+        var realHeading: Float = heading
+        
+        switch orientation {
+        case .portrait:
+            break
+        case .portraitUpsideDown:
+            realHeading = heading - 180
+        case .landscapeLeft:
+            realHeading = heading + 90
+        case .landscapeRight:
+            realHeading = heading - 90
+        default:
+            break
+        }
+        if realHeading > 360 {
+            realHeading -= 360
+        }else if realHeading < 0.0 {
+            realHeading += 366
+        }
+        return realHeading
     }
 }

@@ -457,11 +457,11 @@ extension MapVC: GMSAutocompleteTableDataSourceDelegate {
 //MARK:- events tableView dataSource and delegate
 extension MapVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.events.value?.count ?? 0
+        return viewmodel.events.value?.data?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = eventsTableView.dequeueReusableCell(withIdentifier: eventCellID, for: indexPath) as? EventsInLocationTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.events.value?[indexPath.row]
+        let model = viewmodel.events.value?.data?[indexPath.row]
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
@@ -484,7 +484,7 @@ extension MapVC:UITableViewDelegate {
                 self.eventsTableView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height/2.05)
             }
             
-            let model = viewmodel.events.value?[indexPath.row]
+            let model = viewmodel.events.value?.data?[indexPath.row]
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
             vc.eventId = model?.id ?? ""
             self.navigationController?.pushViewController(vc, animated: true)

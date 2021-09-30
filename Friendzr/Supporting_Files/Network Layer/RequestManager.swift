@@ -40,11 +40,13 @@ class RequestManager  {
         let session = URLSession(configuration: config)
         // vs let session = URLSession.shared
         
+        session.configuration.timeoutIntervalForRequest = 10 // seconds
+        session.configuration.timeoutIntervalForResource = 10 // seconds
         
         // make the request
         let task = session.dataTask(with: urlRequest, completionHandler: {
             (data, response, error) in
-            
+                        
             if (error != nil) {
                 print(error!)
             } else {
@@ -52,7 +54,7 @@ class RequestManager  {
                 let code  = httpResponse?.statusCode
                 print(httpResponse!)
                 print("statusCode: \(code!)")
-                print("**MD** response: \(response)")
+                print("**MD** response: \(String(describing: response))")
                 
                 if code == 200 || code == 201 {
                     do {
@@ -84,7 +86,8 @@ class RequestManager  {
                     } catch {
                         print(error)
                     }
-                }else if code == 500 {
+                }
+                else if code == 500 || code == 501 || code == 502 || code == 503 {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
                         print(json)
@@ -92,11 +95,12 @@ class RequestManager  {
                     } catch {
                         print(error)
                     }
-                }else if code! > 500 && code! < 600 {
+                }
+                else if code == 504 {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
                         print(json)
-                        completion([:],"Internal Server Error")
+                        completion([:],"Gateway Timeout")
                     } catch {
                         print(error)
                     }

@@ -18,7 +18,7 @@ class RequestsViewModel {
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
-    var requestsTemp : UsersList = UsersList()
+    var requestsTemp : UsersList = FeedDataModel()
 
     //Get All Requests
     func getAllRequests(pageNumber:Int) {
@@ -41,9 +41,9 @@ class RequestsViewModel {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
                     if pageNumber > 0 {
-                        for itm in toAdd {
-                            if !self.requestsTemp.contains(where: { $0.userId == itm.userId }) {
-                                self.requestsTemp.append(itm)
+                        for itm in toAdd.data ?? [] {
+                            if !(self.requestsTemp.data?.contains(where: { $0.userId == itm.userId }) ?? false) {
+                                self.requestsTemp.data?.append(itm)
                             }
                         }
                         self.requests.value = self.requestsTemp

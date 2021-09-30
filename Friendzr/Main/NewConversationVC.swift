@@ -95,7 +95,7 @@ class NewConversationVC: UIViewController {
     }
     
     func showEmptyView() {
-        if viewmodel.friends.value?.count == 0 {
+        if viewmodel.friends.value?.data?.count == 0 {
             emptyView.isHidden = false
             emptyLbl.text = "You haven't any data yet".localizedString
         }else {
@@ -200,16 +200,16 @@ extension NewConversationVC : UISearchBarDelegate {
 
 extension NewConversationVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.friends.value?.count ?? 0
+        return viewmodel.friends.value?.data?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ContactsTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.friends.value?[indexPath.row]
+        let model = viewmodel.friends.value?.data?[indexPath.row]
         cell.nameLbl.text = model?.userName
         cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
         
-        if indexPath.row == ((viewmodel.friends.value?.count ?? 0) - 1 ) {
+        if indexPath.row == ((viewmodel.friends.value?.data?.count ?? 0) - 1 ) {
             cell.underView.isHidden = true
         }
         
@@ -239,10 +239,20 @@ extension NewConversationVC: UITableViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
             self.isLoadingList = true
-            self.tableView.tableFooterView = self.createFooterView()
-            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
-                print("self.currentPage >> \(self.currentPage)")
-                self.loadMoreItemsForList()
+            
+            if currentPage < viewmodel.friends.value?.totalPages ?? 0 {
+                self.tableView.tableFooterView = self.createFooterView()
+                
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                    print("self.currentPage >> \(self.currentPage)")
+                    self.loadMoreItemsForList()
+                }
+            }else {
+                self.tableView.tableFooterView = nil
+                DispatchQueue.main.async {
+                    self.view.makeToast("No more data here")
+                }
+                return
             }
         }
     }

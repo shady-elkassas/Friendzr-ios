@@ -14,7 +14,7 @@ class AllFriendesViewModel {
     
     var friends : DynamicType<FriendsList> = DynamicType<FriendsList>()
 
-    var friendsTemp : FriendsList = FriendsList()
+    var friendsTemp : FriendsList = AllFriendesDataModel()
 
     // Fields that bind to our view's
     var isSuccess : Bool = false
@@ -41,9 +41,9 @@ class AllFriendesViewModel {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
                     if pageNumber > 0 {
-                        for itm in toAdd {
-                            if !self.friendsTemp.contains(where: { $0.userid == itm.userid }) {
-                                self.friendsTemp.append(itm)
+                        for itm in toAdd.data ?? [] {
+                            if !(self.friendsTemp.data?.contains(where: { $0.userid == itm.userid }) ?? false) {
+                                self.friendsTemp.data?.append(itm)
                             }
                         }
                         self.friends.value = self.friendsTemp

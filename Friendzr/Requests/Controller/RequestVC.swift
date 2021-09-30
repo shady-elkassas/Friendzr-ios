@@ -29,7 +29,7 @@ class RequestVC: UIViewController {
     
     var currentPage : Int = 0
     var isLoadingList : Bool = false
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,11 +64,11 @@ class RequestVC: UIViewController {
                 tableView.dataSource = self
                 tableView.reloadData()
                 
-                totalRequestLbl.text = " \(value.count)"
+                totalRequestLbl.text = " \(String(describing: value.data?.count))"
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
-
+                
                 showEmptyView()
             }
         }
@@ -136,7 +136,7 @@ class RequestVC: UIViewController {
     }
     
     func showEmptyView() {
-        if viewmodel.requests.value?.count == 0 {
+        if viewmodel.requests.value?.data?.count == 0 {
             emptyView.isHidden = false
             emptyLbl.text = "You haven't any data yet".localizedString
         }else {
@@ -205,11 +205,11 @@ class RequestVC: UIViewController {
 //MARK: - Extensions Table View Data Source
 extension RequestVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.requests.value?.count ?? 0
+        return viewmodel.requests.value?.data?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? RequestTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.requests.value?[indexPath.row]
+        let model = viewmodel.requests.value?.data?[indexPath.row]
         
         cell.friendRequestNameLbl.text = model?.userName
         cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
@@ -283,7 +283,7 @@ extension RequestVC:UITableViewDelegate {
         cellSelected = true
         updateNetworkForBtns()
         if internetConnect {
-            let model = viewmodel.requests.value?[indexPath.row]
+            let model = viewmodel.requests.value?.data?[indexPath.row]
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
             vc.userID = model?.userId ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
@@ -293,13 +293,23 @@ extension RequestVC:UITableViewDelegate {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-          if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
-              self.isLoadingList = true
-              self.tableView.tableFooterView = self.createFooterView()
-              DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
-                  print("self.currentPage >> \(self.currentPage)")
-                  self.loadMoreItemsForList()
-              }
-          }
-      }
+        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+            self.isLoadingList = true
+            
+            if currentPage < viewmodel.requests.value?.totalPages ?? 0 {
+                self.tableView.tableFooterView = self.createFooterView()
+                
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                    print("self.currentPage >> \(self.currentPage)")
+                    self.loadMoreItemsForList()
+                }
+            }else {
+                self.tableView.tableFooterView = nil
+                DispatchQueue.main.async {
+                    self.view.makeToast("No more data here")
+                }
+                return
+            }
+        }
+    }
 }

@@ -8,14 +8,14 @@
 import Foundation
 import ObjectMapper
 
-typealias EventsList = [EventObj]
+typealias EventsList = EventsDataModel
 typealias Event = EventObj
 
 class EventsListModel: Mappable {
     
     var isSuccessful: Bool?
     var message: String?
-    var data: [EventObj]? = nil
+    var data: EventsDataModel? = nil
     
     required init?(map: Map) {
     }
@@ -24,6 +24,30 @@ class EventsListModel: Mappable {
         data    <- map["model"]
         isSuccessful   <- map["isSuccessful"]
         message  <- map["message"]
+    }
+}
+
+class EventsDataModel: Mappable {
+    
+    var pageSize: Int?
+    var totalRecords: Int?
+    var totalPages: Int?
+    var pageNumber: Int?
+    var data: [EventObj]? = []
+    
+    required init?(map: Map) {
+    }
+    
+    init() {
+    }
+    
+    // Mappable
+    func mapping(map: Map) {
+        data    <- map["data"]
+        pageNumber   <- map["pageNumber"]
+        pageSize  <- map["pageSize"]
+        totalRecords  <- map["totalRecords"]
+        totalPages  <- map["totalPages"]
     }
 }
 
@@ -35,6 +59,7 @@ class EventModel: Mappable {
     
     required init?(map: Map) {
     }
+    
     // Mappable
     func mapping(map: Map) {
         data    <- map["model"]
@@ -44,7 +69,7 @@ class EventModel: Mappable {
 }
 
 
-class EventObj: Mappable {
+class EventObj: NSObject,Mappable {
     
     var allday: Bool? = false
     var eventdate: String? = ""
@@ -64,7 +89,9 @@ class EventObj: Mappable {
     var lang:String? = ""
     var eventdateto:String? = ""
 
-    
+    override init() {
+        super.init()
+    }
     
     required init?(map: Map) {
     }

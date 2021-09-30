@@ -14,9 +14,9 @@ class EventsViewModel {
     
     var events : DynamicType<EventsList> = DynamicType<EventsList>()
     var event : DynamicType<Event> = DynamicType<Event>()
-
-    var eventsTemp : EventsList = EventsList()
-
+    
+    var eventsTemp : EventsList = EventsDataModel()
+    
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
@@ -27,7 +27,7 @@ class EventsViewModel {
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
         let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<EventsListModel>().map(JSON: data!) else {
@@ -42,9 +42,9 @@ class EventsViewModel {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
                     if pageNumber > 0 {
-                        for itm in toAdd {
-                            if !self.eventsTemp.contains(where: { $0.id == itm.id }) {
-                                self.eventsTemp.append(itm)
+                        for itm in toAdd.data ?? [] {
+                            if !(self.eventsTemp.data?.contains(where: { $0.id == itm.id }) ?? false) {
+                                self.eventsTemp.data?.append(itm)
                             }
                         }
                         self.events.value = self.eventsTemp
@@ -61,7 +61,7 @@ class EventsViewModel {
         let url = URLs.baseURLFirst + "Events/getEvent"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["id": id]
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<EventModel>().map(JSON: data!) else {

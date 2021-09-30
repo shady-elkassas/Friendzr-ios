@@ -18,7 +18,7 @@ class FeedViewModel {
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
-    var feedsTemp : UsersList = UsersList()
+    var feedsTemp : UsersList = FeedDataModel()
 
     //MARK:- Get All Users Request
     func getAllUsers(pageNumber:Int) {
@@ -41,9 +41,9 @@ class FeedViewModel {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
                     if pageNumber > 0 {
-                        for itm in toAdd {
-                            if !self.feedsTemp.contains(where: { $0.userId == itm.userId }) {
-                                self.feedsTemp.append(itm)
+                        for itm in toAdd.data ?? [] {
+                            if !(self.feedsTemp.data?.contains(where: { $0.userId == itm.userId }) ?? false) {
+                                self.feedsTemp.data?.append(itm)
                             }
                         }
                         self.feeds.value = self.feedsTemp
@@ -56,7 +56,7 @@ class FeedViewModel {
         }
     }
     
-    //MARK:- Get All Users Request
+    //MARK:- filter All Users Request by degree
     func filterFeeds(Bydegree degree:Double,pageNumber:Int) {
         
         let url = URLs.baseURLFirst + "FrindRequest/AllUsers"
@@ -77,9 +77,9 @@ class FeedViewModel {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
                     if pageNumber > 0 {
-                        for itm in toAdd {
-                            if !self.feedsTemp.contains(where: { $0.userId == itm.userId }) {
-                                self.feedsTemp.append(itm)
+                        for itm in toAdd.data ?? [] {
+                            if !(self.feedsTemp.data?.contains(where: { $0.userId == itm.userId }) ?? false) {
+                                self.feedsTemp.data?.append(itm)
                             }
                         }
                         self.feeds.value = self.feedsTemp

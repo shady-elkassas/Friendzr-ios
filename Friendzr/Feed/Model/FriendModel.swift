@@ -24,7 +24,7 @@ class FriendModel: Mappable {
     }
 }
 
-class FriendObj: Mappable {
+class FriendObj: NSObject,Mappable {
     
     var age: Int?
     var facebook: String?
@@ -48,6 +48,11 @@ class FriendObj: Mappable {
     
     required init?(map: Map) {
     }
+    
+    override init() {
+        super.init()
+    }
+    
     // Mappable
     func mapping(map: Map) {
         age    <- map["age"]
