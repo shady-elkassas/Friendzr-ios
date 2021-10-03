@@ -10,6 +10,7 @@ import ObjectMapper
 
 typealias EventsList = EventsDataModel
 typealias Event = EventObj
+typealias EventsInLocations = [EventObj]
 
 class EventsListModel: Mappable {
     
@@ -68,6 +69,21 @@ class EventModel: Mappable {
     }
 }
 
+class EventsListByLocationModel : Mappable {
+    
+    var isSuccessful: Bool?
+    var message: String?
+    var data: [EventObj]? = nil
+    
+    required init?(map: Map) {
+    }
+    // Mappable
+    func mapping(map: Map) {
+        data    <- map["model"]
+        isSuccessful   <- map["isSuccessful"]
+        message  <- map["message"]
+    }
+}
 
 class EventObj: NSObject,Mappable {
     

@@ -534,7 +534,7 @@ extension FeedVC: CLLocationManagerDelegate {
             filterDir = true
             filterBtn.isHidden = false
             compassContanierView.isHidden = false
-            compassContainerViewHeight.constant = screenW
+            compassContainerViewHeight.constant = screenW / 1.95
             compassContanierView.addSubview(dScaView)
         }else {
 //            locationManager.stopUpdatingHeading()

@@ -38,5 +38,4 @@ class FiltringDirectionVC: UIViewController {
     //MARK:- Actions
     @IBAction func filterBtn(_ sender: Any) {
     }
-    
 }

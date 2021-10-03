@@ -18,11 +18,11 @@ protocol PickingLocationFromTheMap {
 //create location
 class EventsLocation {
     var location:CLLocationCoordinate2D = CLLocationCoordinate2D()
-    var titleLocation:String = ""
+    var color:String = ""
     
-    init(location:CLLocationCoordinate2D,titleLocation:String) {
+    init(location:CLLocationCoordinate2D,color:String) {
         self.location = location
-        self.titleLocation = titleLocation
+        self.color = color
     }
 }
 
@@ -100,7 +100,7 @@ class MapVC: UIViewController {
     }
     
     func getEvents(By lat:Double,lng:Double) {
-        viewmodel.getEventByLoction(lat: lat, lng: lng)
+        viewmodel.getEventsByLoction(lat: lat, lng: lng)
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.hideLoading()
@@ -151,16 +151,16 @@ class MapVC: UIViewController {
         let model = viewmodel.locations.value
         locations.removeAll()
         for item in model ?? [] {
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), titleLocation: ""))
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), color: item.color ?? ""))
         }
         
         for item in locations {
-            setupMarker(for: item.location, locTitle: item.titleLocation)
+            setupMarker(for: item.location, tintColor: item.color)
         }
     }
     
     //create markers for locations events
-    func setupMarker(for position:CLLocationCoordinate2D , locTitle:String?)  {
+    func setupMarker(for position:CLLocationCoordinate2D , tintColor:String?)  {
         let camera = GMSCameraPosition.camera(withLatitude: position.latitude,longitude: position.longitude,zoom: 15)
         
         if appendNewLocation {
@@ -172,11 +172,19 @@ class MapVC: UIViewController {
         self.mapView.camera = camera
         let marker = GMSMarker(position: position)
         //        marker.title = "locTitle"
-        marker.icon = UIImage.init(named: "pin")
-        
+//        marker.icon = UIImage.init(named: "pin")
+        marker.iconView = iconViewMap
+        marker.iconView?.backgroundColor = UIColor.color(tintColor ?? "")
         marker.map = mapView
     }
     
+    var iconViewMap:UIView = {
+        let view = UIView()
+//        view.backgroundColor = .red
+        view.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        view.cornerRadiusView(radius: 15)
+        return view
+    }()
     
     func setupViews() {
         //setup search bar
@@ -233,7 +241,7 @@ class MapVC: UIViewController {
             
             guard let error = error else {
                 self.locationName = (PM?.name)!
-                self.setupMarker(for: self.location!, locTitle: PM?.name)
+                self.setupMarker(for: self.location!, tintColor: "#0BBEA1")
                 print(self.locationName)
                 print("\(self.location!.latitude) : \(self.location!.longitude)")
                 self.currentPlaceMark = PM!
@@ -323,9 +331,9 @@ extension MapVC : GMSMapViewDelegate {
                 if self.appendNewLocation {
                     self.updateUserInterface()
                     if self.internetConect {
-                        self.setupMarker(for: self.location!, locTitle: (PM?.name)!)
+                        self.setupMarker(for: self.location!, tintColor: "#0BBEA1")
                         
-                        self.locations.append(EventsLocation(location: self.location!, titleLocation: (PM?.name)!))
+                        self.locations.append(EventsLocation(location: self.location!, color: ""))
                         self.view.makeToast((PM?.name)!)
                         
                         guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
@@ -457,11 +465,11 @@ extension MapVC: GMSAutocompleteTableDataSourceDelegate {
 //MARK:- events tableView dataSource and delegate
 extension MapVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.events.value?.data?.count ?? 0
+        return viewmodel.events.value?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = eventsTableView.dequeueReusableCell(withIdentifier: eventCellID, for: indexPath) as? EventsInLocationTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.events.value?.data?[indexPath.row]
+        let model = viewmodel.events.value?[indexPath.row]
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
@@ -484,7 +492,7 @@ extension MapVC:UITableViewDelegate {
                 self.eventsTableView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height/2.05)
             }
             
-            let model = viewmodel.events.value?.data?[indexPath.row]
+            let model = viewmodel.events.value?[indexPath.row]
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
             vc.eventId = model?.id ?? ""
             self.navigationController?.pushViewController(vc, animated: true)

@@ -31,6 +31,7 @@ class EventsAroundMeObj: Mappable {
     var lang: Double? = 0.0
     var lat: Double? = 0.0
     var count: Int? = 0
+    var color:String? = ""
     var eventData: [EventObj]? = nil
     
     required init?(map: Map) {
@@ -40,6 +41,7 @@ class EventsAroundMeObj: Mappable {
         lang    <- map["lang"]
         lat   <- map["lat"]
         count   <- map["count"]
+        color   <- map["color"]
         eventData  <- map["eventData"]
     }
 }

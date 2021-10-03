@@ -100,28 +100,39 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
             if CLLocationManager.locationServicesEnabled(){
                 self.locationManager.stopUpdatingLocation()
             }
-            
-            allowMyLocationBtn.isOn = false
-            Defaults.allowMyLocation = false
+            DispatchQueue.main.async {
+                self.allowMyLocationBtn.isOn = false
+                Defaults.allowMyLocation = false
+            }
         }else {
             if CLLocationManager.locationServicesEnabled(){
                 self.locationManager.startUpdatingLocation()
             }
             
-            allowMyLocationBtn.isOn = true
-            Defaults.allowMyLocation = true
+            DispatchQueue.main.async {
+                self.allowMyLocationBtn.isOn = true
+                Defaults.allowMyLocation = true
+            }
         }
         
         if model?.ghostmode == true {
-            ghostModeBtn.isOn = true
+            DispatchQueue.main.async {
+                self.ghostModeBtn.isOn = true
+            }
         }else {
-            ghostModeBtn.isOn = false
+            DispatchQueue.main.async {
+                self.ghostModeBtn.isOn = false
+            }
         }
         
         if model?.pushnotification == true {
-            pushNotificationBtn.isOn = true
+            DispatchQueue.main.async {
+                self.pushNotificationBtn.isOn = true
+            }
         }else {
-            pushNotificationBtn.isOn = false
+            DispatchQueue.main.async {
+                self.pushNotificationBtn.isOn = false
+            }
         }
     }
     

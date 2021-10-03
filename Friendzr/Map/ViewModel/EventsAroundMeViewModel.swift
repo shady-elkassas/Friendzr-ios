@@ -13,7 +13,7 @@ import Alamofire
 class EventsAroundMeViewModel {
     
     var locations : DynamicType<EventsAroundList> = DynamicType<EventsAroundList>()
-    var events : DynamicType<EventsList> = DynamicType<EventsList>()
+    var events : DynamicType<EventsInLocations> = DynamicType<EventsInLocations>()
 
     // Fields that bind to our view's
     var isSuccess : Bool = false
@@ -43,14 +43,14 @@ class EventsAroundMeViewModel {
         }
     }
     
-    func getEventByLoction(lat:Double,lng:Double) {
+    func getEventsByLoction(lat:Double,lng:Double) {
         
         let url = URLs.baseURLFirst + "Events/locationEvente"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let params:[String:Any] = ["lat":lat,"lang":lng]
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: params, andHeaders: headers) { (data,error) in
             
-            guard let userResponse = Mapper<EventsListModel>().map(JSON: data!) else {
+            guard let userResponse = Mapper<EventsListByLocationModel>().map(JSON: data!) else {
                 self.error.value = error
                 return
             }
