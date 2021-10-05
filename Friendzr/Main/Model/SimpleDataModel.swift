@@ -254,21 +254,20 @@ final internal class SimpleDataModel {
         completion(messages)
     }
 
-    func getAvatarFor(sender: SenderType) -> Avatar {
+    func getAvatarFor(sender: SenderType,imgStr:String) -> Avatar {
         let firstName = sender.displayName.components(separatedBy: " ").first
         let lastName = sender.displayName.components(separatedBy: " ").first
         let initials = "\(firstName?.first ?? "A")\(lastName?.first ?? "A")"
+        var imag = UIImageView()
+        imag.sd_setImage(with: URL(string: imgStr), placeholderImage: UIImage(named: "avatar_ic"))
+        
         switch sender.senderId {
         case "000001":
             return Avatar(image: #imageLiteral(resourceName: "Nathan-Tannar"), initials: initials)
-        case "000002":
-            return Avatar(image: #imageLiteral(resourceName: "Steven-Deutsch"), initials: initials)
-        case "000003":
-            return Avatar(image: #imageLiteral(resourceName: "Wu-Zhong"), initials: initials)
         case "000000":
             return Avatar(image: nil, initials: "SS")
         default:
-            return Avatar(image: nil, initials: initials)
+            return Avatar(image: imag.image, initials: initials)
         }
     }
 

@@ -209,6 +209,8 @@ extension UIViewController {
         imageUser.backgroundColor = UIColor.clear
         imageUser.image = UIImage(named: image)
         imageUser.contentMode = .scaleToFill
+        imageUser.cornerRadiusView(radius: 12.5)
+        imageUser.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "photo_img"))
         
         let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 20, width: 0, height: 0))
         subtitleLabel.textColor = baseColor.withAlphaComponent(0.95)

@@ -58,7 +58,6 @@ class EditMyProfileVC: UIViewController {
     }
     
     //MARK: - Helpers
-    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -72,6 +71,28 @@ class EditMyProfileVC: UIViewController {
         case .wifi:
             internetConect = true
             getProfileInformation()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func updateUserInterface2() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+//            getProfileInformation()
+        case .wifi:
+            internetConect = true
+//            getProfileInformation()
         }
         
         print("Reachability Summary")
@@ -294,7 +315,7 @@ class EditMyProfileVC: UIViewController {
     }
     
     @IBAction func saveBtn(_ sender: Any) {
-        updateUserInterface()
+//        updateUserInterface()
         
         if internetConect {
             self.showLoading()

@@ -50,9 +50,9 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
     var internetConect:Bool = false
 //    var btnsSelect:Bool = false
     
-    var ageFrom:Int = 0
-    var ageTo:Int = 0
-    var manualdistancecontrol:Double = 0.0
+    var ageFrom:Int = 13
+    var ageTo:Int = 100
+    var manualdistancecontrol:Double = 0.2
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -134,6 +134,10 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
                 self.pushNotificationBtn.isOn = false
             }
         }
+        
+        ageFrom = model?.agefrom ?? 13
+        ageTo = model?.ageto ?? 100
+        manualdistancecontrol = model?.manualdistancecontrol ?? 0.2
     }
     
     func updateSetting() {
@@ -394,7 +398,9 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
                 return
             }
             
-            guard let _ = data else {return}
+            guard let data = data else {return}
+            self.model = data
+            self.setupData()
         }
     }
     
@@ -407,7 +413,9 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
                 return
             }
             
-            guard let _ = data else {return}
+            guard let data = data else {return}
+            self.model = data
+            self.setupData()
         }
     }
     
@@ -424,7 +432,7 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
         distanceSlider.minimumValue = 0.2    // default is 0.0
         distanceSlider.maximumValue = 50    // default is 1.0
         
-        distanceSlider.value = [0.2]
+        distanceSlider.value = [CGFloat(self.manualdistancecontrol)]
         
         distanceSlider.addTarget(self, action: #selector(distanceSliderChanged(_:)), for: .valueChanged) // continuous changes
         distanceSlider.outerTrackColor = .lightGray // outside of first and last thumbs
@@ -462,7 +470,7 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
         ageSlider.minimumValue = 13    // default is 0.0
         ageSlider.maximumValue = 100   // default is 1.0
         
-        ageSlider.value = [13,100]
+        ageSlider.value = [CGFloat(self.ageFrom),CGFloat(self.ageTo)]
         
         ageSlider.addTarget(self, action: #selector(ageSliderChanged(_:)), for: .valueChanged) // continuous changes
         ageSlider.outerTrackColor = .lightGray // outside of first and last thumbs

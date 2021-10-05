@@ -271,7 +271,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Ct-oz-Xzf">
                                                 <rect key="frame" x="0.0" y="189" width="382" height="60"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ghostMode_ic" translatesAutoresizingMaskIntoConstraints="NO" id="4Xs-MV-NUQ">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="changePassword_ic" translatesAutoresizingMaskIntoConstraints="NO" id="4Xs-MV-NUQ">
                                                         <rect key="frame" x="16" y="22.5" width="15" height="15"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="15" id="LHi-7y-2Hx"/>
@@ -304,7 +304,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YgS-ry-Yje">
                                                 <rect key="frame" x="0.0" y="252" width="382" height="60"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ghostMode_ic" translatesAutoresizingMaskIntoConstraints="NO" id="HRC-gg-5he">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="filterAccourdingAge_ic" translatesAutoresizingMaskIntoConstraints="NO" id="HRC-gg-5he">
                                                         <rect key="frame" x="16" y="22.5" width="15" height="15"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="15" id="X55-n3-J1Z"/>
@@ -337,7 +337,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JfM-pu-wUL">
                                                 <rect key="frame" x="0.0" y="315" width="382" height="60"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ghostMode_ic" translatesAutoresizingMaskIntoConstraints="NO" id="MKF-N8-jJT">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="manaualDistanceControl_ic" translatesAutoresizingMaskIntoConstraints="NO" id="MKF-N8-jJT">
                                                         <rect key="frame" x="16" y="22.5" width="15" height="15"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="15" id="iIe-sq-Cxq"/>
@@ -750,7 +750,8 @@
                                                                     <constraint firstAttribute="width" constant="30" id="97z-DZ-8TD"/>
                                                                     <constraint firstAttribute="height" constant="30" id="haT-Q2-Z4O"/>
                                                                 </constraints>
-                                                                <state key="normal" image="showPassword_ic"/>
+                                                                <state key="normal" image="unShowPassword_ic"/>
+                                                                <state key="selected" image="showPassword_ic"/>
                                                                 <connections>
                                                                     <action selector="showPassBtn:" destination="zlx-iC-tbX" eventType="touchUpInside" id="WSt-et-fgm"/>
                                                                 </connections>
@@ -786,7 +787,8 @@
                                                                     <constraint firstAttribute="width" constant="30" id="02a-pS-HnA"/>
                                                                     <constraint firstAttribute="height" constant="30" id="tkq-J1-E2J"/>
                                                                 </constraints>
-                                                                <state key="normal" image="showPassword_ic"/>
+                                                                <state key="normal" image="unShowPassword_ic"/>
+                                                                <state key="selected" image="showPassword_ic"/>
                                                                 <connections>
                                                                     <action selector="showNewPassBtn:" destination="zlx-iC-tbX" eventType="touchUpInside" id="iTS-iD-Bds"/>
                                                                 </connections>
@@ -821,7 +823,8 @@
                                                                     <constraint firstAttribute="width" constant="30" id="cEL-l1-Bs3"/>
                                                                     <constraint firstAttribute="height" constant="30" id="vvz-2L-Odh"/>
                                                                 </constraints>
-                                                                <state key="normal" image="showPassword_ic"/>
+                                                                <state key="normal" image="unShowPassword_ic"/>
+                                                                <state key="selected" image="showPassword_ic"/>
                                                                 <connections>
                                                                     <action selector="showConfirmNewPassBtn:" destination="zlx-iC-tbX" eventType="touchUpInside" id="J02-R0-sqJ"/>
                                                                 </connections>
@@ -1084,15 +1087,19 @@
         <image name="arrow_left" width="6.5" height="11"/>
         <image name="arrow_left_red" width="6.5" height="11"/>
         <image name="avatar" width="1000" height="1000"/>
+        <image name="changePassword_ic" width="32" height="32"/>
         <image name="delete_ic" width="13.5" height="15"/>
         <image name="email_ic" width="17.5" height="13.5"/>
         <image name="emptyImage" width="512" height="512"/>
+        <image name="filterAccourdingAge_ic" width="32" height="32"/>
         <image name="ghostMode_ic" width="15.5" height="11.5"/>
         <image name="location_ic" width="14" height="14"/>
+        <image name="manaualDistanceControl_ic" width="32" height="32"/>
         <image name="more_selected_ic" width="32" height="32"/>
         <image name="more_unselected_ic" width="32" height="32"/>
         <image name="notifications_ic" width="13.5" height="15"/>
-        <image name="showPassword_ic" width="25" height="16.5"/>
+        <image name="showPassword_ic" width="15" height="11"/>
+        <image name="unShowPassword_ic" width="16" height="16"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

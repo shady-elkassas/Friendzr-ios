@@ -85,7 +85,7 @@ class AddEventVC: UIViewController {
     func getCats() {
         catsVM.getAllCategories()
         catsVM.cats.bind { [unowned self] value in
-            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.3) {
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
                 cats = value
             }
         }

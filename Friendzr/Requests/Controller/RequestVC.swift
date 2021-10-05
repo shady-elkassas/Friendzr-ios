@@ -64,7 +64,7 @@ class RequestVC: UIViewController {
                 tableView.dataSource = self
                 tableView.reloadData()
                 
-                totalRequestLbl.text = " \(String(describing: value.data?.count))"
+                totalRequestLbl.text = " \(value.data?.count ?? 0)"
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil

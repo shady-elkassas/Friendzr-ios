@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Component 111 – 1.pdf",
+      "filename" : "eye.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "eye (1).png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "eye (2).png",
       "idiom" : "universal",
       "scale" : "3x"
     }

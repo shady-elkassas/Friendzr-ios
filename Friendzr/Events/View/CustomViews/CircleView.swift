@@ -13,6 +13,10 @@ struct CircleView: View {
     @State var fill3:CGFloat = 0.0
     @State var animations:Bool = false
     
+    var male:Int = 0
+    var female:Int = 0
+    var other:Int = 0
+    
     var body: some View {
         ZStack {
             Circle()
@@ -41,19 +45,19 @@ struct CircleView: View {
                 .padding(36)
         }
         .onAppear(){
-            for i in 0...90 {
+            for i in 0...male {
                 DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(i/20)) {
                     self.fill1 += 0.01
                 }
             }
             
-            for i in 0...60 {
+            for i in 0...female {
                 DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(i/20)) {
                     self.fill2 += 0.01
                 }
             }
             
-            for i in 0...40 {
+            for i in 0...other {
                 DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(i/20)) {
                     self.fill3 += 0.01
                 }

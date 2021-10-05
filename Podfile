@@ -6,7 +6,7 @@ target 'Friendzr' do
   use_frameworks!
   
   # Pods for Friendzr
-  pod 'Alamofire', '~> 4.2-rc.3'
+  pod 'Alamofire', '~> 5.4'
   pod 'SDWebImage'
   pod 'ObjectMapper'
   pod 'FBSDKLoginKit'
@@ -19,15 +19,14 @@ target 'Friendzr' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Storage'
   pod 'IQKeyboardManager'
-  
+  pod 'Firebase/Firestore'
+
   pod 'GoogleMaps'
   pod 'GooglePlaces'
-  #  pod 'SwiftMessages'
   
   pod 'MultiSlider'
   
   pod 'MessageKit'
-  pod 'SignalRSwift', '~> 2.0.3'
   pod 'Kingfisher', '~> 6.0'
   #  pod 'DropDown'
   #  pod 'SkyFloatingLabelTextField', '~> 3.0'

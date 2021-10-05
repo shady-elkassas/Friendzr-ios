@@ -19,10 +19,12 @@ protocol PickingLocationFromTheMap {
 class EventsLocation {
     var location:CLLocationCoordinate2D = CLLocationCoordinate2D()
     var color:String = ""
+    var typelocation:String = ""
     
-    init(location:CLLocationCoordinate2D,color:String) {
+    init(location:CLLocationCoordinate2D,color:String,typelocation:String) {
         self.location = location
         self.color = color
+        self.typelocation = typelocation
     }
 }
 
@@ -33,6 +35,8 @@ class MapVC: UIViewController {
     @IBOutlet weak var addEventBtn: UIButton!
     
     //MARK: - Properties
+    lazy var alertView = Bundle.main.loadNibNamed("GenderDistributionView", owner: self, options: nil)?.first as? GenderDistributionView
+
     var locations:[EventsLocation] = [EventsLocation]()
     var location: CLLocationCoordinate2D? = nil
     let locationManager = CLLocationManager()
@@ -150,17 +154,21 @@ class MapVC: UIViewController {
     func setupMarkers() {
         let model = viewmodel.locations.value
         locations.removeAll()
-        for item in model ?? [] {
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), color: item.color ?? ""))
+        for item in model?.eventlocationDataMV ?? [] {
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), color: item.color ?? "", typelocation: "event"))
+        }
+        
+        for item in model?.peoplocationDataMV ?? [] {
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), color: item.peoplecolor ?? "", typelocation: "people"))
         }
         
         for item in locations {
-            setupMarker(for: item.location, tintColor: item.color)
+            setupMarker(for: item.location, tintColor: item.color, typelocation: item.typelocation)
         }
     }
     
     //create markers for locations events
-    func setupMarker(for position:CLLocationCoordinate2D , tintColor:String?)  {
+    func setupMarker(for position:CLLocationCoordinate2D , tintColor:String?,typelocation:String)  {
         let camera = GMSCameraPosition.camera(withLatitude: position.latitude,longitude: position.longitude,zoom: 15)
         
         if appendNewLocation {
@@ -168,11 +176,11 @@ class MapVC: UIViewController {
         }
         
         mapView.setMinZoom(15, maxZoom: 17)
-        
         self.mapView.camera = camera
         let marker = GMSMarker(position: position)
-        //        marker.title = "locTitle"
-//        marker.icon = UIImage.init(named: "pin")
+        
+        marker.snippet = typelocation
+        
         marker.iconView = iconViewMap
         marker.iconView?.backgroundColor = UIColor.color(tintColor ?? "")
         marker.map = mapView
@@ -210,6 +218,22 @@ class MapVC: UIViewController {
         eventsTableView.separatorStyle = .none
         eventsTableView.delegate = self
         eventsTableView.dataSource = self
+        
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap2(_:)))
+        alertView?.addGestureRecognizer(tap)
+    }
+    
+    @objc func handleTap2(_ sender: UITapGestureRecognizer? = nil) {
+        // handling code
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.alertView?.alpha = 0
+        }) { (success: Bool) in
+            self.alertView?.removeFromSuperview()
+            self.alertView?.alpha = 1
+            self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+        }
     }
     
     //create marker for location selected
@@ -241,7 +265,7 @@ class MapVC: UIViewController {
             
             guard let error = error else {
                 self.locationName = (PM?.name)!
-                self.setupMarker(for: self.location!, tintColor: "#0BBEA1")
+                self.setupMarker(for: self.location!, tintColor: "#0BBEA1", typelocation: "")
                 print(self.locationName)
                 print("\(self.location!.latitude) : \(self.location!.longitude)")
                 self.currentPlaceMark = PM!
@@ -331,9 +355,9 @@ extension MapVC : GMSMapViewDelegate {
                 if self.appendNewLocation {
                     self.updateUserInterface()
                     if self.internetConect {
-                        self.setupMarker(for: self.location!, tintColor: "#0BBEA1")
+                        self.setupMarker(for: self.location!, tintColor: "#0BBEA1", typelocation: "event")
                         
-                        self.locations.append(EventsLocation(location: self.location!, color: ""))
+                        self.locations.append(EventsLocation(location: self.location!, color: "", typelocation: "event"))
                         self.view.makeToast((PM?.name)!)
                         
                         guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
@@ -362,9 +386,15 @@ extension MapVC : GMSMapViewDelegate {
             locationEvent = marker.position
             print("locationEvent: \(locationEvent?.latitude ?? 0.0),\(locationEvent?.longitude ?? 0.0)")
             
-            //Events by location
-            getEvents(By: locationEvent?.latitude ?? 0.0, lng: locationEvent?.longitude ?? 0.0)
-            CreateSlideUpMenu()
+            if marker.snippet == "event" {
+                //Events by location
+                getEvents(By: locationEvent?.latitude ?? 0.0, lng: locationEvent?.longitude ?? 0.0)
+                CreateSlideUpMenu()
+            }else {
+                if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "GenderDistributionNC") as? UINavigationController, let _ = controller.viewControllers.first as? GenderDistributionVC {
+                    self.present(controller, animated: true)
+                }
+            }
         }
         
         return true
@@ -460,7 +490,6 @@ extension MapVC: GMSAutocompleteTableDataSourceDelegate {
         return true
     }
 }
-
 
 //MARK:- events tableView dataSource and delegate
 extension MapVC:UITableViewDataSource {

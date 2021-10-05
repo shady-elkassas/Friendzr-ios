@@ -8,6 +8,11 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-SemiBold.ttf">
+            <string>Montserrat-SemiBold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--MapVC-->
         <scene sceneID="s0d-6b-0kx">
@@ -55,6 +60,104 @@
             </objects>
             <point key="canvasLocation" x="1010.144927536232" y="73.660714285714278"/>
         </scene>
+        <!--Gender DistributionVC-->
+        <scene sceneID="qEX-QC-AVZ">
+            <objects>
+                <viewController storyboardIdentifier="GenderDistributionVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="L6z-xJ-SyF" customClass="GenderDistributionVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="C8N-3r-xyD">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qt5-5L-W1W">
+                                <rect key="frame" x="0.0" y="88" width="414" height="224"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GenderDistributionBG" translatesAutoresizingMaskIntoConstraints="NO" id="q7G-v7-CEj">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="224"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="q7G-v7-CEj" secondAttribute="trailing" id="Gcg-MU-wge"/>
+                                    <constraint firstItem="q7G-v7-CEj" firstAttribute="top" secondItem="Qt5-5L-W1W" secondAttribute="top" id="JCp-od-cRX"/>
+                                    <constraint firstItem="q7G-v7-CEj" firstAttribute="leading" secondItem="Qt5-5L-W1W" secondAttribute="leading" id="Ngo-uf-fnh"/>
+                                    <constraint firstAttribute="bottom" secondItem="q7G-v7-CEj" secondAttribute="bottom" id="h3q-q8-rad"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JR0-pi-jKY">
+                                <rect key="frame" x="25" y="342" width="364" height="250"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender Distribution" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q0a-5e-7Ec">
+                                        <rect key="frame" x="110" y="16" width="144" height="17.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
+                                        <color key="textColor" red="0.078431372550000003" green="0.078431372550000003" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MGN-1y-Gsu">
+                                        <rect key="frame" x="0.0" y="49.5" width="364" height="200.5"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="MGN-1y-Gsu" secondAttribute="trailing" id="3xu-IT-ebt"/>
+                                    <constraint firstItem="q0a-5e-7Ec" firstAttribute="centerX" secondItem="JR0-pi-jKY" secondAttribute="centerX" id="VH3-fQ-kc1"/>
+                                    <constraint firstAttribute="bottom" secondItem="MGN-1y-Gsu" secondAttribute="bottom" id="baA-Hu-G4Z"/>
+                                    <constraint firstItem="q0a-5e-7Ec" firstAttribute="top" secondItem="JR0-pi-jKY" secondAttribute="top" constant="16" id="dsJ-X8-O7H"/>
+                                    <constraint firstItem="MGN-1y-Gsu" firstAttribute="leading" secondItem="JR0-pi-jKY" secondAttribute="leading" id="gEO-WK-GUD"/>
+                                    <constraint firstAttribute="height" constant="250" id="iqd-YL-Lk1"/>
+                                    <constraint firstItem="MGN-1y-Gsu" firstAttribute="top" secondItem="q0a-5e-7Ec" secondAttribute="bottom" constant="16" id="q8O-Zg-DvA"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FMX-Yt-wfl">
+                                <rect key="frame" x="25" y="607" width="364" height="0.0"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WHM-kv-6eW">
+                                        <rect key="frame" x="0.0" y="0.0" width="364" height="0.0"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="L6z-xJ-SyF" id="POC-2M-PVm"/>
+                                            <outlet property="delegate" destination="L6z-xJ-SyF" id="NIi-jw-7Ce"/>
+                                        </connections>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="WHM-kv-6eW" firstAttribute="leading" secondItem="FMX-Yt-wfl" secondAttribute="leading" id="3F9-ed-q2a"/>
+                                    <constraint firstItem="WHM-kv-6eW" firstAttribute="top" secondItem="FMX-Yt-wfl" secondAttribute="top" id="9Q9-V6-6qY"/>
+                                    <constraint firstAttribute="bottom" secondItem="WHM-kv-6eW" secondAttribute="bottom" id="Ofq-YT-wVO"/>
+                                    <constraint firstAttribute="height" id="RB7-qE-ab1"/>
+                                    <constraint firstAttribute="trailing" secondItem="WHM-kv-6eW" secondAttribute="trailing" id="mS7-Q6-VLZ"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="0pX-ea-wMn"/>
+                        <color key="backgroundColor" red="0.95686274509803915" green="0.97254901960784312" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="0pX-ea-wMn" firstAttribute="trailing" secondItem="JR0-pi-jKY" secondAttribute="trailing" constant="25" id="5mu-Ji-AQP"/>
+                            <constraint firstItem="JR0-pi-jKY" firstAttribute="top" secondItem="Qt5-5L-W1W" secondAttribute="bottom" constant="30" id="686-2M-ns5"/>
+                            <constraint firstItem="Qt5-5L-W1W" firstAttribute="leading" secondItem="0pX-ea-wMn" secondAttribute="leading" id="71E-wy-ThB"/>
+                            <constraint firstItem="Qt5-5L-W1W" firstAttribute="top" secondItem="0pX-ea-wMn" secondAttribute="top" id="FoZ-Rp-Lu1"/>
+                            <constraint firstItem="JR0-pi-jKY" firstAttribute="leading" secondItem="C8N-3r-xyD" secondAttribute="leading" constant="25" id="J4s-Xu-jbU"/>
+                            <constraint firstAttribute="trailing" secondItem="FMX-Yt-wfl" secondAttribute="trailing" constant="25" id="K4i-zO-Sfm"/>
+                            <constraint firstItem="Qt5-5L-W1W" firstAttribute="height" secondItem="C8N-3r-xyD" secondAttribute="height" multiplier="0.25" id="P03-d6-LUr"/>
+                            <constraint firstItem="FMX-Yt-wfl" firstAttribute="top" secondItem="JR0-pi-jKY" secondAttribute="bottom" constant="15" id="dji-4f-BzJ"/>
+                            <constraint firstItem="0pX-ea-wMn" firstAttribute="trailing" secondItem="Qt5-5L-W1W" secondAttribute="trailing" id="e3M-Zn-sG0"/>
+                            <constraint firstItem="FMX-Yt-wfl" firstAttribute="leading" secondItem="C8N-3r-xyD" secondAttribute="leading" constant="25" id="nJw-PU-yh9"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="5Ba-N6-IEe"/>
+                    <connections>
+                        <outlet property="genderDistributionChart" destination="MGN-1y-Gsu" id="Bqj-CB-jUo"/>
+                        <outlet property="genderDistributionView" destination="JR0-pi-jKY" id="gEZ-ZQ-la8"/>
+                        <outlet property="tableView" destination="WHM-kv-6eW" id="2Vp-3x-5h1"/>
+                        <outlet property="tvContainerView" destination="FMX-Yt-wfl" id="2fV-Vz-8lN"/>
+                        <outlet property="tvContainerViewHeight" destination="RB7-qE-ab1" id="DJh-hK-6sX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a4h-aX-qB5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2545" y="74"/>
+        </scene>
         <!--Map-->
         <scene sceneID="hPz-wL-3GT">
             <objects>
@@ -75,8 +178,27 @@
             </objects>
             <point key="canvasLocation" x="100.00000000000001" y="73.660714285714278"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="avE-ZS-yE4">
+            <objects>
+                <navigationController storyboardIdentifier="GenderDistributionNC" automaticallyAdjustsScrollViewInsets="NO" id="jKv-Uu-jh9" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Jem-fk-DiT">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="L6z-xJ-SyF" kind="relationship" relationship="rootViewController" id="heK-sU-ksU"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="60A-Qn-f9p" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1767" y="74"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="GenderDistributionBG" width="411" height="288"/>
         <image name="Plus_ic" width="26.5" height="26.5"/>
         <image name="map_selected_ic" width="27" height="27"/>
         <image name="map_unselected_ic" width="18" height="18"/>

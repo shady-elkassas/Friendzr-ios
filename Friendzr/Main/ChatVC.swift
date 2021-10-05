@@ -12,6 +12,10 @@ import MapKit
 import AVFoundation
 import MobileCoreServices
 import AVKit
+import FirebaseAuth
+import Firebase
+import FirebaseDatabase
+import FirebaseFirestore
 
 class ChatVC: MessagesViewController {
     
@@ -35,15 +39,23 @@ class ChatVC: MessagesViewController {
     
     private(set) lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
-        //        control.addTarget(self, action: #selector(loadMoreMessages), for: .valueChanged)
+        control.addTarget(self, action: #selector(loadMoreMessages), for: .valueChanged)
         return control
     }()
     
     // MARK: - Private properties
-    var senderUser = UserSender(senderId: "1", displayName: "Mohamed Sabri", photoURL: UIImageView(image: UIImage(named: "avatar")))
-    var receiverUser = UserSender(senderId: "2", displayName: "Ahmed Sabri", photoURL: UIImageView(image: UIImage(named: "avatar")))
+    var senderUser = UserSender(senderId: Defaults.token, displayName: Defaults.userName, photoURL: UIImageView(image: UIImage(named: "")))
+        
+    var viewmodel:ChatViewModel = ChatViewModel()
     
+    var internetConect:Bool = false
+    var cellSelect:Bool = false
     
+    var currentPage : Int = 1
+    var isLoadingList : Bool = false
+
+    var chatUserModel:UserChatObj? = UserChatObj()
+    var receiveimg = ""
     private let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -52,6 +64,8 @@ class ChatVC: MessagesViewController {
     
     let imagePicker = UIImagePickerController()
     var attachedImg = false
+
+    let database = Firestore.firestore()
     
     // MARK: - Lifecycle
     
@@ -60,38 +74,52 @@ class ChatVC: MessagesViewController {
         
         configureMessageCollectionView()
         configureMessageInputBar()
-        //        loadFirstMessages()
         initBackButton()
-        updateTitleView(image: "avatar", subtitle: "Muhammed Sabri", baseColor: .black)
+        updateTitleView(image: Defaults.Image, subtitle: senderUser.displayName, baseColor: .black)
         setupMessages()
         setupLeftInputButton(tapMessage: false, Recorder: "play")
         setupRecorder()
         
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(sender:)))
         messagesCollectionView.addGestureRecognizer(longPress)
+        
+//        listenToMessages()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setupNavBar()
-        removeNavigationBorder()
-        
-        //        MockSocket.shared.connect(with: [SampleData.shared.nathan, SampleData.shared.wu])
-        //            .onNewMessage { [weak self] message in
-        //                self?.insertMessage(message)
-        //        }
-        
         messageInputBar.inputTextView.becomeFirstResponder()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         //        MockSocket.shared.disconnect()
-        
         audioController.stopAnyOngoingPlaying()
     }
     
-    
+    private func listenToMessages() {
+        let docRef = database.document("")
+        docRef.addSnapshotListener { snapShot, error in
+            
+            guard let data = snapShot?.data(),error == nil else {
+                return
+            }
+            
+            print(data)
+            
+        }
+        
+//        docRef.getDocument { snapShot, error in
+//
+//            guard let data = snapShot?.data(),error == nil else {
+//                return
+//            }
+//
+//            print(data)
+//
+//        }
+    }
+
     func configureMessageCollectionView() {
         
         messagesCollectionView.messagesDataSource = self
@@ -153,52 +181,9 @@ class ChatVC: MessagesViewController {
     }
     
     func setupMessages() {
-        messageList.append(UserMessage(text: "MohamedMohamedMohamedMohamedMohamedMohamedMohamedMohamedMohamedMohamed", user: senderUser, messageId: "1", date: dateAddingRandomTime()))
-        
-        messageList.append(UserMessage(text: "MohamedMohamedMohamedMohamedMohamedMohamedMohamedMohamedMohamedMohamed", user: receiverUser, messageId: "1", date: dateAddingRandomTime()))
-        
-        messageList.append(UserMessage(image: UIImage(named: "Dan-Leonard")!, user: senderUser, messageId: "1", date: Date()))
-        
-        messageList.append(UserMessage(image: UIImage(named: "img2")!, user: receiverUser, messageId: "1", date: Date()))
-        
-        messageList.append(UserMessage(location: CLLocation(latitude: CLLocationDegrees(22.5), longitude: CLLocationDegrees(22.5)), user: senderUser, messageId: "1", date: Date()))
-        
-        messageList.append(UserMessage(audioURL: Bundle.main.url(forResource: "sound1", withExtension: "m4a")!, user: senderUser, messageId: "1", date: Date()))
-        
-        messageList.append(UserMessage(emoji: "😂😂😂", user: senderUser, messageId: "1", date: Date()))
-        
-        messageList.append(UserMessage(location: CLLocation(latitude: CLLocationDegrees(22.5), longitude: CLLocationDegrees(22.5)), user: receiverUser, messageId: "1", date: Date()))
+        getMessagesChat(pageNumber: 1)
     }
-    
-    //    func loadFirstMessages() {
-    //        DispatchQueue.global(qos: .userInitiated).async {
-    //            let count = UserDefaults.standard.mockMessagesCount()
-    //            SampleData.shared.getMessages(count: count) { messages in
-    //                DispatchQueue.main.async {
-    //                    self.messageList = messages
-    //                    self.messagesCollectionView.reloadData()
-    //                    self.messagesCollectionView.scrollToLastItem()
-    //                }
-    //            }
-    //        }
-    //    }
-    
-    // MARK: - Helpers
-    //    func insertMessage(_ message: UserMessage) {
-    //        messageList.append(message)
-    //        // Reload last section to update header/footer labels and insert a new one
-    //        messagesCollectionView.performBatchUpdates({
-    //            messagesCollectionView.insertSections([messageList.count - 1])
-    //            if messageList.count >= 2 {
-    //                messagesCollectionView.reloadSections([messageList.count - 2])
-    //            }
-    //        }, completion: { [weak self] _ in
-    //            if self?.isLastSectionVisible() == true {
-    //                self?.messagesCollectionView.scrollToLastItem(animated: true)
-    //            }
-    //        })
-    //    }
-    
+
     func isLastSectionVisible() -> Bool {
         guard !messageList.isEmpty else { return false }
         let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
@@ -209,6 +194,78 @@ class ChatVC: MessagesViewController {
         print("\(lat)", "\(lng)",title)
         self.messageList.append(UserMessage(location: CLLocation(latitude: lat, longitude: lng), user: self.senderUser, messageId: "1", date: Date()))
         self.messagesCollectionView.reloadData()
+    }
+    
+    //MARK: - APIs
+    
+    func getDate(dateStr:String,timeStr:String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+        dateFormatter.locale = Locale.current
+        return dateFormatter.date(from: "\(dateStr)T\(timeStr):00") // replace Date String
+    }
+
+    func getMessagesChat(pageNumber:Int) {
+        
+        if pageNumber > viewmodel.messages.value?.totalPages ?? 1 {
+            return
+        }
+
+        self.showLoading()
+        viewmodel.getChatMessages(ByUserId: chatUserModel?.id ?? "", pageNumber: pageNumber)
+        viewmodel.messages.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                self.hideLoading()
+
+                for itm in value.data ?? [] {
+                    if itm.currentuserMessage! {
+                        messageList.append(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId , displayName: senderUser.displayName , photoURL: UIImageView(image: UIImage(named: ""))), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!)!))
+
+                    }else {
+                        messageList.append(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", displayName: itm.username ?? "", photoURL: UIImageView(image: UIImage(named: ""))), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!)!))
+                        
+                        receiveimg = itm.userimage ?? ""
+                    }
+                }
+                
+                if pageNumber > 1 {
+                    self.messagesCollectionView.reloadDataAndKeepOffset()
+                }else {
+                    self.messagesCollectionView.reloadData()
+                    self.messagesCollectionView.scrollToLastItem(animated: true)
+                }
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else if error == "Bad Request" {
+                    HandleinvalidUrl()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
+            }
+        }
+    }
+    
+    func HandleinvalidUrl() {
+        self.view.makeToast("sorry for that we have some maintaince with our servers please try again in few moments".localizedString)
+    }
+    
+    func HandleInternetConnection() {
+        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+    }
+    
+    @objc func loadMoreMessages() {
+        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
+            self.currentPage += 1
+            self.getMessagesChat(pageNumber: self.currentPage)
+        }
     }
 }
 
@@ -228,6 +285,28 @@ extension ChatVC: MessagesDataSource {
         return messageList[indexPath.section]
     }
     
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        guard let messagesDataSource = messagesCollectionView.messagesDataSource else {
+            fatalError("Ouch. nil data source for messages")
+        }
+
+        // Very important to check this when overriding `cellForItemAt`
+        // Super method will handle returning the typing indicator cell
+        guard !isSectionReservedForTypingIndicator(indexPath.section) else {
+            return super.collectionView(collectionView, cellForItemAt: indexPath)
+        }
+
+        let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
+        if case .custom = message.kind {
+            let cell = messagesCollectionView.dequeueReusableCell(CustomCell.self, for: indexPath)
+            cell.configure(with: message, at: indexPath, and: messagesCollectionView)
+            return cell
+        }
+        return super.collectionView(collectionView, cellForItemAt: indexPath)
+    }
+    
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         if indexPath.section % 3 == 0 {
             return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
@@ -240,16 +319,13 @@ extension ChatVC: MessagesDataSource {
     }
     
     func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        
-        //        let name = isFromCurrentSender(message: message) ? messageList[indexPath.row].sender.displayName : messageList[indexPath.row].sender.displayName
-        
-        let name = isFromCurrentSender(message: message) ? senderUser.displayName : receiverUser.displayName
+        let name = (isFromCurrentSender(message: message) ? senderUser.displayName : chatUserModel?.chatName)!
         
         return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.init(name: "Montserrat-Light", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2)])
     }
     
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        let dateString = formatter.string(from: Date())
+        let dateString = formatter.string(from: messageList[indexPath.row].sentDate)
         return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.init(name: "Montserrat-Light", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2)])
     }
     
@@ -436,10 +512,23 @@ extension ChatVC: InputBarAccessoryViewDelegate {
     @objc func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         //        processInputBar(messageInputBar)
         
-        
-        messageList.append(UserMessage(text: text, user: senderUser, messageId: "1", date: Date()))
-        inputBar.inputTextView.text = ""
-        self.messagesCollectionView.reloadData()
+        viewmodel.SendMessage(withUserId: chatUserModel?.id ?? "", AndMessage: text, attachedImg: false, AndAttachImage: UIImage()) { error, data in
+            if let error = error {
+                self.showAlert(withMessage: error)
+                return
+            }
+            
+            guard let ـ = data else {
+                return
+            }
+            
+            self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date()))
+            
+            DispatchQueue.main.async {
+                inputBar.inputTextView.text = ""
+                self.messagesCollectionView.reloadData()
+            }
+        }
     }
     
     func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
@@ -449,59 +538,14 @@ extension ChatVC: InputBarAccessoryViewDelegate {
             setupLeftInputButton(tapMessage: true, Recorder: "play")
         }
     }
-    
-    //    func processInputBar(_ inputBar: InputBarAccessoryView) {
-    //        // Here we can parse for which substrings were autocompleted
-    //        let attributedText = inputBar.inputTextView.attributedText!
-    //        let range = NSRange(location: 0, length: attributedText.length)
-    //        attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (_, range, _) in
-    //
-    //            let substring = attributedText.attributedSubstring(from: range)
-    //            let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
-    //            print("Autocompleted: `", substring, "` with context: ", context ?? [])
-    //        }
-    //
-    //        let components = inputBar.inputTextView.components
-    //        inputBar.inputTextView.text = String()
-    //        inputBar.invalidatePlugins()
-    //        // Send button activity animation
-    //        inputBar.sendButton.startAnimating()
-    //        inputBar.inputTextView.placeholder = "Sending..."
-    //        // Resign first responder for iPad split view
-    //        inputBar.inputTextView.resignFirstResponder()
-    //        DispatchQueue.global(qos: .default).async {
-    //            // fake send request task
-    //            sleep(1)
-    //            DispatchQueue.main.async { [weak self] in
-    //                inputBar.sendButton.stopAnimating()
-    //                inputBar.inputTextView.placeholder = "Aa"
-    //                self?.insertMessages(components)
-    //                self?.messagesCollectionView.scrollToLastItem(animated: true)
-    //            }
-    //        }
-    //    }
-    
-    //    private func insertMessages(_ data: [Any]) {
-    //        for component in data {
-    //            let user = senderOO
-    //            if let str = component as? String {
-    //                let message = UserMessage(text: str, user: user, messageId: UUID().uuidString, date: Date())
-    //                insertMessage(message)
-    //            } else if let img = component as? UIImage {
-    //                let message = UserMessage(image: img, user: user, messageId: UUID().uuidString, date: Date())
-    //                insertMessage(message)
-    //            }
-    //        }
-    //    }
 }
 
 // MARK: - MessagesDisplayDelegate
 extension ChatVC: MessagesDisplayDelegate {
     
     // MARK: - Text Messages
-    
     func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? .white : .darkText
+        isFromCurrentSender(message: message) ? .white : .darkText
     }
     
     func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
@@ -528,8 +572,9 @@ extension ChatVC: MessagesDisplayDelegate {
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
-        let avatar = SimpleDataModel.shared.getAvatarFor(sender: message.sender)
-        avatarView.set(avatar: avatar)
+        let avatar1 = SimpleDataModel.shared.getAvatarFor(sender: message.sender, imgStr: Defaults.Image)
+        let avatar2 = SimpleDataModel.shared.getAvatarFor(sender: message.sender, imgStr: receiveimg)
+        avatarView.set(avatar: isFromCurrentSender(message: message) ? avatar1 : avatar2)
     }
     
     func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
@@ -638,6 +683,7 @@ extension ChatVC {
                 })
             }
     }
+    
     private func setupLeftInputButton(tapMessage:Bool,Recorder:String) {
         messageInputBar.inputTextView.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1)
         messageInputBar.inputTextView.cornerRadiusView(radius: 8)
@@ -1096,3 +1142,25 @@ extension ChatVC: MessagesLayoutDelegate {
         }
     }
 }
+
+//extension ChatVC: CameraInputBarAccessoryViewDelegate {
+//
+//    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith attachments: [AttachmentManager.Attachment]) {
+//
+//
+//        for item in attachments {
+//            if  case .image(let image) = item {
+//
+//                self.sendImageMessage(photo: image)
+//            }
+//        }
+//
+//        inputBar.invalidatePlugins()
+//    }
+//
+//
+//    func sendImageMessage( photo  : UIImage)  {
+//        let photoMessage = MockMessage(image: photo, user: self.currentSender() as! MockUser, messageId: UUID().uuidString, date: Date())
+//        self.insertMessage(photoMessage)
+//    }
+//}
