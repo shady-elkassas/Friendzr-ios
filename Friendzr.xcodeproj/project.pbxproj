@@ -69,7 +69,6 @@
 		4326A8F726F87AE000D471E0 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4326A8F626F87AE000D471E0 /* SettingsViewModel.swift */; };
 		432940F926EE0EED0066BE87 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432940F826EE0EED0066BE87 /* FriendViewModel.swift */; };
 		432940FB26EE0FB60066BE87 /* FriendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432940FA26EE0FB60066BE87 /* FriendModel.swift */; };
-		4329410826EE44930066BE87 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4329410726EE44920066BE87 /* GoogleService-Info.plist */; };
 		432C6AD726F33BD60029FB89 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C6AD626F33BD60029FB89 /* TagView.swift */; };
 		432C6AD926F33BDF0029FB89 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C6AD826F33BDF0029FB89 /* TagListView.swift */; };
 		432C6ADB26F33BE70029FB89 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C6ADA26F33BE70029FB89 /* CloseButton.swift */; };
@@ -135,6 +134,7 @@
 		437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */; };
 		437EE47226E8B39700765089 /* LeaveEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437EE47126E8B39700765089 /* LeaveEventViewModel.swift */; };
 		437EE47426E8BC1C00765089 /* AttendeesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437EE47326E8BC1C00765089 /* AttendeesModel.swift */; };
+		4381CC9C270DB45A00D40A6D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4381CC9B270DB45A00D40A6D /* GoogleService-Info.plist */; };
 		4382AC1726C27195005C1857 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1626C27195005C1857 /* AppDelegate.swift */; };
 		4382AC1926C27195005C1857 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1826C27195005C1857 /* SceneDelegate.swift */; };
 		4382AC1B26C27195005C1857 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1A26C27195005C1857 /* MainVC.swift */; };
@@ -325,7 +325,6 @@
 		4326A8F626F87AE000D471E0 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		432940F826EE0EED0066BE87 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		432940FA26EE0FB60066BE87 /* FriendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendModel.swift; sourceTree = "<group>"; };
-		4329410726EE44920066BE87 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		432C6AD626F33BD60029FB89 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		432C6AD826F33BDF0029FB89 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
 		432C6ADA26F33BE70029FB89 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
@@ -391,6 +390,7 @@
 		437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassViewSwiftUI.swift; sourceTree = "<group>"; };
 		437EE47126E8B39700765089 /* LeaveEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveEventViewModel.swift; sourceTree = "<group>"; };
 		437EE47326E8BC1C00765089 /* AttendeesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendeesModel.swift; sourceTree = "<group>"; };
+		4381CC9B270DB45A00D40A6D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4382AC1326C27195005C1857 /* Friendzr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Friendzr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4382AC1626C27195005C1857 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4382AC1826C27195005C1857 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -1093,7 +1093,7 @@
 				4382AC4926C27297005C1857 /* Supporting_Files */,
 				4382AC2226C27195005C1857 /* Assets.xcassets */,
 				4382AC2426C27195005C1857 /* LaunchScreen.storyboard */,
-				4329410726EE44920066BE87 /* GoogleService-Info.plist */,
+				4381CC9B270DB45A00D40A6D /* GoogleService-Info.plist */,
 				4382AC2726C27195005C1857 /* Info.plist */,
 			);
 			path = Friendzr;
@@ -1581,7 +1581,7 @@
 				4362889D26C9140E00B51E51 /* RequestTableViewCell.xib in Resources */,
 				4382AC1E26C27195005C1857 /* Main.storyboard in Resources */,
 				43D545A726CBB02D0064660A /* EventCalendarView.xib in Resources */,
-				4329410826EE44930066BE87 /* GoogleService-Info.plist in Resources */,
+				4381CC9C270DB45A00D40A6D /* GoogleService-Info.plist in Resources */,
 				439DDE9426F749DC00E09FC1 /* EventsInLocationTableViewCell.xib in Resources */,
 				4333DA7026C3B1C10029F2B0 /* Login.storyboard in Resources */,
 			);

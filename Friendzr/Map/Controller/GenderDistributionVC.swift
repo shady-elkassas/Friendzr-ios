@@ -17,7 +17,8 @@ class GenderDistributionVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     let cellID = "InterestsTableViewCell"
-    
+    var model: PeopleAroundMeObj? = nil
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

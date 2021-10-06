@@ -44,9 +44,9 @@
 	<key>FacebookDisplayName</key>
 	<string>Friendzr</string>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
-	<false/>
+	<true/>
 	<key>FirebaseMessagingAutoInitEnabled</key>
-	<false/>
+	<true/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>comgooglemaps</string>
@@ -141,7 +141,6 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
-		<string>location</string>
 		<string>processing</string>
 		<string>remote-notification</string>
 	</array>

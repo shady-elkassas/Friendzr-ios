@@ -108,6 +108,14 @@ class Router {
         nextVC.selectedIndex = 1
         go(withVC: nextVC)
     }
+    
+    func toResquests()  {
+        let id = "MainTBC"
+        guard let nextVC = Initializer.createViewController(storyBoard: .Main, andId: id) as? UITabBarController else {return}
+        nextVC.selectedIndex = 3
+        go(withVC: nextVC)
+    }
+
 }
 
 class HomeNC: UINavigationController {

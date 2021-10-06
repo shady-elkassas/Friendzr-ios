@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -31,13 +31,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!], for: .selected)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 8)!], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 8)!], for: .selected)
-
+        
         UIApplication.shared.windows.forEach { window in
             window.overrideUserInterfaceStyle = .light
         }
         
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
-
+        
         if #available(iOS 13, *) {
         } else {
             Router().toSplach()
@@ -48,26 +48,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSPlacesClient.provideAPIKey("AIzaSyChBrhOHIhxIiYkEUak_3TKNR_bEFcfbyI")
         
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-          if error != nil || user == nil {
-            // Show the app's signed-out state.
-          } else {
-            // Show the app's signed-in state.
-          }
+            if error != nil || user == nil {
+                // Show the app's signed-out state.
+            } else {
+                // Show the app's signed-in state.
+            }
         }
         
         if #available(iOS 10.0, *) {
-          // For iOS 10 display notification (sent via APNS)
-          UNUserNotificationCenter.current().delegate = self
-
-          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-          UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: { _, _ in }
-          )
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+            
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+                options: authOptions,
+                completionHandler: { _, _ in }
+            )
         } else {
-          let settings: UIUserNotificationSettings =
+            let settings: UIUserNotificationSettings =
             UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-          application.registerUserNotificationSettings(settings)
+            application.registerUserNotificationSettings(settings)
         }
         
         Messaging.messaging().delegate = self
@@ -179,28 +179,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult)
-                       -> Void) {
-      // If you are receiving a notification message while your app is in the background,
-      // this callback will not be fired till the user taps on the notification launching the application.
-      // TODO: Handle data of notification
-
-      // With swizzling disabled you must let Messaging know about the message, for Analytics
-      // Messaging.messaging().appDidReceiveMessage(userInfo)
-
-      // Print message ID.
-      if let messageID = userInfo[gcmMessageIDKey] {
-        print("Message ID: \(messageID)")
-      }
-
-      // Print full message.
-      print(userInfo)
-
-      completionHandler(UIBackgroundFetchResult.newData)
+                     -> Void) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+        // TODO: Handle data of notification
+        
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
+        
+        // Print message ID.
+        if let messageID = userInfo[gcmMessageIDKey] {
+            print("Message ID: \(messageID)")
+        }
+        
+        // Print full message.
+        print(userInfo)
+        
+        completionHandler(UIBackgroundFetchResult.newData)
     }
-
+    
     func application(_ application: UIApplication,
-    didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-      Messaging.messaging().apnsToken = deviceToken
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -212,22 +212,77 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             let userInfo = response.notification.request.content.userInfo
-            let aps = userInfo["aps"] as? [String:Any] //?[""]
-            if let cat = aps?["category"] as? String {
-                if cat == "view_request" || cat == "view_subscription"  {
-                    //                    if let orderobj = userInfo["data"]  as? [String:Any] {
-                    if let orderid = userInfo["id"] as? NSString {
-                        let delCharSet = NSCharacterSet(charactersIn: "\"\"")
-//
-                        let id = orderid.trimmingCharacters(in: delCharSet as CharacterSet)
-
-                    }
-                    //                    }
-                }else if cat == "" {
-                    if let orderid = userInfo["id"] as? NSString {
-                        let delCharSet = NSCharacterSet(charactersIn: "\"\"")
-                    }
+            
+            
+            _ = userInfo["aps"] as? [String:Any] //?[""]
+            let action = userInfo["Action"] as? String //action transaction
+            let actionId = userInfo["Action_code"] as? String //userid
+            
+            if action == "Friend_Request" {
+                if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.userID = actionId!
+                    navController.pushViewController(vc, animated: true)
                 }
+            }else if action == "Accept_Friend_Request" {
+                if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.userID = actionId ?? ""
+                    navController.pushViewController(vc, animated: true)
+                }
+            }else if action == "event_chat"{
+//                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
+//                   let tabBarController = rootViewController as? UITabBarController,
+//                   let navController = tabBarController.selectedViewController as? UINavigationController {
+//                    vc.eventId = actionId ?? ""
+//                    navController.pushViewController(vc, animated: true)
+//                }
+            }else if action == "user_chat"{
+//                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
+//                   let tabBarController = rootViewController as? UITabBarController,
+//                   let navController = tabBarController.selectedViewController as? UINavigationController {
+//                    vc.eventId = actionId ?? ""
+//                    navController.pushViewController(vc, animated: true)
+//                }
+            }else if action == "event_Updated"{
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.eventId = actionId ?? ""
+                    navController.pushViewController(vc, animated: true)
+                }
+            }else if action == "update_Event_Data"{
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.eventId = actionId ?? ""
+                    navController.pushViewController(vc, animated: true)
+                }
+            }else if action == "event_attend"{
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.eventId = actionId ?? ""
+                    navController.pushViewController(vc, animated: true)
+                }
+            }else if action == "Event_reminder" {
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.eventId = actionId ?? ""
+                    navController.pushViewController(vc, animated: true)
+                }
+            }else if action == "Check_events_near_you" {
+                if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+//                    vc. = actionId ?? ""
+                    navController.pushViewController(vc, animated: true)
+                }
+            }else {
+                print("fail")
             }
         }
         
@@ -242,6 +297,11 @@ extension AppDelegate : MessagingDelegate{
         let dataDict:[String: String] = ["token": fcmToken!]
         print("Firebase registration token: \(String(describing: fcmToken))")
         Defaults.fcmToken = fcmToken!
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: dataDict
+        )
     }
 }
 

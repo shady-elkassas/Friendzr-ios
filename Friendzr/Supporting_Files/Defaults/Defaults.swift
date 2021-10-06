@@ -288,7 +288,6 @@ class Defaults {
         defaults.removeObject(forKey: "gender")
         defaults.removeObject(forKey: "birthdate")
         defaults.removeObject(forKey: "interestIds")
-        defaults.removeObject(forKey: "fcmToken")
         defaults.removeObject(forKey: "age")
         defaults.removeObject(forKey: "tiktok")
         defaults.removeObject(forKey: "snapchat")

@@ -64,32 +64,23 @@ class PeopleAroundMeObj: Mappable {
     
     var lang: Double? = 0.0
     var lat: Double? = 0.0
-    var peoplecount: Int? = 0
-    var peoplecolor:String? = ""
-    var peopleMV: [PeopleObj]? = nil
-    
+    var color:String? = ""
+    var malePercentage: Double? = 0.0
+    var femalepercentage: Double? = 0.0
+    var otherpercentage: Double? = 0.0
+    var totalUsers: Int? = 0
+
     required init?(map: Map) {
     }
     // Mappable
     func mapping(map: Map) {
         lang    <- map["lang"]
         lat   <- map["lat"]
-        peoplecount   <- map["peoplecount"]
-        peoplecolor   <- map["peoplecolor"]
-        peopleMV  <- map["peopleMV"]
-    }
-}
+        color   <- map["color"]
+        malePercentage  <- map["malePercentage"]
+        femalepercentage   <- map["femalepercentage"]
+        otherpercentage   <- map["otherpercentage"]
+        totalUsers   <- map["totalUsers"]
 
-class PeopleObj: Mappable {
-    
-    var type:String? = ""
-    var count: Int? = 0
-    
-    required init?(map: Map) {
-    }
-    // Mappable
-    func mapping(map: Map) {
-        type   <- map["type"]
-        count  <- map["count"]
     }
 }

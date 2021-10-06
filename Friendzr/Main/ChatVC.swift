@@ -56,6 +56,8 @@ class ChatVC: MessagesViewController {
 
     var chatUserModel:UserChatObj? = UserChatObj()
     var receiveimg = ""
+    var chatuserID = ""
+    
     private let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium

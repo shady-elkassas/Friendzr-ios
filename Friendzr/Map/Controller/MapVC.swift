@@ -159,7 +159,7 @@ class MapVC: UIViewController {
         }
         
         for item in model?.peoplocationDataMV ?? [] {
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), color: item.peoplecolor ?? "", typelocation: "people"))
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), color: item.color ?? "", typelocation: "people"))
         }
         
         for item in locations {
@@ -391,8 +391,14 @@ extension MapVC : GMSMapViewDelegate {
                 getEvents(By: locationEvent?.latitude ?? 0.0, lng: locationEvent?.longitude ?? 0.0)
                 CreateSlideUpMenu()
             }else {
-                if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "GenderDistributionNC") as? UINavigationController, let _ = controller.viewControllers.first as? GenderDistributionVC {
-                    self.present(controller, animated: true)
+                let markerPos = marker.position.latitude
+                for obp in viewmodel.locations.value?.peoplocationDataMV ?? [] {
+                    if obp.lat == markerPos {
+                        if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "GenderDistributionNC") as? UINavigationController, let vc = controller.viewControllers.first as? GenderDistributionVC {
+                            vc.model = obp
+                            self.present(controller, animated: true)
+                        }
+                    }
                 }
             }
         }
