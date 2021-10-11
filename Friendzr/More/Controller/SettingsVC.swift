@@ -236,9 +236,9 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
     }
     
     func setupView() {
-        allowMyLocationBtn.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-        ghostModeBtn.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-        pushNotificationBtn.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        allowMyLocationBtn.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        ghostModeBtn.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        pushNotificationBtn.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
         pushNotificationView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
         deleteAccountView.setCornerforBottom(withShadow: false, cornerMask: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 16)

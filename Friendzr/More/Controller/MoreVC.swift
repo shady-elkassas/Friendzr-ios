@@ -230,6 +230,8 @@ extension MoreVC : UITableViewDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
             break
         case 2://notificationList
+            guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "NotificationsVC") as? NotificationsVC else {return}
+            self.navigationController?.pushViewController(vc, animated: true)
             break
         case 3: //settings
             if internetConect {

@@ -102,6 +102,11 @@
 		4336D13726DB95670093C7A6 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4336D13626DB95670093C7A6 /* ProfileModel.swift */; };
 		4336D13926DB95D20093C7A6 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4336D13826DB95D20093C7A6 /* ChangePasswordViewModel.swift */; };
 		4336D13B26DB96C20093C7A6 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4336D13A26DB96C20093C7A6 /* ProfileViewModel.swift */; };
+		43375F5627130D85009EBED6 /* NotificationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43375F5527130D85009EBED6 /* NotificationsVC.swift */; };
+		43375F5827130D94009EBED6 /* NotificationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43375F5727130D94009EBED6 /* NotificationsModel.swift */; };
+		43375F5A27130D9E009EBED6 /* NotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43375F5927130D9E009EBED6 /* NotificationsViewModel.swift */; };
+		43375F5F271313C4009EBED6 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43375F5D271313C4009EBED6 /* NotificationTableViewCell.swift */; };
+		43375F60271313C4009EBED6 /* NotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43375F5E271313C4009EBED6 /* NotificationTableViewCell.xib */; };
 		4344107C26CD54D600F8233E /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344107B26CD54D600F8233E /* CategoriesView.swift */; };
 		4344107E26CD54E000F8233E /* CategoriesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4344107D26CD54E000F8233E /* CategoriesView.xib */; };
 		4344110226CE63AF00F8233E /* NewConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344110126CE63AF00F8233E /* NewConversationVC.swift */; };
@@ -358,6 +363,11 @@
 		4336D13626DB95670093C7A6 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		4336D13826DB95D20093C7A6 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
 		4336D13A26DB96C20093C7A6 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		43375F5527130D85009EBED6 /* NotificationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsVC.swift; sourceTree = "<group>"; };
+		43375F5727130D94009EBED6 /* NotificationsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsModel.swift; sourceTree = "<group>"; };
+		43375F5927130D9E009EBED6 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
+		43375F5D271313C4009EBED6 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
+		43375F5E271313C4009EBED6 /* NotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationTableViewCell.xib; sourceTree = "<group>"; };
 		4344107B26CD54D600F8233E /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
 		4344107D26CD54E000F8233E /* CategoriesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoriesView.xib; sourceTree = "<group>"; };
 		4344110126CE63AF00F8233E /* NewConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationVC.swift; sourceTree = "<group>"; };
@@ -586,6 +596,7 @@
 			children = (
 				4308EB7D26EA34FC00D71379 /* LogoutModel.swift */,
 				4326A8F426F87AD400D471E0 /* SettingsModel.swift */,
+				43375F5727130D94009EBED6 /* NotificationsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -597,6 +608,7 @@
 				4336D13426DB94ED0093C7A6 /* LogoutViewModel.swift */,
 				4320A64926F20E5D003604EE /* AllBlockedViewModel.swift */,
 				4326A8F626F87AE000D471E0 /* SettingsViewModel.swift */,
+				43375F5927130D9E009EBED6 /* NotificationsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -619,6 +631,8 @@
 				430A350E26CA7A2200477A94 /* MoreTableViewCell.xib */,
 				4320A64D26F21180003604EE /* BlockedTableViewCell.swift */,
 				4320A64E26F21180003604EE /* BlockedTableViewCell.xib */,
+				43375F5D271313C4009EBED6 /* NotificationTableViewCell.swift */,
+				43375F5E271313C4009EBED6 /* NotificationTableViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -955,6 +969,7 @@
 				430A351326CA999800477A94 /* SettingsVC.swift */,
 				4325E20B26F0A048008F73C4 /* ChangePasswordVC.swift */,
 				4320A64B26F20FF7003604EE /* BlockedListVC.swift */,
+				43375F5527130D85009EBED6 /* NotificationsVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1575,6 +1590,7 @@
 				4382ACB126C29001005C1857 /* Splach.storyboard in Resources */,
 				430A351726CAA97300477A94 /* HideMyLocationView.xib in Resources */,
 				436460B626E8E8AA007C3F27 /* TagLabelCollectionViewCell.xib in Resources */,
+				43375F60271313C4009EBED6 /* NotificationTableViewCell.xib in Resources */,
 				430D425E26D38D9B00188E42 /* AttendeesTableViewCell.xib in Resources */,
 				4344110826CE885F00F8233E /* ContactsTableViewCell.xib in Resources */,
 				4382AC9626C27FF2005C1857 /* Montserrat-Medium.ttf in Resources */,
@@ -1692,6 +1708,7 @@
 				4336D11626DB7F610093C7A6 /* ValidationViewModel.swift in Sources */,
 				4362888626C8FF3A00B51E51 /* FeedVC.swift in Sources */,
 				4333DA7726C3BC350029F2B0 /* OptionsSignUpVC.swift in Sources */,
+				43375F5F271313C4009EBED6 /* NotificationTableViewCell.swift in Sources */,
 				43FBA21826D4F105005F4FBF /* MessageContainerController.swift in Sources */,
 				430A351926CAA97F00477A94 /* HideMyLocationView.swift in Sources */,
 				4336D12F26DB8AF80093C7A6 /* CheckUserNameViewModel.swift in Sources */,
@@ -1746,6 +1763,7 @@
 				436288AF26C93B7600B51E51 /* MyProfileVC.swift in Sources */,
 				4336D12726DB89210093C7A6 /* UserNameViewModel.swift in Sources */,
 				43D545C926CCFBA10064660A /* CircleView.swift in Sources */,
+				43375F5627130D85009EBED6 /* NotificationsVC.swift in Sources */,
 				4326A8F526F87AD400D471E0 /* SettingsModel.swift in Sources */,
 				4382ACB326C29019005C1857 /* SplachOneVC.swift in Sources */,
 				4330757C26E79299002940DF /* JoinEventViewModel.swift in Sources */,
@@ -1755,6 +1773,7 @@
 				4362889426C8FF9300B51E51 /* MoreVC.swift in Sources */,
 				43119D6A26E4C1A000AD2260 /* BioViewModel.swift in Sources */,
 				43FBA20A26D4F105005F4FBF /* CustomMessageFlowLayout.swift in Sources */,
+				43375F5827130D94009EBED6 /* NotificationsModel.swift in Sources */,
 				43119D6626E4BFDB00AD2260 /* EditProfileViewModel.swift in Sources */,
 				430D425926D3854200188E42 /* InterestsTableViewCell.swift in Sources */,
 				4362889C26C9140E00B51E51 /* RequestTableViewCell.swift in Sources */,
@@ -1823,6 +1842,7 @@
 				43FBA20E26D4F105005F4FBF /* CustomLayoutSizeCalculator.swift in Sources */,
 				4320A64F26F21180003604EE /* BlockedTableViewCell.swift in Sources */,
 				43D545B526CBD81E0064660A /* Magnetic.swift in Sources */,
+				43375F5A27130D9E009EBED6 /* NotificationsViewModel.swift in Sources */,
 				4382AC1926C27195005C1857 /* SceneDelegate.swift in Sources */,
 				43FBA22926D4F105005F4FBF /* SampleData.swift in Sources */,
 				43D545C526CCE9E50064660A /* CirclesView.swift in Sources */,

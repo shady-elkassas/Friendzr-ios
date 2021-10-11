@@ -105,7 +105,7 @@ class EditEventsVC: UIViewController {
         limitUsersView.cornerRadiusView(radius: 5)
         descriptionTxtView.cornerRadiusView(radius: 5)
         descriptionTxtView.delegate = self
-        switchAllDays.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        switchAllDays.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
     }
     
     func initDeleteEventButton(btnColor: UIColor? = .red) {

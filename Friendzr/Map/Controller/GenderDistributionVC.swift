@@ -2,7 +2,7 @@
 //  GenderDistributionVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 05/10/2021.
+//  Created by Muhammad Sabri Saad on 05/10/2021.
 //
 
 import UIKit

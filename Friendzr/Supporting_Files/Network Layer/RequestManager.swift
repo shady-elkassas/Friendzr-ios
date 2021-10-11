@@ -20,7 +20,19 @@ class RequestManager  {
             return
         }
         
+//        let domain = url.host
+//        if domain?.isValidURL == true {
+//            UIApplication.shared.canOpenURL(url)
+//        }else {
+//            UIApplication.shared.canOpenURL(url)
+//        }
+        
         var urlRequest = URLRequest(url: url)
+        
+//        urlRequest.allowsConstrainedNetworkAccess = true
+//        urlRequest.networkServiceType = URLRequest.NetworkServiceType.default
+//        urlRequest.allowsCellularAccess = true
+//        urlRequest.allowsExpensiveNetworkAccess = true
         
         urlRequest.httpMethod = method
         
@@ -46,9 +58,10 @@ class RequestManager  {
         // make the request
         let task = session.dataTask(with: urlRequest, completionHandler: {
             (data, response, error) in
-                        
+            
             if (error != nil) {
                 print(error!)
+
             } else {
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode

@@ -77,11 +77,6 @@ class Router {
         let nextVC = Initializer.createViewController(storyBoard: .Splach, andId: id)
         go(withVC: nextVC)
     }
-    func toSignalRSwiftViewController()  {
-        let id = "SignalRSwiftNC"
-        let nextVC = Initializer.createViewController(storyBoard: .Main, andId: id)
-        go(withVC: nextVC)
-    }
     
     func toMore()  {
         let id = "MainTBC"

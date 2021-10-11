@@ -8,7 +8,19 @@
 import Foundation
 
 class URLs {
-    static let baseURLFirst = "https://backend.friendzr.com/api/" //"http://emandawd1-001-site1.btempurl.com/api/" //"https://localhost:44399/api/"
+    static let baseURLFirst = "https://backend.friendzr.com/api/"
     static let baseURLSecond = ""
     static let baseURLThird = ""
+}
+
+extension String {
+    var isValidURL: Bool {
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
+            // it is a link, if the match covers the whole string
+            return match.range.length == self.utf16.count
+        } else {
+            return false
+        }
+    }
 }

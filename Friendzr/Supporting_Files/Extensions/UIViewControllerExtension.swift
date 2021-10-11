@@ -85,14 +85,27 @@ extension UIViewController {
     }
     
     func initProfileBarButton(_ color: UIColor? = .white) {
-        let button = UIButton.init(type: .custom)
-        button.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-        let image = UIImage(named: "avatar_ic")?.withRenderingMode(.automatic)
+        let view = UIView()
+        view.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        let imgView = UIImageView()
+        imgView.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "avatar_ic"))
+        imgView.frame = view.bounds
+        imgView.contentMode = .scaleToFill
+        imgView.cornerRadiusView(radius: 20)
+
+        let btn = UIButton(type: .custom)
+        btn.addTarget(self, action: #selector(goToMyProfile), for: .touchUpInside)
+        btn.frame = view.bounds
+        btn.tintColor = .clear
         
-        button.setImage(image, for: .normal)
-        button.tintColor = color
-        button.addTarget(self, action: #selector(goToMyProfile), for: .touchUpInside)
-        let barButton = UIBarButtonItem(customView: button)
+        view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        imgView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        btn.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+
+        view.addSubview(imgView)
+        view.addSubview(btn)
+        
+        let barButton = UIBarButtonItem(customView: view)
         self.navigationItem.leftBarButtonItem = barButton
     }
     

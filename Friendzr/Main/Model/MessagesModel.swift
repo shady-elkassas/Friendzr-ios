@@ -2,13 +2,14 @@
 //  MessagesModel.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 04/10/2021.
+//  Created by Muhammad Sabri Saad on 04/10/2021.
 //
 
 import Foundation
 import ObjectMapper
 
 typealias MessagesChat = MessagesDataModel
+typealias EventChatMessages = EventMessagesModel
 
 class MessagesChatResponse: Mappable {
     
@@ -85,5 +86,40 @@ class MessageObj: NSObject,Mappable {
         messagesdate    <- map["messagesdate"]
         messagestime    <- map["messagestime"]
         messageAttachedVM   <- map["messageAttachedVM"]
+    }
+}
+
+
+class EventChatMessagesResponse: Mappable {
+    
+    var isSuccessful: Bool?
+    var message: String?
+    var data: EventMessagesModel? = nil
+    
+    required init?(map: Map) {
+    }
+    // Mappable
+    func mapping(map: Map) {
+        data    <- map["model"]
+        isSuccessful   <- map["isSuccessful"]
+        message  <- map["message"]
+    }
+}
+
+class EventMessagesModel: Mappable {
+    
+    var attendees: [AttendeesObj]?
+    var pagedModel: MessagesDataModel?
+    
+    required init?(map: Map) {
+    }
+    
+    init() {
+    }
+    
+    // Mappable
+    func mapping(map: Map) {
+        attendees   <- map["attendees"]
+        pagedModel  <- map["pagedModel"]
     }
 }

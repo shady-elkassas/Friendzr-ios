@@ -263,7 +263,7 @@ class FeedVC: UIViewController {
     }
 
     @IBAction func filterBtn(_ sender: Any) {
-        filterFeedsBy(degree: compassDegree, pageNumber: 0)
+        filterFeedsBy(degree: compassDegree, pageNumber: 1)
     }
 }
 
@@ -517,7 +517,7 @@ extension FeedVC:UITableViewDelegate {
 extension FeedVC: CLLocationManagerDelegate {
     
     func initSwitchBarButton() {
-        switchBarButton.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        switchBarButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         switchBarButton.onTintColor = UIColor.FriendzrColors.primary
         switchBarButton.thumbTintColor = .white
         switchBarButton.addTarget(self, action: #selector(handleSwitchBtn), for: .touchUpInside)
@@ -530,6 +530,7 @@ extension FeedVC: CLLocationManagerDelegate {
         
         // Azimuth
         if switchBarButton.isOn {
+            self.showAlert(withMessage: "If you want to filter with compass \nPlease select your direction and tap on the compass")
             createLocationManager()
             filterDir = true
             filterBtn.isHidden = false

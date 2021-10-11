@@ -2,7 +2,7 @@
 //  ChatViewModel.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 03/10/2021.
+//  Created by Muhammad Sabri Saad on 03/10/2021.
 //
 
 import Foundation
@@ -20,14 +20,15 @@ class ChatViewModel {
     var messages : DynamicType<MessagesChat> = DynamicType<MessagesChat>()
     var messagesTemp: MessagesChat = MessagesDataModel()
     
+    var eventmessages:DynamicType<EventChatMessages> = DynamicType<EventChatMessages>()
+    var eventmessagesTemp: EventChatMessages = EventMessagesModel()
+    
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var isLoading : Bool = false
     var error:DynamicType<String> = DynamicType()
     
     // create a method for calling api which is return a Observable
-    
-    
     //MARK:- Chat list
     func getChatList(pageNumber:Int) {
         
@@ -66,11 +67,11 @@ class ChatViewModel {
     }
     
     //MARK:- Send Message with user
-    func SendMessage(withUserId userId:String,AndMessage message:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,completion: @escaping (_ error: String?, _ data: Bool?) -> ()) {
+    func SendMessage(withUserId userId:String,AndMessage message:String,AndMessageType messagetype:Int,attachedImg:Bool,AndAttachImage attachImage:UIImage,completion: @escaping (_ error: String?, _ data: Bool?) -> ()) {
         
         let url = URLs.baseURLFirst + "Messages/SendMessage"
         
-        let parameters:[String:Any] = ["UserId":userId,"Message":message]
+        let parameters:[String:Any] = ["UserId":userId,"Message":message,"Messagetype":messagetype]
         let oParam = NSString(string: parameters.description)
         print(oParam)
         
@@ -173,11 +174,11 @@ class ChatViewModel {
     }
     
     //MARK:- Send Message with Event
-    func SendMessage(withEventId eventId:String,AndMessage message:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,completion: @escaping (_ error: String?, _ data: Bool?) -> ()) {
+    func SendMessage(withEventId eventId:String,AndMessageType messagetype:Int,AndMessage message:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,completion: @escaping (_ error: String?, _ data: Bool?) -> ()) {
         
         let url = URLs.baseURLFirst + "Messages/SendEventMessage"
         
-        let parameters:[String:Any] = ["EventId":eventId,"Message":message]
+        let parameters:[String:Any] = ["EventId":eventId,"Message":message,"Messagetype":messagetype]
         let oParam = NSString(string: parameters.description)
         print(oParam)
         
@@ -324,7 +325,7 @@ class ChatViewModel {
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
-            guard let userResponse = Mapper<MessagesChatResponse>().map(JSON: data!) else {
+            guard let userResponse = Mapper<EventChatMessagesResponse>().map(JSON: data!) else {
                 self.error.value = error
                 return
             }
@@ -336,16 +337,71 @@ class ChatViewModel {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
                     if pageNumber > 1 {
-                        for itm in toAdd.data ?? [] {
-                            if !(self.messagesTemp.data?.contains(where: { $0.id == itm.id}) ?? false) {
-                                self.messagesTemp.data?.append(itm)
+                        for itm in toAdd.pagedModel?.data ?? [] {
+                            if !(self.eventmessagesTemp.pagedModel?.data?.contains(where: { $0.id == itm.id}) ?? false) {
+                                self.eventmessagesTemp.pagedModel?.data?.append(itm)
                             }
                         }
-                        self.messages.value = self.messagesTemp
+                        self.eventmessages.value = self.eventmessagesTemp
                     } else {
-                        self.messages.value = toAdd
-                        self.messagesTemp = toAdd
+                        self.eventmessages.value = toAdd
+                        self.eventmessagesTemp = toAdd
                     }
+                }
+            }
+        }
+    }
+    
+    
+    //MARK:- mute chat
+    func muteChat(ByID id:String,isevent:Bool,mute:Bool, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+        
+        let url = URLs.baseURLFirst + "Messages/muitchat"
+        let headers = RequestComponent.headerComponent([.type,.authorization])
+        let parameters:[String : Any] = ["id":id,"isevent":isevent,"muit": mute]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            guard let userResponse = Mapper<ChatsListModel>().map(JSON: data!) else {
+                self.error.value = error!
+                completion(self.error.value, nil)
+                return
+            }
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.error.value = error
+                completion(self.error.value, nil)
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = userResponse.message {
+                    completion(nil,toAdd)
+                }
+            }
+        }
+    }
+    
+    //MARK:- delte chat
+    func deleteChat(ByID id:String,isevent:Bool, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+        
+        let url = URLs.baseURLFirst + "Messages/Deletchat"
+        let headers = RequestComponent.headerComponent([.type,.authorization])
+        let parameters:[String : Any] = ["id":id,"isevent":isevent]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            guard let userResponse = Mapper<ChatsListModel>().map(JSON: data!) else {
+                self.error.value = error!
+                completion(self.error.value, nil)
+                return
+            }
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.error.value = error
+                completion(self.error.value, nil)
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = userResponse.message {
+                    completion(nil,toAdd)
                 }
             }
         }

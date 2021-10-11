@@ -34,29 +34,29 @@ class ChatVC: MessagesViewController {
     
     /// The `BasicAudioController` control the AVAudioPlayer state (play, pause, stop) and update audio cell UI accordingly.
     lazy var audioController = AudioVC(messageCollectionView: messagesCollectionView)
-    
     lazy var messageList: [UserMessage] = []
-    
-    private(set) lazy var refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        control.addTarget(self, action: #selector(loadMoreMessages), for: .valueChanged)
-        return control
-    }()
+    var refreshControl = UIRefreshControl()
     
     // MARK: - Private properties
     var senderUser = UserSender(senderId: Defaults.token, displayName: Defaults.userName, photoURL: UIImageView(image: UIImage(named: "")))
-        
+    
     var viewmodel:ChatViewModel = ChatViewModel()
     
     var internetConect:Bool = false
     var cellSelect:Bool = false
-    
     var currentPage : Int = 1
     var isLoadingList : Bool = false
-
-    var chatUserModel:UserChatObj? = UserChatObj()
-    var receiveimg = ""
+    
+    //    var chatUserModel:UserChatObj? = UserChatObj()
     var chatuserID = ""
+    
+    var eventChat:Bool = false
+    var eventChatID:String = ""
+    
+    var titleChatName:String = ""
+    var receiveName:String = ""
+    var receiveimg = ""
+    
     
     private let formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -66,7 +66,7 @@ class ChatVC: MessagesViewController {
     
     let imagePicker = UIImagePickerController()
     var attachedImg = false
-
+    
     let database = Firestore.firestore()
     
     // MARK: - Lifecycle
@@ -77,7 +77,6 @@ class ChatVC: MessagesViewController {
         configureMessageCollectionView()
         configureMessageInputBar()
         initBackButton()
-        updateTitleView(image: Defaults.Image, subtitle: senderUser.displayName, baseColor: .black)
         setupMessages()
         setupLeftInputButton(tapMessage: false, Recorder: "play")
         setupRecorder()
@@ -85,7 +84,9 @@ class ChatVC: MessagesViewController {
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(sender:)))
         messagesCollectionView.addGestureRecognizer(longPress)
         
-//        listenToMessages()
+        //        listenToMessages()
+        
+        pullToRefresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -99,8 +100,36 @@ class ChatVC: MessagesViewController {
         audioController.stopAnyOngoingPlaying()
     }
     
+    private var reference: CollectionReference?
+    
     private func listenToMessages() {
-        let docRef = database.document("")
+        
+        //        reference = database.collection("channels/\(chatuserID)/thread")
+        //        reference?.addSnapshotListener({ snapShot, error in
+        //
+        //            guard let data = snapShot?.data(),error == nil else {
+        //                return
+        //            }
+        //
+        //            print(data)
+        //        })
+        
+        //        let users = [self.currentUser.uid, self.user2UID]
+        //         let data: [String: Any] = [
+        //             "users":users
+        //         ]
+        //
+        //         let db = Firestore.firestore().collection("Chats")
+        //         db.addDocument(data: data) { (error) in
+        //             if let error = error {
+        //                 print("Unable to create chat! \(error)")
+        //                 return
+        //             } else {
+        //                 self.loadChat()
+        //             }
+        //         }
+        
+        let docRef = database.document("channels/be5da3c5-f002-4428-989e-0339a375eb28/thread")
         docRef.addSnapshotListener { snapShot, error in
             
             guard let data = snapShot?.data(),error == nil else {
@@ -108,20 +137,9 @@ class ChatVC: MessagesViewController {
             }
             
             print(data)
-            
         }
-        
-//        docRef.getDocument { snapShot, error in
-//
-//            guard let data = snapShot?.data(),error == nil else {
-//                return
-//            }
-//
-//            print(data)
-//
-//        }
     }
-
+    
     func configureMessageCollectionView() {
         
         messagesCollectionView.messagesDataSource = self
@@ -183,9 +201,13 @@ class ChatVC: MessagesViewController {
     }
     
     func setupMessages() {
-        getMessagesChat(pageNumber: 1)
+        if eventChat {
+            self.getEventChatMessages(pageNumber: 1)
+        }else {
+            getUserChatMessages(pageNumber: 1)
+        }
     }
-
+    
     func isLastSectionVisible() -> Bool {
         guard !messageList.isEmpty else { return false }
         let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
@@ -207,27 +229,74 @@ class ChatVC: MessagesViewController {
         dateFormatter.locale = Locale.current
         return dateFormatter.date(from: "\(dateStr)T\(timeStr):00") // replace Date String
     }
-
-    func getMessagesChat(pageNumber:Int) {
+    
+    func getUserChatMessages(pageNumber:Int) {
         
         if pageNumber > viewmodel.messages.value?.totalPages ?? 1 {
             return
         }
-
+        
         self.showLoading()
-        viewmodel.getChatMessages(ByUserId: chatUserModel?.id ?? "", pageNumber: pageNumber)
+        viewmodel.getChatMessages(ByUserId: chatuserID ?? "", pageNumber: pageNumber)
         viewmodel.messages.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.hideLoading()
-
+                
                 for itm in value.data ?? [] {
                     if itm.currentuserMessage! {
                         messageList.append(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId , displayName: senderUser.displayName , photoURL: UIImageView(image: UIImage(named: ""))), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!)!))
-
+                        
                     }else {
                         messageList.append(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", displayName: itm.username ?? "", photoURL: UIImageView(image: UIImage(named: ""))), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!)!))
                         
                         receiveimg = itm.userimage ?? ""
+                        receiveName = itm.username ?? ""
+                    }
+                }
+                
+                if pageNumber > 1 {
+                    self.messagesCollectionView.reloadDataAndKeepOffset()
+                    self.refreshControl.endRefreshing()
+                }else {
+                    self.messagesCollectionView.reloadData()
+                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                }
+                
+                updateTitleView(image: receiveimg, subtitle: receiveName, baseColor: .black)
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else if error == "Bad Request" {
+                    HandleinvalidUrl()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
+            }
+        }
+    }
+    
+    func getEventChatMessages(pageNumber:Int) {
+        self.showLoading()
+        viewmodel.getChatMessages(ByEventId: eventChatID, pageNumber: pageNumber)
+        viewmodel.eventmessages.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                
+                for itm in value.pagedModel?.data ?? [] {
+                    if itm.currentuserMessage! {
+                        messageList.append(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId , displayName: senderUser.displayName , photoURL: UIImageView(image: UIImage(named: ""))), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!)!))
+                        
+                    }else {
+                        messageList.append(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", displayName: itm.username ?? "", photoURL: UIImageView(image: UIImage(named: ""))), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!)!))
+                        
+                        receiveimg = itm.userimage ?? ""
+                        receiveName = itm.username ?? ""
                     }
                 }
                 
@@ -235,8 +304,10 @@ class ChatVC: MessagesViewController {
                     self.messagesCollectionView.reloadDataAndKeepOffset()
                 }else {
                     self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToLastItem(animated: true)
+                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
                 }
+                
+                updateTitleView(image: receiveimg, subtitle: titleChatName, baseColor: .black)
             }
         }
         
@@ -266,8 +337,24 @@ class ChatVC: MessagesViewController {
     @objc func loadMoreMessages() {
         DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
             self.currentPage += 1
-            self.getMessagesChat(pageNumber: self.currentPage)
+            if self.eventChat {
+                self.getEventChatMessages(pageNumber: self.currentPage)
+            }else {
+                self.getUserChatMessages(pageNumber: self.currentPage)
+            }
         }
+    }
+    
+    func pullToRefresh() {
+        self.refreshControl.attributedTitle = NSAttributedString(string: "")
+        self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+        self.messagesCollectionView.addSubview(refreshControl)
+    }
+    
+    @objc func didPullToRefresh() {
+        print("Refersh")
+        loadMoreMessages()
+        self.refreshControl.endRefreshing()
     }
 }
 
@@ -293,13 +380,13 @@ extension ChatVC: MessagesDataSource {
         guard let messagesDataSource = messagesCollectionView.messagesDataSource else {
             fatalError("Ouch. nil data source for messages")
         }
-
+        
         // Very important to check this when overriding `cellForItemAt`
         // Super method will handle returning the typing indicator cell
         guard !isSectionReservedForTypingIndicator(indexPath.section) else {
             return super.collectionView(collectionView, cellForItemAt: indexPath)
         }
-
+        
         let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
         if case .custom = message.kind {
             let cell = messagesCollectionView.dequeueReusableCell(CustomCell.self, for: indexPath)
@@ -321,7 +408,7 @@ extension ChatVC: MessagesDataSource {
     }
     
     func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        let name = (isFromCurrentSender(message: message) ? senderUser.displayName : chatUserModel?.chatName)!
+        let name = (isFromCurrentSender(message: message) ? senderUser.displayName : receiveName)
         
         return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.init(name: "Montserrat-Light", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2)])
     }
@@ -341,8 +428,19 @@ extension ChatVC: MessageCellDelegate {
     func didTapAvatar(in cell: MessageCollectionViewCell) {
         print("Avatar tapped")
         
-        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
-        self.navigationController?.pushViewController(vc, animated: true)
+        guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
+            return
+        }
+        let message = messageList[indexPath.section]
+
+//        if message.sender.senderId {
+//            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }else {
+//            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+//            vc.userID = chatuserID
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
     }
     
     func didTapMessage(in cell: MessageCollectionViewCell) {
@@ -422,9 +520,9 @@ extension ChatVC: MessageCellDelegate {
     func didTapPlayButton(in cell: AudioMessageCell) {
         guard let indexPath = messagesCollectionView.indexPath(for: cell),
               let message = messagesCollectionView.messagesDataSource?.messageForItem(at: indexPath, in: messagesCollectionView) else {
-            print("Failed to identify message when audio cell receive tap gesture")
-            return
-        }
+                  print("Failed to identify message when audio cell receive tap gesture")
+                  return
+              }
         guard audioController.state != .stopped else {
             // There is no audio sound playing - prepare to start playing for given audio message
             audioController.playSound(for: message, in: cell)
@@ -513,24 +611,47 @@ extension ChatVC: InputBarAccessoryViewDelegate {
     
     @objc func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         //        processInputBar(messageInputBar)
-        
-        viewmodel.SendMessage(withUserId: chatUserModel?.id ?? "", AndMessage: text, attachedImg: false, AndAttachImage: UIImage()) { error, data in
-            if let error = error {
-                self.showAlert(withMessage: error)
-                return
+        //1==>message 2==>images 3==>file
+        if eventChat {
+            viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, attachedImg: false, AndAttachImage: UIImage()) { error, data in
+                if let error = error {
+                    self.showAlert(withMessage: error)
+                    return
+                }
+                
+                guard let ـ = data else {
+                    return
+                }
+                
+                self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date()))
             }
-            
-            guard let ـ = data else {
-                return
-            }
-            
-            self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date()))
             
             DispatchQueue.main.async {
                 inputBar.inputTextView.text = ""
                 self.messagesCollectionView.reloadData()
+                self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+            }
+        }else {
+            viewmodel.SendMessage(withUserId: chatuserID ?? "", AndMessage: text, AndMessageType: 1, attachedImg: false, AndAttachImage: UIImage()) { error, data in
+                if let error = error {
+                    self.showAlert(withMessage: error)
+                    return
+                }
+                
+                guard data != nil else {
+                    return
+                }
+                
+                self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date()))
+                
+                DispatchQueue.main.async {
+                    inputBar.inputTextView.text = ""
+                    self.messagesCollectionView.reloadData()
+                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                }
             }
         }
+        
     }
     
     func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
@@ -1006,9 +1127,9 @@ extension ChatVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
         //set the settings for recorder
         
         let recordSettings = [AVSampleRateKey : NSNumber(value: Float(44100.0)),
-                              AVFormatIDKey : NSNumber(value: Int32(kAudioFormatAppleLossless)),
-                              AVNumberOfChannelsKey : NSNumber(value: 2),
-                              AVEncoderAudioQualityKey : NSNumber(value: Int32(AVAudioQuality.max.rawValue))];
+                                AVFormatIDKey : NSNumber(value: Int32(kAudioFormatAppleLossless)),
+                        AVNumberOfChannelsKey : NSNumber(value: 2),
+                     AVEncoderAudioQualityKey : NSNumber(value: Int32(AVAudioQuality.max.rawValue))];
         
         var error: NSError?
         

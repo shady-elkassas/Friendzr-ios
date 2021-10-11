@@ -239,9 +239,24 @@ extension MainVC:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = viewmodel.listChat.value?.data?[indexPath.row]
-        let vc = ChatVC()
-        vc.chatUserModel = model
-        navigationController?.pushViewController(vc, animated: true)
+
+        guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
+        
+//        vc.chatUserModel = model
+        
+        if model?.isevent == true {
+            vc.eventChat = true
+            vc.eventChatID = model?.id ?? ""
+            vc.chatuserID = ""
+        }else {
+            vc.eventChat = false
+            vc.eventChatID = ""
+            vc.chatuserID = model?.id ?? ""
+        }
+        
+        vc.titleChatName = model?.chatName ?? ""
+        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -250,27 +265,126 @@ extension MainVC:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        
+        let model = self.viewmodel.listChat.value?.data?[indexPath.row]
         let archiveTitle = self.viewmodel.listChat.value?.data?[indexPath.row].isArchive ?? false ? "UnArchive" : "Archive"
         let muteTitle = self.viewmodel.listChat.value?.data?[indexPath.row].isMute ?? false ? "UnMute" : "Mute"
         
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { action, indexPath in
             print("deleteAction")
-            //            self.viewmodel.listChat.value?.data?.remove(at: indexPath.row)
-            //            tableView.reloadData()
-            //            self.view.makeToast("Deleted")
+            
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+                
+                settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    self.showLoading()
+                    self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false) { error, data in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        self.viewmodel.listChat.value?.data?.remove(at: indexPath.row)
+                        tableView.reloadData()
+                        self.view.makeToast("Deleted")
+                    }
+                }))
+                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                
+                self.present(settingsActionSheet, animated:true, completion:nil)
+            }else {
+                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                
+                settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    self.showLoading()
+                    self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false) { error, data in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        self.viewmodel.listChat.value?.data?.remove(at: indexPath.row)
+                        tableView.reloadData()
+                        self.view.makeToast("Deleted")
+                    }
+                }))
+                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                
+                self.present(settingsActionSheet, animated:true, completion:nil)
+            }
         }
+        
         let archiveAction = UITableViewRowAction(style: .default, title: archiveTitle) { action, indexPath in
             print("archiveAction")
             //            self.viewmodel.listChat.value?.data?[indexPath.row].isArchive?.toggle()
             //            tableView.reloadData()
             //            self.view.makeToast("Archived")
         }
+        
         let muteAction = UITableViewRowAction(style: .default, title: muteTitle) { action, indexPath in
             print("muteAction")
-            //            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-            //            tableView.reloadData()
-            //            self.view.makeToast("Muted")
+            
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+                
+                settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    self.showLoading()
+                    self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: model?.isMute ?? false) { error, data in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        
+        //                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+        //                tableView.reloadData()
+        //                self.view.makeToast("Muted")
+                    }
+                }))
+                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                
+                self.present(settingsActionSheet, animated:true, completion:nil)
+            }else {
+                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                
+                settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    self.showLoading()
+                    self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: model?.isMute ?? false) { error, data in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        
+        //                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+        //                tableView.reloadData()
+        //                self.view.makeToast("Muted")
+                    }
+                }))
+                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                
+                self.present(settingsActionSheet, animated:true, completion:nil)
+            }
+
         }
         
         archiveAction.backgroundColor = UIColor.blue
@@ -308,7 +422,7 @@ extension MainVC: UISearchBarDelegate{
     
     func initNewConversationBarButton() {
         let button = UIButton.init(type: .custom)
-        button.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        button.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         let image = UIImage(named: "newMessage_ic")?.withRenderingMode(.automatic)
         
         button.setImage(image, for: .normal)

@@ -392,10 +392,10 @@ extension MapVC : GMSMapViewDelegate {
                 CreateSlideUpMenu()
             }else {
                 let markerPos = marker.position.latitude
-                for obp in viewmodel.locations.value?.peoplocationDataMV ?? [] {
-                    if obp.lat == markerPos {
+                for obp in locations {
+                    if obp.location.latitude == markerPos {
                         if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "GenderDistributionNC") as? UINavigationController, let vc = controller.viewControllers.first as? GenderDistributionVC {
-                            vc.model = obp
+//                            vc.model = obp
                             self.present(controller, animated: true)
                         }
                     }

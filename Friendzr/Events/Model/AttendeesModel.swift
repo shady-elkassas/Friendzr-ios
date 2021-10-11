@@ -26,7 +26,7 @@ class AttendeesModel: Mappable {
     }
 }
 
-class AttendeesObj: Mappable {
+class AttendeesObj: NSObject,Mappable {
     
     var id: String?
     var stutus: Int?
@@ -35,6 +35,11 @@ class AttendeesObj: Mappable {
     
     required init?(map: Map) {
     }
+    
+    override init() {
+        super.init()
+    }
+    
     // Mappable
     func mapping(map: Map) {
         id    <- map["id"]

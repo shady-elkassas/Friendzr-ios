@@ -38,6 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
         
+        application.applicationIconBadgeNumber = 0
+
         if #available(iOS 13, *) {
         } else {
             Router().toSplach()
@@ -213,7 +215,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let userInfo = response.notification.request.content.userInfo
             
-            
             _ = userInfo["aps"] as? [String:Any] //?[""]
             let action = userInfo["Action"] as? String //action transaction
             let actionId = userInfo["Action_code"] as? String //userid
@@ -223,6 +224,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.userID = actionId!
+                    tabBarController.selectedIndex = 3
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "Accept_Friend_Request" {
@@ -233,20 +235,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "event_chat"{
-//                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
-//                   let tabBarController = rootViewController as? UITabBarController,
-//                   let navController = tabBarController.selectedViewController as? UINavigationController {
-//                    vc.eventId = actionId ?? ""
-//                    navController.pushViewController(vc, animated: true)
-//                }
+                if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.eventChat = true
+                    vc.eventChatID = actionId ?? ""
+                    vc.chatuserID = ""
+                    navController.pushViewController(vc, animated: true)
+                }
             }else if action == "user_chat"{
-//                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
-//                   let tabBarController = rootViewController as? UITabBarController,
-//                   let navController = tabBarController.selectedViewController as? UINavigationController {
-//                    vc.eventId = actionId ?? ""
-//                    navController.pushViewController(vc, animated: true)
-//                }
-            }else if action == "event_Updated"{
+                if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.eventChat = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = actionId ?? ""
+                    navController.pushViewController(vc, animated: true)
+                }            }else if action == "event_Updated"{
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -278,7 +283,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
-//                    vc. = actionId ?? ""
+                    tabBarController.selectedIndex = 1
                     navController.pushViewController(vc, animated: true)
                 }
             }else {

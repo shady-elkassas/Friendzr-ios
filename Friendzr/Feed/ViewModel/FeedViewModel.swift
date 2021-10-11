@@ -76,7 +76,7 @@ class FeedViewModel {
             else {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
-                    if pageNumber > 0 {
+                    if pageNumber > 1 {
                         for itm in toAdd.data ?? [] {
                             if !(self.feedsTemp.data?.contains(where: { $0.userId == itm.userId }) ?? false) {
                                 self.feedsTemp.data?.append(itm)

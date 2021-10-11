@@ -30,7 +30,7 @@ class BlockedListVC: UIViewController {
     var internetConect:Bool = false
     var btnsSelect:Bool = false
     
-    var currentPage : Int = 0
+    var currentPage : Int = 1
     var isLoadingList : Bool = false
     
     //MARK: - Life Cycle
@@ -125,11 +125,11 @@ class BlockedListVC: UIViewController {
         case .wwan:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllBlockedList(pageNumber: 0)
+            getAllBlockedList(pageNumber: 1)
         case .wifi:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllBlockedList(pageNumber: 0)
+            getAllBlockedList(pageNumber: 1)
         }
         
         print("Reachability Summary")
