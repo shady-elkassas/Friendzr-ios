@@ -22,10 +22,10 @@ class SocialMediaRegisterViewModel {
         
         let url = URLs.baseURLFirst + "Authenticat/register"
         
-        var parameters:[String : Any] = ["UserID":socialMediaId,"email": email,"registertype":1,"FcmToken":Defaults.fcmToken,"username":username,"Password":"Password1234","platform":2,"SocialUser":socialUser]
+        var parameters:[String : Any] = ["UserId":socialMediaId,"email": email,"registertype":1,"FcmToken":Defaults.fcmToken,"username":username,"Password":"Password1234","platform":2,"SocialUser":socialUser]
         
         if Defaults.fcmToken == "" {
-        parameters = ["UserID":socialMediaId,"email": email,"registertype":1,"username":username,"Password":"Password1234","platform":2,"SocialUser":socialUser]
+        parameters = ["UserId":socialMediaId,"email": email,"registertype":1,"username":username,"Password":"Password1234","platform":2,"SocialUser":socialUser]
         }
         
         let headers = RequestComponent.headerComponent([.type])

@@ -32,6 +32,7 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var startTimeBtn: UIButton!
     @IBOutlet weak var endTimeBtn: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
+    @IBOutlet weak var timeStack: UIStackView!
     
     
     //MARK: - Properties
@@ -49,6 +50,9 @@ class AddEventVC: UIViewController {
     var endDate = ""
     var startTime = ""
     var endTime = ""
+    
+    var minimumDate:Date = Date()
+    var maximumDate:Date = Date()
     
     let imagePicker = UIImagePickerController()
     var attachedImg = false
@@ -83,9 +87,11 @@ class AddEventVC: UIViewController {
     
     //MARK:- APIs
     func getCats() {
+        self.showLoading()
         catsVM.getAllCategories()
         catsVM.cats.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
+                self.hideLoading()
                 cats = value
             }
         }
@@ -101,9 +107,6 @@ class AddEventVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func addImgBtn(_ sender: Any) {
-        //        self.eventImg.image = UIImage(named: "costa rica")
-        //        self.attachedImg = true
-        
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
             
@@ -142,6 +145,11 @@ class AddEventVC: UIViewController {
     }
     
     @IBAction func switchAllDaysBtn(_ sender: Any) {
+        if switchAllDays.isOn == true {
+            timeStack.isHidden = true
+        }else {
+            timeStack.isHidden = false
+        }
     }
     
     @IBAction func startDayBtn(_ sender: Any) {
@@ -159,6 +167,15 @@ class AddEventVC: UIViewController {
             self.startDate = formatter2.string(from: (self.dateAlertView?.calenderView.date)!)
             
             
+            var comps2:DateComponents = DateComponents()
+            comps2.month = 1
+            comps2.day = -1
+            
+            self.minimumDate = (self.dateAlertView?.calenderView.date)!
+            self.maximumDate = (self.dateAlertView?.calenderView.calendar.date(byAdding: comps2, to: self.minimumDate))!
+            
+            print(formatter2.string(from: self.minimumDate),formatter2.string(from: self.maximumDate))
+
             UIView.animate(withDuration: 0.3, animations: {
                 self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.dateAlertView?.alpha = 0
@@ -188,6 +205,8 @@ class AddEventVC: UIViewController {
         dateAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         self.dateAlertView?.calenderView.addTarget(self, action: #selector(self.dateChanged(_:)), for: .valueChanged)
+        
+        self.dateAlertView?.calenderView.maximumDate = self.maximumDate
         
         dateAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
@@ -299,23 +318,25 @@ class AddEventVC: UIViewController {
     }
     
     @IBAction func saveBtn(_ sender: Any) {
-        updateUserInterface()
+        updateUserInterfaceBtns()
         if internetConect == true {
             self.showLoading()
             viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
                 self.hideLoading()
+                
                 if let error = error {
                     self.showAlert(withMessage: error)
                     return
                 }
                 
                 guard let _ = data else {return}
+                self.showAlert(withMessage: "Your event added successfully")
                 
-                DispatchQueue.main.async {
-                    self.showAlert(withMessage: "Your event added successfully")
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
+                    Router().toMap()
                 }
                 
-                NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
+                //                NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
             }
         }else {
             return
@@ -336,6 +357,26 @@ class AddEventVC: UIViewController {
         case .wifi:
             internetConect = true
             getCats()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func updateUserInterfaceBtns() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+        case .wifi:
+            internetConect = true
         }
         
         print("Reachability Summary")

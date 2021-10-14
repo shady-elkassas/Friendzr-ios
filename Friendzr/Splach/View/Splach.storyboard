@@ -148,21 +148,8 @@
                     <view key="view" contentMode="scaleToFill" id="gSg-zf-tiZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splashImg" translatesAutoresizingMaskIntoConstraints="NO" id="Sw3-Wv-KbS">
-                                <rect key="frame" x="41.5" y="282.5" width="331" height="331"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="Sw3-Wv-KbS" secondAttribute="height" id="h9r-cp-bMF"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="FvU-Dy-hhD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="Sw3-Wv-KbS" firstAttribute="centerX" secondItem="gSg-zf-tiZ" secondAttribute="centerX" id="KVH-Jx-RFZ"/>
-                            <constraint firstItem="Sw3-Wv-KbS" firstAttribute="centerY" secondItem="gSg-zf-tiZ" secondAttribute="centerY" id="OrM-9a-JO9"/>
-                            <constraint firstItem="Sw3-Wv-KbS" firstAttribute="width" secondItem="gSg-zf-tiZ" secondAttribute="width" multiplier="0.8" id="vQC-FR-9p8"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="05c-Sw-Uvd"/>
                 </viewController>
@@ -830,7 +817,6 @@
         <image name="splash2" width="336" height="230.5"/>
         <image name="splash3" width="335" height="296"/>
         <image name="splash4" width="360" height="99"/>
-        <image name="splashImg" width="1280" height="1280"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

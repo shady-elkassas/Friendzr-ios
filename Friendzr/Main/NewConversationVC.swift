@@ -26,7 +26,7 @@ class NewConversationVC: UIViewController {
     var cellSelected:Bool = false
     var internetConnect:Bool = false
     
-    var currentPage : Int = 0
+    var currentPage : Int = 1
     var isLoadingList : Bool = false
     
     
@@ -57,11 +57,11 @@ class NewConversationVC: UIViewController {
         case .wwan:
             self.emptyView.isHidden = true
             internetConnect = true
-            getAllFriends(pageNumber: 0)
+            getAllFriends(pageNumber: 1)
         case .wifi:
             self.emptyView.isHidden = true
             internetConnect = true
-            getAllFriends(pageNumber: 0)
+            getAllFriends(pageNumber: 1)
         }
         
         print("Reachability Summary")
@@ -114,7 +114,7 @@ class NewConversationVC: UIViewController {
         searchbar.searchTextField.backgroundColor = .clear
         searchbar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
         var placeHolder = NSMutableAttributedString()
-        let textHolder  = "Search Messages".localizedString
+        let textHolder  = "Search...".localizedString
         let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
         placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
         searchbar.searchTextField.attributedPlaceholder = placeHolder
@@ -207,7 +207,7 @@ extension NewConversationVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ContactsTableViewCell else {return UITableViewCell()}
         let model = viewmodel.friends.value?.data?[indexPath.row]
         cell.nameLbl.text = model?.userName
-        cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
+        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "avatar"))
         
         if indexPath.row == ((viewmodel.friends.value?.data?.count ?? 0) - 1 ) {
             cell.underView.isHidden = true
@@ -222,18 +222,24 @@ extension NewConversationVC: UITableViewDelegate {
         return 60
     }
     
-    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //        cellSelected = true
-    //        updateNetworkForBtns()
-    //        if internetConnect {
-    //            let model = viewmodel.friends.value?[indexPath.row]
-    //            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
-    //            vc.userID = model?.userid ?? ""
-    //            self.navigationController?.pushViewController(vc, animated: true)
-    //        }else {
-    //            return
-    //        }
-    //    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        cellSelected = true
+        updateNetworkForBtns()
+        
+        if internetConnect {
+            let model = viewmodel.friends.value?.data?[indexPath.row]
+            guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
+            
+            vc.eventChat = false
+            vc.eventChatID = ""
+            vc.chatuserID = model?.userId ?? ""
+            
+            vc.titleChatName = model?.userName ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            return
+        }
+    }
     
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -256,5 +262,4 @@ extension NewConversationVC: UITableViewDelegate {
             }
         }
     }
-    
 }

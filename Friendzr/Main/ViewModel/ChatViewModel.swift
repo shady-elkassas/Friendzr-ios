@@ -141,7 +141,7 @@ class ChatViewModel {
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
-                print(httpResponse!)
+//                print(httpResponse!)
                 print("statusCode: \(code!)")
                 print("**MD** response: \(String(describing: response))")
                 

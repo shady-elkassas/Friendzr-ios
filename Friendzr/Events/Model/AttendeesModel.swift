@@ -32,6 +32,7 @@ class AttendeesObj: NSObject,Mappable {
     var stutus: Int?
     var userName: String?
     var image:String?
+    var joinDate:String?
     
     required init?(map: Map) {
     }
@@ -46,5 +47,6 @@ class AttendeesObj: NSObject,Mappable {
         userName   <- map["userName"]
         stutus <- map["stutus"]
         image <- map["image"]
+        joinDate <- map["joinDate"]
     }
 }

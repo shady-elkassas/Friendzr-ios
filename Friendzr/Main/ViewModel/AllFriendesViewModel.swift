@@ -40,9 +40,9 @@ class AllFriendesViewModel {
             else {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
-                    if pageNumber > 0 {
+                    if pageNumber > 1 {
                         for itm in toAdd.data ?? [] {
-                            if !(self.friendsTemp.data?.contains(where: { $0.userid == itm.userid }) ?? false) {
+                            if !(self.friendsTemp.data?.contains(where: { $0.userId == itm.userId }) ?? false) {
                                 self.friendsTemp.data?.append(itm)
                             }
                         }

@@ -52,7 +52,7 @@ class AttendeesVC: UIViewController {
         searchBar.searchTextField.backgroundColor = .clear
         searchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
         var placeHolder = NSMutableAttributedString()
-        let textHolder  = "Search Messages".localizedString
+        let textHolder  = "Search...".localizedString
         let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
         placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
         searchBar.searchTextField.attributedPlaceholder = placeHolder
@@ -226,9 +226,15 @@ extension AttendeesVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? AttendeesTableViewCell else {return UITableViewCell()}
         let model = viewmodel.attendees.value?[indexPath.row]
+        
+        
+        if model?.stutus == 1 {
+            
+        }
         cell.friendNameLbl.text = model?.userName
         cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "photo_img"))
-//        cell.joinDateLbl.text = model
+        cell.joinDateLbl.text = "join Date: \(model?.joinDate ?? "")"
+        
         cell.HandleDropDownBtn = {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)

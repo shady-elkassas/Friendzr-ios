@@ -27,7 +27,23 @@ class RegisterViewModel {
         
         isSuccess =  userNameViewModel.validateCredentials() && emailViewModel.validateCredentials() && passwordViewModel.validateCredentials() && confirmPasswordViewModel.validateCredentials() && confirmPasswordViewModel.validateConfirmation(fstPass: passwordViewModel.data)
         
-        errorMsg = "\(userNameViewModel.errorValue ?? "")\(passwordViewModel.errorValue ?? "")\(emailViewModel.errorValue ?? "") \(confirmPasswordViewModel.errorValue ?? "")"
+//        errorMsg = "\(userNameViewModel.errorValue ?? "")\(passwordViewModel.errorValue ?? "")\(emailViewModel.errorValue ?? "") \(confirmPasswordViewModel.errorValue ?? "")"
+        
+        if userNameViewModel.errorValue != "" {
+            errorMsg = "\(userNameViewModel.errorValue ?? "")"
+        }else {
+            if emailViewModel.errorValue != "" {
+                errorMsg = "\(emailViewModel.errorValue ?? "")"
+            }else {
+                if passwordViewModel.errorValue != "" {
+                    errorMsg = "\(passwordViewModel.errorValue ?? "")"
+                }else {
+                    if confirmPasswordViewModel.errorValue != "" {
+                        errorMsg = "\(confirmPasswordViewModel.errorValue ?? "")"
+                    }
+                }
+            }
+        }
         
         return isSuccess
     }

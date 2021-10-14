@@ -251,7 +251,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     vc.eventChatID = ""
                     vc.chatuserID = actionId ?? ""
                     navController.pushViewController(vc, animated: true)
-                }            }else if action == "event_Updated"{
+                }
+            }else if action == "event_Updated"{
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -329,9 +330,25 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // Print full message.
         print(userInfo)
-        
+
+//        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+
+        let action = userInfo["Action"] as? String //action transaction
+        if action == "user_chat" {
+            NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+        }else if action == "event_chat" {
+            NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
+        }
+      
         // Change this to your preferred presentation option
-        completionHandler([[.alert, .sound]])
+        let isMute: Bool = userInfo["muit"] as? Bool ?? false
+        
+        if isMute == true {
+            completionHandler([[]])
+        }else {
+            completionHandler([[.alert, .badge, .sound]])
+        }
+        
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,

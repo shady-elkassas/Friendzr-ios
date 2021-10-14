@@ -30,7 +30,9 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var interestsTableView: UITableView!
     @IBOutlet weak var attendeesTableView: UITableView!
     @IBOutlet weak var attendeesViewHeight: NSLayoutConstraint!
-        
+    @IBOutlet weak var eventTitleLbl: UILabel!
+    @IBOutlet weak var hideView: UIView!
+    
     //MARK: - Properties
     var numbers:[Double] = [1,2,3]
     var genders:[String] = ["Men","Women","Other"]
@@ -49,16 +51,15 @@ class EventDetailsVC: UIViewController {
         super.viewDidLoad()
         
         initBackButton()
-        
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
-        
         setupViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         clearNavigationBar()
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     //MARK: - Helper
@@ -126,13 +127,18 @@ class EventDetailsVC: UIViewController {
       print("HostName:", Network.reachability.hostname ?? "nil")
       print("Reachable:", Network.reachability.isReachable)
       print("Wifi:", Network.reachability.isReachableViaWiFi)
-
    }
     
     func setupData() {
         let model = viewmodel.event.value
+        eventTitleLbl.text = model?.title
         dateCreateLbl.text = model?.eventdate
-        timeCreateLbl.text = model?.timefrom
+        if model?.timefrom != "" {
+            timeCreateLbl.text = model?.timefrom
+        }else {
+            timeCreateLbl.text = "All Day"
+        }
+        
         attendLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
         categoryNameLbl.text = model?.categorie
         descreptionLbl.text = model?.descriptionEvent
@@ -161,6 +167,7 @@ class EventDetailsVC: UIViewController {
         viewmodel.event.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
                 self.hideLoading()
+                hideView.isHidden = true
                 interestsTableView.delegate = self
                 interestsTableView.dataSource = self
                 interestsTableView.reloadData()

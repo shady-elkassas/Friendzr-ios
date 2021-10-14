@@ -41,7 +41,7 @@ class AllBlockedViewModel {
                 if let toAdd = userResponse.data {
                     if pageNumber > 0 {
                         for itm in toAdd.data ?? [] {
-                            if !(self.blocklistTemp.data?.contains(where: { $0.userid == itm.userid }) ?? false) {
+                            if !(self.blocklistTemp.data?.contains(where: { $0.userId == itm.userId }) ?? false) {
                                 self.blocklistTemp.data?.append(itm)
                             }
                         }

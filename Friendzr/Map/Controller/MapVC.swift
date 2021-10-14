@@ -47,7 +47,8 @@ class MapVC: UIViewController {
     
     var appendNewLocation:Bool = false
     var viewmodel:EventsAroundMeViewModel = EventsAroundMeViewModel()
-    
+    var settingVM:SettingsViewModel = SettingsViewModel()
+
     var transparentView = UIView()
     var eventsTableView = UITableView()
     var eventCellID = "EventsInLocationTableViewCell"
@@ -175,7 +176,6 @@ class MapVC: UIViewController {
             mapView.clear()
         }
         
-        mapView.setMinZoom(15, maxZoom: 17)
         self.mapView.camera = camera
         let marker = GMSMarker(position: position)
         
@@ -291,7 +291,22 @@ class MapVC: UIViewController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: {_ in
-            self.onPopup()
+            if Defaults.token != "" {
+                self.settingVM.toggleAllowMyLocation(allowMyLocation: false) { error, data in
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    
+                    guard let data = data else {
+                        return
+                    }
+                    
+                    Defaults.allowMyLocation = data.allowmylocation ?? false
+                }
+            }else {
+                Defaults.allowMyLocation = false
+            }
         })
         let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
@@ -334,14 +349,21 @@ class MapVC: UIViewController {
     
     //MARK:- Actions
     @IBAction func addEventBtn(_ sender: Any) {
-        self.appendNewLocation = true
-        self.view.makeToast("Please pick the event location")
+        
+        if Defaults.allowMyLocation == true {
+            self.appendNewLocation = true
+            self.view.makeToast("Please pick the event location")
+        }else {
+            self.checkLocationPermission()
+        }
     }
 }
 
 //MARK:- GMSMap View Delegate
 extension MapVC : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        self.checkLocationPermission()
+        
         self.location = coordinate
         let camera = GMSCameraPosition.camera(withLatitude: (location?.latitude)!, longitude: (location?.longitude)!, zoom: 17.0)
         mapView.animate(to: camera)
@@ -395,7 +417,6 @@ extension MapVC : GMSMapViewDelegate {
                 for obp in locations {
                     if obp.location.latitude == markerPos {
                         if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "GenderDistributionNC") as? UINavigationController, let vc = controller.viewControllers.first as? GenderDistributionVC {
-//                            vc.model = obp
                             self.present(controller, animated: true)
                         }
                     }
@@ -431,6 +452,18 @@ extension MapVC : CLLocationManagerDelegate {
                 createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
+                settingVM.toggleAllowMyLocation(allowMyLocation: true) { error, data in
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    
+                    guard let data = data else {
+                        return
+                    }
+
+                    Defaults.allowMyLocation = data.allowmylocation ?? true
+                }
             default:
                 break
             }
@@ -508,7 +541,7 @@ extension MapVC:UITableViewDataSource {
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
-        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "photo_img"))
+        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "avatar"))
         return cell
     }
 }

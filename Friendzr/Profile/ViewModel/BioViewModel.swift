@@ -9,12 +9,12 @@ import Foundation
 
 class BioViewModel : ValidationViewModel{
     var errorValue: String?
-    var errorMessage: String = "Please enter a valid bio".localizedString
+    var errorMessage: String = "Please enter a valid bio more than 10 letters".localizedString
     var data: String = ""
     
     func validateCredentials() -> Bool {
         
-        guard validateLength(text: data, size: (10,100)) else {
+        guard validateLength(text: data, size: (10,150)) else {
             errorValue = errorMessage
             return false
         }

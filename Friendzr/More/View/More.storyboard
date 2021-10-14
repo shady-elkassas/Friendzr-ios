@@ -482,20 +482,20 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tvg-5x-3UU" customClass="MultiSlider" customModule="MultiSlider">
-                                        <rect key="frame" x="41.5" y="78.5" width="331" height="30"/>
+                                        <rect key="frame" x="52" y="78.5" width="310.5" height="30"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="FX7-FJ-oSp"/>
                                         </constraints>
                                     </view>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Manual Distance Control :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pnb-bU-jan">
-                                        <rect key="frame" x="41.5" y="138.5" width="213" height="17.5"/>
+                                        <rect key="frame" x="52" y="138.5" width="213" height="17.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 KM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rIT-ob-Avk">
-                                        <rect key="frame" x="262.5" y="138.5" width="37" height="17.5"/>
+                                        <rect key="frame" x="273" y="138.5" width="37" height="17.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -526,7 +526,7 @@
                                     <constraint firstItem="oiQ-cX-1bb" firstAttribute="centerX" secondItem="IYo-ti-BdR" secondAttribute="centerX" id="VaF-4v-SK4"/>
                                     <constraint firstItem="rIT-ob-Avk" firstAttribute="leading" secondItem="Pnb-bU-jan" secondAttribute="trailing" constant="8" id="VtU-Fh-Qc6"/>
                                     <constraint firstItem="oiQ-cX-1bb" firstAttribute="width" secondItem="IYo-ti-BdR" secondAttribute="width" multiplier="0.35" id="WpS-iH-Lef"/>
-                                    <constraint firstItem="tvg-5x-3UU" firstAttribute="width" secondItem="IYo-ti-BdR" secondAttribute="width" multiplier="0.8" id="YDQ-5l-68z"/>
+                                    <constraint firstItem="tvg-5x-3UU" firstAttribute="width" secondItem="IYo-ti-BdR" secondAttribute="width" multiplier="0.75" id="YDQ-5l-68z"/>
                                     <constraint firstItem="tvg-5x-3UU" firstAttribute="top" secondItem="nrG-8q-7d5" secondAttribute="bottom" constant="40" id="ZsI-tq-ZdS"/>
                                     <constraint firstItem="nrG-8q-7d5" firstAttribute="top" secondItem="IYo-ti-BdR" secondAttribute="top" constant="20" id="bfJ-Oj-r4U"/>
                                     <constraint firstItem="tvg-5x-3UU" firstAttribute="centerX" secondItem="IYo-ti-BdR" secondAttribute="centerX" id="coc-H2-zJQ"/>
@@ -543,7 +543,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2So-UR-Vui" customClass="MultiSlider" customModule="MultiSlider">
-                                        <rect key="frame" x="41.5" y="78.5" width="331" height="30"/>
+                                        <rect key="frame" x="52" y="78.5" width="310.5" height="30"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="cOI-cr-tje"/>
@@ -565,25 +565,25 @@
                                         </connections>
                                     </button>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OJW-wD-7mH">
-                                        <rect key="frame" x="41.5" y="128.5" width="45" height="17.5"/>
+                                        <rect key="frame" x="52" y="128.5" width="45" height="17.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntP-LO-yXi">
-                                        <rect key="frame" x="94.5" y="128.5" width="13.5" height="17.5"/>
+                                        <rect key="frame" x="105" y="128.5" width="13.5" height="17.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ggs-EF-qQu">
-                                        <rect key="frame" x="41.5" y="158" width="23.5" height="17.5"/>
+                                        <rect key="frame" x="52" y="158" width="23.5" height="17.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHm-UZ-C4w">
-                                        <rect key="frame" x="73" y="158" width="24" height="17.5"/>
+                                        <rect key="frame" x="83.5" y="158" width="24" height="17.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -591,7 +591,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="2So-UR-Vui" firstAttribute="width" secondItem="Duc-fG-kpE" secondAttribute="width" multiplier="0.8" id="2iA-2W-pfI"/>
+                                    <constraint firstItem="2So-UR-Vui" firstAttribute="width" secondItem="Duc-fG-kpE" secondAttribute="width" multiplier="0.75" id="2iA-2W-pfI"/>
                                     <constraint firstItem="gka-Dp-Aia" firstAttribute="top" secondItem="Duc-fG-kpE" secondAttribute="top" constant="20" id="5GU-Td-RH0"/>
                                     <constraint firstItem="OJW-wD-7mH" firstAttribute="top" secondItem="2So-UR-Vui" secondAttribute="bottom" constant="20" id="5m0-RZ-k4Q"/>
                                     <constraint firstItem="ggs-EF-qQu" firstAttribute="leading" secondItem="OJW-wD-7mH" secondAttribute="leading" id="7tm-gd-g21"/>
@@ -739,10 +739,6 @@
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Password"/>
-                                                                    <userDefinedRuntimeAttribute type="string" keyPath="selectedTitle" value="Password"/>
-                                                                </userDefinedRuntimeAttributes>
                                                             </textField>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KPB-BP-lhI">
                                                                 <rect key="frame" x="329" y="7" width="30" height="30"/>
@@ -776,10 +772,6 @@
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Password"/>
-                                                                    <userDefinedRuntimeAttribute type="string" keyPath="selectedTitle" value="Password"/>
-                                                                </userDefinedRuntimeAttributes>
                                                             </textField>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u42-Pd-ZVc">
                                                                 <rect key="frame" x="329" y="7" width="30" height="30"/>
@@ -812,10 +804,6 @@
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Password"/>
-                                                                    <userDefinedRuntimeAttribute type="string" keyPath="selectedTitle" value="Password"/>
-                                                                </userDefinedRuntimeAttributes>
                                                             </textField>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YWP-Nw-cmI">
                                                                 <rect key="frame" x="329" y="7" width="30" height="30"/>

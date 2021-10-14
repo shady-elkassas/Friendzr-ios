@@ -22,7 +22,7 @@ class MyProfileVC: UIViewController {
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var tagListView: TagListView!
     @IBOutlet weak var tagsViewhHeight: NSLayoutConstraint!
-    
+    @IBOutlet weak var hideView: UIView!
     
     //MARK: - Properties
     var viewmodel: ProfileViewModel = ProfileViewModel()
@@ -54,9 +54,10 @@ class MyProfileVC: UIViewController {
         viewmodel.getProfileInfo()
         viewmodel.userModel.bind { [unowned self]value in
             self.hideLoading()
-                DispatchQueue.main.async {
-                    self.setProfileData()
-                }
+            DispatchQueue.main.async {
+                hideView.isHidden = true
+                self.setProfileData()
+            }
         }
         
         // Set View Model Event Listener

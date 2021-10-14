@@ -102,7 +102,6 @@ class TagsVC: UIViewController {
                 self.emptyView.isHidden = false
                 self.emptyLbl.text = "You haven't any data yet".localizedString
                 self.tryAgainBtn.alpha = 0.0
-
             }else {
                 self.emptyView.isHidden = true
                 self.tryAgainBtn.alpha = 0.0

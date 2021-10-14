@@ -101,8 +101,9 @@ class FeedVC: UIViewController {
         self.showLoading()
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 self.hideLoading()
+                
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -111,7 +112,7 @@ class FeedVC: UIViewController {
                 self.tableView.tableFooterView = nil
 
                 showEmptyView()
-            }
+            })
         }
         
         // Set View Model Event Listener
@@ -127,8 +128,8 @@ class FeedVC: UIViewController {
         self.showLoading()
         viewmodel.filterFeeds(Bydegree: degree, pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
-            DispatchQueue.main.async {
-                self.hideLoading()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -139,7 +140,10 @@ class FeedVC: UIViewController {
                 showEmptyView()
                 
                 isSendRequest = false
-            }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                    self.hideLoading()
+                })
+            })
         }
         
         // Set View Model Event Listener
@@ -538,14 +542,14 @@ extension FeedVC: CLLocationManagerDelegate {
             compassContainerViewHeight.constant = screenW / 1.95
             compassContanierView.addSubview(dScaView)
         }else {
-//            locationManager.stopUpdatingHeading()
+            locationManager.stopUpdatingLocation()
+            locationManager.stopUpdatingHeading()
             filterDir = false
-            getAllFeeds(pageNumber: 0)
             compassContanierView.isHidden = true
             filterBtn.isHidden = true
             compassContainerViewHeight.constant = 0
-            locationManager.stopUpdatingLocation()
-            locationManager.stopUpdatingHeading()
+            
+            getAllFeeds(pageNumber: 0)
         }
     }
 

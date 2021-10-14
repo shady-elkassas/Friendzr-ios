@@ -82,7 +82,8 @@ class RequestManager  {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
                         print(json)
-                        completion([:],"Bad Request")
+                        let valJsonBlock = json as! [String : Any]
+                        completion([:],valJsonBlock["message"] as? String)
                     } catch {
                         print(error)
                     }

@@ -27,6 +27,8 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var googleView: UIView!
     @IBOutlet weak var appleView: UIView!
     @IBOutlet weak var registerBtn: UIButton!
+    @IBOutlet weak var showConfirmPasswordBtn: UIButton!
+    @IBOutlet weak var showPasswordBtn: UIButton!
     
     //MARK: - Properties
     var checkUserNameVM:CheckUserNameViewModel = CheckUserNameViewModel()
@@ -71,6 +73,7 @@ class RegisterVC: UIViewController {
     
     @objc func handleCheckUserName() {
         checkUserNameVM.checkUserName(withUserName: userNameTxt.text!) { error, data in
+            
             if let error = error {
                 self.view.makeToast(error)
                 return
@@ -110,10 +113,12 @@ class RegisterVC: UIViewController {
     
     @IBAction func showPasswordBtn(_ sender: Any) {
         passwordTxt.isSecureTextEntry = !passwordTxt.isSecureTextEntry
+        self.showPasswordBtn.isSelected = !self.showPasswordBtn.isSelected
     }
     
     @IBAction func showConfirmPasswordBtn(_ sender: Any) {
         confirmPasswordTxt.isSecureTextEntry = !confirmPasswordTxt.isSecureTextEntry
+        self.showConfirmPasswordBtn.isSelected = !self.showConfirmPasswordBtn.isSelected
     }
     
     @IBAction func facebookBtn(_ sender: Any) {

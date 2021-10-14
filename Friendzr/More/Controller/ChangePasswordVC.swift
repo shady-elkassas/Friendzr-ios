@@ -102,13 +102,16 @@ class ChangePasswordVC: UIViewController {
     
     @IBAction func showPassBtn(_ sender: Any) {
         oldPasswordTxt.isSecureTextEntry = !oldPasswordTxt.isSecureTextEntry
+        self.showPasswordBtn.isSelected = !self.showPasswordBtn.isSelected
     }
     
     @IBAction func showNewPassBtn(_ sender: Any) {
         newPasswordTxt.isSecureTextEntry = !newPasswordTxt.isSecureTextEntry
+        self.showNewPasswordBtn.isSelected = !self.showNewPasswordBtn.isSelected
     }
     
     @IBAction func showConfirmNewPassBtn(_ sender: Any) {
         confirmNewPasswordTxt.isSecureTextEntry = !confirmNewPasswordTxt.isSecureTextEntry
+        self.showConfirmNewPasswordBtn.isSelected = !self.showConfirmNewPasswordBtn.isSelected
     }
 }

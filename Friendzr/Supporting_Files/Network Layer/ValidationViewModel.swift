@@ -19,14 +19,14 @@ protocol ValidationViewModel {
     func validateCredentials() -> Bool
 }
 
-protocol ValidationsViewModel {
-     
-    var errorMessage: String { get }
-    
-    // Observables
-    var data: [String] { get set }
-    var errorValue: String? { get}
-    
-    // Validation
-    func validateCredentials() -> Bool
-}
+//protocol ValidationsViewModel {
+//
+//    var errorMessage: String { get }
+//
+//    // Observables
+//    var data: [String] { get set }
+//    var errorValue: String? { get}
+//
+//    // Validation
+//    func validateCredentials() -> Bool
+//}

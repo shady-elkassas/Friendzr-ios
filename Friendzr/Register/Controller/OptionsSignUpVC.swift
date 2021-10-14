@@ -107,12 +107,9 @@ class OptionsSignUpVC: UIViewController {
             }
             else {
                 let fbLoginManager : LoginManager = LoginManager()
-                
                 fbLoginManager.logIn(permissions: ["email"], from: self) { (result, error) -> Void in
                     
                     if (error == nil) {
-                        //                let fbloginresult : LoginManagerLoginResult = result!
-                        // if user cancel the login
                         if error != nil {
                             //                        print("Process error")
                         }else if (result?.isCancelled)!{

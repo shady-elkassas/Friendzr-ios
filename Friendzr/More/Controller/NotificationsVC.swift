@@ -207,7 +207,47 @@ extension NotificationsVC: UITableViewDelegate {
         btnsSelect = true
         updateUserInterface()
         if internetConect {
+            let model = viewmodel.notifications.value?.data?[indexPath.row]
             
+            if model?.action == "Friend_Request" {
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else { return}
+                vc.userID = model?.action_code ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if model?.action == "Accept_Friend_Request" {
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else { return}
+                vc.userID = model?.action_code ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if model?.action == "event_chat" {
+                guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else { return}
+                vc.eventChatID = model?.action_code ?? ""
+                vc.eventChat = true
+                vc.chatuserID = ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if model?.action == "user_chat" {
+                guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else { return}
+                vc.eventChatID = model?.action_code ?? ""
+                vc.eventChat = false
+                vc.eventChatID = ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if model?.action == "event_Updated" {
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
+                vc.eventId = model?.action_code ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if model?.action == "update_Event_Data" {
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
+                vc.eventId = model?.action_code ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if model?.action == "event_attend" {
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
+                vc.eventId = model?.action_code ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if model?.action == "Event_reminder" {
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
+                vc.eventId = model?.action_code ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else if model?.action == "Check_events_near_you" {
+                Router().toMap()
+            }
         }else {
             return
         }

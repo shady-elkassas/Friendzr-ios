@@ -94,5 +94,6 @@ class UserChatObj: NSObject,Mappable {
         latestdate  <- map["latestdate"]
         latesttime  <- map["latesttime"]
         messages  <- map["messages"]
+        isMute  <- map["muit"]
     }
 }

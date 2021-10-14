@@ -102,7 +102,7 @@ class BlockedListVC: UIViewController {
         searchbar.searchTextField.backgroundColor = .clear
         searchbar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
         var placeHolder = NSMutableAttributedString()
-        let textHolder  = "Search Messages".localizedString
+        let textHolder  = "Search...".localizedString
         let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
         placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
         searchbar.searchTextField.attributedPlaceholder = placeHolder
@@ -235,7 +235,7 @@ extension BlockedListVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? BlockedTableViewCell else {return UITableViewCell()}
         let model = viewmodel.blocklist.value?.data?[indexPath.row]
         cell.nameLbl.text = model?.userName
-        cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
+        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "avatar"))
         
         if indexPath.row == ((viewmodel.blocklist.value?.data?.count ?? 0) - 1 ) {
             cell.underView.isHidden = true
@@ -254,7 +254,7 @@ extension BlockedListVC: UITableViewDataSource {
                 
                 if self.internetConect {
                     self.showLoading()
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userid ?? "", AndKey: 4) { error, message in
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
                         self.hideLoading()
                         if let error = error {
                             self.showAlert(withMessage: error)
@@ -300,7 +300,7 @@ extension BlockedListVC: UITableViewDelegate {
         if internetConect {
             let model = viewmodel.blocklist.value?.data?[indexPath.row]
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
-            vc.userID = model?.userid ?? ""
+            vc.userID = model?.userId ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
         }else {
             return

@@ -52,15 +52,15 @@ class NotificationsModel: Mappable {
 
 class NotificationObj: NSObject,Mappable {
     
-    var action: String?
-    var action_code: String?
-    var body: String?
-    var createdAt: String?
-    var id:String?
-    var messagetype:Int?
-    var muit:Int?
-    var title:String?
-    var imageUrl:String?
+    var action: String? = ""
+    var action_code: String? = ""
+    var body: String? = ""
+    var createdAt: String? = ""
+    var id:String? = ""
+    var messagetype:Int? = 0
+    var muit:Bool? = false
+    var title:String? = ""
+    var imageUrl:String? = ""
     
     required init?(map: Map) {
     }

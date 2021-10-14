@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 import MessageKit
-import Kingfisher
+//import Kingfisher
 
 class CustomLayoutExampleViewController: BasicExampleViewController {
     

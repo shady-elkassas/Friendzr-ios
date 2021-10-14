@@ -26,6 +26,9 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var placeHolderLbl: UILabel!
     @IBOutlet weak var tagsViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tagsListView: TagListView!
+    @IBOutlet weak var selectTagsLbl: UILabel!
+    @IBOutlet weak var hideView: UIView!
+    
     
     //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("CalendarView", owner: self, options: nil)?.first as? CalendarView
@@ -89,10 +92,8 @@ class EditMyProfileVC: UIViewController {
             HandleInternetConnection()
         case .wwan:
             internetConect = true
-//            getProfileInformation()
         case .wifi:
             internetConect = true
-//            getProfileInformation()
         }
         
         print("Reachability Summary")
@@ -123,6 +124,7 @@ class EditMyProfileVC: UIViewController {
         profileVM.getProfileInfo()
         profileVM.userModel.bind { [unowned self]value in
             DispatchQueue.main.async {
+                hideView.isHidden = true
                 setupDate()
             }
         }
@@ -142,12 +144,31 @@ class EditMyProfileVC: UIViewController {
     
     func setupDate() {
         let model = profileVM.userModel.value
-        nameTxt.text = model?.userName
-        bioTxtView.text = model?.bio
-        dateBirthLbl.text = model?.birthdate
-        dateBirthLbl.textColor = .black
         
-        profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
+        nameTxt.text = model?.userName
+        
+        if model?.bio != "" {
+            bioTxtView.text = model?.bio
+            placeHolderLbl.isHidden = true
+        }else {
+            bioTxtView.text = ""
+            placeHolderLbl.isHidden = false
+        }
+        
+        if model?.birthdate == "" {
+            dateBirthLbl.text = "Select your birthdate"
+            dateBirthLbl.textColor = .lightGray
+        }else {
+            dateBirthLbl.text = model?.birthdate
+            dateBirthLbl.textColor = .black
+        }
+        
+        if model?.userImage != "" {
+            profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
+            self.attachedImg = true
+        }else {
+            self.attachedImg = false
+        }
         
         tagsListView.removeAllTags()
         for itm in model?.listoftagsmodel ?? [] {
@@ -157,8 +178,11 @@ class EditMyProfileVC: UIViewController {
         
         if tagsListView.rows == 0 {
             tagsViewHeight.constant = 45
+            selectTagsLbl.isHidden = false
+            selectTagsLbl.textColor = .lightGray
         }else {
             tagsViewHeight.constant = CGFloat(tagsListView.rows * 30) + 10
+            selectTagsLbl.isHidden = true
         }
         tagsListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
         
@@ -186,6 +210,7 @@ class EditMyProfileVC: UIViewController {
     func OnInterestsCallBack(_ data: [String], _ value: [String]) -> () {
         print(data, value)
         
+        selectTagsLbl.isHidden = true
         tagsListView.removeAllTags()
         for item in value {
             tagsListView.addTag(item)
@@ -241,7 +266,8 @@ class EditMyProfileVC: UIViewController {
             formatter.dateFormat = "yyyy-MM-dd"
             self.dateBirthLbl.text = formatter.string(from: (self.alertView?.calendarView.date)!)
             self.birthDay = formatter.string(from: (self.alertView?.calendarView.date)!)
-            
+            self.dateBirthLbl.textColor = .black
+
             UIView.animate(withDuration: 0.3, animations: {
                 self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.alertView?.alpha = 0
@@ -292,7 +318,7 @@ class EditMyProfileVC: UIViewController {
     }
     
     @IBAction func tagsBtn(_ sender: Any) {
-        updateUserInterface()
+        updateUserInterface2()
         if internetConect {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "TagsVC") as? TagsVC else {return}
             vc.onInterestsCallBackResponse = self.OnInterestsCallBack
@@ -315,30 +341,35 @@ class EditMyProfileVC: UIViewController {
     }
     
     @IBAction func saveBtn(_ sender: Any) {
-//        updateUserInterface()
+        //        updateUserInterface()
         
-        if internetConect {
-            self.showLoading()
-            viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in
-                self.hideLoading()
-                if let error = error {
-                    self.showAlert(withMessage: error)
-                    return
-                }
-                
-                guard let _ = data else {return}
-                //            self.showAlert(withMessage: "Edits Saved")
-                
-                DispatchQueue.main.async {
-                    if Defaults.needUpdate == 1 {
+        updateUserInterface2()
+        if self.attachedImg == false {
+            self.showAlert(withMessage: "Please add profile image")
+            return
+        }else {
+            if internetConect {
+                self.showLoading()
+                viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in
+                    
+                    self.hideLoading()
+                    if let error = error {
+                        self.showAlert(withMessage: error)
                         return
-                    }else {
-                        Router().toHome()
+                    }
+                    
+                    guard let _ = data else {return}
+                    DispatchQueue.main.async {
+                        if Defaults.needUpdate == 1 {
+                            return
+                        }else {
+                            Router().toHome()
+                        }
                     }
                 }
+            }else {
+                return
             }
-        }else {
-            return
         }
     }
 }
@@ -385,7 +416,7 @@ extension EditMyProfileVC: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (bioTxtView.text as NSString).replacingCharacters(in: range, with: text)
-        return newText.count < 250
+        return newText.count < 150
     }
 }
 

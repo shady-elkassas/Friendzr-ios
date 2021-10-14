@@ -27,7 +27,7 @@ target 'Friendzr' do
   pod 'MultiSlider'
   
   pod 'MessageKit'
-  pod 'Kingfisher', '~> 6.0'
+#  pod 'Kingfisher', '~> 6.0'
   #  pod 'DropDown'
   #  pod 'SkyFloatingLabelTextField', '~> 3.0'
   #  pod 'JGProgressHUD'

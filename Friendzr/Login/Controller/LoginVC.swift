@@ -105,6 +105,7 @@ class LoginVC: UIViewController {
     
     @IBAction func showPasswordBtn(_ sender: Any) {
         passwordTxt.isSecureTextEntry = !passwordTxt.isSecureTextEntry
+        self.showPasswordBtn.isSelected = !self.showPasswordBtn.isSelected
     }
     
     @IBAction func forgetPasswordBtn(_ sender: Any) {

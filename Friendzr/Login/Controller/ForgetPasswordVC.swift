@@ -46,8 +46,8 @@ class ForgetPasswordVC: UIViewController {
                     self.showAlert(withMessage: error)
                     return
                 }
-                guard let data = data else {return}
-                self.showAlert(withMessage: data.code)
+                guard let _ = data else {return}
+                self.showAlert(withMessage: "Please check your email")
             }
         }else {
             return

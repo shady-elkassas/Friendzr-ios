@@ -27,6 +27,7 @@ class FriendProfileVC: UIViewController {
     @IBOutlet weak var unblockBtn: UIButton!
     @IBOutlet weak var tagListView: TagListView!
     @IBOutlet weak var tagListViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var hideView: UIView!
     
     //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
@@ -66,7 +67,8 @@ class FriendProfileVC: UIViewController {
         viewmodel.model.bind { [unowned self]value in
             self.hideLoading()
             DispatchQueue.main.async {
-                    setupData()
+                hideView.isHidden = true
+                setupData()
             }
         }
         
@@ -415,7 +417,6 @@ class FriendProfileVC: UIViewController {
         ageLbl.text = "\(model?.age ?? 0)"
         genderLbl.text = model?.gender
         profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
-        
         
         tagListView.removeAllTags()
         for item in model?.listoftagsmodel ?? [] {

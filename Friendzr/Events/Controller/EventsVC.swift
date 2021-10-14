@@ -24,14 +24,14 @@ class EventsVC: UIViewController {
     var internetConect:Bool = false
     var cellSelect:Bool = false
     
-    var currentPage : Int = 0
+    var currentPage : Int = 1
     var isLoadingList : Bool = false
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Events"
+        self.title = "My Events"
         setupView()
         
         initBackButton()
@@ -55,7 +55,7 @@ class EventsVC: UIViewController {
     //MARK:- APIs
     func getAllEvents(pageNumber:Int) {
         self.showLoading()
-        viewmodel.getAllEvents(pageNumber: pageNumber)
+        viewmodel.getMyEvents(pageNumber: pageNumber)
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.hideLoading()
@@ -98,11 +98,11 @@ class EventsVC: UIViewController {
         case .wwan:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllEvents(pageNumber: 0)
+            getAllEvents(pageNumber: 1)
         case .wifi:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllEvents(pageNumber: 0)
+            getAllEvents(pageNumber: 1)
         }
         
         print("Reachability Summary")

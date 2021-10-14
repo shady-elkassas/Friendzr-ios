@@ -21,9 +21,9 @@ class EventsViewModel {
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
-    func getAllEvents(pageNumber:Int) {
+    func getMyEvents(pageNumber:Int) {
         
-        let url = URLs.baseURLFirst + "Events/getallEvent"
+        let url = URLs.baseURLFirst + "Events/getMyEvent"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
         let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]

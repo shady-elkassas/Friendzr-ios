@@ -404,7 +404,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lr1-LX-Wun">
                                                         <rect key="frame" x="0.0" y="168" width="364" height="44"/>
                                                         <subviews>
-                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g2z-Bm-pCC">
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g2z-Bm-pCC">
                                                                 <rect key="frame" x="16" y="2" width="305" height="40"/>
                                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
@@ -672,6 +672,8 @@
                         <outlet property="passwordView" destination="0zB-Az-kv9" id="6ZQ-6e-2e6"/>
                         <outlet property="registerBtn" destination="zBg-me-iMs" id="Hf0-Ii-pZE"/>
                         <outlet property="registerBtnView" destination="fii-Sf-SAL" id="wRU-1M-zXV"/>
+                        <outlet property="showConfirmPasswordBtn" destination="boN-7Z-gNs" id="RWn-pV-XOw"/>
+                        <outlet property="showPasswordBtn" destination="0eT-2a-PIp" id="c2N-IK-Uax"/>
                         <outlet property="userNameTxt" destination="qZC-Jd-8hd" id="RGT-x2-v4x"/>
                         <outlet property="userNameView" destination="xcE-C7-pXc" id="gqo-mD-fH1"/>
                     </connections>

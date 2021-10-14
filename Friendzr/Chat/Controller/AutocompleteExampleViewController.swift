@@ -25,7 +25,7 @@
 import UIKit
 import MessageKit
 import InputBarAccessoryView
-import Kingfisher
+//import Kingfisher
 
 final class AutocompleteExampleViewController: ChatViewController {
 
@@ -356,9 +356,9 @@ extension AutocompleteExampleViewController: MessagesDisplayDelegate {
     
     func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
         if case MessageKind.photo(let media) = message.kind, let imageURL = media.url {
-            imageView.kf.setImage(with: imageURL)
+//            imageView.kf.setImage(with: imageURL)
         } else {
-            imageView.kf.cancelDownloadTask()
+//            imageView.kf.cancelDownloadTask()
         }
     }
 }

@@ -58,8 +58,12 @@ class AddEventViewModel {
         }
         
         let url = URLs.baseURLFirst + "Events/AddEventData"
-//        let headers = RequestComponent.headerComponent([.type,.authorization])
-        let parameters:[String : Any] = ["Title": title,"description":description,"status":status,"categoryid":categoryId,"lang":lang,"lat":lat,"totalnumbert": totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto]
+        var parameters:[String : Any] = ["Title": title,"description":description,"status":status,"categoryid":categoryId,"lang":lang,"lat":lat,"totalnumbert": totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto]
+        
+        
+        if allday == true {
+            parameters = ["Title": title,"description":description,"status":status,"categoryid":categoryId,"lang":lang,"lat":lat,"totalnumbert": totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto]
+        }
         
         if attachedImg {
             guard let mediaImage = Media(withImage: image, forKey: "Eventimage") else { return }
@@ -79,10 +83,6 @@ class AddEventViewModel {
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
-                print(httpResponse!)
-                print("statusCode: \(code!)")
-                print("**MD** response: \(response)")
-                
                 if let data = data {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data, options: [])
@@ -111,7 +111,6 @@ class AddEventViewModel {
                 }
             }.resume()
         }else {
-//            guard let mediaImage = Media(withImage: image, forKey: "Eventimage") else { return }
             guard let urlRequest = URL(string: url) else { return }
             var request = URLRequest(url: urlRequest)
             request.httpMethod = "POST"
@@ -128,9 +127,6 @@ class AddEventViewModel {
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
-                print(httpResponse!)
-                print("statusCode: \(code!)")
-                print("**MD** response: \(response)")
                 
                 if let data = data {
                     do {

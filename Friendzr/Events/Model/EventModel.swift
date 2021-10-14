@@ -30,10 +30,10 @@ class EventsListModel: Mappable {
 
 class EventsDataModel: Mappable {
     
-    var pageSize: Int?
-    var totalRecords: Int?
-    var totalPages: Int?
-    var pageNumber: Int?
+    var pageSize: Int? = 0
+    var totalRecords: Int? = 0
+    var totalPages: Int? = 0
+    var pageNumber: Int? = 0
     var data: [EventObj]? = []
     
     required init?(map: Map) {

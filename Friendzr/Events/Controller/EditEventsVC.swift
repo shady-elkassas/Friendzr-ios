@@ -31,6 +31,7 @@ class EditEventsVC: UIViewController {
     @IBOutlet weak var categoryNameLbl: UILabel!
     @IBOutlet weak var saveBtn: UIButton!
     
+    @IBOutlet weak var timeStack: UIStackView!
     //MARK: - Properties
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
     lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
@@ -139,10 +140,11 @@ class EditEventsVC: UIViewController {
                     }
                     
                     guard let _ = data else {return}
-                    NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
+                    
+//                    NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
-                        Router().toMore()
+                        Router().toMap()
                     })
                 }
                 
@@ -173,9 +175,15 @@ class EditEventsVC: UIViewController {
         startTimeLbl.text = eventModel?.timefrom
         endTimeLbl.text = eventModel?.timeto
         
-        descriptionTxtView.text = eventModel?.descriptionEvent
+        if eventModel?.descriptionEvent == "" {
+            hiddenLbl.isHidden = false
+        }else {
+            descriptionTxtView.text = eventModel?.descriptionEvent
+            hiddenLbl.isHidden = true
+        }
+        
         limitUsersTxt.text = "\(eventModel?.totalnumbert ?? 0)"
-                
+
         startDate = eventModel?.eventdate ?? ""
         endDate = eventModel?.eventdateto ?? ""
         startTime = eventModel?.timefrom ?? ""
@@ -198,7 +206,12 @@ class EditEventsVC: UIViewController {
                 
                 guard let _ = data else {return}
                 self.showAlert(withMessage: "Edit Save successfully")
-                NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.onPopup()
+                }
+                
+//                NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
             }
         }else {
             return
@@ -238,6 +251,11 @@ class EditEventsVC: UIViewController {
     }
     
     @IBAction func switchAllDaysBtn(_ sender: Any) {
+        if switchAllDays.isOn == true {
+            timeStack.isHidden = true
+        }else {
+            timeStack.isHidden = false
+        }
     }
     
     @IBAction func startDayBtn(_ sender: Any) {

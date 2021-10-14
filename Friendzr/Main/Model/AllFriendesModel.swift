@@ -32,7 +32,7 @@ class AllFriendesDataModel: Mappable {
     var totalRecords: Int?
     var totalPages: Int?
     var pageNumber: Int?
-    var data: [FriendObj]? = []
+    var data: [friendChatObj]? = []
     
     required init?(map: Map) {
     }
@@ -47,5 +47,40 @@ class AllFriendesDataModel: Mappable {
         pageSize  <- map["pageSize"]
         totalRecords  <- map["totalRecords"]
         totalPages  <- map["totalPages"]
+    }
+}
+
+class friendChatObj: NSObject,Mappable {
+
+    var userName:String? = ""
+    var userId:String? = ""
+    var lat:String? = ""
+    var lang:String? = ""
+    var key:Int? = 0
+    var image:String? = ""
+    var email:String? = ""
+    var displayedUserName:String? = ""
+    var age:String? = ""
+    var regestdata:String? = ""
+    
+    required init?(map: Map) {
+    }
+    
+    override init() {
+        super.init()
+    }
+    
+    // Mappable
+    func mapping(map: Map) {
+        age    <- map["age"]
+        displayedUserName    <- map["displayedUserName"]
+        email    <- map["email"]
+        image    <- map["image"]
+        key    <- map["key"]
+        lang    <- map["lang"]
+        lat    <- map["lat"]
+        regestdata    <- map["regestdata"]
+        userId    <- map["userId"]
+        userName    <- map["userName"]
     }
 }

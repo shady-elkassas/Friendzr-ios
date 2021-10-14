@@ -73,7 +73,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         containerView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 50)
         moreList.append(("Profile".localizedString, UIImage(named: "Profile_ic")!))
-        moreList.append(("Events".localizedString, UIImage(named: "Events_ic")!))
+        moreList.append(("My Events".localizedString, UIImage(named: "Events_ic")!))
         moreList.append(("Notifications".localizedString, UIImage(named: "notificationList_ic")!))
         moreList.append(("Settings".localizedString, UIImage(named: "Settings_ic")!))
         moreList.append(("Block List".localizedString, UIImage(named: "blocked_ic")!))
