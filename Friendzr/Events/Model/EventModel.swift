@@ -30,10 +30,10 @@ class EventsListModel: Mappable {
 
 class EventsDataModel: Mappable {
     
-    var pageSize: Int? = 0
-    var totalRecords: Int? = 0
-    var totalPages: Int? = 0
-    var pageNumber: Int? = 0
+    var pageSize: Int?
+    var totalRecords: Int?
+    var totalPages: Int?
+    var pageNumber: Int?
     var data: [EventObj]? = []
     
     required init?(map: Map) {
@@ -95,7 +95,8 @@ class EventObj: NSObject,Mappable {
     var image: String? = ""
     var id: String? = ""
     var totalnumbert: Int? = 0
-    var interests: InterestsObj?
+    var interestStatistic:[InterestsObj]?
+    var genderStatistic:[GenderObj]?
     var joined: Int? = 0
     var attendees: [AttendeesObj]? = [AttendeesObj]()
     var categorie:String? = ""
@@ -104,7 +105,7 @@ class EventObj: NSObject,Mappable {
     var lat:String? = ""
     var lang:String? = ""
     var eventdateto:String? = ""
-
+    
     override init() {
         super.init()
     }
@@ -121,7 +122,7 @@ class EventObj: NSObject,Mappable {
         image  <- map["image"]
         id  <- map["id"]
         totalnumbert  <- map["totalnumbert"]
-        interests  <- map["interests"]
+        interestStatistic  <- map["interestStatistic"]
         joined  <- map["joined"]
         attendees  <- map["attendees"]
         categorie  <- map["categorie"]
@@ -129,20 +130,35 @@ class EventObj: NSObject,Mappable {
         key  <- map["key"]
         lat  <- map["lat"]
         lang  <- map["lang"]
+        genderStatistic  <- map["genderStatistic"]
         eventdateto  <- map["eventdateto"]
     }
 }
 
 class InterestsObj : Mappable {
-
+    
     var name: String?
-    var percentage: Int?
+    var interestcount: Int?
     
     required init?(map: Map) {
     }
     // Mappable
     func mapping(map: Map) {
         name   <- map["name"]
-        percentage  <- map["percentage"]
+        interestcount  <- map["count"]
+    }
+}
+
+class GenderObj : Mappable {
+    
+    var key: String?
+    var gendercount: Int?
+    
+    required init?(map: Map) {
+    }
+    // Mappable
+    func mapping(map: Map) {
+        key   <- map["key"]
+        gendercount  <- map["count"]
     }
 }

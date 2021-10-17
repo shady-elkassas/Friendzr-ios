@@ -50,7 +50,7 @@ class TagsVC: UIViewController {
         self.title = "Tags"
         clearNavigationBar()
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.updateUserInterface()
         }
     }

@@ -114,6 +114,8 @@
 		4344110726CE885F00F8233E /* ContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344110526CE885F00F8233E /* ContactsTableViewCell.swift */; };
 		4344110826CE885F00F8233E /* ContactsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4344110626CE885F00F8233E /* ContactsTableViewCell.xib */; };
 		434428E927171AE800269444 /* ExtensionDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434428E827171AE800269444 /* ExtensionDate.swift */; };
+		4345BA3A271C14ED0076101A /* GenderbylocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345BA39271C14ED0076101A /* GenderbylocationViewModel.swift */; };
+		4345BA3C271C15410076101A /* GenderbylocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345BA3B271C15410076101A /* GenderbylocationModel.swift */; };
 		4362887F26C8FECB00B51E51 /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4362887E26C8FECB00B51E51 /* Map.storyboard */; };
 		4362888126C8FEDE00B51E51 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362888026C8FEDE00B51E51 /* MapVC.swift */; };
 		4362888626C8FF3A00B51E51 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362888526C8FF3A00B51E51 /* FeedVC.swift */; };
@@ -376,6 +378,8 @@
 		4344110526CE885F00F8233E /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
 		4344110626CE885F00F8233E /* ContactsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactsTableViewCell.xib; sourceTree = "<group>"; };
 		434428E827171AE800269444 /* ExtensionDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDate.swift; sourceTree = "<group>"; };
+		4345BA39271C14ED0076101A /* GenderbylocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderbylocationViewModel.swift; sourceTree = "<group>"; };
+		4345BA3B271C15410076101A /* GenderbylocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderbylocationModel.swift; sourceTree = "<group>"; };
 		4362887E26C8FECB00B51E51 /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		4362888026C8FEDE00B51E51 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		4362888526C8FF3A00B51E51 /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
@@ -1264,6 +1268,7 @@
 			isa = PBXGroup;
 			children = (
 				439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */,
+				4345BA3B271C15410076101A /* GenderbylocationModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1272,6 +1277,7 @@
 			isa = PBXGroup;
 			children = (
 				439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */,
+				4345BA39271C14ED0076101A /* GenderbylocationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1753,6 +1759,7 @@
 				4308EB7A26EA0FD500D71379 /* FeedModel.swift in Sources */,
 				4320A65226F234BF003604EE /* UpdateLocationViewModel.swift in Sources */,
 				43F473BB26E63FAE001E4FAE /* EditEventViewModel.swift in Sources */,
+				4345BA3C271C15410076101A /* GenderbylocationModel.swift in Sources */,
 				43FBA22626D4F105005F4FBF /* CameraInputBarAccessoryView.swift in Sources */,
 				43FBA21B26D4F105005F4FBF /* UIViewController+Extensions.swift in Sources */,
 				43D545B726CBD8340064660A /* MagneticView.swift in Sources */,
@@ -1772,6 +1779,7 @@
 				4330757C26E79299002940DF /* JoinEventViewModel.swift in Sources */,
 				43FBA21026D4F105005F4FBF /* ChatViewController.swift in Sources */,
 				4336D12B26DB897D0093C7A6 /* EmailViewModel.swift in Sources */,
+				4345BA3A271C14ED0076101A /* GenderbylocationViewModel.swift in Sources */,
 				43FBA22726D4F105005F4FBF /* SwiftUIExampleView.swift in Sources */,
 				4362889426C8FF9300B51E51 /* MoreVC.swift in Sources */,
 				43119D6A26E4C1A000AD2260 /* BioViewModel.swift in Sources */,

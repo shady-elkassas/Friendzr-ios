@@ -253,7 +253,7 @@ extension UIViewController {
     }
     
     @objc func handleSkipBtn(){
-        Router().toHome()
+        Router().toFeed()
     }
     
     func estimatedHeightOfLabel(width:Int,text: String) -> CGFloat {

@@ -18,6 +18,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     
     var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
     var settingVM:SettingsViewModel = SettingsViewModel()
+    var profileVM: ProfileViewModel = ProfileViewModel()
     
     var locationManager: CLLocationManager!
     var locationLat = 0.0
@@ -46,25 +47,48 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         view.layer.addSublayer(gradient)
         view.addSubview(imageView)
         
-        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.7) {
+            self.setupAnimation()
+        }
+        
+        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1.5) {
             if Defaults.needUpdate == 1 {
                 Router().toEditProfileVC()
             }else {
                 if Defaults.token != "" {
-                    Router().toHome()
+                    self.getProfileInformation()
                 }else {
                     Router().toSplachOne()
                 }
             }
         }
-        
-        self.setupAnimation()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setupCLLocationManager()
     }
+    
+    
+    func getProfileInformation() {
+        self.showLoading()
+        profileVM.getProfileInfo()
+        profileVM.userModel.bind { [unowned self]value in
+            self.hideLoading()
+            DispatchQueue.main.async {
+                Router().toFeed()
+            }
+        }
+        
+        // Set View Model Event Listener
+        profileVM.error.bind { [unowned self]error in
+            self.hideLoading()
+            DispatchQueue.main.async {
+                self.hideLoading()
+                self.showAlert(withMessage: error)
+            }
+        }
+    }
+    
     
     func updateMyLocation() {
         updateLocationVM.updatelocation(ByLat: self.locationLat, AndLng: self.locationLng) { error, data in
@@ -76,7 +100,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
             guard let _ = data else {return}
         }
     }
-    
     
     func setupCLLocationManager() {
         locationManager = CLLocationManager()
@@ -120,7 +143,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
                 print(placemark.administrativeArea!)
                 print(placemark.country!)
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.updateMyLocation()
                 }
             }
@@ -135,7 +158,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     var duration: Double = 1.5
     var delay: Double = 2.0
     var minimumBeats: Int = 1
-
+    
     func animateLayer(_ animation: AnimationExecution, completion: AnimationCompletion? = nil) {
         
         CATransaction.begin()
@@ -145,24 +168,8 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         animation()
         CATransaction.commit()
     }
-
+    
     func setupAnimation() {
-//        let popForce = 1.5 // How much high can go.
-//
-//        animateLayer({
-//            let animation = CAKeyframeAnimation(keyPath: "transform.scale")
-//            animation.values = [0, 0.1 * popForce, 0.015 * popForce, 0.2 * popForce, 0]
-//            animation.keyTimes = [0, 0.25, 0.50, 0.75, 1]
-//            animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
-//            animation.duration = CFTimeInterval(self.duration/2)
-//            animation.isAdditive = true
-//            animation.repeatCount = Float(minimumBeats > 0 ? minimumBeats : 1)
-//            animation.beginTime = CACurrentMediaTime() + CFTimeInterval(self.delay/2)
-//            imageView.layer.add(animation, forKey: "pop")
-//        }, completion: { [weak self] in
-//
-//        })
-//
         UIView.animate(withDuration: 1) {
             let size = self.view.frame.size.width * 3
             let diffx = size - self.view.frame.size.width

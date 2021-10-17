@@ -90,12 +90,6 @@ class EventDetailsVC: UIViewController {
     }
 
     func setupViews() {
-        let child = UIHostingController(rootView: CircleView())
-        child.view.translatesAutoresizingMaskIntoConstraints = true
-        child.view.frame = CGRect(x: 0, y: 0, width: chartView.bounds.width, height: chartView.bounds.height)
-        chartView.addSubview(child.view)
-        chartContainerView.cornerRadiusView(radius: 21)
-        
         editBtn.cornerRadiusView(radius: 8)
         joinBtn.cornerRadiusView(radius: 8)
         leaveBtn.cornerRadiusView(radius: 8)
@@ -158,10 +152,17 @@ class EventDetailsVC: UIViewController {
             leaveBtn.isHidden = false
             attendeesViewHeight.constant = 0
         }
+                
+        let child = UIHostingController(rootView: CircleView(fill1: 0, fill2: 0, fill3: 0, animations: true, male: model?.interestStatistic?[0].interestcount ?? 30, female: model?.interestStatistic?[1].interestcount ?? 30, other: model?.interestStatistic?[2].interestcount ?? 30))
+        child.view.translatesAutoresizingMaskIntoConstraints = true
+        child.view.frame = CGRect(x: 0, y: 0, width: chartView.bounds.width, height: chartView.bounds.height)
+        chartView.addSubview(child.view)
+        chartContainerView.cornerRadiusView(radius: 21)
     }
     
     //MARK:- APIs
     func getEventDetails() {
+        hideView.isHidden = false
         self.showLoading()
         viewmodel.getEventByID(id: eventId)
         viewmodel.event.bind { [unowned self] value in
@@ -277,11 +278,24 @@ extension EventDetailsVC: UITableViewDataSource {
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? InterestsTableViewCell else {return UITableViewCell()}
             
+            let model = viewmodel.event.value?.interestStatistic?[indexPath.row]
+
+            cell.interestNameLbl.text = model?.name
+            cell.percentageLbl.text = "\(model?.interestcount ?? 0) %"
+            
             if indexPath.row == 3 {
                 cell.bottonView.isHidden = true
             }
             
-            cell.lblColor.backgroundColor = UIColor.colors.random()
+            if indexPath.row == 0 {
+                cell.lblColor.backgroundColor = UIColor.blue
+
+            }else if indexPath.row == 1 {
+                cell.lblColor.backgroundColor = UIColor.red
+
+            }else {
+                cell.lblColor.backgroundColor = UIColor.green
+            }
             
             return cell
         }
@@ -306,7 +320,7 @@ extension EventDetailsVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if tableView == attendeesTableView {
-            return 35
+            return 40
         }else {
             return 0
         }

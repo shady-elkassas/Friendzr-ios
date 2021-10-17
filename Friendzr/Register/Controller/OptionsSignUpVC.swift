@@ -165,7 +165,7 @@ class OptionsSignUpVC: UIViewController {
                                 if Defaults.needUpdate == 1 {
                                     Router().toEditProfileVC()
                                 }else {
-                                    Router().toHome()
+                                    Router().toFeed()
                                 }
                             }
                         }
@@ -254,7 +254,7 @@ extension OptionsSignUpVC {
                             if Defaults.needUpdate == 1 {
                                 Router().toEditProfileVC()
                             }else {
-                                Router().toHome()
+                                Router().toFeed()
                             }
                         }
                     }
@@ -355,7 +355,7 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
                     if Defaults.needUpdate == 1 {
                         Router().toEditProfileVC()
                     }else {
-                        Router().toHome()
+                        Router().toFeed()
                     }
                 }
             }

@@ -41,7 +41,7 @@ class EventsViewModel {
             else {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
-                    if pageNumber > 0 {
+                    if pageNumber > 1 {
                         for itm in toAdd.data ?? [] {
                             if !(self.eventsTemp.data?.contains(where: { $0.id == itm.id }) ?? false) {
                                 self.eventsTemp.data?.append(itm)

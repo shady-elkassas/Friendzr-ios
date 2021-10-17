@@ -89,7 +89,7 @@ class LoginVC: UIViewController {
                     if Defaults.needUpdate == 1 {
                         Router().toEditProfileVC()
                     }else {
-                        Router().toHome()
+                        Router().toFeed()
                     }
                 }
             }
@@ -184,7 +184,7 @@ class LoginVC: UIViewController {
                                 if Defaults.needUpdate == 1 {
                                     Router().toEditProfileVC()
                                 }else {
-                                    Router().toHome()
+                                    Router().toFeed()
                                 }
                             }
                         }
@@ -329,7 +329,7 @@ extension LoginVC {
                             if Defaults.needUpdate == 1 {
                                 Router().toEditProfileVC()
                             }else {
-                                Router().toHome()
+                                Router().toFeed()
                             }
                         }
                     }
@@ -428,7 +428,7 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                     if Defaults.needUpdate == 1 {
                         Router().toEditProfileVC()
                     }else {
-                        Router().toHome()
+                        Router().toFeed()
                     }
                 }
             }

@@ -192,7 +192,7 @@ class RegisterVC: UIViewController {
                                 if Defaults.needUpdate == 1 {
                                     Router().toEditProfileVC()
                                 }else {
-                                    Router().toHome()
+                                    Router().toFeed()
                                 }
                             }
                         }
@@ -330,7 +330,7 @@ extension RegisterVC {
                             if Defaults.needUpdate == 1 {
                                 Router().toEditProfileVC()
                             }else {
-                                Router().toHome()
+                                Router().toFeed()
                             }
                         }
                     }
@@ -430,7 +430,7 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
                     if Defaults.needUpdate == 1 {
                         Router().toEditProfileVC()
                     }else {
-                        Router().toHome()
+                        Router().toFeed()
                     }
                 }
             }

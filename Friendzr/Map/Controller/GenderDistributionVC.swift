@@ -17,8 +17,11 @@ class GenderDistributionVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     let cellID = "InterestsTableViewCell"
-    var model: PeopleAroundMeObj? = nil
-
+    var genderbylocationVM: GenderbylocationViewModel = GenderbylocationViewModel()
+    
+    var lat:Double = 0.0
+    var lng:Double = 0.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,14 +29,41 @@ class GenderDistributionVC: UIViewController {
         initCloseBarButton()
         title = "Gender Distribution"
         setupNavBar()
+        
+        getGenderbylocation(lat: lat, lng: lng)
     }
     
+    
+    func getGenderbylocation(lat:Double,lng:Double) {
+        self.showLoading()
+        genderbylocationVM.getGenderbylocation(ByLat: lat, AndLng: lng)
+        genderbylocationVM.gender.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                self.hideLoading()
+
+                let child = UIHostingController(rootView: CircleView(fill1: 0, fill2: 0, fill3: 0, animations: true, male: Int(value.malePercentage ?? 0.0), female: Int(value.femalepercentage ?? 0.0), other: Int(value.otherpercentage ?? 0.0)))
+                child.view.translatesAutoresizingMaskIntoConstraints = true
+                child.view.frame = CGRect(x: 0, y: 0, width: genderDistributionChart.bounds.width, height: genderDistributionChart.bounds.height)
+                child.loadView()
+                genderDistributionChart.addSubview(child.view)
+                
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+            }
+        }
+        
+        // Set View Model Event Listener
+        genderbylocationVM.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                self.showAlert(withMessage: error)
+            }
+        }
+    }
+    
+    
     func setupView() {
-        let child = UIHostingController(rootView: CircleView(fill1: 0, fill2: 0, fill3: 0, animations: true, male: 70, female: 50, other: 40))
-        child.view.translatesAutoresizingMaskIntoConstraints = true
-        child.view.frame = CGRect(x: 0, y: 0, width: genderDistributionChart.bounds.width, height: genderDistributionChart.bounds.height)
-        child.loadView()
-        genderDistributionChart.addSubview(child.view)
 
         genderDistributionView.shadow()
         tvContainerView.shadow()
@@ -53,11 +83,25 @@ extension GenderDistributionVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? InterestsTableViewCell else {return UITableViewCell()}
         
+        let model = genderbylocationVM.gender.value
+        if indexPath.row == 0 {
+            cell.interestNameLbl.text = "Male"
+            cell.lblColor.backgroundColor = UIColor.blue
+            cell.percentageLbl.text = "\(model?.malePercentage ?? 0) %"
+        }else if indexPath.row == 1 {
+            cell.interestNameLbl.text = "Female"
+            cell.lblColor.backgroundColor = UIColor.red
+            cell.percentageLbl.text = "\(model?.femalepercentage ?? 0) %"
+        }else {
+            cell.interestNameLbl.text = "Other"
+            cell.lblColor.backgroundColor = UIColor.green
+            cell.percentageLbl.text = "\(model?.otherpercentage ?? 0) %"
+        }
+        
+        
         if indexPath.row == 3 {
             cell.bottonView.isHidden = true
         }
-        
-        cell.lblColor.backgroundColor = UIColor.colors.random()
         
         return cell
     }

@@ -48,7 +48,8 @@ class MapVC: UIViewController {
     var appendNewLocation:Bool = false
     var viewmodel:EventsAroundMeViewModel = EventsAroundMeViewModel()
     var settingVM:SettingsViewModel = SettingsViewModel()
-
+    var genderbylocationVM: GenderbylocationViewModel = GenderbylocationViewModel()
+    
     var transparentView = UIView()
     var eventsTableView = UITableView()
     var eventCellID = "EventsInLocationTableViewCell"
@@ -123,6 +124,7 @@ class MapVC: UIViewController {
             }
         }
     }
+    
     
     //MARK: - Helpers
     func updateUserInterface() {
@@ -400,26 +402,21 @@ extension MapVC : GMSMapViewDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        
         updateUserInterface()
-        
         if internetConect {
-            var locationEvent: CLLocationCoordinate2D? = nil
-            locationEvent = marker.position
-            print("locationEvent: \(locationEvent?.latitude ?? 0.0),\(locationEvent?.longitude ?? 0.0)")
+            var pos: CLLocationCoordinate2D? = nil
+            pos = marker.position
+            print("locationEvent: \(pos?.latitude ?? 0.0),\(pos?.longitude ?? 0.0)")
             
             if marker.snippet == "event" {
                 //Events by location
-                getEvents(By: locationEvent?.latitude ?? 0.0, lng: locationEvent?.longitude ?? 0.0)
+                getEvents(By: pos?.latitude ?? 0.0, lng: pos?.longitude ?? 0.0)
                 CreateSlideUpMenu()
             }else {
-                let markerPos = marker.position.latitude
-                for obp in locations {
-                    if obp.location.latitude == markerPos {
-                        if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "GenderDistributionNC") as? UINavigationController, let vc = controller.viewControllers.first as? GenderDistributionVC {
-                            self.present(controller, animated: true)
-                        }
-                    }
+                if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "GenderDistributionNC") as? UINavigationController, let vc = controller.viewControllers.first as? GenderDistributionVC {
+                    vc.lat = pos?.latitude ?? 0.0
+                    vc.lng = pos?.longitude ?? 0.0
+                    self.present(controller, animated: true)
                 }
             }
         }

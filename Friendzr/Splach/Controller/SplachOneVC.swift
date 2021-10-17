@@ -37,7 +37,7 @@ class SplachOneVC: UIViewController {
                     Router().toEditProfileVC()
                 }else {
                     if Defaults.token != "" {
-                        Router().toHome()
+                        Router().toFeed()
                     }else {
                         Router().toSplach2()
                     }

@@ -363,7 +363,7 @@ class EditMyProfileVC: UIViewController {
                         if Defaults.needUpdate == 1 {
                             return
                         }else {
-                            Router().toHome()
+                            Router().toFeed()
                         }
                     }
                 }

@@ -111,6 +111,12 @@ class Router {
         go(withVC: nextVC)
     }
 
+    func toFeed()  {
+        let id = "MainTBC"
+        guard let nextVC = Initializer.createViewController(storyBoard: .Main, andId: id) as? UITabBarController else { return}
+        nextVC.selectedIndex = 2
+        go(withVC: nextVC)
+    }
 }
 
 class HomeNC: UINavigationController {

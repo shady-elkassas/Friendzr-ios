@@ -12,7 +12,6 @@ class AttendeesVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
-    
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
@@ -228,9 +227,12 @@ extension AttendeesVC:UITableViewDataSource {
         let model = viewmodel.attendees.value?[indexPath.row]
         
         
-        if model?.stutus == 1 {
-            
+        if model?.myEvent == true {
+            cell.dropDownBtn.isHidden = true
+        }else {
+            cell.dropDownBtn.isHidden = false
         }
+        
         cell.friendNameLbl.text = model?.userName
         cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "photo_img"))
         cell.joinDateLbl.text = "join Date: \(model?.joinDate ?? "")"
