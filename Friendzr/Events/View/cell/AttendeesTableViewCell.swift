@@ -19,7 +19,7 @@ class AttendeesTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        friendImg.cornerRadiusView(radius: 25)
+        friendImg.cornerRadiusView(radius: 22.5)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

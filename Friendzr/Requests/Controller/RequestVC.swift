@@ -266,7 +266,20 @@ extension RequestVC:UITableViewDataSource {
         }
         
         cell.HandleMessageBtn = {
-            self.tabBarController?.selectedIndex = 0
+            self.cellSelected = true
+            self.updateNetworkForBtns()
+            if self.internetConnect {
+                guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
+                
+                vc.eventChat = false
+                vc.eventChatID = ""
+                vc.chatuserID = model?.userId ?? ""
+                
+                vc.titleChatName = model?.userName ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else {
+                return
+            }
         }
         
         return cell

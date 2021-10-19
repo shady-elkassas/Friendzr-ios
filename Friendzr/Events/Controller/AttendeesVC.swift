@@ -16,7 +16,7 @@ class AttendeesVC: UIViewController {
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
-
+    
     let cellID = "AttendeesTableViewCell"
     var viewmodel:AttendeesViewModel = AttendeesViewModel()
     var eventID:String = ""
@@ -227,7 +227,7 @@ extension AttendeesVC:UITableViewDataSource {
         let model = viewmodel.attendees.value?[indexPath.row]
         
         
-        if model?.myEvent == true {
+        if model?.myEventO == true {
             cell.dropDownBtn.isHidden = true
         }else {
             cell.dropDownBtn.isHidden = false
@@ -271,5 +271,18 @@ extension AttendeesVC:UITableViewDataSource {
 extension AttendeesVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = viewmodel.attendees.value?[indexPath.row]
+        
+        if model?.myEventO == true {
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "") as? MyProfileVC else {return}
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+            vc.userID = model?.id ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

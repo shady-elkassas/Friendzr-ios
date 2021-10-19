@@ -471,4 +471,3 @@ extension AdvancedExampleViewController: CameraInputBarAccessoryViewDelegate {
         self.insertMessage(photoMessage)
     }
 }
-

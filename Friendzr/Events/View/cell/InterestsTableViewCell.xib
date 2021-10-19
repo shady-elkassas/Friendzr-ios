@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -27,7 +27,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="366" height="79"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HtE-VU-my3">
-                                <rect key="frame" x="25" y="34.5" width="10" height="10"/>
+                                <rect key="frame" x="10" y="34.5" width="10" height="10"/>
                                 <color key="backgroundColor" systemColor="systemRedColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="10" id="9lT-qg-ViV"/>
@@ -38,19 +38,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60 %" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yNL-RL-wdz">
-                                <rect key="frame" x="307" y="31" width="34" height="17.5"/>
+                                <rect key="frame" x="322" y="31" width="34" height="17.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                 <color key="textColor" red="0.14117647059999999" green="0.074509803920000006" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Female" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JlC-Wr-4QC">
-                                <rect key="frame" x="51" y="31" width="53" height="17.5"/>
+                                <rect key="frame" x="30" y="31" width="53" height="17.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                 <color key="textColor" red="0.14117647059999999" green="0.074509803920000006" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uBy-Pc-Jz3">
-                                <rect key="frame" x="25" y="64.5" width="316" height="2"/>
+                                <rect key="frame" x="10" y="64.5" width="346" height="2"/>
                                 <color key="backgroundColor" red="0.87843137250000003" green="0.92549019610000005" blue="0.87058823529999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="GPx-lC-8Pe"/>
@@ -61,9 +61,9 @@
                         <constraints>
                             <constraint firstItem="yNL-RL-wdz" firstAttribute="centerY" secondItem="HtE-VU-my3" secondAttribute="centerY" id="8zJ-ce-R3E"/>
                             <constraint firstItem="uBy-Pc-Jz3" firstAttribute="leading" secondItem="HtE-VU-my3" secondAttribute="leading" id="C4Q-mo-Vp4"/>
-                            <constraint firstAttribute="trailing" secondItem="yNL-RL-wdz" secondAttribute="trailing" constant="25" id="Efr-DQ-up0"/>
-                            <constraint firstItem="HtE-VU-my3" firstAttribute="leading" secondItem="1os-FU-Elw" secondAttribute="leading" constant="25" id="Hsy-MR-AGv"/>
-                            <constraint firstItem="JlC-Wr-4QC" firstAttribute="leading" secondItem="HtE-VU-my3" secondAttribute="trailing" constant="16" id="KDl-mJ-HAf"/>
+                            <constraint firstAttribute="trailing" secondItem="yNL-RL-wdz" secondAttribute="trailing" constant="10" id="Efr-DQ-up0"/>
+                            <constraint firstItem="HtE-VU-my3" firstAttribute="leading" secondItem="1os-FU-Elw" secondAttribute="leading" constant="10" id="Hsy-MR-AGv"/>
+                            <constraint firstItem="JlC-Wr-4QC" firstAttribute="leading" secondItem="HtE-VU-my3" secondAttribute="trailing" constant="10" id="KDl-mJ-HAf"/>
                             <constraint firstItem="uBy-Pc-Jz3" firstAttribute="top" secondItem="yNL-RL-wdz" secondAttribute="bottom" constant="16" id="NlY-bG-h4j"/>
                             <constraint firstItem="HtE-VU-my3" firstAttribute="centerY" secondItem="1os-FU-Elw" secondAttribute="centerY" id="SlW-4W-UHJ"/>
                             <constraint firstItem="uBy-Pc-Jz3" firstAttribute="trailing" secondItem="yNL-RL-wdz" secondAttribute="trailing" id="f6m-cn-kBW"/>

@@ -50,12 +50,12 @@ class TagsVC: UIViewController {
         self.title = "Tags"
         clearNavigationBar()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.async {
             self.updateUserInterface()
         }
     }
     
-    func addCats(node:InterestObj)  {
+    func addTags(node:InterestObj)  {
         let name = node.name
         let color = UIColor.colors.randomItem()
         
@@ -64,15 +64,6 @@ class TagsVC: UIViewController {
         node.selectedColor = UIColor.FriendzrColors.primary
         magnetic.addChild(node)
     }
-    
-//    override func viewDidAppear(_ animated: Bool) {
-//        super.viewDidAppear(animated)
-//
-//        for _ in 0..<12 {
-//            add(nil)
-//        }
-//    }
-    
     
     //MARK: - APIs
     
@@ -107,7 +98,7 @@ class TagsVC: UIViewController {
                 self.tryAgainBtn.alpha = 0.0
                 
                 for item in data {
-                    self.addCats(node: item)
+                    self.addTags(node: item)
                 }
                 self.normalInterests = data
             }
@@ -154,23 +145,26 @@ class TagsVC: UIViewController {
 
     //MARK: - Actions
     @IBAction func add(_ sender: UIControl?) {
-//        if self.magnetic.selectedChildren.count == 0 {
-//            self.showAlert(withMessage: "you have to select Interests".localizedString)
-//        } else {
-//
-//        }
-//
+        ids.removeAll()
+        names.removeAll()
+        
         for itm in self.magnetic.selectedChildren {
             print("selected item")
             print(itm.nodeId)
             
             ids.append(itm.nodeId)
             names.append(itm.text!)
-            onInterestsCallBackResponse!(ids,names)
+            
+            if ids.count > 5 {
+                self.showAlert(withMessage: "Choose maximum 5 interests".localizedString)
+                return
+            }else {
+                onInterestsCallBackResponse!(ids,names)
+            }
         }
         
         if ids.count == 0 {
-            self.showAlert(withMessage: "you have to select Interests".localizedString)
+            self.showAlert(withMessage: "You have to select Interests".localizedString)
             return
         }else {
             self.onPopup()
@@ -182,7 +176,7 @@ class TagsVC: UIViewController {
         DispatchQueue.main.async() {
             if self.normalInterests.count > 0 {
                 for item in  self.normalInterests {
-                    self.addCats(node: item)
+                    self.addTags(node: item)
                 }
             } else {
                 self.showLoading()
@@ -194,7 +188,7 @@ class TagsVC: UIViewController {
                     }
                     guard let data = cats else {return}
                     for item in data {
-                        self.addCats(node: item)
+                        self.addTags(node: item)
                     }
                     self.normalInterests = data
                     

@@ -65,6 +65,9 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        transparentView.addGestureRecognizer(tap)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -728,6 +731,12 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
             guard let data = data else {return}
             self.model = data
             self.setupData()
+            
+            DispatchQueue.main.async {
+                self.transparentView.isHidden = true
+                self.distanceSliderView.isHidden = true
+                self.ageSliderView.isHidden = true
+            }
         }
     }
     
@@ -743,13 +752,16 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
             guard let data = data else {return}
             self.model = data
             self.setupData()
+            
+            DispatchQueue.main.async {
+                self.transparentView.isHidden = true
+                self.distanceSliderView.isHidden = true
+                self.ageSliderView.isHidden = true
+            }
         }
     }
     
     func createDistanceSlider() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
-        transparentView.addGestureRecognizer(tap)
-        
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
             self.transparentView.isHidden = false
             self.ageSliderView.isHidden = true
@@ -785,8 +797,6 @@ class SettingsVC: UIViewController , CLLocationManagerDelegate {
     }
     
     func createAgeSlider() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
-        transparentView.addGestureRecognizer(tap)
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
             self.transparentView.isHidden = false

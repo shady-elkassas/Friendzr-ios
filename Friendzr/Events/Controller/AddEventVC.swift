@@ -159,7 +159,7 @@ class AddEventVC: UIViewController {
         
         dateAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
-            formatter.dateFormat = "EEEE, MMM d,yyyy"
+            formatter.dateFormat = "yyyy-MM-dd"
             self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
             
             let formatter2 = DateFormatter()
@@ -210,7 +210,7 @@ class AddEventVC: UIViewController {
         
         dateAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
-            formatter.dateFormat = "EEEE, MMM d,yyyy"
+            formatter.dateFormat = "yyyy-MM-dd"
             self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
             
             let formatter2 = DateFormatter()
@@ -246,13 +246,18 @@ class AddEventVC: UIViewController {
     @IBAction func startTimeBtn(_ sender: Any) {
         timeAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
+        var comps2:DateComponents = DateComponents()
+        comps2.day = -1
+
+        self.timeAlertView?.timeView.minimumDate = self.timeAlertView?.timeView.calendar.date(from: comps2)
+
         timeAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
-            formatter.dateFormat = "h:mm a"
+            formatter.dateFormat = "HH:mm"
             self.startTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
             
             let formatter2 = DateFormatter()
-            formatter2.dateFormat = "h:mm"
+            formatter2.dateFormat = "HH:mm"
             self.startTime = formatter2.string(from: (self.timeAlertView?.timeView.date)!)
             
             UIView.animate(withDuration: 0.3, animations: {
@@ -283,13 +288,18 @@ class AddEventVC: UIViewController {
     @IBAction func endTimeBtn(_ sender: Any) {
         timeAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
+        var comps2:DateComponents = DateComponents()
+        comps2.day = -1
+
+        self.timeAlertView?.timeView.minimumDate = self.timeAlertView?.timeView.calendar.date(from: comps2)
+
         timeAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
-            formatter.dateFormat = "h:mm a"
+            formatter.dateFormat = "HH:mm"
             self.endTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
             
             let formatter2 = DateFormatter()
-            formatter2.dateFormat = "h:mm"
+            formatter2.dateFormat = "HH:mm"
             self.endTime = formatter2.string(from: (self.timeAlertView?.timeView.date)!)
             
             UIView.animate(withDuration: 0.3, animations: {
@@ -398,12 +408,12 @@ class AddEventVC: UIViewController {
         descriptionTxtView.delegate = self
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMM d,yyyy"
+        formatter.dateFormat = "yyyy-MM-dd"
         self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
         self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
         
         let formattrTime = DateFormatter()
-        formattrTime.dateFormat = "HH:mm a"
+        formattrTime.dateFormat = "HH:mm"
         self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
         self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
     }

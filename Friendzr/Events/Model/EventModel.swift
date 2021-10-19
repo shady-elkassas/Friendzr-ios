@@ -91,6 +91,7 @@ class EventObj: NSObject,Mappable {
     var eventdate: String? = ""
     var timefrom: String? = ""
     var timeto: String? = ""
+    var datetext:String? = ""
     var title: String? = ""
     var image: String? = ""
     var id: String? = ""
@@ -105,7 +106,9 @@ class EventObj: NSObject,Mappable {
     var lat:String? = ""
     var lang:String? = ""
     var eventdateto:String? = ""
-    
+    var categorieimage:String? = ""
+    var categorieid:Int? = 0
+
     override init() {
         super.init()
     }
@@ -115,6 +118,9 @@ class EventObj: NSObject,Mappable {
     // Mappable
     func mapping(map: Map) {
         eventdate    <- map["eventdate"]
+        datetext    <- map["datetext"]
+        categorieimage    <- map["categorieimage"]
+        categorieid    <- map["categorieid"]
         allday   <- map["allday"]
         timefrom  <- map["timefrom"]
         timeto  <- map["timeto"]

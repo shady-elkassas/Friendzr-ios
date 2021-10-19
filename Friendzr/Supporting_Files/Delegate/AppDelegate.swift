@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
+    var badgeNumber:Int = 0
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -38,8 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
         
-        application.applicationIconBadgeNumber = 0
-
         if #available(iOS 13, *) {
         } else {
             Router().toSplach()
@@ -76,11 +75,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerForRemoteNotifications()
         
         networkReachability()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateBadgeApp), name: Notification.Name("updateBadgeApp"), object: nil)
+        application.applicationIconBadgeNumber = 0
         return true
     }
     
     // MARK: UISceneSession Lifecycle
-    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        // reset badge count
+        
+        application.applicationIconBadgeNumber = 0
+    }
+
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
@@ -166,12 +173,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DispatchQueue.main.async(execute: {
             self.window?.rootViewController?.present(alert, animated: true)
         })
+        
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
         
         // Print full message.
         print(userInfo)
+        
+        NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -196,7 +206,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Print full message.
         print(userInfo)
-        
+
+        NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         completionHandler(UIBackgroundFetchResult.newData)
     }
     
@@ -294,6 +305,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         completionHandler()
     }
+    
+    
+    @objc func updateBadgeApp() {
+        let state = UIApplication.shared.applicationState
+        
+        switch state {
+        case .inactive:
+            print("Inactive")
+            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+        case .background:
+            print("Background")
+            // update badge count here
+            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+        case .active:
+            print("Active")
+            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+        default:
+            break
+        }
+    }
 }
 
 
@@ -330,25 +361,30 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // Print full message.
         print(userInfo)
-
-//        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-
+        
         let action = userInfo["Action"] as? String //action transaction
         if action == "user_chat" {
             NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
         }else if action == "event_chat" {
             NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
         }
-      
+        
+        
         // Change this to your preferred presentation option
         let isMute: Bool = userInfo["muit"] as? Bool ?? false
         
         if isMute == true {
             completionHandler([[]])
         }else {
-            completionHandler([[.alert, .badge, .sound]])
+            if #available(iOS 14.0, *) {
+                completionHandler([[.alert, .badge, .sound,.banner,.list]])
+            } else {
+                // Fallback on earlier versions
+                completionHandler([[.alert, .badge, .sound]])
+            }
         }
-        
+                
+        NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
@@ -363,6 +399,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
         
-        completionHandler([.alert, .badge, .sound])
+        if #available(iOS 14.0, *) {
+            completionHandler([[.alert, .badge, .sound,.banner,.list]])
+        } else {
+            // Fallback on earlier versions
+            completionHandler([[.alert, .badge, .sound]])
+        }
     }
 }

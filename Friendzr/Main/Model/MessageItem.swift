@@ -108,7 +108,7 @@ internal struct UserMessage: MessageType {
     var sender: SenderType {
         return user
     }
-    var sentDate: Date
+    var sentDate: Date = Date()
     var kind: MessageKind
 
     var user: UserSender

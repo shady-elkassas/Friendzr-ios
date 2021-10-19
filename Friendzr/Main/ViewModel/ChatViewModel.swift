@@ -35,7 +35,7 @@ class ChatViewModel {
         let url = URLs.baseURLFirst + "Messages/UsersinChat"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
-        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]
+        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":20]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
@@ -50,7 +50,7 @@ class ChatViewModel {
             else {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
-                    if pageNumber > 0 {
+                    if pageNumber > 1 {
                         for itm in toAdd.data ?? [] {
                             if !(self.chatsTemp.data?.contains(where: { $0.id == itm.id }) ?? false) {
                                 self.chatsTemp.data?.append(itm)

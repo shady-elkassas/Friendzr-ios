@@ -13,9 +13,15 @@ import CoreLocation
 import AVFoundation
 
 struct UserSender: SenderType,Equatable {
-    var senderId: String
-    var displayName: String
-    var photoURL:UIImageView
+    var senderId: String = ""
+    var displayName: String = ""
+    var photoURL:UIImageView = UIImageView()
+    
+    init(senderId:String,photoURL:String,displayName:String) {
+        self.senderId = senderId
+        self.displayName = displayName
+        self.photoURL.sd_setImage(with: URL(string: photoURL), placeholderImage: UIImage(named: "photo_img"))
+    }
 }
 
 final internal class SimpleDataModel {
@@ -38,10 +44,11 @@ final internal class SimpleDataModel {
         case Custom
         case ShareContact
     }
-    let system = UserSender(senderId: "000000", displayName: "System", photoURL: UIImageView(image: UIImage(named: "")))
-    let nathan = UserSender(senderId: "000001", displayName: "Nathan Tannar", photoURL: UIImageView(image: UIImage(named: "")))
-    let steven = UserSender(senderId: "000002", displayName: "Steven Deutsch", photoURL: UIImageView(image: UIImage(named: "")))
-    let wu = UserSender(senderId: "000003", displayName: "Wu Zhong", photoURL: UIImageView(image: UIImage(named: "")))
+    
+    let system = UserSender(senderId: "000001", photoURL: "", displayName: "system")
+    let nathan = UserSender(senderId: "000001", photoURL: "", displayName: "nathan")
+    let steven = UserSender(senderId: "000001", photoURL: "", displayName: "steven")
+    let wu = UserSender(senderId: "000001", photoURL: "", displayName: "wu")
 
     lazy var senders = [nathan, steven, wu]
     
@@ -254,12 +261,12 @@ final internal class SimpleDataModel {
         completion(messages)
     }
 
-    func getAvatarFor(sender: SenderType,imgStr:String) -> Avatar {
+    func getAvatarFor(sender: SenderType,imag:UIImageView) -> Avatar {
         let firstName = sender.displayName.components(separatedBy: " ").first
         let lastName = sender.displayName.components(separatedBy: " ").first
         let initials = "\(firstName?.first ?? "A")\(lastName?.first ?? "A")"
-        var imag = UIImageView()
-        imag.sd_setImage(with: URL(string: imgStr), placeholderImage: UIImage(named: "avatar_ic"))
+//        let imag = UIImageView()
+//        imag.sd_setImage(with: URL(string: imgStr), placeholderImage: UIImage(named: "avatar_ic"))
         
         switch sender.senderId {
         case "000001":

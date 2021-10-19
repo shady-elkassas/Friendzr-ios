@@ -20,7 +20,6 @@ import FirebaseFirestore
 class ChatVC: MessagesViewController {
     
     // MARK: - Public properties
-    var now = Date()
     var soundRecorder: AVAudioRecorder!
     var soundPlayer:AVAudioPlayer!
     let fileRecordName = "demo.caf"
@@ -35,10 +34,14 @@ class ChatVC: MessagesViewController {
     /// The `BasicAudioController` control the AVAudioPlayer state (play, pause, stop) and update audio cell UI accordingly.
     lazy var audioController = AudioVC(messageCollectionView: messagesCollectionView)
     lazy var messageList: [UserMessage] = []
-    var refreshControl = UIRefreshControl()
-    
+    private(set) lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(loadMoreMessages), for: .valueChanged)
+        return control
+    }()
+
     // MARK: - Private properties
-    var senderUser = UserSender(senderId: Defaults.token, displayName: Defaults.userName, photoURL: UIImageView(image: UIImage(named: "")))
+    var senderUser = UserSender(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName)
     
     var viewmodel:ChatViewModel = ChatViewModel()
     
@@ -56,11 +59,12 @@ class ChatVC: MessagesViewController {
     var titleChatName:String = ""
     var receiveName:String = ""
     var receiveimg = ""
-    
+    var eventImage = ""
     
     private let formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
+        formatter.dateStyle = .full
+        formatter.dateFormat = "yyyy-MM-dd HH:mm"
         return formatter
     }()
     
@@ -87,8 +91,6 @@ class ChatVC: MessagesViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessages), name: Notification.Name("listenToMessages"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessagesForEvent), name: Notification.Name("listenToMessagesForEvent"), object: nil)
-
-        pullToRefresh()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -158,20 +160,6 @@ class ChatVC: MessagesViewController {
         messageInputBar.inputTextView.textContainerInset.bottom = 8
     }
     
-    func dateAddingRandomTime() -> Date {
-        let randomNumber = Int(arc4random_uniform(UInt32(10)))
-        if randomNumber % 2 == 0 {
-            let date = Calendar.current.date(byAdding: .hour, value: randomNumber, to: now)!
-            now = date
-            return date
-        } else {
-            let randomMinute = Int(arc4random_uniform(UInt32(59)))
-            let date = Calendar.current.date(byAdding: .minute, value: randomMinute, to: now)!
-            now = date
-            return date
-        }
-    }
-    
     func setupMessages() {
         if eventChat {
             self.getEventChatMessages(pageNumber: 1)
@@ -196,10 +184,10 @@ class ChatVC: MessagesViewController {
     
     func getDate(dateStr:String,timeStr:String) -> Date? {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         dateFormatter.timeZone = TimeZone.current
         dateFormatter.locale = Locale.current
-        return dateFormatter.date(from: "\(dateStr)T\(timeStr):00") // replace Date String
+        return dateFormatter.date(from: "\(dateStr)T\(timeStr):00+0000") // replace Date String
     }
     
     func getUserChatMessages(pageNumber:Int) {
@@ -215,24 +203,20 @@ class ChatVC: MessagesViewController {
                 self.hideLoading()
                 
                 messageList.removeAll()
+                
                 for itm in value.data ?? [] {
                     if itm.currentuserMessage! {
-                        messageList.append(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId , displayName: senderUser.displayName , photoURL: UIImageView(image: UIImage(named: ""))), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!)!))
+                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!) ?? Date()), at: 0)
                     }else {
-                        messageList.append(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", displayName: itm.username ?? "", photoURL: UIImageView(image: UIImage(named: ""))), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!)!))
+                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!) ?? Date()), at: 0)
                         
                         receiveimg = itm.userimage ?? ""
                         receiveName = itm.username ?? ""
                     }
                 }
                 
-                if pageNumber > 1 {
-                    self.messagesCollectionView.reloadDataAndKeepOffset()
-                    self.refreshControl.endRefreshing()
-                }else {
-                    self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-                }
+                self.messagesCollectionView.reloadData()
+                self.refreshControl.endRefreshing()
                 
                 updateTitleView(image: receiveimg, subtitle: receiveName, baseColor: .black)
             }
@@ -263,24 +247,18 @@ class ChatVC: MessagesViewController {
                 messageList.removeAll()
                 for itm in value.pagedModel?.data ?? [] {
                     if itm.currentuserMessage! {
-                        messageList.append(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId , displayName: senderUser.displayName , photoURL: UIImageView(image: UIImage(named: ""))), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!)!))
-                        
+                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!) ?? Date()), at: 0)
                     }else {
-                        messageList.append(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", displayName: itm.username ?? "", photoURL: UIImageView(image: UIImage(named: ""))), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!)!))
+                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!) ?? Date()), at: 0)
                         
                         receiveimg = itm.userimage ?? ""
                         receiveName = itm.username ?? ""
                     }
                 }
                 
-                if pageNumber > 1 {
-                    self.messagesCollectionView.reloadDataAndKeepOffset()
-                }else {
-                    self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-                }
-                
-                updateTitleView(image: receiveimg, subtitle: titleChatName, baseColor: .black)
+                self.messagesCollectionView.reloadData()
+                self.refreshControl.endRefreshing()
+                updateTitleView(image: eventImage, subtitle: titleChatName, baseColor: .black)
             }
         }
         
@@ -300,11 +278,11 @@ class ChatVC: MessagesViewController {
     }
     
     func HandleinvalidUrl() {
-        self.view.makeToast("sorry for that we have some maintaince with our servers please try again in few moments".localizedString)
+        self.showAlert(withMessage: "sorry for that we have some maintaince with our servers please try again in few moments".localizedString)
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.showAlert(withMessage: "No avaliable newtwok ,Please try again!".localizedString)
     }
     
     @objc func loadMoreMessages() {
@@ -316,18 +294,6 @@ class ChatVC: MessagesViewController {
                 self.getUserChatMessages(pageNumber: self.currentPage)
             }
         }
-    }
-    
-    func pullToRefresh() {
-        self.refreshControl.attributedTitle = NSAttributedString(string: "")
-        self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
-        self.messagesCollectionView.addSubview(refreshControl)
-    }
-    
-    @objc func didPullToRefresh() {
-        print("Refersh")
-        loadMoreMessages()
-        self.refreshControl.endRefreshing()
     }
 }
 
@@ -381,13 +347,16 @@ extension ChatVC: MessagesDataSource {
     }
     
     func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        let name = (isFromCurrentSender(message: message) ? senderUser.displayName : receiveName)
+        let model = messageList[indexPath.section]
+
+        let name = (isFromCurrentSender(message: message) ? senderUser.displayName : model.user.displayName)
         
         return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.init(name: "Montserrat-Light", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2)])
     }
     
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        let dateString = formatter.string(from: messageList[indexPath.row].sentDate)
+        let model = messageList[indexPath.section]
+        let dateString = formatter.string(from: model.sentDate)
         return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.init(name: "Montserrat-Light", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2)])
     }
     
@@ -592,18 +561,19 @@ extension ChatVC: InputBarAccessoryViewDelegate {
                     return
                 }
                 
-                guard let ـ = data else {
+                guard data != nil else {
                     return
                 }
-                
+
                 self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date()))
+                
+                DispatchQueue.main.async {
+                    inputBar.inputTextView.text = ""
+                    self.messagesCollectionView.reloadData()
+                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                }
             }
             
-            DispatchQueue.main.async {
-                inputBar.inputTextView.text = ""
-                self.messagesCollectionView.reloadData()
-                self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-            }
         }else {
             viewmodel.SendMessage(withUserId: chatuserID , AndMessage: text, AndMessageType: 1, attachedImg: false, AndAttachImage: UIImage()) { error, data in
                 if let error = error {
@@ -668,8 +638,11 @@ extension ChatVC: MessagesDisplayDelegate {
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
-        let avatar1 = SimpleDataModel.shared.getAvatarFor(sender: message.sender, imgStr: Defaults.Image)
-        let avatar2 = SimpleDataModel.shared.getAvatarFor(sender: message.sender, imgStr: receiveimg)
+        
+        let model = messageList[indexPath.section]
+        
+        let avatar1 = SimpleDataModel.shared.getAvatarFor(sender: message.sender, imag: model.user.photoURL)
+        let avatar2 = SimpleDataModel.shared.getAvatarFor(sender: message.sender, imag: model.user.photoURL) // receive img
         avatarView.set(avatar: isFromCurrentSender(message: message) ? avatar1 : avatar2)
     }
     

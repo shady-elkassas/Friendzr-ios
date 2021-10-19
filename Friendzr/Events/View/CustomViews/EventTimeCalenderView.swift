@@ -35,9 +35,9 @@ class EventTimeCalenderView: UIView {
         timeView.tintColor = UIColor.FriendzrColors.primary
         timeView.cornerRadiusView(radius: 12)
         
-        let formattrTime = DateFormatter()
-        formattrTime.dateFormat = "HH:mm a"
-        startTime = formattrTime.string(from: (timeView.date))
+//        let formattrTime = DateFormatter()
+//        formattrTime.dateFormat = "HH:mm"
+//        startTime = formattrTime.string(from: (timeView.date))
     }
     
     @IBAction func cancelBtn(_ sender: Any) {

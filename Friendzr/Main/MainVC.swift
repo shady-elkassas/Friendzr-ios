@@ -22,9 +22,10 @@ class MainVC: UIViewController {
     
     //MARK: - Properties
     let cellID = "ChatListTableViewCell"
-    //    var UsersList = [UserChatList]()
     
     var viewmodel:ChatViewModel = ChatViewModel()
+    var searchVM:SearchUserViewModel = SearchUserViewModel()
+    
     var refreshControl = UIRefreshControl()
     
     var internetConect:Bool = false
@@ -32,6 +33,8 @@ class MainVC: UIViewController {
     
     var currentPage : Int = 1
     var isLoadingList : Bool = false
+    
+    var isSearch:Bool = false
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -49,8 +52,6 @@ class MainVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         hideNavigationBar(NavigationBar: false, BackButton: true)
-//        setupNavBar()
-
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
@@ -61,7 +62,7 @@ class MainVC: UIViewController {
     @objc func reloadChatList() {
         getAllChatList(pageNumber: 1)
     }
-
+    
     func loadMoreItemsForList(){
         currentPage += 1
         getAllChatList(pageNumber: currentPage)
@@ -86,6 +87,34 @@ class MainVC: UIViewController {
         
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else if error == "Bad Request" {
+                    HandleinvalidUrl()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
+            }
+        }
+    }
+    
+    func getSearchUsers(text:String) {
+//        self.showLoading()
+        searchVM.SearshUsersinChat(ByUserName: text)
+        searchVM.usersinChat.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+                showEmptyView()
+            }
+        }
+        
+        // Set View Model Event Listener
+        searchVM.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 self.hideLoading()
                 if error == "Internal Server Error" {
@@ -203,42 +232,51 @@ class MainVC: UIViewController {
         searchBar.searchTextField.attributedPlaceholder = placeHolder
         searchBar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
     }
-    
 }
 
 //MARK: - Extensions
 extension MainVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.listChat.value?.data?.count ?? 0
+        if isSearch {
+            return searchVM.usersinChat.value?.data?.count ?? 0
+        }else {
+            return viewmodel.listChat.value?.data?.count ?? 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ChatListTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.listChat.value?.data?[indexPath.row]
-        cell.nameLbl.text = model?.chatName
-        cell.lastMessageLbl.text = model?.messages
-        cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
-
-        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "photo_img"))
-        
-        if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
-            if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
-                cell.underView.isHidden = true
+        if isSearch {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ChatListTableViewCell else {return UITableViewCell()}
+            let model = searchVM.usersinChat.value?.data?[indexPath.row]
+            cell.nameLbl.text = model?.chatName
+            cell.lastMessageLbl.text = model?.messages
+            cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
+            
+            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "photo_img"))
+            
+            if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
+                if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
+                    cell.underView.isHidden = true
+                }
             }
+            return cell
+        }else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ChatListTableViewCell else {return UITableViewCell()}
+            let model = viewmodel.listChat.value?.data?[indexPath.row]
+            cell.nameLbl.text = model?.chatName
+            cell.lastMessageLbl.text = model?.messages
+            cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
+            
+            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "photo_img"))
+            
+            if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
+                if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
+                    cell.underView.isHidden = true
+                }
+            }
+            return cell
         }
-        
-        //        if model.isArchive {
-        //            cell.containerView.backgroundColor = .systemBlue
-        //        }else if model.isMute {
-        //            cell.containerView.backgroundColor = .systemGreen
-        //        }else {
-        //            cell.containerView.backgroundColor = .white
-        //        }
-        
-        return cell
     }
-    
-    
 }
 extension MainVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -246,16 +284,19 @@ extension MainVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = viewmodel.listChat.value?.data?[indexPath.row]
-
+        
+        var model = viewmodel.listChat.value?.data?[indexPath.row]
+        
+        if isSearch {
+            model = searchVM.usersinChat.value?.data?[indexPath.row]
+        }
+        
         guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
-        
-//        vc.chatUserModel = model
-        
         if model?.isevent == true {
             vc.eventChat = true
             vc.eventChatID = model?.id ?? ""
             vc.chatuserID = ""
+            vc.eventImage = model?.image ?? ""
         }else {
             vc.eventChat = false
             vc.eventChatID = ""
@@ -329,7 +370,6 @@ extension MainVC:UITableViewDelegate {
                             self.tableView.deleteRows(at: [indexPath], with: .fade)
                             self.tableView.endUpdates()
                         }
-                        
                     }
                 }))
                 settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -461,31 +501,41 @@ extension MainVC:UITableViewDelegate {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
-            self.isLoadingList = true
-            if currentPage < viewmodel.listChat.value?.totalPages ?? 0 {
-                self.tableView.tableFooterView = self.createFooterView()
-                
-                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
-                    print("self.currentPage >> \(self.currentPage)")
-                    self.loadMoreItemsForList()
+        if isSearch {
+            print("Search")
+        }else {
+            if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+                self.isLoadingList = true
+                if currentPage < viewmodel.listChat.value?.totalPages ?? 0 {
+                    self.tableView.tableFooterView = self.createFooterView()
+                    
+                    DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                        print("self.currentPage >> \(self.currentPage)")
+                        self.loadMoreItemsForList()
+                    }
+                }else {
+                    self.tableView.tableFooterView = nil
+                    DispatchQueue.main.async {
+                        self.view.makeToast("No more data here")
+                    }
+                    return
                 }
-            }else {
-                self.tableView.tableFooterView = nil
-                DispatchQueue.main.async {
-                    self.view.makeToast("No more data here")
-                }
-                return
             }
         }
     }
-    
 }
 
 extension MainVC: UISearchBarDelegate{
     @objc func updateSearchResult() {
         guard let text = searchBar.text else {return}
         print(text)
+        if text != "" {
+            isSearch = true
+            getSearchUsers(text: text)
+        }else {
+            isSearch = false
+            getAllChatList(pageNumber: 0)
+        }
     }
     
     func initNewConversationBarButton() {

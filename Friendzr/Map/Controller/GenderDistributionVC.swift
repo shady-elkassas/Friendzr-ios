@@ -84,6 +84,7 @@ extension GenderDistributionVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? InterestsTableViewCell else {return UITableViewCell()}
         
         let model = genderbylocationVM.gender.value
+        
         if indexPath.row == 0 {
             cell.interestNameLbl.text = "Male"
             cell.lblColor.backgroundColor = UIColor.blue

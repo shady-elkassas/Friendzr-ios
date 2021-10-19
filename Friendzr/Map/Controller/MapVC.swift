@@ -36,7 +36,7 @@ class MapVC: UIViewController {
     
     //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("GenderDistributionView", owner: self, options: nil)?.first as? GenderDistributionView
-
+    
     var locations:[EventsLocation] = [EventsLocation]()
     var location: CLLocationCoordinate2D? = nil
     let locationManager = CLLocationManager()
@@ -61,8 +61,8 @@ class MapVC: UIViewController {
     let screenSize = UIScreen.main.bounds.size
     
     var internetConect:Bool = false
-//    var btnsSelect:Bool = false
-
+    //    var btnsSelect:Bool = false
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,6 +113,7 @@ class MapVC: UIViewController {
                 self.eventsTableView.dataSource = self
                 self.eventsTableView.delegate = self
                 self.eventsTableView.reloadData()
+                
             }
         }
         
@@ -152,7 +153,7 @@ class MapVC: UIViewController {
     func HandleInternetConnection() {
         self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
     }
-
+    
     // locations markers
     func setupMarkers() {
         let model = viewmodel.locations.value
@@ -190,7 +191,7 @@ class MapVC: UIViewController {
     
     var iconViewMap:UIView = {
         let view = UIView()
-//        view.backgroundColor = .red
+        //        view.backgroundColor = .red
         view.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         view.cornerRadiusView(radius: 15)
         return view
@@ -346,6 +347,8 @@ class MapVC: UIViewController {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
             self.transparentView.alpha = 0.0
             self.eventsTableView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height/2.05)
+            
+            self.viewmodel.events.value?.removeAll()
         }
     }
     
@@ -442,32 +445,38 @@ extension MapVC : CLLocationManagerDelegate {
     }
     
     func checkLocationPermission() {
-        if CLLocationManager.locationServicesEnabled() {
-            switch(CLLocationManager.authorizationStatus()) {
-            case .notDetermined, .restricted, .denied:
-                //open setting app when location services are disabled
-                createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
-            case .authorizedAlways, .authorizedWhenInUse:
-                print("Access")
-                settingVM.toggleAllowMyLocation(allowMyLocation: true) { error, data in
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
+        if Defaults.allowMyLocation == true {
+            if CLLocationManager.locationServicesEnabled() {
+                switch(CLLocationManager.authorizationStatus()) {
+                case .notDetermined, .restricted, .denied:
+                    //open setting app when location services are disabled
+                    createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+                case .authorizedAlways, .authorizedWhenInUse:
+                    print("Access")
+                    settingVM.toggleAllowMyLocation(allowMyLocation: true) { error, data in
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let data = data else {
+                            return
+                        }
+                        
+                        Defaults.allowMyLocation = data.allowmylocation ?? true
                     }
-                    
-                    guard let data = data else {
-                        return
-                    }
-
-                    Defaults.allowMyLocation = data.allowmylocation ?? true
+                default:
+                    break
                 }
-            default:
-                break
+            } else {
+                print("Location services are not enabled")
+                createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
             }
-        } else {
-            print("Location services are not enabled")
-            createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+        }else {
+            self.showAlert(withMessage: "please allow your location")
+            return
         }
+        
     }
 }
 

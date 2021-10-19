@@ -187,6 +187,11 @@
 		439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */; };
 		439DDE9426F749DC00E09FC1 /* EventsInLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */; };
 		43BA37992700A121003F28FA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BA37982700A121003F28FA /* Reachability.swift */; };
+		43CFB00C271C56EB000CB41E /* InterestsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CFB00A271C56EB000CB41E /* InterestsCollectionViewCell.swift */; };
+		43CFB00D271C56EB000CB41E /* InterestsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43CFB00B271C56EB000CB41E /* InterestsCollectionViewCell.xib */; };
+		43CFB010271C56FC000CB41E /* GenderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CFB00E271C56FC000CB41E /* GenderCollectionViewCell.swift */; };
+		43CFB011271C56FC000CB41E /* GenderCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43CFB00F271C56FC000CB41E /* GenderCollectionViewCell.xib */; };
+		43D10EAB271EB6440099A995 /* SearchUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D10EAA271EB6440099A995 /* SearchUserViewModel.swift */; };
 		43D545A426CB9DDD0064660A /* AddEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545A326CB9DDD0064660A /* AddEventVC.swift */; };
 		43D545A726CBB02D0064660A /* EventCalendarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D545A626CBB02D0064660A /* EventCalendarView.xib */; };
 		43D545A926CBB0450064660A /* EventCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545A826CBB0450064660A /* EventCalendarView.swift */; };
@@ -456,6 +461,11 @@
 		439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsInLocationTableViewCell.swift; sourceTree = "<group>"; };
 		439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventsInLocationTableViewCell.xib; sourceTree = "<group>"; };
 		43BA37982700A121003F28FA /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		43CFB00A271C56EB000CB41E /* InterestsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsCollectionViewCell.swift; sourceTree = "<group>"; };
+		43CFB00B271C56EB000CB41E /* InterestsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InterestsCollectionViewCell.xib; sourceTree = "<group>"; };
+		43CFB00E271C56FC000CB41E /* GenderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderCollectionViewCell.swift; sourceTree = "<group>"; };
+		43CFB00F271C56FC000CB41E /* GenderCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenderCollectionViewCell.xib; sourceTree = "<group>"; };
+		43D10EAA271EB6440099A995 /* SearchUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserViewModel.swift; sourceTree = "<group>"; };
 		43D545A326CB9DDD0064660A /* AddEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventVC.swift; sourceTree = "<group>"; };
 		43D545A626CBB02D0064660A /* EventCalendarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventCalendarView.xib; sourceTree = "<group>"; };
 		43D545A826CBB0450064660A /* EventCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCalendarView.swift; sourceTree = "<group>"; };
@@ -700,6 +710,10 @@
 				430D426026D3A10F00188E42 /* EventTableViewCell.xib */,
 				4330757326E76CB3002940DF /* SeeMoreTableViewCell.swift */,
 				4330757426E76CB3002940DF /* SeeMoreTableViewCell.xib */,
+				43CFB00A271C56EB000CB41E /* InterestsCollectionViewCell.swift */,
+				43CFB00B271C56EB000CB41E /* InterestsCollectionViewCell.xib */,
+				43CFB00E271C56FC000CB41E /* GenderCollectionViewCell.swift */,
+				43CFB00F271C56FC000CB41E /* GenderCollectionViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -722,6 +736,7 @@
 				4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */,
 				4320A65126F234BF003604EE /* UpdateLocationViewModel.swift */,
 				4397236C2709CE9E0062D684 /* ChatViewModel.swift */,
+				43D10EAA271EB6440099A995 /* SearchUserViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1575,9 +1590,11 @@
 				4382AC9D26C27FF2005C1857 /* Montserrat-Regular.ttf in Resources */,
 				43FBA22026D4F105005F4FBF /* sound1.m4a in Resources */,
 				430D425A26D3854200188E42 /* InterestsTableViewCell.xib in Resources */,
+				43CFB011271C56FC000CB41E /* GenderCollectionViewCell.xib in Resources */,
 				430A350726CA5AFD00477A94 /* CalendarView.xib in Resources */,
 				4382AC9326C27FF2005C1857 /* Montserrat-Black.ttf in Resources */,
 				4382AC5F26C27B79005C1857 /* LoadingView.xib in Resources */,
+				43CFB00D271C56EB000CB41E /* InterestsCollectionViewCell.xib in Resources */,
 				430D426226D3A10F00188E42 /* EventTableViewCell.xib in Resources */,
 				4382ACC426C2C37A005C1857 /* Lato-Semibold.ttf in Resources */,
 				4382AC2326C27195005C1857 /* Assets.xcassets in Resources */,
@@ -1753,10 +1770,12 @@
 				43FBA22226D4F105005F4FBF /* TableViewCells.swift in Sources */,
 				43FBA20C26D4F105005F4FBF /* CustomTextLayoutSizeCalculator.swift in Sources */,
 				437EE47226E8B39700765089 /* LeaveEventViewModel.swift in Sources */,
+				43CFB00C271C56EB000CB41E /* InterestsCollectionViewCell.swift in Sources */,
 				4382AC5926C27A65005C1857 /* StoryBoard.swift in Sources */,
 				430D425D26D38D9B00188E42 /* AttendeesTableViewCell.swift in Sources */,
 				430A350526CA504100477A94 /* EditMyProfileVC.swift in Sources */,
 				4308EB7A26EA0FD500D71379 /* FeedModel.swift in Sources */,
+				43CFB010271C56FC000CB41E /* GenderCollectionViewCell.swift in Sources */,
 				4320A65226F234BF003604EE /* UpdateLocationViewModel.swift in Sources */,
 				43F473BB26E63FAE001E4FAE /* EditEventViewModel.swift in Sources */,
 				4345BA3C271C15410076101A /* GenderbylocationModel.swift in Sources */,
@@ -1795,6 +1814,7 @@
 				43FBA22426D4F105005F4FBF /* CustomMessageContentCell.swift in Sources */,
 				4320A64626F1FC7B003604EE /* AllFriendesViewModel.swift in Sources */,
 				4336D11226DB7F490093C7A6 /* RequestComponent.swift in Sources */,
+				43D10EAB271EB6440099A995 /* SearchUserViewModel.swift in Sources */,
 				4308EB7E26EA34FC00D71379 /* LogoutModel.swift in Sources */,
 				434428E927171AE800269444 /* ExtensionDate.swift in Sources */,
 				43F473B726E61E7F001E4FAE /* InterestsViewModel.swift in Sources */,
