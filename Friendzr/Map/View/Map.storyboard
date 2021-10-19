@@ -38,6 +38,19 @@
                                     <action selector="addEventBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="CIM-hm-GV0"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FgW-BM-DOW">
+                                <rect key="frame" x="329" y="728" width="60" height="60"/>
+                                <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="3cg-gh-1bF"/>
+                                    <constraint firstAttribute="width" constant="60" id="Hj2-lW-C0w"/>
+                                </constraints>
+                                <state key="normal" image="Plus_ic"/>
+                                <connections>
+                                    <action selector="addEventBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="aFx-O5-NvW"/>
+                                    <action selector="goAddEventBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="81i-uA-g2e"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -46,6 +59,10 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="F46-IT-SF3" secondAttribute="trailing" id="2Z7-fV-4W5"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="F46-IT-SF3" secondAttribute="bottom" id="G74-aF-VAW"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="OIM-6b-ASS" secondAttribute="trailing" constant="25" id="PC1-ud-YvK"/>
+                            <constraint firstItem="FgW-BM-DOW" firstAttribute="width" secondItem="OIM-6b-ASS" secondAttribute="width" id="QeA-bw-30b"/>
+                            <constraint firstItem="FgW-BM-DOW" firstAttribute="centerX" secondItem="OIM-6b-ASS" secondAttribute="centerX" id="TuE-0l-dac"/>
+                            <constraint firstItem="FgW-BM-DOW" firstAttribute="centerY" secondItem="OIM-6b-ASS" secondAttribute="centerY" id="Wbr-dh-Fg5"/>
+                            <constraint firstItem="FgW-BM-DOW" firstAttribute="height" secondItem="OIM-6b-ASS" secondAttribute="height" id="WkU-eC-KSy"/>
                             <constraint firstItem="F46-IT-SF3" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="eW6-7s-Gnp"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="OIM-6b-ASS" secondAttribute="bottom" constant="25" id="vaT-9C-4f5"/>
                         </constraints>
@@ -53,6 +70,7 @@
                     <navigationItem key="navigationItem" id="ilc-IM-GBq"/>
                     <connections>
                         <outlet property="addEventBtn" destination="OIM-6b-ASS" id="Guv-RQ-oEY"/>
+                        <outlet property="goAddEventBtn" destination="FgW-BM-DOW" id="Db3-fT-2eS"/>
                         <outlet property="mapView" destination="F46-IT-SF3" id="0AR-39-33u"/>
                     </connections>
                 </viewController>

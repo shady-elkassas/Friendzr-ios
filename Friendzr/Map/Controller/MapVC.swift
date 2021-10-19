@@ -33,6 +33,7 @@ class MapVC: UIViewController {
     //MARK:- Outlets
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addEventBtn: UIButton!
+    @IBOutlet weak var goAddEventBtn: UIButton!
     
     //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("GenderDistributionView", owner: self, options: nil)?.first as? GenderDistributionView
@@ -80,6 +81,8 @@ class MapVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         appendNewLocation = false
+        goAddEventBtn.isHidden = true
+        addEventBtn.isHidden = false
         
         DispatchQueue.main.async {
             self.updateUserInterface()
@@ -150,6 +153,27 @@ class MapVC: UIViewController {
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
+    
+    func updateUserInterfaceBtns() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+        case .wifi:
+            internetConect = true
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
     func HandleInternetConnection() {
         self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
     }
@@ -200,6 +224,7 @@ class MapVC: UIViewController {
     func setupViews() {
         //setup search bar
         addEventBtn.cornerRadiusForHeight()
+        goAddEventBtn.cornerRadiusForHeight()
         searchBar = UISearchBar(frame: CGRect(x: 0, y: (self.screenSize.height) - (self.screenSize.height - 95), width: self.view.bounds.size.width, height: 56.0))
         searchBar.delegate = self
         searchBar.backgroundColor = UIColor.clear
@@ -244,6 +269,7 @@ class MapVC: UIViewController {
         self.mapView.clear()
         let marker = GMSMarker(position: position)
         marker.icon = UIImage(named: "pin")
+        marker.snippet = "NewEvent"
         marker.map = mapView
     }
     
@@ -354,12 +380,35 @@ class MapVC: UIViewController {
     
     //MARK:- Actions
     @IBAction func addEventBtn(_ sender: Any) {
-        
         if Defaults.allowMyLocation == true {
             self.appendNewLocation = true
             self.view.makeToast("Please pick the event location")
+            self.goAddEventBtn.isHidden = false
+            self.addEventBtn.isHidden = true
+            
+            self.setupMarker(for: self.location!)
         }else {
             self.checkLocationPermission()
+        }
+    }
+    
+    @IBAction func goAddEventBtn(_ sender: Any) {
+        if self.appendNewLocation {
+            self.updateUserInterfaceBtns()
+            if self.internetConect {
+                self.setupMarker(for: self.location!, tintColor: "#0BBEA1", typelocation: "event")
+                
+                self.locations.append(EventsLocation(location: self.location!, color: "", typelocation: "event"))
+                
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
+                vc.locationLat = self.location!.latitude
+                vc.locationLng = self.location!.longitude
+                self.addEventBtn.isHidden = false
+                self.goAddEventBtn.isHidden = true
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else {
+                return
+            }
         }
     }
 }
@@ -367,45 +416,34 @@ class MapVC: UIViewController {
 //MARK:- GMSMap View Delegate
 extension MapVC : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        self.checkLocationPermission()
         
         self.location = coordinate
         let camera = GMSCameraPosition.camera(withLatitude: (location?.latitude)!, longitude: (location?.longitude)!, zoom: 17.0)
         mapView.animate(to: camera)
         
-        geocode(latitude: location!.latitude, longitude: location!.longitude) { (PM, error) in
+        if self.appendNewLocation {
+            self.setupMarker(for: self.location!)
             
-            guard let error = error else {
-                self.locationName = (PM?.name)!
-                self.currentPlaceMark = PM!
-                
-                if self.appendNewLocation {
-                    self.updateUserInterface()
-                    if self.internetConect {
-                        self.setupMarker(for: self.location!, tintColor: "#0BBEA1", typelocation: "event")
-                        
-                        self.locations.append(EventsLocation(location: self.location!, color: "", typelocation: "event"))
-                        self.view.makeToast((PM?.name)!)
-                        
-                        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
-                        vc.locationLat = self.location!.latitude
-                        vc.locationLng = self.location!.longitude
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }else {
-                        return
-                    }
+            geocode(latitude: location!.latitude, longitude: location!.longitude) { (PM, error) in
+                guard let error = error else {
+                    self.locationName = (PM?.name)!
+                    self.currentPlaceMark = PM!
+                    
+                    print(self.locationName)
+                    print("\(self.location!.latitude) : \(self.location!.longitude)")
+                    self.view.makeToast((PM?.name)!)
+                    return
                 }
-                
-                print(self.locationName)
-                print("\(self.location!.latitude) : \(self.location!.longitude)")
-                return
+                self.showAlert(withMessage: error.localizedDescription)
             }
-            self.showAlert(withMessage: error.localizedDescription)
+        }else {
+            return
         }
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        updateUserInterface()
+        updateUserInterfaceBtns()
+        
         if internetConect {
             var pos: CLLocationCoordinate2D? = nil
             pos = marker.position
@@ -415,6 +453,8 @@ extension MapVC : GMSMapViewDelegate {
                 //Events by location
                 getEvents(By: pos?.latitude ?? 0.0, lng: pos?.longitude ?? 0.0)
                 CreateSlideUpMenu()
+            }else if marker.snippet == "NewEvent" {
+                print("NEW EVENT")
             }else {
                 if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "GenderDistributionNC") as? UINavigationController, let vc = controller.viewControllers.first as? GenderDistributionVC {
                     vc.lat = pos?.latitude ?? 0.0
@@ -558,7 +598,7 @@ extension MapVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        updateUserInterface()
+        updateUserInterfaceBtns()
         
         if internetConect {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
