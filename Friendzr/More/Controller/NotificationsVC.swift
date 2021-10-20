@@ -168,10 +168,6 @@ class NotificationsVC: UIViewController {
         self.refreshControl.endRefreshing()
     }
     
-    @objc func refreshAllEvents() {
-        updateUserInterface()
-    }
-    
     //MARK:- Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         btnsSelect = false
@@ -191,7 +187,7 @@ extension NotificationsVC: UITableViewDataSource {
         cell.notificationBodyLbl.text = model?.body
         cell.notificationTitleLbl.text = model?.title
         cell.notificationDateLbl.text = model?.createdAt
-        cell.notificationImg.sd_setImage(with: URL(string: model?.imageUrl ?? "" ), placeholderImage: UIImage(named: "avatar"))
+        cell.notificationImg.sd_setImage(with: URL(string: model?.imageUrl ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
         return cell
     }

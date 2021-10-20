@@ -206,10 +206,6 @@ class BlockedListVC: UIViewController {
         self.refreshControl.endRefreshing()
     }
     
-    @objc func refreshAllEvents() {
-        updateUserInterface()
-    }
-    
     //MARK:- Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         btnsSelect = false
@@ -235,7 +231,7 @@ extension BlockedListVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? BlockedTableViewCell else {return UITableViewCell()}
         let model = viewmodel.blocklist.value?.data?[indexPath.row]
         cell.nameLbl.text = model?.userName
-        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "avatar"))
+        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
         if indexPath.row == ((viewmodel.blocklist.value?.data?.count ?? 0) - 1 ) {
             cell.underView.isHidden = true

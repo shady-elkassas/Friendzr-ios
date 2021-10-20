@@ -70,7 +70,6 @@ class MapVC: UIViewController {
         
         self.title = "Map".localizedString
         updateLocation()
-        initProfileBarButton()
         setupViews()
     }
     
@@ -83,8 +82,9 @@ class MapVC: UIViewController {
         appendNewLocation = false
         goAddEventBtn.isHidden = true
         addEventBtn.isHidden = false
+        initProfileBarButton()
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.updateUserInterface()
         }
     }
@@ -587,7 +587,7 @@ extension MapVC:UITableViewDataSource {
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
-        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "avatar"))
+        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         return cell
     }
 }

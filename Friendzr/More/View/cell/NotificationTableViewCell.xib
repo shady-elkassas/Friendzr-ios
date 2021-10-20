@@ -29,7 +29,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S0s-KA-YbI">
                         <rect key="frame" x="20" y="5" width="286" height="94"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="HOr-YS-ywA">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="HOr-YS-ywA">
                                 <rect key="frame" x="10" y="9.5" width="75" height="75"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="HOr-YS-ywA" secondAttribute="height" multiplier="1:1" id="lYQ-r3-2aq"/>
@@ -91,7 +91,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="avatar" width="1000" height="1000"/>
+        <image name="placeholder" width="1000" height="1000"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -137,10 +137,10 @@ class EventDetailsVC: UIViewController {
     func setupData() {
         let model = viewmodel.event.value
         eventTitleLbl.text = model?.title
-        dateCreateLbl.text = model?.eventdate
+        dateCreateLbl.text = model?.datetext
         
         if model?.timefrom != "" && model?.allday == false {
-            timeCreateLbl.text = model?.timefrom
+            timeCreateLbl.text = model?.timetext
         }else {
             timeCreateLbl.text = "All Day"
         }
@@ -148,7 +148,7 @@ class EventDetailsVC: UIViewController {
         attendLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
         categoryNameLbl.text = model?.categorie
         descreptionLbl.text = model?.descriptionEvent
-        eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "photo_img"))
+        eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
         if model?.key == 1 {
             editBtn.isHidden = false
             joinBtn.isHidden = true
@@ -302,7 +302,7 @@ extension EventDetailsVC: UITableViewDataSource {
         cell.dropDownBtn.isHidden = true
         cell.joinDateLbl.isHidden = true
         cell.friendNameLbl.text = model?.userName
-        cell.friendImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "photo_img"))
+        cell.friendImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         return cell
     }
     

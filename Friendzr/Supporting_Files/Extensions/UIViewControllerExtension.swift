@@ -88,7 +88,7 @@ extension UIViewController {
         let view = UIView()
         view.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         let imgView = UIImageView()
-        imgView.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "avatar_ic"))
+        imgView.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeholder"))
         imgView.frame = view.bounds
         imgView.contentMode = .scaleToFill
         imgView.cornerRadiusView(radius: 20)
@@ -223,7 +223,7 @@ extension UIViewController {
         imageUser.image = UIImage(named: image)
         imageUser.contentMode = .scaleToFill
         imageUser.cornerRadiusView(radius: 12.5)
-        imageUser.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "photo_img"))
+        imageUser.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder"))
         
         let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 20, width: 0, height: 0))
         subtitleLabel.textColor = baseColor.withAlphaComponent(0.95)

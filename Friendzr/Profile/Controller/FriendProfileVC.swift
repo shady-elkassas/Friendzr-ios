@@ -412,11 +412,11 @@ class FriendProfileVC: UIViewController {
     func setupData() {
         let model = viewmodel.model.value
         aboutFriendLbl.text = model?.bio
-        userNameLbl.text = "@\(model?.generatedusername ?? "")"
-        nameLbl.text = model?.userName
+        userNameLbl.text = "@\(model?.userName ?? "")"
+        nameLbl.text = model?.generatedusername
         ageLbl.text = "\(model?.age ?? 0)"
         genderLbl.text = model?.gender
-        profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
+        profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
         tagListView.removeAllTags()
         for item in model?.listoftagsmodel ?? [] {

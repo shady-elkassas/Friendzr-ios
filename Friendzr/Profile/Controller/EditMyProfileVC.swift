@@ -164,7 +164,7 @@ class EditMyProfileVC: UIViewController {
         }
         
         if model?.userImage != "" {
-            profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
+            profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))
             self.attachedImg = true
         }else {
             self.attachedImg = false

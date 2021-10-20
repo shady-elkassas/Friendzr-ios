@@ -145,10 +145,8 @@ class EditEventsVC: UIViewController {
                     
                     guard let _ = data else {return}
                     
-//                    NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
-                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
-                        Router().toMap()
+                        Router().toFeed()
                     })
                 }
                 
@@ -170,7 +168,7 @@ class EditEventsVC: UIViewController {
     }
     
     func setupData() {
-        eventImg.sd_setImage(with: URL(string: eventModel?.image ?? "" ), placeholderImage: UIImage(named: "photo_img"))
+        eventImg.sd_setImage(with: URL(string: eventModel?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         categoryNameLbl.text = eventModel?.categorie
         addTitleTxt.text = eventModel?.title
         

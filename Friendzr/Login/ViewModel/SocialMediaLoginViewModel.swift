@@ -42,6 +42,7 @@ class SocialMediaLoginViewModel {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
                     print("toAdd ::: \(toAdd)")
+                    Defaults.initUser(user: toAdd)
                     completion(nil,toAdd)
                 }
             }

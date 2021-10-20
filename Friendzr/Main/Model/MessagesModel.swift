@@ -54,25 +54,26 @@ class MessagesDataModel: Mappable {
 
 class MessageObj: NSObject,Mappable {
     
-    var id: String?
-    var currentuserMessage: Bool?
-    var userMessagessId: String?
-    var username: String?
-    var userimage: String?
-    var userId: String?
-    var messages: String?
-    var eventChatID: String?
-    var messagesdate: String?
-    var messagestime: String?
-    var messageAttachedVM: String?
-
+    var id: String? = ""
+    var currentuserMessage: Bool? = false
+    var userMessagessId: String? = ""
+    var username: String? = ""
+    var userimage: String? = ""
+    var userId: String? = ""
+    var messages: String? = ""
+    var eventChatID: String? = ""
+    var messagesdate: String? = ""
+    var messagestime: String? = ""
+    var messageAttachedVM: [MessageAttachedModel]? = nil
+    var messagetype:Int? = 0
+    
     override init() {
         super.init()
     }
     
     required init?(map: Map) {
     }
-    
+
     // Mappable
     func mapping(map: Map) {
         id    <- map["id"]
@@ -86,8 +87,22 @@ class MessageObj: NSObject,Mappable {
         messagesdate    <- map["messagesdate"]
         messagestime    <- map["messagestime"]
         messageAttachedVM   <- map["messageAttachedVM"]
+        messagetype   <- map["messagetype"]
     }
 }
+
+class MessageAttachedModel: Mappable {
+    
+    var attached: String?
+    
+    required init?(map: Map) {
+    }
+    // Mappable
+    func mapping(map: Map) {
+        attached  <- map["attached"]
+    }
+}
+
 
 
 class EventChatMessagesResponse: Mappable {

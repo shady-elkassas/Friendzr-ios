@@ -92,6 +92,7 @@ class EventObj: NSObject,Mappable {
     var timefrom: String? = ""
     var timeto: String? = ""
     var datetext:String? = ""
+    var timetext:String? = ""
     var title: String? = ""
     var image: String? = ""
     var id: String? = ""
@@ -138,6 +139,7 @@ class EventObj: NSObject,Mappable {
         lang  <- map["lang"]
         genderStatistic  <- map["genderStatistic"]
         eventdateto  <- map["eventdateto"]
+        timetext <- map["timetext"]
     }
 }
 

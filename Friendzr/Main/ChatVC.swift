@@ -29,7 +29,7 @@ class ChatVC: MessagesViewController {
     
     var startingFrame: CGRect?
     var blackBackgroundView: UIView?
-    var startingImageView: UIImageView?
+    var sendingImageView: UIImage?
     
     /// The `BasicAudioController` control the AVAudioPlayer state (play, pause, stop) and update audio cell UI accordingly.
     lazy var audioController = AudioVC(messageCollectionView: messagesCollectionView)
@@ -224,9 +224,21 @@ class ChatVC: MessagesViewController {
                 
                 for itm in value.data ?? [] {
                     if itm.currentuserMessage! {
-                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
+                        if itm.messagetype == 1 { //text
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
+                        }else if itm.messagetype == 2 { //image
+                            if itm.messageAttachedVM?.count != 0 {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
+                            }
+                        }
                     }else {
-                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
+                        if itm.messagetype == 1 { //text
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
+                        }else if itm.messagetype == 2 { //image
+                            if itm.messageAttachedVM?.count != 0 {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
+                            }
+                        }
                         
                         receiveimg = itm.userimage ?? ""
                         receiveName = itm.username ?? ""
@@ -265,9 +277,21 @@ class ChatVC: MessagesViewController {
                 messageList.removeAll()
                 for itm in value.pagedModel?.data ?? [] {
                     if itm.currentuserMessage! {
-                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
+                        if itm.messagetype == 1 { //text
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
+                        }else if itm.messagetype == 2 { //image
+                            if itm.messageAttachedVM?.count != 0 {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
+                            }
+                        }
                     }else {
-                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
+                        if itm.messagetype == 1 { //text
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
+                        }else if itm.messagetype == 2 { //image
+                            if itm.messageAttachedVM?.count != 0 {
+                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
+                            }
+                        }
                         
                         receiveimg = itm.userimage ?? ""
                         receiveName = itm.username ?? ""
@@ -391,16 +415,7 @@ extension ChatVC: MessageCellDelegate {
         guard let indexPath = messagesCollectionView.indexPath(for: cell) else {
             return
         }
-        let message = messageList[indexPath.section]
-        
-        //        if message.sender.senderId {
-        //            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
-        //            self.navigationController?.pushViewController(vc, animated: true)
-        //        }else {
-        //            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
-        //            vc.userID = chatuserID
-        //            self.navigationController?.pushViewController(vc, animated: true)
-        //        }
+        _ = messageList[indexPath.section]
     }
     
     func didTapMessage(in cell: MessageCollectionViewCell) {
@@ -668,9 +683,9 @@ extension ChatVC: MessagesDisplayDelegate {
     
     func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
         if case MessageKind.photo(let media) = message.kind, let imageURL = media.url {
-//            imageView.kf.setImage(with: imageURL)
+            imageView.sd_setImage(with: imageURL, placeholderImage: UIImage(named: "image_message_placeholder"))
         } else {
-//            imageView.kf.cancelDownloadTask()
+            imageView.image = self.sendingImageView
         }
     }
     
@@ -925,8 +940,15 @@ extension ChatVC {
                 self.presentVideoInputActionSheet()
             }))
             actionAlert.addAction(UIAlertAction(title: "Location", style: .default, handler: { action in
+                guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "SendLocationChatVC") as? SendLocationChatVC else {return}
+                vc.onLocationCallBackResponse = self.onLocationCallBack
+                self.navigationController?.pushViewController(vc, animated: true)
+            }))
+            
+            actionAlert.addAction(UIAlertAction(title: "File", style: .default, handler: { action in
                 
             }))
+
             actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
             }))
             
@@ -947,10 +969,14 @@ extension ChatVC {
                 vc.onLocationCallBackResponse = self.onLocationCallBack
                 self.navigationController?.pushViewController(vc, animated: true)
             }))
+            
+            actionSheet.addAction(UIAlertAction(title: "File", style: .default, handler: { action in
+                self.openFileLibrary()
+            }))
+            
             actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
             }))
             
-            actionSheet.view.tintColor = UIColor.FriendzrColors.primary
             present(actionSheet, animated: true, completion: nil)
         }
     }
@@ -1061,21 +1087,74 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
         }
     }
     
+    //selct file to send in chat
+    func openFileLibrary() {
+        fileUpload = "File"
+        let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypePDF as String,kUTTypeText as String], in: .import)
+        documentPicker.delegate = self
+        documentPicker.allowsMultipleSelection = false
+        present(documentPicker, animated: true, completion: nil)
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        //        if fileUpload == "VIDEO"{
+        let messageDate = formatterDate.string(from: Date())
+        let messageTime = formatterTime.string(from: Date())
+
+        
         if let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as? URL {
             print(videoURL)
             picker.dismiss(animated:true, completion: {
+            
                 self.messageList.append(UserMessage(videoURL: videoURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: ""))
                 self.messagesCollectionView.reloadData()
             })
         }else {
+            
             let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+
+            if eventChat {
+                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image) { error, data in
+                    
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    
+                    guard data != nil else {
+                        return
+                    }
+
+                    self.messageList.append(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)"))
+                    self.sendingImageView = image
+                    DispatchQueue.main.async {
+                        self.messagesCollectionView.reloadData()
+                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                    }
+                }
+            }else {
+                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image) { error, data in
+                    
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    
+                    guard data != nil else {
+                        return
+                    }
+
+                    self.messageList.append(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)"))
+                    self.sendingImageView = image
+                    DispatchQueue.main.async {
+                        self.messagesCollectionView.reloadData()
+                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                    }
+                }
+            }
+
             picker.dismiss(animated:true, completion: {
-                self.attachedImg = true
-                self.messageList.append(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: ""))
-                self.messagesCollectionView.reloadData()
+                
             })
         }
         
@@ -1232,24 +1311,30 @@ extension ChatVC: MessagesLayoutDelegate {
     }
 }
 
-//extension ChatVC: CameraInputBarAccessoryViewDelegate {
-//
-//    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith attachments: [AttachmentManager.Attachment]) {
-//
-//
-//        for item in attachments {
-//            if  case .image(let image) = item {
-//
-//                self.sendImageMessage(photo: image)
-//            }
-//        }
-//
-//        inputBar.invalidatePlugins()
-//    }
-//
-//
-//    func sendImageMessage( photo  : UIImage)  {
-//        let photoMessage = MockMessage(image: photo, user: self.currentSender() as! MockUser, messageId: UUID().uuidString, date: Date())
-//        self.insertMessage(photoMessage)
-//    }
-//}
+extension ChatVC: UIDocumentPickerDelegate {
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        
+        guard let selectedFileURL = urls.first else {
+            return
+        }
+        
+        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let sandboxFileURL = dir.appendingPathComponent(selectedFileURL.lastPathComponent)
+        
+        if FileManager.default.fileExists(atPath: sandboxFileURL.path) {
+            print("Already exists! Do nothing")
+        }
+        else {
+            
+            do {
+                try FileManager.default.copyItem(at: selectedFileURL, to: sandboxFileURL)
+                
+                print("Copied file!")
+            }
+            catch {
+                print("Error: \(error)")
+            }
+        }
+    }
+}

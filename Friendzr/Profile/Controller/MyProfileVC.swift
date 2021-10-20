@@ -115,7 +115,7 @@ class MyProfileVC: UIViewController {
         nameLbl.text = model?.userName
         ageLbl.text = "\(model?.age ?? 0)"
         genderLbl.text = model?.gender
-        profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "avatar"))
+        profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
         tagListView.removeAllTags()
         for item in model?.listoftagsmodel ?? [] {

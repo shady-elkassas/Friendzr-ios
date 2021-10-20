@@ -11,7 +11,7 @@ class ShowImageVC: UIViewController {
     
     var imgStr: UIImage!
     var imageView:UIImageView!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,17 +31,7 @@ class ShowImageVC: UIViewController {
         imageView.heightAnchor.constraint(equalToConstant: view.bounds.height).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: view.bounds.width).isActive = true
         imageView.cornerRadiusView(radius: 30)
-        
-//        let cardView = UIView()
-//        imageView.addSubview(cardView)
-//        cardView.translatesAutoresizingMaskIntoConstraints = false
-//        cardView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-//        cardView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-//        cardView.heightAnchor.constraint(equalToConstant: 450).isActive = true
-//        cardView.widthAnchor.constraint(equalToConstant: 275).isActive = true
-//        cardView.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.67)
-//
-//        cardView.isUserInteractionEnabled = false
+
         imageView.isUserInteractionEnabled = true
         
         imageView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture)))

@@ -75,7 +75,6 @@ class FeedVC: UIViewController {
         super.viewDidLoad()
         
         self.title = "Feed"
-        initProfileBarButton()
         setup()
         initSwitchBarButton()
         pullToRefresh()
@@ -86,7 +85,7 @@ class FeedVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
-        
+        initProfileBarButton()
         filterDir = switchBarButton.isOn
     }
     
@@ -281,9 +280,9 @@ extension FeedVC:UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? FeedsTableViewCell else {return UITableViewCell()}
         let model = viewmodel.feeds.value?.data?[indexPath.row]
-        cell.friendRequestNameLbl.text = model?.userName
-        cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
-        cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "avatar"))
+        cell.friendRequestNameLbl.text = model?.displayedUserName
+        cell.friendRequestUserNameLbl.text = "@\(model?.userName ?? "")"
+        cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
         //status key
         switch model?.key {

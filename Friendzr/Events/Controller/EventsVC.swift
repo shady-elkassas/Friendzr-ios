@@ -191,7 +191,7 @@ extension EventsVC: UITableViewDataSource {
         cell.eventTitleLbl.text = model?.title
         cell.categoryLbl.text = model?.categorie
         cell.dateLbl.text = model?.eventdate
-        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "photo_img"))
+        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         return cell
     }
 }

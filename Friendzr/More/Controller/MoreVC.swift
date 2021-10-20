@@ -88,7 +88,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     }
     
     func setupUserData() {
-        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "avatar"))
+        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeholder"))
         nameLbl.text = Defaults.userName
     }
     

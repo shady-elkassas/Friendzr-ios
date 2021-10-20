@@ -146,7 +146,7 @@
                                                     <constraint firstAttribute="height" constant="2" id="TQj-FW-Sdv"/>
                                                 </constraints>
                                             </view>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="0aW-QY-SCu">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="0aW-QY-SCu">
                                                 <rect key="frame" x="25" y="22" width="364" height="150"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="150" id="sw1-Fz-r0j"/>
@@ -570,7 +570,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ebq-RJ-wR1">
                                         <rect key="frame" x="0.0" y="-100" width="414" height="1243.5"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="i2t-hE-qlt">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="i2t-hE-qlt">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="393.5"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="i2t-hE-qlt" secondAttribute="height" multiplier="1:0.95" id="Ahj-EE-san"/>
@@ -586,7 +586,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="voo-g5-K98">
                                                 <rect key="frame" x="25" y="345" width="58.5" height="36.5"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="25/8/2021" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="876-Fy-eP5">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="25/8/2021" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="876-Fy-eP5">
                                                         <rect key="frame" x="0.0" y="0.0" width="58.5" height="15"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -603,7 +603,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="BIO-GT-mqS">
                                                 <rect key="frame" x="103.5" y="345" width="50" height="36.5"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8:20 am" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k6r-AU-PgH">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8:20 am" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k6r-AU-PgH">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="15"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -796,6 +796,7 @@
                                         <constraints>
                                             <constraint firstItem="XhO-Kh-XtK" firstAttribute="trailing" secondItem="CHi-IY-LtZ" secondAttribute="trailing" id="2GS-nw-Kkd"/>
                                             <constraint firstAttribute="trailing" secondItem="CHi-IY-LtZ" secondAttribute="trailing" constant="25" id="3Dc-tu-WhZ"/>
+                                            <constraint firstItem="PFS-jv-9BV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BIO-GT-mqS" secondAttribute="trailing" constant="30" id="9yn-2y-mCb"/>
                                             <constraint firstItem="lfp-RN-hme" firstAttribute="leading" secondItem="Ebq-RJ-wR1" secondAttribute="leading" constant="25" id="BzW-GN-hE5"/>
                                             <constraint firstAttribute="trailing" secondItem="i2t-hE-qlt" secondAttribute="trailing" id="GjQ-26-oZZ"/>
                                             <constraint firstItem="hvb-Sd-jDI" firstAttribute="bottom" secondItem="i2t-hE-qlt" secondAttribute="bottom" id="Gpq-jz-QF6"/>
@@ -907,7 +908,7 @@
                                                     <constraint firstAttribute="height" constant="2" id="zyh-Of-HjM"/>
                                                 </constraints>
                                             </view>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="pjQ-tY-T1l">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="pjQ-tY-T1l">
                                                 <rect key="frame" x="25" y="22" width="364" height="150"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="150" id="L1w-Jj-28W"/>
@@ -1447,11 +1448,11 @@
     <resources>
         <image name="Group19072" width="16" height="16"/>
         <image name="arrow_left" width="6.5" height="11"/>
-        <image name="avatar" width="1000" height="1000"/>
         <image name="camera_ic" width="60" height="60"/>
         <image name="description_ic" width="13.5" height="16.5"/>
         <image name="emptyImage" width="512" height="512"/>
         <image name="people_ic" width="20" height="14"/>
+        <image name="placeholder" width="1000" height="1000"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

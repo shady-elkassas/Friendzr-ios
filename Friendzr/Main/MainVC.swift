@@ -41,7 +41,7 @@ class MainVC: UIViewController {
         super.viewDidLoad()
         
         setupView()
-        initProfileBarButton()
+        
         initNewConversationBarButton()
         self.title = "Inbox"
         
@@ -51,6 +51,7 @@ class MainVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        initProfileBarButton()
         hideNavigationBar(NavigationBar: false, BackButton: true)
         DispatchQueue.main.async {
             self.updateUserInterface()
@@ -252,7 +253,7 @@ extension MainVC:UITableViewDataSource {
             cell.lastMessageLbl.text = model?.messages
             cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
             
-            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "photo_img"))
+            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
             
             if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
                 if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
@@ -267,7 +268,7 @@ extension MainVC:UITableViewDataSource {
             cell.lastMessageLbl.text = model?.messages
             cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
             
-            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "photo_img"))
+            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
             
             if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
                 if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {

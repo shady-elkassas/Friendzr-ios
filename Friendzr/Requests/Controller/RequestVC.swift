@@ -35,14 +35,13 @@ class RequestVC: UIViewController {
         super.viewDidLoad()
         
         setup()
-        initProfileBarButton()
         pullToRefresh()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.title = "Request"
         setupNavBar()
-        
+        initProfileBarButton()
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
@@ -214,7 +213,7 @@ extension RequestVC:UITableViewDataSource {
         cell.friendRequestNameLbl.text = model?.userName
         cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
         cell.friendRequestDateLbl.text = model?.regestdata
-        cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "avatar"))
+        cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
         cell.HandleAcceptBtn = {
             self.cellSelected = true

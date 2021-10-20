@@ -25,7 +25,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zxG-yZ-iYB">
                         <rect key="frame" x="0.0" y="8" width="320" height="46"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="dJ8-yQ-mMx">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="dJ8-yQ-mMx">
                                 <rect key="frame" x="25" y="0.5" width="45" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="45" id="UD1-HV-yNa"/>
@@ -93,7 +93,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="avatar" width="1000" height="1000"/>
         <image name="menu" width="64" height="64"/>
+        <image name="placeholder" width="1000" height="1000"/>
     </resources>
 </document>
