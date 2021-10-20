@@ -110,62 +110,65 @@ internal struct UserMessage: MessageType {
     }
     var sentDate: Date = Date()
     var kind: MessageKind
-
+    
+    var dateandtime:String = ""
+    
     var user: UserSender
 
-    private init(kind: MessageKind, user: UserSender, messageId: String, date: Date) {
+    private init(kind: MessageKind, user: UserSender, messageId: String, date: Date,dateandtime:String) {
         self.kind = kind
         self.user = user
         self.messageId = messageId
         self.sentDate = date
+        self.dateandtime = dateandtime
     }
     
-    init(custom: Any?, user: UserSender, messageId: String, date: Date) {
-        self.init(kind: .custom(custom), user: user, messageId: messageId, date: date)
+    init(custom: Any?, user: UserSender, messageId: String, date: Date,dateandtime:String) {
+        self.init(kind: .custom(custom), user: user, messageId: messageId, date: date,dateandtime:dateandtime)
     }
 
-    init(text: String, user: UserSender, messageId: String, date: Date) {
-        self.init(kind: .text(text), user: user, messageId: messageId, date: date)
+    init(text: String, user: UserSender, messageId: String, date: Date,dateandtime:String) {
+        self.init(kind: .text(text), user: user, messageId: messageId, date: date,dateandtime:dateandtime)
     }
 
-    init(attributedText: NSAttributedString, user: UserSender, messageId: String, date: Date) {
-        self.init(kind: .attributedText(attributedText), user: user, messageId: messageId, date: date)
+    init(attributedText: NSAttributedString, user: UserSender, messageId: String, date: Date,dateandtime:String) {
+        self.init(kind: .attributedText(attributedText), user: user, messageId: messageId, date: date,dateandtime:dateandtime)
     }
 
-    init(image: UIImage, user: UserSender, messageId: String, date: Date) {
+    init(image: UIImage, user: UserSender, messageId: String, date: Date,dateandtime:String) {
         let mediaItem = ImageMediaItem(image: image)
-        self.init(kind: .photo(mediaItem), user: user, messageId: messageId, date: date)
+        self.init(kind: .photo(mediaItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime)
     }
 
-    init(imageURL: URL, user: UserSender, messageId: String, date: Date) {
+    init(imageURL: URL, user: UserSender, messageId: String, date: Date,dateandtime:String) {
         let mediaItem = ImageMediaItem(imageURL: imageURL)
-        self.init(kind: .photo(mediaItem), user: user, messageId: messageId, date: date)
+        self.init(kind: .photo(mediaItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime)
     }
 
-    init(videoURL: URL, user: UserSender, messageId: String, date: Date) {
+    init(videoURL: URL, user: UserSender, messageId: String, date: Date,dateandtime:String) {
         let mediaItem = VideoMediaItem(videoURL: videoURL)
-        self.init(kind: .video(mediaItem), user: user, messageId: messageId, date: date)
+        self.init(kind: .video(mediaItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime)
     }
     
-    init(location: CLLocation, user: UserSender, messageId: String, date: Date) {
+    init(location: CLLocation, user: UserSender, messageId: String, date: Date,dateandtime:String) {
         let locationItem = CoordinateItem(location: location)
-        self.init(kind: .location(locationItem), user: user, messageId: messageId, date: date)
+        self.init(kind: .location(locationItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime)
     }
 
-    init(emoji: String, user: UserSender, messageId: String, date: Date) {
-        self.init(kind: .emoji(emoji), user: user, messageId: messageId, date: date)
+    init(emoji: String, user: UserSender, messageId: String, date: Date,dateandtime:String) {
+        self.init(kind: .emoji(emoji), user: user, messageId: messageId, date: date,dateandtime:dateandtime)
     }
 
-    init(audioURL: URL, user: UserSender, messageId: String, date: Date) {
+    init(audioURL: URL, user: UserSender, messageId: String, date: Date,dateandtime:String) {
         let audioItem = MessageAudioItem(url: audioURL)
-        self.init(kind: .audio(audioItem), user: user, messageId: messageId, date: date)
+        self.init(kind: .audio(audioItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime)
     }
 
-    init(contact: MessageContactItem, user: UserSender, messageId: String, date: Date) {
-        self.init(kind: .contact(contact), user: user, messageId: messageId, date: date)
+    init(contact: MessageContactItem, user: UserSender, messageId: String, date: Date,dateandtime:String) {
+        self.init(kind: .contact(contact), user: user, messageId: messageId, date: date,dateandtime:dateandtime)
     }
 
-    init(linkItem: LinkItem, user: UserSender, messageId: String, date: Date) {
-        self.init(kind: .linkPreview(linkItem), user: user, messageId: messageId, date: date)
+    init(linkItem: LinkItem, user: UserSender, messageId: String, date: Date,dateandtime:String) {
+        self.init(kind: .linkPreview(linkItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime)
     }
 }

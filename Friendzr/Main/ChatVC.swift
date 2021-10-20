@@ -68,6 +68,20 @@ class ChatVC: MessagesViewController {
         return formatter
     }()
     
+    private let formatterDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    private let formatterTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+    
     let imagePicker = UIImagePickerController()
     var attachedImg = false
     
@@ -176,7 +190,11 @@ class ChatVC: MessagesViewController {
     
     func onLocationCallBack(_ lat: Double, _ lng: Double,_ title:String) -> () {
         print("\(lat)", "\(lng)",title)
-        self.messageList.append(UserMessage(location: CLLocation(latitude: lat, longitude: lng), user: self.senderUser, messageId: "1", date: Date()))
+        let messageDate = formatterDate.string(from: Date())
+        let messageTime = formatterTime.string(from: Date())
+
+        self.messageList.append(UserMessage(location: CLLocation(latitude: lat, longitude: lng), user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)"))
+        
         self.messagesCollectionView.reloadData()
     }
     
@@ -185,8 +203,8 @@ class ChatVC: MessagesViewController {
     func getDate(dateStr:String,timeStr:String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        dateFormatter.timeZone = TimeZone.current
-        dateFormatter.locale = Locale.current
+        dateFormatter.timeZone = TimeZone.autoupdatingCurrent
+        dateFormatter.locale = Locale.autoupdatingCurrent
         return dateFormatter.date(from: "\(dateStr)T\(timeStr):00+0000") // replace Date String
     }
     
@@ -206,9 +224,9 @@ class ChatVC: MessagesViewController {
                 
                 for itm in value.data ?? [] {
                     if itm.currentuserMessage! {
-                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!) ?? Date()), at: 0)
+                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
                     }else {
-                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!) ?? Date()), at: 0)
+                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
                         
                         receiveimg = itm.userimage ?? ""
                         receiveName = itm.username ?? ""
@@ -247,9 +265,9 @@ class ChatVC: MessagesViewController {
                 messageList.removeAll()
                 for itm in value.pagedModel?.data ?? [] {
                     if itm.currentuserMessage! {
-                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!) ?? Date()), at: 0)
+                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
                     }else {
-                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: getDate(dateStr: itm.messagesdate!, timeStr: itm.messagestime!) ?? Date()), at: 0)
+                        messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")"), at: 0)
                         
                         receiveimg = itm.userimage ?? ""
                         receiveName = itm.username ?? ""
@@ -356,8 +374,8 @@ extension ChatVC: MessagesDataSource {
     
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         let model = messageList[indexPath.section]
-        let dateString = formatter.string(from: model.sentDate)
-        return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.init(name: "Montserrat-Light", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2)])
+//        let dateString = formatter.string(from: model.sentDate)
+        return NSAttributedString(string: model.dateandtime, attributes: [NSAttributedString.Key.font: UIFont.init(name: "Montserrat-Light", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2)])
     }
     
     func textCell(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionViewCell? {
@@ -554,8 +572,12 @@ extension ChatVC: InputBarAccessoryViewDelegate {
     @objc func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         //        processInputBar(messageInputBar)
         //1==>message 2==>images 3==>file
+        
+        let messageDate = formatterDate.string(from: Date())
+        let messageTime = formatterTime.string(from: Date())
+        
         if eventChat {
-            viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, attachedImg: false, AndAttachImage: UIImage()) { error, data in
+            viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage()) { error, data in
                 if let error = error {
                     self.showAlert(withMessage: error)
                     return
@@ -565,7 +587,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
                     return
                 }
 
-                self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date()))
+                self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)"))
                 
                 DispatchQueue.main.async {
                     inputBar.inputTextView.text = ""
@@ -573,9 +595,8 @@ extension ChatVC: InputBarAccessoryViewDelegate {
                     self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
                 }
             }
-            
         }else {
-            viewmodel.SendMessage(withUserId: chatuserID , AndMessage: text, AndMessageType: 1, attachedImg: false, AndAttachImage: UIImage()) { error, data in
+            viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage()) { error, data in
                 if let error = error {
                     self.showAlert(withMessage: error)
                     return
@@ -585,7 +606,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
                     return
                 }
                 
-                self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date()))
+                self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)"))
                 
                 DispatchQueue.main.async {
                     inputBar.inputTextView.text = ""
@@ -594,7 +615,6 @@ extension ChatVC: InputBarAccessoryViewDelegate {
                 }
             }
         }
-        
     }
     
     func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
@@ -817,7 +837,7 @@ extension ChatVC {
         } else {
             soundRecorder.stop()
             setupLeftInputButton(tapMessage: false, Recorder: "play")
-            messageList.append(UserMessage(audioURL: getFileURL(), user: senderUser, messageId: "1", date: Date()))
+            messageList.append(UserMessage(audioURL: getFileURL(), user: senderUser, messageId: "1", date: Date(), dateandtime: ""))
             self.messagesCollectionView.reloadData()
         }
     }
@@ -855,7 +875,7 @@ extension ChatVC {
             }))
             actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
             }))
-            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
+//            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionAlert  = UIAlertController(title: "", message: "Choose the action you want to do?", preferredStyle: .actionSheet)
@@ -889,7 +909,7 @@ extension ChatVC {
             }))
             actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
             }))
-            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
+//            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
             present(actionAlert, animated: true, completion: nil)
         }
     }
@@ -910,7 +930,7 @@ extension ChatVC {
             actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
             }))
             
-            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
+//            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionSheet  = UIAlertController(title: "Attach Media", message: "What would you like attach?", preferredStyle: .actionSheet)
@@ -1047,14 +1067,14 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
         if let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as? URL {
             print(videoURL)
             picker.dismiss(animated:true, completion: {
-                self.messageList.append(UserMessage(videoURL: videoURL, user: self.senderUser, messageId: "1", date: Date()))
+                self.messageList.append(UserMessage(videoURL: videoURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: ""))
                 self.messagesCollectionView.reloadData()
             })
         }else {
             let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
             picker.dismiss(animated:true, completion: {
                 self.attachedImg = true
-                self.messageList.append(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date()))
+                self.messageList.append(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: ""))
                 self.messagesCollectionView.reloadData()
             })
         }

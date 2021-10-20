@@ -67,11 +67,12 @@ class ChatViewModel {
     }
     
     //MARK:- Send Message with user
-    func SendMessage(withUserId userId:String,AndMessage message:String,AndMessageType messagetype:Int,attachedImg:Bool,AndAttachImage attachImage:UIImage,completion: @escaping (_ error: String?, _ data: Bool?) -> ()) {
+    func SendMessage(withUserId userId:String,AndMessage message:String,AndMessageType messagetype:Int,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,completion: @escaping (_ error: String?, _ data: Bool?) -> ()) {
         
         let url = URLs.baseURLFirst + "Messages/SendMessage"
         
-        let parameters:[String:Any] = ["UserId":userId,"Message":message,"Messagetype":messagetype]
+        let parameters:[String:Any] = ["UserId":userId,"Message":message,"Messagetype":messagetype,"messagestime":messagestime,"messagesdate":messagesdate]
+        
         let oParam = NSString(string: parameters.description)
         print(oParam)
         
@@ -174,11 +175,11 @@ class ChatViewModel {
     }
     
     //MARK:- Send Message with Event
-    func SendMessage(withEventId eventId:String,AndMessageType messagetype:Int,AndMessage message:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,completion: @escaping (_ error: String?, _ data: Bool?) -> ()) {
+    func SendMessage(withEventId eventId:String,AndMessageType messagetype:Int,AndMessage message:String,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,completion: @escaping (_ error: String?, _ data: Bool?) -> ()) {
         
         let url = URLs.baseURLFirst + "Messages/SendEventMessage"
         
-        let parameters:[String:Any] = ["EventId":eventId,"Message":message,"Messagetype":messagetype]
+        let parameters:[String:Any] = ["EventId":eventId,"Message":message,"Messagetype":messagetype,"messagestime":messagestime,"messagesdate":messagesdate]
         let oParam = NSString(string: parameters.description)
         print(oParam)
         
