@@ -13,7 +13,6 @@ class NewConversationVC: UIViewController {
     @IBOutlet weak var searchbar: UISearchBar!
     @IBOutlet weak var searchBarView: UIView!
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
@@ -229,11 +228,10 @@ extension NewConversationVC: UITableViewDelegate {
         if internetConnect {
             let model = viewmodel.friends.value?.data?[indexPath.row]
             guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
-            
             vc.eventChat = false
             vc.eventChatID = ""
             vc.chatuserID = model?.userId ?? ""
-            
+            vc.titleChatImage = model?.image ?? ""
             vc.titleChatName = model?.userName ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
         }else {

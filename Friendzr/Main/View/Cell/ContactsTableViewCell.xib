@@ -4,8 +4,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -36,11 +36,11 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kate Austen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="88p-bQ-hAw">
                                 <rect key="frame" x="75" y="13.5" width="99" height="20"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="16"/>
-                                <color key="textColor" red="0.14117647059999999" green="0.074509803920000006" blue="0.1960784314" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <color key="textColor" name="ColorLbl3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" name="Color0"/>
                         <constraints>
                             <constraint firstItem="QcA-Wm-oap" firstAttribute="centerY" secondItem="W7D-IK-LYt" secondAttribute="centerY" id="6uf-W4-k92"/>
                             <constraint firstItem="88p-bQ-hAw" firstAttribute="top" secondItem="QcA-Wm-oap" secondAttribute="top" constant="8" id="9Pv-5s-1WZ"/>
@@ -50,12 +50,13 @@
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sBh-up-VOZ">
                         <rect key="frame" x="25" y="59" width="295" height="1"/>
-                        <color key="backgroundColor" red="0.95686274510000002" green="0.97254901959999995" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="ColorLbl5"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="wdd-sw-rkq"/>
                         </constraints>
                     </view>
                 </subviews>
+                <color key="backgroundColor" name="Color0"/>
                 <constraints>
                     <constraint firstItem="W7D-IK-LYt" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="3Kh-4w-dh4"/>
                     <constraint firstItem="sBh-up-VOZ" firstAttribute="top" secondItem="W7D-IK-LYt" secondAttribute="bottom" constant="8" id="GqE-1i-kan"/>
@@ -67,6 +68,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="containerView" destination="W7D-IK-LYt" id="c6C-ra-5NN"/>
                 <outlet property="nameLbl" destination="88p-bQ-hAw" id="gP5-NS-yPv"/>
@@ -78,8 +80,14 @@
     </objects>
     <resources>
         <image name="placeholder" width="1000" height="1000"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <namedColor name="Color0">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ColorLbl3">
+            <color red="0.14117647058823529" green="0.074509803921568626" blue="0.19607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ColorLbl5">
+            <color red="0.94117647058823528" green="0.95294117647058818" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

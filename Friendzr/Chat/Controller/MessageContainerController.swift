@@ -35,7 +35,7 @@ final class MessageContainerController: UIViewController {
     
     let bannerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .primaryColor
+        view.backgroundColor = .FriendzrColors.primary
         view.alpha = 0.7
         return view
     }()
@@ -74,7 +74,7 @@ final class MessageContainerController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = .primaryColor
+        navigationController?.navigationBar.barTintColor = .FriendzrColors.primary
     }
     
     override func viewDidLayoutSubviews() {

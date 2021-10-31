@@ -14,7 +14,6 @@ class MainVC: UIViewController {
     @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
@@ -36,6 +35,21 @@ class MainVC: UIViewController {
     
     var isSearch:Bool = false
     
+    
+    private let formatterDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    private let formatterTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +66,7 @@ class MainVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         initProfileBarButton()
+        setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: true)
         DispatchQueue.main.async {
             self.updateUserInterface()
@@ -102,7 +117,7 @@ class MainVC: UIViewController {
     }
     
     func getSearchUsers(text:String) {
-//        self.showLoading()
+        //        self.showLoading()
         searchVM.SearshUsersinChat(ByUserName: text)
         searchVM.usersinChat.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -130,13 +145,21 @@ class MainVC: UIViewController {
     }
     
     func showEmptyView() {
-        if viewmodel.listChat.value?.data?.count == 0 {
-            emptyView.isHidden = false
-            emptyLbl.text = "You haven't any data yet".localizedString
+        if isSearch {
+            if searchVM.usersinChat.value?.data?.count == 0 {
+                emptyView.isHidden = false
+                emptyLbl.text = "You haven't any data yet".localizedString
+            }else {
+                emptyView.isHidden = true
+            }
         }else {
-            emptyView.isHidden = true
+            if viewmodel.listChat.value?.data?.count == 0 {
+                emptyView.isHidden = false
+                emptyLbl.text = "You haven't any data yet".localizedString
+            }else {
+                emptyView.isHidden = true
+            }
         }
-        
         tryAgainBtn.alpha = 0.0
     }
     
@@ -297,13 +320,13 @@ extension MainVC:UITableViewDelegate {
             vc.eventChat = true
             vc.eventChatID = model?.id ?? ""
             vc.chatuserID = ""
-            vc.eventImage = model?.image ?? ""
         }else {
             vc.eventChat = false
             vc.eventChatID = ""
             vc.chatuserID = model?.id ?? ""
         }
         
+        vc.titleChatImage = model?.image ?? ""
         vc.titleChatName = model?.chatName ?? ""
         
         self.navigationController?.pushViewController(vc, animated: true)
@@ -316,8 +339,11 @@ extension MainVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
         let model = self.viewmodel.listChat.value?.data?[indexPath.row]
-        let archiveTitle = self.viewmodel.listChat.value?.data?[indexPath.row].isArchive ?? false ? "UnArchive" : "Archive"
         let muteTitle = self.viewmodel.listChat.value?.data?[indexPath.row].isMute ?? false ? "UnMute" : "Mute"
+        
+        let actionDate = formatterDate.string(from: Date())
+        let actionTime = formatterTime.string(from: Date())
+
         
         let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { action, indexPath in
             print("deleteAction")
@@ -379,11 +405,64 @@ extension MainVC:UITableViewDelegate {
             }
         }
         
-        let archiveAction = UITableViewRowAction(style: .default, title: archiveTitle) { action, indexPath in
-            print("archiveAction")
-            //            self.viewmodel.listChat.value?.data?[indexPath.row].isArchive?.toggle()
-            //            tableView.reloadData()
-            //            self.view.makeToast("Archived")
+        let leaveAction = UITableViewRowAction(style: .default, title: "Leave") { action, indexPath in
+            print("LeaveAction")
+            
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+                
+                settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    self.showLoading()
+                    self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.viewmodel.listChat.value?.data?.remove(at: indexPath.row)
+                            self.tableView.beginUpdates()
+                            self.tableView.deleteRows(at: [indexPath], with: .fade)
+                            self.tableView.endUpdates()
+                        }
+                    }
+                }))
+                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                
+                self.present(settingsActionSheet, animated:true, completion:nil)
+            }else {
+                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                
+                settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    self.showLoading()
+                    self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.viewmodel.listChat.value?.data?.remove(at: indexPath.row)
+                            self.tableView.beginUpdates()
+                            self.tableView.deleteRows(at: [indexPath], with: .fade)
+                            self.tableView.endUpdates()
+                        }
+                    }
+                }))
+                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                
+                self.present(settingsActionSheet, animated:true, completion:nil)
+            }
         }
         
         let muteAction = UITableViewRowAction(style: .default, title: muteTitle) { action, indexPath in
@@ -496,9 +575,14 @@ extension MainVC:UITableViewDelegate {
             }
         }
         
-        archiveAction.backgroundColor = UIColor.blue
+        leaveAction.backgroundColor = UIColor.blue
         muteAction.backgroundColor = UIColor.green
-        return [deleteAction,archiveAction,muteAction]
+        
+        if model?.isevent == true {
+            return [deleteAction,leaveAction,muteAction]
+        }else {
+            return [deleteAction,muteAction]
+        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -545,7 +629,7 @@ extension MainVC: UISearchBarDelegate{
         let image = UIImage(named: "newMessage_ic")?.withRenderingMode(.automatic)
         
         button.setImage(image, for: .normal)
-        button.tintColor = .black
+        button.tintColor = UIColor.setColor(lightColor: .black, darkColor: .white)
         button.addTarget(self, action: #selector(PresentNewConversation), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.rightBarButtonItem = barButton

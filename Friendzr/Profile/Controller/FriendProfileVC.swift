@@ -34,7 +34,6 @@ class FriendProfileVC: UIViewController {
     var viewmodel:FriendViewModel = FriendViewModel()
     var userID:String = ""
     
-    var cellID = "TagLabelCollectionViewCell"
     var strWidth:CGFloat = 0
     var strheight:CGFloat = 0
     
@@ -56,7 +55,7 @@ class FriendProfileVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        initBackButton(btnColor: .white)
+        initBackButton()
         clearNavigationBar()
     }
     
@@ -96,7 +95,7 @@ class FriendProfileVC: UIViewController {
         alertView?.detailsLbl.text = "Are you sure you want to send request?".localizedString
         
         alertView?.HandleConfirmBtn = {
-            self.updateUserInterface()
+            self.updateUserInterfaceBtns()
             if self.internetConect == true {
                 self.showLoading()
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1) { error, message in
@@ -108,12 +107,13 @@ class FriendProfileVC: UIViewController {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
+                    self.getFriendProfileInformation()
                     
-                    self.respondBtn.isHidden = true
-                    self.cancelRequestBtn.isHidden = false
-                    self.sendRequestBtn.isHidden = true
-                    self.svBtns.isHidden = true
-                    self.unblockBtn.isHidden = true
+//                    self.respondBtn.isHidden = true
+//                    self.cancelRequestBtn.isHidden = false
+//                    self.sendRequestBtn.isHidden = true
+//                    self.svBtns.isHidden = true
+//                    self.unblockBtn.isHidden = true
                 }
             }else {
                 return
@@ -142,7 +142,7 @@ class FriendProfileVC: UIViewController {
         alertView?.detailsLbl.text = "Are you sure you want to cancel this request?".localizedString
         
         alertView?.HandleConfirmBtn = {
-            self.updateUserInterface()
+            self.updateUserInterfaceBtns()
             if self.internetConect == true {
                 self.showLoading()
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6) { error, message in
@@ -154,12 +154,13 @@ class FriendProfileVC: UIViewController {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    
-                    self.respondBtn.isHidden = true
-                    self.cancelRequestBtn.isHidden = true
-                    self.sendRequestBtn.isHidden = false
-                    self.svBtns.isHidden = true
-                    self.unblockBtn.isHidden = true
+                    self.getFriendProfileInformation()
+
+//                    self.respondBtn.isHidden = true
+//                    self.cancelRequestBtn.isHidden = true
+//                    self.sendRequestBtn.isHidden = false
+//                    self.svBtns.isHidden = true
+//                    self.unblockBtn.isHidden = true
                 }
             }
             
@@ -184,7 +185,7 @@ class FriendProfileVC: UIViewController {
         alertView?.detailsLbl.text = "Are you sure you want to accept this request?".localizedString
         
         alertView?.HandleConfirmBtn = {
-            self.updateUserInterface()
+            self.updateUserInterfaceBtns()
             if self.internetConect == true {
                 self.showLoading()
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 2) { error, message in
@@ -196,12 +197,13 @@ class FriendProfileVC: UIViewController {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    
-                    self.respondBtn.isHidden = true
-                    self.cancelRequestBtn.isHidden = true
-                    self.sendRequestBtn.isHidden = true
-                    self.svBtns.isHidden = false
-                    self.unblockBtn.isHidden = true
+                    self.getFriendProfileInformation()
+
+//                    self.respondBtn.isHidden = true
+//                    self.cancelRequestBtn.isHidden = true
+//                    self.sendRequestBtn.isHidden = true
+//                    self.svBtns.isHidden = false
+//                    self.unblockBtn.isHidden = true
                 }
             }else {
                 return
@@ -227,7 +229,7 @@ class FriendProfileVC: UIViewController {
         alertView?.detailsLbl.text = "Are you sure you want to unfriend this account?".localizedString
         
         alertView?.HandleConfirmBtn = {
-            self.updateUserInterface()
+            self.updateUserInterfaceBtns()
             if self.internetConect == true {
                 
                 self.sendRequestBtn.isHidden = false
@@ -243,12 +245,13 @@ class FriendProfileVC: UIViewController {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    
-                    self.respondBtn.isHidden = true
-                    self.cancelRequestBtn.isHidden = true
-                    self.sendRequestBtn.isHidden = false
-                    self.svBtns.isHidden = true
-                    self.unblockBtn.isHidden = true
+                    self.getFriendProfileInformation()
+
+//                    self.respondBtn.isHidden = true
+//                    self.cancelRequestBtn.isHidden = true
+//                    self.sendRequestBtn.isHidden = false
+//                    self.svBtns.isHidden = true
+//                    self.unblockBtn.isHidden = true
                 }
             }else {
                 return
@@ -275,7 +278,7 @@ class FriendProfileVC: UIViewController {
         
         alertView?.HandleConfirmBtn = {
             // handling code
-            self.updateUserInterface()
+            self.updateUserInterfaceBtns()
             if self.internetConect == true {
                 
                 self.showLoading()
@@ -288,12 +291,13 @@ class FriendProfileVC: UIViewController {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    
-                    self.respondBtn.isHidden = true
-                    self.cancelRequestBtn.isHidden = true
-                    self.sendRequestBtn.isHidden = true
-                    self.svBtns.isHidden = true
-                    self.unblockBtn.isHidden = false
+                    self.getFriendProfileInformation()
+
+//                    self.respondBtn.isHidden = true
+//                    self.cancelRequestBtn.isHidden = true
+//                    self.sendRequestBtn.isHidden = true
+//                    self.svBtns.isHidden = true
+//                    self.unblockBtn.isHidden = false
                 }
             }else {
                 return
@@ -320,7 +324,7 @@ class FriendProfileVC: UIViewController {
         
         alertView?.HandleConfirmBtn = {
             // handling code
-            self.updateUserInterface()
+            self.updateUserInterfaceBtns()
             if self.internetConect == true {
                 
                 self.showLoading()
@@ -333,12 +337,13 @@ class FriendProfileVC: UIViewController {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    
-                    self.respondBtn.isHidden = true
-                    self.cancelRequestBtn.isHidden = true
-                    self.sendRequestBtn.isHidden = false
-                    self.svBtns.isHidden = true
-                    self.unblockBtn.isHidden = true
+                    self.getFriendProfileInformation()
+
+//                    self.respondBtn.isHidden = true
+//                    self.cancelRequestBtn.isHidden = true
+//                    self.sendRequestBtn.isHidden = false
+//                    self.svBtns.isHidden = true
+//                    self.unblockBtn.isHidden = true
                 }
             }else {
                 return
@@ -372,6 +377,27 @@ class FriendProfileVC: UIViewController {
         case .wifi:
             internetConect = true
             getFriendProfileInformation()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    
+    func updateUserInterfaceBtns() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+        case .wifi:
+            internetConect = true
         }
         
         print("Reachability Summary")
@@ -446,7 +472,7 @@ class FriendProfileVC: UIViewController {
         case 2:
             //Status = Send me a request to add a friend
             respondBtn.isHidden = false
-            cancelRequestBtn.isHidden = true
+            cancelRequestBtn.isHidden = false
             sendRequestBtn.isHidden = true
             svBtns.isHidden = true
             unblockBtn.isHidden = true
@@ -489,7 +515,7 @@ extension FriendProfileVC : TagListViewDelegate {
     // MARK: TagListViewDelegate
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag pressed: \(title), \(sender)")
-        tagView.isSelected = !tagView.isSelected
+//        tagView.isSelected = !tagView.isSelected
     }
     
     func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {

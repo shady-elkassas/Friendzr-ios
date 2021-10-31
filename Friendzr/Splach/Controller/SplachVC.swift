@@ -56,7 +56,8 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
                 Router().toEditProfileVC()
             }else {
                 if Defaults.token != "" {
-                    self.getProfileInformation()
+//                    self.getProfileInformation()
+                    Router().toFeed()
                 }else {
                     Router().toSplachOne()
                 }
@@ -67,7 +68,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     override func viewWillAppear(_ animated: Bool) {
         setupCLLocationManager()
     }
-    
     
     func getProfileInformation() {
         self.showLoading()
@@ -89,15 +89,44 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         }
     }
     
+    var duration: Double = 1.5
+    var delay: Double = 2.0
+    var minimumBeats: Int = 1
+    
+    func animateLayer(_ animation: AnimationExecution, completion: AnimationCompletion? = nil) {
+        
+        CATransaction.begin()
+        if let completion = completion {
+            CATransaction.setCompletionBlock { completion() }
+        }
+        animation()
+        CATransaction.commit()
+    }
+    
+    func setupAnimation() {
+        UIView.animate(withDuration: 1) {
+            let size = self.view.frame.size.width * 3
+            let diffx = size - self.view.frame.size.width
+            let diffy = self.view.frame.size.height - size
+            
+            self.imageView.frame = CGRect(x: -(diffx/2), y: diffy/2, width: size, height: size)
+        }
+        
+        UIView.animate(withDuration: 1.5) {
+            self.imageView.alpha = 0
+        }
+    }
     
     func updateMyLocation() {
-        updateLocationVM.updatelocation(ByLat: self.locationLat, AndLng: self.locationLng) { error, data in
+        updateLocationVM.updatelocation(ByLat: "\(self.locationLat)", AndLng: "\(self.locationLng)") { error, data in
             if let error = error {
                 self.showAlert(withMessage: error)
                 return
             }
             
             guard let _ = data else {return}
+            Defaults.LocationLat = "\(self.locationLat)"
+            Defaults.LocationLng = "\(self.locationLng)"
         }
     }
     
@@ -155,33 +184,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         self.checkLocationPermission()
     }
     
-    var duration: Double = 1.5
-    var delay: Double = 2.0
-    var minimumBeats: Int = 1
-    
-    func animateLayer(_ animation: AnimationExecution, completion: AnimationCompletion? = nil) {
-        
-        CATransaction.begin()
-        if let completion = completion {
-            CATransaction.setCompletionBlock { completion() }
-        }
-        animation()
-        CATransaction.commit()
-    }
-    
-    func setupAnimation() {
-        UIView.animate(withDuration: 1) {
-            let size = self.view.frame.size.width * 3
-            let diffx = size - self.view.frame.size.width
-            let diffy = self.view.frame.size.height - size
-            
-            self.imageView.frame = CGRect(x: -(diffx/2), y: diffy/2, width: size, height: size)
-        }
-        
-        UIView.animate(withDuration: 1.5) {
-            self.imageView.alpha = 0
-        }
-    }
     
     func checkLocationPermission() {
         if CLLocationManager.locationServicesEnabled() {
@@ -200,7 +202,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         }
     }
     
-    //create alert when user not access location
+//    create alert when user not access location
     func createSettingsAlertController(title: String, message: String) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)

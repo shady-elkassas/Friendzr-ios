@@ -34,18 +34,18 @@ final class NavigationController: UINavigationController {
         super.viewDidLoad()
         navigationBar.isTranslucent = false
         navigationBar.tintColor = .white
-        navigationBar.barTintColor = .primaryColor
+        navigationBar.barTintColor = .FriendzrColors.primary
         navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         navigationBar.shadowImage = UIImage()
         navigationBar.setBackgroundImage(UIImage(), for: .default)
-        view.backgroundColor = .primaryColor
+        view.backgroundColor = .FriendzrColors.primary
     }
     
     func setAppearanceStyle(to style: UIStatusBarStyle) {
         if style == .default {
             navigationBar.shadowImage = UIImage()
-            navigationBar.barTintColor = .primaryColor
+            navigationBar.barTintColor = .FriendzrColors.primary
             navigationBar.tintColor = .white
             navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
             navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]

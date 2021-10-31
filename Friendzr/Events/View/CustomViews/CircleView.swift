@@ -46,19 +46,19 @@ struct CircleView: View {
         }
         .onAppear(){
             for i in 0...male {
-                DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(i/20)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(i/60)) {
                     self.fill1 += 0.01
                 }
             }
             
             for i in 0...female {
-                DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(i/20)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(i/60)) {
                     self.fill2 += 0.01
                 }
             }
             
             for i in 0...other {
-                DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(i/20)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + TimeInterval(i/60)) {
                     self.fill3 += 0.01
                 }
             }

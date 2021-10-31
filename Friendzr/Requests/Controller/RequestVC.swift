@@ -36,12 +36,13 @@ class RequestVC: UIViewController {
         
         setup()
         pullToRefresh()
+        self.title = "Request"
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.title = "Request"
         setupNavBar()
         initProfileBarButton()
+        
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
@@ -164,9 +165,6 @@ class RequestVC: UIViewController {
         }
     }
     
-    func HandleUnauthorized() {
-    }
-    
     func pullToRefresh() {
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -269,12 +267,11 @@ extension RequestVC:UITableViewDataSource {
             self.updateNetworkForBtns()
             if self.internetConnect {
                 guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
-                
                 vc.eventChat = false
                 vc.eventChatID = ""
                 vc.chatuserID = model?.userId ?? ""
-                
                 vc.titleChatName = model?.userName ?? ""
+                vc.titleChatImage = model?.image ?? ""
                 self.navigationController?.pushViewController(vc, animated: true)
             }else {
                 return

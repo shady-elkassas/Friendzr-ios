@@ -16,7 +16,7 @@ class UpdateLocationViewModel {
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
-    func updatelocation(ByLat lat:Double,AndLng lng:Double,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+    func updatelocation(ByLat lat:String,AndLng lng:String,completion: @escaping (_ error: String?, _ data: ProfileObj?) -> ()) {
         
         let url = URLs.baseURLFirst + "Account/Updatelocation"
         let headers = RequestComponent.headerComponent([.authorization,.type])
@@ -35,7 +35,7 @@ class UpdateLocationViewModel {
             }
             else {
                 // When set the listener (if any) will be notified
-                if let toAdd = userResponse.message {
+                if let toAdd = userResponse.data {
                     completion(nil, toAdd)
                 }
             }

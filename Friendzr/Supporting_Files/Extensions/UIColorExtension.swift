@@ -11,12 +11,22 @@ import UIKit
 public extension UIColor {
     
     struct FriendzrColors {
-        static let primary = UIColor.color("#0BBEA1")
-        static let secondry =  UIColor.color("#C4C4C4")
-        static let thirdry =  UIColor.color("#696969")
-        static let fourthly =  UIColor.color("#C3EE40")
-        static let fifthly =  UIColor.color("#3A5998")
-        static let sixthly =  UIColor.color("#1068F0")
+        static var primary = UIColor.color("#0BBEA1")
+        static var secondry =  UIColor.color("#C4C4C4")
+        static var thirdry =  UIColor.color("#696969")
+        static var fourthly =  UIColor.color("#C3EE40")
+        static var fifthly =  UIColor.color("#3A5998")
+        static var sixthly =  UIColor.color("#1068F0")
+    }
+    
+    static func setColor(lightColor: UIColor, darkColor: UIColor) -> UIColor {
+        if #available(iOS 13, *) {
+            return UIColor{ (traitCollection) -> UIColor in
+                return traitCollection.userInterfaceStyle == .light ? lightColor : darkColor
+            }
+        } else {
+            return lightColor
+        }
     }
     
     class func color(_ hexString: String) -> UIColor? {

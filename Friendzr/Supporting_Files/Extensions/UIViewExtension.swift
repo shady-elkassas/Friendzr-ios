@@ -10,8 +10,8 @@ import UIKit
 
 extension UIView {
     
-    func setBorder( color: CGColor? = UIColor.FriendzrColors.secondry?.cgColor.copy(alpha: 0.5), width: CGFloat? = 0.5) {
-        self.layer.borderColor = color ?? UIColor.lightGray.cgColor.copy(alpha: 0.5)
+    func setBorder( color: CGColor? = UIColor.setColor(lightColor: .lightGray, darkColor: .white).cgColor.copy(alpha: 0.5), width: CGFloat? = 0.5) {
+        self.layer.borderColor = color ?? UIColor.setColor(lightColor: .lightGray, darkColor: .white).cgColor.copy(alpha: 0.5)
         self.layer.borderWidth = width ?? 0.5
     }
     
@@ -35,7 +35,7 @@ extension UIView {
     }
     
     
-    func shadow( shadowOpacity: Float? = 0.5, color: CGColor? = UIColor.FriendzrColors.thirdry?.withAlphaComponent(0.5).cgColor) {
+    func shadow( shadowOpacity: Float? = 0.5, color: CGColor? = UIColor.lightGray.withAlphaComponent(0.5).cgColor) {
         self.layer.masksToBounds = false
         self.layer.shadowColor = color
         self.layer.shadowOffset = CGSize.zero
@@ -93,7 +93,7 @@ class RoundedView: UIView {
 class RoundedBtn: UIButton {
     override func awakeFromNib() {
         self.layer.cornerRadius = 8.0
-        self.layer.borderColor = UIColor.FriendzrColors.secondry?.cgColor
+        self.layer.borderColor = UIColor.lightGray.cgColor
         self.layer.borderWidth = 0.5
     }
     

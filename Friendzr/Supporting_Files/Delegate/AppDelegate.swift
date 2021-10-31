@@ -17,6 +17,9 @@ import Firebase
 import FirebaseMessaging
 import FirebaseAnalytics
 import FirebaseCrashlytics
+import CoreLocation
+import UserNotifications
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,6 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
     var badgeNumber:Int = 0
+    static let geoCoder = CLGeocoder()
+    let center = UNUserNotificationCenter.current()
+    let locationManager = CLLocationManager()
+    var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -32,10 +39,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!], for: .selected)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 8)!], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 8)!], for: .selected)
-        
-        UIApplication.shared.windows.forEach { window in
-            window.overrideUserInterfaceStyle = .light
-        }
         
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
         
@@ -78,8 +81,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateBadgeApp), name: Notification.Name("updateBadgeApp"), object: nil)
         application.applicationIconBadgeNumber = 0
+        
+        
+        center.requestAuthorization(options: [.alert, .sound]) { granted, error in
+        }
+        locationManager.requestAlwaysAuthorization()
+        
+        locationManager.startMonitoringVisits()
+        locationManager.delegate = self
+        
+        // Uncomment following code to enable fake visits
+        locationManager.distanceFilter = 500 // meter
+        locationManager.allowsBackgroundLocationUpdates = true // 1
+        locationManager.startUpdatingLocation()  // 2
+        
+        //        NotificationCenter.default.addObserver(
+        //            self,
+        //            selector: #selector(newLocationAdded(_:)),
+        //            name: .newLocationSaved,
+        //            object: nil)
+        
+        if Defaults.darkMode == true {
+            UIApplication.shared.windows.forEach { window in
+                window.overrideUserInterfaceStyle = .dark
+            }
+        }else {
+            UIApplication.shared.windows.forEach { window in
+                window.overrideUserInterfaceStyle = .light
+            }
+        }
+        
         return true
     }
+    
+    
+    //    @objc func newLocationAdded(_ notification: Notification) {
+    //
+    //    }
     
     // MARK: UISceneSession Lifecycle
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -235,13 +273,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.userID = actionId!
-                    tabBarController.selectedIndex = 3
+                    //                    tabBarController.selectedIndex = 3
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "Accept_Friend_Request" {
                 if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
+                    //                    tabBarController.selectedIndex = 3
                     vc.userID = actionId ?? ""
                     navController.pushViewController(vc, animated: true)
                 }
@@ -252,6 +291,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     vc.eventChat = true
                     vc.eventChatID = actionId ?? ""
                     vc.chatuserID = ""
+                    //                    tabBarController.selectedIndex = 0
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "user_chat"{
@@ -261,6 +301,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     vc.eventChat = false
                     vc.eventChatID = ""
                     vc.chatuserID = actionId ?? ""
+                    //                    tabBarController.selectedIndex = 0
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "event_Updated"{
@@ -268,6 +309,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
+                    //                    tabBarController.selectedIndex = 4
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "update_Event_Data"{
@@ -275,6 +317,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
+                    //                    tabBarController.selectedIndex = 4
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "event_attend"{
@@ -282,6 +325,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
+                    //                    tabBarController.selectedIndex = 4
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "Event_reminder" {
@@ -289,6 +333,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
+                    //                    tabBarController.selectedIndex = 4
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "Check_events_near_you" {
@@ -405,5 +450,89 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             // Fallback on earlier versions
             completionHandler([[.alert, .badge, .sound]])
         }
+    }
+}
+
+extension AppDelegate: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
+        // create CLLocation from the coordinates of CLVisit
+        let clLocation = CLLocation(latitude: visit.coordinate.latitude, longitude: visit.coordinate.longitude)
+        
+        // Get location description
+        AppDelegate.geoCoder.reverseGeocodeLocation(clLocation) { placemarks, _ in
+            if let place = placemarks?.first {
+                let description = "\(place)"
+                self.newVisitReceived(visit, description: description)
+            }
+        }
+    }
+    
+    func newVisitReceived(_ visit: CLVisit, description: String) {
+        let location = Location(visit: visit, descriptionString: description)
+        LocationsStorage.shared.saveLocationOnDisk(location)
+        
+        //        let content = UNMutableNotificationContent()
+        //        content.title = "New Location Entry 📌"
+        //        content.body = location.description
+        //        content.sound = UNNotificationSound.default
+        //
+        //        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        //        let request = UNNotificationRequest(identifier: location.dateString, content: content, trigger: trigger)
+        //
+        //        center.add(request, withCompletionHandler: nil)
+        
+        //update location server
+        self.updateLocationVM.updatelocation(ByLat: "\(location.latitude)", AndLng: "\(location.longitude)") { error, data in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let _ = data else {return}
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.first else {
+            return
+        }
+        
+        AppDelegate.geoCoder.reverseGeocodeLocation(location) { placemarks, _ in
+            if let place = placemarks?.first {
+                let description = "Fake visit: \(place)"
+                
+                let fakeVisit = FakeVisit(coordinates: location.coordinate, arrivalDate: Date(), departureDate: Date())
+                self.newVisitReceived(fakeVisit, description: description)
+            }
+        }
+    }
+}
+
+final class FakeVisit: CLVisit {
+    private let myCoordinates: CLLocationCoordinate2D
+    private let myArrivalDate: Date
+    private let myDepartureDate: Date
+    
+    override var coordinate: CLLocationCoordinate2D {
+        return myCoordinates
+    }
+    
+    override var arrivalDate: Date {
+        return myArrivalDate
+    }
+    
+    override var departureDate: Date {
+        return myDepartureDate
+    }
+    
+    init(coordinates: CLLocationCoordinate2D, arrivalDate: Date, departureDate: Date) {
+        myCoordinates = coordinates
+        myArrivalDate = arrivalDate
+        myDepartureDate = departureDate
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

@@ -63,7 +63,7 @@ extension BasicExampleViewController: MessagesDisplayDelegate {
     // MARK: - All Messages
     
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.sixthly! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {

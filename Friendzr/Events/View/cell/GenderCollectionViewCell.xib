@@ -19,10 +19,10 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TbC-fA-CdQ">
-                        <rect key="frame" x="5" y="5" width="221" height="164"/>
+                        <rect key="frame" x="5" y="5" width="206" height="164"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="ZXu-vV-Vxe">
-                                <rect key="frame" x="0.0" y="0.0" width="221" height="164"/>
+                                <rect key="frame" x="0.0" y="0.0" width="206" height="164"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -40,7 +40,7 @@
             <constraints>
                 <constraint firstItem="TbC-fA-CdQ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="RY7-LZ-3xC"/>
                 <constraint firstAttribute="bottom" secondItem="TbC-fA-CdQ" secondAttribute="bottom" constant="5" id="n3z-WN-2sx"/>
-                <constraint firstAttribute="trailing" secondItem="TbC-fA-CdQ" secondAttribute="trailing" constant="5" id="oYJ-EO-5uc"/>
+                <constraint firstAttribute="trailing" secondItem="TbC-fA-CdQ" secondAttribute="trailing" constant="20" id="oYJ-EO-5uc"/>
                 <constraint firstItem="TbC-fA-CdQ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="tVg-j5-ZoD"/>
             </constraints>
             <size key="customSize" width="231" height="174"/>

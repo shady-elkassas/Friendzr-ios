@@ -25,8 +25,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 8)!], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 8)!], for: .selected)
 
-        UIApplication.shared.windows.forEach { window in
-            window.overrideUserInterfaceStyle = .light
+        if Defaults.darkMode == true {
+            UIApplication.shared.windows.forEach { window in
+                window.overrideUserInterfaceStyle = .dark
+            }
+        }else {
+            UIApplication.shared.windows.forEach { window in
+                window.overrideUserInterfaceStyle = .light
+            }
         }
         
         guard let _ = (scene as? UIWindowScene) else { return }

@@ -16,7 +16,7 @@ import UIKit
 @IBDesignable
 open class TagListView: UIView {
     
-    @IBInspectable open dynamic var textColor: UIColor = .white {
+    @IBInspectable open dynamic var textColor: UIColor = UIColor.setColor(lightColor: .white, darkColor: .black) {
         didSet {
             tagViews.forEach {
                 $0.textColor = textColor
@@ -187,7 +187,7 @@ open class TagListView: UIView {
         }
     }
     
-    @IBInspectable open dynamic var removeIconLineColor: UIColor = UIColor.white.withAlphaComponent(0.54) {
+    @IBInspectable open dynamic var removeIconLineColor: UIColor = UIColor.setColor(lightColor: .white, darkColor: .blue) {
         didSet {
             defer { rearrangeViews() }
             tagViews.forEach {

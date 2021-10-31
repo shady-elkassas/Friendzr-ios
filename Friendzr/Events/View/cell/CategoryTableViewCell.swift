@@ -28,7 +28,7 @@ class CategoryTableViewCell: UITableViewCell {
             titleLbl.textColor = .white
         }else {
             containerView.backgroundColor = .clear
-            titleLbl.textColor = .black
+            titleLbl.textColor = UIColor.setColor(lightColor: .black, darkColor: .white)
         }
     }
 }

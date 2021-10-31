@@ -20,7 +20,7 @@ class GenderCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        containerView.cornerRadiusView(radius: 8)
+        containerView.cornerRadiusView(radius: 20)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.reloadData()

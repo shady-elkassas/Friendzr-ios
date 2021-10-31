@@ -51,7 +51,7 @@ final class MessageSubviewContainerViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = .primaryColor
+        navigationController?.navigationBar.barTintColor = .FriendzrColors.primary
     }
 
 }

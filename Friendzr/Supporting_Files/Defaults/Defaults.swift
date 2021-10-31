@@ -50,7 +50,6 @@ class Defaults {
         }
     }
     
-    
     static var isVerified: Bool {
         set{
             UserDefaults.standard.set(newValue, forKey: "isVerified")
@@ -58,6 +57,16 @@ class Defaults {
         }
         get{
             return UserDefaults.standard.bool(forKey: "isVerified")
+        }
+    }
+    
+    static var darkMode: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "darkMode")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "darkMode")
         }
     }
     

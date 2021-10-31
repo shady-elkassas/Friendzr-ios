@@ -37,6 +37,7 @@ public class MagneticView: SKView {
         super.layoutSubviews()
         
         magnetic.size = bounds.size
+        magnetic.backgroundColor = .clear
     }
     
 }

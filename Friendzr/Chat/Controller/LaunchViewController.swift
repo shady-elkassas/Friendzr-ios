@@ -116,7 +116,7 @@ final internal class LaunchViewController: UITableViewController {
     
     func openURL(_ url: URL) {
         let webViewController = SFSafariViewController(url: url)
-        webViewController.preferredControlTintColor = .primaryColor
+        webViewController.preferredControlTintColor = .FriendzrColors.primary
         splitViewController?.showDetailViewController(webViewController, sender: self)
     }
 }

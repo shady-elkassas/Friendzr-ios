@@ -48,11 +48,13 @@ class TagsVC: UIViewController {
         
         initBackButton()
         self.title = "Tags"
-        clearNavigationBar()
+        setupNavBar()
         
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        self.view.backgroundColor = UIColor.setColor(lightColor: .white, darkColor: .black)
     }
     
     func addTags(node:InterestObj)  {

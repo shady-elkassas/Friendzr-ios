@@ -1,0 +1,45 @@
+
+/* Class = "UISearchBar"; placeholder = "Search Messages"; ObjectID = "1Y7-7B-Za0"; */
+"1Y7-7B-Za0.placeholder" = "Search Messages";
+
+/* Class = "UITabBarItem"; title = "Inbox"; ObjectID = "2iS-8r-HPh"; */
+"2iS-8r-HPh.title" = "Inbox";
+
+/* Class = "UISearchBar"; placeholder = "Search Messages"; ObjectID = "50Q-Ux-eL4"; */
+"50Q-Ux-eL4.placeholder" = "Search Messages";
+
+/* Class = "UIButton"; configuration.title = "Try Again!"; ObjectID = "DDk-EQ-eim"; */
+"DDk-EQ-eim.configuration.title" = "Try Again!";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "DDk-EQ-eim"; */
+"DDk-EQ-eim.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "R6Q-SE-yeC"; */
+"R6Q-SE-yeC.text" = "Label";
+
+/* Class = "UIButton"; configuration.title = "Try Again!"; ObjectID = "SrE-I2-0bx"; */
+"SrE-I2-0bx.configuration.title" = "Try Again!";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "SrE-I2-0bx"; */
+"SrE-I2-0bx.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "ajx-2K-RQb"; */
+"ajx-2K-RQb.text" = "Label";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "bA3-y7-XNA"; */
+"bA3-y7-XNA.title" = "Item";
+
+/* Class = "UILabel"; text = "Choose the location you want to send and click send"; ObjectID = "hv6-ud-ERr"; */
+"hv6-ud-ERr.text" = "Choose the location you want to send and click send";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "itO-nh-3Lr"; */
+"itO-nh-3Lr.title" = "Item";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "sN4-3G-DtR"; */
+"sN4-3G-DtR.title" = "Item";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "wzX-qN-5X2"; */
+"wzX-qN-5X2.title" = "Item";
+
+/* Class = "UIButton"; normalTitle = "Send"; ObjectID = "x4D-lA-lF4"; */
+"x4D-lA-lF4.normalTitle" = "Send";

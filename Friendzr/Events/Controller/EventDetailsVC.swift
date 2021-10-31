@@ -33,6 +33,7 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var chartTitleLbl: UILabel!
     
+    @IBOutlet weak var attendeesView: UIView!
     //MARK: - Properties
     var numbers:[Double] = [1,2,3]
     var genders:[String] = ["Men","Women","Other"]
@@ -48,6 +49,20 @@ class EventDetailsVC: UIViewController {
     var internetConect:Bool = false
     
     var visibleIndexPath:Int = 0
+    
+    private let formatterDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    private let formatterTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -166,6 +181,7 @@ class EventDetailsVC: UIViewController {
         }
         
         chartContainerView.cornerRadiusView(radius: 21)
+        attendeesView.cornerRadiusView(radius: 21)
     }
     
     
@@ -244,9 +260,12 @@ class EventDetailsVC: UIViewController {
     @IBAction func joinBtn(_ sender: Any) {
         showNewtworkConnected()
         
+        let JoinDate = self.formatterDate.string(from: Date())
+        let Jointime = self.formatterTime.string(from: Date())
+
         if internetConect == true {
             self.showLoading()
-            joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in
+            joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? "",JoinDate:JoinDate ,Jointime:Jointime) { error, data in
                 self.hideLoading()
                 if let error = error {
                     self.showAlert(withMessage: error)
@@ -337,17 +356,20 @@ extension EventDetailsVC: UITableViewDelegate {
         let model = viewmodel.event.value?.attendees?[indexPath.row]
         
         if model?.myEventO == true {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "") as? MyProfileVC else {return}
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }else {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
-            vc.userID = model?.id ?? ""
+            vc.userID = model?.userId ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }
 
 extension EventDetailsVC: UICollectionViewDataSource {
+    //    func numberOfSections(in tableView: UITableView) -> Int {
+    //
+    //    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 2
     }
@@ -386,12 +408,27 @@ extension EventDetailsVC: UICollectionViewDelegate,UICollectionViewDelegateFlowL
         let visibleIndexPatho = collectionView.indexPathForItem(at: visiblePoint)
         print("visibleIndexPatho : \(visibleIndexPatho?.row ?? 0)")
         
-//        for cell in collectionView.visibleCells {
-//            let indexPath = collectionView.indexPath(for: cell)
-//            print("indexPath : \(indexPath?.row ?? 0)")
-//
-            visibleIndexPath = visibleIndexPatho?.row ?? 0
-            NotificationCenter.default.post(name: Notification.Name("updateViews"), object: nil, userInfo: nil)
-//        }
+        //        for cell in collectionView.visibleCells {
+        //            let indexPath = collectionView.indexPath(for: cell)
+        //            print("indexPath : \(indexPath?.row ?? 0)")
+        //
+        visibleIndexPath = visibleIndexPatho?.row ?? 0
+        NotificationCenter.default.post(name: Notification.Name("updateViews"), object: nil, userInfo: nil)
+        //        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        }
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 }

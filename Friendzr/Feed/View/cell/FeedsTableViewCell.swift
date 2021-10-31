@@ -15,28 +15,23 @@ class FeedsTableViewCell: UITableViewCell {
     @IBOutlet weak var friendRequestUserNameLbl: UILabel!
     @IBOutlet weak var sendRequestBtn: UIButton!
     @IBOutlet weak var cancelRequestBtn: UIButton!
-    
     @IBOutlet weak var respondBtn: UIButton!
-    @IBOutlet weak var unfriendBtn: UIButton!
-    @IBOutlet weak var blockBtn: UIButton!
-    @IBOutlet weak var stackBtnsView: UIStackView!
     @IBOutlet weak var unblockBtn: UIButton!
-    
+    @IBOutlet weak var messageBtn: UIButton!
     
     var HandleSendRequestBtn: (() -> ())?
     var HandleCancelRequestBtn: (() -> ())?
-    var HandleBlockBtn: (() -> ())?
+    var HandleMessageBtn: (() -> ())?
     var HandleUnblocktBtn: (() -> ())?
     var HandleRespondBtn: (() -> ())?
-    var HandleUnfreiendBtn: (() -> ())?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         cancelRequestBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1)
         sendRequestBtn.cornerRadiusView(radius: 6)
-        blockBtn.cornerRadiusView(radius: 6)
-        unfriendBtn.cornerRadiusView(radius: 6)
+        cancelRequestBtn.cornerRadiusView(radius: 6)
+        messageBtn.cornerRadiusView(radius: 6)
         respondBtn.cornerRadiusView(radius: 6)
         unblockBtn.cornerRadiusView(radius: 6)
         friendRequestImg.cornerRadiusForHeight()
@@ -58,19 +53,16 @@ class FeedsTableViewCell: UITableViewCell {
         HandleCancelRequestBtn?()
     }
     
-    @IBAction func blockBtn(_ sender: Any) {
-        HandleBlockBtn?()
-    }
-    
-    @IBAction func unfriendBtn(_ sender: Any) {
-        HandleUnfreiendBtn?()
-    }
-    
     @IBAction func respondBtn(_ sender: Any) {
         HandleRespondBtn?()
     }
     
     @IBAction func unblockBtn(_ sender: Any) {
         HandleUnblocktBtn?()
+    }
+    
+    
+    @IBAction func messageBtn(_ sender: Any) {
+        HandleMessageBtn?()
     }
 }

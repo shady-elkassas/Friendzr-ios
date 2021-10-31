@@ -32,7 +32,7 @@ final class AutocompleteExampleViewController: ChatViewController {
     lazy var joinChatButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = 16
-        button.backgroundColor = .primaryColor
+        button.backgroundColor = .FriendzrColors.primary
         button.setTitle("JOIN CHAT", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.setTitleColor(UIColor(white: 1, alpha: 0.3), for: .highlighted)
@@ -78,7 +78,7 @@ final class AutocompleteExampleViewController: ChatViewController {
         messageInputBar.inputTextView.keyboardType = .twitter
 
         // Configure AutocompleteManager
-        autocompleteManager.register(prefix: "@", with: [.font: UIFont.preferredFont(forTextStyle: .body), .foregroundColor: UIColor.primaryColor, .backgroundColor: UIColor.primaryColor.withAlphaComponent(0.3)])
+        autocompleteManager.register(prefix: "@", with: [.font: UIFont.preferredFont(forTextStyle: .body), .foregroundColor: UIColor.FriendzrColors.primary!, .backgroundColor: UIColor.FriendzrColors.primary!.withAlphaComponent(0.3)])
         autocompleteManager.register(prefix: "#")
         autocompleteManager.maxSpaceCountDuringCompletion = 1 // Allow for autocompletes with a space
 
@@ -120,7 +120,7 @@ final class AutocompleteExampleViewController: ChatViewController {
         messageInputBar.setStackViewItems(bottomItems, forStack: .bottom, animated: false)
 
         messageInputBar.sendButton.activityViewColor = .white
-        messageInputBar.sendButton.backgroundColor = .primaryColor
+        messageInputBar.sendButton.backgroundColor = .FriendzrColors.primary
         messageInputBar.sendButton.layer.cornerRadius = 10
         messageInputBar.sendButton.setTitleColor(.white, for: .normal)
         messageInputBar.sendButton.setTitleColor(UIColor(white: 1, alpha: 0.3), for: .highlighted)
@@ -170,7 +170,7 @@ final class AutocompleteExampleViewController: ChatViewController {
                 $0.setSize(CGSize(width: 25, height: 25), animated: false)
                 $0.tintColor = UIColor(white: 0.8, alpha: 1)
             }.onSelected {
-                $0.tintColor = .primaryColor
+                $0.tintColor = .FriendzrColors.primary
             }.onDeselected {
                 $0.tintColor = UIColor(white: 0.8, alpha: 1)
             }.onTouchUpInside { _ in
@@ -253,7 +253,7 @@ extension AutocompleteExampleViewController: AutocompleteManagerDelegate, Autoco
         }
         cell.imageViewEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         cell.imageView?.layer.cornerRadius = 14
-        cell.imageView?.layer.borderColor = UIColor.primaryColor.cgColor
+        cell.imageView?.layer.borderColor = UIColor.FriendzrColors.primary?.cgColor
         cell.imageView?.layer.borderWidth = 1
         cell.imageView?.clipsToBounds = true
         cell.textLabel?.attributedText = manager.attributedText(matching: session, fontSize: 15)
@@ -312,7 +312,7 @@ extension AutocompleteExampleViewController: MessagesDisplayDelegate {
             if isFromCurrentSender(message: message) {
                 return [.foregroundColor: UIColor.white]
             } else {
-                return [.foregroundColor: UIColor.primaryColor]
+                return [.foregroundColor: UIColor.FriendzrColors.primary!]
             }
         default: return MessageLabel.defaultAttributes
         }
@@ -325,7 +325,7 @@ extension AutocompleteExampleViewController: MessagesDisplayDelegate {
     // MARK: - All Messages
 
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? .primaryColor : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        return isFromCurrentSender(message: message) ? .FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
     }
 
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
@@ -337,7 +337,7 @@ extension AutocompleteExampleViewController: MessagesDisplayDelegate {
         avatarView.set(avatar: avatar)
         avatarView.isHidden = isNextMessageSameSender(at: indexPath)
         avatarView.layer.borderWidth = 2
-        avatarView.layer.borderColor = UIColor.primaryColor.cgColor
+        avatarView.layer.borderColor = UIColor.FriendzrColors.primary?.cgColor
     }
 
     func configureAccessoryView(_ accessoryView: UIView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
@@ -346,12 +346,12 @@ extension AutocompleteExampleViewController: MessagesDisplayDelegate {
         accessoryView.subviews.forEach { $0.removeFromSuperview() }
 
         let button = UIButton(type: .infoLight)
-        button.tintColor = .primaryColor
+        button.tintColor = .FriendzrColors.primary
         accessoryView.addSubview(button)
         button.frame = accessoryView.bounds
         button.isUserInteractionEnabled = false // respond to accessoryView tap through `MessageCellDelegate`
         accessoryView.layer.cornerRadius = accessoryView.frame.height / 2
-        accessoryView.backgroundColor = UIColor.primaryColor.withAlphaComponent(0.3)
+        accessoryView.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.3)
     }
     
     func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {

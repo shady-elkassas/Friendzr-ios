@@ -120,10 +120,10 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
     
     func configureMessageInputBar() {
         messageInputBar.delegate = self
-        messageInputBar.inputTextView.tintColor = .primaryColor
-        messageInputBar.sendButton.setTitleColor(.primaryColor, for: .normal)
+        messageInputBar.inputTextView.tintColor = .FriendzrColors.primary
+        messageInputBar.sendButton.setTitleColor(.FriendzrColors.primary, for: .normal)
         messageInputBar.sendButton.setTitleColor(
-            UIColor.primaryColor.withAlphaComponent(0.3),
+            UIColor.FriendzrColors.primary?.withAlphaComponent(0.3),
             for: .highlighted
         )
     }
@@ -170,13 +170,13 @@ class ChatViewController: MessagesViewController, MessagesDataSource {
 
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         if indexPath.section % 3 == 0 {
-            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+            return NSAttributedString(string: MessageKitDateFormatter.shared.string(from: message.sentDate), attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.setColor(lightColor: .darkGray, darkColor: .white)])
         }
         return nil
     }
 
     func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        return NSAttributedString(string: "Read", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        return NSAttributedString(string: "Read", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.setColor(lightColor: .darkGray, darkColor: .white)])
     }
 
     func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {

@@ -15,17 +15,18 @@ class Language {
         
         let language = def.object(forKey: "AppleLanguages") as! NSArray
         let firstLang = language.firstObject as! String
+        
         if firstLang == "ar" {
             return firstLang
-        } else {
+        } else if firstLang == "en"{
             return "en"
+        } else {
+            return "fr"
         }
     }
     
     class func setAppLanuage(lang: String) {
-        
         let def = UserDefaults.standard
-        
         def.set([lang, currentLanguage()], forKey: "AppleLanguages")
         def.synchronize()
     }
@@ -34,6 +35,7 @@ class Language {
         let Text = NSLocalizedString(text, comment: "")
         return Text
     }
+    
     class func getCurrentLanguageForTheApp () -> lang {
         return .Ar
     }
@@ -42,4 +44,5 @@ class Language {
 enum lang : String {
     case Ar
     case En
+    case Fr
 }

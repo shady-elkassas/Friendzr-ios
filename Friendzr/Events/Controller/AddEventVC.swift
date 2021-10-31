@@ -67,6 +67,20 @@ class AddEventVC: UIViewController {
     
     var internetConect:Bool = false
     
+    private let formatterDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    private let formatterTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -328,10 +342,14 @@ class AddEventVC: UIViewController {
     }
     
     @IBAction func saveBtn(_ sender: Any) {
+        
+        let eventDate = self.formatterDate.string(from: Date())
+        let eventTime = self.formatterTime.string(from: Date())
+        
         updateUserInterfaceBtns()
         if internetConect == true {
             self.showLoading()
-            viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
+            viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
                 self.hideLoading()
                 
                 if let error = error {

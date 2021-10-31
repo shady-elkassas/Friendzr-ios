@@ -64,6 +64,8 @@ class MapVC: UIViewController {
     var internetConect:Bool = false
     //    var btnsSelect:Bool = false
     
+//    let settingsMap = GMSUISettings()
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -319,24 +321,7 @@ class MapVC: UIViewController {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: {_ in
-            if Defaults.token != "" {
-                self.settingVM.toggleAllowMyLocation(allowMyLocation: false) { error, data in
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
-                    }
-                    
-                    guard let data = data else {
-                        return
-                    }
-                    
-                    Defaults.allowMyLocation = data.allowmylocation ?? false
-                }
-            }else {
-                Defaults.allowMyLocation = false
-            }
-        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
         }

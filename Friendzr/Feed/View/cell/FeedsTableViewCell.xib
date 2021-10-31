@@ -4,8 +4,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -42,7 +42,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SuI-ZI-y9r">
                                         <rect key="frame" x="0.0" y="0.0" width="39" height="17.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
-                                        <color key="textColor" red="0.078431372550000003" green="0.078431372550000003" blue="0.078431372550000003" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" name="ColorLbl1"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iI3-xn-RvY">
@@ -53,7 +53,7 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="PGC-jE-WUn">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="PGC-jE-WUn">
                                 <rect key="frame" x="192" y="40" width="130" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pPE-Km-DIm">
@@ -70,40 +70,25 @@
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a9Y-vr-ekR">
                                         <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
-                                        <state key="normal" title="Request Sent">
+                                        <state key="normal" title="Cancel">
                                             <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="cancelRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="aJd-zc-0nR"/>
                                         </connections>
                                     </button>
-                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vtK-aM-fSQ">
-                                        <rect key="frame" x="130" y="0.0" width="8" height="30"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mlL-gJ-xnX">
-                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
-                                                <color key="backgroundColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
-                                                <state key="normal" title="Block">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="blockBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="gpf-gY-nw1"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gCd-ZH-wh7">
-                                                <rect key="frame" x="8" y="0.0" width="0.0" height="30"/>
-                                                <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
-                                                <state key="normal" title="Unfriend">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="unfriendBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Nbp-Ek-RPd"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rmX-Aj-q1U">
+                                        <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
+                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Message">
+                                            <fontDescription key="titleFontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="messageBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="xzA-UK-aQo"/>
+                                        </connections>
+                                    </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b34-Eg-0GO">
                                         <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
                                         <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -133,7 +118,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="PGC-jE-WUn" secondAttribute="trailing" constant="25" id="6c9-V2-9GY"/>
                             <constraint firstItem="JYV-M0-z7e" firstAttribute="leading" secondItem="igJ-gy-USL" secondAttribute="leading" constant="25" id="9Mc-Fs-G51"/>
@@ -145,6 +130,7 @@
                         </constraints>
                     </view>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="igJ-gy-USL" secondAttribute="bottom" constant="1" id="6lt-o4-pNj"/>
                     <constraint firstItem="igJ-gy-USL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="RJc-tf-4rm"/>
@@ -155,25 +141,23 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="blockBtn" destination="mlL-gJ-xnX" id="ebP-BL-eH4"/>
                 <outlet property="cancelRequestBtn" destination="a9Y-vr-ekR" id="laQ-KD-I44"/>
                 <outlet property="containerView" destination="igJ-gy-USL" id="54j-aP-LFb"/>
                 <outlet property="friendRequestImg" destination="JYV-M0-z7e" id="31o-Ob-5Bm"/>
                 <outlet property="friendRequestNameLbl" destination="SuI-ZI-y9r" id="IOb-JU-8h9"/>
                 <outlet property="friendRequestUserNameLbl" destination="iI3-xn-RvY" id="Gmh-9W-gpn"/>
+                <outlet property="messageBtn" destination="rmX-Aj-q1U" id="xW5-ME-87l"/>
                 <outlet property="respondBtn" destination="b34-Eg-0GO" id="L6I-1S-xUl"/>
                 <outlet property="sendRequestBtn" destination="pPE-Km-DIm" id="DZn-hb-zyo"/>
-                <outlet property="stackBtnsView" destination="vtK-aM-fSQ" id="9de-2E-RJY"/>
                 <outlet property="unblockBtn" destination="NU4-ZR-GKU" id="ZPu-yv-03S"/>
-                <outlet property="unfriendBtn" destination="gCd-ZH-wh7" id="tTI-Gs-Iwa"/>
             </connections>
             <point key="canvasLocation" x="116.66666666666667" y="86.383928571428569"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="placeholder" width="1000" height="1000"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <namedColor name="ColorLbl1">
+            <color red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

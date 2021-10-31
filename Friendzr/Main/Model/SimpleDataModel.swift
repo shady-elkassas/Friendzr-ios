@@ -173,34 +173,34 @@ final internal class SimpleDataModel {
         switch randomMessageType() {
         case .Text:
             let randomSentence = Lorem.sentence()
-            return UserMessage(text: randomSentence, user: user, messageId: uniqueID, date: date, dateandtime: "")
+            return UserMessage(text: randomSentence, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
         case .AttributedText:
             let randomSentence = Lorem.sentence()
             let attributedText = attributedString(with: randomSentence)
-            return UserMessage(attributedText: attributedText, user: user, messageId: uniqueID, date: date, dateandtime: "")
+            return UserMessage(attributedText: attributedText, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
         case .Photo:
             let image = messageImages.random()!
-            return UserMessage(image: image, user: user, messageId: uniqueID, date: date, dateandtime: "")
+            return UserMessage(image: image, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 2)
         case .PhotoFromURL:
             let imageURL: URL = messageImageURLs.random()!
-            return UserMessage(imageURL: imageURL, user: user, messageId: uniqueID, date: date, dateandtime: "")
+            return UserMessage(imageURL: imageURL, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 2)
         case .Video:
-            return UserMessage(videoURL: URL(string: "")!, user: user, messageId: uniqueID, date: date, dateandtime: "")
+            return UserMessage(videoURL: URL(string: "")!, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 2)
         case .Audio:
             let soundURL = sounds.random()!
-            return UserMessage(audioURL: soundURL, user: user, messageId: uniqueID, date: date, dateandtime: "")
+            return UserMessage(audioURL: soundURL, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 2)
         case .Emoji:
-            return UserMessage(emoji: emojis.random()!, user: user, messageId: uniqueID, date: date, dateandtime: "")
+            return UserMessage(emoji: emojis.random()!, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
         case .Location:
-            return UserMessage(location: locations.random()!, user: user, messageId: uniqueID, date: date, dateandtime: "")
+            return UserMessage(location: locations.random()!, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 4)
         case .Url:
-            return UserMessage(linkItem: linkItem(), user: user, messageId: uniqueID, date: date, dateandtime: "")
+            return UserMessage(linkItem: linkItem(), user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 5)
         case .Phone:
-            return UserMessage(text: "123-456-7890", user: user, messageId: uniqueID, date: date, dateandtime: "")
+            return UserMessage(text: "123-456-7890", user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
         case .Custom:
-            return UserMessage(custom: "Someone left the conversation", user: system, messageId: uniqueID, date: date, dateandtime: "")
+            return UserMessage(custom: "Someone left the conversation", user: system, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
         case .ShareContact:
-            return UserMessage(contact: contactsToShare.random()!, user: user, messageId: uniqueID, date: date, dateandtime: "")
+            return UserMessage(contact: contactsToShare.random()!, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 9)
         }
     }
     // swiftlint:enable cyclomatic_complexity
@@ -214,7 +214,7 @@ final internal class SimpleDataModel {
             let user = senders.random()!
             let date = dateAddingRandomTime()
 //            let randomSentence = Lorem.sentence()
-            let message = UserMessage(text: "randomSentence", user: user, messageId: uniqueID, date: date, dateandtime: "")
+            let message = UserMessage(text: "randomSentence", user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
             messages.append(message)
         }
         completion(messages)
@@ -229,7 +229,7 @@ final internal class SimpleDataModel {
             let user = senders.random()!
             let date = dateAddingRandomTime()
 //            let randomSentence = Lorem.sentence()
-            let message = UserMessage(text: "randomSentence", user: user, messageId: uniqueID, date: date, dateandtime: "")
+            let message = UserMessage(text: "randomSentence", user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
             messages.append(message)
         }
         return messages
@@ -255,7 +255,7 @@ final internal class SimpleDataModel {
             let user = senders.random()!
             let date = dateAddingRandomTime()
             let randomSentence = Lorem.sentence()
-            let message = UserMessage(text: randomSentence, user: user, messageId: uniqueID, date: date, dateandtime: "")
+            let message = UserMessage(text: randomSentence, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
             messages.append(message)
         }
         completion(messages)

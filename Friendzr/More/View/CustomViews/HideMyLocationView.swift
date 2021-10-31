@@ -19,6 +19,7 @@ class HideMyLocationView: UIView {
     var HandleHideFromEveryOneBtn: (()->())?
     var HandleHideFromMenBtn: (()->())?
     var HandleHideFromWomenBtn: (()->())?
+    var HandlehideViewBtn: (()->())?
 
     override func awakeFromNib() {
         containerView.shadow()
@@ -27,8 +28,6 @@ class HideMyLocationView: UIView {
         menBtn.cornerRadiusView(radius: 12)
         everyoneBtn.cornerRadiusView(radius: 12)
     }
-    
-    
     
     @IBAction func everyoneBtn(_ sender: Any) {
         HandleHideFromEveryOneBtn?()
@@ -42,4 +41,7 @@ class HideMyLocationView: UIView {
         HandleHideFromWomenBtn?()
     }
     
+    @IBAction func hideViewBtn(_ sender: Any) {
+        HandlehideViewBtn?()
+    }
 }

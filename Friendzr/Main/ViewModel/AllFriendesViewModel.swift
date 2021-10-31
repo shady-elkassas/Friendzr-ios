@@ -12,9 +12,9 @@ import Alamofire
 
 class AllFriendesViewModel {
     
-    var friends : DynamicType<FriendsList> = DynamicType<FriendsList>()
+    var friends : DynamicType<ConversationList> = DynamicType<ConversationList>()
 
-    var friendsTemp : FriendsList = AllFriendesDataModel()
+    var friendsTemp : ConversationList = ConversationsDataModel()
 
     // Fields that bind to our view's
     var isSuccess : Bool = false
@@ -29,7 +29,7 @@ class AllFriendesViewModel {
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
-            guard let userResponse = Mapper<AllFriendesModel>().map(JSON: data!) else {
+            guard let userResponse = Mapper<ConversationsResponse>().map(JSON: data!) else {
                 self.error.value = error
                 return
             }

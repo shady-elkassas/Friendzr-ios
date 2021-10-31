@@ -7,22 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F9F5CFB2-DAF3-45F7-89A9-CA5976E5CFBF"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Pods/MessageKit/Sources/Layout/MessagesCollectionViewFlowLayout.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "messagesLayoutDelegate"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "B1FD2D8A-CD38-4727-95F0-E58683F2FA79"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -64,7 +48,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "29"
             endingLineNumber = "29"
-            landmarkName = "joinEvent(ByEventid:completion:)"
+            landmarkName = "joinEvent(ByEventid:JoinDate:Jointime:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -87,16 +71,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A1EFBE40-5610-437E-8D82-5DE3169F42A3"
+            uuid = "0A7D89E2-962A-4DC8-8797-E8BE50233C43"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Friendzr/Requests/Controller/RequestVC.swift"
+            filePath = "Friendzr/Main/ChatVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "275"
-            endingLineNumber = "275"
-            landmarkName = "tableView(_:cellForRowAt:)"
+            startingLineNumber = "1196"
+            endingLineNumber = "1196"
+            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

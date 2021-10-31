@@ -207,6 +207,7 @@ extension MoreVC : UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? MoreTableViewCell else {return UITableViewCell()}
         cell.imgView.image = moreList[indexPath.row].1
         cell.titleLbl.text = moreList[indexPath.row].0
+        cell.imgView.image?.withTintColor(UIColor.setColor(lightColor: .black, darkColor: .white))
         return cell
     }
 }
@@ -260,6 +261,7 @@ extension MoreVC : UITableViewDelegate {
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "About Us"
+                vc.urlString = "https://friendzr.com/about-us/"
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
@@ -267,6 +269,7 @@ extension MoreVC : UITableViewDelegate {
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "Terms & Conditions"
+                vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/EULAOct2021.pdf"
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break

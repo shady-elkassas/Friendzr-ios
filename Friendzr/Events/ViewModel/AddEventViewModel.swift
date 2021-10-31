@@ -19,8 +19,7 @@ class AddEventViewModel {
     let categoryEventViewModel = CategoryEventViewModel()
     let locationEventViewModel = LocationEventViewModel()
     let totlalNumberEventViewModel = TotlalNumberEventViewModel()
-    
-    
+
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var isLoading : Bool = false
@@ -38,7 +37,7 @@ class AddEventViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Add event
-    func addNewEvent(withTitle title:String,AndDescription description:String,AndStatus status: String,AndCategory categoryId:String,lang:Double,lat:Double,totalnumbert:String,allday:Bool,eventdateFrom:String,eventDateto:String,eventfrom:String,eventto:String,attachedImg:Bool,AndImage image:UIImage,completion: @escaping (_ error: String?, _ data: EventObj?) -> ()) {
+    func addNewEvent(withTitle title:String,AndDescription description:String,AndStatus status: String,AndCategory categoryId:String,lang:Double,lat:Double,totalnumbert:String,allday:Bool,eventdateFrom:String,eventDateto:String,eventfrom:String,eventto:String,creatDate:String,creattime:String,attachedImg:Bool,AndImage image:UIImage,completion: @escaping (_ error: String?, _ data: EventObj?) -> ()) {
         
         titleEventViewModel.data = title
         descriptionViewModel.data = description
@@ -58,11 +57,11 @@ class AddEventViewModel {
         }
         
         let url = URLs.baseURLFirst + "Events/AddEventData"
-        var parameters:[String : Any] = ["Title": title,"description":description,"status":status,"categoryid":categoryId,"lang":lang,"lat":lat,"totalnumbert": totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto]
+        var parameters:[String : Any] = ["Title": title,"description":description,"status":status,"categoryid":categoryId,"lang":lang,"lat":lat,"totalnumbert": totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto,"CreatDate":creatDate,"Creattime":creattime]
         
         
         if allday == true {
-            parameters = ["Title": title,"description":description,"status":status,"categoryid":categoryId,"lang":lang,"lat":lat,"totalnumbert": totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto]
+            parameters = ["Title": title,"description":description,"status":status,"categoryid":categoryId,"lang":lang,"lat":lat,"totalnumbert": totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"CreatDate":creatDate,"Creattime":creattime]
         }
         
         if attachedImg {
@@ -212,7 +211,25 @@ struct Media {
         self.mimeType = "image/jpeg"
         self.filename = "image.jpeg"
         
-        guard let data = image.jpegData(compressionQuality: 0.7) else { return nil }
+        guard let data = image.jpegData(compressionQuality: 0.5) else { return nil }
         self.data = data
+    }
+}
+
+struct MediaFile {
+    let key: String
+    let filename: String
+    let data: Data
+    let mimeType: String
+
+    init?(url:URL ,forKey key: String) {
+        self.key = key
+        self.mimeType = "application/pdf"
+        self.filename = "url.pdf"
+        //        guard let data = image.jpegData(compressionQuality: 0.7) else { return nil }
+        //        self.data = data
+        
+        let pdfData = try! Data(contentsOf: url.asURL())
+        self.data = pdfData
     }
 }

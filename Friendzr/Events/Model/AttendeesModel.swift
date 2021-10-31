@@ -28,7 +28,7 @@ class AttendeesModel: Mappable {
 
 class AttendeesObj: NSObject,Mappable {
     
-    var id: String? = ""
+    var userId: String? = ""
     var stutus: Int? = 0
     var userName: String? = ""
     var image:String? = ""
@@ -44,7 +44,7 @@ class AttendeesObj: NSObject,Mappable {
     
     // Mappable
     func mapping(map: Map) {
-        id    <- map["id"]
+        userId    <- map["userId"]
         userName   <- map["userName"]
         stutus <- map["stutus"]
         image <- map["image"]

@@ -8,7 +8,6 @@
 import Foundation
 import ObjectMapper
 
-
 class LogoutModel: Mappable {
     
     var isSuccessful: Bool?

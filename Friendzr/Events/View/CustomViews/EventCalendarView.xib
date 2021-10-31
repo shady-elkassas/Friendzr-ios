@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -44,7 +45,7 @@
                     <blurEffect style="dark"/>
                 </visualEffectView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1kI-5H-nGa">
-                    <rect key="frame" x="34.5" y="218" width="345" height="470"/>
+                    <rect key="frame" x="34.5" y="212" width="345" height="482"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LGz-Ax-NBb">
                             <rect key="frame" x="0.0" y="0.0" width="345" height="79.5"/>
@@ -72,10 +73,10 @@
                             </constraints>
                         </view>
                         <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="B6b-Pm-02J">
-                            <rect key="frame" x="0.0" y="79.5" width="345" height="318.5"/>
+                            <rect key="frame" x="0.0" y="79.5" width="345" height="330.5"/>
                         </datePicker>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Ec5-1q-mMH">
-                            <rect key="frame" x="191" y="414" width="129" height="40"/>
+                            <rect key="frame" x="191" y="426" width="129" height="40"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u8F-zI-qDM">
                                     <rect key="frame" x="0.0" y="0.0" width="81" height="40"/>
@@ -106,7 +107,7 @@
                             </constraints>
                         </stackView>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="backgroundColor" name="Color0"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="Ec5-1q-mMH" secondAttribute="trailing" constant="25" id="CQT-HJ-8Q3"/>
                         <constraint firstAttribute="bottom" secondItem="Ec5-1q-mMH" secondAttribute="bottom" constant="16" id="F7b-5o-ulp"/>
@@ -148,4 +149,9 @@
             <point key="canvasLocation" x="-136.23188405797103" y="55.580357142857139"/>
         </view>
     </objects>
+    <resources>
+        <namedColor name="Color0">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

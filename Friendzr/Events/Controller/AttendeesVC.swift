@@ -23,12 +23,26 @@ class AttendeesVC: UIViewController {
     
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
+    private let formatterDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    private let formatterTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupSearchBar()
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
-        initBackButton(btnColor: .black)
+        initBackButton()
         title = "Attendees"
         tryAgainBtn.cornerRadiusView(radius: 8)
         
@@ -93,11 +107,14 @@ class AttendeesVC: UIViewController {
         self.alertView?.titleLbl.text = "Confirm?".localizedString
         self.alertView?.detailsLbl.text = "Are you sure you want to \(messageString) this account?".localizedString
         
+        let ActionDate = self.formatterDate.string(from: Date())
+        let Actiontime = self.formatterTime.string(from: Date())
+        
         self.alertView?.HandleConfirmBtn = {
             // handling code
             
             self.showLoading()
-            self.viewmodel.editAttendees(ByUserAttendId: UserattendId, AndEventid: eventID, AndStutus: Stutus) { [self] error, data in
+            self.viewmodel.editAttendees(ByUserAttendId: UserattendId, AndEventid: eventID, AndStutus: Stutus,Actiontime: Actiontime ,ActionDate: ActionDate) { [self] error, data in
                 self.hideLoading()
                 if let error = error {
                     self.showAlert(withMessage: error)
@@ -108,7 +125,7 @@ class AttendeesVC: UIViewController {
                 self.showAlert(withMessage: "Successfully \(messageString)")
                 
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    self.getAllAttendees()
                 }
             }
             
@@ -242,10 +259,10 @@ extension AttendeesVC:UITableViewDataSource {
                 let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                 
                 settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "delete", eventID: self.eventID, UserattendId: model?.id ?? "", Stutus: 1)
+                    self.showAlertView(messageString: "delete", eventID: self.eventID, UserattendId: model?.userId ?? "", Stutus: 1)
                 }))
                 settingsActionSheet.addAction(UIAlertAction(title:"Block".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "block", eventID: self.eventID, UserattendId: model?.id ?? "", Stutus: 2)
+                    self.showAlertView(messageString: "block", eventID: self.eventID, UserattendId: model?.userId ?? "", Stutus: 2)
                 }))
                 settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                 
@@ -254,10 +271,10 @@ extension AttendeesVC:UITableViewDataSource {
                 let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                 
                 settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "delete", eventID: self.eventID, UserattendId: model?.id ?? "", Stutus: 1)
+                    self.showAlertView(messageString: "delete", eventID: self.eventID, UserattendId: model?.userId ?? "", Stutus: 1)
                 }))
                 settingsActionSheet.addAction(UIAlertAction(title:"Block".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "block", eventID: self.eventID, UserattendId: model?.id ?? "", Stutus: 2)
+                    self.showAlertView(messageString: "block", eventID: self.eventID, UserattendId: model?.userId ?? "", Stutus: 2)
                 }))
                 settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                 
@@ -277,11 +294,11 @@ extension AttendeesVC:UITableViewDelegate {
         let model = viewmodel.attendees.value?[indexPath.row]
         
         if model?.myEventO == true {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "") as? MyProfileVC else {return}
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }else {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
-            vc.userID = model?.id ?? ""
+            vc.userID = model?.userId ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

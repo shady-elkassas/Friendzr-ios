@@ -22,12 +22,12 @@ class AttendeesViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Add event
-    func editAttendees(ByUserAttendId userAttendId:String,AndEventid eventid:String,AndStutus stutus:Int, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+    func editAttendees(ByUserAttendId userAttendId:String,AndEventid eventid:String,AndStutus stutus:Int,Actiontime:String,ActionDate:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         
         let url = URLs.baseURLFirst + "Events/Clickoutevent"
         let headers = RequestComponent.headerComponent([.type,.authorization])
-//        let bodyData = "UserattendId=\(userAttendId)&EventDataid=\(eventid)&stutus=\(stutus)".data(using: .utf8)
-        let parameters:[String : Any] = ["UserattendId": userAttendId,"EventDataid":eventid,"stutus":stutus]
+
+        let parameters:[String : Any] = ["UserattendId": userAttendId,"EventDataid":eventid,"stutus":stutus,"ActionDate":ActionDate,"Actiontime":Actiontime]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<EventModel>().map(JSON: data!) else {

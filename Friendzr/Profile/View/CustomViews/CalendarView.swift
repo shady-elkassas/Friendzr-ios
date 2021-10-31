@@ -27,7 +27,7 @@ class CalendarView: UIView {
         //Formate Date
         calendarView.datePickerMode = .date
         calendarView.maximumDate = Date()
-        calendarView.tintColor = UIColor.FriendzrColors.primary
+        calendarView.tintColor = UIColor.FriendzrColors.primary!
         calendarView.cornerRadiusView(radius: 12)
     }
 

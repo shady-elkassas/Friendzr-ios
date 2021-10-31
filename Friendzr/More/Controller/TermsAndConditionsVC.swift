@@ -16,6 +16,7 @@ class TermsAndConditionsVC: UIViewController {
     //MARK: - Properties
     var webView: WKWebView!
     var titleVC = ""
+    var urlString = ""
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -32,7 +33,8 @@ class TermsAndConditionsVC: UIViewController {
         webView = WKWebView(frame: viewForEmbeddingWebView.bounds, configuration: WKWebViewConfiguration() )
         self.viewForEmbeddingWebView.addSubview(webView)
         self.webView.allowsBackForwardNavigationGestures = true
-        let myURL = URL(string: "https://www.apple.com")
+        webView.contentMode = .scaleAspectFill
+        let myURL = URL(string: urlString)
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
     }

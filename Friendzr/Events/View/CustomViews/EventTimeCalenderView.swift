@@ -32,7 +32,7 @@ class EventTimeCalenderView: UIView {
         //Formate Date
         timeView.datePickerMode = .time
         timeView.minimumDate = Date()
-        timeView.tintColor = UIColor.FriendzrColors.primary
+        timeView.tintColor = UIColor.FriendzrColors.primary!
         timeView.cornerRadiusView(radius: 12)
         
 //        let formattrTime = DateFormatter()

@@ -26,7 +26,6 @@ class MyProfileVC: UIViewController {
     
     //MARK: - Properties
     var viewmodel: ProfileViewModel = ProfileViewModel()
-    var cellID = "TagLabelCollectionViewCell"
     var strWidth:CGFloat = 0
     var strheight:CGFloat = 0
     
@@ -44,7 +43,7 @@ class MyProfileVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        initBackButton(btnColor: .black)
+        initBackButton()
         clearNavigationBar()
     }
     
@@ -142,7 +141,7 @@ extension MyProfileVC : TagListViewDelegate {
     // MARK: TagListViewDelegate
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag pressed: \(title), \(sender)")
-        tagView.isSelected = !tagView.isSelected
+//        tagView.isSelected = !tagView.isSelected
     }
     
     func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {

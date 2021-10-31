@@ -291,7 +291,7 @@ extension FeedVC:UITableViewDataSource {
             cell.respondBtn.isHidden = true
             cell.cancelRequestBtn.isHidden = true
             cell.sendRequestBtn.isHidden = false
-            cell.stackBtnsView.isHidden = true
+            cell.messageBtn.isHidden = true
             cell.unblockBtn.isHidden = true
             break
         case 1:
@@ -299,15 +299,15 @@ extension FeedVC:UITableViewDataSource {
             cell.respondBtn.isHidden = true
             cell.cancelRequestBtn.isHidden = false
             cell.sendRequestBtn.isHidden = true
-            cell.stackBtnsView.isHidden = true
+            cell.messageBtn.isHidden = true
             cell.unblockBtn.isHidden = true
             break
         case 2:
             //Status = Send me a request to add a friend
             cell.respondBtn.isHidden = false
-            cell.cancelRequestBtn.isHidden = true
+            cell.cancelRequestBtn.isHidden = false
             cell.sendRequestBtn.isHidden = true
-            cell.stackBtnsView.isHidden = true
+            cell.messageBtn.isHidden = true
             cell.unblockBtn.isHidden = true
             break
         case 3:
@@ -315,7 +315,7 @@ extension FeedVC:UITableViewDataSource {
             cell.respondBtn.isHidden = true
             cell.cancelRequestBtn.isHidden = true
             cell.sendRequestBtn.isHidden = true
-            cell.stackBtnsView.isHidden = false
+            cell.messageBtn.isHidden = false
             cell.unblockBtn.isHidden = true
             break
         case 4:
@@ -323,7 +323,7 @@ extension FeedVC:UITableViewDataSource {
             cell.respondBtn.isHidden = true
             cell.cancelRequestBtn.isHidden = true
             cell.sendRequestBtn.isHidden = true
-            cell.stackBtnsView.isHidden = true
+            cell.messageBtn.isHidden = true
             cell.unblockBtn.isHidden = false
             break
         case 5:
@@ -331,7 +331,7 @@ extension FeedVC:UITableViewDataSource {
             cell.respondBtn.isHidden = true
             cell.cancelRequestBtn.isHidden = true
             cell.sendRequestBtn.isHidden = true
-            cell.stackBtnsView.isHidden = true
+            cell.messageBtn.isHidden = true
             cell.unblockBtn.isHidden = true
             break
         case 6:
@@ -354,7 +354,10 @@ extension FeedVC:UITableViewDataSource {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    self.getAllFeeds(pageNumber: 0)
+                    
+                    DispatchQueue.main.async {
+                        self.getAllFeeds(pageNumber: 0)
+                    }
                 }
             }else {
                 return
@@ -376,30 +379,28 @@ extension FeedVC:UITableViewDataSource {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    self.getAllFeeds(pageNumber: 0)
+                  
+                    DispatchQueue.main.async {
+                        self.getAllFeeds(pageNumber: 0)
+                    }
                 }
             }else {
                 return
             }
         }
         
-        cell.HandleBlockBtn = { //block account
+        cell.HandleMessageBtn = { //block account
             self.btnsSelected = true
             self.updateNetworkForBtns()
             
             if self.self.internetConnect {
-                self.showLoading()
-                self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 3) { error, message in
-                    self.hideLoading()
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
-                    }
-                    
-                    guard let message = message else {return}
-                    self.showAlert(withMessage: message)
-                    self.getAllFeeds(pageNumber: 0)
-                }
+                guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
+                vc.eventChat = false
+                vc.eventChatID = ""
+                vc.chatuserID = model?.userId ?? ""
+                vc.titleChatName = model?.userName ?? ""
+                vc.titleChatImage = model?.image ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
             }else {
                 return
             }
@@ -420,29 +421,9 @@ extension FeedVC:UITableViewDataSource {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    self.getAllFeeds(pageNumber: 0)
-                }
-            }else {
-                return
-            }
-        }
-        
-        cell.HandleUnfreiendBtn = { //unfriend account
-            self.btnsSelected = true
-            self.updateNetworkForBtns()
-            
-            if self.internetConnect {
-                self.showLoading()
-                self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 5) { error, message in
-                    self.hideLoading()
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
+                    DispatchQueue.main.async {
+                        self.getAllFeeds(pageNumber: 0)
                     }
-                    
-                    guard let message = message else {return}
-                    self.showAlert(withMessage: message)
-                    self.getAllFeeds(pageNumber: 0)
                 }
             }else {
                 return
@@ -465,7 +446,9 @@ extension FeedVC:UITableViewDataSource {
                     
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
-                    self.getAllFeeds(pageNumber: 0)
+                    DispatchQueue.main.async {
+                        self.getAllFeeds(pageNumber: 0)
+                    }
                 }
             }else {
                 return
@@ -521,7 +504,7 @@ extension FeedVC: CLLocationManagerDelegate {
     
     func initSwitchBarButton() {
         switchBarButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        switchBarButton.onTintColor = UIColor.FriendzrColors.primary
+        switchBarButton.onTintColor = UIColor.FriendzrColors.primary!
         switchBarButton.thumbTintColor = .white
         switchBarButton.addTarget(self, action: #selector(handleSwitchBtn), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: switchBarButton)

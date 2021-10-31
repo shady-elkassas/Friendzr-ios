@@ -49,7 +49,8 @@ extension UIViewController {
         return String(format:"%02i:%02i", minutes, seconds)
     }
     
-    func initBackButton(btnColor: UIColor? = .white) {
+    func initBackButton() {
+        
         var imageName = ""
         if Language.currentLanguage() == "ar" {
             imageName = "back_icon"
@@ -61,24 +62,19 @@ extension UIViewController {
         let image = UIImage.init(named: imageName)
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         button.setImage(image, for: .normal)
-//        button.backgroundColor = .black.withAlphaComponent(0.2)
-        button.tintColor = btnColor ?? .white
-//        button.cornerRadiusView(radius: 20)
+        image?.withTintColor(UIColor.blue)
+        //        button.tintColor = UIColor.setColor(lightColor: .white, darkColor: .white)
         button.addTarget(self, action:  #selector(onPopup), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.leftBarButtonItem = barButton
-
-//        let btn = UIBarButtonItem.init(image: image, style: .plain, target: self, action: #selector(onPopup))
-//        btn.tintColor = btnColor ?? .black
-//        navigationItem.leftBarButtonItem = btn
     }
     
-    func initCloseBarButton(_ color: UIColor? = .black) {
+    func initCloseBarButton() {
         let button = UIButton.init(type: .custom)
         let image = UIImage(named: "close_ic")?.withRenderingMode(.alwaysTemplate)
         
         button.setImage(image, for: .normal)
-        button.tintColor = color
+        button.tintColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
         button.addTarget(self, action: #selector(onDismiss), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.leftBarButtonItem = barButton
@@ -92,7 +88,7 @@ extension UIViewController {
         imgView.frame = view.bounds
         imgView.contentMode = .scaleToFill
         imgView.cornerRadiusView(radius: 20)
-
+        
         let btn = UIButton(type: .custom)
         btn.addTarget(self, action: #selector(goToMyProfile), for: .touchUpInside)
         btn.frame = view.bounds
@@ -101,7 +97,7 @@ extension UIViewController {
         view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         imgView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         btn.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-
+        
         view.addSubview(imgView)
         view.addSubview(btn)
         
@@ -134,18 +130,17 @@ extension UIViewController {
     }
     
     func clearNavigationBar() {
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-SemiBold", size: 14) ?? "",NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-SemiBold", size: 14) ?? "",NSAttributedString.Key.foregroundColor: UIColor.setColor(lightColor: UIColor.color("#241332")!, darkColor: .white)]
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.view.backgroundColor = .white
     }
-        
+    
     func setupNavBar() {
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-SemiBold", size: 14) ?? "",NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-SemiBold", size: 14) ?? "",NSAttributedString.Key.foregroundColor: UIColor.setColor(lightColor: UIColor.color("#241332")!, darkColor: .white)]
         self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.barTintColor = .white
-//        self.navigationController?.navigationBar.shadowImage = UIImage()
+        self.navigationController?.navigationBar.barTintColor = UIColor.setColor(lightColor: .white, darkColor: .black)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage() , for:UIBarMetrics.default)
     }
     
@@ -216,7 +211,7 @@ extension UIViewController {
     }
     
     
-    func updateTitleView(image: String, subtitle: String?, baseColor: UIColor = .white) {
+    func updateTitleView(image: String, subtitle: String?) {
         
         let imageUser = UIImageView(frame: CGRect(x: 0, y: -5, width: 25, height: 25))
         imageUser.backgroundColor = UIColor.clear
@@ -226,7 +221,7 @@ extension UIViewController {
         imageUser.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder"))
         
         let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 20, width: 0, height: 0))
-        subtitleLabel.textColor = baseColor.withAlphaComponent(0.95)
+        subtitleLabel.textColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
         subtitleLabel.font = UIFont.init(name: "Montserrat-Medium", size: 12)
         subtitleLabel.text = subtitle
         subtitleLabel.textAlignment = .center
@@ -293,15 +288,15 @@ extension UIViewController {
     }
     
     
-//    func updateTextField(iView:UIView,txtField:SkyFloatingLabelTextField,placeholder:String,titleLbl:String) {
-//        txtField.placeholder = placeholder
-//        txtField.title = titleLbl
-//        txtField.backgroundColor = .clear
-//        txtField.placeholderFont = UIFont(name: "Montserrat-Medium", size: 14)!
-//        txtField.textColor = UIColor.color("#141414")
-//        txtField.titleFont = UIFont(name: "Montserrat-Medium", size: 16)!
-//        txtField.lineView = UIView()
-//        txtField.selectedTitleColor = UIColor.FriendzrColors.primary!
-//        iView.addSubview(txtField)
-//    }
+    //    func updateTextField(iView:UIView,txtField:SkyFloatingLabelTextField,placeholder:String,titleLbl:String) {
+    //        txtField.placeholder = placeholder
+    //        txtField.title = titleLbl
+    //        txtField.backgroundColor = .clear
+    //        txtField.placeholderFont = UIFont(name: "Montserrat-Medium", size: 14)!
+    //        txtField.textColor = UIColor.color("#141414")
+    //        txtField.titleFont = UIFont(name: "Montserrat-Medium", size: 16)!
+    //        txtField.lineView = UIView()
+    //        txtField.selectedTitleColor = UIColor.FriendzrColors.primary!
+    //        iView.addSubview(txtField)
+    //    }
 }
