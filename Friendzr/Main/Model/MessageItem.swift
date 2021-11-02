@@ -38,7 +38,7 @@ private struct ImageMediaItem: MediaItem {
     init(imageURL: URL) {
         self.url = imageURL
         self.size = CGSize(width: 240, height: 240)
-        self.placeholderImage = UIImage(imageLiteralResourceName: "image_message_placeholder")
+        self.placeholderImage = UIImage(named: "placeholder") ?? UIImage()
     }
 }
 

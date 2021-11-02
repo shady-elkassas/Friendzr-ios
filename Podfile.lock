@@ -544,8 +544,8 @@ PODS:
   - InputBarAccessoryView/Core (5.3.1)
   - IQKeyboardManager (6.5.6)
   - leveldb-library (1.22.1)
-  - MessageKit (3.6.1):
-    - InputBarAccessoryView (~> 5.3.1)
+  - MessageKit (3.5.1):
+    - InputBarAccessoryView (~> 5.3.0)
   - MultiSlider (1.11.2):
     - AvailableHapticFeedback
     - SweeterSwift
@@ -555,11 +555,29 @@ PODS:
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
   - ObjectMapper (4.2.0)
+  - PINCache (3.0.3):
+    - PINCache/Arc-exception-safe (= 3.0.3)
+    - PINCache/Core (= 3.0.3)
+  - PINCache/Arc-exception-safe (3.0.3):
+    - PINCache/Core
+  - PINCache/Core (3.0.3):
+    - PINOperation (~> 1.2.1)
+  - PINOperation (1.2.1)
   - PromisesObjC (2.0.0)
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
+  - SnapSDK/SCSDKBitmojiKit (1.13.0):
+    - PINCache (< 3.1, >= 2.3)
+    - PINOperation (~> 1.2.1)
+    - SnapSDK/SCSDKCoreKit
+  - SnapSDK/SCSDKCoreKit (1.13.0)
+  - SnapSDK/SCSDKCreativeKit (1.13.0):
+    - SnapSDK/SCSDKCoreKit
+  - SnapSDK/SCSDKLoginKit (1.13.0):
+    - SnapSDK/SCSDKCoreKit
   - SweeterSwift (1.1.4)
+  - TikTokOpenSDK (5.0.0)
 
 DEPENDENCIES:
   - Alamofire (~> 5.4)
@@ -576,10 +594,14 @@ DEPENDENCIES:
   - GooglePlaces
   - GoogleSignIn
   - IQKeyboardManager
-  - MessageKit
+  - MessageKit (~> 3.5.1)
   - MultiSlider
   - ObjectMapper
   - SDWebImage
+  - SnapSDK/SCSDKBitmojiKit
+  - SnapSDK/SCSDKCreativeKit
+  - SnapSDK/SCSDKLoginKit
+  - TikTokOpenSDK (~> 5.0.0)
 
 SPEC REPOS:
   trunk:
@@ -620,9 +642,13 @@ SPEC REPOS:
     - MultiSlider
     - nanopb
     - ObjectMapper
+    - PINCache
+    - PINOperation
     - PromisesObjC
     - SDWebImage
+    - SnapSDK
     - SweeterSwift
+    - TikTokOpenSDK
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
@@ -658,14 +684,18 @@ SPEC CHECKSUMS:
   InputBarAccessoryView: 1f75d8c9f75e5e57f3ffac36ed58635a8005e0bc
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
-  MessageKit: d153fbbbcb12f3f4045a1ba8874298924dacfb62
+  MessageKit: 6a15a240a9a4767279de542a8fae861e83d8aedc
   MultiSlider: 944d00877d371bbb5ce0a512fec517de87958775
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
+  PINCache: 7a8fc1a691173d21dbddbf86cd515de6efa55086
+  PINOperation: 00c935935f1e8cf0d1e2d6b542e75b88fc3e5e20
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
+  SnapSDK: f4f7cf3b2261233e096f8c43706d94e785ca102c
   SweeterSwift: 8a90cf3156f5a1b6f39785c479369a16633b5ea9
+  TikTokOpenSDK: a63564ea4dc1fabc56352bf7aa9ddc386cdb63b6
 
-PODFILE CHECKSUM: 4378fae15e6f00edc47365066c8609535b4d5c5b
+PODFILE CHECKSUM: 3edf8abde88a1f5fe380f957ba26a80d874532b5
 
 COCOAPODS: 1.10.2

@@ -62,6 +62,7 @@ class ProfileViewModel {
         Defaults.age = user.age
         Defaults.userId = user.userid
         Defaults.needUpdate = user.needUpdate
+//        Defaults.allowMyLocation = user.al
     }
 }
 

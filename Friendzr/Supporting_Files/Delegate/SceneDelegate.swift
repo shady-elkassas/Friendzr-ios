@@ -25,15 +25,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 8)!], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 8)!], for: .selected)
 
-        if Defaults.darkMode == true {
-            UIApplication.shared.windows.forEach { window in
-                window.overrideUserInterfaceStyle = .dark
-            }
-        }else {
-            UIApplication.shared.windows.forEach { window in
-                window.overrideUserInterfaceStyle = .light
-            }
+        UIApplication.shared.windows.forEach { window in
+            window.overrideUserInterfaceStyle = .light
         }
+
+//        if Defaults.darkMode == true {
+//            UIApplication.shared.windows.forEach { window in
+//                window.overrideUserInterfaceStyle = .dark
+//            }
+//        }else {
+//            UIApplication.shared.windows.forEach { window in
+//                window.overrideUserInterfaceStyle = .light
+//            }
+//        }
         
         guard let _ = (scene as? UIWindowScene) else { return }
         Router().toSplach()
@@ -44,7 +48,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let url = URLContexts.first?.url else {
             return
         }
-
+        
         ApplicationDelegate.shared.application(
             UIApplication.shared,
             open: url,
@@ -52,7 +56,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             annotation: [UIApplication.OpenURLOptionsKey.annotation]
         )
     }
-
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

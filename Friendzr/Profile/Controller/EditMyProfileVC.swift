@@ -6,8 +6,14 @@
 //
 
 import UIKit
+import SCSDKLoginKit
+import TikTokOpenSDK
 
-class EditMyProfileVC: UIViewController {
+class EditMyProfileVC: UIViewController, TikTokOpenSDKLogDelegate {
+    func onLog(_ logInfo: String) {
+        print(logInfo)
+    }
+    
     
     //MARK:- Outlets
     @IBOutlet weak var profileImg: UIImageView!
@@ -332,12 +338,80 @@ class EditMyProfileVC: UIViewController {
     }
     
     @IBAction func integrationSnapchatBtn(_ sender: Any) {
+//        SCSDKLoginClient.login(from: self, completion: { success, error in
+//
+//            if let error = error {
+//                print(error.localizedDescription)
+//                return
+//            }
+//
+//            if success {
+//                self.fetchSnapUserInfo() //used in the demo app to get user info
+//            }
+//        })
     }
+    
+//    private func fetchSnapUserInfo(){
+//        let graphQLQuery = "{me{displayName, bitmoji{avatar}}}"
+//
+//        SCSDKLoginClient
+//            .fetchUserData(
+//                withQuery: graphQLQuery,
+//                variables: nil,
+//                success: { userInfo in
+//
+//                    if let userInfo = userInfo,
+//                       let data = try? JSONSerialization.data(withJSONObject: userInfo, options: .prettyPrinted),
+//                       let userEntity = try? JSONDecoder().decode(UserEntity.self, from: data) {
+//
+//                        DispatchQueue.main.async {
+//                            self.goToLoginConfirm(userEntity)
+//                        }
+//                    }
+//                }) { (error, isUserLoggedOut) in
+//                    print(error?.localizedDescription ?? "")
+//                }
+//    }
     
     @IBAction func integrationFacebookBtn(_ sender: Any) {
     }
     
+
     @IBAction func integrationTiktokBtn(_ sender: Any) {
+        TikTokOpenSDKApplicationDelegate.sharedInstance().logDelegate = self
+        
+        let scopes = ["user.info.basic"] // list your scopes
+        let scopesSet = NSOrderedSet(array:scopes)
+        let request = TikTokOpenSDKAuthRequest()
+        request.permissions = scopesSet
+        
+        request.send(self, completion: { resp -> Void in
+            /* STEP 3 */
+            
+            if resp.errCode.rawValue == 0 {
+                /* STEP 3.a */
+                let clientKey = "awq4czdodvu3iy4y" // you will receive this once you register in the Developer Portal
+                let clientSecretKey = "64eabf5c9ae2cc2c5b15ea4897227bb3"
+                let responseCode = resp.code ?? ""
+                
+                // replace this baseURLstring with your own wrapper API
+                let baseURlString = "https://open-api.tiktok.com/oauth/access_token/?client_key=\(clientKey)&client_secret=\(clientSecretKey)&grant_type=authorization_code&code=\(responseCode)"
+                
+                let url = NSURL(string: baseURlString)
+                
+                /* STEP 3.b */
+                let session = URLSession(configuration: .default)
+                let urlRequest = NSMutableURLRequest(url: url! as URL)
+                let task = session.dataTask(with: urlRequest as URLRequest) { (data, response, error) -> Void in
+                    /* STEP 3.c */
+                    //                print(response)
+                    //                print(data)
+                }
+                task.resume()
+            } else {
+                // handle error
+            }
+        })
     }
     
     @IBAction func saveBtn(_ sender: Any) {

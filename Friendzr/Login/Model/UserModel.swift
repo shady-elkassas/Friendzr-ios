@@ -36,6 +36,7 @@ class UserObj: Mappable {
         lat <- map["lat"]
         needUpdate <- map["needUpdate"]
         age <- map["age"]
+        allowmylocation <- map["allowmylocation"]
     }
     
     
@@ -61,6 +62,7 @@ class UserObj: Mappable {
     var lat = ""
     var needUpdate:Int = 0
     var age:Int = 0
+    var allowmylocation:Bool = false
 }
 
 

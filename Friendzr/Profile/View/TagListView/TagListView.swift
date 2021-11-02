@@ -16,7 +16,7 @@ import UIKit
 @IBDesignable
 open class TagListView: UIView {
     
-    @IBInspectable open dynamic var textColor: UIColor = UIColor.setColor(lightColor: .white, darkColor: .black) {
+    @IBInspectable open dynamic var textColor: UIColor = .white {
         didSet {
             tagViews.forEach {
                 $0.textColor = textColor

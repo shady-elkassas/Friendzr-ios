@@ -216,14 +216,19 @@ extension NotificationsVC: UITableViewDelegate {
             }else if model?.action == "event_chat" {
                 guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else { return}
                 vc.eventChatID = model?.action_code ?? ""
-                vc.eventChat = true
+                vc.isEvent = true
                 vc.chatuserID = ""
+                //                vc.titleChatImage = model?.imageUrl ?? ""
+                //                vc.titleChatName = model?.title ?? ""
                 self.navigationController?.pushViewController(vc, animated: true)
             }else if model?.action == "user_chat" {
                 guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else { return}
-                vc.eventChatID = model?.action_code ?? ""
-                vc.eventChat = false
+                vc.titleChatImage = model?.imageUrl ?? ""
+                vc.titleChatName = model?.title ?? ""
+                vc.isEvent = false
                 vc.eventChatID = ""
+                vc.chatuserID = model?.action_code ?? ""
+                vc.isFriend = true
                 self.navigationController?.pushViewController(vc, animated: true)
             }else if model?.action == "event_Updated" {
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}

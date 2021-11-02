@@ -33,7 +33,7 @@ class FeedVC: UIViewController {
     private lazy var dScaView: DegreeScaleView = {
         let viewF = CGRect(x: 0, y: 0, width: screenW, height: screenW)
         let scaleV = DegreeScaleView(frame: viewF)
-        scaleV.backgroundColor = .black
+        scaleV.backgroundColor = UIColor.FriendzrColors.primary
         return scaleV
     }()
     
@@ -78,17 +78,17 @@ class FeedVC: UIViewController {
         setup()
         initSwitchBarButton()
         pullToRefresh()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setupNavBar()
+        initProfileBarButton()
+        filterDir = switchBarButton.isOn
         
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
     }
-    override func viewWillAppear(_ animated: Bool) {
-        setupNavBar()
-        initProfileBarButton()
-        filterDir = switchBarButton.isOn
-    }
-    
     
     //MARK:- APIs
     func loadMoreItemsForList(){
@@ -210,7 +210,6 @@ class FeedVC: UIViewController {
         }else {
             emptyView.isHidden = true
         }
-        
         tryAgainBtn.alpha = 0.0
     }
     
@@ -280,8 +279,8 @@ extension FeedVC:UITableViewDataSource {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? FeedsTableViewCell else {return UITableViewCell()}
         let model = viewmodel.feeds.value?.data?[indexPath.row]
-        cell.friendRequestNameLbl.text = model?.displayedUserName
-        cell.friendRequestUserNameLbl.text = "@\(model?.userName ?? "")"
+        cell.friendRequestNameLbl.text = model?.userName
+        cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
         cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
         //status key
@@ -395,11 +394,12 @@ extension FeedVC:UITableViewDataSource {
             
             if self.self.internetConnect {
                 guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
-                vc.eventChat = false
+                vc.isEvent = false
                 vc.eventChatID = ""
                 vc.chatuserID = model?.userId ?? ""
                 vc.titleChatName = model?.userName ?? ""
                 vc.titleChatImage = model?.image ?? ""
+                vc.isFriend = true
                 self.navigationController?.pushViewController(vc, animated: true)
             }else {
                 return

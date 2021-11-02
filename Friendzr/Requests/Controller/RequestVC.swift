@@ -267,11 +267,12 @@ extension RequestVC:UITableViewDataSource {
             self.updateNetworkForBtns()
             if self.internetConnect {
                 guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
-                vc.eventChat = false
+                vc.isEvent = false
                 vc.eventChatID = ""
                 vc.chatuserID = model?.userId ?? ""
                 vc.titleChatName = model?.userName ?? ""
                 vc.titleChatImage = model?.image ?? ""
+                vc.isFriend = true
                 self.navigationController?.pushViewController(vc, animated: true)
             }else {
                 return

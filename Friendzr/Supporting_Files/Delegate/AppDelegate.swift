@@ -19,6 +19,8 @@ import FirebaseAnalytics
 import FirebaseCrashlytics
 import CoreLocation
 import UserNotifications
+import SCSDKLoginKit
+import TikTokOpenSDK
 
 
 @main
@@ -41,16 +43,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 8)!], for: .selected)
         
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
-        
+        TikTokOpenSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+
         if #available(iOS 13, *) {
         } else {
             Router().toSplach()
         }
         
         FirebaseApp.configure()
-        GMSServices.provideAPIKey("AIzaSyChBrhOHIhxIiYkEUak_3TKNR_bEFcfbyI")
-        GMSPlacesClient.provideAPIKey("AIzaSyChBrhOHIhxIiYkEUak_3TKNR_bEFcfbyI")
+        GMSServices.provideAPIKey("AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY")
+        GMSPlacesClient.provideAPIKey("AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY")
         
+//        GMSServices.provideAPIKey("AIzaSyChBrhOHIhxIiYkEUak_3TKNR_bEFcfbyI")
+//        GMSPlacesClient.provideAPIKey("AIzaSyChBrhOHIhxIiYkEUak_3TKNR_bEFcfbyI")
+
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
             if error != nil || user == nil {
                 // Show the app's signed-out state.
@@ -101,14 +107,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //            name: .newLocationSaved,
         //            object: nil)
         
-        if Defaults.darkMode == true {
-            UIApplication.shared.windows.forEach { window in
-                window.overrideUserInterfaceStyle = .dark
-            }
-        }else {
-            UIApplication.shared.windows.forEach { window in
-                window.overrideUserInterfaceStyle = .light
-            }
+//        if Defaults.darkMode == true {
+//            UIApplication.shared.windows.forEach { window in
+//                window.overrideUserInterfaceStyle = .dark
+//            }
+//        }else {
+//            UIApplication.shared.windows.forEach { window in
+//                window.overrideUserInterfaceStyle = .light
+//            }
+//        }
+        
+        UIApplication.shared.windows.forEach { window in
+            window.overrideUserInterfaceStyle = .light
         }
         
         return true
@@ -143,10 +153,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let sourceApplication: String? = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String
         let googleDidHandle = GIDSignIn.sharedInstance.handle(url as URL)
         let facebookDidHandle = ApplicationDelegate.shared.application(app, open: url, sourceApplication: sourceApplication, annotation: nil)
+        let snapDidHandle = SCSDKLoginClient.application(app, open: url, options: options)
         
-        return googleDidHandle || facebookDidHandle
+        guard let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+              let annotation = options[UIApplication.OpenURLOptionsKey.annotation] else {
+                  return false
+              }
+        
+        let TikTokDidHandle = TikTokOpenSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: sourceApplication, annotation: annotation)
+        
+        return googleDidHandle || facebookDidHandle || snapDidHandle || TikTokDidHandle
     }
     
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        if TikTokOpenSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation) {
+            return true
+        }
+        return false
+    }
+    
+    func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
+        if TikTokOpenSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: nil, annotation: "") {
+            return true
+        }
+        return false
+    }
     
     func networkReachability() {
         do {
@@ -288,7 +319,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.eventChat = true
+                    vc.isEvent = true
                     vc.eventChatID = actionId ?? ""
                     vc.chatuserID = ""
                     //                    tabBarController.selectedIndex = 0
@@ -298,9 +329,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.eventChat = false
+                    vc.isEvent = false
                     vc.eventChatID = ""
                     vc.chatuserID = actionId ?? ""
+                    vc.isFriend = true
                     //                    tabBarController.selectedIndex = 0
                     navController.pushViewController(vc, animated: true)
                 }

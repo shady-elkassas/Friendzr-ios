@@ -348,23 +348,27 @@ class AddEventVC: UIViewController {
         
         updateUserInterfaceBtns()
         if internetConect == true {
-            self.showLoading()
-            viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
-                self.hideLoading()
-                
-                if let error = error {
-                    self.showAlert(withMessage: error)
-                    return
+            if attachedImg == false {
+                self.showAlert(withMessage: "Please add image of your event")
+            }else {
+                self.showLoading()
+                viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
+                    self.hideLoading()
+                    
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    
+                    guard let _ = data else {return}
+                    self.showAlert(withMessage: "Your event added successfully")
+                    
+                    DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
+                        Router().toMap()
+                    }
+                    
+                    //                NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
                 }
-                
-                guard let _ = data else {return}
-                self.showAlert(withMessage: "Your event added successfully")
-                
-                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
-                    Router().toMap()
-                }
-                
-                //                NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
             }
         }else {
             return

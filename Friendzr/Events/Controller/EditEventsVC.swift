@@ -38,7 +38,7 @@ class EditEventsVC: UIViewController {
     lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
     
     lazy var deleteAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
-
+    
     var dayname = ""
     var monthname = ""
     var nday = ""
@@ -47,11 +47,11 @@ class EditEventsVC: UIViewController {
     var endDate = ""
     var startTime = ""
     var endTime = ""
-
+    
     let imagePicker = UIImagePickerController()
     var attachedImg = false
     var internetConect:Bool = false
-
+    
     var eventImage:String = ""
     var eventModel:EventObj? = nil
     var viewmodel:EditEventViewModel = EditEventViewModel()
@@ -59,7 +59,7 @@ class EditEventsVC: UIViewController {
     
     var minimumDate:Date = Date()
     var maximumDate:Date = Date()
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -193,7 +193,7 @@ class EditEventsVC: UIViewController {
         }
         
         limitUsersTxt.text = "\(eventModel?.totalnumbert ?? 0)"
-
+        
         startDate = eventModel?.eventdate ?? ""
         endDate = eventModel?.eventdateto ?? ""
         startTime = eventModel?.timefrom ?? ""
@@ -220,8 +220,6 @@ class EditEventsVC: UIViewController {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     self.onPopup()
                 }
-                
-//                NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
             }
         }else {
             return
@@ -256,8 +254,8 @@ class EditEventsVC: UIViewController {
             present(settingsActionSheet, animated:true, completion:nil)
         }
         
-//        self.eventImg.image = UIImage(named: "bolivia")
-//        self.attachedImg = true
+        //        self.eventImg.image = UIImage(named: "bolivia")
+        //        self.attachedImg = true
     }
     
     @IBAction func switchAllDaysBtn(_ sender: Any) {
@@ -291,7 +289,7 @@ class EditEventsVC: UIViewController {
             self.maximumDate = (self.dateAlertView?.calenderView.calendar.date(byAdding: comps2, to: self.minimumDate))!
             
             print(formatter2.string(from: self.minimumDate),formatter2.string(from: self.maximumDate))
-
+            
             UIView.animate(withDuration: 0.3, animations: {
                 self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.dateAlertView?.alpha = 0
@@ -363,7 +361,7 @@ class EditEventsVC: UIViewController {
         
         var comps2:DateComponents = DateComponents()
         comps2.day = -1
-
+        
         self.timeAlertView?.timeView.minimumDate = self.timeAlertView?.timeView.calendar.date(from: comps2)
         
         timeAlertView?.HandleOKBtn = {
@@ -374,7 +372,7 @@ class EditEventsVC: UIViewController {
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "HH:mm"
             self.startTime = formatter2.string(from: (self.timeAlertView?.timeView.date)!)
-
+            
             UIView.animate(withDuration: 0.3, animations: {
                 self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.timeAlertView?.alpha = 0
@@ -406,7 +404,7 @@ class EditEventsVC: UIViewController {
         var comps2:DateComponents = DateComponents()
         comps2.day = -1
         self.timeAlertView?.timeView.minimumDate = self.timeAlertView?.timeView.calendar.date(from: comps2)
-
+        
         timeAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
             formatter.dateFormat = "HH:mm"
@@ -415,7 +413,7 @@ class EditEventsVC: UIViewController {
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "HH:mm"
             self.endTime = formatter2.string(from: (self.timeAlertView?.timeView.date)!)
-
+            
             UIView.animate(withDuration: 0.3, animations: {
                 self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.timeAlertView?.alpha = 0

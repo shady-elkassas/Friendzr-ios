@@ -317,13 +317,14 @@ extension MainVC:UITableViewDelegate {
         
         guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
         if model?.isevent == true {
-            vc.eventChat = true
+            vc.isEvent = true
             vc.eventChatID = model?.id ?? ""
             vc.chatuserID = ""
         }else {
-            vc.eventChat = false
+            vc.isEvent = false
             vc.eventChatID = ""
             vc.chatuserID = model?.id ?? ""
+            vc.isFriend = model?.isfrind
         }
         
         vc.titleChatImage = model?.image ?? ""

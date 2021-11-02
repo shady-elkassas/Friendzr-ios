@@ -8,7 +8,7 @@
 import Foundation
 import ObjectMapper
 import MobileCoreServices
-import Alamofire
+//import Alamofire
 
 class AllCategoriesViewModel {
     

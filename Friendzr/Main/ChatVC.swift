@@ -26,7 +26,6 @@ class ChatVC: MessagesViewController {
     var fileUpload = ""
     
     let outgoingAvatarOverlap: CGFloat = 17.5
-    
     var startingFrame: CGRect?
     var blackBackgroundView: UIView?
     var sendingImageView: UIImage?
@@ -53,12 +52,12 @@ class ChatVC: MessagesViewController {
     //    var chatUserModel:UserChatObj? = UserChatObj()
     var chatuserID = ""
     
-    var eventChat:Bool = false
+    var isEvent:Bool = false
     var eventChatID:String = ""
     
     var receiveName:String = ""
     var receiveimg = ""
-    
+    var isFriend:Bool? = false
     var titleChatImage = ""
     var titleChatName:String = ""
     
@@ -94,14 +93,16 @@ class ChatVC: MessagesViewController {
         super.viewDidLoad()
         
         configureMessageCollectionView()
-        configureMessageInputBar()
         initBackButton()
         setupMessages()
-        setupLeftInputButton(tapMessage: false, Recorder: "play")
-        setupRecorder()
         
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(sender:)))
-        messagesCollectionView.addGestureRecognizer(longPress)
+        configureMessageInputBar()
+        setupLeftInputButton(tapMessage: false, Recorder: "play")
+        
+        //        setupRecorder()
+        
+        //        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(sender:)))
+        //        messagesCollectionView.addGestureRecognizer(longPress)
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessages), name: Notification.Name("listenToMessages"), object: nil)
         
@@ -113,7 +114,6 @@ class ChatVC: MessagesViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        messageInputBar.inputTextView.becomeFirstResponder()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -123,11 +123,20 @@ class ChatVC: MessagesViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupNavBar()
+        if isEvent {
+            messageInputBar.inputTextView.becomeFirstResponder()
+            messageInputBar.isHidden = false
+        }else {
+            if isFriend == true {
+                messageInputBar.inputTextView.becomeFirstResponder()
+                messageInputBar.isHidden = false
+            }else {
+                messageInputBar.isHidden = true
+                self.showAlert(withMessage: "You are now not a friend of this user and will not be able to message him")
+            }
+        }
     }
-    
-    private var reference: CollectionReference?
-    
+        
     @objc func listenToMessages() {
         getUserChatMessages(pageNumber: 1)
     }
@@ -171,7 +180,6 @@ class ChatVC: MessagesViewController {
         messageInputBar.inputTextView.layer.masksToBounds = true
         messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
         configureInputBarItems()
-        
     }
     
     private func configureInputBarPadding() {
@@ -184,7 +192,7 @@ class ChatVC: MessagesViewController {
     }
     
     func setupMessages() {
-        if eventChat {
+        if isEvent {
             self.getEventChatMessages(pageNumber: 1)
         }else {
             getUserChatMessages(pageNumber: 1)
@@ -350,7 +358,7 @@ class ChatVC: MessagesViewController {
     @objc func loadMoreMessages() {
         DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
             self.currentPage += 1
-            if self.eventChat {
+            if self.isEvent {
                 self.getEventChatMessages(pageNumber: self.currentPage)
             }else {
                 self.getUserChatMessages(pageNumber: self.currentPage)
@@ -388,12 +396,13 @@ extension ChatVC: MessagesDataSource {
             return super.collectionView(collectionView, cellForItemAt: indexPath)
         }
         
-        let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
-        if case .custom = message.kind {
-            let cell = messagesCollectionView.dequeueReusableCell(CustomCell.self, for: indexPath)
-            cell.configure(with: message, at: indexPath, and: messagesCollectionView)
-            return cell
-        }
+//        let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
+//        if case .custom = message.kind {
+//            let cell = messagesCollectionView.dequeueReusableCell(CustomCell.self, for: indexPath)
+//            cell.configure(with: message, at: indexPath, and: messagesCollectionView)
+//            return cell
+//        }
+        
         return super.collectionView(collectionView, cellForItemAt: indexPath)
     }
     
@@ -499,14 +508,14 @@ extension ChatVC: MessageCellDelegate {
                 //downlaod file
                 print("PDF FILE")
                 guard let fileUrl = media.url else {return}
-//
-//                let down = Downloader()
-//                down.dowanloadFile(downloadURL: fileUrl) {
-//                    self.showAlert(withMessage: "download file done")
-//                } onError: {
-//                    self.showAlert(withMessage: "onError")
-//                }
-//
+                //
+                //                let down = Downloader()
+                //                down.dowanloadFile(downloadURL: fileUrl) {
+                //                    self.showAlert(withMessage: "download file done")
+                //                } onError: {
+                //                    self.showAlert(withMessage: "onError")
+                //                }
+                //
                 DispatchQueue.main.async {
                     UIApplication.shared.open(fileUrl)
                 }
@@ -655,8 +664,8 @@ extension ChatVC: InputBarAccessoryViewDelegate {
         let messageDate = formatterDate.string(from: Date())
         let messageTime = formatterTime.string(from: Date())
         let url:URL? = URL(string: "https://www.apple.com/eg/")
-
-        if eventChat {
+        
+        if isEvent {
             viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
                 if let error = error {
                     self.showAlert(withMessage: error)
@@ -1181,7 +1190,7 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
         }else {
             
             let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-            if eventChat {
+            if isEvent {
                 viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
                     
                     if let error = error {
@@ -1217,7 +1226,7 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
                     self.messageList.append(UserMessage(imageURL: URL(string: data.attach ?? "")!, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: data.messagetype ?? 0))
                     
                     self.sendingImageView = UIImage(named: data.attach ?? "")
-
+                    
                     DispatchQueue.main.async {
                         self.messagesCollectionView.reloadData()
                         self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
@@ -1406,7 +1415,7 @@ extension ChatVC: UIDocumentPickerDelegate {
             let messageTime = formatterTime.string(from: Date())
             
             //            let imageData = try Data(contentsOf: selectedFileURL as URL)
-            if eventChat {
+            if isEvent {
                 viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
                     if let error = error {
                         self.showAlert(withMessage: error)

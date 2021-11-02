@@ -67,7 +67,7 @@ final internal class SimpleDataModel {
 
     var now = Date()
     
-    let messageImages: [UIImage] = [#imageLiteral(resourceName: "img1"), #imageLiteral(resourceName: "img2")]
+    let messageImages: [UIImage] = [#imageLiteral(resourceName: "manaualDistanceControl_ic"), #imageLiteral(resourceName: "email_ic")]
     let messageImageURLs: [URL] = [URL(string: "https://placekitten.com/g/200/300")!,
                                    URL(string: "https://placekitten.com/g/300/300")!,
                                    URL(string: "https://placekitten.com/g/300/400")!,
@@ -93,13 +93,13 @@ final internal class SimpleDataModel {
         CLLocation(latitude: 39.3218, longitude: -113.3317)
     ]
 
-    let sounds: [URL] = [Bundle.main.url(forResource: "sound1", withExtension: "m4a")!,
-                         Bundle.main.url(forResource: "sound2", withExtension: "m4a")!
-    ]
+//    let sounds: [URL] = [Bundle.main.url(forResource: "sound1", withExtension: "m4a")!,
+//                         Bundle.main.url(forResource: "sound2", withExtension: "m4a")!
+//    ]
 
     let linkItem: (() -> MessageLinkItem) = {
         MessageLinkItem(
-            text: "\(Lorem.sentence()) https://github.com/MessageKit",
+            text: "https://github.com/MessageKit",
             attributedText: nil,
             url: URL(string: "https://github.com/MessageKit")!,
             title: "MessageKit",
@@ -156,121 +156,17 @@ final internal class SimpleDataModel {
             return date
         }
     }
-    
-    func randomMessageType() -> MessageTypes {
-        return MessageTypes.allCases.compactMap {
-            guard UserDefaults.standard.bool(forKey: "\($0.rawValue)" + " Messages") else { return nil }
-            return $0
-        }.random()!
-    }
-
-    // swiftlint:disable cyclomatic_complexity
-    func randomMessage(allowedSenders: [UserSender]) -> UserMessage {
-        let uniqueID = UUID().uuidString
-        let user = allowedSenders.random()!
-        let date = dateAddingRandomTime()
-
-        switch randomMessageType() {
-        case .Text:
-            let randomSentence = Lorem.sentence()
-            return UserMessage(text: randomSentence, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
-        case .AttributedText:
-            let randomSentence = Lorem.sentence()
-            let attributedText = attributedString(with: randomSentence)
-            return UserMessage(attributedText: attributedText, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
-        case .Photo:
-            let image = messageImages.random()!
-            return UserMessage(image: image, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 2)
-        case .PhotoFromURL:
-            let imageURL: URL = messageImageURLs.random()!
-            return UserMessage(imageURL: imageURL, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 2)
-        case .Video:
-            return UserMessage(videoURL: URL(string: "")!, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 2)
-        case .Audio:
-            let soundURL = sounds.random()!
-            return UserMessage(audioURL: soundURL, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 2)
-        case .Emoji:
-            return UserMessage(emoji: emojis.random()!, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
-        case .Location:
-            return UserMessage(location: locations.random()!, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 4)
-        case .Url:
-            return UserMessage(linkItem: linkItem(), user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 5)
-        case .Phone:
-            return UserMessage(text: "123-456-7890", user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
-        case .Custom:
-            return UserMessage(custom: "Someone left the conversation", user: system, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
-        case .ShareContact:
-            return UserMessage(contact: contactsToShare.random()!, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 9)
-        }
-    }
-    // swiftlint:enable cyclomatic_complexity
-
-    func getMessages(count: Int, completion: ([UserMessage]) -> Void) {
-        var messages: [UserMessage] = []
-        // Disable Custom Messages
-        UserDefaults.standard.set(false, forKey: "Custom Messages")
-        for _ in 0..<count {
-            let uniqueID = UUID().uuidString
-            let user = senders.random()!
-            let date = dateAddingRandomTime()
-//            let randomSentence = Lorem.sentence()
-            let message = UserMessage(text: "randomSentence", user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
-            messages.append(message)
-        }
-        completion(messages)
-    }
-    
-    func getMessages(count: Int) -> [UserMessage] {
-        var messages: [UserMessage] = []
-        // Disable Custom Messages
-        UserDefaults.standard.set(false, forKey: "Custom Messages")
-        for _ in 0..<count {
-            let uniqueID = UUID().uuidString
-            let user = senders.random()!
-            let date = dateAddingRandomTime()
-//            let randomSentence = Lorem.sentence()
-            let message = UserMessage(text: "randomSentence", user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
-            messages.append(message)
-        }
-        return messages
-    }
-    
-    func getAdvancedMessages(count: Int, completion: ([UserMessage]) -> Void) {
-        var messages: [UserMessage] = []
-        // Enable Custom Messages
-        UserDefaults.standard.set(true, forKey: "Custom Messages")
-        for _ in 0..<count {
-            let message = randomMessage(allowedSenders: senders)
-            messages.append(message)
-        }
-        completion(messages)
-    }
-    
-    func getMessages(count: Int, allowedSenders: [UserSender], completion: ([UserMessage]) -> Void) {
-        var messages: [UserMessage] = []
-        // Disable Custom Messages
-        UserDefaults.standard.set(false, forKey: "Custom Messages")
-        for _ in 0..<count {
-            let uniqueID = UUID().uuidString
-            let user = senders.random()!
-            let date = dateAddingRandomTime()
-            let randomSentence = Lorem.sentence()
-            let message = UserMessage(text: randomSentence, user: user, messageId: uniqueID, date: date, dateandtime: "", messageType: 1)
-            messages.append(message)
-        }
-        completion(messages)
-    }
 
     func getAvatarFor(sender: SenderType,imag:UIImageView) -> Avatar {
         let firstName = sender.displayName.components(separatedBy: " ").first
         let lastName = sender.displayName.components(separatedBy: " ").first
         let initials = "\(firstName?.first ?? "A")\(lastName?.first ?? "A")"
-//        let imag = UIImageView()
-//        imag.sd_setImage(with: URL(string: imgStr), placeholderImage: UIImage(named: "placeholder"))
+        //        let imag = UIImageView()
+        //        imag.sd_setImage(with: URL(string: imgStr), placeholderImage: UIImage(named: "placeholder"))
         
         switch sender.senderId {
         case "000001":
-            return Avatar(image: #imageLiteral(resourceName: "Nathan-Tannar"), initials: initials)
+            return Avatar(image: #imageLiteral(resourceName: "placeholder"), initials: initials)
         case "000000":
             return Avatar(image: nil, initials: "SS")
         default:

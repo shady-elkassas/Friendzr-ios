@@ -54,7 +54,7 @@ class TagsVC: UIViewController {
             self.updateUserInterface()
         }
         
-        self.view.backgroundColor = UIColor.setColor(lightColor: .white, darkColor: .black)
+//        self.view.backgroundColor = UIColor.setColor(lightColor: .white, darkColor: .black)
     }
     
     func addTags(node:InterestObj)  {

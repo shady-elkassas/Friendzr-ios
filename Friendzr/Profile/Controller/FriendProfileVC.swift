@@ -417,6 +417,7 @@ class FriendProfileVC: UIViewController {
         sendRequestBtn.cornerRadiusView(radius: 15)
         cancelRequestBtn.cornerRadiusView(radius: 15)
         respondBtn.cornerRadiusView(radius: 15)
+        unblockBtn.cornerRadiusView(radius: 15)
         unfriendBtn.cornerRadiusView(radius: 15)
         blockBtn.cornerRadiusView(radius: 15)
         blockBtn.setBorder(color: UIColor.white.cgColor, width: 1)
@@ -438,8 +439,8 @@ class FriendProfileVC: UIViewController {
     func setupData() {
         let model = viewmodel.model.value
         aboutFriendLbl.text = model?.bio
-        userNameLbl.text = "@\(model?.userName ?? "")"
-        nameLbl.text = model?.generatedusername
+        userNameLbl.text = "@\(model?.generatedusername ?? "")"
+        nameLbl.text = model?.userName
         ageLbl.text = "\(model?.age ?? 0)"
         genderLbl.text = model?.gender
         profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))

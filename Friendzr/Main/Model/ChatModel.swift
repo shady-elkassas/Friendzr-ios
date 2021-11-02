@@ -59,7 +59,7 @@ class UserChatObj: NSObject,Mappable {
     var latestdate: String? = ""
     var latesttime: String? = ""
     var messages: String? = ""
-    
+    var isfrind:Bool? = false
     var isMute:Bool?
     var isArchive:Bool?
     
@@ -80,6 +80,7 @@ class UserChatObj: NSObject,Mappable {
         latesttime  <- map["latesttime"]
         messages  <- map["messages"]
         isMute  <- map["muit"]
+        isfrind  <- map["isfrind"]
     }
 }
 

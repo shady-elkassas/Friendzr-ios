@@ -36,6 +36,14 @@
 				<string>fb546251653295074</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>awq4czdodvu3iy4y</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -70,6 +78,10 @@
 		<string>fb-messenger-share-api</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
+		<string>tiktokopensdk</string>
+		<string>tiktoksharesdk</string>
+		<string>snssdk1180</string>
+		<string>snssdk1233</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -89,6 +101,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires access to the camera to take a picture for the profile when you need it.</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>This application requiers documents folder to download files.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Can i use the face id?</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -107,8 +121,8 @@
 	<string>This application requiers location services to display the nearest friends arround you.</string>
 	<key>RequestOpenAccess</key>
 	<true/>
-	<key>NSDocumentsFolderUsageDescription</key>
-	<string>This application requiers documents folder to download files.</string>
+	<key>TikTokAppID</key>
+	<string>awq4czdodvu3iy4y</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Black.ttf</string>
@@ -158,8 +172,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

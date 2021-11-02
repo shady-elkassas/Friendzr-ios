@@ -35,9 +35,7 @@ class MapVC: UIViewController {
     @IBOutlet weak var addEventBtn: UIButton!
     @IBOutlet weak var goAddEventBtn: UIButton!
     
-    //MARK: - Properties
-    lazy var alertView = Bundle.main.loadNibNamed("GenderDistributionView", owner: self, options: nil)?.first as? GenderDistributionView
-    
+    //MARK: - Properties    
     var locations:[EventsLocation] = [EventsLocation]()
     var location: CLLocationCoordinate2D? = nil
     let locationManager = CLLocationManager()
@@ -248,22 +246,6 @@ class MapVC: UIViewController {
         eventsTableView.separatorStyle = .none
         eventsTableView.delegate = self
         eventsTableView.dataSource = self
-        
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap2(_:)))
-        alertView?.addGestureRecognizer(tap)
-    }
-    
-    @objc func handleTap2(_ sender: UITapGestureRecognizer? = nil) {
-        // handling code
-        UIView.animate(withDuration: 0.3, animations: {
-            self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.alertView?.alpha = 0
-        }) { (success: Bool) in
-            self.alertView?.removeFromSuperview()
-            self.alertView?.alpha = 1
-            self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-        }
     }
     
     //create marker for location selected

@@ -136,7 +136,7 @@ extension DegreeScaleView {
                 shapeLayer.strokeColor = UIColor.white.cgColor
                 shapeLayer.lineWidth = 20
             }else {
-                shapeLayer.strokeColor = UIColor.gray.cgColor
+                shapeLayer.strokeColor = UIColor.white.cgColor
                 shapeLayer.lineWidth = 20
             }
             shapeLayer.path = bezPath.cgPath
