@@ -567,6 +567,7 @@ PODS:
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
+  - SFaceCompare (3.1.1)
   - SnapSDK/SCSDKBitmojiKit (1.13.0):
     - PINCache (< 3.1, >= 2.3)
     - PINOperation (~> 1.2.1)
@@ -598,6 +599,7 @@ DEPENDENCIES:
   - MultiSlider
   - ObjectMapper
   - SDWebImage
+  - SFaceCompare
   - SnapSDK/SCSDKBitmojiKit
   - SnapSDK/SCSDKCreativeKit
   - SnapSDK/SCSDKLoginKit
@@ -646,6 +648,7 @@ SPEC REPOS:
     - PINOperation
     - PromisesObjC
     - SDWebImage
+    - SFaceCompare
     - SnapSDK
     - SweeterSwift
     - TikTokOpenSDK
@@ -692,10 +695,11 @@ SPEC CHECKSUMS:
   PINOperation: 00c935935f1e8cf0d1e2d6b542e75b88fc3e5e20
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
+  SFaceCompare: 10e02b0c39d1d3c4e1af45ae3df6515dd6bc718e
   SnapSDK: f4f7cf3b2261233e096f8c43706d94e785ca102c
   SweeterSwift: 8a90cf3156f5a1b6f39785c479369a16633b5ea9
   TikTokOpenSDK: a63564ea4dc1fabc56352bf7aa9ddc386cdb63b6
 
-PODFILE CHECKSUM: 3edf8abde88a1f5fe380f957ba26a80d874532b5
+PODFILE CHECKSUM: 0b3f84814658838aa12052ef95ae2c7dde40977d
 
 COCOAPODS: 1.10.2

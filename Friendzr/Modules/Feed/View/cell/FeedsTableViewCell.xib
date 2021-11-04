@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Medium.ttf">
+            <string>Montserrat-Medium</string>
+        </array>
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedsTableViewCell" rowHeight="112" id="KGk-i7-Jjw" customClass="FeedsTableViewCell" customModule="Friendzr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="347" height="112"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="347" height="112"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="igJ-gy-USL">
+                        <rect key="frame" x="0.0" y="1" width="347" height="110"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="JYV-M0-z7e">
+                                <rect key="frame" x="25" y="30" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="05X-ni-lwf"/>
+                                    <constraint firstAttribute="width" constant="50" id="MP6-hW-yBt"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="reO-Ya-h3d">
+                                <rect key="frame" x="85" y="39" width="39" height="32"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SuI-ZI-y9r">
+                                        <rect key="frame" x="0.0" y="0.0" width="39" height="17.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                        <color key="textColor" name="ColorLbl1"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iI3-xn-RvY">
+                                        <rect key="frame" x="0.0" y="19.5" width="39" height="12.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="10"/>
+                                        <color key="textColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="PGC-jE-WUn">
+                                <rect key="frame" x="192" y="40" width="130" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pPE-Km-DIm">
+                                        <rect key="frame" x="0.0" y="0.0" width="130" height="30"/>
+                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
+                                        <state key="normal" title="Send Request">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="sendRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="njZ-PQ-wh0"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a9Y-vr-ekR">
+                                        <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
+                                        <state key="normal" title="Cancel">
+                                            <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="cancelRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="aJd-zc-0nR"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rmX-Aj-q1U">
+                                        <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
+                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Message">
+                                            <fontDescription key="titleFontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="messageBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="xzA-UK-aQo"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b34-Eg-0GO">
+                                        <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
+                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
+                                        <state key="normal" title="Respond">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="respondBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="XfN-dM-RBA"/>
+                                        </connections>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NU4-ZR-GKU">
+                                        <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
+                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
+                                        <state key="normal" title="Unblock">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="unblockBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="2yD-hx-mLb"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="nps-f7-pbD"/>
+                                    <constraint firstAttribute="width" constant="130" id="tXN-sV-1gK"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="PGC-jE-WUn" secondAttribute="trailing" constant="25" id="6c9-V2-9GY"/>
+                            <constraint firstItem="JYV-M0-z7e" firstAttribute="leading" secondItem="igJ-gy-USL" secondAttribute="leading" constant="25" id="9Mc-Fs-G51"/>
+                            <constraint firstItem="JYV-M0-z7e" firstAttribute="centerY" secondItem="igJ-gy-USL" secondAttribute="centerY" id="Iea-re-tl3"/>
+                            <constraint firstItem="reO-Ya-h3d" firstAttribute="centerY" secondItem="JYV-M0-z7e" secondAttribute="centerY" id="g9s-LK-fOU"/>
+                            <constraint firstItem="PGC-jE-WUn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="reO-Ya-h3d" secondAttribute="trailing" constant="8" id="h0B-vx-73E"/>
+                            <constraint firstItem="reO-Ya-h3d" firstAttribute="leading" secondItem="JYV-M0-z7e" secondAttribute="trailing" constant="10" id="nHt-Al-tt1"/>
+                            <constraint firstItem="PGC-jE-WUn" firstAttribute="centerY" secondItem="reO-Ya-h3d" secondAttribute="centerY" id="uhM-2O-mFq"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="igJ-gy-USL" secondAttribute="bottom" constant="1" id="6lt-o4-pNj"/>
+                    <constraint firstItem="igJ-gy-USL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="RJc-tf-4rm"/>
+                    <constraint firstItem="igJ-gy-USL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="1" id="agf-mr-vjf"/>
+                    <constraint firstAttribute="trailing" secondItem="igJ-gy-USL" secondAttribute="trailing" id="zV2-Kd-VXX"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="cancelRequestBtn" destination="a9Y-vr-ekR" id="laQ-KD-I44"/>
+                <outlet property="containerView" destination="igJ-gy-USL" id="54j-aP-LFb"/>
+                <outlet property="friendRequestImg" destination="JYV-M0-z7e" id="31o-Ob-5Bm"/>
+                <outlet property="friendRequestNameLbl" destination="SuI-ZI-y9r" id="IOb-JU-8h9"/>
+                <outlet property="friendRequestUserNameLbl" destination="iI3-xn-RvY" id="Gmh-9W-gpn"/>
+                <outlet property="messageBtn" destination="rmX-Aj-q1U" id="xW5-ME-87l"/>
+                <outlet property="respondBtn" destination="b34-Eg-0GO" id="L6I-1S-xUl"/>
+                <outlet property="sendRequestBtn" destination="pPE-Km-DIm" id="DZn-hb-zyo"/>
+                <outlet property="unblockBtn" destination="NU4-ZR-GKU" id="ZPu-yv-03S"/>
+            </connections>
+            <point key="canvasLocation" x="116.66666666666667" y="86.383928571428569"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="placeholder" width="1000" height="1000"/>
+        <namedColor name="ColorLbl1">
+            <color red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

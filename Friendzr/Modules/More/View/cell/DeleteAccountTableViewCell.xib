@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-SemiBold.ttf">
+            <string>Montserrat-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DeleteAccountTableViewCell" rowHeight="52" id="KGk-i7-Jjw" customClass="DeleteAccountTableViewCell" customModule="Friendzr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Ob-vr-gn2">
+                        <rect key="frame" x="20" y="5" width="280" height="42"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="filterAccourdingAge_ic" translatesAutoresizingMaskIntoConstraints="NO" id="KDW-yl-kwX">
+                                <rect key="frame" x="5" y="13.5" width="15" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="kom-Dz-dKg"/>
+                                    <constraint firstAttribute="width" constant="15" id="wq7-Ym-phb"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filtring According Age" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ogx-9l-WUW">
+                                <rect key="frame" x="28" y="12.5" width="163.5" height="17.5"/>
+                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
+                                <color key="textColor" name="ColorLbl3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_left" translatesAutoresizingMaskIntoConstraints="NO" id="kBf-OV-TCf">
+                                <rect key="frame" x="260" y="13.5" width="15" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="15" id="KSz-44-c91"/>
+                                    <constraint firstAttribute="width" constant="15" id="aIT-7j-DSb"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" name="Color0"/>
+                        <constraints>
+                            <constraint firstItem="kBf-OV-TCf" firstAttribute="centerY" secondItem="1Ob-vr-gn2" secondAttribute="centerY" id="Aqu-Um-jKZ"/>
+                            <constraint firstItem="Ogx-9l-WUW" firstAttribute="leading" secondItem="KDW-yl-kwX" secondAttribute="trailing" constant="8" id="BEa-ZA-hlk"/>
+                            <constraint firstItem="Ogx-9l-WUW" firstAttribute="centerY" secondItem="KDW-yl-kwX" secondAttribute="centerY" id="Hqi-Qt-u6c"/>
+                            <constraint firstItem="KDW-yl-kwX" firstAttribute="leading" secondItem="1Ob-vr-gn2" secondAttribute="leading" constant="5" id="NbB-bY-Tol"/>
+                            <constraint firstAttribute="trailing" secondItem="kBf-OV-TCf" secondAttribute="trailing" constant="5" id="eJI-II-3AH"/>
+                            <constraint firstItem="KDW-yl-kwX" firstAttribute="centerY" secondItem="1Ob-vr-gn2" secondAttribute="centerY" id="ucj-Zz-sMS"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="1Ob-vr-gn2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="5Jv-y0-wCl"/>
+                    <constraint firstItem="1Ob-vr-gn2" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="GWe-vC-jCi"/>
+                    <constraint firstAttribute="bottom" secondItem="1Ob-vr-gn2" secondAttribute="bottom" constant="5" id="n06-Ib-KZJ"/>
+                    <constraint firstAttribute="trailing" secondItem="1Ob-vr-gn2" secondAttribute="trailing" constant="20" id="tie-Yi-8Gt"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="arrowImg" destination="kBf-OV-TCf" id="OVw-ep-AE1"/>
+                <outlet property="containerView" destination="1Ob-vr-gn2" id="ILJ-gU-Ler"/>
+                <outlet property="iconImg" destination="KDW-yl-kwX" id="Mh2-oa-OFD"/>
+                <outlet property="titleLbl" destination="Ogx-9l-WUW" id="p4T-0U-tbu"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="100.44642857142857"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="arrow_left" width="6.5" height="11"/>
+        <image name="filterAccourdingAge_ic" width="32" height="32"/>
+        <namedColor name="Color0">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ColorLbl3">
+            <color red="0.14117647058823529" green="0.074509803921568626" blue="0.19607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

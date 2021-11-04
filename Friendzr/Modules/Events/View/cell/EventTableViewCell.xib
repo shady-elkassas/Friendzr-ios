@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Bold.ttf">
+            <string>Montserrat-Bold</string>
+        </array>
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="EventTableViewCell" rowHeight="208" id="KGk-i7-Jjw" customClass="EventTableViewCell" customModule="Friendzr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="370" height="208"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="370" height="208"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="49f-aS-wFT">
+                        <rect key="frame" x="20" y="10" width="330" height="193"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="p6U-Ed-4ym">
+                                <rect key="frame" x="0.0" y="0.0" width="330" height="193"/>
+                            </imageView>
+                            <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q9y-9f-959">
+                                <rect key="frame" x="0.0" y="133" width="330" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="yMc-QW-xX0"/>
+                                </constraints>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="1Iy-dx-cQb">
+                                <rect key="frame" x="20" y="146.5" width="99.5" height="33"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Soccer Match" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o8l-NP-JFX">
+                                        <rect key="frame" x="0.0" y="0.0" width="99.5" height="17.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Soccer Match" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CIA-bx-Mwj">
+                                        <rect key="frame" x="0.0" y="19.5" width="99.5" height="13.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="11"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="xTA-gR-aaQ">
+                                <rect key="frame" x="199.5" y="148.5" width="110.5" height="29"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aug 23,2021 2:30 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aCf-Qy-pcA">
+                                        <rect key="frame" x="0.0" y="0.0" width="110.5" height="13.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="11"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attendees: 30/40" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dlw-Fb-7WJ">
+                                        <rect key="frame" x="0.0" y="15.5" width="110.5" height="13.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="11"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="q9y-9f-959" secondAttribute="trailing" id="0Rz-44-QxI"/>
+                            <constraint firstItem="p6U-Ed-4ym" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" id="8T1-v0-k1b"/>
+                            <constraint firstItem="xTA-gR-aaQ" firstAttribute="centerY" secondItem="q9y-9f-959" secondAttribute="centerY" id="IJC-Vu-nKW"/>
+                            <constraint firstItem="q9y-9f-959" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" id="Ktp-Ub-oO8"/>
+                            <constraint firstAttribute="trailing" secondItem="xTA-gR-aaQ" secondAttribute="trailing" constant="20" id="cMK-yI-gJY"/>
+                            <constraint firstItem="p6U-Ed-4ym" firstAttribute="top" secondItem="49f-aS-wFT" secondAttribute="top" id="hGB-dk-yDh"/>
+                            <constraint firstAttribute="trailing" secondItem="p6U-Ed-4ym" secondAttribute="trailing" id="pV6-ss-eCn"/>
+                            <constraint firstAttribute="bottom" secondItem="q9y-9f-959" secondAttribute="bottom" id="qRp-se-JUg"/>
+                            <constraint firstAttribute="bottom" secondItem="p6U-Ed-4ym" secondAttribute="bottom" id="tzP-DQ-X0R"/>
+                            <constraint firstItem="1Iy-dx-cQb" firstAttribute="centerY" secondItem="q9y-9f-959" secondAttribute="centerY" id="v2C-rb-zfR"/>
+                            <constraint firstItem="1Iy-dx-cQb" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" constant="20" id="y1j-KA-GKp"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="49f-aS-wFT" secondAttribute="bottom" constant="5" id="3DE-gn-qWT"/>
+                    <constraint firstAttribute="trailing" secondItem="49f-aS-wFT" secondAttribute="trailing" constant="20" id="9hq-WR-7AN"/>
+                    <constraint firstItem="49f-aS-wFT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="N6W-hs-P4F"/>
+                    <constraint firstItem="49f-aS-wFT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="eZB-L9-05m"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="attendeesLbl" destination="dlw-Fb-7WJ" id="c0V-lv-RhE"/>
+                <outlet property="bgView" destination="q9y-9f-959" id="plQ-gy-a4e"/>
+                <outlet property="categoryLbl" destination="CIA-bx-Mwj" id="uKl-Op-BUt"/>
+                <outlet property="containerView" destination="49f-aS-wFT" id="B8S-R1-svc"/>
+                <outlet property="dateLbl" destination="aCf-Qy-pcA" id="OX4-Et-lCy"/>
+                <outlet property="eventImg" destination="p6U-Ed-4ym" id="WJP-9x-WGr"/>
+                <outlet property="eventTitleLbl" destination="o8l-NP-JFX" id="XZY-ao-dWR"/>
+            </connections>
+            <point key="canvasLocation" x="121.73913043478262" y="143.97321428571428"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="placeholder" width="1000" height="1000"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

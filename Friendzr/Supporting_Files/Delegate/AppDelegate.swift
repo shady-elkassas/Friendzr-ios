@@ -21,7 +21,7 @@ import CoreLocation
 import UserNotifications
 import SCSDKLoginKit
 import TikTokOpenSDK
-
+import SFaceCompare
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -39,8 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!], for: .selected)
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 8)!], for: .normal)
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 8)!], for: .selected)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .selected)
         
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
         TikTokOpenSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -121,6 +121,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.overrideUserInterfaceStyle = .light
         }
         
+        SFaceCompare.prepareData()
+
         return true
     }
     
@@ -521,6 +523,8 @@ extension AppDelegate: CLLocationManagerDelegate {
             }
             
             guard let _ = data else {return}
+            Defaults.LocationLat = "\(location.latitude)"
+            Defaults.LocationLng = "\(location.longitude)"
         }
     }
     

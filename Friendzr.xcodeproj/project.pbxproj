@@ -130,6 +130,10 @@
 		436288B126C95B1300B51E51 /* FriendProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436288B026C95B1300B51E51 /* FriendProfileVC.swift */; };
 		436460BA26E8EE2E007C3F27 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436460B826E8EE2E007C3F27 /* LoginModel.swift */; };
 		436460BB26E8EE2E007C3F27 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436460B926E8EE2E007C3F27 /* UserModel.swift */; };
+		4371D4142732B125003B8AFD /* FaceRecognitionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4132732B125003B8AFD /* FaceRecognitionVC.swift */; };
+		4371D4162732B131003B8AFD /* FaceRecognition.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4371D4152732B131003B8AFD /* FaceRecognition.storyboard */; };
+		4371D41F2732B76F003B8AFD /* Faces.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4371D41E2732B76F003B8AFD /* Faces.mlmodel */; };
+		4371D4212733F46C003B8AFD /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4202733F46C003B8AFD /* CustomCell.swift */; };
 		437A4E8F26FB6A30007AAEF9 /* FiltringDirectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E8E26FB6A30007AAEF9 /* FiltringDirectionVC.swift */; };
 		437A4E9326FB7315007AAEF9 /* CompassHeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9226FB7315007AAEF9 /* CompassHeading.swift */; };
 		437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */; };
@@ -382,6 +386,10 @@
 		436460B826E8EE2E007C3F27 /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		436460B926E8EE2E007C3F27 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		4371D40D273127F3003B8AFD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4371D4132732B125003B8AFD /* FaceRecognitionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionVC.swift; sourceTree = "<group>"; };
+		4371D4152732B131003B8AFD /* FaceRecognition.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FaceRecognition.storyboard; sourceTree = "<group>"; };
+		4371D41E2732B76F003B8AFD /* Faces.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Faces.mlmodel; sourceTree = "<group>"; };
+		4371D4202733F46C003B8AFD /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		437A4E8E26FB6A30007AAEF9 /* FiltringDirectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltringDirectionVC.swift; sourceTree = "<group>"; };
 		437A4E9226FB7315007AAEF9 /* CompassHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassHeading.swift; sourceTree = "<group>"; };
 		437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassViewSwiftUI.swift; sourceTree = "<group>"; };
@@ -999,6 +1007,7 @@
 		436288A826C93AFF00B51E51 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4371D4202733F46C003B8AFD /* CustomCell.swift */,
 				4362889826C90CC600B51E51 /* Cell */,
 				4382AC1C26C27195005C1857 /* Main.storyboard */,
 			);
@@ -1046,6 +1055,50 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		4371D40F27329535003B8AFD /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				4371D4102732AE61003B8AFD /* Face Recognition */,
+				4382ACAB26C28EAC005C1857 /* Main */,
+				430A351A26CAAF9E00477A94 /* Events */,
+				436288A926C93B2D00B51E51 /* Profile */,
+				4362889026C8FF7700B51E51 /* More */,
+				4362887B26C8FEAD00B51E51 /* Map */,
+				4362888926C8FF4900B51E51 /* Requests */,
+				4362888226C8FF1100B51E51 /* Feed */,
+				4333DA7126C3B1CF0029F2B0 /* Register */,
+				4333DA6C26C3B19B0029F2B0 /* Login */,
+				4382ACAD26C28FE3005C1857 /* Splach */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		4371D4102732AE61003B8AFD /* Face Recognition */ = {
+			isa = PBXGroup;
+			children = (
+				4371D41E2732B76F003B8AFD /* Faces.mlmodel */,
+				4371D4122732B100003B8AFD /* Controller */,
+				4371D4112732B0F5003B8AFD /* View */,
+			);
+			path = "Face Recognition";
+			sourceTree = "<group>";
+		};
+		4371D4112732B0F5003B8AFD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4371D4152732B131003B8AFD /* FaceRecognition.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4371D4122732B100003B8AFD /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4371D4132732B125003B8AFD /* FaceRecognitionVC.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		4382AC0A26C27195005C1857 = {
 			isa = PBXGroup;
 			children = (
@@ -1072,20 +1125,11 @@
 			isa = PBXGroup;
 			children = (
 				43FBA1DA26D4EDBA005F4FBF /* Friendzr.entitlements */,
-				4382ACAB26C28EAC005C1857 /* Main */,
-				430A351A26CAAF9E00477A94 /* Events */,
-				436288A926C93B2D00B51E51 /* Profile */,
-				4362889026C8FF7700B51E51 /* More */,
-				4362887B26C8FEAD00B51E51 /* Map */,
-				4362888926C8FF4900B51E51 /* Requests */,
-				4362888226C8FF1100B51E51 /* Feed */,
-				4333DA7126C3B1CF0029F2B0 /* Register */,
-				4333DA6C26C3B19B0029F2B0 /* Login */,
-				4382ACAD26C28FE3005C1857 /* Splach */,
+				4371D40F27329535003B8AFD /* Modules */,
 				4382AC4926C27297005C1857 /* Supporting_Files */,
 				4382AC2226C27195005C1857 /* Assets.xcassets */,
-				4371D40D273127F3003B8AFD /* Info.plist */,
 				4382AC2426C27195005C1857 /* LaunchScreen.storyboard */,
+				4371D40D273127F3003B8AFD /* Info.plist */,
 				4381CC9B270DB45A00D40A6D /* GoogleService-Info.plist */,
 			);
 			path = Friendzr;
@@ -1453,6 +1497,7 @@
 				4320A65026F21180003604EE /* BlockedTableViewCell.xib in Resources */,
 				43FC3CA827280BD500D94ABB /* SettingsTableViewCell.xib in Resources */,
 				4362887F26C8FECB00B51E51 /* Map.storyboard in Resources */,
+				4371D4162732B131003B8AFD /* FaceRecognition.storyboard in Resources */,
 				4382AC9D26C27FF2005C1857 /* Montserrat-Regular.ttf in Resources */,
 				430D425A26D3854200188E42 /* InterestsTableViewCell.xib in Resources */,
 				43CFB011271C56FC000CB41E /* GenderCollectionViewCell.xib in Resources */,
@@ -1606,6 +1651,7 @@
 				4382AC4E26C2778C005C1857 /* UIViewExtension.swift in Sources */,
 				431505782705F90E002387A1 /* DegreeScaleView.swift in Sources */,
 				4336D12926DB89370093C7A6 /* PasswordViewModel.swift in Sources */,
+				4371D41F2732B76F003B8AFD /* Faces.mlmodel in Sources */,
 				436288B126C95B1300B51E51 /* FriendProfileVC.swift in Sources */,
 				4325E20C26F0A048008F73C4 /* ChangePasswordVC.swift in Sources */,
 				4382ACBE26C2AFF7005C1857 /* SplachFourVC.swift in Sources */,
@@ -1732,6 +1778,7 @@
 				4308EB7826EA0FCD00D71379 /* FeedViewModel.swift in Sources */,
 				4336D11426DB7F570093C7A6 /* RequestManager.swift in Sources */,
 				430A352026CAB02700477A94 /* EventsVC.swift in Sources */,
+				4371D4142732B125003B8AFD /* FaceRecognitionVC.swift in Sources */,
 				43D545BB26CBD8610064660A /* SKAction+Color.swift in Sources */,
 				43D545BD26CBD8730064660A /* SKMultilineLabelNode.swift in Sources */,
 				4397236D2709CE9E0062D684 /* ChatViewModel.swift in Sources */,
@@ -1746,6 +1793,7 @@
 				43F473B326E6175F001E4FAE /* AllCategoriesViewModel.swift in Sources */,
 				431FF241270C8DEA002A15E0 /* GenderDistributionVC.swift in Sources */,
 				432940F926EE0EED0066BE87 /* FriendViewModel.swift in Sources */,
+				4371D4212733F46C003B8AFD /* CustomCell.swift in Sources */,
 				43FC3CA02727EBD000D94ABB /* MyLocation.swift in Sources */,
 				43D545BF26CBD8BB0064660A /* Toast.swift in Sources */,
 				43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */,
@@ -1861,6 +1909,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1923,6 +1972,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
