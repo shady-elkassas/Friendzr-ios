@@ -137,7 +137,11 @@ class EditMyProfileVC: UIViewController {
                 self.hideLoading()
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
-                }else {
+                }
+                //                else if error == "Unauthorized" {
+                //                    Router().toOptionsSignUpVC()
+                //                }
+                else {
                     self.showAlert(withMessage: error)
                 }
             }
@@ -232,35 +236,35 @@ class EditMyProfileVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func editProfileImgBtn(_ sender: Any) {
-//        if UIDevice.current.userInterfaceIdiom == .pad {
-//            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-//
-//            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                self.openCamera()
-//            }))
-//            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                self.openLibrary()
-//            }))
-//            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-//
-//            present(settingsActionSheet, animated:true, completion:nil)
-//
-//        }else {
-//            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-//
-//            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                self.openCamera()
-//            }))
-//            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                self.openLibrary()
-//            }))
-//            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-//
-//            present(settingsActionSheet, animated:true, completion:nil)
-//        }
-//
-        guard let vc = UIViewController.viewController(withStoryboard: .FaceRecognition, AndContollerID: "FaceRecognitionVC") as? FaceRecognitionVC else {return}
-        self.navigationController?.pushViewController(vc, animated: true)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+            
+            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openCamera()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openLibrary()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            
+            present(settingsActionSheet, animated:true, completion:nil)
+            
+        }else {
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+            
+            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openCamera()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openLibrary()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            
+            present(settingsActionSheet, animated:true, completion:nil)
+        }
+        //
+        //        guard let vc = UIViewController.viewController(withStoryboard: .FaceRecognition, AndContollerID: "FaceRecognitionVC") as? FaceRecognitionVC else {return}
+        //        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func dateBtn(_ sender: Any) {
@@ -395,6 +399,7 @@ class EditMyProfileVC: UIViewController {
                 
                 // replace this baseURLstring with your own wrapper API
                 let baseURlString = "https://open-api.tiktok.com/oauth/access_token/?client_key=\(clientKey)&client_secret=\(clientSecretKey)&grant_type=authorization_code&code=\(responseCode)"
+                
                 //                let baseURlString = "https://open-api.tiktok.com/demoapp/callback/?code=\(responseCode)&client_key=\(clientKey)"
                 
                 let url = NSURL(string: baseURlString)
@@ -509,9 +514,9 @@ extension EditMyProfileVC : TagListViewDelegate {
 }
 
 extension EditMyProfileVC : TikTokOpenSDKLogDelegate {
-
+    
     func onLog(_ logInfo: String) {
         print(logInfo)
     }
-
+    
 }

@@ -134,6 +134,9 @@
 		4371D4162732B131003B8AFD /* FaceRecognition.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4371D4152732B131003B8AFD /* FaceRecognition.storyboard */; };
 		4371D41F2732B76F003B8AFD /* Faces.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4371D41E2732B76F003B8AFD /* Faces.mlmodel */; };
 		4371D4212733F46C003B8AFD /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4202733F46C003B8AFD /* CustomCell.swift */; };
+		4371D4232737D054003B8AFD /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4222737D054003B8AFD /* CustomMessagesFlowLayout.swift */; };
+		4371D42627391B13003B8AFD /* EmptyViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */; };
+		4371D42727391B13003B8AFD /* EmptyViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4371D42527391B12003B8AFD /* EmptyViewTableViewCell.xib */; };
 		437A4E8F26FB6A30007AAEF9 /* FiltringDirectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E8E26FB6A30007AAEF9 /* FiltringDirectionVC.swift */; };
 		437A4E9326FB7315007AAEF9 /* CompassHeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9226FB7315007AAEF9 /* CompassHeading.swift */; };
 		437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */; };
@@ -390,6 +393,9 @@
 		4371D4152732B131003B8AFD /* FaceRecognition.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FaceRecognition.storyboard; sourceTree = "<group>"; };
 		4371D41E2732B76F003B8AFD /* Faces.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Faces.mlmodel; sourceTree = "<group>"; };
 		4371D4202733F46C003B8AFD /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		4371D4222737D054003B8AFD /* CustomMessagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagesFlowLayout.swift; sourceTree = "<group>"; };
+		4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewTableViewCell.swift; sourceTree = "<group>"; };
+		4371D42527391B12003B8AFD /* EmptyViewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyViewTableViewCell.xib; sourceTree = "<group>"; };
 		437A4E8E26FB6A30007AAEF9 /* FiltringDirectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltringDirectionVC.swift; sourceTree = "<group>"; };
 		437A4E9226FB7315007AAEF9 /* CompassHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassHeading.swift; sourceTree = "<group>"; };
 		437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassViewSwiftUI.swift; sourceTree = "<group>"; };
@@ -987,6 +993,8 @@
 			children = (
 				4362889F26C9186C00B51E51 /* FeedsTableViewCell.swift */,
 				436288A026C9186C00B51E51 /* FeedsTableViewCell.xib */,
+				4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */,
+				4371D42527391B12003B8AFD /* EmptyViewTableViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1008,6 +1016,7 @@
 			isa = PBXGroup;
 			children = (
 				4371D4202733F46C003B8AFD /* CustomCell.swift */,
+				4371D4222737D054003B8AFD /* CustomMessagesFlowLayout.swift */,
 				4362889826C90CC600B51E51 /* Cell */,
 				4382AC1C26C27195005C1857 /* Main.storyboard */,
 			);
@@ -1528,6 +1537,7 @@
 				430D425E26D38D9B00188E42 /* AttendeesTableViewCell.xib in Resources */,
 				4344110826CE885F00F8233E /* ContactsTableViewCell.xib in Resources */,
 				4382AC9626C27FF2005C1857 /* Montserrat-Medium.ttf in Resources */,
+				4371D42727391B13003B8AFD /* EmptyViewTableViewCell.xib in Resources */,
 				4362889D26C9140E00B51E51 /* RequestTableViewCell.xib in Resources */,
 				4382AC1E26C27195005C1857 /* Main.storyboard in Resources */,
 				43D545A726CBB02D0064660A /* EventCalendarView.xib in Resources */,
@@ -1716,6 +1726,7 @@
 				43D545AB26CBB61F0064660A /* EventTimeCalenderView.swift in Sources */,
 				4333DA8226C3CFEC0029F2B0 /* RegisterVC.swift in Sources */,
 				4382AC6526C27CDF005C1857 /* UILabelExtension.swift in Sources */,
+				4371D42627391B13003B8AFD /* EmptyViewTableViewCell.swift in Sources */,
 				4382AC5726C27A03005C1857 /* UIViewControllerExtension.swift in Sources */,
 				4336D12326DB88B20093C7A6 /* RegisterViewModel.swift in Sources */,
 				4382AC1B26C27195005C1857 /* MainVC.swift in Sources */,
@@ -1784,6 +1795,7 @@
 				4397236D2709CE9E0062D684 /* ChatViewModel.swift in Sources */,
 				4333DA8626C405CC0029F2B0 /* LoginVC.swift in Sources */,
 				436460BA26E8EE2E007C3F27 /* LoginModel.swift in Sources */,
+				4371D4232737D054003B8AFD /* CustomMessagesFlowLayout.swift in Sources */,
 				43FC3CAF2729686D00D94ABB /* Downloader.swift in Sources */,
 				43FDDD7A2701D9F400550876 /* SplachVC.swift in Sources */,
 				4382AC6226C27BC7005C1857 /* LoadingView.swift in Sources */,

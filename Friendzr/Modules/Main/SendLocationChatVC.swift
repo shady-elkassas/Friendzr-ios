@@ -24,7 +24,7 @@ class SendLocationChatVC: UIViewController {
     var locationLat:Double = 0.0
     var locationLng:Double = 0.0
     var locationTitle:String = ""
-
+    
     var onLocationCallBackResponse: ((_ lat: Double, _ lng: Double,_ title:String) -> ())?
     
     private var tableView: UITableView!
@@ -129,7 +129,7 @@ class SendLocationChatVC: UIViewController {
         self.present(alertController, animated: true, completion: nil)
         
     }
-        
+    
     @IBAction func sendBtn(_ sender: Any) {
         self.onLocationCallBackResponse?(self.locationLat,self.locationLng,self.locationTitle)
         self.onPopup()
@@ -178,7 +178,7 @@ extension SendLocationChatVC : CLLocationManagerDelegate {
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:
                 //open setting app when location services are disabled
-//                openSettingApp(message:NSLocalizedString("please.enable.location.services.to.continue.using.the.app", comment: ""))
+                //                openSettingApp(message:NSLocalizedString("please.enable.location.services.to.continue.using.the.app", comment: ""))
                 createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
@@ -187,7 +187,7 @@ extension SendLocationChatVC : CLLocationManagerDelegate {
             }
         } else {
             print("Location services are not enabled")
-//            openSettingApp(message:NSLocalizedString("please.enable.location.services.to.continue.using.the.app", comment: ""))
+            //            openSettingApp(message:NSLocalizedString("please.enable.location.services.to.continue.using.the.app", comment: ""))
             createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
         }
     }
@@ -227,13 +227,13 @@ extension SendLocationChatVC: GMSAutocompleteTableDataSourceDelegate {
         // Do something with the selected place.
         self.locationManager.stopUpdatingLocation()
         tableView.isHidden = true
-       
+        
         setupMarker(for: CLLocationCoordinate2D.init(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude))
         
         self.locationLat = self.location!.latitude
         self.locationLng = self.location!.longitude
         self.locationTitle = place.name ?? ""
-
+        
         let camera = GMSCameraPosition.camera(withLatitude: place.coordinate.latitude, longitude: place.coordinate.longitude, zoom: 17.0)
         self.mapView.animate(to: camera)
         self.searchBar.text = place.name

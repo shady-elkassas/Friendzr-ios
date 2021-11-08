@@ -20,6 +20,8 @@ class RequestVC: UIViewController {
     
     //MARK: - Properties
     let cellID = "RequestTableViewCell"
+    let emptyCellID = "EmptyViewTableViewCell"
+
     var viewmodel:RequestsViewModel = RequestsViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var refreshControl = UIRefreshControl()
@@ -64,12 +66,10 @@ class RequestVC: UIViewController {
                 tableView.dataSource = self
                 tableView.reloadData()
                 
-                totalRequestLbl.text = " \(value.data?.count ?? 0)"
+                totalRequestLbl.text = ": \(value.data?.count ?? 0)"
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
-                
-                showEmptyView()
             }
         }
         
@@ -135,17 +135,6 @@ class RequestVC: UIViewController {
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
-    func showEmptyView() {
-        if viewmodel.requests.value?.data?.count == 0 {
-            emptyView.isHidden = false
-            emptyLbl.text = "You haven't any data yet".localizedString
-        }else {
-            emptyView.isHidden = true
-        }
-        
-        tryAgainBtn.alpha = 0.0
-    }
-    
     func HandleinvalidUrl() {
         emptyView.isHidden = false
         emptyImg.image = UIImage.init(named: "maskGroup9")
@@ -190,6 +179,7 @@ class RequestVC: UIViewController {
     func setup() {
         //register cell in table view
         tableView.register(UINib(nibName:cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        tableView.register(UINib(nibName:emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
     }
     
@@ -202,103 +192,110 @@ class RequestVC: UIViewController {
 //MARK: - Extensions Table View Data Source
 extension RequestVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.requests.value?.data?.count ?? 0
+        if viewmodel.requests.value?.data?.count == 0 {
+            return 1
+        }else {
+            return viewmodel.requests.value?.data?.count ?? 0
+        }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? RequestTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.requests.value?.data?[indexPath.row]
-        
-        cell.friendRequestNameLbl.text = model?.userName
-        cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
-        cell.friendRequestDateLbl.text = model?.regestdata
-        cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
-        
-        cell.HandleAcceptBtn = {
-            self.cellSelected = true
-            self.updateNetworkForBtns()
-            if self.internetConnect {
-                
-                self.showLoading()
-                self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
-                    self.hideLoading()
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
+        if viewmodel.requests.value?.data?.count == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+            return cell
+        }else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? RequestTableViewCell else {return UITableViewCell()}
+            let model = viewmodel.requests.value?.data?[indexPath.row]
+            
+            cell.friendRequestNameLbl.text = model?.userName
+            cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
+            cell.friendRequestDateLbl.text = model?.regestdata
+            cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            
+            cell.HandleAcceptBtn = {
+                self.cellSelected = true
+                self.updateNetworkForBtns()
+                if self.internetConnect {
+                    
+                    self.showLoading()
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let message = message else {return}
+                        self.showAlert(withMessage: message)
+                        
+                        cell.stackViewBtns.isHidden = true
+                        cell.messageBtn.isHidden = false
+                        cell.requestRemovedLbl.isHidden = true
                     }
-                    
-                    guard let message = message else {return}
-                    self.showAlert(withMessage: message)
-                    
-                    cell.stackViewBtns.isHidden = true
-                    cell.messageBtn.isHidden = false
-                    cell.requestRemovedLbl.isHidden = true
+                }else {
+                    return
                 }
-            }else {
-                return
             }
-        }
-        
-        cell.HandleDeleteBtn = {
-            self.cellSelected = true
-            self.updateNetworkForBtns()
-            if self.internetConnect {
-                self.showLoading()
-                self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
-                    self.hideLoading()
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
+            
+            cell.HandleDeleteBtn = {
+                self.cellSelected = true
+                self.updateNetworkForBtns()
+                if self.internetConnect {
+                    self.showLoading()
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let message = message else {return}
+                        self.showAlert(withMessage: message)
+                        
+                        cell.stackViewBtns.isHidden = true
+                        cell.messageBtn.isHidden = true
+                        cell.requestRemovedLbl.isHidden = false
                     }
-                    
-                    guard let message = message else {return}
-                    self.showAlert(withMessage: message)
-                    
-                    cell.stackViewBtns.isHidden = true
-                    cell.messageBtn.isHidden = true
-                    cell.requestRemovedLbl.isHidden = false
+                }else {
+                    return
                 }
-            }else {
-                return
             }
-        }
-        
-        cell.HandleMessageBtn = {
-            self.cellSelected = true
-            self.updateNetworkForBtns()
-            if self.internetConnect {
-                guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
-                vc.isEvent = false
-                vc.eventChatID = ""
-                vc.chatuserID = model?.userId ?? ""
-                vc.titleChatName = model?.userName ?? ""
-                vc.titleChatImage = model?.image ?? ""
-                vc.isFriend = true
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else {
-                return
+            
+            cell.HandleMessageBtn = {
+                self.cellSelected = true
+                self.updateNetworkForBtns()
+                if self.internetConnect {
+                    Router().toChatVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "")
+                }else {
+                    return
+                }
             }
+            
+            return cell
+
         }
-        
-        return cell
     }
 }
 
 //MARK: - Extensions Table View Delegate
 extension RequestVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        if viewmodel.requests.value?.data?.count == 0 {
+            return 350
+        }else {
+            return 75
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cellSelected = true
         updateNetworkForBtns()
         if internetConnect {
-            let model = viewmodel.requests.value?.data?[indexPath.row]
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
-            vc.userID = model?.userId ?? ""
-            self.navigationController?.pushViewController(vc, animated: true)
-        }else {
-            return
+            if viewmodel.requests.value?.data?.count != 0 {
+                let model = viewmodel.requests.value?.data?[indexPath.row]
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+                vc.userID = model?.userId ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     

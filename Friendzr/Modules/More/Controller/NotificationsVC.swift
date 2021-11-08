@@ -8,17 +8,18 @@
 import UIKit
 
 class NotificationsVC: UIViewController {
-
+    
     //MARK:- Outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
-
+    
     //MARK: - Properties
     var viewmodel:NotificationsViewModel = NotificationsViewModel()
     let cellID = "NotificationTableViewCell"
+    let emptyCellID = "EmptyViewTableViewCell"
     
     var refreshControl = UIRefreshControl()
     
@@ -27,7 +28,7 @@ class NotificationsVC: UIViewController {
     
     var currentPage : Int = 1
     var isLoadingList : Bool = false
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -63,8 +64,6 @@ class NotificationsVC: UIViewController {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
-                
-                showEmptyView()
             }
         }
         
@@ -109,17 +108,6 @@ class NotificationsVC: UIViewController {
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
-    func showEmptyView() {
-        if viewmodel.notifications.value?.data?.count == 0 {
-            emptyView.isHidden = false
-            emptyLbl.text = "You haven't any data yet".localizedString
-        }else {
-            emptyView.isHidden = true
-        }
-        
-        tryAgainBtn.alpha = 0.0
-    }
-    
     func HandleinvalidUrl() {
         emptyView.isHidden = false
         emptyImg.image = UIImage.init(named: "emptyImage")
@@ -139,11 +127,10 @@ class NotificationsVC: UIViewController {
         }
     }
     
-    func HandleUnauthorized() {
-    }
-
+    
     func setupViews() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        tableView.register(UINib(nibName: emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
     }
     
@@ -173,84 +160,85 @@ class NotificationsVC: UIViewController {
         btnsSelect = false
         updateUserInterface()
     }
-
+    
 }
 
 extension NotificationsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.notifications.value?.data?.count ?? 0
+        if viewmodel.notifications.value?.data?.count != 0 {
+            return viewmodel.notifications.value?.data?.count ?? 0
+        }else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? NotificationTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.notifications.value?.data?[indexPath.row]
-        cell.notificationBodyLbl.text = model?.body
-        cell.notificationTitleLbl.text = model?.title
-        cell.notificationDateLbl.text = model?.createdAt
-        cell.notificationImg.sd_setImage(with: URL(string: model?.imageUrl ?? "" ), placeholderImage: UIImage(named: "placeholder"))
-        
-        return cell
+        if viewmodel.notifications.value?.data?.count != 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? NotificationTableViewCell else {return UITableViewCell()}
+            let model = viewmodel.notifications.value?.data?[indexPath.row]
+            cell.notificationBodyLbl.text = model?.body
+            cell.notificationTitleLbl.text = model?.title
+            cell.notificationDateLbl.text = model?.createdAt
+            cell.notificationImg.sd_setImage(with: URL(string: model?.imageUrl ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            
+            return cell
+        }else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+            return cell
+        }
     }
 }
 
 extension NotificationsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        if viewmodel.notifications.value?.data?.count != 0 {
+            return 100
+        }else {
+            return 350
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         btnsSelect = true
         updateUserInterface()
         if internetConect {
-            let model = viewmodel.notifications.value?.data?[indexPath.row]
-            
-            if model?.action == "Friend_Request" {
-                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else { return}
-                vc.userID = model?.action_code ?? ""
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else if model?.action == "Accept_Friend_Request" {
-                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else { return}
-                vc.userID = model?.action_code ?? ""
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else if model?.action == "event_chat" {
-                guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else { return}
-                vc.eventChatID = model?.action_code ?? ""
-                vc.isEvent = true
-                vc.chatuserID = ""
-                //                vc.titleChatImage = model?.imageUrl ?? ""
-                //                vc.titleChatName = model?.title ?? ""
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else if model?.action == "user_chat" {
-                guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else { return}
-                vc.titleChatImage = model?.imageUrl ?? ""
-                vc.titleChatName = model?.title ?? ""
-                vc.isEvent = false
-                vc.eventChatID = ""
-                vc.chatuserID = model?.action_code ?? ""
-                vc.isFriend = true
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else if model?.action == "event_Updated" {
-                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
-                vc.eventId = model?.action_code ?? ""
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else if model?.action == "update_Event_Data" {
-                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
-                vc.eventId = model?.action_code ?? ""
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else if model?.action == "event_attend" {
-                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
-                vc.eventId = model?.action_code ?? ""
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else if model?.action == "Event_reminder" {
-                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
-                vc.eventId = model?.action_code ?? ""
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else if model?.action == "Check_events_near_you" {
-                Router().toMap()
+            if viewmodel.notifications.value?.data?.count != 0 {
+                
+                let model = viewmodel.notifications.value?.data?[indexPath.row]
+                
+                if model?.action == "Friend_Request" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else { return}
+                    vc.userID = model?.action_code ?? ""
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }else if model?.action == "Accept_Friend_Request" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else { return}
+                    vc.userID = model?.action_code ?? ""
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }else if model?.action == "event_chat" {
+                    Router().toChatVC(isEvent: true, eventChatID: model?.action_code ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: "", titleChatName: "")
+                }else if model?.action == "user_chat" {
+                    Router().toChatVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.action_code ?? "", isFriend: true, titleChatImage: model?.imageUrl ?? "", titleChatName: model?.title ?? "")
+                }else if model?.action == "event_Updated" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
+                    vc.eventId = model?.action_code ?? ""
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }else if model?.action == "update_Event_Data" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
+                    vc.eventId = model?.action_code ?? ""
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }else if model?.action == "event_attend" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
+                    vc.eventId = model?.action_code ?? ""
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }else if model?.action == "Event_reminder" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
+                    vc.eventId = model?.action_code ?? ""
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }else if model?.action == "Check_events_near_you" {
+                    Router().toMap()
+                }
             }
-        }else {
-            return
         }
     }
     

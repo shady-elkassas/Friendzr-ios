@@ -56,9 +56,12 @@ class FeedVC: UIViewController {
     var filterDir = false
     
     let cellID = "FeedsTableViewCell"
+    let emptyCellID = "EmptyViewTableViewCell"
+    
     var viewmodel:FeedViewModel = FeedViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
-    
+    var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
+
     var refreshControl = UIRefreshControl()
     let switchBarButton = UISwitch()
     
@@ -85,8 +88,14 @@ class FeedVC: UIViewController {
         initProfileBarButton()
         filterDir = switchBarButton.isOn
         
-        DispatchQueue.main.async {
-            self.updateUserInterface()
+        if Defaults.allowMyLocation == true {
+            DispatchQueue.main.async {
+                self.updateUserInterface()
+            }
+        }else {
+            self.showAlert(withMessage: "Please allow your location")
+            self.emptyView.isHidden = false
+            self.emptyLbl.text = "You haven't any data yet"
         }
     }
     
@@ -109,13 +118,11 @@ class FeedVC: UIViewController {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
-
-                showEmptyView()
             })
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { error in
             DispatchQueue.main.async {
                 self.hideLoading()
                 self.showAlert(withMessage: error)
@@ -136,8 +143,6 @@ class FeedVC: UIViewController {
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                showEmptyView()
-                
                 isSendRequest = false
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                     self.hideLoading()
@@ -154,6 +159,19 @@ class FeedVC: UIViewController {
         }
     }
     
+    func updateMyLocation() {
+        updateLocationVM.updatelocation(ByLat: "\(Defaults.LocationLat)", AndLng: "\(Defaults.LocationLng)") { error, data in
+            if let error = error {
+                self.showAlert(withMessage: error)
+                return
+            }
+            
+            guard let data = data else {return}
+            Defaults.LocationLat = data.lat
+            Defaults.LocationLng = data.lang
+        }
+    }
+    
     //MARK: - Helper
     func updateUserInterface() {
         appDelegate.networkReachability()
@@ -167,10 +185,18 @@ class FeedVC: UIViewController {
             self.emptyView.isHidden = true
             internetConnect = true
             getAllFeeds(pageNumber: 0)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
+                self.updateMyLocation()
+            }
         case .wifi:
             self.emptyView.isHidden = true
             internetConnect = true
             getAllFeeds(pageNumber: 0)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
+                self.updateMyLocation()
+            }
         }
         
         print("Reachability Summary")
@@ -201,16 +227,6 @@ class FeedVC: UIViewController {
         print("HostName:", Network.reachability.hostname ?? "nil")
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func showEmptyView() {
-        if viewmodel.feeds.value?.data?.count == 0 {
-            emptyView.isHidden = false
-            emptyLbl.text = "You haven't any data yet".localizedString
-        }else {
-            emptyView.isHidden = true
-        }
-        tryAgainBtn.alpha = 0.0
     }
     
     func HandleinvalidUrl() {
@@ -255,6 +271,7 @@ class FeedVC: UIViewController {
     
     func setup() {
         tableView.register(UINib(nibName:cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        tableView.register(UINib(nibName:emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
     }
     
@@ -272,207 +289,219 @@ class FeedVC: UIViewController {
 //MARK: - Extensions
 extension FeedVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.feeds.value?.data?.count ?? 0
+        if viewmodel.feeds.value?.data?.count != 0 {
+            return viewmodel.feeds.value?.data?.count ?? 0
+        }else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? FeedsTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.feeds.value?.data?[indexPath.row]
-        cell.friendRequestNameLbl.text = model?.userName
-        cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
-        cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
-        
-        //status key
-        switch model?.key {
-        case 0:
-            //Status = normal case
-            cell.respondBtn.isHidden = true
-            cell.cancelRequestBtn.isHidden = true
-            cell.sendRequestBtn.isHidden = false
-            cell.messageBtn.isHidden = true
-            cell.unblockBtn.isHidden = true
-            break
-        case 1:
-            //Status = I have added a friend request
-            cell.respondBtn.isHidden = true
-            cell.cancelRequestBtn.isHidden = false
-            cell.sendRequestBtn.isHidden = true
-            cell.messageBtn.isHidden = true
-            cell.unblockBtn.isHidden = true
-            break
-        case 2:
-            //Status = Send me a request to add a friend
-            cell.respondBtn.isHidden = false
-            cell.cancelRequestBtn.isHidden = false
-            cell.sendRequestBtn.isHidden = true
-            cell.messageBtn.isHidden = true
-            cell.unblockBtn.isHidden = true
-            break
-        case 3:
-            //Status = We are friends
-            cell.respondBtn.isHidden = true
-            cell.cancelRequestBtn.isHidden = true
-            cell.sendRequestBtn.isHidden = true
-            cell.messageBtn.isHidden = false
-            cell.unblockBtn.isHidden = true
-            break
-        case 4:
-            //Status = I block user
-            cell.respondBtn.isHidden = true
-            cell.cancelRequestBtn.isHidden = true
-            cell.sendRequestBtn.isHidden = true
-            cell.messageBtn.isHidden = true
-            cell.unblockBtn.isHidden = false
-            break
-        case 5:
-            //Status = user block me
-            cell.respondBtn.isHidden = true
-            cell.cancelRequestBtn.isHidden = true
-            cell.sendRequestBtn.isHidden = true
-            cell.messageBtn.isHidden = true
-            cell.unblockBtn.isHidden = true
-            break
-        case 6:
-            break
-        default:
-            break
-        }
-        
-        cell.HandleSendRequestBtn = { //send request
-            self.btnsSelected = true
-            self.updateNetworkForBtns()
-            if self.internetConnect {
-                self.showLoading()
-                self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1) { error, message in
-                    self.hideLoading()
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
+        if viewmodel.feeds.value?.data?.count != 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? FeedsTableViewCell else {return UITableViewCell()}
+            let model = viewmodel.feeds.value?.data?[indexPath.row]
+            cell.friendRequestNameLbl.text = model?.userName
+            cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
+            cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            
+            //status key
+            switch model?.key {
+            case 0:
+                //Status = normal case
+                cell.respondBtn.isHidden = true
+                cell.cancelRequestBtn.isHidden = true
+                cell.sendRequestBtn.isHidden = false
+                cell.messageBtn.isHidden = true
+                cell.unblockBtn.isHidden = true
+                break
+            case 1:
+                //Status = I have added a friend request
+                cell.respondBtn.isHidden = true
+                cell.cancelRequestBtn.isHidden = false
+                cell.sendRequestBtn.isHidden = true
+                cell.messageBtn.isHidden = true
+                cell.unblockBtn.isHidden = true
+                break
+            case 2:
+                //Status = Send me a request to add a friend
+                cell.respondBtn.isHidden = false
+                cell.cancelRequestBtn.isHidden = false
+                cell.sendRequestBtn.isHidden = true
+                cell.messageBtn.isHidden = true
+                cell.unblockBtn.isHidden = true
+                break
+            case 3:
+                //Status = We are friends
+                cell.respondBtn.isHidden = true
+                cell.cancelRequestBtn.isHidden = true
+                cell.sendRequestBtn.isHidden = true
+                cell.messageBtn.isHidden = false
+                cell.unblockBtn.isHidden = true
+                break
+            case 4:
+                //Status = I block user
+                cell.respondBtn.isHidden = true
+                cell.cancelRequestBtn.isHidden = true
+                cell.sendRequestBtn.isHidden = true
+                cell.messageBtn.isHidden = true
+                cell.unblockBtn.isHidden = false
+                break
+            case 5:
+                //Status = user block me
+                cell.respondBtn.isHidden = true
+                cell.cancelRequestBtn.isHidden = true
+                cell.sendRequestBtn.isHidden = true
+                cell.messageBtn.isHidden = true
+                cell.unblockBtn.isHidden = true
+                break
+            case 6:
+                break
+            default:
+                break
+            }
+            
+            cell.HandleSendRequestBtn = { //send request
+                self.btnsSelected = true
+                self.updateNetworkForBtns()
+                if self.internetConnect {
+                    self.showLoading()
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1) { error, message in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let message = message else {return}
+                        self.showAlert(withMessage: message)
+                        
+                        DispatchQueue.main.async {
+                            self.getAllFeeds(pageNumber: 0)
+                        }
                     }
-                    
-                    guard let message = message else {return}
-                    self.showAlert(withMessage: message)
-                    
-                    DispatchQueue.main.async {
-                        self.getAllFeeds(pageNumber: 0)
-                    }
+                }else {
+                    return
                 }
-            }else {
-                return
             }
-        }
-        
-        cell.HandleRespondBtn = { //respond request
-            self.btnsSelected = true
-            self.updateNetworkForBtns()
             
-            if self.internetConnect {
-                self.showLoading()
-                self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
-                    self.hideLoading()
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
+            cell.HandleRespondBtn = { //respond request
+                self.btnsSelected = true
+                self.updateNetworkForBtns()
+                
+                if self.internetConnect {
+                    self.showLoading()
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let message = message else {return}
+                        self.showAlert(withMessage: message)
+                      
+                        DispatchQueue.main.async {
+                            self.getAllFeeds(pageNumber: 0)
+                        }
                     }
-                    
-                    guard let message = message else {return}
-                    self.showAlert(withMessage: message)
-                  
-                    DispatchQueue.main.async {
-                        self.getAllFeeds(pageNumber: 0)
-                    }
+                }else {
+                    return
                 }
-            }else {
-                return
             }
-        }
-        
-        cell.HandleMessageBtn = { //block account
-            self.btnsSelected = true
-            self.updateNetworkForBtns()
             
-            if self.self.internetConnect {
-                guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
-                vc.isEvent = false
-                vc.eventChatID = ""
-                vc.chatuserID = model?.userId ?? ""
-                vc.titleChatName = model?.userName ?? ""
-                vc.titleChatImage = model?.image ?? ""
-                vc.isFriend = true
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else {
-                return
-            }
-        }
-        
-        cell.HandleUnblocktBtn = { //unblock account
-            self.btnsSelected = true
-            self.updateNetworkForBtns()
-            
-            if self.internetConnect {
-                self.showLoading()
-                self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
-                    self.hideLoading()
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
-                    }
-                    
-                    guard let message = message else {return}
-                    self.showAlert(withMessage: message)
-                    DispatchQueue.main.async {
-                        self.getAllFeeds(pageNumber: 0)
-                    }
+            cell.HandleMessageBtn = { //block account
+                self.btnsSelected = true
+                self.updateNetworkForBtns()
+                
+                if self.self.internetConnect {
+                    Router().toChatVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "")
+                }else {
+                    return
                 }
-            }else {
-                return
             }
-        }
-        
-        cell.HandleCancelRequestBtn = { // cancel request
             
-            self.btnsSelected = true
-            self.updateNetworkForBtns()
-            
-            if self.internetConnect {
-                self.showLoading()
-                self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
-                    self.hideLoading()
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
+            cell.HandleUnblocktBtn = { //unblock account
+                self.btnsSelected = true
+                self.updateNetworkForBtns()
+                
+                if self.internetConnect {
+                    self.showLoading()
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let message = message else {return}
+                        self.showAlert(withMessage: message)
+                        DispatchQueue.main.async {
+                            self.getAllFeeds(pageNumber: 0)
+                        }
                     }
-                    
-                    guard let message = message else {return}
-                    self.showAlert(withMessage: message)
-                    DispatchQueue.main.async {
-                        self.getAllFeeds(pageNumber: 0)
-                    }
+                }else {
+                    return
                 }
-            }else {
-                return
             }
+            
+            cell.HandleCancelRequestBtn = { // cancel request
+                
+                self.btnsSelected = true
+                self.updateNetworkForBtns()
+                
+                if self.internetConnect {
+                    self.showLoading()
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let message = message else {return}
+                        self.showAlert(withMessage: message)
+                        DispatchQueue.main.async {
+                            self.getAllFeeds(pageNumber: 0)
+                        }
+                    }
+                }else {
+                    return
+                }
+            }
+            
+            return cell
+
+        }else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+            return cell
         }
-        
-        return cell
     }
 }
 
 //extension Table View Delegate
 extension FeedVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80
+        if viewmodel.feeds.value?.data?.count != 0 {
+            return 80
+        }else {
+            return 350
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         btnsSelected = true
         updateNetworkForBtns()
         
         if internetConnect {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
-            vc.userID = viewmodel.feeds.value?.data?[indexPath.row].userId ?? ""
-            self.navigationController?.pushViewController(vc, animated: true)
+            if viewmodel.feeds.value?.data?.count != 0 {
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+                vc.userID = viewmodel.feeds.value?.data?[indexPath.row].userId ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else {
+                return
+            }
         }else {
             return
         }

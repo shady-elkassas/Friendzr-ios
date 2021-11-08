@@ -55,6 +55,8 @@
 	<true/>
 	<key>FirebaseMessagingAutoInitEnabled</key>
 	<true/>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<true/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>comgooglemaps</string>
@@ -182,5 +184,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 </dict>
 </plist>

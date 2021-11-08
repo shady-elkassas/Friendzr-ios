@@ -227,14 +227,7 @@ extension NewConversationVC: UITableViewDelegate {
         
         if internetConnect {
             let model = viewmodel.friends.value?.data?[indexPath.row]
-            guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
-            vc.isEvent = false
-            vc.eventChatID = ""
-            vc.chatuserID = model?.userId ?? ""
-            vc.titleChatImage = model?.image ?? ""
-            vc.titleChatName = model?.userName ?? ""
-            vc.isFriend = true
-            self.navigationController?.pushViewController(vc, animated: true)
+            Router().toChatVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "")
         }else {
             return
         }

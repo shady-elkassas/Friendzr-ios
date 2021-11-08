@@ -11,13 +11,13 @@ import MessageKit
 
 /// The `PlayerState` indicates the current audio controller state
 public enum PlayerState {
-
+    
     /// The audio controller is currently playing a sound
     case playing
-
+    
     /// The audio controller is currently in pause state
     case pause
-
+    
     /// The audio controller is not playing any sound and audioPlayer is nil
     case stopped
 }
@@ -25,34 +25,34 @@ public enum PlayerState {
 /// The `BasicAudioController` update UI for current audio cell that is playing a sound
 /// and also creates and manage an `AVAudioPlayer` states, play, pause and stop.
 open class AudioVC: NSObject, AVAudioPlayerDelegate {
-
+    
     /// The `AVAudioPlayer` that is playing the sound
     open var audioPlayer: AVAudioPlayer?
-
+    
     /// The `AudioMessageCell` that is currently playing sound
     open weak var playingCell: AudioMessageCell?
-
+    
     /// The `MessageType` that is currently playing sound
     open var playingMessage: MessageType?
-
+    
     /// Specify if current audio controller state: playing, in pause or none
     open private(set) var state: PlayerState = .stopped
-
+    
     // The `MessagesCollectionView` where the playing cell exist
     public weak var messageCollectionView: MessagesCollectionView?
-
+    
     /// The `Timer` that update playing progress
     internal var progressTimer: Timer?
-
+    
     // MARK: - Init Methods
-
+    
     public init(messageCollectionView: MessagesCollectionView) {
         self.messageCollectionView = messageCollectionView
         super.init()
     }
-
+    
     // MARK: - Methods
-
+    
     /// Used to configure the audio cell UI:
     ///     1. play button selected state;
     ///     2. progresssView progress;
@@ -75,7 +75,7 @@ open class AudioVC: NSObject, AVAudioPlayerDelegate {
             cell.durationLabel.text = displayDelegate.audioProgressTextFormat(Float(player.currentTime), for: cell, in: collectionView)
         }
     }
-
+    
     /// Used to start play audio sound
     ///
     /// - Parameters:
@@ -102,7 +102,7 @@ open class AudioVC: NSObject, AVAudioPlayerDelegate {
             print("BasicAudioPlayer failed play sound becasue given message kind is not Audio")
         }
     }
-
+    
     /// Used to pause the audio sound
     ///
     /// - Parameters:
@@ -117,7 +117,7 @@ open class AudioVC: NSObject, AVAudioPlayerDelegate {
             cell.delegate?.didPauseAudio(in: cell)
         }
     }
-
+    
     /// Stops any ongoing audio playing if exists
     open func stopAnyOngoingPlaying() {
         guard let player = audioPlayer, let collectionView = messageCollectionView else { return } // If the audio player is nil then we don't need to go through the stopping logic
@@ -138,7 +138,7 @@ open class AudioVC: NSObject, AVAudioPlayerDelegate {
         playingMessage = nil
         playingCell = nil
     }
-
+    
     /// Resume a currently pause audio sound
     open func resumeSound() {
         guard let player = audioPlayer, let cell = playingCell else {
@@ -152,7 +152,7 @@ open class AudioVC: NSObject, AVAudioPlayerDelegate {
         cell.playButton.isSelected = true // show pause button on audio cell
         cell.delegate?.didStartAudio(in: cell)
     }
-
+    
     // MARK: - Fire Methods
     @objc private func didFireProgressTimer(_ timer: Timer) {
         guard let player = audioPlayer, let collectionView = messageCollectionView, let cell = playingCell else {
@@ -177,21 +177,21 @@ open class AudioVC: NSObject, AVAudioPlayerDelegate {
             }
         }
     }
-
+    
     // MARK: - Private Methods
     private func startProgressTimer() {
         progressTimer?.invalidate()
         progressTimer = nil
         progressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(AudioVC.didFireProgressTimer(_:)), userInfo: nil, repeats: true)
     }
-
+    
     // MARK: - AVAudioPlayerDelegate
     open func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         stopAnyOngoingPlaying()
     }
-
+    
     open func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
         stopAnyOngoingPlaying()
     }
-
+    
 }

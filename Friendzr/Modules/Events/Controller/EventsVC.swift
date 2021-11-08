@@ -19,6 +19,8 @@ class EventsVC: UIViewController {
     
     //MARK: - Properties
     let cellID = "EventTableViewCell"
+    let emptyCellID = "EmptyViewTableViewCell"
+    
     var viewmodel:EventsViewModel = EventsViewModel()
     var refreshControl = UIRefreshControl()
     
@@ -27,7 +29,7 @@ class EventsVC: UIViewController {
     
     var currentPage : Int = 1
     var isLoadingList : Bool = false
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +54,7 @@ class EventsVC: UIViewController {
         currentPage += 1
         getAllEvents(pageNumber: currentPage)
     }
-
+    
     //MARK:- APIs
     func getAllEvents(pageNumber:Int) {
         self.showLoading()
@@ -67,8 +69,6 @@ class EventsVC: UIViewController {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
-
-                showEmptyView()
             }
         }
         
@@ -113,17 +113,6 @@ class EventsVC: UIViewController {
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
-    func showEmptyView() {
-        if viewmodel.events.value?.data?.count == 0 {
-            emptyView.isHidden = false
-            emptyLbl.text = "You haven't any data yet".localizedString
-        }else {
-            emptyView.isHidden = true
-        }
-        
-        tryAgainBtn.alpha = 0.0
-    }
-    
     func HandleinvalidUrl() {
         emptyView.isHidden = false
         emptyImg.image = UIImage.init(named: "emptyImage")
@@ -145,6 +134,7 @@ class EventsVC: UIViewController {
     
     func setupView() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        tableView.register(UINib(nibName: emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
     }
     
@@ -183,56 +173,69 @@ class EventsVC: UIViewController {
 //MARK: - Extensions
 extension EventsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.events.value?.data?.count ?? 0
+        if viewmodel.events.value?.data?.count != 0 {
+            return viewmodel.events.value?.data?.count ?? 0
+        }else {
+            return 1
+        }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? EventTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.events.value?.data?[indexPath.row]
-        cell.attendeesLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
-        cell.eventTitleLbl.text = model?.title
-        cell.categoryLbl.text = model?.categorie
-        cell.dateLbl.text = model?.eventdate
-        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
-        return cell
+        if viewmodel.events.value?.data?.count != 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? EventTableViewCell else {return UITableViewCell()}
+            let model = viewmodel.events.value?.data?[indexPath.row]
+            cell.attendeesLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
+            cell.eventTitleLbl.text = model?.title
+            cell.categoryLbl.text = model?.categorie
+            cell.dateLbl.text = model?.eventdate
+            cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            return cell
+        }else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+            return cell
+        }
     }
 }
 
 extension EventsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200
+        if viewmodel.events.value?.data?.count != 0 {
+            return 200
+        }else {
+            return 350
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cellSelect = true
         updateUserInterface()
         if internetConect == true {
-            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
-            vc.eventId = viewmodel.events.value?.data?[indexPath.row].id ?? ""
-            self.navigationController?.pushViewController(vc, animated: true)
-        }else {
-            return
+            if viewmodel.events.value?.data?.count != 0 {
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
+                vc.eventId = viewmodel.events.value?.data?[indexPath.row].id ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-          if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
-              self.isLoadingList = true
-              if currentPage < viewmodel.events.value?.totalPages ?? 0 {
-                  self.tableView.tableFooterView = self.createFooterView()
-                  
-                  DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
-                      print("self.currentPage >> \(self.currentPage)")
-                      self.loadMoreItemsForList()
-                  }
-              }else {
-                  self.tableView.tableFooterView = nil
-                  DispatchQueue.main.async {
-                      self.view.makeToast("No more data here")
-                  }
-                  return
-              }
-          }
-      }
+        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+            self.isLoadingList = true
+            if currentPage < viewmodel.events.value?.totalPages ?? 0 {
+                self.tableView.tableFooterView = self.createFooterView()
+                
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                    print("self.currentPage >> \(self.currentPage)")
+                    self.loadMoreItemsForList()
+                }
+            }else {
+                self.tableView.tableFooterView = nil
+                DispatchQueue.main.async {
+                    self.view.makeToast("No more data here")
+                }
+                return
+            }
+        }
+    }
 }
 
 extension EventsVC {

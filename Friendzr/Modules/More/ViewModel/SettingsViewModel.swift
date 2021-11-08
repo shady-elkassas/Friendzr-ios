@@ -81,7 +81,7 @@ class SettingsViewModel {
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
-            guard let settingsResponse = Mapper<SettingsModel>().map(JSON: data!) else {
+            guard let settingsResponse = Mapper<DeleteAccountModel>().map(JSON: data!) else {
                 self.errorMsg.value = error ?? ""
                 completion(self.errorMsg.value, nil)
                 return

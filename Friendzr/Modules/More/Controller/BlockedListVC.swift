@@ -21,6 +21,7 @@ class BlockedListVC: UIViewController {
     
     //MARK: - Properties
     let cellID = "BlockedTableViewCell"
+    let emptyCellID = "EmptyViewTableViewCell"
     var viewmodel:AllBlockedViewModel = AllBlockedViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     
@@ -72,8 +73,6 @@ class BlockedListVC: UIViewController {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
-                
-                showEmptyView()
             }
         }
         
@@ -112,6 +111,7 @@ class BlockedListVC: UIViewController {
     func setupViews() {
         tryAgainBtn.cornerRadiusView(radius: 8)
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        tableView.register(UINib(nibName: emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
     }
     
     func updateUserInterface() {
@@ -139,17 +139,6 @@ class BlockedListVC: UIViewController {
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
-    func showEmptyView() {
-        if viewmodel.blocklist.value?.data?.count == 0 {
-            emptyView.isHidden = false
-            emptyLbl.text = "You haven't any data yet".localizedString
-        }else {
-            emptyView.isHidden = true
-        }
-        
-        tryAgainBtn.alpha = 0.0
-    }
-    
     func HandleinvalidUrl() {
         emptyView.isHidden = false
         emptyImg.image = UIImage.init(named: "emptyImage")
@@ -168,10 +157,6 @@ class BlockedListVC: UIViewController {
             tryAgainBtn.alpha = 1.0
         }
     }
-    
-    func HandleUnauthorized() {
-    }
-    
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         // handling code
@@ -224,83 +209,98 @@ extension BlockedListVC : UISearchBarDelegate {
 
 extension BlockedListVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.blocklist.value?.data?.count ?? 0
+        if viewmodel.blocklist.value?.data?.count != 0 {
+            return viewmodel.blocklist.value?.data?.count ?? 0
+        }else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? BlockedTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.blocklist.value?.data?[indexPath.row]
-        cell.nameLbl.text = model?.userName
-        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
-        
-        if indexPath.row == ((viewmodel.blocklist.value?.data?.count ?? 0) - 1 ) {
-            cell.underView.isHidden = true
-        }
-        
-        cell.HandleUnblockBtn = {
-            self.alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        if viewmodel.blocklist.value?.data?.count != 0 {
             
-            self.alertView?.titleLbl.text = "Confirm?".localizedString
-            self.alertView?.detailsLbl.text = "Are you sure you want to unblock this account?".localizedString
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? BlockedTableViewCell else {return UITableViewCell()}
+            let model = viewmodel.blocklist.value?.data?[indexPath.row]
+            cell.nameLbl.text = model?.userName
+            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
             
-            self.alertView?.HandleConfirmBtn = {
-                // handling code
-                self.btnsSelect = true
-                self.updateUserInterface()
-                
-                if self.internetConect {
-                    self.showLoading()
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
-                        self.hideLoading()
-                        if let error = error {
-                            self.showAlert(withMessage: error)
-                            return
-                        }
-                        
-                        guard let message = message else {return}
-                        self.showAlert(withMessage: message)
-                        
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    }
-                }else {
-                    return
-                }
-                
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                    self.alertView?.alpha = 0
-                }) { (success: Bool) in
-                    self.alertView?.removeFromSuperview()
-                    self.alertView?.alpha = 1
-                    self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                }
+            if indexPath.row == ((viewmodel.blocklist.value?.data?.count ?? 0) - 1 ) {
+                cell.underView.isHidden = true
             }
             
-            self.view.addSubview((self.alertView)!)
+            cell.HandleUnblockBtn = {
+                self.alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                
+                self.alertView?.titleLbl.text = "Confirm?".localizedString
+                self.alertView?.detailsLbl.text = "Are you sure you want to unblock this account?".localizedString
+                
+                self.alertView?.HandleConfirmBtn = {
+                    // handling code
+                    self.btnsSelect = true
+                    self.updateUserInterface()
+                    
+                    if self.internetConect {
+                        self.showLoading()
+                        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
+                            self.hideLoading()
+                            if let error = error {
+                                self.showAlert(withMessage: error)
+                                return
+                            }
+                            
+                            guard let message = message else {return}
+                            self.showAlert(withMessage: message)
+                            
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                        }
+                    }else {
+                        return
+                    }
+                    
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                        self.alertView?.alpha = 0
+                    }) { (success: Bool) in
+                        self.alertView?.removeFromSuperview()
+                        self.alertView?.alpha = 1
+                        self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                    }
+                }
+                
+                self.view.addSubview((self.alertView)!)
+            }
+            
+            return cell
+        }else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+            return cell
         }
-        
-        return cell
     }
 }
 
 extension BlockedListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        if viewmodel.blocklist.value?.data?.count != 0 {
+            return 60
+        }else {
+            return 350
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         btnsSelect = true
         updateUserInterface()
         if internetConect {
-            let model = viewmodel.blocklist.value?.data?[indexPath.row]
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
-            vc.userID = model?.userId ?? ""
-            self.navigationController?.pushViewController(vc, animated: true)
-        }else {
-            return
+            if viewmodel.blocklist.value?.data?.count != 0 {
+                let model = viewmodel.blocklist.value?.data?[indexPath.row]
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+                vc.userID = model?.userId ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
+        
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

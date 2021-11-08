@@ -117,6 +117,29 @@ class Router {
         nextVC.selectedIndex = 2
         go(withVC: nextVC)
     }
+    
+    
+
+    
+    func toChatVC(isEvent:Bool,eventChatID:String,leavevent:Int,chatuserID:String,isFriend:Bool,titleChatImage:String,titleChatName:String) {
+        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatNC") as? UINavigationController, let vc = controller.viewControllers.first as? ChatVC {
+            if isEvent == true {
+                vc.isEvent = true
+                vc.eventChatID = eventChatID
+                vc.chatuserID = ""
+                vc.leavevent = leavevent
+            }else {
+                vc.isEvent = false
+                vc.eventChatID = ""
+                vc.chatuserID = chatuserID
+                vc.isFriend = isFriend
+            }
+
+            vc.titleChatImage = titleChatImage
+            vc.titleChatName = titleChatName
+            go(withVC: controller)
+        }
+    }
 }
 
 class HomeNC: UINavigationController {

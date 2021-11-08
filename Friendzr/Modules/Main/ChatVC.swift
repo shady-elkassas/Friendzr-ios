@@ -20,11 +20,11 @@ import FirebaseFirestore
 class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
     
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
-
+    
     // MARK: - Public properties
     var soundRecorder: AVAudioRecorder!
     var soundPlayer:AVAudioPlayer!
-    let fileRecordName = "demo.caf"
+    let fileRecordName = ""
     var fileUpload = ""
     
     let outgoingAvatarOverlap: CGFloat = 17.5
@@ -81,7 +81,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
     private let formatterTime: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
-        formatter.dateFormat = "HH:mm"
+        formatter.dateFormat = "HH:mm:ss"
         return formatter
     }()
     
@@ -96,7 +96,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         super.viewDidLoad()
         
         configureMessageCollectionView()
-        initBackButton()
+        initBackChatButton()
         setupMessages()
         
         configureMessageInputBar()
@@ -111,12 +111,30 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessagesForEvent), name: Notification.Name("listenToMessagesForEvent"), object: nil)
         
-//        messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: CustomMessagesFlowLayout())
-//        messagesCollectionView.register(CustomCell.self)
+        //        messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: CustomMessagesFlowLayout())
+        //        messagesCollectionView.register(CustomCell.self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if isEvent {
+            if leavevent == 0 {
+                messageInputBar.isHidden = false
+                //                messageInputBar.inputTextView.becomeFirstResponder()
+            }else if leavevent == 1 {
+                setupDownView(textLbl: "You have left this event")
+            }else {
+                setupDownView(textLbl: "You have left this chat event")
+            }
+        }else {
+            if isFriend == true {
+                messageInputBar.isHidden = false
+                //                messageInputBar.inputTextView.becomeFirstResponder()
+            }else {
+                setupDownView(textLbl: "You are now not a friend of this user and will not be able to message him")
+            }
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -126,28 +144,8 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if isEvent {
-            if leavevent == 0 {
-                messageInputBar.inputTextView.becomeFirstResponder()
-                messageInputBar.isHidden = false
-            }else if leavevent == 1 {
-                messageInputBar.isHidden = true
-                self.showAlert(withMessage: "You have left this event")
-            }else {
-                messageInputBar.isHidden = true
-                self.showAlert(withMessage: "You have left this chat event")
-            }
-        }else {
-            if isFriend == true {
-                messageInputBar.inputTextView.becomeFirstResponder()
-                messageInputBar.isHidden = false
-            }else {
-                messageInputBar.isHidden = true
-                self.showAlert(withMessage: "You are now not a friend of this user and will not be able to message him")
-            }
-        }
     }
-        
+    
     @objc func listenToMessages() {
         getUserChatMessages(pageNumber: 1)
     }
@@ -227,7 +225,6 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
     }
     
     //MARK: - APIs
-    
     func getDate(dateStr:String,timeStr:String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
@@ -285,6 +282,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
                 }
                 
                 self.messagesCollectionView.reloadData()
+                self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
                 self.refreshControl.endRefreshing()
                 
                 updateTitleView(image: titleChatImage, subtitle: titleChatName)
@@ -338,6 +336,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
                 }
                 
                 self.messagesCollectionView.reloadData()
+                self.messagesCollectionView.scrollToLastItem()
                 self.refreshControl.endRefreshing()
                 updateTitleView(image: titleChatImage, subtitle: titleChatName)
             }
@@ -395,27 +394,27 @@ extension ChatVC: MessagesDataSource {
     }
     
     
-    func collectionView(collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        guard let messagesDataSource = messagesCollectionView.messagesDataSource else {
-            fatalError("Ouch. nil data source for messages")
-        }
-        
-        // Very important to check this when overriding `cellForItemAt`
-        // Super method will handle returning the typing indicator cell
-        guard !isSectionReservedForTypingIndicator(indexPath.section) else {
-            return super.collectionView(collectionView, cellForItemAt: indexPath)
-        }
-        
-        let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
-        if case .custom = message.kind {
-            let cell = messagesCollectionView.dequeueReusableCell(CustomCell.self, for: indexPath)
-            cell.configure(with: message, at: indexPath, and: messagesCollectionView)
-            return cell
-        }
-        
-        return super.collectionView(collectionView, cellForItemAt: indexPath)
-    }
+    //    func collectionView(collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    //
+    //        guard let messagesDataSource = messagesCollectionView.messagesDataSource else {
+    //            fatalError("Ouch. nil data source for messages")
+    //        }
+    //
+    //        // Very important to check this when overriding `cellForItemAt`
+    //        // Super method will handle returning the typing indicator cell
+    //        guard !isSectionReservedForTypingIndicator(indexPath.section) else {
+    //            return super.collectionView(collectionView, cellForItemAt: indexPath)
+    //        }
+    //
+    //        let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
+    //        if case .custom = message.kind {
+    //            let cell = messagesCollectionView.dequeueReusableCell(CustomCell.self, for: indexPath)
+    //            cell.configure(with: message, at: indexPath, and: messagesCollectionView)
+    //            return cell
+    //        }
+    //
+    //        return super.collectionView(collectionView, cellForItemAt: indexPath)
+    //    }
     
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         if indexPath.section % 3 == 0 {
@@ -521,7 +520,7 @@ extension ChatVC: MessageCellDelegate {
                 pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
                 popupVC.imgURL = imgURL.description
                 present(popupVC, animated: true, completion: nil)
-
+                
             }else if message.messageType == 3 {
                 //downlaod file
                 print("PDF FILE")
@@ -699,7 +698,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
                 DispatchQueue.main.async {
                     inputBar.inputTextView.text = ""
                     self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                    self.messagesCollectionView.scrollToLastItem()
                 }
             }
         }else {
@@ -890,9 +889,9 @@ extension ChatVC {
         button.onTouchUpInside { [weak self] _ in
             self?.presentInputActionSheet()
         }
-//        button.backgroundColor = .clear
-//        button.cornerRadiusView(radius: 18)
-//        button.setBorder(color: UIColor.white.cgColor.copy(alpha: 0.85), width: 2)
+        //        button.backgroundColor = .clear
+        //        button.cornerRadiusView(radius: 18)
+        //        button.setBorder(color: UIColor.white.cgColor.copy(alpha: 0.85), width: 2)
         
         let button2 = InputBarSendButton()
         button2.setSize(CGSize(width: 35, height: 35), animated: false)
@@ -917,25 +916,40 @@ extension ChatVC {
         messageInputBar.setStackViewItems([button], forStack: .left, animated: false)
     }
     
-    
-    //    private func setupRightInputButton() {
-    //        let button = InputBarSendButton()
-    //        let image = UIImage(named: "ic_send")
-    //        button.setSize(CGSize(width: 35, height:35), animated: false)
-    //        button.backgroundColor = UIColor.FriendzrColors.primary
-    //        button.cornerRadiusView(radius: 17.5)
-    //        button.setImage(image, for: .normal)
-    //        button.onTouchUpInside { _ in
-    //            self.sendMessageAction()
-    //
-    //        }
-    //        messageInputBar.setRightStackViewWidthConstant(to: 36, animated: false)
-    //        messageInputBar.setStackViewItems([button], forStack: .right, animated: false)
-    //    }
-    
-    //    private func sendMessageAction() {
-    //        print("Send Message")
-    //    }
+    func setupDownView(textLbl:String) {
+        messageInputBar.isHidden = true
+        
+        let downView:UIView = UIView()
+        downView.backgroundColor = .white.withAlphaComponent(0.85)
+        downView.setBorder()
+        
+        view.addSubview(downView)
+        let label = UILabel()
+        downView.addSubview(label)
+        
+        label.textColor = .black
+        label.font = UIFont(name: "Montserrat-Medium", size: 12)
+        label.textAlignment = .center
+        label.numberOfLines = 3
+        label.text = textLbl
+        
+        label.translatesAutoresizingMaskIntoConstraints = false
+        let constraints = [
+            label.bottomAnchor.constraint(equalTo: downView.bottomAnchor, constant: -30),
+            label.topAnchor.constraint(equalTo: downView.topAnchor, constant: 10),
+            label.leftAnchor.constraint(equalTo: downView.leftAnchor, constant: 20),
+            label.rightAnchor.constraint(equalTo: downView.rightAnchor, constant: -20)
+        ]
+        
+        downView.addConstraints(constraints)
+        
+        downView.translatesAutoresizingMaskIntoConstraints = false
+        let bottomConstraint = downView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        let verticalConstraint = downView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        let widthConstraint = downView.widthAnchor.constraint(equalToConstant: view.bounds.width)
+        let heightConstraint = downView.heightAnchor.constraint(equalToConstant: 100)
+        view.addConstraints([bottomConstraint, verticalConstraint, widthConstraint, heightConstraint])
+    }
     
     private func recordMessageAction(sender:String) {
         print("Record Message")
@@ -1486,5 +1500,30 @@ extension ChatVC: UIDocumentPickerDelegate {
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         print("close")
         controller.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ChatVC {
+    func initBackChatButton() {
+        
+        var imageName = ""
+        if Language.currentLanguage() == "ar" {
+            imageName = "back_icon"
+        }else {
+            imageName = "back_icon"
+        }
+        
+        let button = UIButton.init(type: .custom)
+        let image = UIImage.init(named: imageName)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.setImage(image, for: .normal)
+        image?.withTintColor(UIColor.blue)
+        button.addTarget(self, action:  #selector(backToInbox), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.leftBarButtonItem = barButton
+    }
+    
+    @objc func backToInbox() {
+        Router().toHome()
     }
 }

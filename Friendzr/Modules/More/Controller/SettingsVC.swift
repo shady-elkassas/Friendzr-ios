@@ -845,6 +845,7 @@ extension SettingsVC: UITableViewDelegate {
                         }
                         
                         guard let _ = data else {return}
+                        
                         Defaults.deleteUserData()
                         KeychainItem.deleteUserIdentifierFromKeychain()
                         

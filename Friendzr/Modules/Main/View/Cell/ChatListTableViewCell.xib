@@ -42,7 +42,7 @@
                                 <color key="textColor" name="ColorLbl1"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hey Cody, you should definitely check out Yoga Six for hot yoga! They have…" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxI-Le-4v3">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hey Cody, you should definitely check out Yoga Six for hot yoga! They have…" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxI-Le-4v3">
                                 <rect key="frame" x="110" y="60.5" width="185" height="44"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                 <color key="textColor" name="ColorLbl2"/>
@@ -54,6 +54,13 @@
                                 <color key="textColor" name="ColorLbl3"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="attach_ic" translatesAutoresizingMaskIntoConstraints="NO" id="Gpw-Ye-ejk">
+                                <rect key="frame" x="110" y="60.5" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="ETl-gR-3M3"/>
+                                    <constraint firstAttribute="width" constant="20" id="jF9-aY-u5c"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" name="Color0"/>
                         <constraints>
@@ -62,10 +69,12 @@
                             <constraint firstItem="4tK-aC-ZdE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="20d-vx-Wca" secondAttribute="trailing" constant="5" id="Lkh-vq-rbz"/>
                             <constraint firstAttribute="trailing" secondItem="rxI-Le-4v3" secondAttribute="trailing" constant="25" id="R3y-qL-8er"/>
                             <constraint firstAttribute="trailing" secondItem="4tK-aC-ZdE" secondAttribute="trailing" constant="25" id="U9B-mA-wsT"/>
+                            <constraint firstItem="Gpw-Ye-ejk" firstAttribute="leading" secondItem="v6w-K9-YIM" secondAttribute="trailing" constant="10" id="X5I-gB-hW1"/>
                             <constraint firstItem="20d-vx-Wca" firstAttribute="leading" secondItem="v6w-K9-YIM" secondAttribute="trailing" constant="10" id="aor-7P-Q83"/>
                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="rxI-Le-4v3" secondAttribute="bottom" constant="5" id="bRb-ts-B8T"/>
                             <constraint firstItem="rxI-Le-4v3" firstAttribute="top" secondItem="20d-vx-Wca" secondAttribute="bottom" constant="5" id="hpJ-eB-kJw"/>
                             <constraint firstItem="20d-vx-Wca" firstAttribute="top" secondItem="v6w-K9-YIM" secondAttribute="top" constant="8" id="rHs-qn-EEi"/>
+                            <constraint firstItem="Gpw-Ye-ejk" firstAttribute="top" secondItem="20d-vx-Wca" secondAttribute="bottom" constant="5" id="xID-0g-H6b"/>
                             <constraint firstItem="v6w-K9-YIM" firstAttribute="centerY" secondItem="7Nl-Cs-3fj" secondAttribute="centerY" id="yMb-pj-J8i"/>
                             <constraint firstItem="rxI-Le-4v3" firstAttribute="leading" secondItem="20d-vx-Wca" secondAttribute="leading" id="zHi-1C-KhB"/>
                         </constraints>
@@ -93,6 +102,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" name="Color0"/>
             <connections>
+                <outlet property="attachImg" destination="Gpw-Ye-ejk" id="wiS-VN-eQN"/>
                 <outlet property="containerView" destination="7Nl-Cs-3fj" id="AWX-6O-CLt"/>
                 <outlet property="lastMessageDateLbl" destination="4tK-aC-ZdE" id="QE0-Gr-gSX"/>
                 <outlet property="lastMessageLbl" destination="rxI-Le-4v3" id="nxT-Jz-DkI"/>
@@ -104,18 +114,19 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="attach_ic" width="16" height="16"/>
         <image name="placeholder" width="1000" height="1000"/>
         <namedColor name="Color0">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl1">
-            <color red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl2">
-            <color red="0.14509803921568626" green="0.14509803921568626" blue="0.14509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14499999582767487" green="0.14499999582767487" blue="0.14499999582767487" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl3">
-            <color red="0.14117647058823529" green="0.074509803921568626" blue="0.19607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

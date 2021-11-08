@@ -123,6 +123,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         SFaceCompare.prepareData()
 
+        if Defaults.isFirstLaunch == false {
+            Defaults.allowMyLocation = true
+        }
+        
         return true
     }
     
@@ -300,44 +304,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             _ = userInfo["aps"] as? [String:Any] //?[""]
             let action = userInfo["Action"] as? String //action transaction
             let actionId = userInfo["Action_code"] as? String //userid
+            let chatTitle = userInfo["name"] as? String
+            let chatTitleImage = userInfo["userimage"] as? String
+            let messageType = userInfo["Messagetype"] as? Int
             
             if action == "Friend_Request" {
                 if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.userID = actionId!
-                    //                    tabBarController.selectedIndex = 3
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "Accept_Friend_Request" {
                 if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
-                    //                    tabBarController.selectedIndex = 3
                     vc.userID = actionId ?? ""
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "event_chat"{
-                if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC,
-                   let tabBarController = rootViewController as? UITabBarController,
-                   let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.isEvent = true
-                    vc.eventChatID = actionId ?? ""
-                    vc.chatuserID = ""
-                    //                    tabBarController.selectedIndex = 0
-                    navController.pushViewController(vc, animated: true)
-                }
+                Router().toChatVC(isEvent: true, eventChatID: actionId ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "")
             }else if action == "user_chat"{
-                if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC,
-                   let tabBarController = rootViewController as? UITabBarController,
-                   let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.isEvent = false
-                    vc.eventChatID = ""
-                    vc.chatuserID = actionId ?? ""
-                    vc.isFriend = true
-                    //                    tabBarController.selectedIndex = 0
-                    navController.pushViewController(vc, animated: true)
-                }
+                Router().toChatVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: actionId ?? "", isFriend: true, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "")
             }else if action == "event_Updated"{
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
                    let tabBarController = rootViewController as? UITabBarController,
@@ -351,7 +339,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
-                    //                    tabBarController.selectedIndex = 4
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "event_attend"{
@@ -359,7 +346,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
-                    //                    tabBarController.selectedIndex = 4
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "Event_reminder" {
@@ -367,7 +353,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
-                    //                    tabBarController.selectedIndex = 4
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "Check_events_near_you" {
@@ -450,17 +435,18 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         
         // Change this to your preferred presentation option
-        let isMute: Bool = userInfo["muit"] as? Bool ?? false
+        let isMute: String = userInfo["muit"] as? String ?? ""
         
-        if isMute == true {
-            completionHandler([[]])
-        }else {
+        if isMute == "False" {
             if #available(iOS 14.0, *) {
                 completionHandler([[.alert, .badge, .sound,.banner,.list]])
             } else {
                 // Fallback on earlier versions
                 completionHandler([[.alert, .badge, .sound]])
             }
+        }
+        else {
+            completionHandler([[]])
         }
         
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
@@ -478,12 +464,22 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
         
-        if #available(iOS 14.0, *) {
-            completionHandler([[.alert, .badge, .sound,.banner,.list]])
-        } else {
-            // Fallback on earlier versions
-            completionHandler([[.alert, .badge, .sound]])
+        // Change this to your preferred presentation option
+        let isMute: String = userInfo["muit"] as? String ?? ""
+        
+        if isMute == "False" {
+            if #available(iOS 14.0, *) {
+                completionHandler([[.alert, .badge, .sound,.banner,.list]])
+            } else {
+                // Fallback on earlier versions
+                completionHandler([[.alert, .badge, .sound]])
+            }
         }
+        else {
+            completionHandler([[]])
+        }
+        
+        NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
     }
 }
 

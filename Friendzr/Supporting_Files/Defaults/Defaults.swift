@@ -262,6 +262,16 @@ class Defaults {
         }
     }
     
+    static var isFirstLaunch: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "isFirstLaunch")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "isFirstLaunch")
+        }
+    }
+    
     static func initUser(user:UserObj)  {
         Defaults.userName = user.userName
         Defaults.Email = user.email
@@ -276,8 +286,8 @@ class Defaults {
         Defaults.snapchat = user.snapchat
         Defaults.tiktok = user.tiktok
         Defaults.key = user.key
-        Defaults.LocationLng = user.lang
-        Defaults.LocationLat = user.lat
+//        Defaults.LocationLng = user.lang
+//        Defaults.LocationLat = user.lat
         Defaults.age = user.age
         Defaults.userId = user.userid
         Defaults.needUpdate = user.needUpdate

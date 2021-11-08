@@ -57,8 +57,8 @@ class ProfileViewModel {
         Defaults.snapchat = user.snapchat
         Defaults.tiktok = user.tiktok
         Defaults.key = user.key
-        Defaults.LocationLng = user.lang
-        Defaults.LocationLat = user.lat
+//        Defaults.LocationLng = user.lang
+//        Defaults.LocationLat = user.lat
         Defaults.age = user.age
         Defaults.userId = user.userid
         Defaults.needUpdate = user.needUpdate

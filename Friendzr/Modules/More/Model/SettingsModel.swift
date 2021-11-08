@@ -51,3 +51,18 @@ class SettingsObj: Mappable {
         manualdistancecontrol  <- map["manualdistancecontrol"]
     }
 }
+
+
+class DeleteAccountModel: Mappable {
+    
+    var isSuccessful: Bool?
+    var message: String?
+    
+    required init?(map: Map) {
+    }
+    // Mappable
+    func mapping(map: Map) {
+        isSuccessful   <- map["isSuccessful"]
+        message  <- map["message"]
+    }
+}

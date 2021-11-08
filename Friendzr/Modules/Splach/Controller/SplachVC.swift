@@ -16,7 +16,6 @@ public typealias AnimationExecution = () -> Void
 
 class SplachVC: UIViewController , CLLocationManagerDelegate{
     
-    var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
     var settingVM:SettingsViewModel = SettingsViewModel()
     var profileVM: ProfileViewModel = ProfileViewModel()
     
@@ -56,7 +55,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
                 Router().toEditProfileVC()
             }else {
                 if Defaults.token != "" {
-//                    self.getProfileInformation()
                     Router().toFeed()
                 }else {
                     Router().toSplachOne()
@@ -66,6 +64,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        Defaults.isFirstLaunch = true
         setupCLLocationManager()
     }
     
@@ -117,26 +116,13 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         }
     }
     
-    func updateMyLocation() {
-        updateLocationVM.updatelocation(ByLat: "\(self.locationLat)", AndLng: "\(self.locationLng)") { error, data in
-            if let error = error {
-                self.showAlert(withMessage: error)
-                return
-            }
-            
-            guard let _ = data else {return}
-            Defaults.LocationLat = "\(self.locationLat)"
-            Defaults.LocationLng = "\(self.locationLng)"
-        }
-    }
-    
     func setupCLLocationManager() {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         
-        if Defaults.allowMyLocation {
+        if Defaults.allowMyLocation == true {
             if CLLocationManager.locationServicesEnabled(){
                 locationManager.startUpdatingLocation()
             }
@@ -156,8 +142,10 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         
         self.locationLat = userLocation.coordinate.latitude
         self.locationLng = userLocation.coordinate.longitude
-        Defaults.LocationLat = "\(self.locationLat )"
-        Defaults.LocationLng = "\(self.locationLng )"
+        Defaults.LocationLat = "\(self.locationLat)"
+        Defaults.LocationLng = "\(self.locationLng)"
+        
+        print("Defaults.LocationLat : \(Defaults.LocationLat)","Defaults.LocationLng : \(Defaults.LocationLng)")
         
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
@@ -171,10 +159,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
                 print(placemark.locality!)
                 print(placemark.administrativeArea!)
                 print(placemark.country!)
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.updateMyLocation()
-                }
             }
         }
     }
@@ -202,7 +186,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         }
     }
     
-//    create alert when user not access location
+    //    create alert when user not access location
     func createSettingsAlertController(title: String, message: String) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)

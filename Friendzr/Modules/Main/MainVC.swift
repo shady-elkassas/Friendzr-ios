@@ -21,6 +21,7 @@ class MainVC: UIViewController {
     
     //MARK: - Properties
     let cellID = "ChatListTableViewCell"
+    let emptyCellID = "EmptyViewTableViewCell"
     
     var viewmodel:ChatViewModel = ChatViewModel()
     var searchVM:SearchUserViewModel = SearchUserViewModel()
@@ -96,8 +97,6 @@ class MainVC: UIViewController {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
-                
-                showEmptyView()
             }
         }
         
@@ -125,7 +124,6 @@ class MainVC: UIViewController {
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
-                showEmptyView()
             }
         }
         
@@ -144,24 +142,24 @@ class MainVC: UIViewController {
         }
     }
     
-    func showEmptyView() {
-        if isSearch {
-            if searchVM.usersinChat.value?.data?.count == 0 {
-                emptyView.isHidden = false
-                emptyLbl.text = "You haven't any data yet".localizedString
-            }else {
-                emptyView.isHidden = true
-            }
-        }else {
-            if viewmodel.listChat.value?.data?.count == 0 {
-                emptyView.isHidden = false
-                emptyLbl.text = "You haven't any data yet".localizedString
-            }else {
-                emptyView.isHidden = true
-            }
-        }
-        tryAgainBtn.alpha = 0.0
-    }
+    //    func showEmptyView() {
+    //        if isSearch {
+    //            if searchVM.usersinChat.value?.data?.count == 0 {
+    //                emptyView.isHidden = false
+    //                emptyLbl.text = "You haven't any data yet".localizedString
+    //            }else {
+    //                emptyView.isHidden = true
+    //            }
+    //        }else {
+    //            if viewmodel.listChat.value?.data?.count == 0 {
+    //                emptyView.isHidden = false
+    //                emptyLbl.text = "You haven't any data yet".localizedString
+    //            }else {
+    //                emptyView.isHidden = true
+    //            }
+    //        }
+    //        tryAgainBtn.alpha = 0.0
+    //    }
     
     func HandleinvalidUrl() {
         emptyView.isHidden = false
@@ -238,6 +236,7 @@ class MainVC: UIViewController {
     func setupView() {
         setupSearchBar()
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        tableView.register(UINib(nibName:emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
     }
     
@@ -262,76 +261,103 @@ class MainVC: UIViewController {
 extension MainVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearch {
-            return searchVM.usersinChat.value?.data?.count ?? 0
+            if searchVM.usersinChat.value?.data?.count != 0 {
+                return searchVM.usersinChat.value?.data?.count ?? 0
+            }else {
+                return 1
+            }
         }else {
-            return viewmodel.listChat.value?.data?.count ?? 0
+            if viewmodel.listChat.value?.data?.count != 0 {
+                return viewmodel.listChat.value?.data?.count ?? 0
+            }else {
+                return 1
+            }
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isSearch {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ChatListTableViewCell else {return UITableViewCell()}
-            let model = searchVM.usersinChat.value?.data?[indexPath.row]
-            cell.nameLbl.text = model?.chatName
-            cell.lastMessageLbl.text = model?.messages
-            cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
-            
-            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
-            
-            if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
-                if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
-                    cell.underView.isHidden = true
+            if searchVM.usersinChat.value?.data?.count != 0 {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ChatListTableViewCell else {return UITableViewCell()}
+                let model = searchVM.usersinChat.value?.data?[indexPath.row]
+                cell.nameLbl.text = model?.chatName
+                cell.lastMessageLbl.text = model?.messages
+                cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
+                
+                cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+                
+                if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
+                    if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
+                        cell.underView.isHidden = true
+                    }
                 }
+                return cell
+            }else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+                return cell
             }
-            return cell
         }else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ChatListTableViewCell else {return UITableViewCell()}
-            let model = viewmodel.listChat.value?.data?[indexPath.row]
-            cell.nameLbl.text = model?.chatName
-            cell.lastMessageLbl.text = model?.messages
-            cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
-            
-            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
-            
-            if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
-                if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
-                    cell.underView.isHidden = true
+            if viewmodel.listChat.value?.data?.count != 0 {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ChatListTableViewCell else {return UITableViewCell()}
+                let model = viewmodel.listChat.value?.data?[indexPath.row]
+                cell.nameLbl.text = model?.chatName
+                cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
+                
+                cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+                
+                if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
+                    if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
+                        cell.underView.isHidden = true
+                    }
                 }
+                
+                //handle type message
+                if model?.messages == "" || model?.messages == nil {
+                    cell.attachImg.isHidden = false
+                    cell.lastMessageLbl.isHidden = true
+                }else {
+                    cell.attachImg.isHidden = true
+                    cell.lastMessageLbl.isHidden = false
+                    cell.lastMessageLbl.text = model?.messages
+                }
+                
+                return cell
+            }else {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+                return cell
             }
-            return cell
         }
     }
 }
 extension MainVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        if isSearch {
+            if searchVM.usersinChat.value?.data?.count != 0 {
+                return 100
+            }else {
+                return 350
+            }
+        }else {
+            if viewmodel.listChat.value?.data?.count != 0 {
+                return 100
+            }else {
+                return 350
+            }
+            
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        var model = viewmodel.listChat.value?.data?[indexPath.row]
-        
-        if isSearch {
-            model = searchVM.usersinChat.value?.data?[indexPath.row]
+        if searchVM.usersinChat.value?.data?.count != 0 || viewmodel.listChat.value?.data?.count != 0  {
+            
+            var model = viewmodel.listChat.value?.data?[indexPath.row]
+            
+            if isSearch {
+                model = searchVM.usersinChat.value?.data?[indexPath.row]
+            }
+            
+            Router().toChatVC(isEvent: model?.isevent ?? false, eventChatID: model?.id ?? "", leavevent: model?.leavevent ?? 0, chatuserID: model?.id ?? "", isFriend: model?.isfrind ?? false, titleChatImage: model?.image ?? "", titleChatName: model?.chatName ?? "")
         }
-        
-        guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatVC") as? ChatVC else {return}
-        if model?.isevent == true {
-            vc.isEvent = true
-            vc.eventChatID = model?.id ?? ""
-            vc.chatuserID = ""
-            vc.leavevent = model?.leavevent ?? 0
-        }else {
-            vc.isEvent = false
-            vc.eventChatID = ""
-            vc.chatuserID = model?.id ?? ""
-            vc.isFriend = model?.isfrind
-        }
-        
-        vc.titleChatImage = model?.image ?? ""
-        vc.titleChatName = model?.chatName ?? ""
-        
-        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -339,143 +365,23 @@ extension MainVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        
-        let model = self.viewmodel.listChat.value?.data?[indexPath.row]
-        let muteTitle = self.viewmodel.listChat.value?.data?[indexPath.row].isMute ?? false ? "UnMute" : "Mute"
-        
-        let actionDate = formatterDate.string(from: Date())
-        let actionTime = formatterTime.string(from: Date())
-
-        
-        let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { action, indexPath in
-            print("deleteAction")
+        if searchVM.usersinChat.value?.data?.count != 0 || viewmodel.listChat.value?.data?.count != 0  {
+            let model = self.viewmodel.listChat.value?.data?[indexPath.row]
+            let muteTitle = self.viewmodel.listChat.value?.data?[indexPath.row].isMute ?? false ? "UnMute" : "Mute"
             
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-                
-                settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showLoading()
-                    self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false) { error, data in
-                        self.hideLoading()
-                        if let error = error {
-                            self.showAlert(withMessage: error)
-                            return
-                        }
-                        
-                        guard let _ = data else {
-                            return
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.viewmodel.listChat.value?.data?.remove(at: indexPath.row)
-                            self.tableView.beginUpdates()
-                            self.tableView.deleteRows(at: [indexPath], with: .fade)
-                            self.tableView.endUpdates()
-                        }
-                    }
-                }))
-                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                
-                self.present(settingsActionSheet, animated:true, completion:nil)
-            }else {
-                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                
-                settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showLoading()
-                    self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false) { error, data in
-                        self.hideLoading()
-                        if let error = error {
-                            self.showAlert(withMessage: error)
-                            return
-                        }
-                        
-                        guard let _ = data else {
-                            return
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.viewmodel.listChat.value?.data?.remove(at: indexPath.row)
-                            self.tableView.beginUpdates()
-                            self.tableView.deleteRows(at: [indexPath], with: .fade)
-                            self.tableView.endUpdates()
-                        }
-                    }
-                }))
-                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                
-                self.present(settingsActionSheet, animated:true, completion:nil)
-            }
-        }
-        
-        let leaveAction = UITableViewRowAction(style: .default, title: "Leave") { action, indexPath in
-            print("LeaveAction")
+            let actionDate = formatterDate.string(from: Date())
+            let actionTime = formatterTime.string(from: Date())
             
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+            
+            let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { action, indexPath in
+                print("deleteAction")
                 
-                settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showLoading()
-                    self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                        self.hideLoading()
-                        if let error = error {
-                            self.showAlert(withMessage: error)
-                            return
-                        }
-                        
-                        guard let _ = data else {
-                            return
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.viewmodel.listChat.value?.data?.remove(at: indexPath.row)
-                            self.tableView.beginUpdates()
-                            self.tableView.deleteRows(at: [indexPath], with: .fade)
-                            self.tableView.endUpdates()
-                        }
-                    }
-                }))
-                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                
-                self.present(settingsActionSheet, animated:true, completion:nil)
-            }else {
-                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                
-                settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showLoading()
-                    self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                        self.hideLoading()
-                        if let error = error {
-                            self.showAlert(withMessage: error)
-                            return
-                        }
-                        
-                        guard let _ = data else {
-                            return
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.viewmodel.listChat.value?.data?.remove(at: indexPath.row)
-                            self.tableView.beginUpdates()
-                            self.tableView.deleteRows(at: [indexPath], with: .fade)
-                            self.tableView.endUpdates()
-                        }
-                    }
-                }))
-                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                
-                self.present(settingsActionSheet, animated:true, completion:nil)
-            }
-        }
-        
-        let muteAction = UITableViewRowAction(style: .default, title: muteTitle) { action, indexPath in
-            print("muteAction")
-            if model?.isMute == true {
                 if UIDevice.current.userInterfaceIdiom == .pad {
                     let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                     
                     settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                         self.showLoading()
-                        self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
+                        self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false) { error, data in
                             self.hideLoading()
                             if let error = error {
                                 self.showAlert(withMessage: error)
@@ -487,7 +393,68 @@ extension MainVC:UITableViewDelegate {
                             }
                             
                             DispatchQueue.main.async {
-                                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                self.viewmodel.listChat.value?.data?.remove(at: indexPath.row)
+                                self.tableView.beginUpdates()
+                                self.tableView.deleteRows(at: [indexPath], with: .fade)
+                                self.tableView.endUpdates()
+                            }
+                        }
+                    }))
+                    settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                    
+                    self.present(settingsActionSheet, animated:true, completion:nil)
+                }else {
+                    let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                    
+                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                        self.showLoading()
+                        self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false) { error, data in
+                            self.hideLoading()
+                            if let error = error {
+                                self.showAlert(withMessage: error)
+                                return
+                            }
+                            
+                            guard let _ = data else {
+                                return
+                            }
+                            
+                            DispatchQueue.main.async {
+                                self.viewmodel.listChat.value?.data?.remove(at: indexPath.row)
+                                self.tableView.beginUpdates()
+                                self.tableView.deleteRows(at: [indexPath], with: .fade)
+                                self.tableView.endUpdates()
+                            }
+                        }
+                    }))
+                    settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                    
+                    self.present(settingsActionSheet, animated:true, completion:nil)
+                }
+            }
+            
+            let leaveAction = UITableViewRowAction(style: .default, title: "Leave") { action, indexPath in
+                print("LeaveAction")
+                
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+                    
+                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                        self.showLoading()
+                        self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                            self.hideLoading()
+                            if let error = error {
+                                self.showAlert(withMessage: error)
+                                return
+                            }
+                            
+                            guard let _ = data else {
+                                return
+                            }
+                            
+                            self.showAlert(withMessage: "You have successfully left the chat")
+                            
+                            DispatchQueue.main.async {
                                 tableView.reloadData()
                             }
                         }
@@ -500,7 +467,7 @@ extension MainVC:UITableViewDelegate {
                     
                     settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                         self.showLoading()
-                        self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
+                        self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
                             self.hideLoading()
                             if let error = error {
                                 self.showAlert(withMessage: error)
@@ -511,61 +478,9 @@ extension MainVC:UITableViewDelegate {
                                 return
                             }
                             
-                            DispatchQueue.main.async {
-                                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                tableView.reloadData()
-                            }
-                            
-                        }
-                    }))
-                    settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                    
-                    self.present(settingsActionSheet, animated:true, completion:nil)
-                }
-            }else {
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-                    
-                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                        self.showLoading()
-                        self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
-                            self.hideLoading()
-                            if let error = error {
-                                self.showAlert(withMessage: error)
-                                return
-                            }
-                            
-                            guard let _ = data else {
-                                return
-                            }
+                            self.showAlert(withMessage: "You have successfully left the chat")
                             
                             DispatchQueue.main.async {
-                                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                tableView.reloadData()
-                            }
-                        }
-                    }))
-                    settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                    
-                    self.present(settingsActionSheet, animated:true, completion:nil)
-                }else {
-                    let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                    
-                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                        self.showLoading()
-                        self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
-                            self.hideLoading()
-                            if let error = error {
-                                self.showAlert(withMessage: error)
-                                return
-                            }
-                            
-                            guard let _ = data else {
-                                return
-                            }
-                            
-                            DispatchQueue.main.async {
-                                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
                                 tableView.reloadData()
                             }
                         }
@@ -575,15 +490,131 @@ extension MainVC:UITableViewDelegate {
                     self.present(settingsActionSheet, animated:true, completion:nil)
                 }
             }
-        }
-        
-        leaveAction.backgroundColor = UIColor.blue
-        muteAction.backgroundColor = UIColor.green
-        
-        if model?.isevent == true {
-            return [deleteAction,leaveAction,muteAction]
+            
+            let muteAction = UITableViewRowAction(style: .default, title: muteTitle) { action, indexPath in
+                print("muteAction")
+                if model?.isMute == true {
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+                        
+                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                            self.showLoading()
+                            self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
+                                self.hideLoading()
+                                if let error = error {
+                                    self.showAlert(withMessage: error)
+                                    return
+                                }
+                                
+                                guard let _ = data else {
+                                    return
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                    tableView.reloadData()
+                                }
+                            }
+                        }))
+                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                        
+                        self.present(settingsActionSheet, animated:true, completion:nil)
+                    }else {
+                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                        
+                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                            self.showLoading()
+                            self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
+                                self.hideLoading()
+                                if let error = error {
+                                    self.showAlert(withMessage: error)
+                                    return
+                                }
+                                
+                                guard let _ = data else {
+                                    return
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                    tableView.reloadData()
+                                }
+                                
+                            }
+                        }))
+                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                        
+                        self.present(settingsActionSheet, animated:true, completion:nil)
+                    }
+                }else {
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+                        
+                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                            self.showLoading()
+                            self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
+                                self.hideLoading()
+                                if let error = error {
+                                    self.showAlert(withMessage: error)
+                                    return
+                                }
+                                
+                                guard let _ = data else {
+                                    return
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                    tableView.reloadData()
+                                }
+                            }
+                        }))
+                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                        
+                        self.present(settingsActionSheet, animated:true, completion:nil)
+                    }else {
+                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                        
+                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                            self.showLoading()
+                            self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
+                                self.hideLoading()
+                                if let error = error {
+                                    self.showAlert(withMessage: error)
+                                    return
+                                }
+                                
+                                guard let _ = data else {
+                                    return
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                    tableView.reloadData()
+                                }
+                            }
+                        }))
+                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                        
+                        self.present(settingsActionSheet, animated:true, completion:nil)
+                    }
+                }
+            }
+            
+            leaveAction.backgroundColor = UIColor.blue
+            muteAction.backgroundColor = UIColor.green
+            
+            if model?.isevent == true {
+                if model?.leavevent == 0 {
+                    return [deleteAction,leaveAction,muteAction]
+                }else {
+                    return [deleteAction]
+                }
+            }else {
+                return [deleteAction,muteAction]
+            }
         }else {
-            return [deleteAction,muteAction]
+            return []
         }
     }
     
