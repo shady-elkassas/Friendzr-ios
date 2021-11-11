@@ -32,7 +32,7 @@ class FriendObj: NSObject,Mappable {
     var snapchat: String?
     var tiktok: String?
     var userName: String?
-    var generatedusername:String?
+    var displayedUserName:String?
     var userid:String?
     var key:Int?
     var email:String?
@@ -61,7 +61,7 @@ class FriendObj: NSObject,Mappable {
         snapchat    <- map["snapchat"]
         tiktok    <- map["tiktok"]
         userName    <- map["userName"]
-        generatedusername    <- map["generatedusername"]
+        displayedUserName    <- map["displayedUserName"]
         userid    <- map["userid"]
         key    <- map["key"]
         email    <- map["email"]

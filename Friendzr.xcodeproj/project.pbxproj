@@ -137,7 +137,6 @@
 		4371D4232737D054003B8AFD /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4222737D054003B8AFD /* CustomMessagesFlowLayout.swift */; };
 		4371D42627391B13003B8AFD /* EmptyViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */; };
 		4371D42727391B13003B8AFD /* EmptyViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4371D42527391B12003B8AFD /* EmptyViewTableViewCell.xib */; };
-		437A4E8F26FB6A30007AAEF9 /* FiltringDirectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E8E26FB6A30007AAEF9 /* FiltringDirectionVC.swift */; };
 		437A4E9326FB7315007AAEF9 /* CompassHeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9226FB7315007AAEF9 /* CompassHeading.swift */; };
 		437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */; };
 		437EE47226E8B39700765089 /* LeaveEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437EE47126E8B39700765089 /* LeaveEventViewModel.swift */; };
@@ -205,7 +204,6 @@
 		43D545BD26CBD8730064660A /* SKMultilineLabelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545BC26CBD8730064660A /* SKMultilineLabelNode.swift */; };
 		43D545BF26CBD8BB0064660A /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545BE26CBD8BB0064660A /* Toast.swift */; };
 		43D545C126CBEC5B0064660A /* EventDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545C026CBEC5B0064660A /* EventDetailsVC.swift */; };
-		43D545C526CCE9E50064660A /* CirclesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545C426CCE9E50064660A /* CirclesView.swift */; };
 		43D545C926CCFBA10064660A /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545C826CCFBA10064660A /* CircleView.swift */; };
 		43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545CC26CD49F40064660A /* CategoryTableViewCell.swift */; };
 		43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D545CD26CD49F40064660A /* CategoryTableViewCell.xib */; };
@@ -396,7 +394,6 @@
 		4371D4222737D054003B8AFD /* CustomMessagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagesFlowLayout.swift; sourceTree = "<group>"; };
 		4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewTableViewCell.swift; sourceTree = "<group>"; };
 		4371D42527391B12003B8AFD /* EmptyViewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmptyViewTableViewCell.xib; sourceTree = "<group>"; };
-		437A4E8E26FB6A30007AAEF9 /* FiltringDirectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltringDirectionVC.swift; sourceTree = "<group>"; };
 		437A4E9226FB7315007AAEF9 /* CompassHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassHeading.swift; sourceTree = "<group>"; };
 		437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassViewSwiftUI.swift; sourceTree = "<group>"; };
 		437EE47126E8B39700765089 /* LeaveEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveEventViewModel.swift; sourceTree = "<group>"; };
@@ -469,7 +466,6 @@
 		43D545BC26CBD8730064660A /* SKMultilineLabelNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKMultilineLabelNode.swift; sourceTree = "<group>"; };
 		43D545BE26CBD8BB0064660A /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		43D545C026CBEC5B0064660A /* EventDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsVC.swift; sourceTree = "<group>"; };
-		43D545C426CCE9E50064660A /* CirclesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CirclesView.swift; sourceTree = "<group>"; };
 		43D545C826CCFBA10064660A /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		43D545CC26CD49F40064660A /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		43D545CD26CD49F40064660A /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
@@ -899,7 +895,6 @@
 			isa = PBXGroup;
 			children = (
 				4362888526C8FF3A00B51E51 /* FeedVC.swift */,
-				437A4E8E26FB6A30007AAEF9 /* FiltringDirectionVC.swift */,
 				437A4E9226FB7315007AAEF9 /* CompassHeading.swift */,
 				437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */,
 				431505772705F90E002387A1 /* DegreeScaleView.swift */,
@@ -1317,7 +1312,6 @@
 		43D545A526CBB01B0064660A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				43D545C426CCE9E50064660A /* CirclesView.swift */,
 				43D545C826CCFBA10064660A /* CircleView.swift */,
 				43D545A626CBB02D0064660A /* EventCalendarView.xib */,
 				43D545A826CBB0450064660A /* EventCalendarView.swift */,
@@ -1771,7 +1765,6 @@
 				43375F5A27130D9E009EBED6 /* NotificationsViewModel.swift in Sources */,
 				4382AC1926C27195005C1857 /* SceneDelegate.swift in Sources */,
 				43FC3CAB27280C9E00D94ABB /* DeleteAccountTableViewCell.swift in Sources */,
-				43D545C526CCE9E50064660A /* CirclesView.swift in Sources */,
 				4336D13126DB92830093C7A6 /* ForgetPasswordViewModel.swift in Sources */,
 				4330757A26E7918B002940DF /* AttendeesViewModel.swift in Sources */,
 				4330757026E75EDC002940DF /* AttendeesVC.swift in Sources */,
@@ -1814,7 +1807,6 @@
 				43F473B526E61791001E4FAE /* CategoriesModel.swift in Sources */,
 				437EE47426E8BC1C00765089 /* AttendeesModel.swift in Sources */,
 				4382ACA626C28327005C1857 /* Initializer.swift in Sources */,
-				437A4E8F26FB6A30007AAEF9 /* FiltringDirectionVC.swift in Sources */,
 				4309E73726EF422F001B227D /* RequestFriendStatusViewModel.swift in Sources */,
 				43D545AF26CBD76E0064660A /* TagsVC.swift in Sources */,
 			);

@@ -11,9 +11,10 @@ target 'Friendzr' do
   pod 'ObjectMapper'
   
   pod 'FBSDKLoginKit'
+  pod 'InstagramLogin'
   pod 'GoogleSignIn'
-  pod 'SnapSDK', :subspecs => ['SCSDKLoginKit', 'SCSDKCreativeKit', 'SCSDKBitmojiKit']
-  pod 'TikTokOpenSDK', '~> 5.0.0'
+#  pod 'SnapSDK', :subspecs => ['SCSDKLoginKit', 'SCSDKCreativeKit', 'SCSDKBitmojiKit']
+#  pod 'TikTokOpenSDK', '~> 5.0.0'
 
   pod 'Firebase'
   pod 'Firebase/Auth'
@@ -34,7 +35,7 @@ target 'Friendzr' do
   
   pod 'MessageKit', '~> 3.5.1'
 
-  pod 'SFaceCompare'
+#  pod 'SFaceCompare'
 
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|

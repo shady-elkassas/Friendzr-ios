@@ -38,7 +38,7 @@ class ProfileObj: Mappable {
         email <- map["email"]
         userName <- map["userName"]
         code <- map["code"]
-        generatedusername <- map["generatedusername"]
+        displayedUserName <- map["displayedUserName"]
         bio <- map["bio"]
         gender <- map["gender"]
         birthdate <- map["birthdate"]
@@ -62,7 +62,7 @@ class ProfileObj: Mappable {
     var email = ""
     var userName = ""
     var code = ""
-    var generatedusername = ""
+    var displayedUserName = ""
     var bio = ""
     var gender = ""
     var birthdate = ""

@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "send-message (1).png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "send-message (2).png",
+      "filename" : "right-arrow.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "send-message (3).png",
       "idiom" : "universal",
       "scale" : "3x"
     }

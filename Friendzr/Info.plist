@@ -44,6 +44,14 @@
 				<string>awq4czdodvu3iy4y</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.284152480286634.Friendzr:/https://friendzr.com/oauth</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -57,6 +65,10 @@
 	<true/>
 	<key>FacebookAutoLogAppEventsEnabled</key>
 	<true/>
+	<key>InstagramClientId</key>
+	<string>284152480286634</string>
+	<key>InstagramRedirectURI</key>
+	<string>https://friendzr.com/oauth</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>comgooglemaps</string>
@@ -108,11 +120,11 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Can i use the face id?</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app logs your location. It works best when you allow background location updates. Logged data never leaves the device.</string>
+	<string>$(PRODUCT_NAME) logs your location. It works best when you allow background location updates. Logged data never leaves the device.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app logs your location. It works best when you allow background location updates. Logged data never leaves the device.</string>
+	<string>$(PRODUCT_NAME) logs your location. It works best when you allow background location updates. Logged data never leaves the device.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app logs your location. It works best when you allow background location updates. Logged data never leaves the device.</string>
+	<string>$(PRODUCT_NAME) logs your location. It works best when you allow background location updates. Logged data never leaves the device.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Can i use the mic?</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

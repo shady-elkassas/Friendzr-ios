@@ -48,7 +48,7 @@ class ProfileViewModel {
         Defaults.userName = user.userName
         Defaults.Email = user.email
         Defaults.Image = user.userImage
-        Defaults.generatedusername = user.generatedusername
+        Defaults.displayedUserName = user.displayedUserName
         Defaults.bio = user.bio
         Defaults.gender = user.gender
         Defaults.birthdate = user.birthdate

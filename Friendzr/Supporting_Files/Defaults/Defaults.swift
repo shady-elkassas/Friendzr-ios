@@ -40,13 +40,13 @@ class Defaults {
         }
     }
     
-    static var generatedusername: String {
+    static var displayedUserName: String {
         set{
-            UserDefaults.standard.set(newValue, forKey: "generatedusername")
+            UserDefaults.standard.set(newValue, forKey: "displayedUserName")
             UserDefaults.standard.synchronize()
         }
         get{
-            return UserDefaults.standard.string(forKey: "generatedusername") ?? ""
+            return UserDefaults.standard.string(forKey: "displayedUserName") ?? ""
         }
     }
     
@@ -277,7 +277,7 @@ class Defaults {
         Defaults.Email = user.email
         Defaults.Image = user.userImage
         Defaults.token = user.token
-        Defaults.generatedusername = user.generatedusername
+        Defaults.displayedUserName = user.displayedUserName
         Defaults.bio = user.bio
         Defaults.gender = user.gender
         Defaults.birthdate = user.birthdate
@@ -313,7 +313,7 @@ class Defaults {
         defaults.removeObject(forKey: "snapchat")
         defaults.removeObject(forKey: "instagram")
         defaults.removeObject(forKey: "facebook")
-        defaults.removeObject(forKey: "generatedusername")
+        defaults.removeObject(forKey: "displayedUserName")
         defaults.removeObject(forKey: "needUpdate")
         defaults.removeObject(forKey: "allowMyLocation")
 

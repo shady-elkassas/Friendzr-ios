@@ -110,7 +110,7 @@ class MyProfileVC: UIViewController {
     func setProfileData() {
         let model = viewmodel.userModel.value
         aboutMeLBl.text = model?.bio
-        userNameLbl.text = "@\(model?.generatedusername ?? "")"
+        userNameLbl.text = "@\(model?.displayedUserName ?? "")"
         nameLbl.text = model?.userName
         ageLbl.text = "\(model?.age ?? 0)"
         genderLbl.text = model?.gender

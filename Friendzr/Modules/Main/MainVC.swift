@@ -291,6 +291,18 @@ extension MainVC:UITableViewDataSource {
                         cell.underView.isHidden = true
                     }
                 }
+                
+                //handle type message
+                if model?.messagestype == 1 {
+                    cell.attachImg.isHidden = true
+                    cell.lastMessageLbl.isHidden = false
+                    cell.lastMessageLbl.text = model?.messages
+                }else {
+                    cell.attachImg.isHidden = false
+                    cell.lastMessageLbl.isHidden = true
+                    cell.attachImg.sd_setImage(with: URL(string: model?.messagesattach ?? "" ), placeholderImage: UIImage(named: "attach_ic"))
+                }
+                
                 return cell
             }else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
@@ -312,13 +324,14 @@ extension MainVC:UITableViewDataSource {
                 }
                 
                 //handle type message
-                if model?.messages == "" || model?.messages == nil {
-                    cell.attachImg.isHidden = false
-                    cell.lastMessageLbl.isHidden = true
-                }else {
+                if model?.messagestype == 1 {
                     cell.attachImg.isHidden = true
                     cell.lastMessageLbl.isHidden = false
                     cell.lastMessageLbl.text = model?.messages
+                }else {
+                    cell.attachImg.isHidden = false
+                    cell.lastMessageLbl.isHidden = true
+                    cell.attachImg.sd_setImage(with: URL(string: model?.messagesattach ?? "" ), placeholderImage: UIImage(named: "attach_ic"))
                 }
                 
                 return cell

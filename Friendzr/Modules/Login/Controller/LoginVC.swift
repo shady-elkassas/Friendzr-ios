@@ -140,8 +140,6 @@ class LoginVC: UIViewController {
                     }
                 }
             }
-        }else {
-            return
         }
     }
     

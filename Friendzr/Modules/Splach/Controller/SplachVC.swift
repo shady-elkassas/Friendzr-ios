@@ -38,6 +38,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         super.viewDidLoad()
         
         hideNavigationBar(NavigationBar: true, BackButton: true)
+        setupCLLocationManager()
         
         let fistColor = UIColor.color("#7BE495")!
         let lastColor = UIColor.color("#329D9C")!
@@ -65,7 +66,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     
     override func viewWillAppear(_ animated: Bool) {
         Defaults.isFirstLaunch = true
-        setupCLLocationManager()
     }
     
     func getProfileInformation() {
@@ -121,22 +121,26 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
+        locationManager.requestLocation()
         
         if Defaults.allowMyLocation == true {
-            if CLLocationManager.locationServicesEnabled(){
-                locationManager.startUpdatingLocation()
-            }
+            locationManager.startUpdatingLocation()
+            
+            //            if CLLocationManager.locationServicesEnabled(){
+            //                locationManager.startUpdatingLocation()
+            //            }
         }else {
-            if CLLocationManager.locationServicesEnabled(){
-                locationManager.stopUpdatingLocation()
-            }
+            locationManager.stopUpdatingLocation()
+            //            if CLLocationManager.locationServicesEnabled(){
+            //                locationManager.stopUpdatingLocation()
+            //            }
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation :CLLocation = locations[0] as CLLocation
         
-        manager.stopUpdatingLocation()
+        //        manager.stopUpdatingLocation()
         print("user latitude = \(userLocation.coordinate.latitude)")
         print("user longitude = \(userLocation.coordinate.longitude)")
         
@@ -205,8 +209,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
                     
                     Defaults.allowMyLocation = data.allowmylocation ?? false
                 }
-            }else {
-                Defaults.allowMyLocation = false
             }
         })
         let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
@@ -215,6 +217,5 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         alertController.addAction(cancelAction)
         alertController.addAction(settingsAction)
         self.present(alertController, animated: true, completion: nil)
-        
     }
 }

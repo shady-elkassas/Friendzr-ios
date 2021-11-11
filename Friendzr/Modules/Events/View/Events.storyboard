@@ -569,8 +569,12 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VhU-GW-vSk">
                                 <rect key="frame" x="0.0" y="-56" width="414" height="1322"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zU2-3D-MIw">
+                                        <rect key="frame" x="0.0" y="-100" width="414" height="1298.5"/>
+                                        <color key="backgroundColor" name="Color0"/>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ebq-RJ-wR1">
-                                        <rect key="frame" x="0.0" y="-100" width="414" height="1243.5"/>
+                                        <rect key="frame" x="0.0" y="-100" width="414" height="1298.5"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="i2t-hE-qlt">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="393.5"/>
@@ -585,36 +589,19 @@
                                                     <constraint firstAttribute="height" constant="60" id="aPB-eC-dAQ"/>
                                                 </constraints>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="voo-g5-K98">
-                                                <rect key="frame" x="25" y="345" width="58.5" height="36.5"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="AlW-Fo-M67">
+                                                <rect key="frame" x="25" y="311" width="50" height="105"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="25/8/2021" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="876-Fy-eP5">
-                                                        <rect key="frame" x="0.0" y="0.0" width="58.5" height="15"/>
-                                                        <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIo-v3-UfW">
-                                                        <rect key="frame" x="0.0" y="18" width="58.5" height="18.5"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eMg-Xj-xLT">
+                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="15"/>
-                                                        <color key="textColor" red="0.60392156860000001" green="0.61960784310000006" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" name="Color0"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="BIO-GT-mqS">
-                                                <rect key="frame" x="103.5" y="345" width="50" height="36.5"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8:20 am" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k6r-AU-PgH">
-                                                        <rect key="frame" x="0.0" y="0.0" width="50" height="15"/>
-                                                        <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGb-f3-18m">
-                                                        <rect key="frame" x="0.0" y="18" width="50" height="18.5"/>
-                                                        <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="15"/>
-                                                        <color key="textColor" red="0.60392156860000001" green="0.61960784310000006" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9qV-Ql-S0I">
+                                                        <rect key="frame" x="0.0" y="55" width="50" height="50"/>
+                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                                        <color key="textColor" name="Color0"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
@@ -637,14 +624,57 @@
                                                     <constraint firstAttribute="height" constant="30" id="kok-Wb-r8s"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MjG-zZ-T2c">
-                                                <rect key="frame" x="207" y="413.5" width="0.0" height="0.0"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="20"/>
-                                                <color key="textColor" name="ColorLbl3"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r70-tN-4nN">
+                                                <rect key="frame" x="25" y="408.5" width="364" height="65"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="voo-g5-K98">
+                                                        <rect key="frame" x="10" y="10" width="105" height="17.5"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date : " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIo-v3-UfW">
+                                                                <rect key="frame" x="0.0" y="0.0" width="46" height="17.5"/>
+                                                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
+                                                                <color key="textColor" name="ColorDark0"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="25/8/2021" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="876-Fy-eP5">
+                                                                <rect key="frame" x="49" y="0.0" width="56" height="17.5"/>
+                                                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                                                <color key="textColor" name="ColorDark0"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="BIO-GT-mqS">
+                                                        <rect key="frame" x="10" y="37.5" width="98.5" height="17.5"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time : " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGb-f3-18m">
+                                                                <rect key="frame" x="0.0" y="0.0" width="47" height="17.5"/>
+                                                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
+                                                                <color key="textColor" name="ColorDark0"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8:20 am" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k6r-AU-PgH">
+                                                                <rect key="frame" x="50" y="0.0" width="48.5" height="17.5"/>
+                                                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                                                <color key="textColor" name="ColorDark0"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" name="Color0"/>
+                                                <constraints>
+                                                    <constraint firstItem="BIO-GT-mqS" firstAttribute="top" secondItem="voo-g5-K98" secondAttribute="bottom" constant="10" id="3oB-46-BN3"/>
+                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="BIO-GT-mqS" secondAttribute="trailing" constant="5" id="QD0-9P-roC"/>
+                                                    <constraint firstItem="BIO-GT-mqS" firstAttribute="leading" secondItem="voo-g5-K98" secondAttribute="leading" id="TH2-2B-Kh1"/>
+                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="voo-g5-K98" secondAttribute="trailing" constant="5" id="Ywt-RP-FKT"/>
+                                                    <constraint firstItem="voo-g5-K98" firstAttribute="top" secondItem="r70-tN-4nN" secondAttribute="top" constant="10" id="adQ-HZ-TKE"/>
+                                                    <constraint firstItem="voo-g5-K98" firstAttribute="leading" secondItem="r70-tN-4nN" secondAttribute="leading" constant="10" id="t5Z-oJ-ADD"/>
+                                                    <constraint firstAttribute="bottom" secondItem="BIO-GT-mqS" secondAttribute="bottom" constant="10" id="z1y-CW-FKx"/>
+                                                </constraints>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lfp-RN-hme">
-                                                <rect key="frame" x="25" y="433.5" width="364" height="250"/>
+                                                <rect key="frame" x="25" y="488.5" width="364" height="250"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interests" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="We4-cd-1Zt">
                                                         <rect key="frame" x="150.5" y="16" width="63.5" height="17.5"/>
@@ -669,7 +699,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CHi-IY-LtZ">
-                                                <rect key="frame" x="0.0" y="698.5" width="414" height="170"/>
+                                                <rect key="frame" x="0.0" y="753.5" width="414" height="170"/>
                                                 <subviews>
                                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g9f-oO-e8A">
                                                         <rect key="frame" x="0.0" y="0.0" width="414" height="170"/>
@@ -697,10 +727,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XhO-Kh-XtK">
-                                                <rect key="frame" x="25" y="883.5" width="364" height="180"/>
+                                                <rect key="frame" x="25" y="938.5" width="364" height="180"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vf2-fy-94B">
-                                                        <rect key="frame" x="118" y="20" width="128" height="20"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vf2-fy-94B">
+                                                        <rect key="frame" x="135" y="20" width="94.5" height="20"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="16"/>
                                                         <color key="textColor" name="ColorLbl3"/>
                                                         <nil key="highlightedColor"/>
@@ -724,7 +754,7 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="754-0g-81S">
-                                                <rect key="frame" x="138" y="1173.5" width="138" height="40"/>
+                                                <rect key="frame" x="138" y="1228.5" width="138" height="40"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cFs-8G-ykA">
                                                         <rect key="frame" x="0.0" y="0.0" width="138" height="40"/>
@@ -765,7 +795,7 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="khf-tp-S69">
-                                                <rect key="frame" x="25" y="1078.5" width="364" height="65"/>
+                                                <rect key="frame" x="25" y="1133.5" width="364" height="65"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attendees" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pIS-2V-vBf">
                                                         <rect key="frame" x="140" y="15" width="84" height="20"/>
@@ -796,42 +826,37 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstItem="lfp-RN-hme" firstAttribute="top" secondItem="r70-tN-4nN" secondAttribute="bottom" constant="15" id="2Mn-MH-hJR"/>
                                             <constraint firstAttribute="trailing" secondItem="CHi-IY-LtZ" secondAttribute="trailing" id="3Dc-tu-WhZ"/>
-                                            <constraint firstItem="PFS-jv-9BV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BIO-GT-mqS" secondAttribute="trailing" constant="30" id="9yn-2y-mCb"/>
+                                            <constraint firstItem="AlW-Fo-M67" firstAttribute="leading" secondItem="hvb-Sd-jDI" secondAttribute="leading" constant="25" id="4YP-dk-7Di"/>
                                             <constraint firstItem="lfp-RN-hme" firstAttribute="leading" secondItem="Ebq-RJ-wR1" secondAttribute="leading" constant="25" id="BzW-GN-hE5"/>
                                             <constraint firstAttribute="trailing" secondItem="i2t-hE-qlt" secondAttribute="trailing" id="GjQ-26-oZZ"/>
                                             <constraint firstItem="hvb-Sd-jDI" firstAttribute="bottom" secondItem="i2t-hE-qlt" secondAttribute="bottom" id="Gpq-jz-QF6"/>
                                             <constraint firstItem="XhO-Kh-XtK" firstAttribute="top" secondItem="CHi-IY-LtZ" secondAttribute="bottom" constant="15" id="HK4-aV-PBz"/>
-                                            <constraint firstItem="lfp-RN-hme" firstAttribute="top" secondItem="MjG-zZ-T2c" secondAttribute="bottom" constant="20" id="HtV-Q4-DQg"/>
                                             <constraint firstItem="754-0g-81S" firstAttribute="width" secondItem="Ebq-RJ-wR1" secondAttribute="width" multiplier="1:3" id="K1Y-Wr-LmL"/>
                                             <constraint firstItem="khf-tp-S69" firstAttribute="top" secondItem="XhO-Kh-XtK" secondAttribute="bottom" constant="15" id="L9a-tg-FYt"/>
+                                            <constraint firstItem="r70-tN-4nN" firstAttribute="leading" secondItem="lfp-RN-hme" secondAttribute="leading" id="LQJ-fd-rag"/>
                                             <constraint firstAttribute="trailing" secondItem="hvb-Sd-jDI" secondAttribute="trailing" id="LvT-Vh-xcc"/>
                                             <constraint firstItem="khf-tp-S69" firstAttribute="trailing" secondItem="XhO-Kh-XtK" secondAttribute="trailing" id="RHj-07-4CD"/>
                                             <constraint firstItem="khf-tp-S69" firstAttribute="leading" secondItem="XhO-Kh-XtK" secondAttribute="leading" id="TRN-Cf-i4L"/>
                                             <constraint firstItem="XhO-Kh-XtK" firstAttribute="trailing" secondItem="lfp-RN-hme" secondAttribute="trailing" id="WQa-EV-h3K"/>
+                                            <constraint firstItem="AlW-Fo-M67" firstAttribute="centerY" secondItem="hvb-Sd-jDI" secondAttribute="centerY" id="Wd9-Vb-N73"/>
                                             <constraint firstItem="754-0g-81S" firstAttribute="centerX" secondItem="Ebq-RJ-wR1" secondAttribute="centerX" id="XKN-Un-v3p"/>
                                             <constraint firstItem="754-0g-81S" firstAttribute="top" secondItem="khf-tp-S69" secondAttribute="bottom" constant="30" id="Yzx-3M-byh"/>
                                             <constraint firstItem="XhO-Kh-XtK" firstAttribute="leading" secondItem="lfp-RN-hme" secondAttribute="leading" id="a0x-sT-v8I"/>
                                             <constraint firstItem="i2t-hE-qlt" firstAttribute="top" secondItem="Ebq-RJ-wR1" secondAttribute="top" id="dPs-3Y-Jz3"/>
-                                            <constraint firstItem="BIO-GT-mqS" firstAttribute="centerY" secondItem="voo-g5-K98" secondAttribute="centerY" id="eTN-V4-SJ7"/>
+                                            <constraint firstItem="PFS-jv-9BV" firstAttribute="centerY" secondItem="AlW-Fo-M67" secondAttribute="centerY" id="dY6-Hz-q9R"/>
                                             <constraint firstItem="CHi-IY-LtZ" firstAttribute="top" secondItem="lfp-RN-hme" secondAttribute="bottom" constant="15" id="eUI-Ru-Jeh"/>
-                                            <constraint firstItem="BIO-GT-mqS" firstAttribute="leading" secondItem="voo-g5-K98" secondAttribute="trailing" constant="20" id="fDO-v7-g1w"/>
                                             <constraint firstItem="CHi-IY-LtZ" firstAttribute="leading" secondItem="Ebq-RJ-wR1" secondAttribute="leading" id="fLE-dj-W2f"/>
                                             <constraint firstAttribute="trailing" secondItem="PFS-jv-9BV" secondAttribute="trailing" constant="25" id="gYM-4H-kRT"/>
+                                            <constraint firstItem="r70-tN-4nN" firstAttribute="top" secondItem="i2t-hE-qlt" secondAttribute="bottom" constant="15" id="haJ-W3-uC9"/>
                                             <constraint firstItem="hvb-Sd-jDI" firstAttribute="leading" secondItem="Ebq-RJ-wR1" secondAttribute="leading" id="iwG-s6-XO2"/>
                                             <constraint firstAttribute="bottom" secondItem="754-0g-81S" secondAttribute="bottom" constant="30" id="kRu-mz-PwF"/>
-                                            <constraint firstItem="PFS-jv-9BV" firstAttribute="centerY" secondItem="BIO-GT-mqS" secondAttribute="centerY" id="lGY-Rh-jwB"/>
-                                            <constraint firstItem="voo-g5-K98" firstAttribute="centerY" secondItem="hvb-Sd-jDI" secondAttribute="centerY" id="p8X-7f-Uai"/>
                                             <constraint firstItem="i2t-hE-qlt" firstAttribute="leading" secondItem="Ebq-RJ-wR1" secondAttribute="leading" id="pfJ-3a-HL0"/>
-                                            <constraint firstItem="MjG-zZ-T2c" firstAttribute="centerX" secondItem="Ebq-RJ-wR1" secondAttribute="centerX" id="pj4-ez-Ztg"/>
                                             <constraint firstAttribute="trailing" secondItem="lfp-RN-hme" secondAttribute="trailing" constant="25" id="qzB-Qc-qmJ"/>
-                                            <constraint firstItem="voo-g5-K98" firstAttribute="leading" secondItem="Ebq-RJ-wR1" secondAttribute="leading" constant="25" id="tya-IQ-Tc5"/>
-                                            <constraint firstItem="MjG-zZ-T2c" firstAttribute="top" secondItem="i2t-hE-qlt" secondAttribute="bottom" constant="20" id="zSu-lZ-7iN"/>
+                                            <constraint firstItem="r70-tN-4nN" firstAttribute="trailing" secondItem="lfp-RN-hme" secondAttribute="trailing" id="sEX-uu-c43"/>
+                                            <constraint firstItem="PFS-jv-9BV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="AlW-Fo-M67" secondAttribute="trailing" constant="10" id="vjN-xG-Bgz"/>
                                         </constraints>
-                                    </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zU2-3D-MIw">
-                                        <rect key="frame" x="0.0" y="-100" width="414" height="1243.5"/>
-                                        <color key="backgroundColor" name="Color0"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -867,17 +892,18 @@
                         <outlet property="attendeesTableView" destination="JFU-bu-sTA" id="6lX-2m-mei"/>
                         <outlet property="attendeesView" destination="khf-tp-S69" id="wHB-j1-YVq"/>
                         <outlet property="attendeesViewHeight" destination="83q-qq-4et" id="VSt-KK-J1V"/>
-                        <outlet property="categoryNameLbl" destination="vf2-fy-94B" id="FQj-d8-mcr"/>
+                        <outlet property="categoryNameLbl" destination="9qV-Ql-S0I" id="Xy5-4O-mXR"/>
                         <outlet property="chartContainerView" destination="lfp-RN-hme" id="vnG-vW-Lkq"/>
                         <outlet property="chartTitleLbl" destination="We4-cd-1Zt" id="jk9-ZA-UVV"/>
                         <outlet property="chartView" destination="nfE-Cd-dbp" id="fO2-Nh-icj"/>
                         <outlet property="collectionView" destination="g9f-oO-e8A" id="Lbs-nU-n5d"/>
+                        <outlet property="dateAndTimeView" destination="r70-tN-4nN" id="bsi-5k-Cai"/>
                         <outlet property="dateCreateLbl" destination="876-Fy-eP5" id="FWC-nl-ZH7"/>
                         <outlet property="descreptionLbl" destination="eth-zX-8E9" id="Fhy-ga-k7d"/>
                         <outlet property="detailsView" destination="XhO-Kh-XtK" id="pCu-Dn-ghe"/>
                         <outlet property="editBtn" destination="cFs-8G-ykA" id="BIE-MD-Zgw"/>
                         <outlet property="eventImg" destination="i2t-hE-qlt" id="ova-08-8Pv"/>
-                        <outlet property="eventTitleLbl" destination="MjG-zZ-T2c" id="cCU-UM-ma1"/>
+                        <outlet property="eventTitleLbl" destination="eMg-Xj-xLT" id="BxV-gH-mk5"/>
                         <outlet property="hideView" destination="zU2-3D-MIw" id="zf5-MG-FXj"/>
                         <outlet property="interestsStatisticsView" destination="CHi-IY-LtZ" id="wgG-2W-Iby"/>
                         <outlet property="joinBtn" destination="J72-IK-cyb" id="8ol-5W-0oN"/>
@@ -1458,22 +1484,25 @@
         <image name="people_ic" width="20" height="14"/>
         <image name="placeholder" width="1000" height="1000"/>
         <namedColor name="BGColor">
-            <color red="0.95686274509803915" green="0.97254901960784312" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Color0">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="ColorDark0">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="ColorLbl1">
-            <color red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl3">
-            <color red="0.14117647058823529" green="0.074509803921568626" blue="0.19607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl4">
-            <color red="0.76862745098039209" green="0.76862745098039209" blue="0.76862745098039209" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.76899999380111694" green="0.76899999380111694" blue="0.76899999380111694" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl5">
-            <color red="0.94117647058823528" green="0.95294117647058818" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94099998474121094" green="0.95300000905990601" blue="0.9570000171661377" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

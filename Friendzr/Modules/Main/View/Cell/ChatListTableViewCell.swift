@@ -22,6 +22,7 @@ class ChatListTableViewCell: UITableViewCell {
         // Initialization code
         
         profileImg.cornerRadiusForHeight()
+        attachImg.cornerRadiusView(radius: 4)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

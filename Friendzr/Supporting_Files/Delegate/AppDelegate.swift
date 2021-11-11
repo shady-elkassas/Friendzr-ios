@@ -19,9 +19,9 @@ import FirebaseAnalytics
 import FirebaseCrashlytics
 import CoreLocation
 import UserNotifications
-import SCSDKLoginKit
-import TikTokOpenSDK
-import SFaceCompare
+//import SCSDKLoginKit
+//import TikTokOpenSDK
+//import SFaceCompare
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .selected)
         
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
-        TikTokOpenSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+//        TikTokOpenSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 
         if #available(iOS 13, *) {
         } else {
@@ -121,7 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.overrideUserInterfaceStyle = .light
         }
         
-        SFaceCompare.prepareData()
+//        SFaceCompare.prepareData()
 
         if Defaults.isFirstLaunch == false {
             Defaults.allowMyLocation = true
@@ -159,31 +159,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let sourceApplication: String? = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String
         let googleDidHandle = GIDSignIn.sharedInstance.handle(url as URL)
         let facebookDidHandle = ApplicationDelegate.shared.application(app, open: url, sourceApplication: sourceApplication, annotation: nil)
-        let snapDidHandle = SCSDKLoginClient.application(app, open: url, options: options)
+//        let snapDidHandle = SCSDKLoginClient.application(app, open: url, options: options)
         
-        guard let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-              let annotation = options[UIApplication.OpenURLOptionsKey.annotation] else {
-                  return false
-              }
+//        guard let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+//              let annotation = options[UIApplication.OpenURLOptionsKey.annotation] else {
+//                  return false
+//              }
         
-        let TikTokDidHandle = TikTokOpenSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: sourceApplication, annotation: annotation)
+//        let TikTokDidHandle = TikTokOpenSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: sourceApplication, annotation: annotation)
         
-        return googleDidHandle || facebookDidHandle || snapDidHandle || TikTokDidHandle
+        return googleDidHandle || facebookDidHandle //|| snapDidHandle || TikTokDidHandle
     }
     
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        if TikTokOpenSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation) {
-            return true
-        }
-        return false
-    }
+//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+//        if TikTokOpenSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation) {
+//            return true
+//        }
+//        return false
+//    }
     
-    func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
-        if TikTokOpenSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: nil, annotation: "") {
-            return true
-        }
-        return false
-    }
+//    func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
+//        if TikTokOpenSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: nil, annotation: "") {
+//            return true
+//        }
+//        return false
+//    }
     
     func networkReachability() {
         do {
@@ -528,6 +528,11 @@ extension AppDelegate: CLLocationManagerDelegate {
         guard let location = locations.first else {
             return
         }
+        
+        Defaults.LocationLat = "\(location.coordinate.latitude)"
+        Defaults.LocationLng = "\(location.coordinate.longitude)"
+        
+        print("Defaults.LocationLat\(Defaults.LocationLat),Defaults.LocationLng\(Defaults.LocationLng)")
         
         AppDelegate.geoCoder.reverseGeocodeLocation(location) { placemarks, _ in
             if let place = placemarks?.first {

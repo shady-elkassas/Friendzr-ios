@@ -63,6 +63,9 @@ class UserChatObj: NSObject,Mappable {
     var isMute:Bool? = false
     var isArchive:Bool? = false
     var leavevent:Int? = 0
+    var myevent:Bool? = false
+    var messagestype:Int? = 0
+    var messagesattach:String? = ""
     
     override init() {
         super.init()
@@ -83,6 +86,9 @@ class UserChatObj: NSObject,Mappable {
         isMute  <- map["muit"]
         isfrind  <- map["isfrind"]
         leavevent  <- map["leavevent"]
+        myevent  <- map["myevent"]
+        messagestype  <- map["messagestype"]
+        messagesattach  <- map["messagesattach"]
     }
 }
 

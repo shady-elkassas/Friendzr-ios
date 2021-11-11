@@ -246,12 +246,6 @@ class FriendProfileVC: UIViewController {
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
                     self.getFriendProfileInformation()
-
-//                    self.respondBtn.isHidden = true
-//                    self.cancelRequestBtn.isHidden = true
-//                    self.sendRequestBtn.isHidden = false
-//                    self.svBtns.isHidden = true
-//                    self.unblockBtn.isHidden = true
                 }
             }else {
                 return
@@ -292,12 +286,6 @@ class FriendProfileVC: UIViewController {
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
                     self.getFriendProfileInformation()
-
-//                    self.respondBtn.isHidden = true
-//                    self.cancelRequestBtn.isHidden = true
-//                    self.sendRequestBtn.isHidden = true
-//                    self.svBtns.isHidden = true
-//                    self.unblockBtn.isHidden = false
                 }
             }else {
                 return
@@ -338,12 +326,6 @@ class FriendProfileVC: UIViewController {
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
                     self.getFriendProfileInformation()
-
-//                    self.respondBtn.isHidden = true
-//                    self.cancelRequestBtn.isHidden = true
-//                    self.sendRequestBtn.isHidden = false
-//                    self.svBtns.isHidden = true
-//                    self.unblockBtn.isHidden = true
                 }
             }else {
                 return
@@ -439,7 +421,7 @@ class FriendProfileVC: UIViewController {
     func setupData() {
         let model = viewmodel.model.value
         aboutFriendLbl.text = model?.bio
-        userNameLbl.text = "@\(model?.generatedusername ?? "")"
+        userNameLbl.text = "@\(model?.displayedUserName ?? "")"
         nameLbl.text = model?.userName
         ageLbl.text = "\(model?.age ?? 0)"
         genderLbl.text = model?.gender

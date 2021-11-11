@@ -33,6 +33,7 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var chartTitleLbl: UILabel!
     
+    @IBOutlet weak var dateAndTimeView: UIView!
     @IBOutlet weak var attendeesView: UIView!
     //MARK: - Properties
     var numbers:[Double] = [1,2,3]
@@ -182,6 +183,7 @@ class EventDetailsVC: UIViewController {
         
         chartContainerView.cornerRadiusView(radius: 21)
         attendeesView.cornerRadiusView(radius: 21)
+        dateAndTimeView.cornerRadiusView(radius: 12)
     }
     
     

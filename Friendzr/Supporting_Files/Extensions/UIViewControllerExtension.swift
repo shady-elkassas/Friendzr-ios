@@ -214,6 +214,7 @@ extension UIViewController {
     
     func updateTitleView(image: String, subtitle: String?) {
         
+
         let imageUser = UIImageView(frame: CGRect(x: 0, y: -5, width: 25, height: 25))
         imageUser.backgroundColor = UIColor.clear
         imageUser.image = UIImage(named: image)
@@ -244,6 +245,12 @@ extension UIViewController {
             let newX = widthDiff / 2
             imageUser.frame.origin.x = newX
         }
+        
+//        let button = UIButton(frame: CGRect(x: 0, y: 0, width: max(imageUser.frame.size.width, subtitleLabel.frame.size.width), height: 30))
+        
+//        button.addSubview(titleView)
+//        button.backgroundColor = .red
+//        button.addTarget(self, action: #selector(handleSkipBtn), for: .allEvents)
         
         navigationItem.titleView = titleView
     }

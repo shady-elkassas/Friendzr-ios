@@ -6,8 +6,12 @@
 //
 
 import UIKit
-import SCSDKLoginKit
-import TikTokOpenSDK
+//import SCSDKLoginKit
+//import TikTokOpenSDK
+import FBSDKCoreKit
+import FBSDKLoginKit
+import InstagramLogin
+
 
 class EditMyProfileVC: UIViewController {
     
@@ -43,6 +47,20 @@ class EditMyProfileVC: UIViewController {
     var birthDay = ""
     
     var internetConect:Bool = false
+    
+    var UserFBID = ""
+    var UserFBMobile = ""
+    var UserFBEmail = ""
+    var UserFBFirstName = ""
+    var UserFBLastName = ""
+    var userFace_BookAccessToken = ""
+    var UserFBUserName = ""
+    var UserFBImage = ""
+    
+    var facebookLink = ""
+    var tiktokLink = ""
+    var instgramLink = ""
+    var snapchatLink = ""
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -337,7 +355,24 @@ class EditMyProfileVC: UIViewController {
         }
     }
     
+    var instagramLogin: InstagramLoginViewController!
+    var clientId:String = "284152480286634"
+    var redirectUri:String = "https://friendzr.com/"
+    
     @IBAction func integrationInstgramBtn(_ sender: Any) {
+        instagramLogin = InstagramLoginViewController(clientId: clientId, redirectUri: redirectUri)
+        instagramLogin.delegate = self
+        instagramLogin.scopes = [.all]
+        present(UINavigationController(rootViewController: instagramLogin), animated: true)
+    }
+    
+    
+    @objc func dismissLoginViewController() {
+        instagramLogin.dismiss(animated: true)
+    }
+
+    @objc func refreshPage() {
+        instagramLogin.reloadPage()
     }
     
     @IBAction func integrationSnapchatBtn(_ sender: Any) {
@@ -377,46 +412,62 @@ class EditMyProfileVC: UIViewController {
     //    }
     
     @IBAction func integrationFacebookBtn(_ sender: Any) {
-    }
-    
-    
-    @IBAction func integrationTiktokBtn(_ sender: Any) {
-        TikTokOpenSDKApplicationDelegate.sharedInstance().logDelegate = self
-        
-        let scopes = ["user.info.basic","video.list"] // list your scopes
-        let scopesSet = NSOrderedSet(array:scopes)
-        let request = TikTokOpenSDKAuthRequest()
-        request.permissions = scopesSet
-        
-        request.send(self, completion: { resp -> Void in
-            /* STEP 3 */
+        updateUserInterface2()
+        if internetConect {
+            let fbLoginManager : LoginManager = LoginManager()
             
-            if resp.errCode.rawValue == 0 {
-                /* STEP 3.a */
-                let clientKey = "awq4czdodvu3iy4y" // you will receive this once you register in the Developer Portal
-                let clientSecretKey = "64eabf5c9ae2cc2c5b15ea4897227bb3"
-                let responseCode = resp.code ?? ""
+            fbLoginManager.logIn(permissions: ["email"], from: self) { (result, error) -> Void in
                 
-                // replace this baseURLstring with your own wrapper API
-                let baseURlString = "https://open-api.tiktok.com/oauth/access_token/?client_key=\(clientKey)&client_secret=\(clientSecretKey)&grant_type=authorization_code&code=\(responseCode)"
-                
-                //                let baseURlString = "https://open-api.tiktok.com/demoapp/callback/?code=\(responseCode)&client_key=\(clientKey)"
-                
-                let url = NSURL(string: baseURlString)
-                
-                /* STEP 3.b */
-                let session = URLSession(configuration: .default)
-                let urlRequest = NSMutableURLRequest(url: url! as URL)
-                let task = session.dataTask(with: urlRequest as URLRequest) { (data, response, error) -> Void in
-                    /* STEP 3.c */
-                    //                print(response)
-                    //                print(data)
+                if (error == nil) {
+                    // if user cancel the login
+                    if error != nil {
+                    }else if (result?.isCancelled)!{
+                        return
+                    }else {
+                        self.getFBUserData()
+                    }
                 }
-                task.resume()
-            } else {
-                // handle error
             }
-        })
+        }
+    }
+
+    @IBAction func integrationTiktokBtn(_ sender: Any) {
+//        TikTokOpenSDKApplicationDelegate.sharedInstance().logDelegate = self
+//
+//        let scopes = ["user.info.basic","video.list"] // list your scopes
+//        let scopesSet = NSOrderedSet(array:scopes)
+//        let request = TikTokOpenSDKAuthRequest()
+//        request.permissions = scopesSet
+//
+//        request.send(self, completion: { resp -> Void in
+//            /* STEP 3 */
+//
+//            if resp.errCode.rawValue == 0 {
+//                /* STEP 3.a */
+//                let clientKey = "awq4czdodvu3iy4y" // you will receive this once you register in the Developer Portal
+//                let clientSecretKey = "64eabf5c9ae2cc2c5b15ea4897227bb3"
+//                let responseCode = resp.code ?? ""
+//
+//                // replace this baseURLstring with your own wrapper API
+//                let baseURlString = "https://open-api.tiktok.com/oauth/access_token/?client_key=\(clientKey)&client_secret=\(clientSecretKey)&grant_type=authorization_code&code=\(responseCode)"
+//
+//                //                let baseURlString = "https://open-api.tiktok.com/demoapp/callback/?code=\(responseCode)&client_key=\(clientKey)"
+//
+//                let url = NSURL(string: baseURlString)
+//
+//                /* STEP 3.b */
+//                let session = URLSession(configuration: .default)
+//                let urlRequest = NSMutableURLRequest(url: url! as URL)
+//                let task = session.dataTask(with: urlRequest as URLRequest) { (data, response, error) -> Void in
+//                    /* STEP 3.c */
+//                    //                print(response)
+//                    //                print(data)
+//                }
+//                task.resume()
+//            } else {
+//                // handle error
+//            }
+//        })
     }
     
     @IBAction func saveBtn(_ sender: Any) {
@@ -488,6 +539,7 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
     }
 }
 
+//text view delegate
 extension EditMyProfileVC: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         placeHolderLbl.isHidden = !textView.text.isEmpty
@@ -499,6 +551,7 @@ extension EditMyProfileVC: UITextViewDelegate {
     }
 }
 
+//tags list
 extension EditMyProfileVC : TagListViewDelegate {
     
     // MARK: TagListViewDelegate
@@ -513,10 +566,72 @@ extension EditMyProfileVC : TagListViewDelegate {
     }
 }
 
-extension EditMyProfileVC : TikTokOpenSDKLogDelegate {
-    
-    func onLog(_ logInfo: String) {
-        print(logInfo)
+//tiktok integration
+//extension EditMyProfileVC : TikTokOpenSDKLogDelegate {
+//
+//    func onLog(_ logInfo: String) {
+//        print(logInfo)
+//    }
+//
+//}
+
+//facebook integration
+extension EditMyProfileVC {
+    func getFBUserData(completion:@escaping (_ : [String: Any]?,_ : Error?) -> Void) {
+        
+        GraphRequest(graphPath: "me", parameters: ["fields": "id,user_name,name, first_name, last_name, picture.type(large), email, phone"]).start { (connection, response, error)  in
+            
+            if error != nil {
+                //                print(error?.localizedDescription ?? "")
+                completion(nil, error)
+                return
+            }
+            completion(response as? [String : Any], nil)
+        }
     }
     
+    func getFBUserData(){
+        if((AccessToken.current) != nil){
+            
+            let request = GraphRequest(graphPath: "/me", parameters: ["fields": "id,user_name, picture.type(large), name,email"], httpMethod: HTTPMethod(rawValue: "GET"))
+            request.start { (connection, result, error) in
+                
+                if let error = error {
+                    print("\(error.localizedDescription)")
+                } else{
+                    let userInfo = result as! [String : AnyObject]
+                    
+                    self.UserFBID = userInfo["id"] as! String
+                    self.UserFBMobile = userInfo["phone"] as? String ?? ""
+                    self.UserFBUserName = userInfo["name"] as? String ?? ""
+                    self.UserFBEmail = userInfo["email"] as? String ?? ""
+                    self.userFace_BookAccessToken = AccessToken.current!.tokenString
+                    let img = userInfo["picture"] as! [String:AnyObject]
+                    //                    self.UserFBImage = img["data"]!["url"] as? String ?? ""
+                    if let imgurL = img["data"] as? [String:AnyObject] {
+                        self.UserFBImage = imgurL["url"] as? String ?? ""
+                    }
+                    
+                    print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
+                    
+                    self.facebookLink = "https://www.facebook.com/\(self.UserFBID)"
+                }
+            }
+        }
+    }
+}
+
+// MARK: - InstagramLoginViewControllerDelegate
+
+extension EditMyProfileVC: InstagramLoginViewControllerDelegate {
+
+    func instagramLoginDidFinish(accessToken: String?, error: InstagramError?) {
+        dismissLoginViewController()
+        
+        if accessToken != nil {
+            self.showAlert(withMessage:  "Successfully logged in! 👍")
+        } else {
+            self.showAlert(withMessage: "\(error!.localizedDescription) 👎")
+        }
+    }
 }

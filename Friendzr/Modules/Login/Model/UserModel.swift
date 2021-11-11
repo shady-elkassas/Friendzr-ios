@@ -21,7 +21,7 @@ class UserObj: Mappable {
         userName <- map["userName"]
         code <- map["code"]
         token <- map["token"]
-        generatedusername <- map["generatedusername"]
+        displayedUserName <- map["displayedUserName"]
         bio <- map["bio"]
         gender <- map["gender"]
         birthdate <- map["birthdate"]
@@ -37,6 +37,9 @@ class UserObj: Mappable {
         needUpdate <- map["needUpdate"]
         age <- map["age"]
         allowmylocation <- map["allowmylocation"]
+        allowMyAppearanceType <- map["allowMyAppearanceType"]
+        ghostmode <- map["ghostmode"]
+        pushnotification <- map["pushnotification"]
     }
     
     
@@ -47,7 +50,7 @@ class UserObj: Mappable {
     var userName = ""
     var code = ""
     var token = ""
-    var generatedusername = ""
+    var displayedUserName = ""
     var bio = ""
     var gender = ""
     var birthdate = ""
@@ -63,6 +66,9 @@ class UserObj: Mappable {
     var needUpdate:Int = 0
     var age:Int = 0
     var allowmylocation:Bool = false
+    var allowMyAppearanceType:Int = 0
+    var ghostmode:Bool = false
+    var pushnotification:Bool = false
 }
 
 

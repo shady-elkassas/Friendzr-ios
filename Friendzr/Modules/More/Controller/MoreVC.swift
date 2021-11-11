@@ -112,10 +112,10 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     
     func shareApp() {
         // Setting description
-        let firstActivityItem = "Description you want.."
+        let firstActivityItem = ""
         
         // Setting url
-        let secondActivityItem : NSURL = NSURL(string: "http://your-url.com/")!
+        let secondActivityItem : NSURL = NSURL(string: "https://friendzr.com/about-us/")!
         
         // If you want to use an image
         let image : UIImage = UIImage(named: "Share_ic")!
@@ -246,12 +246,12 @@ extension MoreVC : UITableViewDelegate {
             break
         case 5: //contactus
             if internetConect {
-                let emailTitle = ""
+                let subjectTitle = "Suggestions"
                 let messageBody = ""
-                let toRecipents = ["friend@stackoverflow.com"]
+                let toRecipents = ["support@friendzr.com"]
                 let mc: MFMailComposeViewController = MFMailComposeViewController()
                 mc.mailComposeDelegate = self
-                mc.setSubject(emailTitle)
+                mc.setSubject(subjectTitle)
                 mc.setMessageBody(messageBody, isHTML: false)
                 mc.setToRecipients(toRecipents)
                 self.present(mc, animated: true, completion: nil)

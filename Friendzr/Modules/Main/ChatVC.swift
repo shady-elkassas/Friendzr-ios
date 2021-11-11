@@ -754,7 +754,28 @@ extension ChatVC: MessagesDisplayDelegate {
     // MARK: - All Messages
     
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        switch message.kind {
+        case .contact(_):
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        case .emoji((_)):
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        case .text(_):
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        case .photo(_):
+            return isFromCurrentSender(message: message) ? UIColor.clear : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        case .audio(_):
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        case .location(_):
+            return isFromCurrentSender(message: message) ? UIColor.clear : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        case .video(_):
+            return isFromCurrentSender(message: message) ? UIColor.clear : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        case .linkPreview(_):
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        case .attributedText(_):
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        default:
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+        }
     }
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
@@ -835,22 +856,24 @@ extension ChatVC {
         messageInputBar.setRightStackViewWidthConstant(to: 36, animated: false)
         messageInputBar.sendButton.imageView?.backgroundColor = UIColor(white: 0.85, alpha: 1)
         messageInputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-        messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
-        messageInputBar.sendButton.image = #imageLiteral(resourceName: "ic_up")
+//        messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
+        
+        messageInputBar.sendButton.image = #imageLiteral(resourceName: "send_ic")
+        messageInputBar.sendButton.imageView?.contentMode = .scaleAspectFit
         messageInputBar.sendButton.title = nil
         messageInputBar.sendButton.imageView?.layer.cornerRadius = 16
         
         
         let charCountButton = InputBarButtonItem()
             .configure {
-                $0.title = "0/140"
+                $0.title = "0/160"
                 $0.contentHorizontalAlignment = .right
                 $0.setTitleColor(UIColor(white: 0.6, alpha: 1), for: .normal)
                 $0.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .bold)
                 $0.setSize(CGSize(width: 50, height: 25), animated: false)
             }.onTextViewDidChange { (item, textView) in
-                item.title = "\(textView.text.count)/140"
-                let isOverLimit = textView.text.count > 140
+                item.title = "\(textView.text.count)/160"
+                let isOverLimit = textView.text.count > 160
                 item.inputBarAccessoryView?.shouldManageSendButtonEnabledState = !isOverLimit // Disable automated management when over limit
                 if isOverLimit {
                     item.inputBarAccessoryView?.sendButton.isEnabled = false
@@ -1415,7 +1438,7 @@ extension ChatVC: MessagesLayoutDelegate {
     }
     
     func setTypingIndicatorViewHidden(_ isHidden: Bool, performUpdates updates: (() -> Void)? = nil) {
-        updateTitleView(title: "MessageKit", subtitle: isHidden ? "2 Online" : "Typing...")
+        updateTitleView(title: "Mesaages Room", subtitle: isHidden ? "2 Online" : "Typing...")
         setTypingIndicatorViewHidden(isHidden, animated: true, whilePerforming: updates) { [weak self] success in
             if success, self?.isLastSectionVisible() == true {
                 self?.messagesCollectionView.scrollToLastItem(animated: true)

@@ -73,6 +73,9 @@ class FeedVC: UIViewController {
 
     var isSendRequest:Bool = false
     
+    var locationLat = 0.0
+    var locationLng = 0.0
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -577,6 +580,9 @@ extension FeedVC: CLLocationManagerDelegate {
         /// Latitude
         let latitudeStr = String(format: "%3.4f", currLocation.coordinate.latitude)
         
+        locationLat = currLocation.coordinate.latitude
+        locationLng = currLocation.coordinate.longitude
+
         /// Altitude
         let altitudeStr = "\(Int(currLocation.altitude))"
         
