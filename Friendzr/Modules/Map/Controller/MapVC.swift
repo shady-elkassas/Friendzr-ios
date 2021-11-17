@@ -9,6 +9,9 @@ import UIKit
 import GoogleMaps
 import CoreLocation
 import GooglePlaces
+import ObjectMapper
+
+let googleApiKey = "AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY"
 
 //select location protocol
 protocol PickingLocationFromTheMap {
@@ -34,8 +37,14 @@ class MapVC: UIViewController {
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addEventBtn: UIButton!
     @IBOutlet weak var goAddEventBtn: UIButton!
+    @IBOutlet weak var subView: UIView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var radiusMLbl: UILabel!
+    @IBOutlet weak var radiusKMLbl: UILabel!
+    @IBOutlet weak var zoomingStatisticsView: UIView!
     
-    //MARK: - Properties    
+    
+    //MARK: - Properties
     var locations:[EventsLocation] = [EventsLocation]()
     var location: CLLocationCoordinate2D? = nil
     let locationManager = CLLocationManager()
@@ -52,6 +61,7 @@ class MapVC: UIViewController {
     var transparentView = UIView()
     var eventsTableView = UITableView()
     var eventCellID = "EventsInLocationTableViewCell"
+    var nearbyEventCellId = "NearbyEventsCollectionViewCell"
     
     private var tableView: UITableView!
     private var searchBar: UISearchBar!
@@ -91,10 +101,15 @@ class MapVC: UIViewController {
     
     //MARK: - APIs
     func bindToModel() {
+//        self.showLoading()
         viewmodel.getAllEventsAroundMe()
         viewmodel.locations.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.hideLoading()
+                self.collectionView.dataSource = self
+                self.collectionView.delegate = self
+                self.collectionView.reloadData()
+                
                 setupMarkers()
             }
         }
@@ -107,7 +122,7 @@ class MapVC: UIViewController {
             }
         }
     }
-    
+        
     func getEvents(By lat:Double,lng:Double) {
         viewmodel.getEventsByLoction(lat: lat, lng: lng)
         viewmodel.events.bind { [unowned self] value in
@@ -246,6 +261,11 @@ class MapVC: UIViewController {
         eventsTableView.separatorStyle = .none
         eventsTableView.delegate = self
         eventsTableView.dataSource = self
+        
+        collectionView.register(UINib(nibName: nearbyEventCellId, bundle: nil), forCellWithReuseIdentifier: nearbyEventCellId)
+        subView.setCornerforTop()
+        
+        zoomingStatisticsView.cornerRadiusView(radius: 8)
     }
     
     //create marker for location selected
@@ -258,7 +278,7 @@ class MapVC: UIViewController {
     }
     
     //update location manager
-    private func updateLocation () {
+    private func updateLocation() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
@@ -272,6 +292,7 @@ class MapVC: UIViewController {
         self.mapView.isMyLocationEnabled = true
         self.mapView.isBuildingsEnabled = true
         self.mapView.isIndoorEnabled = true
+        
         let camera = GMSCameraPosition.camera(withLatitude: location!.latitude, longitude: location!.longitude, zoom: 17.0)
         self.mapView.animate(to: camera)
         geocode(latitude: location!.latitude, longitude: location!.longitude) { (PM, error) in
@@ -345,7 +366,7 @@ class MapVC: UIViewController {
         }
     }
     
-    //MARK:- Actions
+    //MARK: - Actions
     @IBAction func addEventBtn(_ sender: Any) {
         if Defaults.allowMyLocation == true {
             self.appendNewLocation = true
@@ -380,7 +401,7 @@ class MapVC: UIViewController {
     }
 }
 
-//MARK:- GMSMap View Delegate
+//MARK: - GMSMap View Delegate
 extension MapVC : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         
@@ -435,8 +456,7 @@ extension MapVC : GMSMapViewDelegate {
     }
 }
 
-
-//MARK:- CLLocation manager delegate
+//MARK: - CLLocation manager delegate
 extension MapVC : CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -487,8 +507,7 @@ extension MapVC : CLLocationManagerDelegate {
     }
 }
 
-
-//MARK:- search in google map tableView dataSource and delegate
+//MARK: - search in google map tableView dataSource and delegate
 extension MapVC: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         // Update the GMSAutocompleteTableDataSource with the search text.
@@ -543,11 +562,12 @@ extension MapVC: GMSAutocompleteTableDataSourceDelegate {
     }
 }
 
-//MARK:- events tableView dataSource and delegate
+//MARK: - events tableView dataSource and delegate
 extension MapVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.events.value?.count ?? 0
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = eventsTableView.dequeueReusableCell(withIdentifier: eventCellID, for: indexPath) as? EventsInLocationTableViewCell else {return UITableViewCell()}
         let model = viewmodel.events.value?[indexPath.row]
@@ -555,13 +575,24 @@ extension MapVC:UITableViewDataSource {
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
         cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+        
+        cell.HandleDirectionBtn = {
+            print("\(model?.lat ?? ""):\(model?.lang ?? "")")
+            
+            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+                UIApplication.shared.open(URL(string: "comgooglemaps://?saddr=&daddr=\(model?.lat ?? ""),\(model?.lang ?? "")&directionsmode=driving")!)
+            }else {
+                print("")
+            }
+        }
+        
         return cell
     }
 }
 
 extension MapVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
+        return 100
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -578,5 +609,221 @@ extension MapVC:UITableViewDelegate {
             vc.eventId = model?.id ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
         }
+    }
+}
+
+//MARK: - events nearby collection view data source and delegate
+extension MapVC:UICollectionViewDataSource {
+
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return viewmodel.locations.value?.eventlocationDataMV?.count ?? 0
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewmodel.locations.value?.eventlocationDataMV?[section].eventData?.count ?? 0
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nearbyEventCellId, for: indexPath) as? NearbyEventsCollectionViewCell else {return UICollectionViewCell()}
+        let model = viewmodel.locations.value?.eventlocationDataMV?[indexPath.section].eventData?[indexPath.row]
+        
+        cell.eventTitleLbl.text = model?.title
+        cell.eventDateLbl.text = model?.eventdate
+        cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
+        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+        return cell
+    }
+}
+
+extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.bounds.width
+        let height = collectionView.bounds.height
+        return CGSize(width: width/2.4, height: height - 20)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let model = viewmodel.locations.value?.eventlocationDataMV?[indexPath.section].eventData
+        for (i,item) in model!.enumerated() {
+            let locitm = CLLocationCoordinate2DMake(Double(item.lat!)!, Double(item.lang!)!)
+            if i == indexPath.row {
+                delay(seconds: 0.5) { () -> () in
+                    let zoomOut = GMSCameraUpdate.zoom(to: 15)
+                    self.mapView.animate(with: zoomOut)
+                    
+                    self.delay(seconds: 0.5, closure: { () -> () in
+                        
+                        let updatePos = CLLocationCoordinate2DMake(locitm.latitude,locitm.longitude)
+                        let updateCam = GMSCameraUpdate.setTarget(updatePos)
+                        self.mapView.animate(with: updateCam)
+                        
+                        self.delay(seconds: 0.5, closure: { () -> () in
+                            let zoomIn = GMSCameraUpdate.zoom(to: 20)
+                            self.mapView.animate(with: zoomIn)
+                        })
+                    })
+                }
+            }
+        }
+    }
+    
+    func delay(seconds: Double, closure: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            closure()
+        }
+    }
+}
+
+extension MapVC {
+    // calculate radius
+//    func getCenterCoordinate() -> CLLocationCoordinate2D {
+//        let centerPoint = self.mapView.center
+//        let centerCoordinate = self.mapView.projection.coordinate(for: centerPoint)
+//        print("centerCoordinate : \(centerCoordinate)")
+//        return centerCoordinate
+//    }
+    
+//    func getTopCenterCoordinate() -> CLLocationCoordinate2D {
+//        // to get coordinate from CGPoint of your map
+//        let topCenterCoor = self.mapView.convert(CGPoint(x: self.mapView.frame.size.width / 2.0, y: 0), from: self.mapView)
+//        let point = self.mapView.projection.coordinate(for: topCenterCoor)
+//        print("point : \(point)")
+//        return point
+//    }
+    
+//    func getRadius() -> CLLocationDistance {
+//
+//        let centerCoordinate = getCenterCoordinate()
+//        // init center location from center coordinate
+//        let centerLocation = CLLocation(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
+//        let topCenterCoordinate = self.getTopCenterCoordinate()
+//        let topCenterLocation = CLLocation(latitude: topCenterCoordinate.latitude, longitude: topCenterCoordinate.longitude)
+//
+//        let radius = CLLocationDistance(centerLocation.distance(from: topCenterLocation))
+//
+//        print("radius : \(radius)")
+//        return round(radius)
+//    }
+    
+    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+        
+        // Find the coordinates
+        let visibleRegion = mapView.projection.visibleRegion()
+        let farLeftLocation = CLLocation(latitude: visibleRegion.farLeft.latitude, longitude: visibleRegion.farLeft.longitude)
+        let centerLocation = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
+
+        // Calculate the distance as radius.
+        // The distance result from CLLocation is in meters, so we divide it by 1000 to get the value in kilometers
+        let radiusKM = (centerLocation.distance(from: farLeftLocation) / 1000.0).rounded(toPlaces: 1)
+        // Do something with the radius...
+        print("radiusKM \(radiusKM)")
+        
+        radiusMLbl.text = "\(radiusKM * 1000) m"
+        radiusKMLbl.text = "\(radiusKM) km"
+    }
+}
+
+//MARK: - Draw Google API Dirction
+extension MapVC {
+    func getTotalDistance(destination:String) {
+        let origin = "\(Defaults.LocationLat),\(Defaults.LocationLng)"
+        let destination = destination
+        
+        let urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=\(origin)&destination=\(destination)&units=imperial&mode=driving&language=en-EN&sensor=fasle&key=\(googleApiKey)"
+        
+        let url = URL(string: urlString)
+        
+        URLSession.shared.dataTask(with: url!) { (data,response,error) in
+            
+            if error != nil {
+                print(error!)
+            }else {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:Any]
+                    let rows = json[ "rows"] as! NSArray
+                    print(rows)
+                    let dic = rows[0] as! Dictionary<String,Any>
+                    let elements = dic["elements"] as! NSArray
+                    let dis = elements[0] as! Dictionary<String,Any>
+                    let distanceMiles = dis["distance"] as! Dictionary<String, Any>
+                    let miles = distanceMiles["text"]! as! String
+                    let TimeRide = dis["duration"] as! Dictionary<String,Any>
+                    let finalTime = TimeRide[ "text"]! as! String
+
+                    
+                    print(finalTime,miles)
+                    
+                }
+                catch let error as NSError {
+                    print("error >> \(error)")
+                }
+            }
+        }.resume()
+    }
+    
+    
+    func drawGoogleAPIDirction(destination:String) {
+        let origin = "\(Defaults.LocationLat),\(Defaults.LocationLng)"
+        let destination = destination
+
+        let urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin)&destination=\(destination)&mode-driving&key=\(googleApiKey)"
+        
+        let url = URL(string: urlString)
+        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            if error != nil {
+                print(error!)
+            }else {
+                DispatchQueue.main.async {
+                    self.mapView.clear()
+//                    self.addSourceDestinationMarkers()
+                }
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:Any]
+                    let routes = json["routes"] as! NSArray
+                    self.getTotalDistance(destination: destination)
+                    
+                    OperationQueue.main.addOperation({
+                        for route in routes {
+                            let route0verviewPolyline:NSDictionary = (route as! NSDictionary).value(forKey: "overview_polyline") as! NSDictionary
+                            
+                            let points = route0verviewPolyline.object(forKey: "points")
+                            let path = GMSPath.init (fromEncodedPath: points! as! String)
+                            let polyline = GMSPolyline.init(path: path)
+                            polyline.strokeWidth = 3
+                            polyline.strokeColor = UIColor.pink
+                            let bounds = GMSCoordinateBounds (path: path!)
+                            self.mapView!.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 30))
+                            polyline.map = self.mapView
+                        }
+                    })
+                }
+                catch let error as NSError {
+                    print("error >> \(error)")
+                }
+                
+            }
+        }.resume()
+    }
+}
+
+extension MapVC {
+    func initAddEventBtn() {
+        
+    }
+    
+    func initAddMarkerEventBtn() {
+        
     }
 }

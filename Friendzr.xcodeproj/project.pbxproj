@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4306C59F27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4306C59D27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.swift */; };
+		4306C5A027426B3F00D8E3EB /* NearbyEventsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4306C59E27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.xib */; };
 		4308EB7226E9FC5600D71379 /* RequestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7126E9FC5600D71379 /* RequestsViewModel.swift */; };
 		4308EB7826EA0FCD00D71379 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7726EA0FCD00D71379 /* FeedViewModel.swift */; };
 		4308EB7A26EA0FD500D71379 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4308EB7926EA0FD500D71379 /* FeedModel.swift */; };
@@ -130,6 +132,8 @@
 		436288B126C95B1300B51E51 /* FriendProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436288B026C95B1300B51E51 /* FriendProfileVC.swift */; };
 		436460BA26E8EE2E007C3F27 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436460B826E8EE2E007C3F27 /* LoginModel.swift */; };
 		436460BB26E8EE2E007C3F27 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436460B926E8EE2E007C3F27 /* UserModel.swift */; };
+		436850982745008500A62287 /* InstagramWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436850972745008500A62287 /* InstagramWebVC.swift */; };
+		4368509A274500DD00A62287 /* structAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43685099274500DD00A62287 /* structAPI.swift */; };
 		4371D4142732B125003B8AFD /* FaceRecognitionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4132732B125003B8AFD /* FaceRecognitionVC.swift */; };
 		4371D4162732B131003B8AFD /* FaceRecognition.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4371D4152732B131003B8AFD /* FaceRecognition.storyboard */; };
 		4371D41F2732B76F003B8AFD /* Faces.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4371D41E2732B76F003B8AFD /* Faces.mlmodel */; };
@@ -263,6 +267,8 @@
 /* Begin PBXFileReference section */
 		06E1CB890D75E84719ECEFB5 /* Pods-Friendzr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Friendzr.debug.xcconfig"; path = "Target Support Files/Pods-Friendzr/Pods-Friendzr.debug.xcconfig"; sourceTree = "<group>"; };
 		13C5FB046276499FF1CB3316 /* Pods_Friendzr.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Friendzr.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4306C59D27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyEventsCollectionViewCell.swift; sourceTree = "<group>"; };
+		4306C59E27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NearbyEventsCollectionViewCell.xib; sourceTree = "<group>"; };
 		4308EB7126E9FC5600D71379 /* RequestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsViewModel.swift; sourceTree = "<group>"; };
 		4308EB7726EA0FCD00D71379 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		4308EB7926EA0FD500D71379 /* FeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
@@ -386,6 +392,8 @@
 		436288B026C95B1300B51E51 /* FriendProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileVC.swift; sourceTree = "<group>"; };
 		436460B826E8EE2E007C3F27 /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		436460B926E8EE2E007C3F27 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		436850972745008500A62287 /* InstagramWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramWebVC.swift; sourceTree = "<group>"; };
+		43685099274500DD00A62287 /* structAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = structAPI.swift; sourceTree = "<group>"; };
 		4371D40D273127F3003B8AFD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4371D4132732B125003B8AFD /* FaceRecognitionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionVC.swift; sourceTree = "<group>"; };
 		4371D4152732B131003B8AFD /* FaceRecognition.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FaceRecognition.storyboard; sourceTree = "<group>"; };
@@ -838,6 +846,7 @@
 			children = (
 				4336D13626DB95670093C7A6 /* ProfileModel.swift */,
 				43F473B826E61EAA001E4FAE /* InterestsModel.swift */,
+				43685099274500DD00A62287 /* structAPI.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1046,6 +1055,7 @@
 				436288B026C95B1300B51E51 /* FriendProfileVC.swift */,
 				430A350426CA504100477A94 /* EditMyProfileVC.swift */,
 				43D545AE26CBD76E0064660A /* TagsVC.swift */,
+				436850972745008500A62287 /* InstagramWebVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1305,6 +1315,8 @@
 			children = (
 				439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */,
 				439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */,
+				4306C59D27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.swift */,
+				4306C59E27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1523,6 +1535,7 @@
 				43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */,
 				430A350126CA4A0900477A94 /* BlockAlertView.xib in Resources */,
 				4330757626E76CB3002940DF /* SeeMoreTableViewCell.xib in Resources */,
+				4306C5A027426B3F00D8E3EB /* NearbyEventsCollectionViewCell.xib in Resources */,
 				43FC3CAC27280C9E00D94ABB /* DeleteAccountTableViewCell.xib in Resources */,
 				4333DA7526C3B1E50029F2B0 /* Register.storyboard in Resources */,
 				4382ACB126C29001005C1857 /* Splach.storyboard in Resources */,
@@ -1681,6 +1694,7 @@
 				430A350526CA504100477A94 /* EditMyProfileVC.swift in Sources */,
 				4308EB7A26EA0FD500D71379 /* FeedModel.swift in Sources */,
 				43CFB010271C56FC000CB41E /* GenderCollectionViewCell.swift in Sources */,
+				436850982745008500A62287 /* InstagramWebVC.swift in Sources */,
 				4320A65226F234BF003604EE /* UpdateLocationViewModel.swift in Sources */,
 				43F473BB26E63FAE001E4FAE /* EditEventViewModel.swift in Sources */,
 				4345BA3C271C15410076101A /* GenderbylocationModel.swift in Sources */,
@@ -1752,6 +1766,7 @@
 				43D545A426CB9DDD0064660A /* AddEventVC.swift in Sources */,
 				4382AC4C26C2748B005C1857 /* UIColorExtension.swift in Sources */,
 				4336D13926DB95D20093C7A6 /* ChangePasswordViewModel.swift in Sources */,
+				4306C59F27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.swift in Sources */,
 				4344110726CE885F00F8233E /* ContactsTableViewCell.swift in Sources */,
 				43D545C126CBEC5B0064660A /* EventDetailsVC.swift in Sources */,
 				430D426926D3BEBA00188E42 /* ChatVC.swift in Sources */,
@@ -1771,6 +1786,7 @@
 				4320A64826F1FD50003604EE /* AllFriendesModel.swift in Sources */,
 				436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */,
 				4382ACBC26C2AFE9005C1857 /* SplachThreeVC.swift in Sources */,
+				4368509A274500DD00A62287 /* structAPI.swift in Sources */,
 				43FC3CA727280BD500D94ABB /* SettingsTableViewCell.swift in Sources */,
 				43119D6C26E4C1BF00AD2260 /* BirthdateViewModel.swift in Sources */,
 				43FC3CA427280B9800D94ABB /* SettingsVC.swift in Sources */,

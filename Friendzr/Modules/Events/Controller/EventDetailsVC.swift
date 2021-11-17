@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 import SDWebImage
+import GoogleMaps
 
 class EventDetailsVC: UIViewController {
     
@@ -35,6 +36,10 @@ class EventDetailsVC: UIViewController {
     
     @IBOutlet weak var dateAndTimeView: UIView!
     @IBOutlet weak var attendeesView: UIView!
+    
+    @IBOutlet weak var mapContainerView: UIView!
+    @IBOutlet weak var mapView: GMSMapView!
+    
     //MARK: - Properties
     var numbers:[Double] = [1,2,3]
     var genders:[String] = ["Men","Women","Other"]
@@ -46,7 +51,7 @@ class EventDetailsVC: UIViewController {
     var viewmodel:EventsViewModel = EventsViewModel()
     var joinVM:JoinEventViewModel = JoinEventViewModel()
     var leaveVM:LeaveEventViewModel = LeaveEventViewModel()
-    
+    var locationTitle = ""
     var internetConect:Bool = false
     
     var visibleIndexPath:Int = 0
@@ -184,8 +189,12 @@ class EventDetailsVC: UIViewController {
         chartContainerView.cornerRadiusView(radius: 21)
         attendeesView.cornerRadiusView(radius: 21)
         dateAndTimeView.cornerRadiusView(radius: 12)
+        mapContainerView.cornerRadiusView(radius: 16)
+        mapView.cornerRadiusView(radius: 16)
+
+        
+        setupGoogleMap(location: CLLocationCoordinate2D(latitude: Double((model?.lat)!)!, longitude: Double((model?.lang!)!)!))
     }
-    
     
     func setupChart() {
         let model = viewmodel.event.value
@@ -205,6 +214,45 @@ class EventDetailsVC: UIViewController {
         }
     }
     
+    func setupMarker(for position:CLLocationCoordinate2D)  {
+        self.mapView.clear()
+        let marker = GMSMarker(position: position)
+        marker.icon = UIImage(systemName: "default_marker.png")
+        marker.title = locationTitle
+        marker.map = mapView
+    }
+    
+    
+    func setupGoogleMap(location:CLLocationCoordinate2D) {
+        self.mapView.delegate = self
+        self.mapView.isMyLocationEnabled = true
+        self.mapView.isBuildingsEnabled = true
+        self.mapView.isIndoorEnabled = true
+        
+        let camera = GMSCameraPosition.camera(withLatitude: location.latitude, longitude: location.longitude, zoom: 17.0)
+        self.mapView.animate(to: camera)
+        
+        geocode(latitude: location.latitude, longitude: location.longitude) { (PM, error) in
+            
+            guard let error = error else {
+                self.locationTitle = PM?.name ?? ""
+                self.setupMarker(for: location)
+                return
+            }
+            
+            self.showAlert(withMessage: error.localizedDescription)
+        }
+    }
+    
+    private func geocode(latitude: Double, longitude: Double, completion: @escaping (_ placemark: CLPlacemark?, _ error: Error?) -> Void)  {
+        CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: latitude, longitude: longitude)) { placemark, error in
+            guard let fplacemark = placemark?.first, error == nil else {
+                completion(nil, error)
+                return
+            }
+            completion(fplacemark, nil)
+        }
+    }
     
     //MARK:- APIs
     func getEventDetails() {
@@ -310,6 +358,16 @@ class EventDetailsVC: UIViewController {
             return
         }
     }
+    
+    @IBAction func openGoogleDirectionsMapBtn(_ sender: Any) {
+        let model = viewmodel.event.value
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?saddr=&daddr=\(model?.lat ?? ""),\(model?.lang ?? "")&directionsmode=driving")!)
+        }else {
+            print("")
+        }
+    }
+    
 }
 
 extension EventDetailsVC: UITableViewDataSource {
@@ -369,9 +427,6 @@ extension EventDetailsVC: UITableViewDelegate {
 }
 
 extension EventDetailsVC: UICollectionViewDataSource {
-    //    func numberOfSections(in tableView: UITableView) -> Int {
-    //
-    //    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 2
     }
@@ -432,5 +487,15 @@ extension EventDetailsVC: UICollectionViewDelegate,UICollectionViewDelegateFlowL
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+}
+
+extension EventDetailsVC : GMSMapViewDelegate {
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        guard let rootViewController = Initializer.getWindow().rootViewController else {
+            return
+        }
+        let tabBarController = rootViewController as? UITabBarController
+        tabBarController?.selectedIndex = 1
     }
 }

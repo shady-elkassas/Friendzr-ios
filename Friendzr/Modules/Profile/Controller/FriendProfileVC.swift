@@ -396,6 +396,8 @@ class FriendProfileVC: UIViewController {
     func setup() {
         tagListView.delegate = self
         tagListView.textFont = UIFont(name: "Montserrat-Regular", size: 12)!
+        tagListView.tagLineBreakMode = .byTruncatingTail
+
         sendRequestBtn.cornerRadiusView(radius: 15)
         cancelRequestBtn.cornerRadiusView(radius: 15)
         respondBtn.cornerRadiusView(radius: 15)

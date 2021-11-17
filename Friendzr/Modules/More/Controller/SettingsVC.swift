@@ -49,7 +49,7 @@ class SettingsVC: UIViewController {
     var ageTo:Int = 100
     var manualdistancecontrol:Double = 0.2
     
-//    var settingArray : [(String,UIImage)] = []
+    //    var settingArray : [(String,UIImage)] = []
     
     let settingCellID = "SettingsTableViewCell"
     let deleteCllID = "DeleteAccountTableViewCell"
@@ -63,7 +63,7 @@ class SettingsVC: UIViewController {
         
         setupView()
         self.title = "Settings".localizedString
-
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         transparentView.addGestureRecognizer(tap)
     }
@@ -751,42 +751,42 @@ extension SettingsVC: UITableViewDataSource {
             }
             
             return cell
-//        case 3://darkmode
-//            guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
-//            cell.titleLbl.text = "Dark Mode"
-//            cell.settingIcon.image = UIImage(named: "location_ic")
-//
-//            if Defaults.darkMode == true {
-//                cell.switchBtn.isOn = true
-//            }else {
-//                cell.switchBtn.isOn = false
-//            }
-//
-//            cell.HandleSwitchBtn = {
-//                if Defaults.darkMode == false {
-//                    UIApplication.shared.windows.forEach { window in
-//                        window.overrideUserInterfaceStyle = .dark
-//                        Defaults.darkMode = true
-//                    }
-//                }else {
-//                    UIApplication.shared.windows.forEach { window in
-//                        window.overrideUserInterfaceStyle = .light
-//                        Defaults.darkMode = false
-//                    }
-//                }
-//            }
-//
-//            return cell
+            //        case 3://darkmode
+            //            guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
+            //            cell.titleLbl.text = "Dark Mode"
+            //            cell.settingIcon.image = UIImage(named: "location_ic")
+            //
+            //            if Defaults.darkMode == true {
+            //                cell.switchBtn.isOn = true
+            //            }else {
+            //                cell.switchBtn.isOn = false
+            //            }
+            //
+            //            cell.HandleSwitchBtn = {
+            //                if Defaults.darkMode == false {
+            //                    UIApplication.shared.windows.forEach { window in
+            //                        window.overrideUserInterfaceStyle = .dark
+            //                        Defaults.darkMode = true
+            //                    }
+            //                }else {
+            //                    UIApplication.shared.windows.forEach { window in
+            //                        window.overrideUserInterfaceStyle = .light
+            //                        Defaults.darkMode = false
+            //                    }
+            //                }
+            //            }
+            //
+            //            return cell
         case 3://change password
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Change Password"
             cell.iconImg.image = UIImage(named: "changePassword_ic")
             return cell
-//        case 5://change language
-//            guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
-//            cell.titleLbl.text = "Change Language"
-//            cell.iconImg.image = UIImage(named: "notifications_ic")
-//            return cell
+            //        case 5://change language
+            //            guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
+            //            cell.titleLbl.text = "Change Language"
+            //            cell.iconImg.image = UIImage(named: "notifications_ic")
+            //            return cell
         case 4://filtring age
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Filtring According Age"
@@ -818,8 +818,8 @@ extension SettingsVC: UITableViewDelegate {
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "ChangePasswordVC") as? ChangePasswordVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }
-//        else if indexPath.row == 5 {//change language
-//        }
+        //        else if indexPath.row == 5 {//change language
+        //        }
         else if indexPath.row == 4 {//filtring age
             self.createAgeSlider()
         }

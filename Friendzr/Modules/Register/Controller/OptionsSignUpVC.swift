@@ -38,7 +38,8 @@ class OptionsSignUpVC: UIViewController {
     var UserG_userName = ""
     var socialMediaImge = ""
 
-    var socailMediaVM:SocialMediaRegisterViewModel = SocialMediaRegisterViewModel()
+    var socailMediaRegisterVM:SocialMediaRegisterViewModel = SocialMediaRegisterViewModel()
+    let socialMediaLoginVM: SocialMediaLoginViewModel = SocialMediaLoginViewModel()
 
     var internetConect:Bool = false
 
@@ -150,7 +151,7 @@ class OptionsSignUpVC: UIViewController {
                         print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
                         
                         self.showLoading()
-                        self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, socialUser: "\(2)") { (error, data) in
+                        self.socailMediaRegisterVM.socialMediaRegisterUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, socialUser: "\(2)") { (error, data) in
                             self.hideLoading()
                             if let error = error {
                                 self.showAlert(withMessage: error)
@@ -182,8 +183,6 @@ class OptionsSignUpVC: UIViewController {
     @IBAction func appleBtn(_ sender: Any) {
         updateUserInterface()
         if internetConect {
-            KeychainItem.deleteUserIdentifierFromKeychain()
-
             let appleIDProvider = ASAuthorizationAppleIDProvider()
             let request = appleIDProvider.createRequest()
             request.requestedScopes = [.fullName, .email]
@@ -192,9 +191,23 @@ class OptionsSignUpVC: UIViewController {
             authorizationController.delegate = self
             authorizationController.presentationContextProvider = self
             authorizationController.performRequests()
-        }else{
+        }else {
             return
         }
+    }
+    
+    // - Tag: perform_appleid_password_request
+    /// Prompts the user if an existing iCloud Keychain credential or Apple ID credential is found.
+    func performExistingAccountSetupFlows() {
+        // Prepare requests for both Apple ID and password providers.
+        let requests = [ASAuthorizationAppleIDProvider().createRequest(),
+                        ASAuthorizationPasswordProvider().createRequest()]
+        
+        // Create an authorization controller with the given requests.
+        let authorizationController = ASAuthorizationController(authorizationRequests: requests)
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
     }
 }
 
@@ -240,7 +253,7 @@ extension OptionsSignUpVC {
                     print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
                     
                     self.showLoading()
-                    self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName, socialUser: "\(1)") { (error, data) in
+                    self.socailMediaRegisterVM.socialMediaRegisterUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName, socialUser: "\(1)") { (error, data) in
                         self.hideLoading()
                         if let error = error {
                             self.showAlert(withMessage: error)
@@ -266,12 +279,11 @@ extension OptionsSignUpVC {
 
 @available(iOS 13.0, *)
 extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
-    
     /// - Tag: did_complete_authorization
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        
         switch authorization.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            
             // Create an account in your system.
             let userIdentifier = appleIDCredential.user
             let fullName = appleIDCredential.fullName
@@ -279,7 +291,6 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
             
             // For the purpose of this demo app, store the `userIdentifier` in the keychain.
             self.saveUserInKeychain(userIdentifier)
-            
             if fullName?.givenName == nil || email == nil && userIdentifier != "" {
                 let appleIDProvider = ASAuthorizationAppleIDProvider()
                 appleIDProvider.getCredentialState(forUserID: userIdentifier) {  (credentialState, error) in
@@ -301,7 +312,7 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
             self.showResultViewController(userIdentifier: userIdentifier, fullName: fullName, email: email)
             
         case let passwordCredential as ASPasswordCredential:
-
+            
             // Sign in using an existing iCloud Keychain credential.
             let username = passwordCredential.user
             let password = passwordCredential.password
@@ -310,7 +321,7 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
             DispatchQueue.main.async {
                 self.showPasswordCredentialAlert(username: username, password: password)
             }
-
+            
         default:
             break
         }
@@ -326,21 +337,21 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
     
     private func showResultViewController(userIdentifier: String, fullName: PersonNameComponents?, email: String?) {
         
-        var nameApple = "Apple User"
-        var emailApple = email
+        var usernameApple = "Apple User"
+        var useremailApple = userIdentifier
+        
         
         DispatchQueue.main.async {
-            
             if let givenName = fullName?.givenName {
-                nameApple = givenName
+                usernameApple = givenName
             }
-
+            
             if let email = email {
-                emailApple = email
+                useremailApple = email
             }
-
+            
             self.showLoading()
-            self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: userIdentifier, AndEmail: emailApple ?? "",username:nameApple, socialUser: "\(3)") { (error, data) in
+            self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
                 self.hideLoading()
                 if let error = error {
                     self.showAlert(withMessage: error)
@@ -374,7 +385,7 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
     /// - Tag: did_complete_error
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         // Handle error.
-//        self.showAlert(withMessage: error.localizedDescription)
+        //        self.showAlert(withMessage: error.localizedDescription)
     }
 }
 

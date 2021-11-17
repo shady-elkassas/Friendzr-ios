@@ -48,7 +48,7 @@ class SendLocationChatVC: UIViewController {
     
     func setupViews() {
         
-        sendBtn.cornerRadiusForHeight()
+        sendBtn.cornerRadiusView(radius: 8)
         searchBar = UISearchBar(frame: CGRect(x: 0, y: 95, width: self.view.frame.size.width, height: 56.0))
         searchBar.delegate = self
         searchBar.backgroundColor = UIColor.clear

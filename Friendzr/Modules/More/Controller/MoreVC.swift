@@ -179,6 +179,11 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
                         Router().toOptionsSignUpVC()
                     })
+                    
+                    let request = ASAuthorizationAppleIDProvider().createRequest()
+                    request.requestedOperation = .operationLogout
+                    let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+                    authorizationController.performRequests()
                 }
             }else {
                 return

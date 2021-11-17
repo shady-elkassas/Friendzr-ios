@@ -68,7 +68,7 @@ class LoginVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        performExistingAccountSetupFlows()
+//        performExistingAccountSetupFlows()
     }
     
     //MARK: - Actions
@@ -148,7 +148,6 @@ class LoginVC: UIViewController {
         if internetConect {
             GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
                 guard error == nil else { return }
-                
                 // If sign in succeeded, display the app's main content View.
                 if let error = error {
                     print("\(error.localizedDescription)")
@@ -206,6 +205,7 @@ class LoginVC: UIViewController {
             authorizationController.delegate = self
             authorizationController.presentationContextProvider = self
             authorizationController.performRequests()
+            
         }else {
             return
         }

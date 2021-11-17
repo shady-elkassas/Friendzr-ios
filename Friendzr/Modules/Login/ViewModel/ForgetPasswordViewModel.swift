@@ -39,7 +39,7 @@ class ForgetPasswordViewModel {
         
         let url = URLs.baseURLFirst + "Authenticat/forgetpass"
         let parameters:[String : Any] = ["email": email]
-        let headers = RequestComponent.headerComponent([.type])
+        let headers = RequestComponent.headerComponent([.type,.lang])
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<LoginModel>().map(JSON: data!) else {

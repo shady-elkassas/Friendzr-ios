@@ -16,6 +16,8 @@ class GenderDistributionVC: UIViewController {
     @IBOutlet weak var tvContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var hideView: UIView!
+    
     let cellID = "InterestsTableViewCell"
     var genderbylocationVM: GenderbylocationViewModel = GenderbylocationViewModel()
     
@@ -33,14 +35,13 @@ class GenderDistributionVC: UIViewController {
         getGenderbylocation(lat: lat, lng: lng)
     }
     
-    
     func getGenderbylocation(lat:Double,lng:Double) {
         self.showLoading()
         genderbylocationVM.getGenderbylocation(ByLat: lat, AndLng: lng)
         genderbylocationVM.gender.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.hideLoading()
-
+                hideView.isHidden = true
                 let child = UIHostingController(rootView: CircleView(fill1: 0, fill2: 0, fill3: 0, animations: true, male: Int(value.malePercentage ?? 0.0), female: Int(value.femalepercentage ?? 0.0), other: Int(value.otherpercentage ?? 0.0)))
                 child.view.translatesAutoresizingMaskIntoConstraints = true
                 child.view.frame = CGRect(x: 0, y: 0, width: genderDistributionChart.bounds.width, height: genderDistributionChart.bounds.height)

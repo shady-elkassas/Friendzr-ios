@@ -60,7 +60,7 @@
                                 <rect key="frame" x="0.0" y="-56" width="414" height="1022"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q3t-vF-vkv">
-                                        <rect key="frame" x="0.0" y="-100" width="414" height="598"/>
+                                        <rect key="frame" x="0.0" y="-100" width="414" height="600"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="ang-eV-F7i">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="393.5"/>
@@ -76,11 +76,10 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9L-me-A7i">
-                                                <rect key="frame" x="249" y="353.5" width="140" height="30"/>
+                                                <rect key="frame" x="251" y="347.5" width="138" height="42"/>
                                                 <color key="backgroundColor" red="0.14901960780000001" green="0.46274509800000002" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="30" id="Her-Xg-mgt"/>
-                                                    <constraint firstAttribute="width" constant="140" id="Jfv-bH-CPm"/>
+                                                    <constraint firstAttribute="height" constant="42" id="Her-Xg-mgt"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
                                                 <state key="normal" title="EDIT">
@@ -155,32 +154,51 @@
                                                 <color key="textColor" name="ColorLbl3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="gQA-dB-6h2">
+                                                <rect key="frame" x="25" y="528" width="230" height="42"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="instagram-Link_ic" translatesAutoresizingMaskIntoConstraints="NO" id="GUe-tJ-bfP">
+                                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="42" id="Giy-vA-5ge"/>
+                                                            <constraint firstAttribute="height" constant="42" id="zMl-ck-R1L"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="snapchat-Link_ic" translatesAutoresizingMaskIntoConstraints="NO" id="f7Z-XF-vL8">
+                                                        <rect key="frame" x="47" y="0.0" width="42" height="42"/>
+                                                    </imageView>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twitter-Link_ic" translatesAutoresizingMaskIntoConstraints="NO" id="gMv-Vh-fYu">
+                                                        <rect key="frame" x="94" y="0.0" width="42" height="42"/>
+                                                    </imageView>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="facebook-Link_ic" translatesAutoresizingMaskIntoConstraints="NO" id="pEf-Th-0y2">
+                                                        <rect key="frame" x="141" y="0.0" width="42" height="42"/>
+                                                    </imageView>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tiktok-Link_ic" translatesAutoresizingMaskIntoConstraints="NO" id="xqt-E6-93T">
+                                                        <rect key="frame" x="188" y="0.0" width="42" height="42"/>
+                                                    </imageView>
+                                                </subviews>
+                                            </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Wln-Ms-CzM">
-                                                <rect key="frame" x="25" y="528" width="220" height="40"/>
+                                                <rect key="frame" x="25" y="528" width="230" height="42"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yeb-6F-vMu">
-                                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="40" id="4yw-ed-JT9"/>
-                                                            <constraint firstAttribute="height" constant="40" id="IL6-mH-aga"/>
+                                                            <constraint firstAttribute="width" constant="42" id="4yw-ed-JT9"/>
+                                                            <constraint firstAttribute="height" constant="42" id="IL6-mH-aga"/>
                                                         </constraints>
-                                                        <state key="normal" image="instagram-Link_ic"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fhh-B8-ktc">
-                                                        <rect key="frame" x="45" y="0.0" width="40" height="40"/>
-                                                        <state key="normal" image="snapchat-Link_ic"/>
+                                                        <rect key="frame" x="47" y="0.0" width="42" height="42"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qg5-tz-iJu">
-                                                        <rect key="frame" x="90" y="0.0" width="40" height="40"/>
-                                                        <state key="normal" image="twitter-Link_ic"/>
+                                                        <rect key="frame" x="94" y="0.0" width="42" height="42"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xmQ-wr-NIk">
-                                                        <rect key="frame" x="135" y="0.0" width="40" height="40"/>
-                                                        <state key="normal" image="facebook-Link_ic"/>
+                                                        <rect key="frame" x="141" y="0.0" width="42" height="42"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ass-pv-1xo">
-                                                        <rect key="frame" x="180" y="0.0" width="40" height="40"/>
-                                                        <state key="normal" image="tiktok-Link_ic"/>
+                                                        <rect key="frame" x="188" y="0.0" width="42" height="42"/>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -227,19 +245,24 @@
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
+                                            <constraint firstItem="T9L-me-A7i" firstAttribute="width" secondItem="NWj-BI-g73" secondAttribute="width" multiplier="1:3" id="2Wf-VL-Ior"/>
                                             <constraint firstItem="lwA-HS-221" firstAttribute="leading" secondItem="D7C-9n-Sr5" secondAttribute="leading" id="4Td-mS-epf"/>
                                             <constraint firstItem="NWj-BI-g73" firstAttribute="bottom" secondItem="ang-eV-F7i" secondAttribute="bottom" id="4tN-9C-Sws"/>
+                                            <constraint firstItem="gQA-dB-6h2" firstAttribute="width" secondItem="Wln-Ms-CzM" secondAttribute="width" id="5Gp-qZ-6D0"/>
+                                            <constraint firstItem="gQA-dB-6h2" firstAttribute="height" secondItem="Wln-Ms-CzM" secondAttribute="height" id="CiW-E5-7BI"/>
                                             <constraint firstItem="LFF-Ld-HM0" firstAttribute="leading" secondItem="NYc-Ha-Nag" secondAttribute="trailing" constant="3" id="DOh-Ft-8sE"/>
                                             <constraint firstItem="ang-eV-F7i" firstAttribute="leading" secondItem="q3t-vF-vkv" secondAttribute="leading" id="Ds5-Go-9tZ"/>
                                             <constraint firstItem="NWj-BI-g73" firstAttribute="leading" secondItem="q3t-vF-vkv" secondAttribute="leading" id="FON-sU-2zl"/>
                                             <constraint firstItem="M3b-g6-nYa" firstAttribute="top" secondItem="ang-eV-F7i" secondAttribute="bottom" constant="25" id="GJr-LE-3RY"/>
                                             <constraint firstItem="Wln-Ms-CzM" firstAttribute="leading" secondItem="lwA-HS-221" secondAttribute="leading" id="Jda-3i-aZ2"/>
                                             <constraint firstItem="Y9x-m0-VoX" firstAttribute="centerY" secondItem="NWj-BI-g73" secondAttribute="centerY" id="K8a-qr-J6n"/>
+                                            <constraint firstItem="gQA-dB-6h2" firstAttribute="centerY" secondItem="Wln-Ms-CzM" secondAttribute="centerY" id="Ken-JG-Rh6"/>
                                             <constraint firstItem="NYc-Ha-Nag" firstAttribute="leading" secondItem="M3b-g6-nYa" secondAttribute="leading" id="LeZ-WL-dPu"/>
                                             <constraint firstItem="D7C-9n-Sr5" firstAttribute="top" secondItem="noJ-sh-OMk" secondAttribute="bottom" constant="12" id="NEr-wq-QYV"/>
                                             <constraint firstItem="f10-a4-VnB" firstAttribute="leading" secondItem="Y9x-m0-VoX" secondAttribute="trailing" constant="20" id="Nhv-Rx-tpu"/>
                                             <constraint firstAttribute="trailing" secondItem="noJ-sh-OMk" secondAttribute="trailing" constant="25" id="PKN-45-gRX"/>
                                             <constraint firstAttribute="bottom" secondItem="Wln-Ms-CzM" secondAttribute="bottom" constant="30" id="QAl-bQ-btd"/>
+                                            <constraint firstItem="gQA-dB-6h2" firstAttribute="centerX" secondItem="Wln-Ms-CzM" secondAttribute="centerX" id="QK5-Iy-5Ms"/>
                                             <constraint firstAttribute="trailing" secondItem="T9L-me-A7i" secondAttribute="trailing" constant="25" id="QZ4-N4-06K"/>
                                             <constraint firstItem="noJ-sh-OMk" firstAttribute="leading" secondItem="q3t-vF-vkv" secondAttribute="leading" constant="25" id="R2l-8O-mRh"/>
                                             <constraint firstItem="D7C-9n-Sr5" firstAttribute="trailing" secondItem="noJ-sh-OMk" secondAttribute="trailing" id="Rgm-4R-YAZ"/>
@@ -260,7 +283,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XpZ-fP-1Fa">
-                                        <rect key="frame" x="0.0" y="-100" width="414" height="598"/>
+                                        <rect key="frame" x="0.0" y="-100" width="414" height="600"/>
                                         <color key="backgroundColor" name="Color0"/>
                                     </view>
                                 </subviews>
@@ -341,7 +364,7 @@
                                 <rect key="frame" x="0.0" y="-56" width="414" height="1022"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O3S-IZ-33t">
-                                        <rect key="frame" x="0.0" y="-100" width="414" height="577"/>
+                                        <rect key="frame" x="0.0" y="-100" width="414" height="579"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="A6X-uq-Oup">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="393.5"/>
@@ -391,10 +414,10 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="SKa-1q-dCs">
-                                                <rect key="frame" x="239" y="353.5" width="150" height="30"/>
+                                                <rect key="frame" x="223.5" y="353.5" width="165.5" height="30"/>
                                                 <subviews>
                                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8mR-uf-HST">
-                                                        <rect key="frame" x="0.0" y="0.0" width="150" height="30"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="165.5" height="30"/>
                                                         <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
                                                         <state key="normal" title="Respond">
@@ -405,7 +428,7 @@
                                                         </connections>
                                                     </button>
                                                     <button hidden="YES" opaque="NO" alpha="0.65000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yBu-UK-xWT">
-                                                        <rect key="frame" x="0.0" y="0.0" width="150" height="30"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="165.5" height="30"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
                                                         <state key="normal" title="Cancel">
@@ -416,7 +439,7 @@
                                                         </connections>
                                                     </button>
                                                     <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MER-YH-iZe">
-                                                        <rect key="frame" x="0.0" y="0.0" width="150" height="30"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="165.5" height="30"/>
                                                         <color key="backgroundColor" red="0.14901960784313725" green="0.46274509803921571" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
                                                         <state key="normal" title="Send Request">
@@ -468,7 +491,6 @@
                                                 <constraints>
                                                     <constraint firstItem="yBu-UK-xWT" firstAttribute="height" secondItem="MER-YH-iZe" secondAttribute="height" id="0Tk-dt-ecy"/>
                                                     <constraint firstItem="8mR-uf-HST" firstAttribute="width" secondItem="MER-YH-iZe" secondAttribute="width" id="H4Z-yC-nlS"/>
-                                                    <constraint firstAttribute="width" constant="150" id="IjP-ie-uPv"/>
                                                     <constraint firstItem="yBu-UK-xWT" firstAttribute="width" secondItem="MER-YH-iZe" secondAttribute="width" id="Na3-Je-IMZ"/>
                                                     <constraint firstItem="8mR-uf-HST" firstAttribute="height" secondItem="MER-YH-iZe" secondAttribute="height" id="PcC-JZ-bYa"/>
                                                     <constraint firstAttribute="height" constant="30" id="wyU-vw-J4A"/>
@@ -504,32 +526,51 @@
                                                 <color key="textColor" name="ColorLbl3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="7FM-ae-RWh">
+                                                <rect key="frame" x="25" y="517" width="230" height="42"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="instagram-Link_ic" translatesAutoresizingMaskIntoConstraints="NO" id="k5r-xt-nbK">
+                                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="42" id="95o-ON-PV8"/>
+                                                            <constraint firstAttribute="width" constant="42" id="hyv-Z4-qFa"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="snapchat-Link_ic" translatesAutoresizingMaskIntoConstraints="NO" id="r59-P9-MZL">
+                                                        <rect key="frame" x="47" y="0.0" width="42" height="42"/>
+                                                    </imageView>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twitter-Link_ic" translatesAutoresizingMaskIntoConstraints="NO" id="u1N-rJ-qtQ">
+                                                        <rect key="frame" x="94" y="0.0" width="42" height="42"/>
+                                                    </imageView>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="facebook-Link_ic" translatesAutoresizingMaskIntoConstraints="NO" id="ngO-I7-vPR">
+                                                        <rect key="frame" x="141" y="0.0" width="42" height="42"/>
+                                                    </imageView>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tiktok-Link_ic" translatesAutoresizingMaskIntoConstraints="NO" id="6uC-ZD-OM8">
+                                                        <rect key="frame" x="188" y="0.0" width="42" height="42"/>
+                                                    </imageView>
+                                                </subviews>
+                                            </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bZZ-2z-Pub">
-                                                <rect key="frame" x="25" y="517" width="220" height="40"/>
+                                                <rect key="frame" x="25" y="517" width="230" height="42"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GXS-GT-HNh">
-                                                        <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="40" id="4Wg-Qc-Eee"/>
-                                                            <constraint firstAttribute="width" constant="40" id="Uvg-Rs-OLK"/>
+                                                            <constraint firstAttribute="height" constant="42" id="4Wg-Qc-Eee"/>
+                                                            <constraint firstAttribute="width" constant="42" id="Uvg-Rs-OLK"/>
                                                         </constraints>
-                                                        <state key="normal" image="instagram-Link_ic"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mJL-pf-V5r">
-                                                        <rect key="frame" x="45" y="0.0" width="40" height="40"/>
-                                                        <state key="normal" image="snapchat-Link_ic"/>
+                                                        <rect key="frame" x="47" y="0.0" width="42" height="42"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJs-aR-dtQ">
-                                                        <rect key="frame" x="90" y="0.0" width="40" height="40"/>
-                                                        <state key="normal" image="twitter-Link_ic"/>
+                                                        <rect key="frame" x="94" y="0.0" width="42" height="42"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zlZ-mf-Csd">
-                                                        <rect key="frame" x="135" y="0.0" width="40" height="40"/>
-                                                        <state key="normal" image="facebook-Link_ic"/>
+                                                        <rect key="frame" x="141" y="0.0" width="42" height="42"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONP-G2-yba">
-                                                        <rect key="frame" x="180" y="0.0" width="40" height="40"/>
-                                                        <state key="normal" image="tiktok-Link_ic"/>
+                                                        <rect key="frame" x="188" y="0.0" width="42" height="42"/>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -587,14 +628,19 @@
                                             <constraint firstItem="5T3-uO-Vwb" firstAttribute="top" secondItem="A6X-uq-Oup" secondAttribute="bottom" constant="25" id="8Hc-61-kYi"/>
                                             <constraint firstAttribute="trailing" secondItem="swe-9C-Z49" secondAttribute="trailing" id="AHS-DE-6h6"/>
                                             <constraint firstItem="GXS-GT-HNh" firstAttribute="leading" secondItem="u8L-X9-SeZ" secondAttribute="leading" id="Caz-BO-SHH"/>
+                                            <constraint firstItem="7FM-ae-RWh" firstAttribute="height" secondItem="bZZ-2z-Pub" secondAttribute="height" id="DUm-0k-ubV"/>
                                             <constraint firstItem="dty-ud-Fb4" firstAttribute="leading" secondItem="bEl-iw-8Ek" secondAttribute="leading" id="G0t-oU-uy1"/>
                                             <constraint firstItem="bZZ-2z-Pub" firstAttribute="leading" secondItem="u8L-X9-SeZ" secondAttribute="leading" id="Gcd-Jk-TNX"/>
+                                            <constraint firstItem="7FM-ae-RWh" firstAttribute="centerY" secondItem="bZZ-2z-Pub" secondAttribute="centerY" id="KDf-OQ-Kdj"/>
+                                            <constraint firstItem="7FM-ae-RWh" firstAttribute="centerX" secondItem="bZZ-2z-Pub" secondAttribute="centerX" id="KX3-X9-DbF"/>
                                             <constraint firstItem="u8L-X9-SeZ" firstAttribute="leading" secondItem="bEl-iw-8Ek" secondAttribute="leading" id="LFS-bw-Oaa"/>
                                             <constraint firstAttribute="trailing" secondItem="bEl-iw-8Ek" secondAttribute="trailing" constant="25" id="MH3-h3-CUU"/>
                                             <constraint firstItem="C2e-5U-0Qj" firstAttribute="centerY" secondItem="kSm-SU-GQD" secondAttribute="centerY" id="Mc3-wE-bPb"/>
                                             <constraint firstItem="bEl-iw-8Ek" firstAttribute="top" secondItem="kSm-SU-GQD" secondAttribute="bottom" constant="20" id="MvM-cn-gT9"/>
+                                            <constraint firstItem="7FM-ae-RWh" firstAttribute="width" secondItem="bZZ-2z-Pub" secondAttribute="width" id="OQX-KN-xSL"/>
                                             <constraint firstItem="kSm-SU-GQD" firstAttribute="leading" secondItem="5T3-uO-Vwb" secondAttribute="leading" id="PLn-9v-dR3"/>
                                             <constraint firstItem="u8L-X9-SeZ" firstAttribute="top" secondItem="dty-ud-Fb4" secondAttribute="bottom" constant="12" id="PhJ-R1-yqp"/>
+                                            <constraint firstItem="SKa-1q-dCs" firstAttribute="width" secondItem="swe-9C-Z49" secondAttribute="width" multiplier="1:2.5" id="Q39-0O-oi0"/>
                                             <constraint firstItem="A6X-uq-Oup" firstAttribute="leading" secondItem="O3S-IZ-33t" secondAttribute="leading" id="RSl-PF-Dan"/>
                                             <constraint firstItem="oCC-lV-S90" firstAttribute="leading" secondItem="O3S-IZ-33t" secondAttribute="leading" constant="25" id="SIx-K7-hYO"/>
                                             <constraint firstAttribute="bottom" secondItem="bZZ-2z-Pub" secondAttribute="bottom" constant="20" id="UA2-KX-qX8"/>
@@ -619,7 +665,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dLT-JC-2Mb">
-                                        <rect key="frame" x="0.0" y="-100" width="414" height="577"/>
+                                        <rect key="frame" x="0.0" y="-100" width="414" height="579"/>
                                         <color key="backgroundColor" name="Color0"/>
                                     </view>
                                 </subviews>
@@ -693,6 +739,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ERJ-E4-49y" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3287" y="108"/>
+        </scene>
+        <!--Instagram WebVC-->
+        <scene sceneID="3AT-RD-zYi">
+            <objects>
+                <viewController storyboardIdentifier="InstagramWebVC" id="Ef6-RO-xJT" customClass="InstagramWebVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gbb-dm-XU1">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oZV-E4-TEE">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="BhV-hw-wS3"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="oZV-E4-TEE" firstAttribute="leading" secondItem="BhV-hw-wS3" secondAttribute="leading" id="FIz-Hq-j38"/>
+                            <constraint firstItem="BhV-hw-wS3" firstAttribute="trailing" secondItem="oZV-E4-TEE" secondAttribute="trailing" id="MFR-a3-YrY"/>
+                            <constraint firstItem="oZV-E4-TEE" firstAttribute="top" secondItem="BhV-hw-wS3" secondAttribute="top" id="MUt-yw-Qtq"/>
+                            <constraint firstItem="BhV-hw-wS3" firstAttribute="bottom" secondItem="oZV-E4-TEE" secondAttribute="bottom" id="m6U-7U-j7P"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="oZV-E4-TEE" id="oX0-Pk-NYw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tcc-AH-uEm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3441" y="1043"/>
         </scene>
         <!--Edit My ProfileVC-->
         <scene sceneID="TpK-sm-obf">

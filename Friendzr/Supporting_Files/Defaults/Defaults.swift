@@ -232,6 +232,7 @@ class Defaults {
             return UserDefaults.standard.string(forKey: "snapchat") ?? ""
         }
     }
+    
     static var tiktok: String {
         set{
             UserDefaults.standard.set(newValue, forKey: "tiktok")
@@ -271,6 +272,18 @@ class Defaults {
             return UserDefaults.standard.bool(forKey: "isFirstLaunch")
         }
     }
+    
+    
+    static var language: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "language")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "language") ?? ""
+        }
+    }
+    
     
     static func initUser(user:UserObj)  {
         Defaults.userName = user.userName

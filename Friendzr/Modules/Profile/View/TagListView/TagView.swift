@@ -39,7 +39,7 @@ open class TagView: UIButton {
             reloadStyles()
         }
     }
-    @IBInspectable open var titleLineBreakMode: NSLineBreakMode = .byTruncatingMiddle {
+    @IBInspectable open var titleLineBreakMode: NSLineBreakMode = .byTruncatingTail {
         didSet {
             titleLabel?.lineBreakMode = titleLineBreakMode
         }
@@ -183,7 +183,7 @@ open class TagView: UIButton {
     }
     
     // MARK: - layout
-
+    
     override open var intrinsicContentSize: CGSize {
         var size = titleLabel?.text?.size(withAttributes: [NSAttributedString.Key.font: textFont]) ?? CGSize.zero
         size.height = textFont.pointSize + paddingY * 2
@@ -194,7 +194,9 @@ open class TagView: UIButton {
         if enableRemoveButton {
             size.width += removeButtonIconSize + paddingX
         }
-        return size
+        
+//        return size
+        return CGSize(width: 100, height: 30)
     }
     
     private func updateRightInsets() {

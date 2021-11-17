@@ -14,9 +14,18 @@ class EventsInLocationTableViewCell: UITableViewCell {
     @IBOutlet weak var eventDateLbl: UILabel!
     @IBOutlet weak var eventTitleLbl: UILabel!
     @IBOutlet weak var joinedLbl: UILabel!
+    @IBOutlet weak var directionBtn: UIButton!
     
+    
+    var HandleDirectionBtn: (()->())?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         eventImg.cornerRadiusView(radius: 10)
+    }
+    
+    
+    @IBAction func directionBtn(_ sender: Any) {
+        HandleDirectionBtn?()
     }
 }

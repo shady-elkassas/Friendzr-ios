@@ -102,9 +102,10 @@ class MyProfileVC: UIViewController {
     }
     
     func setupView() {
-        editBtn.cornerRadiusForHeight()
+        editBtn.cornerRadiusView(radius: 8)
         tagListView.delegate = self
         tagListView.textFont = UIFont(name: "Montserrat-Regular", size: 12)!
+        tagListView.tagLineBreakMode = .byTruncatingTail
     }
     
     func setProfileData() {
@@ -148,4 +149,5 @@ extension MyProfileVC : TagListViewDelegate {
         print("Tag Remove pressed: \(title), \(sender)")
         //        sender.removeTagView(tagView)
     }
+    
 }

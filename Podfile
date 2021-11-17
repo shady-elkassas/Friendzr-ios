@@ -11,7 +11,6 @@ target 'Friendzr' do
   pod 'ObjectMapper'
   
   pod 'FBSDKLoginKit'
-  pod 'InstagramLogin'
   pod 'GoogleSignIn'
 #  pod 'SnapSDK', :subspecs => ['SCSDKLoginKit', 'SCSDKCreativeKit', 'SCSDKBitmojiKit']
 #  pod 'TikTokOpenSDK', '~> 5.0.0'

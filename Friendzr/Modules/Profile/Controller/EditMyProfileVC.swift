@@ -10,8 +10,6 @@ import UIKit
 //import TikTokOpenSDK
 import FBSDKCoreKit
 import FBSDKLoginKit
-import InstagramLogin
-
 
 class EditMyProfileVC: UIViewController {
     
@@ -137,6 +135,8 @@ class EditMyProfileVC: UIViewController {
         profileImg.cornerRadiusForHeight()
         bioTxtView.delegate = self
         tagsListView.delegate = self
+        //tag Line Break Mode
+        tagsListView.tagLineBreakMode = .byTruncatingTail
     }
     
     //MARK: - API
@@ -205,7 +205,7 @@ class EditMyProfileVC: UIViewController {
             selectTagsLbl.isHidden = false
             selectTagsLbl.textColor = .lightGray
         }else {
-            tagsViewHeight.constant = CGFloat(tagsListView.rows * 30) + 10
+            tagsViewHeight.constant = CGFloat(tagsListView.rows * 30) + 20
             selectTagsLbl.isHidden = true
         }
         tagsListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
@@ -355,24 +355,9 @@ class EditMyProfileVC: UIViewController {
         }
     }
     
-    var instagramLogin: InstagramLoginViewController!
-    var clientId:String = "284152480286634"
-    var redirectUri:String = "https://friendzr.com/"
-    
     @IBAction func integrationInstgramBtn(_ sender: Any) {
-        instagramLogin = InstagramLoginViewController(clientId: clientId, redirectUri: redirectUri)
-        instagramLogin.delegate = self
-        instagramLogin.scopes = [.all]
-        present(UINavigationController(rootViewController: instagramLogin), animated: true)
-    }
-    
-    
-    @objc func dismissLoginViewController() {
-        instagramLogin.dismiss(animated: true)
-    }
-
-    @objc func refreshPage() {
-        instagramLogin.reloadPage()
+        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "InstagramWebVC") as? InstagramWebVC else {return}
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func integrationSnapchatBtn(_ sender: Any) {
@@ -617,21 +602,6 @@ extension EditMyProfileVC {
                     self.facebookLink = "https://www.facebook.com/\(self.UserFBID)"
                 }
             }
-        }
-    }
-}
-
-// MARK: - InstagramLoginViewControllerDelegate
-
-extension EditMyProfileVC: InstagramLoginViewControllerDelegate {
-
-    func instagramLoginDidFinish(accessToken: String?, error: InstagramError?) {
-        dismissLoginViewController()
-        
-        if accessToken != nil {
-            self.showAlert(withMessage:  "Successfully logged in! 👍")
-        } else {
-            self.showAlert(withMessage: "\(error!.localizedDescription) 👎")
         }
     }
 }

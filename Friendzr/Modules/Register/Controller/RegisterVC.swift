@@ -185,6 +185,7 @@ class RegisterVC: UIViewController {
                             }
                             
                             guard let data = data else {return}
+                            
                             Defaults.token = data.token
                             Defaults.initUser(user: data)
                             
