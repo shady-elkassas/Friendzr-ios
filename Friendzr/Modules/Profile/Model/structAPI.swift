@@ -2,7 +2,7 @@
 //  structAPI.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 17/11/2021.
+//  Created by Muhammad Sabri Saad on 17/11/2021.
 //
 
 import Foundation

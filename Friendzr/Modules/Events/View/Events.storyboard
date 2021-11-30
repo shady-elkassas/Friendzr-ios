@@ -1021,7 +1021,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="878"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qjo-Vc-3fw">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="843"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="864"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JgM-Xo-wBw">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="2"/>
@@ -1096,17 +1096,17 @@
                                                 <color key="textColor" name="ColorLbl3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wtn-9A-mvQ">
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" preferredStyle="sliding" translatesAutoresizingMaskIntoConstraints="NO" id="wtn-9A-mvQ">
                                                 <rect key="frame" x="340" y="323.5" width="51" height="31"/>
                                                 <color key="onTintColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <connections>
-                                                    <action selector="switchAllDaysBtn:" destination="X3Q-XA-FIK" eventType="valueChanged" id="ivd-Hb-w5r"/>
+                                                    <action selector="switchBtn:" destination="X3Q-XA-FIK" eventType="valueChanged" id="0Ml-5I-mub"/>
                                                 </connections>
                                             </switch>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KI7-DK-Odr">
                                                 <rect key="frame" x="25" y="374.5" width="364" height="70"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="9fr-Of-Mbf">
+                                                    <stackView contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="9fr-Of-Mbf">
                                                         <rect key="frame" x="5" y="10" width="108" height="50"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wed, Dec 25, 2021" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7W-s8-eH0">
@@ -1123,16 +1123,16 @@
                                                             </label>
                                                         </subviews>
                                                     </stackView>
-                                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="8i8-Fm-q2v">
+                                                    <stackView hidden="YES" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="8i8-Fm-q2v">
                                                         <rect key="frame" x="304.5" y="5" width="54.5" height="60"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10:00 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EaD-cE-gwf">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10:00 PM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EaD-cE-gwf">
                                                                 <rect key="frame" x="0.0" y="0.0" width="54.5" height="15"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                                                 <color key="textColor" name="ColorLbl1"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10:00 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPa-3Q-cOh">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10:00 PM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPa-3Q-cOh">
                                                                 <rect key="frame" x="0.0" y="45" width="54.5" height="15"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                                                 <color key="textColor" name="ColorLbl1"/>
@@ -1171,12 +1171,14 @@
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xIw-qh-AEX">
                                                 <rect key="frame" x="329.5" y="372" width="54.5" height="30"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <connections>
                                                     <action selector="startTimeBtn:" destination="X3Q-XA-FIK" eventType="touchUpInside" id="1Ly-HD-uHo"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qBK-Yb-JJI">
                                                 <rect key="frame" x="329.5" y="417" width="54.5" height="30"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <connections>
                                                     <action selector="endTimeBtn:" destination="X3Q-XA-FIK" eventType="touchUpInside" id="VdG-OM-HG0"/>
                                                 </connections>
@@ -1267,7 +1269,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3zf-0A-FzZ">
-                                                <rect key="frame" x="138" y="781" width="138" height="42"/>
+                                                <rect key="frame" x="138" y="802" width="138" height="42"/>
                                                 <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="42" id="KtW-wy-mTq"/>
@@ -1280,6 +1282,27 @@
                                                     <action selector="saveBtn:" destination="X3Q-XA-FIK" eventType="touchUpInside" id="Xzr-M0-tC1"/>
                                                 </connections>
                                             </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GaJ-fc-age">
+                                                <rect key="frame" x="0.0" y="771" width="414" height="1"/>
+                                                <subviews>
+                                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Egq-D9-61M">
+                                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <connections>
+                                                            <outlet property="dataSource" destination="X3Q-XA-FIK" id="SoA-9X-K2w"/>
+                                                            <outlet property="delegate" destination="X3Q-XA-FIK" id="NHW-D4-PhT"/>
+                                                        </connections>
+                                                    </tableView>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="KDL-lD-ESb"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Egq-D9-61M" secondAttribute="bottom" id="N2a-tS-Ht4"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Egq-D9-61M" secondAttribute="trailing" id="ZOd-7M-5zv"/>
+                                                    <constraint firstItem="Egq-D9-61M" firstAttribute="top" secondItem="GaJ-fc-age" secondAttribute="top" id="bBW-GI-NRl"/>
+                                                    <constraint firstItem="Egq-D9-61M" firstAttribute="leading" secondItem="GaJ-fc-age" secondAttribute="leading" id="mm7-VC-qLD"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -1312,13 +1335,13 @@
                                             <constraint firstItem="84v-g4-leG" firstAttribute="leading" secondItem="tZq-dc-wTb" secondAttribute="trailing" constant="5" id="J59-lp-mD1"/>
                                             <constraint firstItem="KI7-DK-Odr" firstAttribute="leading" secondItem="tZq-dc-wTb" secondAttribute="leading" id="JEd-jr-6zR"/>
                                             <constraint firstItem="HVX-9s-06o" firstAttribute="width" secondItem="eqm-3x-v9F" secondAttribute="width" id="K44-er-LtX"/>
-                                            <constraint firstItem="3zf-0A-FzZ" firstAttribute="top" secondItem="ekz-KA-o03" secondAttribute="bottom" constant="20" id="KDd-CX-I7H"/>
                                             <constraint firstItem="Bu1-RA-XTU" firstAttribute="centerX" secondItem="D7W-s8-eH0" secondAttribute="centerX" id="KhN-bd-FBa"/>
                                             <constraint firstItem="R7r-Up-G2O" firstAttribute="centerY" secondItem="Umk-EJ-MQ9" secondAttribute="centerY" id="LJW-as-XpI"/>
                                             <constraint firstItem="ekz-KA-o03" firstAttribute="leading" secondItem="s1e-IW-Jlr" secondAttribute="leading" id="Nar-4G-pVZ"/>
                                             <constraint firstItem="CWx-b7-P4W" firstAttribute="trailing" secondItem="jsD-gD-P5m" secondAttribute="trailing" id="O2W-4y-8A3"/>
                                             <constraint firstItem="y3J-kM-GnW" firstAttribute="leading" secondItem="Qjo-Vc-3fw" secondAttribute="leading" id="OYr-rQ-L5B"/>
                                             <constraint firstItem="xIw-qh-AEX" firstAttribute="centerY" secondItem="EaD-cE-gwf" secondAttribute="centerY" id="OrO-VL-5W1"/>
+                                            <constraint firstItem="GaJ-fc-age" firstAttribute="top" secondItem="ekz-KA-o03" secondAttribute="bottom" constant="10" id="Pxc-Lp-FHa"/>
                                             <constraint firstItem="rcs-3H-Pbe" firstAttribute="leading" secondItem="Qjo-Vc-3fw" secondAttribute="leading" constant="25" id="QM9-eD-C4A"/>
                                             <constraint firstItem="eqm-3x-v9F" firstAttribute="width" secondItem="tZq-dc-wTb" secondAttribute="width" id="SBa-J5-qF0"/>
                                             <constraint firstItem="JgM-Xo-wBw" firstAttribute="top" secondItem="Qjo-Vc-3fw" secondAttribute="top" id="SLM-QM-VTR"/>
@@ -1331,6 +1354,7 @@
                                             <constraint firstItem="tVb-Hz-l3k" firstAttribute="centerY" secondItem="HVX-9s-06o" secondAttribute="centerY" id="Wzs-if-LHL"/>
                                             <constraint firstItem="eqm-3x-v9F" firstAttribute="height" secondItem="tZq-dc-wTb" secondAttribute="height" id="XOu-r4-43s"/>
                                             <constraint firstItem="s1e-IW-Jlr" firstAttribute="leading" secondItem="HVX-9s-06o" secondAttribute="leading" id="Y1C-GZ-sQj"/>
+                                            <constraint firstItem="GaJ-fc-age" firstAttribute="leading" secondItem="Qjo-Vc-3fw" secondAttribute="leading" id="YNV-7c-GZo"/>
                                             <constraint firstItem="Fsh-Fc-pGI" firstAttribute="leading" secondItem="Qjo-Vc-3fw" secondAttribute="leading" id="YUf-Zd-zxx"/>
                                             <constraint firstItem="pjQ-tY-T1l" firstAttribute="top" secondItem="JgM-Xo-wBw" secondAttribute="bottom" constant="20" id="Yfc-Ji-tae"/>
                                             <constraint firstItem="xIw-qh-AEX" firstAttribute="centerX" secondItem="EaD-cE-gwf" secondAttribute="centerX" id="Z4K-jJ-ji0"/>
@@ -1341,6 +1365,7 @@
                                             <constraint firstItem="HVX-9s-06o" firstAttribute="centerX" secondItem="eqm-3x-v9F" secondAttribute="centerX" id="c9U-eE-SCb"/>
                                             <constraint firstAttribute="trailing" secondItem="JgM-Xo-wBw" secondAttribute="trailing" id="cbv-hj-82R"/>
                                             <constraint firstItem="rcs-3H-Pbe" firstAttribute="top" secondItem="ZvV-zh-N1w" secondAttribute="bottom" constant="20" id="d2R-n6-zpc"/>
+                                            <constraint firstAttribute="trailing" secondItem="GaJ-fc-age" secondAttribute="trailing" id="dbr-aV-9UX"/>
                                             <constraint firstItem="ekz-KA-o03" firstAttribute="centerY" secondItem="CWx-b7-P4W" secondAttribute="centerY" id="df4-7l-1kD"/>
                                             <constraint firstItem="ZvV-zh-N1w" firstAttribute="leading" secondItem="Qjo-Vc-3fw" secondAttribute="leading" id="dr3-7k-yh4"/>
                                             <constraint firstItem="y3J-kM-GnW" firstAttribute="top" secondItem="rcs-3H-Pbe" secondAttribute="bottom" constant="20" id="enW-5z-sFD"/>
@@ -1353,6 +1378,7 @@
                                             <constraint firstItem="tVb-Hz-l3k" firstAttribute="leading" secondItem="HVX-9s-06o" secondAttribute="trailing" constant="5" id="hb9-0K-FQO"/>
                                             <constraint firstItem="eqm-3x-v9F" firstAttribute="centerX" secondItem="tZq-dc-wTb" secondAttribute="centerX" id="kJU-6e-I6I"/>
                                             <constraint firstAttribute="trailing" secondItem="ZvV-zh-N1w" secondAttribute="trailing" id="kQ2-Bc-aa2"/>
+                                            <constraint firstItem="3zf-0A-FzZ" firstAttribute="top" secondItem="GaJ-fc-age" secondAttribute="bottom" constant="30" id="mD5-6J-8Aj"/>
                                             <constraint firstItem="84v-g4-leG" firstAttribute="centerY" secondItem="tZq-dc-wTb" secondAttribute="centerY" id="mO8-l2-Uqe"/>
                                             <constraint firstItem="Jqf-3S-8Yh" firstAttribute="bottom" secondItem="pjQ-tY-T1l" secondAttribute="bottom" id="n3s-CI-Aed"/>
                                             <constraint firstItem="As2-2L-UKF" firstAttribute="trailing" secondItem="wtn-9A-mvQ" secondAttribute="trailing" id="pMr-jw-sKA"/>
@@ -1395,6 +1421,8 @@
                     <connections>
                         <outlet property="addImg" destination="Jqf-3S-8Yh" id="I73-Ch-cBn"/>
                         <outlet property="addTitleTxt" destination="rcs-3H-Pbe" id="lbX-4S-gdY"/>
+                        <outlet property="attendeesView" destination="GaJ-fc-age" id="yhG-8s-MtM"/>
+                        <outlet property="attendeesViewHeight" destination="KDL-lD-ESb" id="Ihs-xI-wyU"/>
                         <outlet property="categoryNameLbl" destination="xp1-Jc-2D3" id="Zp4-0j-lIL"/>
                         <outlet property="datesView" destination="KI7-DK-Odr" id="Rhl-Y6-Np2"/>
                         <outlet property="datesViewHeight" destination="4n6-sS-YBc" id="Ef7-KA-4lz"/>
@@ -1412,7 +1440,8 @@
                         <outlet property="startDayLbl" destination="D7W-s8-eH0" id="LvG-s9-uBF"/>
                         <outlet property="startTimeBtn" destination="xIw-qh-AEX" id="2bA-ki-ip4"/>
                         <outlet property="startTimeLbl" destination="EaD-cE-gwf" id="WOd-lI-KGX"/>
-                        <outlet property="switchAllDays" destination="wtn-9A-mvQ" id="50o-f3-qkX"/>
+                        <outlet property="switchAllDays" destination="wtn-9A-mvQ" id="yXb-9K-g1r"/>
+                        <outlet property="tableView" destination="Egq-D9-61M" id="Pxf-V6-URF"/>
                         <outlet property="timeStack" destination="8i8-Fm-q2v" id="Tdo-dC-7Kr"/>
                     </connections>
                 </viewController>

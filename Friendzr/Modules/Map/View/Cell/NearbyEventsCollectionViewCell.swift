@@ -2,7 +2,7 @@
 //  NearbyEventsCollectionViewCell.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 15/11/2021.
+//  Created by Muhammad Sabri Saad on 15/11/2021.
 //
 
 import UIKit

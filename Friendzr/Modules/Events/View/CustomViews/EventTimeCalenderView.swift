@@ -33,11 +33,7 @@ class EventTimeCalenderView: UIView {
         timeView.datePickerMode = .time
         timeView.minimumDate = Date()
         timeView.tintColor = UIColor.FriendzrColors.primary!
-        timeView.cornerRadiusView(radius: 12)
-        
-//        let formattrTime = DateFormatter()
-//        formattrTime.dateFormat = "HH:mm"
-//        startTime = formattrTime.string(from: (timeView.date))
+        timeView.cornerRadiusView(radius: 12)        
     }
     
     @IBAction func cancelBtn(_ sender: Any) {

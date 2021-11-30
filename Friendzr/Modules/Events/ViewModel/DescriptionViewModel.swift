@@ -14,7 +14,7 @@ class DescriptionViewModel : ValidationViewModel{
     
     func validateCredentials() -> Bool {
         
-        guard validateLength(text: data, size: (1,100)) else {
+        guard validateLength(text: data, size: (1,250)) else {
             errorValue = errorMessage
             return false
         }

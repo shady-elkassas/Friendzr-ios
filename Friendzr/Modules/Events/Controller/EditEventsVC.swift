@@ -31,7 +31,9 @@ class EditEventsVC: UIViewController {
     @IBOutlet weak var categoryNameLbl: UILabel!
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var timeStack: UIStackView!
-    
+    @IBOutlet weak var attendeesView: UIView!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var attendeesViewHeight: NSLayoutConstraint!
     
     //MARK: - Properties
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
@@ -39,6 +41,9 @@ class EditEventsVC: UIViewController {
     
     lazy var deleteAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
+    let attendeesCellID = "AttendeesTableViewCell"
+    let footerCellID = "SeeMoreTableViewCell"
+
     var dayname = ""
     var monthname = ""
     var nday = ""
@@ -111,6 +116,9 @@ class EditEventsVC: UIViewController {
         descriptionTxtView.cornerRadiusView(radius: 5)
         descriptionTxtView.delegate = self
         switchAllDays.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        
+        tableView.register(UINib(nibName: attendeesCellID, bundle: nil), forCellReuseIdentifier: attendeesCellID)
+        tableView.register(UINib(nibName: footerCellID, bundle: nil), forHeaderFooterViewReuseIdentifier: footerCellID)
     }
     
     func initDeleteEventButton(btnColor: UIColor? = .red) {
@@ -172,12 +180,16 @@ class EditEventsVC: UIViewController {
         categoryNameLbl.text = eventModel?.categorie
         addTitleTxt.text = eventModel?.title
         
-        if eventModel?.allday == true {
-            switchAllDays.isOn = true
-            timeStack.isHidden = true
-        }else {
+        if eventModel?.allday == false {
             switchAllDays.isOn = false
             timeStack.isHidden = false
+            startTimeBtn.isHidden = false
+            endTimeBtn.isHidden = false
+        }else {
+            switchAllDays.isOn = true
+            timeStack.isHidden = true
+            startTimeBtn.isHidden = true
+            endTimeBtn.isHidden = true
         }
         
         startDayLbl.text = eventModel?.eventdate
@@ -198,6 +210,17 @@ class EditEventsVC: UIViewController {
         endDate = eventModel?.eventdateto ?? ""
         startTime = eventModel?.timefrom ?? ""
         endTime = eventModel?.timeto ?? ""
+        
+        
+        if eventModel?.attendees?.count == 0 {
+            attendeesViewHeight.constant = 0
+        }else if eventModel?.attendees?.count == 1 {
+            attendeesViewHeight.constant = CGFloat(60)
+        }else if eventModel?.attendees?.count == 2 {
+            attendeesViewHeight.constant = CGFloat(160)
+        }else {
+            attendeesViewHeight.constant = CGFloat(220)
+        }
     }
     
     //MARK: - Actions
@@ -253,16 +276,28 @@ class EditEventsVC: UIViewController {
             
             present(settingsActionSheet, animated:true, completion:nil)
         }
-        
-        //        self.eventImg.image = UIImage(named: "bolivia")
-        //        self.attachedImg = true
     }
-    
-    @IBAction func switchAllDaysBtn(_ sender: Any) {
-        if switchAllDays.isOn == true {
-            timeStack.isHidden = true
-        }else {
+
+    @IBAction func switchBtn(_ sender: UISwitch) {
+        
+        if switchAllDays.isOn == false {
             timeStack.isHidden = false
+            startTimeBtn.isHidden = false
+            endTimeBtn.isHidden = false
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+            self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+            
+            let formattrTime = DateFormatter()
+            formattrTime.dateFormat = "HH:mm"
+            self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
+            self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
+        }else {
+            timeStack.isHidden = true
+            startTimeBtn.isHidden = true
+            endTimeBtn.isHidden = true
         }
     }
     
@@ -574,5 +609,62 @@ extension EditEventsVC : UIImagePickerControllerDelegate,UINavigationControllerD
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated:true, completion: nil)
+    }
+}
+
+extension EditEventsVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return eventModel?.attendees?.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: attendeesCellID, for: indexPath) as? AttendeesTableViewCell else {return UITableViewCell()}
+        let model = eventModel?.attendees?[indexPath.row]
+        cell.dropDownBtn.isHidden = true
+        cell.joinDateLbl.isHidden = true
+        cell.friendNameLbl.text = model?.userName
+        cell.friendImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        
+        guard let footerView = Bundle.main.loadNibNamed(footerCellID, owner: self, options: nil)?.first as? SeeMoreTableViewCell else { return UIView()}
+        
+        footerView.HandleSeeMoreBtn = {
+            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AttendeesVC") as? AttendeesVC else {return}
+            vc.eventID = self.eventModel?.id ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
+        return footerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if (eventModel?.attendees?.count ?? 0) > 1 {
+            return 40
+        }else {
+            return 0
+        }
+    }
+}
+
+
+extension EditEventsVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = eventModel?.attendees?[indexPath.row]
+        
+        if model?.myEventO == true {
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+            vc.userID = model?.userId ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

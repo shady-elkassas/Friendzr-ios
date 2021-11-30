@@ -141,8 +141,8 @@ extension UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-SemiBold", size: 14) ?? "",NSAttributedString.Key.foregroundColor: UIColor.setColor(lightColor: UIColor.color("#241332")!, darkColor: .white)]
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.barTintColor = UIColor.setColor(lightColor: .white, darkColor: .black)
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage() , for:UIBarMetrics.default)
-        self.navigationController?.navigationBar.backgroundColor = UIColor.setColor(lightColor: .white, darkColor: .black)
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage() , for:UIBarMetrics.default)
+        self.navigationController?.navigationBar.backgroundColor = .clear
     }
     
     func hideNavigationBar(NavigationBar: Bool,BackButton: Bool) {

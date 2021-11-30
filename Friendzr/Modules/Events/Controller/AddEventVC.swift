@@ -33,7 +33,6 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var endTimeBtn: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var timeStack: UIStackView!
-    
     @IBOutlet weak var categoriesSuperView: UIView!
     @IBOutlet weak var categoriesView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -42,7 +41,7 @@ class AddEventVC: UIViewController {
     
     //MARK: - Properties
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
-    lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView    
+    lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
     
     var dayname = ""
     var monthname = ""
@@ -182,8 +181,12 @@ class AddEventVC: UIViewController {
     @IBAction func switchAllDaysBtn(_ sender: Any) {
         if switchAllDays.isOn == true {
             timeStack.isHidden = true
+            startTimeBtn.isHidden = true
+            endTimeBtn.isHidden = true
         }else {
             timeStack.isHidden = false
+            startTimeBtn.isHidden = false
+            endTimeBtn.isHidden = false
         }
     }
     
