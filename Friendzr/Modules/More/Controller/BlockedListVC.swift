@@ -240,7 +240,7 @@ extension BlockedListVC: UITableViewDataSource {
                     self.updateUserInterface()
                     
                     if self.internetConect {
-                        self.showLoading()
+//                        self.showLoading()
                         self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
                             self.hideLoading()
                             if let error = error {
@@ -252,7 +252,7 @@ extension BlockedListVC: UITableViewDataSource {
                             self.showAlert(withMessage: message)
                             
                             DispatchQueue.main.async {
-                                self.tableView.reloadData()
+                                self.updateUserInterface()
                             }
                         }
                     }else {

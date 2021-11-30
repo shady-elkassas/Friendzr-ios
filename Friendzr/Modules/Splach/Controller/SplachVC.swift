@@ -53,12 +53,12 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         
         DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1.5) {
             if Defaults.needUpdate == 1 {
-                Router().toEditProfileVC()
+                Router().toSplachOne()
             }else {
                 if Defaults.token != "" {
                     Router().toFeed()
                 }else {
-                    Router().toSplachOne()
+                    Router().toOptionsSignUpVC()
                 }
             }
         }

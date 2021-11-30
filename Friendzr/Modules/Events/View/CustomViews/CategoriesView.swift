@@ -48,7 +48,7 @@ extension CategoriesView: UITableViewDataSource {
 
 extension CategoriesView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 40
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -56,6 +56,7 @@ extension CategoriesView: UITableViewDelegate {
         catID = model?.id ?? ""
         catname = model?.name ?? ""
         onCategoryCallBackResponse!("\(catID)","\(catname)")
+        
         // handling code
         UIView.animate(withDuration: 0.3, animations: {
             self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)

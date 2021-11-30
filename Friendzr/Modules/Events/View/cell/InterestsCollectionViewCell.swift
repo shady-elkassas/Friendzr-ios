@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import SwiftUI
 
 class InterestsCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var chartView: UIView!
     
     var model:[InterestsObj]? = nil
     let cellID = "InterestsTableViewCell"
@@ -28,6 +30,18 @@ class InterestsCollectionViewCell: UICollectionViewCell {
         tableView.reloadData()
         
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let child = UIHostingController(rootView: CircleView(fill1: 0, fill2: 0, fill3: 0, animations: true, male: model?[0].interestcount ?? 30, female: model?[1].interestcount ?? 30, other: model?[2].interestcount ?? 30))
+
+        child.view.translatesAutoresizingMaskIntoConstraints = true
+        child.view.frame = CGRect(x: 0, y: 0, width: chartView.bounds.width, height: chartView.bounds.height)
+        chartView.addSubview(child.view)
+
     }
 }
 

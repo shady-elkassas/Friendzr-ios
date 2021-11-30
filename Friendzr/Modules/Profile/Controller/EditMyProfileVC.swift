@@ -41,6 +41,7 @@ class EditMyProfileVC: UIViewController {
     var viewmodel:EditProfileViewModel = EditProfileViewModel()
     var profileVM: ProfileViewModel = ProfileViewModel()
     var tagsid:[String] = [String]()
+    var tagsNames:[String] = [String]()
     var attachedImg:Bool = false
     var birthDay = ""
     
@@ -135,8 +136,6 @@ class EditMyProfileVC: UIViewController {
         profileImg.cornerRadiusForHeight()
         bioTxtView.delegate = self
         tagsListView.delegate = self
-        //tag Line Break Mode
-        tagsListView.tagLineBreakMode = .byTruncatingTail
     }
     
     //MARK: - API
@@ -156,9 +155,6 @@ class EditMyProfileVC: UIViewController {
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }
-                //                else if error == "Unauthorized" {
-                //                    Router().toOptionsSignUpVC()
-                //                }
                 else {
                     self.showAlert(withMessage: error)
                 }
@@ -196,8 +192,9 @@ class EditMyProfileVC: UIViewController {
         
         tagsListView.removeAllTags()
         for itm in model?.listoftagsmodel ?? [] {
-            tagsListView.addTag(itm.tagname)
+            tagsListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
             tagsid.append(itm.tagID)
+            tagsNames.append(itm.tagname)
         }
         
         if tagsListView.rows == 0 {
@@ -205,9 +202,10 @@ class EditMyProfileVC: UIViewController {
             selectTagsLbl.isHidden = false
             selectTagsLbl.textColor = .lightGray
         }else {
-            tagsViewHeight.constant = CGFloat(tagsListView.rows * 30) + 20
+            tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 25
             selectTagsLbl.isHidden = true
         }
+        
         tagsListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
         
         if model?.gender == "male" {
@@ -236,19 +234,24 @@ class EditMyProfileVC: UIViewController {
         
         selectTagsLbl.isHidden = true
         tagsListView.removeAllTags()
+        tagsNames.removeAll()
         for item in value {
-            tagsListView.addTag(item)
+            tagsListView.addTag(tagId: "", title: "#\(item)")
+            tagsNames.append(item)
         }
         
         if tagsListView.rows == 0 {
             tagsViewHeight.constant = 45
+            selectTagsLbl.isHidden = false
+            selectTagsLbl.textColor = .lightGray
         }else {
-            tagsViewHeight.constant = CGFloat(tagsListView.rows * 30) + 10
+            tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 25
+            selectTagsLbl.isHidden = true
         }
         
         tagsid.removeAll()
-        for tag in data {
-            tagsid.append(tag)
+        for itm in data {
+            tagsid.append(itm)
         }
     }
     
@@ -280,9 +283,6 @@ class EditMyProfileVC: UIViewController {
             
             present(settingsActionSheet, animated:true, completion:nil)
         }
-        //
-        //        guard let vc = UIViewController.viewController(withStoryboard: .FaceRecognition, AndContollerID: "FaceRecognitionVC") as? FaceRecognitionVC else {return}
-        //        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func dateBtn(_ sender: Any) {
@@ -347,7 +347,9 @@ class EditMyProfileVC: UIViewController {
     @IBAction func tagsBtn(_ sender: Any) {
         updateUserInterface2()
         if internetConect {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "TagsVC") as? TagsVC else {return}
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "SelectedTagsVC") as? SelectedTagsVC else {return}
+            vc.arrSelectedDataIds = tagsid
+            vc.arrSelectedDataNames = tagsNames
             vc.onInterestsCallBackResponse = self.OnInterestsCallBack
             self.navigationController?.pushViewController(vc, animated: true)
         }else {
@@ -356,8 +358,8 @@ class EditMyProfileVC: UIViewController {
     }
     
     @IBAction func integrationInstgramBtn(_ sender: Any) {
-        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "InstagramWebVC") as? InstagramWebVC else {return}
-        self.navigationController?.pushViewController(vc, animated: true)
+        //        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "InstagramWebVC") as? InstagramWebVC else {return}
+        //        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func integrationSnapchatBtn(_ sender: Any) {
@@ -397,62 +399,62 @@ class EditMyProfileVC: UIViewController {
     //    }
     
     @IBAction func integrationFacebookBtn(_ sender: Any) {
-        updateUserInterface2()
-        if internetConect {
-            let fbLoginManager : LoginManager = LoginManager()
-            
-            fbLoginManager.logIn(permissions: ["email"], from: self) { (result, error) -> Void in
-                
-                if (error == nil) {
-                    // if user cancel the login
-                    if error != nil {
-                    }else if (result?.isCancelled)!{
-                        return
-                    }else {
-                        self.getFBUserData()
-                    }
-                }
-            }
-        }
+        //        updateUserInterface2()
+        //        if internetConect {
+        //            let fbLoginManager : LoginManager = LoginManager()
+        //
+        //            fbLoginManager.logIn(permissions: ["email"], from: self) { (result, error) -> Void in
+        //
+        //                if (error == nil) {
+        //                    // if user cancel the login
+        //                    if error != nil {
+        //                    }else if (result?.isCancelled)!{
+        //                        return
+        //                    }else {
+        //                        self.getFBUserData()
+        //                    }
+        //                }
+        //            }
+        //        }
     }
-
+    
     @IBAction func integrationTiktokBtn(_ sender: Any) {
-//        TikTokOpenSDKApplicationDelegate.sharedInstance().logDelegate = self
-//
-//        let scopes = ["user.info.basic","video.list"] // list your scopes
-//        let scopesSet = NSOrderedSet(array:scopes)
-//        let request = TikTokOpenSDKAuthRequest()
-//        request.permissions = scopesSet
-//
-//        request.send(self, completion: { resp -> Void in
-//            /* STEP 3 */
-//
-//            if resp.errCode.rawValue == 0 {
-//                /* STEP 3.a */
-//                let clientKey = "awq4czdodvu3iy4y" // you will receive this once you register in the Developer Portal
-//                let clientSecretKey = "64eabf5c9ae2cc2c5b15ea4897227bb3"
-//                let responseCode = resp.code ?? ""
-//
-//                // replace this baseURLstring with your own wrapper API
-//                let baseURlString = "https://open-api.tiktok.com/oauth/access_token/?client_key=\(clientKey)&client_secret=\(clientSecretKey)&grant_type=authorization_code&code=\(responseCode)"
-//
-//                //                let baseURlString = "https://open-api.tiktok.com/demoapp/callback/?code=\(responseCode)&client_key=\(clientKey)"
-//
-//                let url = NSURL(string: baseURlString)
-//
-//                /* STEP 3.b */
-//                let session = URLSession(configuration: .default)
-//                let urlRequest = NSMutableURLRequest(url: url! as URL)
-//                let task = session.dataTask(with: urlRequest as URLRequest) { (data, response, error) -> Void in
-//                    /* STEP 3.c */
-//                    //                print(response)
-//                    //                print(data)
-//                }
-//                task.resume()
-//            } else {
-//                // handle error
-//            }
-//        })
+        //        TikTokOpenSDKApplicationDelegate.sharedInstance().logDelegate = self
+        //
+        //        let scopes = ["user.info.basic","video.list"] // list your scopes
+        //        let scopesSet = NSOrderedSet(array:scopes)
+        //        let request = TikTokOpenSDKAuthRequest()
+        //        request.permissions = scopesSet
+        //
+        //        request.send(self, completion: { resp -> Void in
+        //            /* STEP 3 */
+        //
+        //            if resp.errCode.rawValue == 0 {
+        //                /* STEP 3.a */
+        //                let clientKey = "awq4czdodvu3iy4y" // you will receive this once you register in the Developer Portal
+        //                let clientSecretKey = "64eabf5c9ae2cc2c5b15ea4897227bb3"
+        //                let responseCode = resp.code ?? ""
+        //
+        //                // replace this baseURLstring with your own wrapper API
+        //                let baseURlString = "https://open-api.tiktok.com/oauth/access_token/?client_key=\(clientKey)&client_secret=\(clientSecretKey)&grant_type=authorization_code&code=\(responseCode)"
+        //
+        //                //                let baseURlString = "https://open-api.tiktok.com/demoapp/callback/?code=\(responseCode)&client_key=\(clientKey)"
+        //
+        //                let url = NSURL(string: baseURlString)
+        //
+        //                /* STEP 3.b */
+        //                let session = URLSession(configuration: .default)
+        //                let urlRequest = NSMutableURLRequest(url: url! as URL)
+        //                let task = session.dataTask(with: urlRequest as URLRequest) { (data, response, error) -> Void in
+        //                    /* STEP 3.c */
+        //                    //                print(response)
+        //                    //                print(data)
+        //                }
+        //                task.resume()
+        //            } else {
+        //                // handle error
+        //            }
+        //        })
     }
     
     @IBAction func saveBtn(_ sender: Any) {
@@ -463,27 +465,30 @@ class EditMyProfileVC: UIViewController {
             self.showAlert(withMessage: "Please add profile image")
             return
         }else {
-            if internetConect {
-                self.showLoading()
-                viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in
-                    
-                    self.hideLoading()
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
-                    }
-                    
-                    guard let _ = data else {return}
-                    DispatchQueue.main.async {
-                        if Defaults.needUpdate == 1 {
+            if tagsid.isEmpty {
+                self.showAlert(withMessage: "Please select your tags")
+                return
+            }else {
+                if internetConect {
+                    self.showLoading()
+                    viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in
+                        
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
                             return
-                        }else {
-                            Router().toFeed()
+                        }
+                        
+                        guard let _ = data else {return}
+                        DispatchQueue.main.async {
+                            if Defaults.needUpdate == 1 {
+                                return
+                            }else {
+                                Router().toFeed()
+                            }
                         }
                     }
                 }
-            }else {
-                return
             }
         }
     }

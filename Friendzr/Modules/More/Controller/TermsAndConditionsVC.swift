@@ -28,6 +28,10 @@ class TermsAndConditionsVC: UIViewController {
         self.title = titleVC
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        hideNavigationBar(NavigationBar: false, BackButton: false)
+    }
+    
     //MARK: - Helper
     func setupWebView() {
         webView = WKWebView(frame: viewForEmbeddingWebView.bounds, configuration: WKWebViewConfiguration() )

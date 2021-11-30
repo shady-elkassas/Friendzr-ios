@@ -47,7 +47,7 @@ class EventsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        clearNavigationBar()
+        setupNavBar()
     }
     
     func loadMoreItemsForList(){

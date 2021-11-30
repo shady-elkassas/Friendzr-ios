@@ -36,34 +36,22 @@
 				<string>fb546251653295074</string>
 			</array>
 		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>awq4czdodvu3iy4y</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.284152480286634.Friendzr:/https://friendzr.com/oauth</string>
-			</array>
-		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>546251653295074</string>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.FriendzSocialMediaLimited.Friendzr-ios</string>
+	</array>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<true/>
 	<key>FacebookDisplayName</key>
 	<string>Friendzr</string>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
 	<true/>
 	<key>FirebaseMessagingAutoInitEnabled</key>
-	<true/>
-	<key>FacebookAutoLogAppEventsEnabled</key>
 	<true/>
 	<key>InstagramClientId</key>
 	<string>284152480286634</string>

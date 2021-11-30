@@ -34,12 +34,15 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var timeStack: UIStackView!
     
+    @IBOutlet weak var categoriesSuperView: UIView!
+    @IBOutlet weak var categoriesView: UIView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var saveCategoryBtn: UIButton!
+    @IBOutlet weak var hideView: UIView!
     
     //MARK: - Properties
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
-    lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
-    
-    lazy var catsAlertView = Bundle.main.loadNibNamed("CategoriesView", owner: self, options: nil)?.first as? CategoriesView
+    lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView    
     
     var dayname = ""
     var monthname = ""
@@ -60,11 +63,13 @@ class AddEventVC: UIViewController {
     var viewmodel:AddEventViewModel = AddEventViewModel()
     var locationLat:Double = 0.0
     var locationLng:Double = 0.0
+
+    let cellId = "CategoryCollectionViewCell"
     var catsVM:AllCategoriesViewModel = AllCategoriesViewModel()
-    var cats:[CategoryObj] = [CategoryObj]()
     var catID = ""
-    var catName = ""
-    
+    var catselectedID:String = ""
+    var catSelectedName:String = ""
+
     var internetConect:Bool = false
     
     private let formatterDate: DateFormatter = {
@@ -92,21 +97,34 @@ class AddEventVC: UIViewController {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        categoriesSuperView?.addGestureRecognizer(tap)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
+        hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        self.categoriesSuperView.isHidden = true
+        categoriesView.isHidden = true
+    }
     
-    //MARK:- APIs
+    //MARK: - APIs
     func getCats() {
-        self.showLoading()
+//        self.showLoading()
+        hideView.isHidden = false
         catsVM.getAllCategories()
         catsVM.cats.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
                 self.hideLoading()
-                cats = value
+                hideView.isHidden = true
+                collectionView.dataSource = self
+                collectionView.delegate = self
+                collectionView.reloadData()
             }
         }
         
@@ -149,13 +167,16 @@ class AddEventVC: UIViewController {
         }
     }
     
+    @IBAction func saveCategoryBtn(_ sender: Any) {
+        categoryLbl.text = catSelectedName
+        catID = catselectedID
+        categoriesSuperView.isHidden = true
+        categoriesView.isHidden = true
+    }
+    
     @IBAction func chooseCatBtn(_ sender: Any) {
-        catsAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        catsAlertView?.parentVC = self
-        catsAlertView?.catsModel = cats
-        catsAlertView?.tableViewHeight.constant = CGFloat(cats.count * 50)
-        catsAlertView?.onCategoryCallBackResponse = OnCategoryCallBack
-        self.view.addSubview((catsAlertView)!)
+        categoriesSuperView.isHidden = false
+        categoriesView.isHidden = false
     }
     
     @IBAction func switchAllDaysBtn(_ sender: Any) {
@@ -397,7 +418,7 @@ class AddEventVC: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-    
+
     func updateUserInterfaceBtns() {
         appDelegate.networkReachability()
         
@@ -438,14 +459,18 @@ class AddEventVC: UIViewController {
         formattrTime.dateFormat = "HH:mm"
         self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
         self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
+        
+        collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
+        saveCategoryBtn.cornerRadiusView(radius: 8)
+        categoriesView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
     }
     
-    func OnCategoryCallBack(_ data: String, _ value: String) -> () {
-        print(data, value)
-        categoryLbl.text = value
-        catID = data
-        catName = value
-    }
+//    func OnCategoryCallBack(_ data: String, _ value: String) -> () {
+//        print(data, value)
+//        categoryLbl.text = value
+//        catID = data
+//        catName = value
+//    }
 }
 
 //MARK: - Extensions
@@ -573,5 +598,46 @@ extension AddEventVC : UIImagePickerControllerDelegate,UINavigationControllerDel
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated:true, completion: nil)
+    }
+}
+
+
+extension AddEventVC : UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return catsVM.cats.value?.count ?? 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? CategoryCollectionViewCell else {return UICollectionViewCell()}
+        let model = catsVM.cats.value?[indexPath.row]
+        cell.tagNameLbl.text = model?.name
+        return cell
+    }
+}
+
+extension AddEventVC: UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let model = catsVM.cats.value?[indexPath.row]
+        catSelectedName = model?.name ?? ""
+        catselectedID = model?.id ?? ""
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let model = catsVM.cats.value?[indexPath.row]
+        let width = model?.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
+        
+        return CGSize(width: width! + 50, height: 45)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
 }

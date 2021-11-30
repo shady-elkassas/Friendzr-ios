@@ -53,6 +53,35 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="9Qo-JD-wtH">
+                                <rect key="frame" x="222" y="40" width="70" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mjK-ae-4cc">
+                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="30" id="rp7-PA-MJ6"/>
+                                            <constraint firstAttribute="height" constant="30" id="ssj-yy-0R8"/>
+                                        </constraints>
+                                        <state key="normal" image="deleteRequest_ic"/>
+                                        <connections>
+                                            <action selector="refusedRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="LDV-gy-5Jn"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n8Y-SS-wpi">
+                                        <rect key="frame" x="40" y="0.0" width="30" height="30"/>
+                                        <state key="normal" image="acceptRequest_ic"/>
+                                        <connections>
+                                            <action selector="accseptRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="RvG-Mv-R7h"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="8m6-wN-6hm"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="fRu-SS-TME"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="vVD-fg-6hC"/>
+                                    <constraint firstAttribute="width" constant="70" id="y9U-rE-k5v"/>
+                                </constraints>
+                            </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="PGC-jE-WUn">
                                 <rect key="frame" x="192" y="40" width="130" height="30"/>
                                 <subviews>
@@ -67,37 +96,25 @@
                                             <action selector="sendRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="njZ-PQ-wh0"/>
                                         </connections>
                                     </button>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7UF-TT-qka">
+                                        <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
+                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
+                                        <state key="normal" title="Message">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="messageBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="GCT-vw-wxg"/>
+                                        </connections>
+                                    </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a9Y-vr-ekR">
                                         <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
-                                        <state key="normal" title="Cancel">
+                                        <state key="normal" title="Cancel Request">
                                             <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="cancelRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="aJd-zc-0nR"/>
-                                        </connections>
-                                    </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rmX-Aj-q1U">
-                                        <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
-                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Message">
-                                            <fontDescription key="titleFontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
-                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="messageBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="xzA-UK-aQo"/>
-                                        </connections>
-                                    </button>
-                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b34-Eg-0GO">
-                                        <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
-                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
-                                        <state key="normal" title="Respond">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="respondBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="XfN-dM-RBA"/>
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NU4-ZR-GKU">
@@ -118,11 +135,13 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="Color0"/>
                         <constraints>
+                            <constraint firstItem="9Qo-JD-wtH" firstAttribute="centerY" secondItem="PGC-jE-WUn" secondAttribute="centerY" id="6OT-Ap-t03"/>
                             <constraint firstAttribute="trailing" secondItem="PGC-jE-WUn" secondAttribute="trailing" constant="25" id="6c9-V2-9GY"/>
                             <constraint firstItem="JYV-M0-z7e" firstAttribute="leading" secondItem="igJ-gy-USL" secondAttribute="leading" constant="25" id="9Mc-Fs-G51"/>
                             <constraint firstItem="JYV-M0-z7e" firstAttribute="centerY" secondItem="igJ-gy-USL" secondAttribute="centerY" id="Iea-re-tl3"/>
+                            <constraint firstItem="9Qo-JD-wtH" firstAttribute="centerX" secondItem="PGC-jE-WUn" secondAttribute="centerX" id="cKZ-DI-MjO"/>
                             <constraint firstItem="reO-Ya-h3d" firstAttribute="centerY" secondItem="JYV-M0-z7e" secondAttribute="centerY" id="g9s-LK-fOU"/>
                             <constraint firstItem="PGC-jE-WUn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="reO-Ya-h3d" secondAttribute="trailing" constant="8" id="h0B-vx-73E"/>
                             <constraint firstItem="reO-Ya-h3d" firstAttribute="leading" secondItem="JYV-M0-z7e" secondAttribute="trailing" constant="10" id="nHt-Al-tt1"/>
@@ -141,23 +160,31 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="accseptRequestBtn" destination="n8Y-SS-wpi" id="2gp-a4-gov"/>
                 <outlet property="cancelRequestBtn" destination="a9Y-vr-ekR" id="laQ-KD-I44"/>
                 <outlet property="containerView" destination="igJ-gy-USL" id="54j-aP-LFb"/>
                 <outlet property="friendRequestImg" destination="JYV-M0-z7e" id="31o-Ob-5Bm"/>
                 <outlet property="friendRequestNameLbl" destination="SuI-ZI-y9r" id="IOb-JU-8h9"/>
                 <outlet property="friendRequestUserNameLbl" destination="iI3-xn-RvY" id="Gmh-9W-gpn"/>
-                <outlet property="messageBtn" destination="rmX-Aj-q1U" id="xW5-ME-87l"/>
-                <outlet property="respondBtn" destination="b34-Eg-0GO" id="L6I-1S-xUl"/>
+                <outlet property="messageBtn" destination="7UF-TT-qka" id="7wB-uG-2gi"/>
+                <outlet property="refusedRequestBtn" destination="mjK-ae-4cc" id="8mc-jW-cij"/>
                 <outlet property="sendRequestBtn" destination="pPE-Km-DIm" id="DZn-hb-zyo"/>
+                <outlet property="subStackView" destination="9Qo-JD-wtH" id="YXT-BF-LNY"/>
+                <outlet property="superStackView" destination="PGC-jE-WUn" id="Dsr-6R-X8m"/>
                 <outlet property="unblockBtn" destination="NU4-ZR-GKU" id="ZPu-yv-03S"/>
             </connections>
             <point key="canvasLocation" x="116.66666666666667" y="86.383928571428569"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="acceptRequest_ic" width="52" height="52"/>
+        <image name="deleteRequest_ic" width="52" height="52"/>
         <image name="placeholder" width="1000" height="1000"/>
+        <namedColor name="Color0">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="ColorLbl1">
-            <color red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

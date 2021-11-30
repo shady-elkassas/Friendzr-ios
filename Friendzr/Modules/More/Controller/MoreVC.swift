@@ -188,7 +188,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
             }else {
                 return
             }
-
+            
             // handling code
             UIView.animate(withDuration: 0.3, animations: {
                 self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)

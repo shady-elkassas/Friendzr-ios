@@ -19,6 +19,8 @@ class OptionsSignUpVC: UIViewController {
     @IBOutlet weak var appleView: UIView!
     @IBOutlet weak var googleView: UIView!
     
+    @IBOutlet weak var termsLbl: UILabel!
+    
     //MARK: - Properties
     let signInConfig = GIDConfiguration.init(clientID: "43837105804-he5jci75mbf7jrhush4cps45plripdvp.apps.googleusercontent.com")
     var UserFBID = ""
@@ -43,6 +45,9 @@ class OptionsSignUpVC: UIViewController {
 
     var internetConect:Bool = false
 
+    var myString:String = "By clicking ‘Sign up’, you agree to our terms of usage see more"
+    var myMutableString = NSMutableAttributedString()
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,8 +66,14 @@ class OptionsSignUpVC: UIViewController {
         appleView.cornerRadiusView(radius: 6)
         googleView.cornerRadiusView(radius: 6)
         googleView.setBorder()
+        
+        myMutableString = NSMutableAttributedString(string: myString, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Regular", size: 12.0)!])
+        myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.FriendzrColors.primary!, range: NSRange(location:55,length:8))
+        // set label Attribute
+        termsLbl.attributedText = myMutableString
     }
     
+
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -88,6 +99,13 @@ class OptionsSignUpVC: UIViewController {
     }
 
     //MARK: - Actions
+    @IBAction func termsBtn(_ sender: Any) {
+        guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
+        vc.titleVC = "Terms & Conditions"
+        vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/EULAOct2021.pdf"
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @IBAction func loginBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .Login, AndContollerID: "LoginVC") as? LoginVC else {return}
         self.navigationController?.pushViewController(vc, animated: true)
@@ -164,7 +182,7 @@ class OptionsSignUpVC: UIViewController {
                             
                             DispatchQueue.main.async {
                                 if Defaults.needUpdate == 1 {
-                                    Router().toEditProfileVC()
+                                    Router().toSplachOne()
                                 }else {
                                     Router().toFeed()
                                 }
@@ -265,7 +283,7 @@ extension OptionsSignUpVC {
                         Defaults.initUser(user: data)
                         DispatchQueue.main.async {
                             if Defaults.needUpdate == 1 {
-                                Router().toEditProfileVC()
+                                Router().toSplachOne()
                             }else {
                                 Router().toFeed()
                             }
@@ -364,7 +382,7 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
 
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {
-                        Router().toEditProfileVC()
+                        Router().toSplachOne()
                     }else {
                         Router().toFeed()
                     }

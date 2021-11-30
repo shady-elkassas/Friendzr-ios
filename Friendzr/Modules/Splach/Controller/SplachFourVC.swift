@@ -11,6 +11,7 @@ class SplachFourVC: UIViewController {
     
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var nextBtn: UIButton!
+    @IBOutlet weak var skipBtn: UIButton!
     @IBOutlet weak var containerView: UIView!
     
     override func viewDidLoad() {
@@ -27,6 +28,10 @@ class SplachFourVC: UIViewController {
     }
     
     @IBAction func nextBtn(_ sender: Any) {
-        Router().toOptionsSignUpVC()
+        Router().toEditProfileVC()
+    }
+    
+    @IBAction func skipBtn(_ sender: Any) {
+        Router().toEditProfileVC()
     }
 }

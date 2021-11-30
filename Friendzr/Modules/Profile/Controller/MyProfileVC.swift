@@ -45,6 +45,7 @@ class MyProfileVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         initBackButton()
         clearNavigationBar()
+        hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
     //MARK: - API
@@ -102,10 +103,9 @@ class MyProfileVC: UIViewController {
     }
     
     func setupView() {
-        editBtn.cornerRadiusView(radius: 8)
+        editBtn.cornerRadiusForHeight()
         tagListView.delegate = self
-        tagListView.textFont = UIFont(name: "Montserrat-Regular", size: 12)!
-        tagListView.tagLineBreakMode = .byTruncatingTail
+        tagListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
     }
     
     func setProfileData() {
@@ -119,10 +119,10 @@ class MyProfileVC: UIViewController {
         
         tagListView.removeAllTags()
         for item in model?.listoftagsmodel ?? [] {
-            tagListView.addTag("#\(item.tagname)")
+            tagListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
         }
         print("tagListView.rows \(tagListView.rows)")
-        tagsViewhHeight.constant = CGFloat(tagListView.rows * 35)
+        tagsViewhHeight.constant = CGFloat(tagListView.rows * 25)
     }
     
     //MARK: - Actions
@@ -141,8 +141,9 @@ extension MyProfileVC : TagListViewDelegate {
     
     // MARK: TagListViewDelegate
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
-        print("Tag pressed: \(title), \(sender)")
+        print("Tag pressed: \(title), \(tagView.tagId)")
 //        tagView.isSelected = !tagView.isSelected
+        
     }
     
     func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {

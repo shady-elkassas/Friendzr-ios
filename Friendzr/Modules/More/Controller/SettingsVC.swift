@@ -10,7 +10,16 @@ import CoreLocation
 import SwiftUI
 import MultiSlider
 
+
+//Singleton
+//class AllowMyLocation {
+//    static var active: Bool = false
+//}
+
 class SettingsVC: UIViewController {
+    
+    @IBOutlet weak var settingSubView: UIView!
+    @IBOutlet weak var settingsViewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var transparentView: UIView!
@@ -102,6 +111,9 @@ class SettingsVC: UIViewController {
         tableView.delegate = self
         tableView.reloadData()
         
+        
+        settingsViewHeight.constant = CGFloat(7 * 60)
+        
         ageFrom = model?.agefrom ?? 13
         ageTo = model?.ageto ?? 100
         manualdistancecontrol = model?.manualdistancecontrol ?? 0.2
@@ -173,6 +185,8 @@ class SettingsVC: UIViewController {
         
         distanceSliderView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 40)
         ageSliderView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 40)
+        
+        settingSubView.cornerRadiusView(radius: 20)
     }
     
     
@@ -674,6 +688,7 @@ extension SettingsVC: UITableViewDataSource {
                                 }
                                 
                                 Defaults.allowMyLocation = data.allowmylocation ?? false
+                                
                                 self.model = data
                                 DispatchQueue.main.async {
                                     self.setupData()
@@ -720,6 +735,7 @@ extension SettingsVC: UITableViewDataSource {
                                 }
                                 
                                 Defaults.allowMyLocation = data.allowmylocation ?? true
+                                
                                 self.model = data
                                 
                                 DispatchQueue.main.async {
@@ -801,6 +817,7 @@ extension SettingsVC: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Delete Account"
             cell.iconImg.image = UIImage(named: "delete_ic")
+            cell.bottomView.isHidden = true
             return cell
         default:
             return UITableViewCell()

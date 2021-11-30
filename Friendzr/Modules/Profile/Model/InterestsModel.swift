@@ -31,6 +31,8 @@ class InterestObj : Mappable {
     var id: String? = ""
     var name: String? = ""
     
+    var isSelected: Bool = false
+    
     required init?(map: Map) {
     }
     // Mappable

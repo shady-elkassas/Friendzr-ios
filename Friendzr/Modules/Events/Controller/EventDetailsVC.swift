@@ -17,8 +17,6 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var eventImg: UIImageView!
     @IBOutlet weak var dateCreateLbl: UILabel!
     @IBOutlet weak var timeCreateLbl: UILabel!
-    @IBOutlet weak var chartContainerView: UIView!
-    @IBOutlet weak var chartView: UIView!
     @IBOutlet weak var attendLbl: UILabel!
     @IBOutlet weak var detailsView: UIView!
     @IBOutlet weak var categoryNameLbl: UILabel!
@@ -32,11 +30,8 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var eventTitleLbl: UILabel!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var chartTitleLbl: UILabel!
-    
     @IBOutlet weak var dateAndTimeView: UIView!
     @IBOutlet weak var attendeesView: UIView!
-    
     @IBOutlet weak var mapContainerView: UIView!
     @IBOutlet weak var mapView: GMSMapView!
     
@@ -87,7 +82,7 @@ class EventDetailsVC: UIViewController {
             self.updateUserInterface()
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateViews), name: Notification.Name("updateViews"), object: nil)
+        hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
     //MARK: - Helper
@@ -113,10 +108,6 @@ class EventDetailsVC: UIViewController {
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
-    @objc func updateViews() {
-        setupChart()
-    }
-    
     func HandleInternetConnection() {
         self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
     }
@@ -127,6 +118,7 @@ class EventDetailsVC: UIViewController {
         leaveBtn.cornerRadiusView(radius: 8)
         detailsView.cornerRadiusView(radius: 21)
         interestsStatisticsView.cornerRadiusView(radius: 21)
+        
         attendeesTableView.register(UINib(nibName: attendeesCellID, bundle: nil), forCellReuseIdentifier: attendeesCellID)
         attendeesTableView.register(UINib(nibName: footerCellID, bundle: nil), forHeaderFooterViewReuseIdentifier: footerCellID)
         
@@ -186,32 +178,13 @@ class EventDetailsVC: UIViewController {
             attendeesViewHeight.constant = 0
         }
         
-        chartContainerView.cornerRadiusView(radius: 21)
         attendeesView.cornerRadiusView(radius: 21)
         dateAndTimeView.cornerRadiusView(radius: 12)
         mapContainerView.cornerRadiusView(radius: 16)
         mapView.cornerRadiusView(radius: 16)
-
+        
         
         setupGoogleMap(location: CLLocationCoordinate2D(latitude: Double((model?.lat)!)!, longitude: Double((model?.lang!)!)!))
-    }
-    
-    func setupChart() {
-        let model = viewmodel.event.value
-        
-        if visibleIndexPath == 0 {
-            chartTitleLbl.text = "Interest Statistic"
-            let child = UIHostingController(rootView: CircleView(fill1: 0, fill2: 0, fill3: 0, animations: true, male: model?.interestStatistic?[0].interestcount ?? 30, female: model?.interestStatistic?[1].interestcount ?? 30, other: model?.interestStatistic?[2].interestcount ?? 30))
-            child.view.translatesAutoresizingMaskIntoConstraints = true
-            child.view.frame = CGRect(x: 0, y: 0, width: chartView.bounds.width, height: chartView.bounds.height)
-            chartView.addSubview(child.view)
-        }else {
-            chartTitleLbl.text = "Gender Statistic"
-            let child = UIHostingController(rootView: CircleView(fill1: 0, fill2: 0, fill3: 0, animations: true, male: model?.genderStatistic?[0].gendercount ?? 30, female: model?.genderStatistic?[1].gendercount ?? 30, other: model?.genderStatistic?[2].gendercount ?? 30))
-            child.view.translatesAutoresizingMaskIntoConstraints = true
-            child.view.frame = CGRect(x: 0, y: 0, width: chartView.bounds.width, height: chartView.bounds.height)
-            chartView.addSubview(child.view)
-        }
     }
     
     func setupMarker(for position:CLLocationCoordinate2D)  {
@@ -228,8 +201,9 @@ class EventDetailsVC: UIViewController {
         self.mapView.isMyLocationEnabled = true
         self.mapView.isBuildingsEnabled = true
         self.mapView.isIndoorEnabled = true
+        self.mapView.isUserInteractionEnabled = false
         
-        let camera = GMSCameraPosition.camera(withLatitude: location.latitude, longitude: location.longitude, zoom: 17.0)
+        let camera = GMSCameraPosition.camera(withLatitude: location.latitude, longitude: location.longitude, zoom: 16.0)
         self.mapView.animate(to: camera)
         
         geocode(latitude: location.latitude, longitude: location.longitude) { (PM, error) in
@@ -272,7 +246,6 @@ class EventDetailsVC: UIViewController {
                 attendeesTableView.reloadData()
                 
                 setupData()
-                setupChart()
                 
                 if value.attendees?.count == 0 {
                     attendeesViewHeight.constant = 0
@@ -312,7 +285,7 @@ class EventDetailsVC: UIViewController {
         
         let JoinDate = self.formatterDate.string(from: Date())
         let Jointime = self.formatterTime.string(from: Date())
-
+        
         if internetConect == true {
             self.showLoading()
             joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? "",JoinDate:JoinDate ,Jointime:Jointime) { error, data in
@@ -470,7 +443,6 @@ extension EventDetailsVC: UICollectionViewDelegate,UICollectionViewDelegateFlowL
         //            print("indexPath : \(indexPath?.row ?? 0)")
         //
         visibleIndexPath = visibleIndexPatho?.row ?? 0
-        NotificationCenter.default.post(name: Notification.Name("updateViews"), object: nil, userInfo: nil)
         //        }
     }
     
@@ -484,9 +456,9 @@ extension EventDetailsVC: UICollectionViewDelegate,UICollectionViewDelegateFlowL
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         if UIDevice.current.userInterfaceIdiom == .pad {
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         }
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     }
 }
 

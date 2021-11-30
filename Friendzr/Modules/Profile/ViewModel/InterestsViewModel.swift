@@ -43,4 +43,28 @@ class InterestsViewModel {
             }
         }
     }
+    
+    func getAllInterests()  {
+        let url = URLs.baseURLFirst + "Events/GetAllInterests"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
+            
+            guard let nodesResponse = Mapper<InterestsModel>().map(JSON: data!) else {
+                self.error.value = error!
+                return
+            }
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.error.value = error
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = nodesResponse.data {
+                    print("toAdd ::: \(toAdd)")
+                    self.interests.value = toAdd
+                }
+            }
+        }
+    }
 }

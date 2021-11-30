@@ -48,6 +48,10 @@ class ForgetPasswordVC: UIViewController {
                 }
                 guard let _ = data else {return}
                 self.showAlert(withMessage: "Please check your email")
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.onPopup()
+                }
             }
         }else {
             return

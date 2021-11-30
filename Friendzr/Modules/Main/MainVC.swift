@@ -10,7 +10,7 @@ import SwiftUI
 
 class MainVC: UIViewController {
     
-    //MARK:- Outlets
+    //MARK: - Outlets
     @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -74,7 +74,7 @@ class MainVC: UIViewController {
         }
     }
     
-    //MARK:- APIs
+    //MARK: - APIs
     
     @objc func reloadChatList() {
         getAllChatList(pageNumber: 1)
@@ -201,7 +201,7 @@ class MainVC: UIViewController {
         return footerview
     }
     
-    //MARK:- Actions
+    //MARK: - Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         cellSelect = false
         updateUserInterface()
@@ -324,14 +324,30 @@ extension MainVC:UITableViewDataSource {
                 }
                 
                 //handle type message
-                if model?.messagestype == 1 {
+                if model?.messagestype == 0 {
                     cell.attachImg.isHidden = true
+                    cell.attachTypeLbl.isHidden = true
+                    cell.lastMessageLbl.isHidden = false
+                    cell.lastMessageLbl.text = ""
+                }else if model?.messagestype == 1 {
+                    cell.attachImg.isHidden = true
+                    cell.attachTypeLbl.isHidden = true
                     cell.lastMessageLbl.isHidden = false
                     cell.lastMessageLbl.text = model?.messages
-                }else {
+                }else if model?.messagestype == 2 {
                     cell.attachImg.isHidden = false
+                    cell.attachTypeLbl.isHidden = false
                     cell.lastMessageLbl.isHidden = true
-                    cell.attachImg.sd_setImage(with: URL(string: model?.messagesattach ?? "" ), placeholderImage: UIImage(named: "attach_ic"))
+                    cell.attachImg.image = UIImage(named: "placeholder")
+                    cell.attachTypeLbl.text = "Photo"
+                }else if model?.messagestype == 3 {
+                    cell.attachImg.isHidden = false
+                    cell.attachTypeLbl.isHidden = false
+                    cell.lastMessageLbl.isHidden = true
+                    cell.attachImg.image = UIImage(named: "attachFile_ic")
+                    cell.attachTypeLbl.text = "File"
+                }else {
+                    print("\(model?.messagestype ?? 0)")
                 }
                 
                 return cell

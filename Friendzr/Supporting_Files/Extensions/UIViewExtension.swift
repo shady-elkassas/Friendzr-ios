@@ -54,10 +54,10 @@ extension UIView {
     
     
     /// [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-    func setCornerforTop( withShadow: Bool? = false, cornerMask: CACornerMask? = [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: CGFloat? = 12) {
+    func setCornerforTop( withShadow: Bool? = false, cornerMask: CACornerMask? = [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: CGFloat? = 10) {
         self.layer.masksToBounds = true
         self.clipsToBounds = true
-        self.layer.cornerRadius = radius ?? 12
+        self.layer.cornerRadius = radius ?? 10
         if withShadow ?? false {
             self.shadow()
         }

@@ -683,25 +683,35 @@ extension ChatVC: InputBarAccessoryViewDelegate {
         let url:URL? = URL(string: "https://www.apple.com/eg/")
         
         if isEvent {
+            self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 1))
+
+            DispatchQueue.main.async {
+                inputBar.inputTextView.text = ""
+                self.messagesCollectionView.reloadData()
+                self.messagesCollectionView.scrollToLastItem()
+            }
+            
             viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
                 if let error = error {
                     self.showAlert(withMessage: error)
                     return
                 }
                 
-                guard let data = data else {
+                guard let _ = data else {
                     return
                 }
-                
-                self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: data.messagetype ?? 0))
-                
-                DispatchQueue.main.async {
-                    inputBar.inputTextView.text = ""
-                    self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToLastItem()
-                }
+
             }
         }else {
+            
+            self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 1))
+            
+            DispatchQueue.main.async {
+                inputBar.inputTextView.text = ""
+                self.messagesCollectionView.reloadData()
+                self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+            }
+
             viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
                 if let error = error {
                     self.showAlert(withMessage: error)
@@ -712,13 +722,6 @@ extension ChatVC: InputBarAccessoryViewDelegate {
                     return
                 }
                 
-                self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: data.messagetype ?? 0))
-                
-                DispatchQueue.main.async {
-                    inputBar.inputTextView.text = ""
-                    self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-                }
             }
         }
     }
@@ -756,25 +759,25 @@ extension ChatVC: MessagesDisplayDelegate {
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         switch message.kind {
         case .contact(_):
-            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .emoji((_)):
-            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .text(_):
-            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .photo(_):
             return isFromCurrentSender(message: message) ? UIColor.clear : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .audio(_):
-            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .location(_):
-            return isFromCurrentSender(message: message) ? UIColor.clear : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .video(_):
             return isFromCurrentSender(message: message) ? UIColor.clear : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .linkPreview(_):
-            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .attributedText(_):
-            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         default:
-            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         }
     }
     
@@ -1245,6 +1248,17 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
         }else {
             
             let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+            
+//            self.messageList.append(UserMessage(imageURL: URL(string: data.attach ?? "")!, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 2))
+            
+            self.messageList.append(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 2))
+            self.sendingImageView = image
+            
+            DispatchQueue.main.async {
+                self.messagesCollectionView.reloadData()
+                self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+            }
+
             if isEvent {
                 viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
                     
@@ -1253,20 +1267,15 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
                         return
                     }
                     
-                    guard let data = data else {
+                    guard let _ = data else {
                         return
                     }
                     
-                    self.messageList.append(UserMessage(imageURL: URL(string: data.attach ?? "")!, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: data.messagetype ?? 0))
-                    
-                    self.sendingImageView = UIImage(named: data.attach ?? "")
-                    
-                    DispatchQueue.main.async {
-                        self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-                    }
                 }
             }else {
+                self.messageList.append(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 2))
+                self.sendingImageView = image
+
                 viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
                     
                     if let error = error {
@@ -1274,17 +1283,8 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
                         return
                     }
                     
-                    guard let data = data else {
+                    guard let _ = data else {
                         return
-                    }
-                    
-                    self.messageList.append(UserMessage(imageURL: URL(string: data.attach ?? "")!, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: data.messagetype ?? 0))
-                    
-                    self.sendingImageView = UIImage(named: data.attach ?? "")
-                    
-                    DispatchQueue.main.async {
-                        self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
                     }
                 }
             }
@@ -1403,9 +1403,9 @@ extension ChatVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
 extension ChatVC: MessagesLayoutDelegate {
     
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        if isTimeLabelVisible(at: indexPath) {
-            return 18
-        }
+//        if isTimeLabelVisible(at: indexPath) {
+//            return 18
+//        }
         return 0
     }
     
@@ -1418,7 +1418,7 @@ extension ChatVC: MessagesLayoutDelegate {
     }
     
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        return (!isNextMessageSameSender(at: indexPath) && isFromCurrentSender(message: message)) ? 16 : 0
+        return (!isNextMessageSameSender(at: indexPath) && isFromCurrentSender(message: message)) ? 16 : 16
     }
     
     
@@ -1471,26 +1471,38 @@ extension ChatVC: UIDocumentPickerDelegate {
             
             //            let imageData = try Data(contentsOf: selectedFileURL as URL)
             if isEvent {
+                
+                self.messageList.append(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
+                
+                let imgView:UIImageView = UIImageView()
+                imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
+                self.sendingImageView  = imgView.image
+                
+                DispatchQueue.main.async {
+                    self.messagesCollectionView.reloadData()
+                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                }
+                
+
                 viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
                     if let error = error {
                         self.showAlert(withMessage: error)
                         return
                     }
                     
-                    guard let data = data else {
+                    guard let _ = data else {
                         return
-                    }
-                    
-                    self.messageList.append(UserMessage(imageURL: URL(string: data.attach ?? "")!, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: data.messagetype ?? 0))
-                    self.sendingImageView = UIImage(named: data.attach ?? "")
-                    
-                    DispatchQueue.main.async {
-                        self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
                     }
                     
                 }
             }else {
+                
+                self.messageList.append(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
+                
+                let imgView:UIImageView = UIImageView()
+                imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
+                self.sendingImageView  = imgView.image
+
                 viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
                     
                     if let error = error {
@@ -1498,17 +1510,8 @@ extension ChatVC: UIDocumentPickerDelegate {
                         return
                     }
                     
-                    guard let data = data else {
+                    guard let _ = data else {
                         return
-                    }
-                    
-                    self.messageList.append(UserMessage(imageURL: URL(string: data.attach ?? "")!, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: data.messagetype ?? 0))
-                    
-                    self.sendingImageView = UIImage(named: data.attach ?? "")
-                    
-                    DispatchQueue.main.async {
-                        self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
                     }
                 }
             }

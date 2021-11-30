@@ -134,9 +134,8 @@
 		436460BB26E8EE2E007C3F27 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436460B926E8EE2E007C3F27 /* UserModel.swift */; };
 		436850982745008500A62287 /* InstagramWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436850972745008500A62287 /* InstagramWebVC.swift */; };
 		4368509A274500DD00A62287 /* structAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43685099274500DD00A62287 /* structAPI.swift */; };
-		4371D4142732B125003B8AFD /* FaceRecognitionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4132732B125003B8AFD /* FaceRecognitionVC.swift */; };
-		4371D4162732B131003B8AFD /* FaceRecognition.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4371D4152732B131003B8AFD /* FaceRecognition.storyboard */; };
-		4371D41F2732B76F003B8AFD /* Faces.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 4371D41E2732B76F003B8AFD /* Faces.mlmodel */; };
+		4368509F27453E3800A62287 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4368509D27453E3800A62287 /* TagCollectionViewCell.swift */; };
+		436850A027453E3800A62287 /* TagCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4368509E27453E3800A62287 /* TagCollectionViewCell.xib */; };
 		4371D4212733F46C003B8AFD /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4202733F46C003B8AFD /* CustomCell.swift */; };
 		4371D4232737D054003B8AFD /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4222737D054003B8AFD /* CustomMessagesFlowLayout.swift */; };
 		4371D42627391B13003B8AFD /* EmptyViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */; };
@@ -188,6 +187,11 @@
 		439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */; };
 		439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */; };
 		439DDE9426F749DC00E09FC1 /* EventsInLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */; };
+		43B22412274B89D7004C6912 /* SelectedTagsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22411274B89D7004C6912 /* SelectedTagsVC.swift */; };
+		43B22416274D132C004C6912 /* CategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22415274D132C004C6912 /* CategoriesVC.swift */; };
+		43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */; };
+		43B2241A274D16B5004C6912 /* CategoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B22418274D16B5004C6912 /* CategoryCollectionViewCell.xib */; };
+		43B22436274E82B6004C6912 /* TagsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22435274E82B6004C6912 /* TagsLayout.swift */; };
 		43BA37992700A121003F28FA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BA37982700A121003F28FA /* Reachability.swift */; };
 		43CFB00C271C56EB000CB41E /* InterestsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CFB00A271C56EB000CB41E /* InterestsCollectionViewCell.swift */; };
 		43CFB00D271C56EB000CB41E /* InterestsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43CFB00B271C56EB000CB41E /* InterestsCollectionViewCell.xib */; };
@@ -394,10 +398,9 @@
 		436460B926E8EE2E007C3F27 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		436850972745008500A62287 /* InstagramWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramWebVC.swift; sourceTree = "<group>"; };
 		43685099274500DD00A62287 /* structAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = structAPI.swift; sourceTree = "<group>"; };
+		4368509D27453E3800A62287 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
+		4368509E27453E3800A62287 /* TagCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagCollectionViewCell.xib; sourceTree = "<group>"; };
 		4371D40D273127F3003B8AFD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4371D4132732B125003B8AFD /* FaceRecognitionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionVC.swift; sourceTree = "<group>"; };
-		4371D4152732B131003B8AFD /* FaceRecognition.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FaceRecognition.storyboard; sourceTree = "<group>"; };
-		4371D41E2732B76F003B8AFD /* Faces.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Faces.mlmodel; sourceTree = "<group>"; };
 		4371D4202733F46C003B8AFD /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		4371D4222737D054003B8AFD /* CustomMessagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagesFlowLayout.swift; sourceTree = "<group>"; };
 		4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewTableViewCell.swift; sourceTree = "<group>"; };
@@ -453,6 +456,11 @@
 		439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeModel.swift; sourceTree = "<group>"; };
 		439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsInLocationTableViewCell.swift; sourceTree = "<group>"; };
 		439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventsInLocationTableViewCell.xib; sourceTree = "<group>"; };
+		43B22411274B89D7004C6912 /* SelectedTagsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTagsVC.swift; sourceTree = "<group>"; };
+		43B22415274D132C004C6912 /* CategoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesVC.swift; sourceTree = "<group>"; };
+		43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		43B22418274D16B5004C6912 /* CategoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCollectionViewCell.xib; sourceTree = "<group>"; };
+		43B22435274E82B6004C6912 /* TagsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsLayout.swift; sourceTree = "<group>"; };
 		43BA37982700A121003F28FA /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		43CFB00A271C56EB000CB41E /* InterestsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsCollectionViewCell.swift; sourceTree = "<group>"; };
 		43CFB00B271C56EB000CB41E /* InterestsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InterestsCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -670,6 +678,7 @@
 				430A351D26CAB01A00477A94 /* EditEventsVC.swift */,
 				43D545C026CBEC5B0064660A /* EventDetailsVC.swift */,
 				4330756F26E75EDC002940DF /* AttendeesVC.swift */,
+				43B22415274D132C004C6912 /* CategoriesVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -691,6 +700,8 @@
 				43CFB00B271C56EB000CB41E /* InterestsCollectionViewCell.xib */,
 				43CFB00E271C56FC000CB41E /* GenderCollectionViewCell.swift */,
 				43CFB00F271C56FC000CB41E /* GenderCollectionViewCell.xib */,
+				43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */,
+				43B22418274D16B5004C6912 /* CategoryCollectionViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1030,6 +1041,7 @@
 		436288A926C93B2D00B51E51 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				43B22432274E829C004C6912 /* TagsSource */,
 				4336D13326DB94D70093C7A6 /* Model */,
 				4336D13226DB94D10093C7A6 /* ViewModel */,
 				436288AB26C93B4900B51E51 /* Controller */,
@@ -1044,6 +1056,8 @@
 				430A34FF26CA496300477A94 /* CustomViews */,
 				432C6AD526F33BCC0029FB89 /* TagListView */,
 				436288AC26C93B5C00B51E51 /* Profile.storyboard */,
+				4368509D27453E3800A62287 /* TagCollectionViewCell.swift */,
+				4368509E27453E3800A62287 /* TagCollectionViewCell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1056,6 +1070,7 @@
 				430A350426CA504100477A94 /* EditMyProfileVC.swift */,
 				43D545AE26CBD76E0064660A /* TagsVC.swift */,
 				436850972745008500A62287 /* InstagramWebVC.swift */,
+				43B22411274B89D7004C6912 /* SelectedTagsVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1072,7 +1087,6 @@
 		4371D40F27329535003B8AFD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				4371D4102732AE61003B8AFD /* Face Recognition */,
 				4382ACAB26C28EAC005C1857 /* Main */,
 				430A351A26CAAF9E00477A94 /* Events */,
 				436288A926C93B2D00B51E51 /* Profile */,
@@ -1085,32 +1099,6 @@
 				4382ACAD26C28FE3005C1857 /* Splach */,
 			);
 			path = Modules;
-			sourceTree = "<group>";
-		};
-		4371D4102732AE61003B8AFD /* Face Recognition */ = {
-			isa = PBXGroup;
-			children = (
-				4371D41E2732B76F003B8AFD /* Faces.mlmodel */,
-				4371D4122732B100003B8AFD /* Controller */,
-				4371D4112732B0F5003B8AFD /* View */,
-			);
-			path = "Face Recognition";
-			sourceTree = "<group>";
-		};
-		4371D4112732B0F5003B8AFD /* View */ = {
-			isa = PBXGroup;
-			children = (
-				4371D4152732B131003B8AFD /* FaceRecognition.storyboard */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		4371D4122732B100003B8AFD /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				4371D4132732B125003B8AFD /* FaceRecognitionVC.swift */,
-			);
-			path = Controller;
 			sourceTree = "<group>";
 		};
 		4382AC0A26C27195005C1857 = {
@@ -1321,6 +1309,14 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		43B22432274E829C004C6912 /* TagsSource */ = {
+			isa = PBXGroup;
+			children = (
+				43B22435274E82B6004C6912 /* TagsLayout.swift */,
+			);
+			path = TagsSource;
+			sourceTree = "<group>";
+		};
 		43D545A526CBB01B0064660A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -1509,10 +1505,10 @@
 				436288A626C9334900B51E51 /* ChatListTableViewCell.xib in Resources */,
 				4382AC2626C27195005C1857 /* LaunchScreen.storyboard in Resources */,
 				4344107E26CD54E000F8233E /* CategoriesView.xib in Resources */,
+				43B2241A274D16B5004C6912 /* CategoryCollectionViewCell.xib in Resources */,
 				4320A65026F21180003604EE /* BlockedTableViewCell.xib in Resources */,
 				43FC3CA827280BD500D94ABB /* SettingsTableViewCell.xib in Resources */,
 				4362887F26C8FECB00B51E51 /* Map.storyboard in Resources */,
-				4371D4162732B131003B8AFD /* FaceRecognition.storyboard in Resources */,
 				4382AC9D26C27FF2005C1857 /* Montserrat-Regular.ttf in Resources */,
 				430D425A26D3854200188E42 /* InterestsTableViewCell.xib in Resources */,
 				43CFB011271C56FC000CB41E /* GenderCollectionViewCell.xib in Resources */,
@@ -1546,6 +1542,7 @@
 				4382AC9626C27FF2005C1857 /* Montserrat-Medium.ttf in Resources */,
 				4371D42727391B13003B8AFD /* EmptyViewTableViewCell.xib in Resources */,
 				4362889D26C9140E00B51E51 /* RequestTableViewCell.xib in Resources */,
+				436850A027453E3800A62287 /* TagCollectionViewCell.xib in Resources */,
 				4382AC1E26C27195005C1857 /* Main.storyboard in Resources */,
 				43D545A726CBB02D0064660A /* EventCalendarView.xib in Resources */,
 				4381CC9C270DB45A00D40A6D /* GoogleService-Info.plist in Resources */,
@@ -1668,7 +1665,6 @@
 				4382AC4E26C2778C005C1857 /* UIViewExtension.swift in Sources */,
 				431505782705F90E002387A1 /* DegreeScaleView.swift in Sources */,
 				4336D12926DB89370093C7A6 /* PasswordViewModel.swift in Sources */,
-				4371D41F2732B76F003B8AFD /* Faces.mlmodel in Sources */,
 				436288B126C95B1300B51E51 /* FriendProfileVC.swift in Sources */,
 				4325E20C26F0A048008F73C4 /* ChangePasswordVC.swift in Sources */,
 				4382ACBE26C2AFF7005C1857 /* SplachFourVC.swift in Sources */,
@@ -1681,10 +1677,12 @@
 				432940FB26EE0FB60066BE87 /* FriendModel.swift in Sources */,
 				439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */,
 				43119D7426E4F00000AD2260 /* DescriptionViewModel.swift in Sources */,
+				43B22416274D132C004C6912 /* CategoriesVC.swift in Sources */,
 				4382AC5026C2788D005C1857 /* StringExtension.swift in Sources */,
 				436460BB26E8EE2E007C3F27 /* UserModel.swift in Sources */,
 				4336D13526DB94ED0093C7A6 /* LogoutViewModel.swift in Sources */,
 				4336D11F26DB86BD0093C7A6 /* LoginViewModel.swift in Sources */,
+				43B22436274E82B6004C6912 /* TagsLayout.swift in Sources */,
 				4336D12526DB88C00093C7A6 /* MobilenumberViewModel.swift in Sources */,
 				430A350B26CA5C9D00477A94 /* CalendarView.swift in Sources */,
 				437EE47226E8B39700765089 /* LeaveEventViewModel.swift in Sources */,
@@ -1769,6 +1767,7 @@
 				4306C59F27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.swift in Sources */,
 				4344110726CE885F00F8233E /* ContactsTableViewCell.swift in Sources */,
 				43D545C126CBEC5B0064660A /* EventDetailsVC.swift in Sources */,
+				43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */,
 				430D426926D3BEBA00188E42 /* ChatVC.swift in Sources */,
 				43119D7226E4EFEB00AD2260 /* TitleEventViewModel.swift in Sources */,
 				43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */,
@@ -1782,6 +1781,7 @@
 				43FC3CAB27280C9E00D94ABB /* DeleteAccountTableViewCell.swift in Sources */,
 				4336D13126DB92830093C7A6 /* ForgetPasswordViewModel.swift in Sources */,
 				4330757A26E7918B002940DF /* AttendeesViewModel.swift in Sources */,
+				4368509F27453E3800A62287 /* TagCollectionViewCell.swift in Sources */,
 				4330757026E75EDC002940DF /* AttendeesVC.swift in Sources */,
 				4320A64826F1FD50003604EE /* AllFriendesModel.swift in Sources */,
 				436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */,
@@ -1796,9 +1796,9 @@
 				4330757826E78AA1002940DF /* UIImageExtension.swift in Sources */,
 				4320A64A26F20E5D003604EE /* AllBlockedViewModel.swift in Sources */,
 				4308EB7826EA0FCD00D71379 /* FeedViewModel.swift in Sources */,
+				43B22412274B89D7004C6912 /* SelectedTagsVC.swift in Sources */,
 				4336D11426DB7F570093C7A6 /* RequestManager.swift in Sources */,
 				430A352026CAB02700477A94 /* EventsVC.swift in Sources */,
-				4371D4142732B125003B8AFD /* FaceRecognitionVC.swift in Sources */,
 				43D545BB26CBD8610064660A /* SKAction+Color.swift in Sources */,
 				43D545BD26CBD8730064660A /* SKMultilineLabelNode.swift in Sources */,
 				4397236D2709CE9E0062D684 /* ChatViewModel.swift in Sources */,

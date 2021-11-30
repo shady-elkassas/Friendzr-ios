@@ -18,15 +18,25 @@ protocol PickingLocationFromTheMap {
     func selectLocation(With placeMark:CLPlacemark,location:CLLocationCoordinate2D)
 }
 
+//Singleton
+class MapAppType {
+    static var type: Bool = false
+}
+
+class LocationZooming {
+    static var locationLat: Double = 0.0
+    static var locationLng: Double = 0.0
+}
+
 //create location
 class EventsLocation {
     var location:CLLocationCoordinate2D = CLLocationCoordinate2D()
-    var color:String = ""
     var typelocation:String = ""
+    var markerIcon:String = ""
     
-    init(location:CLLocationCoordinate2D,color:String,typelocation:String) {
+    init(location:CLLocationCoordinate2D,markerIcon:String,typelocation:String) {
         self.location = location
-        self.color = color
+        self.markerIcon = markerIcon
         self.typelocation = typelocation
     }
 }
@@ -37,11 +47,20 @@ class MapVC: UIViewController {
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addEventBtn: UIButton!
     @IBOutlet weak var goAddEventBtn: UIButton!
+    
     @IBOutlet weak var subView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     @IBOutlet weak var radiusMLbl: UILabel!
     @IBOutlet weak var radiusKMLbl: UILabel!
     @IBOutlet weak var zoomingStatisticsView: UIView!
+    
+    @IBOutlet weak var sataliteBtn: UIButton!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var profileImg: UIImageView!
+    @IBOutlet weak var topContainerView: UIView!
+    @IBOutlet weak var currentLocationBtn: UIButton!
+    @IBOutlet weak var markerImg: UIImageView!
     
     
     //MARK: - Properties
@@ -64,21 +83,16 @@ class MapVC: UIViewController {
     var nearbyEventCellId = "NearbyEventsCollectionViewCell"
     
     private var tableView: UITableView!
-    private var searchBar: UISearchBar!
     private var tableDataSource: GMSAutocompleteTableDataSource!
     
     let screenSize = UIScreen.main.bounds.size
     
     var internetConect:Bool = false
-    //    var btnsSelect:Bool = false
-    
-//    let settingsMap = GMSUISettings()
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.title = "Map".localizedString
+
         updateLocation()
         setupViews()
     }
@@ -92,16 +106,19 @@ class MapVC: UIViewController {
         appendNewLocation = false
         goAddEventBtn.isHidden = true
         addEventBtn.isHidden = false
-        initProfileBarButton()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.updateUserInterface()
         }
+        
+        hideNavigationBar(NavigationBar: true, BackButton: true)
     }
     
     //MARK: - APIs
     func bindToModel() {
-//        self.showLoading()
+        //        self.showLoading()
+        collectionViewHeight.constant = 0
+        subView.isHidden = true
         viewmodel.getAllEventsAroundMe()
         viewmodel.locations.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -109,6 +126,9 @@ class MapVC: UIViewController {
                 self.collectionView.dataSource = self
                 self.collectionView.delegate = self
                 self.collectionView.reloadData()
+                
+                collectionViewHeight.constant = 140
+                subView.isHidden = false
                 
                 setupMarkers()
             }
@@ -122,7 +142,7 @@ class MapVC: UIViewController {
             }
         }
     }
-        
+    
     func getEvents(By lat:Double,lng:Double) {
         viewmodel.getEventsByLoction(lat: lat, lng: lng)
         viewmodel.events.bind { [unowned self] value in
@@ -144,7 +164,6 @@ class MapVC: UIViewController {
         }
     }
     
-    
     //MARK: - Helpers
     func updateUserInterface() {
         appDelegate.networkReachability()
@@ -152,6 +171,8 @@ class MapVC: UIViewController {
         switch Network.reachability.status {
         case .unreachable:
             internetConect = false
+            collectionViewHeight.constant = 0
+            subView.isHidden = true
             HandleInternetConnection()
         case .wwan:
             internetConect = true
@@ -167,7 +188,6 @@ class MapVC: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-    
     
     func updateUserInterfaceBtns() {
         appDelegate.networkReachability()
@@ -198,58 +218,61 @@ class MapVC: UIViewController {
         let model = viewmodel.locations.value
         locations.removeAll()
         for item in model?.eventlocationDataMV ?? [] {
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), color: item.color ?? "", typelocation: "event"))
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "eventMarker_ic", typelocation: "event"))
         }
         
         for item in model?.peoplocationDataMV ?? [] {
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), color: item.color ?? "", typelocation: "people"))
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "markerLocations_ic", typelocation: "people"))
         }
         
         for item in locations {
-            setupMarker(for: item.location, tintColor: item.color, typelocation: item.typelocation)
+            setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation)
         }
     }
     
     //create markers for locations events
-    func setupMarker(for position:CLLocationCoordinate2D , tintColor:String?,typelocation:String)  {
-        let camera = GMSCameraPosition.camera(withLatitude: position.latitude,longitude: position.longitude,zoom: 15)
-        
+    func setupMarkerz(for position:CLLocationCoordinate2D , markerIcon:String?,typelocation:String)  {
         if appendNewLocation {
             mapView.clear()
         }
-        
-        self.mapView.camera = camera
         let marker = GMSMarker(position: position)
         
         marker.snippet = typelocation
+        marker.icon = UIImage(named: markerIcon!)
         
-        marker.iconView = iconViewMap
-        marker.iconView?.backgroundColor = UIColor.color(tintColor ?? "")
+        if LocationZooming.locationLat == position.latitude {
+            marker.appearAnimation = .pop
+        }
+        
         marker.map = mapView
     }
     
-    var iconViewMap:UIView = {
-        let view = UIView()
-        //        view.backgroundColor = .red
-        view.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        view.cornerRadiusView(radius: 15)
-        return view
-    }()
-    
     func setupViews() {
         //setup search bar
-        addEventBtn.cornerRadiusForHeight()
-        goAddEventBtn.cornerRadiusForHeight()
-        searchBar = UISearchBar(frame: CGRect(x: 0, y: (self.screenSize.height) - (self.screenSize.height - 95), width: self.view.bounds.size.width, height: 56.0))
+        addEventBtn.cornerRadiusView(radius: 10)
+        goAddEventBtn.cornerRadiusView(radius: 10)
+        sataliteBtn.cornerRadiusView(radius: 10)
+        currentLocationBtn.cornerRadiusView(radius: 10)
+        topContainerView.cornerRadiusView(radius: 10)
+        profileImg.cornerRadiusForHeight()
+        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeholder"))
+        
+        //        searchBar = UISearchBar(frame: CGRect(x: 0, y: (self.screenSize.height) - (self.screenSize.height - 95), width: self.view.bounds.size.width, height: 56.0))
         searchBar.delegate = self
         searchBar.backgroundColor = UIColor.clear
+        searchBar.barTintColor = .white
         searchBar.backgroundImage = UIImage()
-        view.addSubview(searchBar)
+        //        searchBar.searchTextField.borderRect(forBounds: CGRect(x: 0, y: 0, width: searchBar.bounds.width, height: searchBar.bounds.height))
+        searchBar.searchTextField.backgroundColor = .clear
+        searchBar.searchTextField.tintColor = .black
+        searchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
+        
+        //        view.addSubview(searchBar)
         
         //setup search tableView
         tableDataSource = GMSAutocompleteTableDataSource()
         tableDataSource.delegate = self
-        tableView = UITableView(frame: CGRect(x: 0, y:(self.screenSize.height) - (self.screenSize.height - 150), width: self.view.frame.size.width, height: self.view.frame.size.height - 44))
+        tableView = UITableView(frame: CGRect(x: 0, y:(self.screenSize.height) - (self.screenSize.height - 110), width: self.view.frame.size.width, height: self.view.frame.size.height))
         tableView.delegate = tableDataSource
         tableView.dataSource = tableDataSource
         tableView.isHidden = true
@@ -265,15 +288,20 @@ class MapVC: UIViewController {
         collectionView.register(UINib(nibName: nearbyEventCellId, bundle: nil), forCellWithReuseIdentifier: nearbyEventCellId)
         subView.setCornerforTop()
         
-        zoomingStatisticsView.cornerRadiusView(radius: 8)
+        zoomingStatisticsView.cornerRadiusView(radius: 6)
     }
     
     //create marker for location selected
     func setupMarker(for position:CLLocationCoordinate2D)  {
-        self.mapView.clear()
+        let camera = GMSCameraPosition.camera(withLatitude: position.latitude,longitude: position.longitude,zoom: 15)
+        
+        if appendNewLocation {
+            mapView.clear()
+        }
+        
+        self.mapView.camera = camera
         let marker = GMSMarker(position: position)
-        marker.icon = UIImage(named: "pin")
-        marker.snippet = "NewEvent"
+        marker.icon = UIImage(named: "markerLocations_ic")
         marker.map = mapView
     }
     
@@ -287,26 +315,24 @@ class MapVC: UIViewController {
     }
     
     //setup google map
-    private func setupGoogleMap() {
+    private func setupGoogleMap(zoom1:Float,zoom2:Float) {
         self.mapView.delegate = self
         self.mapView.isMyLocationEnabled = true
         self.mapView.isBuildingsEnabled = true
         self.mapView.isIndoorEnabled = true
         
-        let camera = GMSCameraPosition.camera(withLatitude: location!.latitude, longitude: location!.longitude, zoom: 17.0)
-        self.mapView.animate(to: camera)
-        geocode(latitude: location!.latitude, longitude: location!.longitude) { (PM, error) in
-            
-            guard let error = error else {
-                self.locationName = (PM?.name)!
-                self.setupMarker(for: self.location!, tintColor: "#0BBEA1", typelocation: "")
-                print(self.locationName)
-                print("\(self.location!.latitude) : \(self.location!.longitude)")
-                self.currentPlaceMark = PM!
-                return
-            }
-            self.showAlert(withMessage: error.localizedDescription)
-        }
+        let lat = Double(Defaults.LocationLat) ?? 0.0
+        let lng = Double(Defaults.LocationLng) ?? 0.0
+        
+        mapView.camera = GMSCameraPosition.camera(withLatitude: lat,longitude: lng, zoom: zoom1)
+        CATransaction.begin()
+        CATransaction.setValue(1.0, forKey: kCATransactionAnimationDuration)
+        let city = GMSCameraPosition.camera(withLatitude: lat,longitude: lng, zoom: zoom2)
+        self.mapView.animate(to: city)
+        CATransaction.commit()
+        
+        LocationZooming.locationLat = lat
+        LocationZooming.locationLng = lng
     }
     
     private func geocode(latitude: Double, longitude: Double, completion: @escaping (_ placemark: CLPlacemark?, _ error: Error?) -> Void)  {
@@ -374,31 +400,59 @@ class MapVC: UIViewController {
             self.goAddEventBtn.isHidden = false
             self.addEventBtn.isHidden = true
             
-            self.setupMarker(for: self.location!)
+            //            self.setupMarker(for: self.location!)
+            markerImg.isHidden = false
         }else {
+            markerImg.isHidden = true
             self.checkLocationPermission()
         }
     }
     
     @IBAction func goAddEventBtn(_ sender: Any) {
+        
         if self.appendNewLocation {
             self.updateUserInterfaceBtns()
             if self.internetConect {
-                self.setupMarker(for: self.location!, tintColor: "#0BBEA1", typelocation: "event")
+                self.setupMarkerz(for: self.location!, markerIcon: "eventMarker_ic", typelocation: "event")
                 
-                self.locations.append(EventsLocation(location: self.location!, color: "", typelocation: "event"))
+                self.locations.append(EventsLocation(location: self.location!, markerIcon: "eventMarker_ic", typelocation: "event"))
+                
+                LocationZooming.locationLat = self.location?.latitude ?? 0.0
+                LocationZooming.locationLng = self.location?.longitude ?? 0.0
                 
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
                 vc.locationLat = self.location!.latitude
                 vc.locationLng = self.location!.longitude
                 self.addEventBtn.isHidden = false
                 self.goAddEventBtn.isHidden = true
+                self.markerImg.isHidden = true
                 self.navigationController?.pushViewController(vc, animated: true)
-            }else {
-                return
             }
         }
     }
+    
+    @IBAction func profileBtn(_ sender: Any) {
+        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @IBAction func convertMapStyleBtn(_ sender: Any) {
+        MapAppType.type = !MapAppType.type
+        if MapAppType.type {
+            mapView.mapType = .normal
+        }else {
+            mapView.mapType = .satellite
+        }
+    }
+    
+    
+    @IBAction func currentLocationBtn(_ sender: Any) {
+        self.updateUserInterfaceBtns()
+        if self.internetConect {
+            setupGoogleMap(zoom1: 15, zoom2: 18)
+        }
+    }
+    
 }
 
 //MARK: - GMSMap View Delegate
@@ -406,22 +460,22 @@ extension MapVC : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         
         self.location = coordinate
-        let camera = GMSCameraPosition.camera(withLatitude: (location?.latitude)!, longitude: (location?.longitude)!, zoom: 17.0)
+        let camera = GMSCameraPosition.camera(withLatitude: (location?.latitude)!, longitude: (location?.longitude)!, zoom: 16.0)
         mapView.animate(to: camera)
         
         if self.appendNewLocation {
-            self.setupMarker(for: self.location!)
+            //            self.setupMarker(for: self.location!)
             
             geocode(latitude: location!.latitude, longitude: location!.longitude) { (PM, error) in
                 guard let error = error else {
                     self.locationName = (PM?.name)!
                     self.currentPlaceMark = PM!
-                    
                     print(self.locationName)
                     print("\(self.location!.latitude) : \(self.location!.longitude)")
                     self.view.makeToast((PM?.name)!)
                     return
                 }
+                
                 self.showAlert(withMessage: error.localizedDescription)
             }
         }else {
@@ -454,16 +508,31 @@ extension MapVC : GMSMapViewDelegate {
         
         return true
     }
+    
+    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+        if self.appendNewLocation == true {
+            let lat = mapView.camera.target.latitude
+            let lng = mapView.camera.target.longitude
+            location = CLLocationCoordinate2DMake(lat, lng)
+            
+            print("Center Location is === \(location!)")
+        }
+    }
 }
 
 //MARK: - CLLocation manager delegate
 extension MapVC : CLLocationManagerDelegate {
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        self.location = manager.location?.coordinate
-        locationManager.stopUpdatingLocation()
-        setupGoogleMap()
+        updateUserInterfaceBtns()
+        if internetConect {
+            self.location = manager.location?.coordinate
+            locationManager.stopUpdatingLocation()
+            setupGoogleMap(zoom1: 1, zoom2: 14)
+        }else {
+            print("NOT NETWORK AVILABLE")
+        }
     }
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             //check  location permissions
@@ -542,7 +611,7 @@ extension MapVC: GMSAutocompleteTableDataSourceDelegate {
         self.locationManager.stopUpdatingLocation()
         tableView.isHidden = true
         
-        setupMarker(for: CLLocationCoordinate2D.init(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude))
+        //        setupMarker(for: CLLocationCoordinate2D.init(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude))
         self.locationName = (place.name)!
         print(self.locationName)
         print("\(self.location!.latitude) : \(self.location!.longitude)")
@@ -614,15 +683,15 @@ extension MapVC:UITableViewDelegate {
 
 //MARK: - events nearby collection view data source and delegate
 extension MapVC:UICollectionViewDataSource {
-
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return viewmodel.locations.value?.eventlocationDataMV?.count ?? 0
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewmodel.locations.value?.eventlocationDataMV?[section].eventData?.count ?? 0
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nearbyEventCellId, for: indexPath) as? NearbyEventsCollectionViewCell else {return UICollectionViewCell()}
         let model = viewmodel.locations.value?.eventlocationDataMV?[indexPath.section].eventData?[indexPath.row]
@@ -630,7 +699,11 @@ extension MapVC:UICollectionViewDataSource {
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
+        cell.eventDateLbl.textColor = UIColor.color(model?.color ?? "")
+        
         cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+        
+        cell.eventColorView.backgroundColor = UIColor.color(model?.color ?? "")
         return cell
     }
 }
@@ -639,7 +712,7 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.bounds.width
         let height = collectionView.bounds.height
-        return CGSize(width: width/2.4, height: height - 20)
+        return CGSize(width: width/2.1, height: height - 20)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -656,74 +729,29 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let model = viewmodel.locations.value?.eventlocationDataMV?[indexPath.section].eventData
-        for (i,item) in model!.enumerated() {
+        
+        for (index,item) in model!.enumerated() {
             let locitm = CLLocationCoordinate2DMake(Double(item.lat!)!, Double(item.lang!)!)
-            if i == indexPath.row {
-                delay(seconds: 0.5) { () -> () in
-                    let zoomOut = GMSCameraUpdate.zoom(to: 15)
-                    self.mapView.animate(with: zoomOut)
-                    
-                    self.delay(seconds: 0.5, closure: { () -> () in
-                        
-                        let updatePos = CLLocationCoordinate2DMake(locitm.latitude,locitm.longitude)
-                        let updateCam = GMSCameraUpdate.setTarget(updatePos)
-                        self.mapView.animate(with: updateCam)
-                        
-                        self.delay(seconds: 0.5, closure: { () -> () in
-                            let zoomIn = GMSCameraUpdate.zoom(to: 20)
-                            self.mapView.animate(with: zoomIn)
-                        })
-                    })
+            if index == indexPath.row {
+                if LocationZooming.locationLat != locitm.latitude {
+                    animationZoomingMap(zoomIN: 18, zoomOUT: 15, lat: locitm.latitude, lng: locitm.longitude)
+                }else {
+                    self.mapView.clear()
+                    self.setupMarkers()
                 }
             }
-        }
-    }
-    
-    func delay(seconds: Double, closure: @escaping () -> ()) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-            closure()
         }
     }
 }
 
 extension MapVC {
-    // calculate radius
-//    func getCenterCoordinate() -> CLLocationCoordinate2D {
-//        let centerPoint = self.mapView.center
-//        let centerCoordinate = self.mapView.projection.coordinate(for: centerPoint)
-//        print("centerCoordinate : \(centerCoordinate)")
-//        return centerCoordinate
-//    }
-    
-//    func getTopCenterCoordinate() -> CLLocationCoordinate2D {
-//        // to get coordinate from CGPoint of your map
-//        let topCenterCoor = self.mapView.convert(CGPoint(x: self.mapView.frame.size.width / 2.0, y: 0), from: self.mapView)
-//        let point = self.mapView.projection.coordinate(for: topCenterCoor)
-//        print("point : \(point)")
-//        return point
-//    }
-    
-//    func getRadius() -> CLLocationDistance {
-//
-//        let centerCoordinate = getCenterCoordinate()
-//        // init center location from center coordinate
-//        let centerLocation = CLLocation(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
-//        let topCenterCoordinate = self.getTopCenterCoordinate()
-//        let topCenterLocation = CLLocation(latitude: topCenterCoordinate.latitude, longitude: topCenterCoordinate.longitude)
-//
-//        let radius = CLLocationDistance(centerLocation.distance(from: topCenterLocation))
-//
-//        print("radius : \(radius)")
-//        return round(radius)
-//    }
-    
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
         
         // Find the coordinates
         let visibleRegion = mapView.projection.visibleRegion()
         let farLeftLocation = CLLocation(latitude: visibleRegion.farLeft.latitude, longitude: visibleRegion.farLeft.longitude)
         let centerLocation = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
-
+        
         // Calculate the distance as radius.
         // The distance result from CLLocation is in meters, so we divide it by 1000 to get the value in kilometers
         let radiusKM = (centerLocation.distance(from: farLeftLocation) / 1000.0).rounded(toPlaces: 1)
@@ -732,6 +760,39 @@ extension MapVC {
         
         radiusMLbl.text = "\(radiusKM * 1000) m"
         radiusKMLbl.text = "\(radiusKM) km"
+    }
+    
+    func delay(seconds: Double, closure: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            closure()
+        }
+    }
+    
+    func animationZoomingMap(zoomIN:Float,zoomOUT:Float,lat:Double,lng:Double) {
+        delay(seconds: 0.5) { () -> () in
+            let zoomOut = GMSCameraUpdate.zoom(to: zoomOUT)
+            self.mapView.animate(with: zoomOut)
+            
+            self.delay(seconds: 0.5, closure: { () -> () in
+                
+                let updatePos = CLLocationCoordinate2DMake(lat,lng)
+                let updateCam = GMSCameraUpdate.setTarget(updatePos)
+                self.mapView.animate(with: updateCam)
+                
+                self.delay(seconds: 0.5, closure: { () -> () in
+                    let zoomIn = GMSCameraUpdate.zoom(to: zoomIN)
+                    self.mapView.animate(with: zoomIn)
+                })
+            })
+        }
+        
+        LocationZooming.locationLat = lat
+        LocationZooming.locationLng = lng
+        
+        delay(seconds: 2.5) { () -> () in
+            self.mapView.clear()
+            self.setupMarkers()
+        }
     }
 }
 
@@ -761,7 +822,7 @@ extension MapVC {
                     let miles = distanceMiles["text"]! as! String
                     let TimeRide = dis["duration"] as! Dictionary<String,Any>
                     let finalTime = TimeRide[ "text"]! as! String
-
+                    
                     
                     print(finalTime,miles)
                     
@@ -777,7 +838,7 @@ extension MapVC {
     func drawGoogleAPIDirction(destination:String) {
         let origin = "\(Defaults.LocationLat),\(Defaults.LocationLng)"
         let destination = destination
-
+        
         let urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin)&destination=\(destination)&mode-driving&key=\(googleApiKey)"
         
         let url = URL(string: urlString)
@@ -787,7 +848,7 @@ extension MapVC {
             }else {
                 DispatchQueue.main.async {
                     self.mapView.clear()
-//                    self.addSourceDestinationMarkers()
+                    //                    self.addSourceDestinationMarkers()
                 }
                 do {
                     let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:Any]
@@ -815,15 +876,5 @@ extension MapVC {
                 
             }
         }.resume()
-    }
-}
-
-extension MapVC {
-    func initAddEventBtn() {
-        
-    }
-    
-    func initAddMarkerEventBtn() {
-        
     }
 }

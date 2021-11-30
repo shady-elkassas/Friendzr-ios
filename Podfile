@@ -26,6 +26,9 @@ target 'Friendzr' do
   
   pod 'IQKeyboardManager'
   pod 'SDWebImage'
+  
+#  pod 'TagsList'
+
 
   pod 'GoogleMaps'
   pod 'GooglePlaces'

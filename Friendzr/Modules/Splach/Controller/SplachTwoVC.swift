@@ -12,7 +12,8 @@ class SplachTwoVC: UIViewController {
     //MARK:- Outlets
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var nextBtn: UIButton!
-    
+    @IBOutlet weak var skipBtn: UIButton!
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,5 +30,9 @@ class SplachTwoVC: UIViewController {
     //MARK: - Actions
     @IBAction func nextBtn(_ sender: Any) {
         Router().toSplach3()
+    }
+    
+    @IBAction func skipBtn(_ sender: Any) {
+        Router().toEditProfileVC()
     }
 }

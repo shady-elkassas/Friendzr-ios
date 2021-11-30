@@ -33,36 +33,17 @@ class SplachOneVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func getStartBtn(_ sender: Any) {
-        if Defaults.needUpdate == 1 {
-            Router().toEditProfileVC()
-        }else {
-            if Defaults.token != "" {
-                Router().toFeed()
-            }else {
-                Router().toSplach2()
-            }
-        }
+//        if Defaults.needUpdate == 1 {{
+//            Router().toEditProfileVC()
+//        }else {
+//            if Defaults.token != "" {
+//                Router().toFeed()
+//            }else {
+//                Router().toSplach2()
+//            }
+//        }}
         
-        //        Router().toMap()
-        
-        //            let context = LAContext()
-        //            var error: NSError? = nil
-        //            let reason = "Please authorize with touch id!"
-        //            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
-        //                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, error in
-        //                    DispatchQueue.main.async {
-        //                        guard  success,error == nil
-        //                        else {
-        //                            self?.view.makeToast("Failed, Please Tri Again.")
-        //                            return
-        //                        }
-        //
-        //                        self?.view.makeToast("Success")
-        //                        Router().toHome()
-        //                    }
-        //                }
-        //            }else {
-        //                self.view.makeToast("Unavilable")
-        //            }
+        Router().toSplach2()
+
     }
 }

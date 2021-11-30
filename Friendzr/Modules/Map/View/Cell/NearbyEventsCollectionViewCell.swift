@@ -9,6 +9,7 @@ import UIKit
 
 class NearbyEventsCollectionViewCell: UICollectionViewCell {
 
+    @IBOutlet weak var eventColorView: UIView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var eventImg: UIImageView!
     @IBOutlet weak var eventDateLbl: UILabel!
@@ -21,10 +22,9 @@ class NearbyEventsCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        eventImg.setCornerforTop(withShadow: false, cornerMask: [.layerMinXMaxYCorner, .layerMinXMinYCorner], radius: 8)
-//        eventImg.setCornerforBottom(withShadow: false, cornerMask: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner], radius: 8)
-        containerView.cornerRadiusView(radius: 8)
-//        containerView.setBorder()
+        eventImg.cornerRadiusView(radius: 10)
+        containerView.cornerRadiusView(radius: 10)
+        eventColorView.setCornerforTop()
     }
     
 //    @IBAction func directionBtn(_ sender: Any) {

@@ -31,7 +31,7 @@ open class TagListView: UIView {
             }
         }
     }
-
+    
     @IBInspectable open dynamic var tagLineBreakMode: NSLineBreakMode = .byTruncatingMiddle {
         didSet {
             tagViews.forEach {
@@ -121,7 +121,7 @@ open class TagListView: UIView {
             rearrangeViews()
         }
     }
-
+    
     @IBInspectable open dynamic var minWidth: CGFloat = 0 {
         didSet {
             rearrangeViews()
@@ -220,11 +220,11 @@ open class TagListView: UIView {
     // MARK: - Interface Builder
     
     open override func prepareForInterfaceBuilder() {
-        addTag("Welcome")
-        addTag("to")
-        addTag("TagListView").isSelected = true
+        addTag(tagId: "0", title: "Welcome")
+        addTag(tagId: "1", title: "to")
+        addTag(tagId: "2", title: "TagListView").isSelected = true
+        
     }
-    
     // MARK: - Layout
     
     open override func layoutSubviews() {
@@ -238,7 +238,7 @@ open class TagListView: UIView {
             $0.removeFromSuperview()
         }
         rowViews.removeAll(keepingCapacity: true)
-
+        
         var isRtl: Bool = false
         
         if #available(iOS 10.0, tvOS 10.0, *) {
@@ -267,8 +267,8 @@ open class TagListView: UIView {
         let frameWidth = frame.width
         
         let directionTransform = isRtl
-            ? CGAffineTransform(scaleX: -1.0, y: 1.0)
-            : CGAffineTransform.identity
+        ? CGAffineTransform(scaleX: -1.0, y: 1.0)
+        : CGAffineTransform.identity
         
         for (index, tagView) in tagViews.enumerated() {
             tagView.frame.size = tagView.intrinsicContentSize
@@ -284,7 +284,7 @@ open class TagListView: UIView {
                 
                 rowViews.append(currentRowView)
                 addSubview(currentRowView)
-
+                
                 tagView.frame.size.width = min(tagView.frame.size.width, frameWidth)
             }
             
@@ -334,8 +334,8 @@ open class TagListView: UIView {
         return CGSize(width: frame.width, height: height)
     }
     
-    private func createNewTagView(_ title: String) -> TagView {
-        let tagView = TagView(title: title)
+    private func createNewTagView(tagId:String, title: String) -> TagView {
+        let tagView = TagView(tagId: tagId, title: title)
         
         tagView.textColor = textColor
         tagView.selectedTextColor = selectedTextColor
@@ -366,16 +366,16 @@ open class TagListView: UIView {
         
         return tagView
     }
-
+    
     @discardableResult
-    open func addTag(_ title: String) -> TagView {
+    open func addTag(tagId:String,title: String) -> TagView {
         defer { rearrangeViews() }
-        return addTagView(createNewTagView(title))
+        return addTagView(createNewTagView(tagId: tagId, title: title))
     }
     
     @discardableResult
-    open func addTags(_ titles: [String]) -> [TagView] {
-        return addTagViews(titles.map(createNewTagView))
+    open func addTags(Tags: [(String,String)]) -> [TagView] {
+        return addTagViews(Tags.map(createNewTagView))
     }
     
     @discardableResult
@@ -396,13 +396,13 @@ open class TagListView: UIView {
         }
         return tagViews
     }
-
+    
     @discardableResult
-    open func insertTag(_ title: String, at index: Int) -> TagView {
-        return insertTagView(createNewTagView(title), at: index)
+    open func insertTag(id:String,title: String, at index: Int) -> TagView {
+        return insertTagView(createNewTagView(tagId: id, title: title), at: index)
     }
     
-
+    
     @discardableResult
     open func insertTagView(_ tagView: TagView, at index: Int) -> TagView {
         defer { rearrangeViews() }
@@ -440,7 +440,7 @@ open class TagListView: UIView {
         let views: [UIView] = tagViews + tagBackgroundViews
         views.forEach { $0.removeFromSuperview() }
     }
-
+    
     open func selectedTags() -> [TagView] {
         return tagViews.filter { $0.isSelected }
     }
@@ -449,6 +449,7 @@ open class TagListView: UIView {
     
     @objc func tagPressed(_ sender: TagView!) {
         sender.onTap?(sender)
+        sender.isSelected = !sender.isSelected
         delegate?.tagPressed?(sender.currentTitle ?? "", tagView: sender, sender: self)
     }
     

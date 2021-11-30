@@ -160,10 +160,12 @@ open class TagView: UIButton {
         setupView()
     }
     
-    public init(title: String) {
+    open var tagId: String = ""
+    
+    public init(tagId:String,title: String) {
         super.init(frame: CGRect.zero)
         setTitle(title, for: UIControl.State())
-        
+        self.tagId = tagId
         setupView()
     }
     
@@ -186,7 +188,7 @@ open class TagView: UIButton {
     
     override open var intrinsicContentSize: CGSize {
         var size = titleLabel?.text?.size(withAttributes: [NSAttributedString.Key.font: textFont]) ?? CGSize.zero
-        size.height = textFont.pointSize + paddingY * 2
+        size.height = textFont.pointSize + paddingY * 3
         size.width += paddingX * 2
         if size.width < size.height {
             size.width = size.height
@@ -195,8 +197,7 @@ open class TagView: UIButton {
             size.width += removeButtonIconSize + paddingX
         }
         
-//        return size
-        return CGSize(width: 100, height: 30)
+        return size
     }
     
     private func updateRightInsets() {

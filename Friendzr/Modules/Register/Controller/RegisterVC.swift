@@ -29,6 +29,7 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var showConfirmPasswordBtn: UIButton!
     @IBOutlet weak var showPasswordBtn: UIButton!
+    @IBOutlet weak var termsLbl: UILabel!
     
     //MARK: - Properties
     var checkUserNameVM:CheckUserNameViewModel = CheckUserNameViewModel()
@@ -56,6 +57,9 @@ class RegisterVC: UIViewController {
     var internetConect:Bool = false
     //    var btnsSelect:Bool = false
     
+    var myString:String = "By clicking ‘Sign up’, you agree to our terms of usage see more"
+    var myMutableString = NSMutableAttributedString()
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,6 +113,13 @@ class RegisterVC: UIViewController {
         }else {
             return
         }
+    }
+    
+    @IBAction func termsBtn(_ sender: Any) {
+        guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
+        vc.titleVC = "Terms & Conditions"
+        vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/EULAOct2021.pdf"
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func showPasswordBtn(_ sender: Any) {
@@ -191,7 +202,7 @@ class RegisterVC: UIViewController {
                             
                             DispatchQueue.main.async {
                                 if Defaults.needUpdate == 1 {
-                                    Router().toEditProfileVC()
+                                    Router().toSplachOne()
                                 }else {
                                     Router().toFeed()
                                 }
@@ -249,6 +260,11 @@ class RegisterVC: UIViewController {
         registerBtn.layer.addSublayer(gradient)
         registerBtn.cornerRadiusView(radius: 8)
         registerBtnView.cornerRadiusView(radius: 8)
+        
+        myMutableString = NSMutableAttributedString(string: myString, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Regular", size: 12.0)!])
+        myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.FriendzrColors.primary!, range: NSRange(location:55,length:8))
+        // set label Attribute
+        termsLbl.attributedText = myMutableString
     }
     
     func updateUserInterface() {
@@ -329,7 +345,7 @@ extension RegisterVC {
                         
                         DispatchQueue.main.async {
                             if Defaults.needUpdate == 1 {
-                                Router().toEditProfileVC()
+                                Router().toSplachOne()
                             }else {
                                 Router().toFeed()
                             }
@@ -429,7 +445,7 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
                 
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {
-                        Router().toEditProfileVC()
+                        Router().toSplachOne()
                     }else {
                         Router().toFeed()
                     }

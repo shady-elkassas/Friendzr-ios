@@ -39,7 +39,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" name="Color0"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="JX1-FN-h8X" firstAttribute="width" secondItem="AGX-Uk-mKP" secondAttribute="width" multiplier="1:2" id="QNC-f1-9aO"/>
                             <constraint firstItem="JX1-FN-h8X" firstAttribute="top" secondItem="AGX-Uk-mKP" secondAttribute="top" constant="20" id="Tpu-8A-XMg"/>
@@ -58,14 +58,12 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <point key="canvasLocation" x="181" y="144"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="emptyImage" width="512" height="512"/>
-        <namedColor name="Color0">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="ColorDark0">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

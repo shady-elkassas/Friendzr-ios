@@ -45,8 +45,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Female" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JlC-Wr-4QC">
-                                <rect key="frame" x="30" y="31" width="53" height="17.5"/>
-                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                <rect key="frame" x="30" y="32" width="45.5" height="15"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                 <color key="textColor" name="ColorLbl3"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -61,6 +61,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="yNL-RL-wdz" firstAttribute="centerY" secondItem="HtE-VU-my3" secondAttribute="centerY" id="8zJ-ce-R3E"/>
+                            <constraint firstItem="yNL-RL-wdz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JlC-Wr-4QC" secondAttribute="trailing" constant="8" id="9Oc-NP-Jhx"/>
                             <constraint firstItem="uBy-Pc-Jz3" firstAttribute="leading" secondItem="HtE-VU-my3" secondAttribute="leading" id="C4Q-mo-Vp4"/>
                             <constraint firstAttribute="trailing" secondItem="yNL-RL-wdz" secondAttribute="trailing" constant="10" id="Efr-DQ-up0"/>
                             <constraint firstItem="HtE-VU-my3" firstAttribute="leading" secondItem="1os-FU-Elw" secondAttribute="leading" constant="10" id="Hsy-MR-AGv"/>
@@ -93,10 +94,10 @@
     </objects>
     <resources>
         <namedColor name="ColorLbl1">
-            <color red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl3">
-            <color red="0.14117647058823529" green="0.074509803921568626" blue="0.19607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -24,6 +24,14 @@ class FeedVC: UIViewController {
     @IBOutlet weak var compassContanierView: UIView!
     @IBOutlet weak var compassContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var filterBtn: UIButton!
+    @IBOutlet weak var allowLocView: UIView!
+    @IBOutlet weak var nextBtn: UIButton!
+    
+    @IBOutlet weak var filterHideView: UIView!
+    @IBOutlet weak var dialogimg: UIImageView!
+    
+    @IBOutlet weak var allowBtn: UIButton!
+    
     
     //MARK: - Properties
     private lazy var currLocation: CLLocation = CLLocation()
@@ -36,6 +44,8 @@ class FeedVC: UIViewController {
         scaleV.backgroundColor = UIColor.FriendzrColors.primary
         return scaleV
     }()
+    
+    lazy var deleteAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
     private func createLocationManager() {
         locationManager.delegate = self
@@ -61,6 +71,7 @@ class FeedVC: UIViewController {
     var viewmodel:FeedViewModel = FeedViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
+    var settingVM:SettingsViewModel = SettingsViewModel()
 
     var refreshControl = UIRefreshControl()
     let switchBarButton = UISwitch()
@@ -84,6 +95,7 @@ class FeedVC: UIViewController {
         setup()
         initSwitchBarButton()
         pullToRefresh()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,10 +107,11 @@ class FeedVC: UIViewController {
             DispatchQueue.main.async {
                 self.updateUserInterface()
             }
+            
+            self.allowLocView.isHidden = true
         }else {
-            self.showAlert(withMessage: "Please allow your location")
-            self.emptyView.isHidden = false
-            self.emptyLbl.text = "You haven't any data yet"
+            self.emptyView.isHidden = true
+            self.allowLocView.isHidden = false
         }
     }
     
@@ -128,7 +141,8 @@ class FeedVC: UIViewController {
         viewmodel.error.bind { error in
             DispatchQueue.main.async {
                 self.hideLoading()
-                self.showAlert(withMessage: error)
+//                self.showAlert(withMessage: error)
+                print(error)
             }
         }
     }
@@ -157,7 +171,8 @@ class FeedVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 self.hideLoading()
-                self.showAlert(withMessage: error)
+//                self.showAlert(withMessage: error)
+                print(error)
             }
         }
     }
@@ -182,6 +197,11 @@ class FeedVC: UIViewController {
         switch Network.reachability.status {
         case .unreachable:
             self.emptyView.isHidden = false
+            if Defaults.allowMyLocation == true {
+                self.allowLocView.isHidden = true
+            }else {
+                self.allowLocView.isHidden = false
+            }
             internetConnect = false
             HandleInternetConnection()
         case .wwan:
@@ -189,11 +209,22 @@ class FeedVC: UIViewController {
             internetConnect = true
             getAllFeeds(pageNumber: 0)
             
+            if Defaults.allowMyLocation == true {
+                self.allowLocView.isHidden = true
+            }else {
+                self.allowLocView.isHidden = false
+            }
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
                 self.updateMyLocation()
             }
         case .wifi:
             self.emptyView.isHidden = true
+            if Defaults.allowMyLocation == true {
+                self.allowLocView.isHidden = true
+            }else {
+                self.allowLocView.isHidden = false
+            }
             internetConnect = true
             getAllFeeds(pageNumber: 0)
             
@@ -234,6 +265,11 @@ class FeedVC: UIViewController {
     
     func HandleinvalidUrl() {
         emptyView.isHidden = false
+        if Defaults.allowMyLocation == true {
+            self.allowLocView.isHidden = true
+        }else {
+            self.allowLocView.isHidden = false
+        }
         emptyImg.image = UIImage.init(named: "maskGroup9")
         emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
         tryAgainBtn.alpha = 1.0
@@ -242,9 +278,19 @@ class FeedVC: UIViewController {
     func HandleInternetConnection() {
         if btnsSelected {
             emptyView.isHidden = true
+            if Defaults.allowMyLocation == true {
+                self.allowLocView.isHidden = true
+            }else {
+                self.allowLocView.isHidden = false
+            }
             self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
         }else {
             emptyView.isHidden = false
+            if Defaults.allowMyLocation == true {
+                self.allowLocView.isHidden = true
+            }else {
+                self.allowLocView.isHidden = false
+            }
             emptyImg.image = UIImage.init(named: "nointernet")
             emptyLbl.text = "No avaliable newtwok ,Please try again!".localizedString
             tryAgainBtn.alpha = 1.0
@@ -276,10 +322,27 @@ class FeedVC: UIViewController {
         tableView.register(UINib(nibName:cellID, bundle: nil), forCellReuseIdentifier: cellID)
         tableView.register(UINib(nibName:emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
+        allowBtn.cornerRadiusView(radius: 8)
+        nextBtn.setBorder(color: UIColor.white.cgColor, width: 2)
+        nextBtn.cornerRadiusForHeight()
+        
     }
     
     
-    //MARK:- Actions
+    //MARK: - Actions
+    @IBAction func nextBtn(_ sender: Any) {
+        filterHideView.isHidden = true
+        Defaults.isFirstFilter = true
+        
+        createLocationManager()
+        filterDir = true
+        filterBtn.isHidden = false
+        compassContanierView.isHidden = false
+        compassContainerViewHeight.constant = screenW / 1.95
+        compassContanierView.addSubview(dScaView)
+    }
+    
+    
     @IBAction func tryAgainBtn(_ sender: Any) {
         updateUserInterface()
     }
@@ -287,6 +350,50 @@ class FeedVC: UIViewController {
     @IBAction func filterBtn(_ sender: Any) {
         filterFeedsBy(degree: compassDegree, pageNumber: 1)
     }
+    
+    @IBAction func allowLocationBtn(_ sender: Any) {
+        
+        self.deleteAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
+        self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn on your location?"
+        
+        self.deleteAlertView?.HandleConfirmBtn = {
+            self.updateNetworkForBtns()
+            
+            if self.internetConnect {
+                self.settingVM.toggleAllowMyLocation(allowMyLocation: true) { error, data in
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    
+                    guard let data = data else {
+                        return
+                    }
+                    
+                    Defaults.allowMyLocation = data.allowmylocation ?? false
+                    
+                    DispatchQueue.main.async {
+                        self.updateUserInterface()
+                    }
+                    
+                    self.updateMyLocation()
+                }
+            }
+            // handling code
+            UIView.animate(withDuration: 0.3, animations: {
+                self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.deleteAlertView?.alpha = 0
+            }) { (success: Bool) in
+                self.deleteAlertView?.removeFromSuperview()
+                self.deleteAlertView?.alpha = 1
+                self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((self.deleteAlertView)!)
+    }
+    
 }
 
 //MARK: - Extensions
@@ -312,7 +419,8 @@ extension FeedVC:UITableViewDataSource {
             switch model?.key {
             case 0:
                 //Status = normal case
-                cell.respondBtn.isHidden = true
+                cell.subStackView.isHidden = true
+                cell.superStackView.isHidden = false
                 cell.cancelRequestBtn.isHidden = true
                 cell.sendRequestBtn.isHidden = false
                 cell.messageBtn.isHidden = true
@@ -320,7 +428,8 @@ extension FeedVC:UITableViewDataSource {
                 break
             case 1:
                 //Status = I have added a friend request
-                cell.respondBtn.isHidden = true
+                cell.subStackView.isHidden = true
+                cell.superStackView.isHidden = false
                 cell.cancelRequestBtn.isHidden = false
                 cell.sendRequestBtn.isHidden = true
                 cell.messageBtn.isHidden = true
@@ -328,15 +437,17 @@ extension FeedVC:UITableViewDataSource {
                 break
             case 2:
                 //Status = Send me a request to add a friend
-                cell.respondBtn.isHidden = false
-                cell.cancelRequestBtn.isHidden = false
+                cell.subStackView.isHidden = false
+                cell.superStackView.isHidden = true
+                cell.cancelRequestBtn.isHidden = true
                 cell.sendRequestBtn.isHidden = true
                 cell.messageBtn.isHidden = true
                 cell.unblockBtn.isHidden = true
                 break
             case 3:
                 //Status = We are friends
-                cell.respondBtn.isHidden = true
+                cell.subStackView.isHidden = true
+                cell.superStackView.isHidden = false
                 cell.cancelRequestBtn.isHidden = true
                 cell.sendRequestBtn.isHidden = true
                 cell.messageBtn.isHidden = false
@@ -344,7 +455,8 @@ extension FeedVC:UITableViewDataSource {
                 break
             case 4:
                 //Status = I block user
-                cell.respondBtn.isHidden = true
+                cell.subStackView.isHidden = true
+                cell.superStackView.isHidden = false
                 cell.cancelRequestBtn.isHidden = true
                 cell.sendRequestBtn.isHidden = true
                 cell.messageBtn.isHidden = true
@@ -352,7 +464,8 @@ extension FeedVC:UITableViewDataSource {
                 break
             case 5:
                 //Status = user block me
-                cell.respondBtn.isHidden = true
+                cell.subStackView.isHidden = true
+                cell.superStackView.isHidden = false
                 cell.cancelRequestBtn.isHidden = true
                 cell.sendRequestBtn.isHidden = true
                 cell.messageBtn.isHidden = true
@@ -388,7 +501,7 @@ extension FeedVC:UITableViewDataSource {
                 }
             }
             
-            cell.HandleRespondBtn = { //respond request
+            cell.HandleAccseptBtn = { //respond request
                 self.btnsSelected = true
                 self.updateNetworkForBtns()
                 
@@ -404,6 +517,31 @@ extension FeedVC:UITableViewDataSource {
                         guard let message = message else {return}
                         self.showAlert(withMessage: message)
                       
+                        DispatchQueue.main.async {
+                            self.getAllFeeds(pageNumber: 0)
+                        }
+                    }
+                }else {
+                    return
+                }
+            }
+            
+            cell.HandleRefusedBtn = { // refused request
+                
+                self.btnsSelected = true
+                self.updateNetworkForBtns()
+                
+                if self.internetConnect {
+                    self.showLoading()
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
+                        self.hideLoading()
+                        if let error = error {
+                            self.showAlert(withMessage: error)
+                            return
+                        }
+                        
+                        guard let message = message else {return}
+                        self.showAlert(withMessage: message)
                         DispatchQueue.main.async {
                             self.getAllFeeds(pageNumber: 0)
                         }
@@ -535,7 +673,7 @@ extension FeedVC:UITableViewDelegate {
 extension FeedVC: CLLocationManagerDelegate {
     
     func initSwitchBarButton() {
-        switchBarButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+//        switchBarButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         switchBarButton.onTintColor = UIColor.FriendzrColors.primary!
         switchBarButton.thumbTintColor = .white
         switchBarButton.addTarget(self, action: #selector(handleSwitchBtn), for: .touchUpInside)
@@ -547,23 +685,38 @@ extension FeedVC: CLLocationManagerDelegate {
         print("\(switchBarButton.isOn)")
         
         // Azimuth
-        if switchBarButton.isOn {
-            self.showAlert(withMessage: "If you want to filter with compass \nPlease select your direction and tap on the compass")
-            createLocationManager()
-            filterDir = true
-            filterBtn.isHidden = false
-            compassContanierView.isHidden = false
-            compassContainerViewHeight.constant = screenW / 1.95
-            compassContanierView.addSubview(dScaView)
+        if Defaults.allowMyLocation == true {
+            if switchBarButton.isOn {
+                if !Defaults.isFirstFilter {
+                    filterHideView.isHidden = false
+                    Defaults.isFirstFilter = true
+                }else {
+                    filterHideView.isHidden = true
+                    Defaults.isFirstFilter = true
+                    
+                    createLocationManager()
+                    filterDir = true
+                    filterBtn.isHidden = false
+                    compassContanierView.isHidden = false
+                    compassContainerViewHeight.constant = screenW / 1.95
+                    compassContanierView.addSubview(dScaView)
+                }
+            }else {
+                filterHideView.isHidden = true
+                Defaults.isFirstFilter = true
+                
+                locationManager.stopUpdatingLocation()
+                locationManager.stopUpdatingHeading()
+                filterDir = false
+                compassContanierView.isHidden = true
+                filterBtn.isHidden = true
+                compassContainerViewHeight.constant = 0
+                
+                getAllFeeds(pageNumber: 0)
+            }
         }else {
-            locationManager.stopUpdatingLocation()
-            locationManager.stopUpdatingHeading()
-            filterDir = false
-            compassContanierView.isHidden = true
-            filterBtn.isHidden = true
-            compassContainerViewHeight.constant = 0
-            
-            getAllFeeds(pageNumber: 0)
+            switchBarButton.isOn = false
+            self.showAlert(withMessage: "Please allow your location")
         }
     }
 

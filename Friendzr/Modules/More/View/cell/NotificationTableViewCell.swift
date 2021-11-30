@@ -21,7 +21,7 @@ class NotificationTableViewCell: UITableViewCell {
         
         notificationImg.cornerRadiusView(radius: 8)
         containerView.cornerRadiusView(radius: 8)
-        
+        containerView.setBorder()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

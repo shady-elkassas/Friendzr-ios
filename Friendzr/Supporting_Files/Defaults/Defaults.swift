@@ -284,6 +284,15 @@ class Defaults {
         }
     }
     
+    static var isFirstFilter: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "isFirstFilter")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "isFirstFilter")
+        }
+    }
     
     static func initUser(user:UserObj)  {
         Defaults.userName = user.userName
@@ -329,6 +338,7 @@ class Defaults {
         defaults.removeObject(forKey: "displayedUserName")
         defaults.removeObject(forKey: "needUpdate")
         defaults.removeObject(forKey: "allowMyLocation")
+        defaults.removeObject(forKey: "isFirstFilter")
 
         if let token = AccessToken.current,
            !token.isExpired {

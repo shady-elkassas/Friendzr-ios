@@ -36,7 +36,7 @@ class EventsAroundMeDataModel: Mappable {
     // Mappable
     func mapping(map: Map) {
         eventlocationDataMV    <- map["eventlocationDataMV"]
-        peoplocationDataMV   <- map["peoplocationDataMV"]
+        peoplocationDataMV   <- map["locationMV"]
     }
 }
 

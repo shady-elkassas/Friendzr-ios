@@ -28,6 +28,7 @@ class FriendProfileVC: UIViewController {
     @IBOutlet weak var tagListView: TagListView!
     @IBOutlet weak var tagListViewHeight: NSLayoutConstraint!
     @IBOutlet weak var hideView: UIView!
+    @IBOutlet weak var refusedBtn: UIButton!
     
     //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
@@ -108,12 +109,6 @@ class FriendProfileVC: UIViewController {
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
                     self.getFriendProfileInformation()
-                    
-//                    self.respondBtn.isHidden = true
-//                    self.cancelRequestBtn.isHidden = false
-//                    self.sendRequestBtn.isHidden = true
-//                    self.svBtns.isHidden = true
-//                    self.unblockBtn.isHidden = true
                 }
             }else {
                 return
@@ -155,12 +150,43 @@ class FriendProfileVC: UIViewController {
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
                     self.getFriendProfileInformation()
-
-//                    self.respondBtn.isHidden = true
-//                    self.cancelRequestBtn.isHidden = true
-//                    self.sendRequestBtn.isHidden = false
-//                    self.svBtns.isHidden = true
-//                    self.unblockBtn.isHidden = true
+                }
+            }
+            
+            // handling code
+            UIView.animate(withDuration: 0.3, animations: {
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alertView?.alpha = 0
+            }) { (success: Bool) in
+                self.alertView?.removeFromSuperview()
+                self.alertView?.alpha = 1
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((alertView)!)
+    }
+    
+    @IBAction func refusedRequestBtn(_ sender: Any) {
+        alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        alertView?.titleLbl.text = "Confirm?".localizedString
+        alertView?.detailsLbl.text = "Are you sure you want to cancel this request?".localizedString
+        
+        alertView?.HandleConfirmBtn = {
+            self.updateUserInterfaceBtns()
+            if self.internetConect == true {
+                self.showLoading()
+                self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6) { error, message in
+                    self.hideLoading()
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    
+                    guard let message = message else {return}
+                    self.showAlert(withMessage: message)
+                    self.getFriendProfileInformation()
                 }
             }
             
@@ -198,12 +224,6 @@ class FriendProfileVC: UIViewController {
                     guard let message = message else {return}
                     self.showAlert(withMessage: message)
                     self.getFriendProfileInformation()
-
-//                    self.respondBtn.isHidden = true
-//                    self.cancelRequestBtn.isHidden = true
-//                    self.sendRequestBtn.isHidden = true
-//                    self.svBtns.isHidden = false
-//                    self.unblockBtn.isHidden = true
                 }
             }else {
                 return
@@ -395,17 +415,20 @@ class FriendProfileVC: UIViewController {
     
     func setup() {
         tagListView.delegate = self
-        tagListView.textFont = UIFont(name: "Montserrat-Regular", size: 12)!
+        tagListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
         tagListView.tagLineBreakMode = .byTruncatingTail
 
         sendRequestBtn.cornerRadiusView(radius: 15)
         cancelRequestBtn.cornerRadiusView(radius: 15)
         respondBtn.cornerRadiusView(radius: 15)
+        refusedBtn.cornerRadiusView(radius: 15)
         unblockBtn.cornerRadiusView(radius: 15)
         unfriendBtn.cornerRadiusView(radius: 15)
         blockBtn.cornerRadiusView(radius: 15)
         blockBtn.setBorder(color: UIColor.white.cgColor, width: 1)
-        cancelRequestBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1)
+        cancelRequestBtn.setBorder(color: UIColor.white.cgColor, width: 1)
+        unblockBtn.setBorder(color: UIColor.white.cgColor, width: 1)
+        refusedBtn.setBorder(color: UIColor.white.cgColor, width: 1)
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
@@ -431,16 +454,17 @@ class FriendProfileVC: UIViewController {
         
         tagListView.removeAllTags()
         for item in model?.listoftagsmodel ?? [] {
-            tagListView.addTag("#\(item.tagname)")
+            tagListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
         }
         
         print("tagListView.rows \(tagListView.rows)")
-        tagListViewHeight.constant = CGFloat(tagListView.rows * 35)
+        tagListViewHeight.constant = CGFloat(tagListView.rows * 25)
         
         switch model?.key {
         case 0:
             //Status = normal case
             respondBtn.isHidden = true
+            refusedBtn.isHidden = true
             cancelRequestBtn.isHidden = true
             sendRequestBtn.isHidden = false
             svBtns.isHidden = true
@@ -449,6 +473,7 @@ class FriendProfileVC: UIViewController {
         case 1:
             //Status = I have added a friend request
             respondBtn.isHidden = true
+            refusedBtn.isHidden = true
             cancelRequestBtn.isHidden = false
             sendRequestBtn.isHidden = true
             svBtns.isHidden = true
@@ -457,7 +482,8 @@ class FriendProfileVC: UIViewController {
         case 2:
             //Status = Send me a request to add a friend
             respondBtn.isHidden = false
-            cancelRequestBtn.isHidden = false
+            refusedBtn.isHidden = false
+            cancelRequestBtn.isHidden = true
             sendRequestBtn.isHidden = true
             svBtns.isHidden = true
             unblockBtn.isHidden = true
@@ -465,6 +491,7 @@ class FriendProfileVC: UIViewController {
         case 3:
             //Status = We are friends
             respondBtn.isHidden = true
+            refusedBtn.isHidden = true
             cancelRequestBtn.isHidden = true
             sendRequestBtn.isHidden = true
             svBtns.isHidden = false
@@ -473,6 +500,7 @@ class FriendProfileVC: UIViewController {
         case 4:
             //Status = I block user
             respondBtn.isHidden = true
+            refusedBtn.isHidden = true
             cancelRequestBtn.isHidden = true
             sendRequestBtn.isHidden = true
             svBtns.isHidden = true
@@ -481,6 +509,7 @@ class FriendProfileVC: UIViewController {
         case 5:
             //Status = user block me
             respondBtn.isHidden = true
+            refusedBtn.isHidden = true
             cancelRequestBtn.isHidden = true
             sendRequestBtn.isHidden = true
             svBtns.isHidden = true

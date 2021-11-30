@@ -89,10 +89,8 @@ class ChangePasswordVC: UIViewController {
                 guard let _ = data else {return}
                 self.showAlert(withMessage:"Password changed successfully".localizedString)
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
-                    self.oldPasswordTxt.text = ""
-                    self.newPasswordTxt.text = ""
-                    self.confirmNewPasswordTxt.text = ""
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1 , execute: {
+                    self.onPopup()
                 })
             }
         }else {

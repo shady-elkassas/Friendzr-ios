@@ -35,7 +35,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="878"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UZg-7K-EqS">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="618"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="781"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log In" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EHD-G1-Axg">
                                                 <rect key="frame" x="25" y="16" width="230" height="37"/>
@@ -142,7 +142,7 @@
                                                         </connections>
                                                     </button>
                                                 </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstItem="c5Z-9w-lG6" firstAttribute="top" secondItem="2Vz-k0-TDN" secondAttribute="top" id="L7t-I1-DRg"/>
                                                     <constraint firstAttribute="bottom" secondItem="c5Z-9w-lG6" secondAttribute="bottom" id="SXb-DW-qGC"/>
@@ -275,16 +275,16 @@
                                                 </connections>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="YrX-wp-02e">
-                                                <rect key="frame" x="110.5" y="571" width="193" height="27"/>
+                                                <rect key="frame" x="110.5" y="731" width="193" height="30"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xHk-QY-fhs">
-                                                        <rect key="frame" x="0.0" y="0.0" width="142" height="27"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="142" height="30"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                                         <color key="textColor" name="ColorLbl1"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TOV-WU-Qyc">
-                                                        <rect key="frame" x="145" y="0.0" width="48" height="27"/>
+                                                        <rect key="frame" x="145" y="0.0" width="48" height="30"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
                                                         <state key="normal" title="Sign up">
                                                             <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -294,6 +294,9 @@
                                                         </connections>
                                                     </button>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="PgO-EK-stZ"/>
+                                                </constraints>
                                             </stackView>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -316,10 +319,10 @@
                                             <constraint firstItem="ZUq-R6-PGK" firstAttribute="height" secondItem="6bv-sa-MeT" secondAttribute="height" id="VD6-0u-DiA"/>
                                             <constraint firstItem="7IC-db-hr1" firstAttribute="centerX" secondItem="0PC-t9-5l4" secondAttribute="centerX" id="VUG-BE-Jz9"/>
                                             <constraint firstItem="2Ei-bg-1dE" firstAttribute="leading" secondItem="Ks3-EZ-Zou" secondAttribute="leading" id="XpR-d7-3FP"/>
+                                            <constraint firstItem="YrX-wp-02e" firstAttribute="top" secondItem="Yhm-6Y-sef" secondAttribute="bottom" constant="200" id="Yj6-8x-e3O"/>
                                             <constraint firstItem="cn5-m6-Guc" firstAttribute="centerY" secondItem="1ZM-x0-CaL" secondAttribute="centerY" id="ZPy-eL-HMF"/>
                                             <constraint firstItem="A2w-26-PDm" firstAttribute="top" secondItem="EHD-G1-Axg" secondAttribute="bottom" constant="40" id="cYH-sO-nd1"/>
                                             <constraint firstItem="Ks3-EZ-Zou" firstAttribute="top" secondItem="A2w-26-PDm" secondAttribute="bottom" constant="20" id="cmM-4N-7e1"/>
-                                            <constraint firstItem="YrX-wp-02e" firstAttribute="top" secondItem="Yhm-6Y-sef" secondAttribute="bottom" constant="40" id="ewi-rA-MfN"/>
                                             <constraint firstItem="2Ei-bg-1dE" firstAttribute="top" secondItem="Ks3-EZ-Zou" secondAttribute="bottom" id="f9M-1y-2Gc"/>
                                             <constraint firstItem="mWA-x1-MY0" firstAttribute="height" secondItem="zoS-L6-ddk" secondAttribute="height" id="fis-g3-9lp"/>
                                             <constraint firstItem="2Vz-k0-TDN" firstAttribute="trailing" secondItem="A2w-26-PDm" secondAttribute="trailing" id="g8U-ZK-prN"/>
@@ -554,19 +557,19 @@
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl1">
-            <color red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl2">
-            <color red="0.14509803921568626" green="0.14509803921568626" blue="0.14509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14499999582767487" green="0.14499999582767487" blue="0.14499999582767487" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl3">
-            <color red="0.14117647058823529" green="0.074509803921568626" blue="0.19607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl4">
-            <color red="0.76862745098039209" green="0.76862745098039209" blue="0.76862745098039209" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.76899999380111694" green="0.76899999380111694" blue="0.76899999380111694" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="primaryColor">
-            <color red="0.043137254901960784" green="0.74509803921568629" blue="0.63137254901960782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

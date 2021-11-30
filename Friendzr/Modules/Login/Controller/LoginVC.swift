@@ -87,7 +87,7 @@ class LoginVC: UIViewController {
                 
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {
-                        Router().toEditProfileVC()
+                        Router().toSplachOne()
                     }else {
                         Router().toFeed()
                     }
@@ -179,7 +179,7 @@ class LoginVC: UIViewController {
                             
                             DispatchQueue.main.async {
                                 if Defaults.needUpdate == 1 {
-                                    Router().toEditProfileVC()
+                                    Router().toSplachOne()
                                 }else {
                                     Router().toFeed()
                                 }
@@ -325,7 +325,7 @@ extension LoginVC {
                         Defaults.initUser(user: data)
                         DispatchQueue.main.async {
                             if Defaults.needUpdate == 1 {
-                                Router().toEditProfileVC()
+                                Router().toSplachOne()
                             }else {
                                 Router().toFeed()
                             }
@@ -424,7 +424,7 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                 
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {
-                        Router().toEditProfileVC()
+                        Router().toSplachOne()
                     }else {
                         Router().toFeed()
                     }

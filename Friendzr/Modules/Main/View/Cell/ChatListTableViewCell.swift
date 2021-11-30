@@ -16,6 +16,7 @@ class ChatListTableViewCell: UITableViewCell {
     @IBOutlet weak var lastMessageDateLbl: UILabel!
     @IBOutlet weak var underView: UIView!
     @IBOutlet weak var attachImg: UIImageView!
+    @IBOutlet weak var attachTypeLbl: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
