@@ -624,6 +624,13 @@ extension EditEventsVC: UITableViewDataSource {
         cell.joinDateLbl.isHidden = true
         cell.friendNameLbl.text = model?.userName
         cell.friendImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+        
+        if indexPath.row == (eventModel?.attendees?.count ?? 0) - 1 {
+            cell.underView.isHidden = true
+        }else {
+            cell.underView.isHidden = false
+        }
+        
         return cell
     }
     

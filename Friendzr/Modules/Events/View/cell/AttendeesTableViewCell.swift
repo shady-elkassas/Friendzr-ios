@@ -14,6 +14,7 @@ class AttendeesTableViewCell: UITableViewCell {
     @IBOutlet weak var dropDownBtn: UIButton!
     @IBOutlet weak var friendNameLbl: UILabel!
     @IBOutlet weak var joinDateLbl: UILabel!
+    @IBOutlet weak var underView: UIView!
     
     var HandleDropDownBtn: (() -> ())?
 

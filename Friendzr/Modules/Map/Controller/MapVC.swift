@@ -82,8 +82,8 @@ class MapVC: UIViewController {
     var eventCellID = "EventsInLocationTableViewCell"
     var nearbyEventCellId = "NearbyEventsCollectionViewCell"
     
-    private var tableView: UITableView!
-    private var tableDataSource: GMSAutocompleteTableDataSource!
+    var tableView: UITableView!
+    var tableDataSource: GMSAutocompleteTableDataSource!
     
     let screenSize = UIScreen.main.bounds.size
     
@@ -257,17 +257,13 @@ class MapVC: UIViewController {
         profileImg.cornerRadiusForHeight()
         profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeholder"))
         
-        //        searchBar = UISearchBar(frame: CGRect(x: 0, y: (self.screenSize.height) - (self.screenSize.height - 95), width: self.view.bounds.size.width, height: 56.0))
         searchBar.delegate = self
         searchBar.backgroundColor = UIColor.clear
         searchBar.barTintColor = .white
         searchBar.backgroundImage = UIImage()
-        //        searchBar.searchTextField.borderRect(forBounds: CGRect(x: 0, y: 0, width: searchBar.bounds.width, height: searchBar.bounds.height))
         searchBar.searchTextField.backgroundColor = .clear
         searchBar.searchTextField.tintColor = .black
         searchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
-        
-        //        view.addSubview(searchBar)
         
         //setup search tableView
         tableDataSource = GMSAutocompleteTableDataSource()
@@ -611,13 +607,40 @@ extension MapVC: GMSAutocompleteTableDataSourceDelegate {
         self.locationManager.stopUpdatingLocation()
         tableView.isHidden = true
         
-        //        setupMarker(for: CLLocationCoordinate2D.init(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude))
+//        setupMarker(for: CLLocationCoordinate2D.init(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude))
         self.locationName = (place.name)!
         print(self.locationName)
         print("\(self.location!.latitude) : \(self.location!.longitude)")
         let camera = GMSCameraPosition.camera(withLatitude: place.coordinate.latitude, longitude: place.coordinate.longitude, zoom: 17.0)
         self.mapView.animate(to: camera)
         self.searchBar.text = place.name
+        
+        geocode(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude) { (PM, error) in
+            
+            guard let error = error else {
+                self.currentPlaceMark = PM!
+                let place = self.currentPlaceMark?.addressDictionary
+                
+                if let city = place?["locality"] as? String {
+                    print(city)
+                } else {
+                    print("\(self.currentPlaceMark?.locality ?? "")")
+                }
+                
+                if let street = place?["thoroughfare"] as? String {
+                    print(street)
+                } else {
+                    print("\(self.currentPlaceMark?.thoroughfare ?? "")")
+
+                }
+                
+                return
+            }
+            
+            print("\(self.location!.latitude)","\(self.location!.longitude)")
+            
+            self.showAlert(withMessage: error.localizedDescription)
+        }
     }
     
     func tableDataSource(_ tableDataSource: GMSAutocompleteTableDataSource, didFailAutocompleteWithError error: Error) {

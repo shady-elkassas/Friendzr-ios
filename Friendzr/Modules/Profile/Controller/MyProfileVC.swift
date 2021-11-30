@@ -138,17 +138,16 @@ class MyProfileVC: UIViewController {
 }
 
 extension MyProfileVC : TagListViewDelegate {
-    
+
     // MARK: TagListViewDelegate
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag pressed: \(title), \(tagView.tagId)")
 //        tagView.isSelected = !tagView.isSelected
-        
     }
-    
+
     func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag Remove pressed: \(title), \(sender)")
         //        sender.removeTagView(tagView)
     }
-    
+
 }

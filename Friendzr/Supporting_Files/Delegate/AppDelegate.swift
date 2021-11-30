@@ -51,11 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         FirebaseApp.configure()
-        GMSServices.provideAPIKey("AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY")
-        GMSPlacesClient.provideAPIKey("AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY")
-        
-//        GMSServices.provideAPIKey("AIzaSyChBrhOHIhxIiYkEUak_3TKNR_bEFcfbyI")
-//        GMSPlacesClient.provideAPIKey("AIzaSyChBrhOHIhxIiYkEUak_3TKNR_bEFcfbyI")
+        GMSServices.provideAPIKey("AIzaSyCLmWYc00w0KZ-qj8hIymWCIs8K5Z0cG0g")
+        GMSPlacesClient.provideAPIKey("AIzaSyCLmWYc00w0KZ-qj8hIymWCIs8K5Z0cG0g")
 
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
             if error != nil || user == nil {
