@@ -12,9 +12,9 @@ target 'Friendzr' do
   
   pod 'FBSDKLoginKit'
   pod 'GoogleSignIn'
-#  pod 'SnapSDK', :subspecs => ['SCSDKLoginKit', 'SCSDKCreativeKit', 'SCSDKBitmojiKit']
-#  pod 'TikTokOpenSDK', '~> 5.0.0'
-
+  #  pod 'SnapSDK', :subspecs => ['SCSDKLoginKit', 'SCSDKCreativeKit', 'SCSDKBitmojiKit']
+  #  pod 'TikTokOpenSDK', '~> 5.0.0'
+  
   pod 'Firebase'
   pod 'Firebase/Auth'
   pod 'Firebase/Crashlytics'
@@ -27,18 +27,17 @@ target 'Friendzr' do
   pod 'IQKeyboardManager'
   pod 'SDWebImage'
   
-#  pod 'TagsList'
-
-
+  #  pod 'TagsList'
+    
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   
   pod 'MultiSlider'
   
   pod 'MessageKit', '~> 3.5.1'
-
-#  pod 'SFaceCompare'
-
+  
+  #  pod 'SFaceCompare'
+  
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|
       config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"

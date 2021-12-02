@@ -10,6 +10,7 @@ import GoogleMaps
 import CoreLocation
 import GooglePlaces
 import ObjectMapper
+import MapKit
 
 let googleApiKey = "AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY"
 
@@ -757,7 +758,7 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
             let locitm = CLLocationCoordinate2DMake(Double(item.lat!)!, Double(item.lang!)!)
             if index == indexPath.row {
                 if LocationZooming.locationLat != locitm.latitude {
-                    animationZoomingMap(zoomIN: 18, zoomOUT: 15, lat: locitm.latitude, lng: locitm.longitude)
+                    animationZoomingMap(zoomIN: 17, zoomOUT: 16, lat: locitm.latitude, lng: locitm.longitude)
                 }else {
                     self.mapView.clear()
                     self.setupMarkers()
@@ -899,5 +900,46 @@ extension MapVC {
                 
             }
         }.resume()
+    }
+}
+
+class MapUtil {
+    class func translateCoordinate(coordinate: CLLocationCoordinate2D, metersLat: Double,metersLong: Double) -> (CLLocationCoordinate2D) {
+        var tempCoord = coordinate
+        
+//        let tempRegion = MKCoordinateRegionMakeWithDistance(coordinate, metersLat, metersLong)
+        let tempRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: metersLat, longitudinalMeters: metersLong)
+        
+        let tempSpan = tempRegion.span
+        
+        tempCoord.latitude = coordinate.latitude + tempSpan.latitudeDelta
+        tempCoord.longitude = coordinate.longitude + tempSpan.longitudeDelta
+        
+        return tempCoord
+    }
+    
+    class func setRadius(radius: Double,withCity city: CLLocationCoordinate2D,InMapView mapView: GMSMapView) {
+        
+        let range = MapUtil.translateCoordinate(coordinate: city, metersLat: radius * 2, metersLong: radius * 2)
+        
+        let bounds = GMSCoordinateBounds(coordinate: city, coordinate: range)
+        
+        let update = GMSCameraUpdate.fit(bounds, withPadding: 5.0)    // padding set to 5.0
+        
+        mapView.moveCamera(update)
+        
+        // location
+        let marker = GMSMarker(position: city)
+        marker.title = "title"
+        marker.snippet = "snippet"
+        marker.isFlat = true
+        marker.map = mapView
+        
+        // draw circle
+        let circle = GMSCircle(position: city, radius: radius)
+        circle.map = mapView
+        circle.fillColor = UIColor(red:0.09, green:0.6, blue:0.41, alpha:0.5)
+        
+        mapView.animate(toLocation: city) // animate to center
     }
 }

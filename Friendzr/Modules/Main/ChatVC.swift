@@ -41,6 +41,10 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         return control
     }()
     
+    private var keyboardManager = KeyboardManager()
+
+    private let subviewInputBar = InputBarAccessoryView()
+
     // MARK: - Private properties
     var senderUser = UserSender(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName)
     
@@ -100,7 +104,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         setupMessages()
         
         configureMessageInputBar()
-        setupLeftInputButton(tapMessage: false, Recorder: "play")
+//        setupLeftInputButton(tapMessage: false, Recorder: "play")
         
         //        setupRecorder()
         
@@ -113,15 +117,20 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         
         //        messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: CustomMessagesFlowLayout())
         //        messagesCollectionView.register(CustomCell.self)
+//        self.setupBackgroundView()
+        subviewInputBar.delegate = self
+        additionalBottomInset = 88
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
+        parent?.view.addSubview(setupLeftInputButton(tapMessage: false, Recorder: "play"))
+        keyboardManager.bind(inputAccessoryView: setupLeftInputButton(tapMessage: false, Recorder: "play"))
         
         if isEvent {
             if leavevent == 0 {
                 messageInputBar.isHidden = false
-                //                messageInputBar.inputTextView.becomeFirstResponder()
+                messageInputBar.inputTextView.becomeFirstResponder()
             }else if leavevent == 1 {
                 setupDownView(textLbl: "You have left this event")
             }else {
@@ -130,12 +139,33 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         }else {
             if isFriend == true {
                 messageInputBar.isHidden = false
-                //                messageInputBar.inputTextView.becomeFirstResponder()
+                messageInputBar.inputTextView.becomeFirstResponder()
             }else {
                 setupDownView(textLbl: "You are now not a friend of this user and will not be able to message him")
             }
         }
     }
+
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//
+//        if isEvent {
+//            if leavevent == 0 {
+//                messageInputBar.isHidden = false
+//                //                messageInputBar.inputTextView.becomeFirstResponder()
+//            }else if leavevent == 1 {
+//                setupDownView(textLbl: "You have left this event")
+//            }else {
+//                setupDownView(textLbl: "You have left this chat event")
+//            }
+//        }else {
+//            if isFriend == true {
+//                messageInputBar.isHidden = false
+//            }else {
+//                setupDownView(textLbl: "You are now not a friend of this user and will not be able to message him")
+//            }
+//        }
+//    }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -154,8 +184,25 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         getEventChatMessages(pageNumber: 1)
     }
     
+    func insertMessage(_ message: UserMessage) {
+        setupNavigationbar()
+        messageList.append(message)
+        // Reload last section to update header/footer labels and insert a new one
+        messagesCollectionView.performBatchUpdates({
+            messagesCollectionView.insertSections([messageList.count - 1])
+            self.messagesCollectionView.scrollToLastItem(animated: true)
+            if messageList.count >= 2 {
+                messagesCollectionView.reloadSections([messageList.count - 2])
+                self.messagesCollectionView.scrollToLastItem(animated: true)
+            }
+        }, completion: { [weak self] _ in
+            if self?.isLastSectionVisible() == true {
+                self?.messagesCollectionView.scrollToLastItem(animated: true)
+            }
+        })
+    }
+    
     func configureMessageCollectionView() {
-        
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesLayoutDelegate = self
         messagesCollectionView.messagesDisplayDelegate = self
@@ -219,7 +266,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         let messageDate = formatterDate.string(from: Date())
         let messageTime = formatterTime.string(from: Date())
         
-        self.messageList.append(UserMessage(location: CLLocation(latitude: lat, longitude: lng), user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 4))
+        self.insertMessage(UserMessage(location: CLLocation(latitude: lat, longitude: lng), user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 4))
         
         self.messagesCollectionView.reloadData()
     }
@@ -525,14 +572,6 @@ extension ChatVC: MessageCellDelegate {
                 //downlaod file
                 print("PDF FILE")
                 guard let fileUrl = media.url else {return}
-                //
-                //                let down = Downloader()
-                //                down.dowanloadFile(downloadURL: fileUrl) {
-                //                    self.showAlert(withMessage: "download file done")
-                //                } onError: {
-                //                    self.showAlert(withMessage: "onError")
-                //                }
-                //
                 DispatchQueue.main.async {
                     UIApplication.shared.open(fileUrl)
                 }
@@ -675,7 +714,7 @@ extension ChatVC: MessageLabelDelegate {
 extension ChatVC: InputBarAccessoryViewDelegate {
     
     @objc func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        //        processInputBar(messageInputBar)
+        processInputBar(setupLeftInputButton(tapMessage: false, Recorder: "play"))
         //1==>message 2==>images 3==>file
         
         let messageDate = formatterDate.string(from: Date())
@@ -683,7 +722,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
         let url:URL? = URL(string: "https://www.apple.com/eg/")
         
         if isEvent {
-            self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 1))
+            self.insertMessage(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 1))
 
             DispatchQueue.main.async {
                 inputBar.inputTextView.text = ""
@@ -692,6 +731,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
             }
             
             viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
+                
                 if let error = error {
                     self.showAlert(withMessage: error)
                     return
@@ -704,7 +744,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
             }
         }else {
             
-            self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 1))
+            self.insertMessage(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 1))
             
             DispatchQueue.main.async {
                 inputBar.inputTextView.text = ""
@@ -726,11 +766,41 @@ extension ChatVC: InputBarAccessoryViewDelegate {
         }
     }
     
-    func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
-        if text == "" {
-            setupLeftInputButton(tapMessage: false, Recorder: "play")
-        }else {
-            setupLeftInputButton(tapMessage: true, Recorder: "play")
+//    func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
+//        if text == "" {
+//            setupLeftInputButton(tapMessage: false, Recorder: "play")
+//        }else {
+//            setupLeftInputButton(tapMessage: true, Recorder: "play")
+//        }
+//    }
+    
+    func processInputBar(_ inputBar: InputBarAccessoryView) {
+        // Here we can parse for which substrings were autocompleted
+        let attributedText = inputBar.inputTextView.attributedText!
+        let range = NSRange(location: 0, length: attributedText.length)
+        attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (_, range, _) in
+
+            let substring = attributedText.attributedSubstring(from: range)
+            let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
+            print("Autocompleted: `", substring, "` with context: ", context ?? [])
+        }
+
+        let components = inputBar.inputTextView.components
+        inputBar.inputTextView.text = String()
+        inputBar.invalidatePlugins()
+        // Send button activity animation
+        inputBar.sendButton.startAnimating()
+        inputBar.inputTextView.placeholder = "Sending..."
+        // Resign first responder for iPad split view
+        inputBar.inputTextView.resignFirstResponder()
+        DispatchQueue.global(qos: .default).async {
+            // fake send request task
+            sleep(1)
+            DispatchQueue.main.async { [weak self] in
+                inputBar.sendButton.stopAnimating()
+                inputBar.inputTextView.placeholder = "Aa"
+                self?.messagesCollectionView.scrollToLastItem(animated: true)
+            }
         }
     }
 }
@@ -905,7 +975,7 @@ extension ChatVC {
             }
     }
     
-    private func setupLeftInputButton(tapMessage:Bool,Recorder:String) {
+    private func setupLeftInputButton(tapMessage:Bool,Recorder:String) -> InputBarAccessoryView {
         messageInputBar.inputTextView.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1)
         messageInputBar.inputTextView.cornerRadiusView(radius: 8)
         
@@ -915,10 +985,7 @@ extension ChatVC {
         button.onTouchUpInside { [weak self] _ in
             self?.presentInputActionSheet()
         }
-        //        button.backgroundColor = .clear
-        //        button.cornerRadiusView(radius: 18)
-        //        button.setBorder(color: UIColor.white.cgColor.copy(alpha: 0.85), width: 2)
-        
+
         let button2 = InputBarSendButton()
         button2.setSize(CGSize(width: 35, height: 35), animated: false)
         button2.setImage(UIImage(systemName: Recorder), for: .normal)
@@ -940,6 +1007,8 @@ extension ChatVC {
         messageInputBar.middleContentViewPadding.left = 8
         messageInputBar.padding.left = 5
         messageInputBar.setStackViewItems([button], forStack: .left, animated: false)
+        
+        return messageInputBar
     }
     
     func setupDownView(textLbl:String) {
@@ -982,12 +1051,12 @@ extension ChatVC {
         
         if (sender == "play"){
             soundRecorder.record()
-            setupLeftInputButton(tapMessage: false, Recorder: "pause")
+//            setupLeftInputButton(tapMessage: false, Recorder: "pause")
             //            playButton.isEnabled = false
         } else {
             soundRecorder.stop()
-            setupLeftInputButton(tapMessage: false, Recorder: "play")
-            messageList.append(UserMessage(audioURL: getFileURL(), user: senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6))
+//            setupLeftInputButton(tapMessage: false, Recorder: "play")
+            insertMessage(UserMessage(audioURL: getFileURL(), user: senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6))
             self.messagesCollectionView.reloadData()
         }
     }
@@ -1242,16 +1311,14 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
             print(videoURL)
             picker.dismiss(animated:true, completion: {
                 
-                self.messageList.append(UserMessage(videoURL: videoURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6))
+                self.insertMessage(UserMessage(videoURL: videoURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6))
                 self.messagesCollectionView.reloadData()
             })
         }else {
             
             let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-            
-//            self.messageList.append(UserMessage(imageURL: URL(string: data.attach ?? "")!, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 2))
-            
-            self.messageList.append(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 2))
+                        
+            self.insertMessage(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 2))
             self.sendingImageView = image
             
             DispatchQueue.main.async {
@@ -1273,7 +1340,7 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
                     
                 }
             }else {
-                self.messageList.append(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 2))
+                self.insertMessage(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 2))
                 self.sendingImageView = image
 
                 viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
@@ -1374,7 +1441,7 @@ extension ChatVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         //        recordButton.isEnabled = true
         //        playButton.setTitle("Play", for: .normal)
-        setupLeftInputButton(tapMessage: false, Recorder: "play")
+//        setupLeftInputButton(tapMessage: false, Recorder: "play")
     }
     
     private func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
@@ -1386,7 +1453,7 @@ extension ChatVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         //        playButton.isEnabled = true
         //        recordButton.setTitle("Record", for: .normal)
-        setupLeftInputButton(tapMessage: false, Recorder: "play")
+//        setupLeftInputButton(tapMessage: false, Recorder: "play")
     }
     
     private func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
@@ -1472,7 +1539,7 @@ extension ChatVC: UIDocumentPickerDelegate {
             //            let imageData = try Data(contentsOf: selectedFileURL as URL)
             if isEvent {
                 
-                self.messageList.append(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
+                self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
                 
                 let imgView:UIImageView = UIImageView()
                 imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
@@ -1497,7 +1564,7 @@ extension ChatVC: UIDocumentPickerDelegate {
                 }
             }else {
                 
-                self.messageList.append(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
+                self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
                 
                 let imgView:UIImageView = UIImageView()
                 imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
