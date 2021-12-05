@@ -115,6 +115,11 @@ class FeedVC: UIViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+
+    }
     //MARK:- APIs
     func loadMoreItemsForList(){
         currentPage += 1

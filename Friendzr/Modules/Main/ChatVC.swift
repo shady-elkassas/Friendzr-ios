@@ -42,9 +42,9 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
     }()
     
     private var keyboardManager = KeyboardManager()
-
+    
     private let subviewInputBar = InputBarAccessoryView()
-
+    
     // MARK: - Private properties
     var senderUser = UserSender(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName)
     
@@ -117,7 +117,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         
         //        messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: CustomMessagesFlowLayout())
         //        messagesCollectionView.register(CustomCell.self)
-//        self.setupBackgroundView()
+        //        self.setupBackgroundView()
         subviewInputBar.delegate = self
         additionalBottomInset = 88
     }
@@ -723,7 +723,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
         
         if isEvent {
             self.insertMessage(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 1))
-
+            
             DispatchQueue.main.async {
                 inputBar.inputTextView.text = ""
                 self.messagesCollectionView.reloadData()
@@ -740,7 +740,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
                 guard let _ = data else {
                     return
                 }
-
+                
             }
         }else {
             
@@ -751,7 +751,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
                 self.messagesCollectionView.reloadData()
                 self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
             }
-
+            
             viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
                 if let error = error {
                     self.showAlert(withMessage: error)
@@ -766,25 +766,25 @@ extension ChatVC: InputBarAccessoryViewDelegate {
         }
     }
     
-//    func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
-//        if text == "" {
-//            setupLeftInputButton(tapMessage: false, Recorder: "play")
-//        }else {
-//            setupLeftInputButton(tapMessage: true, Recorder: "play")
-//        }
-//    }
+    //    func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
+    //        if text == "" {
+    //            setupLeftInputButton(tapMessage: false, Recorder: "play")
+    //        }else {
+    //            setupLeftInputButton(tapMessage: true, Recorder: "play")
+    //        }
+    //    }
     
     func processInputBar(_ inputBar: InputBarAccessoryView) {
         // Here we can parse for which substrings were autocompleted
         let attributedText = inputBar.inputTextView.attributedText!
         let range = NSRange(location: 0, length: attributedText.length)
         attributedText.enumerateAttribute(.autocompleted, in: range, options: []) { (_, range, _) in
-
+            
             let substring = attributedText.attributedSubstring(from: range)
             let context = substring.attribute(.autocompletedContext, at: 0, effectiveRange: nil)
             print("Autocompleted: `", substring, "` with context: ", context ?? [])
         }
-
+        
         let components = inputBar.inputTextView.components
         inputBar.inputTextView.text = String()
         inputBar.invalidatePlugins()
@@ -929,7 +929,7 @@ extension ChatVC {
         messageInputBar.setRightStackViewWidthConstant(to: 36, animated: false)
         messageInputBar.sendButton.imageView?.backgroundColor = UIColor(white: 0.85, alpha: 1)
         messageInputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-//        messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
+        //        messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
         
         messageInputBar.sendButton.image = #imageLiteral(resourceName: "send_ic")
         messageInputBar.sendButton.imageView?.contentMode = .scaleAspectFit
@@ -985,7 +985,7 @@ extension ChatVC {
         button.onTouchUpInside { [weak self] _ in
             self?.presentInputActionSheet()
         }
-
+        
         let button2 = InputBarSendButton()
         button2.setSize(CGSize(width: 35, height: 35), animated: false)
         button2.setImage(UIImage(systemName: Recorder), for: .normal)
@@ -1051,11 +1051,11 @@ extension ChatVC {
         
         if (sender == "play"){
             soundRecorder.record()
-//            setupLeftInputButton(tapMessage: false, Recorder: "pause")
+            //            setupLeftInputButton(tapMessage: false, Recorder: "pause")
             //            playButton.isEnabled = false
         } else {
             soundRecorder.stop()
-//            setupLeftInputButton(tapMessage: false, Recorder: "play")
+            //            setupLeftInputButton(tapMessage: false, Recorder: "play")
             insertMessage(UserMessage(audioURL: getFileURL(), user: senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6))
             self.messagesCollectionView.reloadData()
         }
@@ -1317,7 +1317,7 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
         }else {
             
             let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-                        
+            
             self.insertMessage(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 2))
             self.sendingImageView = image
             
@@ -1325,7 +1325,7 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
                 self.messagesCollectionView.reloadData()
                 self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
             }
-
+            
             if isEvent {
                 viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
                     
@@ -1342,7 +1342,7 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
             }else {
                 self.insertMessage(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 2))
                 self.sendingImageView = image
-
+                
                 viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
                     
                     if let error = error {
@@ -1441,7 +1441,7 @@ extension ChatVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         //        recordButton.isEnabled = true
         //        playButton.setTitle("Play", for: .normal)
-//        setupLeftInputButton(tapMessage: false, Recorder: "play")
+        //        setupLeftInputButton(tapMessage: false, Recorder: "play")
     }
     
     private func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
@@ -1453,7 +1453,7 @@ extension ChatVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         //        playButton.isEnabled = true
         //        recordButton.setTitle("Record", for: .normal)
-//        setupLeftInputButton(tapMessage: false, Recorder: "play")
+        //        setupLeftInputButton(tapMessage: false, Recorder: "play")
     }
     
     private func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
@@ -1470,9 +1470,9 @@ extension ChatVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
 extension ChatVC: MessagesLayoutDelegate {
     
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-//        if isTimeLabelVisible(at: indexPath) {
-//            return 18
-//        }
+        //        if isTimeLabelVisible(at: indexPath) {
+        //            return 18
+        //        }
         return 0
     }
     
@@ -1550,7 +1550,7 @@ extension ChatVC: UIDocumentPickerDelegate {
                     self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
                 }
                 
-
+                
                 viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
                     if let error = error {
                         self.showAlert(withMessage: error)
@@ -1569,7 +1569,7 @@ extension ChatVC: UIDocumentPickerDelegate {
                 let imgView:UIImageView = UIImageView()
                 imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
                 self.sendingImageView  = imgView.image
-
+                
                 viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
                     
                     if let error = error {
@@ -1617,6 +1617,13 @@ extension ChatVC {
     }
     
     @objc func backToInbox() {
-        Router().toHome()
+        self.view.addSubview(setupLeftInputButton(tapMessage: false, Recorder: "play"))
+        keyboardManager.bind(inputAccessoryView: setupLeftInputButton(tapMessage: false, Recorder: "play"))
+        
+        keyboardManager.inputAccessoryView?.isHidden = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            Router().toHome()
+        })
     }
 }
