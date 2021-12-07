@@ -20,7 +20,6 @@ class SettingsVC: UIViewController {
     
     @IBOutlet weak var settingSubView: UIView!
     @IBOutlet weak var settingsViewHeight: NSLayoutConstraint!
-    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var transparentView: UIView!
     @IBOutlet weak var ageSliderView: UIView!
@@ -116,7 +115,7 @@ class SettingsVC: UIViewController {
         
         ageFrom = model?.agefrom ?? 13
         ageTo = model?.ageto ?? 100
-        manualdistancecontrol = model?.manualdistancecontrol ?? 0.2
+        manualdistancecontrol = (model?.manualdistancecontrol ?? 0.2) / 1000
     }
     
     func updateUserInterface() {

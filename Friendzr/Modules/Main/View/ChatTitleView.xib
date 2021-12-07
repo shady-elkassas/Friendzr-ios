@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="QLL-32-zgR" customClass="ChatTitleView" customModule="Friendzr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="106"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xY0-nn-Msh">
+                    <rect key="frame" x="16" y="0.0" width="343" height="106"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="o2U-f0-XE9">
+                            <rect key="frame" x="142" y="0.0" width="59" height="106"/>
+                            <subviews>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="8Ni-my-og8">
+                                    <rect key="frame" x="0.0" y="0.0" width="20" height="106"/>
+                                </activityIndicatorView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xeq-DM-abL">
+                                    <rect key="frame" x="28" y="0.0" width="31" height="106"/>
+                                    <accessibility key="accessibilityConfiguration">
+                                        <accessibilityTraits key="traits" notEnabled="YES"/>
+                                        <bool key="isElement" value="NO"/>
+                                    </accessibility>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="string" keyPath="themeColor" value="textColor: controlText"/>
+                                    </userDefinedRuntimeAttributes>
+                                </label>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <accessibility key="accessibilityConfiguration">
+                        <accessibilityTraits key="traits" notEnabled="YES"/>
+                    </accessibility>
+                    <constraints>
+                        <constraint firstItem="o2U-f0-XE9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xY0-nn-Msh" secondAttribute="leading" id="X0M-b2-GUN"/>
+                        <constraint firstItem="o2U-f0-XE9" firstAttribute="centerX" secondItem="xY0-nn-Msh" secondAttribute="centerX" id="Zvn-Zt-biV"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="o2U-f0-XE9" secondAttribute="trailing" id="ijg-jK-6eE"/>
+                        <constraint firstAttribute="bottom" secondItem="o2U-f0-XE9" secondAttribute="bottom" id="jU3-A6-91B"/>
+                        <constraint firstItem="o2U-f0-XE9" firstAttribute="top" secondItem="xY0-nn-Msh" secondAttribute="top" id="rQc-eL-jDm"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oyl-GC-B6J" userLabel="View Title">
+                    <rect key="frame" x="16" y="36" width="343" height="34"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hAU-DU-lxD">
+                            <rect key="frame" x="5" y="2.5" width="15" height="15"/>
+                            <accessibility key="accessibilityConfiguration">
+                                <accessibilityTraits key="traits" notEnabled="YES"/>
+                            </accessibility>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="15" id="L45-wD-aO5"/>
+                                <constraint firstAttribute="height" constant="15" id="TzS-Uv-wNF"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Server Selector" translatesAutoresizingMaskIntoConstraints="NO" id="632-Ij-bak">
+                            <rect key="frame" x="73.5" y="4" width="12" height="12"/>
+                            <accessibility key="accessibilityConfiguration">
+                                <accessibilityTraits key="traits" notEnabled="YES"/>
+                            </accessibility>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="12" id="302-Gz-aDV"/>
+                                <constraint firstAttribute="height" constant="12" id="4uF-gU-xRV"/>
+                            </constraints>
+                        </imageView>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pFh-cT-UDH">
+                            <rect key="frame" x="24" y="0.0" width="41.5" height="19.5"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q6b-mx-9fq">
+                                    <rect key="frame" x="0.0" y="0.0" width="41.5" height="19.5"/>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="string" keyPath="themeColor" value="textColor: bodyText"/>
+                                    </userDefinedRuntimeAttributes>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" secondItem="Q6b-mx-9fq" secondAttribute="height" id="BIZ-9z-ept"/>
+                                <constraint firstAttribute="bottom" secondItem="Q6b-mx-9fq" secondAttribute="bottom" id="LQ3-Pf-FMV"/>
+                                <constraint firstItem="Q6b-mx-9fq" firstAttribute="leading" secondItem="pFh-cT-UDH" secondAttribute="leading" id="a9z-an-L9l"/>
+                                <constraint firstItem="Q6b-mx-9fq" firstAttribute="top" secondItem="pFh-cT-UDH" secondAttribute="top" id="b3b-IK-tNI"/>
+                                <constraint firstAttribute="trailing" secondItem="Q6b-mx-9fq" secondAttribute="trailing" id="ctB-ru-A4T"/>
+                                <constraint firstAttribute="width" secondItem="Q6b-mx-9fq" secondAttribute="width" priority="250" id="x6Y-Cl-ioR"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" id="zQ9-ZS-8HT"/>
+                            </constraints>
+                        </scrollView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HDu-51-Fag">
+                            <rect key="frame" x="8" y="19.5" width="327" height="14.5"/>
+                            <accessibility key="accessibilityConfiguration">
+                                <accessibilityTraits key="traits" notEnabled="YES"/>
+                                <bool key="isElement" value="NO"/>
+                            </accessibility>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yun-lk-KgN" customClass="NotThemeableView" customModule="Rocket_Chat" customModuleProvider="target">
+                            <rect key="frame" x="8" y="5.5" width="9" height="9"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <accessibility key="accessibilityConfiguration">
+                                <accessibilityTraits key="traits" notEnabled="YES"/>
+                            </accessibility>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="9" id="F7T-0f-E8Q"/>
+                                <constraint firstAttribute="width" constant="9" id="MAU-Br-HKo"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <accessibility key="accessibilityConfiguration">
+                        <accessibilityTraits key="traits" notEnabled="YES"/>
+                    </accessibility>
+                    <constraints>
+                        <constraint firstItem="HDu-51-Fag" firstAttribute="top" secondItem="pFh-cT-UDH" secondAttribute="bottom" id="2hY-Co-Ywn"/>
+                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="632-Ij-bak" secondAttribute="trailing" id="7bS-YI-uL2"/>
+                        <constraint firstItem="pFh-cT-UDH" firstAttribute="leading" secondItem="hAU-DU-lxD" secondAttribute="trailing" constant="4" id="9d6-ZR-d3T"/>
+                        <constraint firstAttribute="bottom" secondItem="HDu-51-Fag" secondAttribute="bottom" id="BWb-A9-cOs"/>
+                        <constraint firstItem="632-Ij-bak" firstAttribute="leading" secondItem="pFh-cT-UDH" secondAttribute="trailing" constant="8" id="K79-yR-gmq"/>
+                        <constraint firstItem="yun-lk-KgN" firstAttribute="centerX" secondItem="hAU-DU-lxD" secondAttribute="centerX" id="RzH-Yl-wq4"/>
+                        <constraint firstItem="yun-lk-KgN" firstAttribute="leading" secondItem="oyl-GC-B6J" secondAttribute="leadingMargin" id="SGJ-n5-8nC"/>
+                        <constraint firstItem="pFh-cT-UDH" firstAttribute="top" secondItem="oyl-GC-B6J" secondAttribute="top" id="Vss-Py-G7a"/>
+                        <constraint firstItem="pFh-cT-UDH" firstAttribute="centerY" secondItem="632-Ij-bak" secondAttribute="centerY" id="hmI-gy-Mrl"/>
+                        <constraint firstItem="yun-lk-KgN" firstAttribute="centerY" secondItem="hAU-DU-lxD" secondAttribute="centerY" id="jnD-xL-xdz"/>
+                        <constraint firstAttribute="trailingMargin" secondItem="HDu-51-Fag" secondAttribute="trailing" id="mIz-rI-HA2"/>
+                        <constraint firstItem="HDu-51-Fag" firstAttribute="leading" secondItem="oyl-GC-B6J" secondAttribute="leadingMargin" id="qE0-7d-N2l"/>
+                        <constraint firstItem="pFh-cT-UDH" firstAttribute="centerY" secondItem="hAU-DU-lxD" secondAttribute="centerY" id="vcJ-Wu-rMR"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="PeE-LB-CUp"/>
+            <accessibility key="accessibilityConfiguration">
+                <bool key="isElement" value="YES"/>
+            </accessibility>
+            <gestureRecognizers/>
+            <constraints>
+                <constraint firstItem="xY0-nn-Msh" firstAttribute="leading" secondItem="QLL-32-zgR" secondAttribute="leadingMargin" id="4IB-hX-mab"/>
+                <constraint firstAttribute="bottom" secondItem="xY0-nn-Msh" secondAttribute="bottom" id="Czu-Hq-Vxw"/>
+                <constraint firstItem="oyl-GC-B6J" firstAttribute="centerY" secondItem="QLL-32-zgR" secondAttribute="centerY" id="LtN-rg-FsA"/>
+                <constraint firstAttribute="trailingMargin" secondItem="xY0-nn-Msh" secondAttribute="trailing" id="W9Y-TQ-O7t"/>
+                <constraint firstItem="oyl-GC-B6J" firstAttribute="leading" secondItem="QLL-32-zgR" secondAttribute="leadingMargin" id="a28-2d-tQ6"/>
+                <constraint firstAttribute="trailingMargin" secondItem="oyl-GC-B6J" secondAttribute="trailing" id="bey-ej-h1h"/>
+                <constraint firstItem="xY0-nn-Msh" firstAttribute="top" secondItem="QLL-32-zgR" secondAttribute="top" id="ncK-j4-75R"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="labelLoading" destination="xeq-DM-abL" id="nVG-Gp-hM0"/>
+                <outlet property="showInfoImage" destination="632-Ij-bak" id="ING-6W-ocF"/>
+                <outlet property="titleImage" destination="hAU-DU-lxD" id="doV-zq-f9U"/>
+                <outlet property="titleLabel" destination="Q6b-mx-9fq" id="YL4-WG-AWv"/>
+                <outlet property="titleScrollView" destination="pFh-cT-UDH" id="7KX-je-a9A"/>
+                <outlet property="typingLabel" destination="HDu-51-Fag" id="d29-Xq-5DB"/>
+                <outlet property="viewLoading" destination="xY0-nn-Msh" id="sGc-HR-ILi"/>
+                <outlet property="viewStatus" destination="yun-lk-KgN" id="c5f-ul-KCU"/>
+                <outlet property="viewtitle" destination="oyl-GC-B6J" id="WqU-Gu-hoy"/>
+            </connections>
+            <point key="canvasLocation" x="-100" y="104.34782608695653"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Server Selector" width="12" height="9"/>
+    </resources>
+</document>

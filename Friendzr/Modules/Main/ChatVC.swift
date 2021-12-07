@@ -130,7 +130,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         if isEvent {
             if leavevent == 0 {
                 messageInputBar.isHidden = false
-                messageInputBar.inputTextView.becomeFirstResponder()
+//                messageInputBar.inputTextView.becomeFirstResponder()
             }else if leavevent == 1 {
                 setupDownView(textLbl: "You have left this event")
             }else {
@@ -139,7 +139,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         }else {
             if isFriend == true {
                 messageInputBar.isHidden = false
-                messageInputBar.inputTextView.becomeFirstResponder()
+//                messageInputBar.inputTextView.becomeFirstResponder()
             }else {
                 setupDownView(textLbl: "You are now not a friend of this user and will not be able to message him")
             }
@@ -439,29 +439,6 @@ extension ChatVC: MessagesDataSource {
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
         return messageList[indexPath.section]
     }
-    
-    
-    //    func collectionView(collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    //
-    //        guard let messagesDataSource = messagesCollectionView.messagesDataSource else {
-    //            fatalError("Ouch. nil data source for messages")
-    //        }
-    //
-    //        // Very important to check this when overriding `cellForItemAt`
-    //        // Super method will handle returning the typing indicator cell
-    //        guard !isSectionReservedForTypingIndicator(indexPath.section) else {
-    //            return super.collectionView(collectionView, cellForItemAt: indexPath)
-    //        }
-    //
-    //        let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
-    //        if case .custom = message.kind {
-    //            let cell = messagesCollectionView.dequeueReusableCell(CustomCell.self, for: indexPath)
-    //            cell.configure(with: message, at: indexPath, and: messagesCollectionView)
-    //            return cell
-    //        }
-    //
-    //        return super.collectionView(collectionView, cellForItemAt: indexPath)
-    //    }
     
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         if indexPath.section % 3 == 0 {
@@ -1319,7 +1296,7 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
             let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
             
             self.insertMessage(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 2))
-            self.sendingImageView = image
+//            self.sendingImageView = image
             
             DispatchQueue.main.async {
                 self.messagesCollectionView.reloadData()
@@ -1543,7 +1520,7 @@ extension ChatVC: UIDocumentPickerDelegate {
                 
                 let imgView:UIImageView = UIImageView()
                 imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
-                self.sendingImageView  = imgView.image
+//                self.sendingImageView  = imgView.image
                 
                 DispatchQueue.main.async {
                     self.messagesCollectionView.reloadData()

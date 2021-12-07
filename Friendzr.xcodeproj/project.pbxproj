@@ -188,6 +188,8 @@
 		439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */; };
 		439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */; };
 		439DDE9426F749DC00E09FC1 /* EventsInLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */; };
+		43A251E2275CC27600EC48DB /* ChatTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A251E1275CC27600EC48DB /* ChatTitleView.swift */; };
+		43A251E4275CC28500EC48DB /* ChatTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A251E3275CC28500EC48DB /* ChatTitleView.xib */; };
 		43B22412274B89D7004C6912 /* SelectedTagsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22411274B89D7004C6912 /* SelectedTagsVC.swift */; };
 		43B22416274D132C004C6912 /* CategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22415274D132C004C6912 /* CategoriesVC.swift */; };
 		43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */; };
@@ -459,6 +461,8 @@
 		439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeModel.swift; sourceTree = "<group>"; };
 		439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsInLocationTableViewCell.swift; sourceTree = "<group>"; };
 		439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventsInLocationTableViewCell.xib; sourceTree = "<group>"; };
+		43A251E1275CC27600EC48DB /* ChatTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTitleView.swift; sourceTree = "<group>"; };
+		43A251E3275CC28500EC48DB /* ChatTitleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTitleView.xib; sourceTree = "<group>"; };
 		43B22411274B89D7004C6912 /* SelectedTagsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTagsVC.swift; sourceTree = "<group>"; };
 		43B22415274D132C004C6912 /* CategoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesVC.swift; sourceTree = "<group>"; };
 		43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1038,6 +1042,8 @@
 				4371D4222737D054003B8AFD /* CustomMessagesFlowLayout.swift */,
 				4362889826C90CC600B51E51 /* Cell */,
 				4382AC1C26C27195005C1857 /* Main.storyboard */,
+				43A251E1275CC27600EC48DB /* ChatTitleView.swift */,
+				43A251E3275CC28500EC48DB /* ChatTitleView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1527,6 +1533,7 @@
 				4382AC9526C27FF2005C1857 /* Montserrat-Bold.ttf in Resources */,
 				436288AD26C93B5C00B51E51 /* Profile.storyboard in Resources */,
 				430A352226CAB04B00477A94 /* Events.storyboard in Resources */,
+				43A251E4275CC28500EC48DB /* ChatTitleView.xib in Resources */,
 				4362888F26C8FF6B00B51E51 /* Request.storyboard in Resources */,
 				43FC3C7B2726F5A600D94ABB /* Localizable.strings in Resources */,
 				4362888826C8FF4000B51E51 /* Feed.storyboard in Resources */,
@@ -1757,6 +1764,7 @@
 				43D545B926CBD8470064660A /* Node.swift in Sources */,
 				43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */,
 				432C6AD726F33BD60029FB89 /* TagView.swift in Sources */,
+				43A251E2275CC27600EC48DB /* ChatTitleView.swift in Sources */,
 				439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */,
 				430A350F26CA7A2200477A94 /* MoreTableViewCell.swift in Sources */,
 				4382AC5526C27911005C1857 /* Language.swift in Sources */,
