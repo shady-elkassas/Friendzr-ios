@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+class Degree {
+    static var degreeString = ""
+}
+
 struct Marker: Hashable {
     let degrees: Double
     let label: String
@@ -22,16 +26,16 @@ struct Marker: Hashable {
 
     static func markers() -> [Marker] {
         return [
-            Marker(degrees: 0, label: "S"),
+            Marker(degrees: 0, label: "N"),
             Marker(degrees: 30),
             Marker(degrees: 60),
-            Marker(degrees: 90, label: "W"),
+            Marker(degrees: 90, label: "E"),
             Marker(degrees: 120),
             Marker(degrees: 150),
-            Marker(degrees: 180, label: "N"),
+            Marker(degrees: 180, label: "S"),
             Marker(degrees: 210),
             Marker(degrees: 240),
-            Marker(degrees: 270, label: "E"),
+            Marker(degrees: 270, label: "W"),
             Marker(degrees: 300),
             Marker(degrees: 330)
         ]
@@ -43,33 +47,36 @@ struct CompassMarkerView: View {
     let compassDegress: Double
 
     var body: some View {
-        VStack {
-            Text(marker.degreeText())
-                .fontWeight(.medium)
+        ZStack {
+            Text(marker.label)
+                .fontWeight(.bold)
                 .rotationEffect(self.textAngle())
-                .foregroundColor(.white)
+                .foregroundColor(.black)
+                .padding(.bottom, 75)
+
             Capsule()
                 .frame(width: self.capsuleWidth(),
                        height: self.capsuleHeight())
                 .foregroundColor(self.capsuleColor())
-                .padding(.bottom, 120)
-            
-            Text(marker.label)
-                .fontWeight(.bold)
+                .padding(.bottom, 165)
+
+            Text(marker.degreeText())
+                .fontWeight(.regular)
+                .font(.system(size: 10))
                 .rotationEffect(self.textAngle())
-                .padding(.bottom, 80)
-                .foregroundColor(.white)
+                .foregroundColor(Color("primaryColor"))
+                .padding(.bottom,250)
 
         }
         .rotationEffect(Angle(degrees: marker.degrees))
     }
     
     private func capsuleWidth() -> CGFloat {
-        return self.marker.degrees == 0 ? 7 : 3
+        return self.marker.degrees == 0 ? 5 : 2
     }
 
     private func capsuleHeight() -> CGFloat {
-        return self.marker.degrees == 0 ? 45 : 30
+        return self.marker.degrees == 0 ? 16 : 10
     }
 
     private func capsuleColor() -> Color {
@@ -83,32 +90,62 @@ struct CompassMarkerView: View {
 
 
 struct CompassViewSwiftUI: View {
+    
     @ObservedObject var compassHeading = CompassHeading()
 
     var body: some View {
-        ZStack{
-            Color.white
-                .edgesIgnoringSafeArea(.all)
+        ZStack {
+            if #available(iOS 15.0, *) {
+                Color.clear
+            } else {
+                // Fallback on earlier versions
+            }
+            
             VStack {
                 Capsule()
                     .foregroundColor(.blue)
-                    .frame(width: 5,
-                       height: 50)
-                
+                    .frame(width: 5,height: 30)
+                    .padding(.bottom,-10)
                 ZStack {
-                    Circle()
-                        .stroke(Color.black,style: StrokeStyle(lineWidth: 150))
-                        .padding(60)
-                    ForEach(Marker.markers(), id: \.self) { marker in
-                        CompassMarkerView(marker: marker,
-                                      compassDegress: self.compassHeading.degrees)
+                    ZStack {
+                        Circle()
+                            .stroke(Color("primaryColor").opacity(0.15),style: StrokeStyle(lineWidth: 250))
+                            .padding(130)
+                        
+                        Circle()
+                            .stroke(Color("primaryColor"),style: StrokeStyle(lineWidth: 10))
+                            .padding(10)
+                        
+                        Circle()
+                            .stroke(Color("primaryColor"),style: StrokeStyle(lineWidth: 5))
+                            .padding(50)
+                        
+                        Circle()
+                            .stroke(Color.white,style: StrokeStyle(lineWidth: 40))
+                            .padding(90)
+                        
+                        ForEach(Marker.markers(), id: \.self) { marker in
+                            CompassMarkerView(marker: marker,
+                                              compassDegress: self.compassHeading.degrees)
+                        }
+                        
                     }
+                    .frame(width: 320, height: 320)
+                    .rotationEffect(Angle(degrees: self.compassHeading.degrees))
+
+                    Text("\(Degree.degreeString)")
+                        .font(.system(size: 14))
+                        .fontWeight(.bold)
+                        .frame(width: 45, height: 45, alignment: .center)
+                        .foregroundColor(Color("primaryColor"))
+                        .background(Color("primaryColor").opacity(0.5))
+                        .cornerRadius(22.5)
                 }
-                .frame(width: 300, height: 300)
-                .rotationEffect(Angle(degrees: self.compassHeading.degrees))
-                .statusBar(hidden: true)
+                
             }
+            .padding(.top,screenH - 500)
         }
+
     }
 }
 

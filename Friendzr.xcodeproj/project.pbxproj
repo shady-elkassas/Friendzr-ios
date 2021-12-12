@@ -153,8 +153,6 @@
 		4382AC2126C27195005C1857 /* Friendzr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1F26C27195005C1857 /* Friendzr.xcdatamodeld */; };
 		4382AC2326C27195005C1857 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4382AC2226C27195005C1857 /* Assets.xcassets */; };
 		4382AC2626C27195005C1857 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4382AC2426C27195005C1857 /* LaunchScreen.storyboard */; };
-		4382AC3126C27195005C1857 /* FriendzrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC3026C27195005C1857 /* FriendzrTests.swift */; };
-		4382AC3C26C27195005C1857 /* FriendzrUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC3B26C27195005C1857 /* FriendzrUITests.swift */; };
 		4382AC4C26C2748B005C1857 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC4B26C2748B005C1857 /* UIColorExtension.swift */; };
 		4382AC4E26C2778C005C1857 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC4D26C2778C005C1857 /* UIViewExtension.swift */; };
 		4382AC5026C2788D005C1857 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC4F26C2788D005C1857 /* StringExtension.swift */; };
@@ -424,11 +422,7 @@
 		4382AC2226C27195005C1857 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4382AC2526C27195005C1857 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4382AC2C26C27195005C1857 /* FriendzrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FriendzrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4382AC3026C27195005C1857 /* FriendzrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendzrTests.swift; sourceTree = "<group>"; };
-		4382AC3226C27195005C1857 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4382AC3726C27195005C1857 /* FriendzrUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FriendzrUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4382AC3B26C27195005C1857 /* FriendzrUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendzrUITests.swift; sourceTree = "<group>"; };
-		4382AC3D26C27195005C1857 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4382AC4B26C2748B005C1857 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		4382AC4D26C2778C005C1857 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		4382AC4F26C2788D005C1857 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -1115,8 +1109,6 @@
 			isa = PBXGroup;
 			children = (
 				4382AC1526C27195005C1857 /* Friendzr */,
-				4382AC2F26C27195005C1857 /* FriendzrTests */,
-				4382AC3A26C27195005C1857 /* FriendzrUITests */,
 				4382AC1426C27195005C1857 /* Products */,
 				2C9E98B46E9A7CE7204CF3B0 /* Pods */,
 				2E46D04BCE75F82D975E85B7 /* Frameworks */,
@@ -1146,24 +1138,6 @@
 				4380503927576C9C0005F0CF /* Friendzr-Bridging-Header.h */,
 			);
 			path = Friendzr;
-			sourceTree = "<group>";
-		};
-		4382AC2F26C27195005C1857 /* FriendzrTests */ = {
-			isa = PBXGroup;
-			children = (
-				4382AC3026C27195005C1857 /* FriendzrTests.swift */,
-				4382AC3226C27195005C1857 /* Info.plist */,
-			);
-			path = FriendzrTests;
-			sourceTree = "<group>";
-		};
-		4382AC3A26C27195005C1857 /* FriendzrUITests */ = {
-			isa = PBXGroup;
-			children = (
-				4382AC3B26C27195005C1857 /* FriendzrUITests.swift */,
-				4382AC3D26C27195005C1857 /* Info.plist */,
-			);
-			path = FriendzrUITests;
 			sourceTree = "<group>";
 		};
 		4382AC4926C27297005C1857 /* Supporting_Files */ = {
@@ -1846,7 +1820,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4382AC3126C27195005C1857 /* FriendzrTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1854,7 +1827,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4382AC3C26C27195005C1857 /* FriendzrUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

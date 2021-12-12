@@ -95,14 +95,14 @@ class FeedVC: UIViewController {
         setup()
         initSwitchBarButton()
         pullToRefresh()
-        
+        addCompassView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
         initProfileBarButton()
         filterDir = switchBarButton.isOn
-        
+
         if Defaults.allowMyLocation == true {
             DispatchQueue.main.async {
                 self.updateUserInterface()
@@ -120,6 +120,15 @@ class FeedVC: UIViewController {
         
 
     }
+    
+    func addCompassView() {
+        
+        let child = UIHostingController(rootView: CompassViewSwiftUI())
+        child.view.translatesAutoresizingMaskIntoConstraints = true
+        child.view.frame = CGRect(x: 0, y: 0, width: compassContanierView.bounds.width, height: compassContanierView.bounds.height)
+        compassContanierView.addSubview(child.view)
+    }
+    
     //MARK:- APIs
     func loadMoreItemsForList(){
         currentPage += 1
@@ -343,8 +352,15 @@ class FeedVC: UIViewController {
         filterDir = true
         filterBtn.isHidden = false
         compassContanierView.isHidden = false
-        compassContainerViewHeight.constant = screenW / 1.95
-        compassContanierView.addSubview(dScaView)
+        compassContainerViewHeight.constant = 400
+//        compassContanierView.addSubview(dScaView)
+        
+        compassContanierView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
+
+        let child = UIHostingController(rootView: CompassViewSwiftUI())
+        child.view.translatesAutoresizingMaskIntoConstraints = true
+        child.view.frame = CGRect(x: 0, y: 0, width: compassContanierView.bounds.width, height: compassContanierView.bounds.height)
+        compassContanierView.addSubview(child.view)
     }
     
     
@@ -686,9 +702,10 @@ extension FeedVC: CLLocationManagerDelegate {
         self.navigationItem.rightBarButtonItem = barButton
     }
     
+
     @objc func handleSwitchBtn() {
         print("\(switchBarButton.isOn)")
-        
+
         // Azimuth
         if Defaults.allowMyLocation == true {
             if switchBarButton.isOn {
@@ -703,8 +720,9 @@ extension FeedVC: CLLocationManagerDelegate {
                     filterDir = true
                     filterBtn.isHidden = false
                     compassContanierView.isHidden = false
-                    compassContainerViewHeight.constant = screenW / 1.95
-                    compassContanierView.addSubview(dScaView)
+                    compassContainerViewHeight.constant = 400
+//                    compassContanierView.addSubview(dScaView)
+                    compassContanierView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
                 }
             }else {
                 filterHideView.isHidden = true
@@ -714,9 +732,10 @@ extension FeedVC: CLLocationManagerDelegate {
                 locationManager.stopUpdatingHeading()
                 filterDir = false
                 compassContanierView.isHidden = true
+                
+                
                 filterBtn.isHidden = true
                 compassContainerViewHeight.constant = 0
-                
                 getAllFeeds(pageNumber: 0)
             }
         }else {
@@ -815,6 +834,7 @@ extension FeedVC: CLLocationManagerDelegate {
             print("magneticHeading \(Int(magneticHeading))")
             
             compassDegree = Double(magneticHeading)
+            Degree.degreeString = "\(Int(magneticHeading))°"
             
             // 3. Rotation transformation
             dScaView.resetDirection(CGFloat(headi))
