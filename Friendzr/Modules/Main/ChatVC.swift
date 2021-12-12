@@ -152,7 +152,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         if isEvent {
             if leavevent == 0 {
                 messageInputBar.isHidden = false
-                //                messageInputBar.inputTextView.becomeFirstResponder()
+//                messageInputBar.inputTextView.becomeFirstResponder()
             }else if leavevent == 1 {
                 setupDownView(textLbl: "You have left this event")
             }else {
@@ -161,6 +161,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         }else {
             if isFriend == true {
                 messageInputBar.isHidden = false
+//                messageInputBar.inputTextView.becomeFirstResponder()
             }else {
                 setupDownView(textLbl: "You are now not a friend of this user and will not be able to message him")
             }
@@ -299,12 +300,12 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
                         if itm.messagetype == 1 { //text
                             messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
                         }else if itm.messagetype == 2 { //image
-                            if itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }else if itm.messagetype == 3 { //file
-                            if itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }
                         
@@ -313,13 +314,15 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
                             messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
                         }
                         else if itm.messagetype == 2 { //image
-                            if itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            }else{
+                                
                             }
                         }
                         else if itm.messagetype == 3 { //file
-                            if itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }
                         
@@ -364,16 +367,24 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
                         if itm.messagetype == 1 { //text
                             messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
                         }else if itm.messagetype == 2 { //image
-                            if itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            }
+                        }else if itm.messagetype == 3 { //file
+                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }
                     }else {
                         if itm.messagetype == 1 { //text
                             messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
                         }else if itm.messagetype == 2 { //image
-                            if itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            }
+                        }else if itm.messagetype == 3 { //file
+                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }
                         
@@ -383,8 +394,9 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
                 }
                 
                 self.messagesCollectionView.reloadData()
-                self.messagesCollectionView.scrollToLastItem()
+                self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
                 self.refreshControl.endRefreshing()
+                
                 updateTitleView(image: titleChatImage, subtitle: titleChatName)
             }
         }

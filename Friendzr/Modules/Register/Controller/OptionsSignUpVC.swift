@@ -59,6 +59,11 @@ class OptionsSignUpVC: UIViewController {
         hideNavigationBar(NavigationBar: true, BackButton: true)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        performExistingAccountSetupFlows()
+    }
+    
     //MARK: - Helper
     func setupView() {
         emailView.cornerRadiusView(radius: 6)

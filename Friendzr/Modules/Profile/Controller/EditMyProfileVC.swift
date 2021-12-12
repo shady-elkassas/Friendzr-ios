@@ -202,7 +202,7 @@ class EditMyProfileVC: UIViewController {
             selectTagsLbl.isHidden = false
             selectTagsLbl.textColor = .lightGray
         }else {
-            tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 25
+            tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 30
             selectTagsLbl.isHidden = true
         }
         
@@ -245,7 +245,7 @@ class EditMyProfileVC: UIViewController {
             selectTagsLbl.isHidden = false
             selectTagsLbl.textColor = .lightGray
         }else {
-            tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 25
+            tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 30
             selectTagsLbl.isHidden = true
         }
         
@@ -290,7 +290,7 @@ class EditMyProfileVC: UIViewController {
         
         alertView?.HandleOKBtn = {
             let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
+            formatter.dateFormat = "dd-MM-yyyy"
             self.dateBirthLbl.text = formatter.string(from: (self.alertView?.calendarView.date)!)
             self.birthDay = formatter.string(from: (self.alertView?.calendarView.date)!)
             self.dateBirthLbl.textColor = .black

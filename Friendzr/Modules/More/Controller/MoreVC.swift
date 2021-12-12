@@ -72,17 +72,18 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     func setupView() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         containerView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 50)
-        moreList.append(("Profile".localizedString, UIImage(named: "Profile_ic")!))
+        
+        moreList.append(("My Profile".localizedString, UIImage(named: "Profile_ic")!))
         moreList.append(("My Events".localizedString, UIImage(named: "Events_ic")!))
         moreList.append(("Notifications".localizedString, UIImage(named: "notificationList_ic")!))
+        moreList.append(("Share".localizedString, UIImage(named: "Share_ic")!))
         moreList.append(("Settings".localizedString, UIImage(named: "Settings_ic")!))
-        moreList.append(("Block List".localizedString, UIImage(named: "blocked_ic")!))
-        moreList.append(("Contact Us".localizedString, UIImage(named: "Contactus_ic")!))
         moreList.append(("About Us".localizedString, UIImage(named: "information_ic")!))
         moreList.append(("Terms & Conditions".localizedString, UIImage(named: "Terms_ic")!))
-        moreList.append(("Share".localizedString, UIImage(named: "Share_ic")!))
+        moreList.append(("Privacy Policy".localizedString, UIImage(named: "privacy_ic")!))
+        moreList.append(("Contact Friendzr".localizedString, UIImage(named: "Contactus_ic")!))
         moreList.append(("Log Out".localizedString, UIImage(named: "logout_ic")!))
-        
+
         profileImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 2)
         profileImg.cornerRadiusForHeight()
     }
@@ -180,13 +181,11 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
                         Router().toOptionsSignUpVC()
                     })
                     
-                    let request = ASAuthorizationAppleIDProvider().createRequest()
-                    request.requestedOperation = .operationLogout
-                    let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-                    authorizationController.performRequests()
+                    //                    let request = ASAuthorizationAppleIDProvider().createRequest()
+                    //                    request.requestedOperation = .operationLogout
+                    //                    let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+                    //                    authorizationController.performRequests()
                 }
-            }else {
-                return
             }
             
             // handling code
@@ -225,7 +224,7 @@ extension MoreVC : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         updateUserInterface()
         switch indexPath.row {
-        case 0: //profile
+        case 0: //my profile
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
                 self.navigationController?.pushViewController(vc, animated: true)
@@ -239,17 +238,42 @@ extension MoreVC : UITableViewDelegate {
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "NotificationsVC") as? NotificationsVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
             break
-        case 3: //settings
+        case 3: //share
+            if internetConect {
+                shareApp()
+            }
+            break
+        case 4: //settings
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC else {return}
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
-        case 4: //block list
-            guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "BlockedListVC") as? BlockedListVC else {return}
-            self.navigationController?.pushViewController(vc, animated: true)
+        case 5://aboutus
+            if internetConect {
+                guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
+                vc.titleVC = "About Us"
+                vc.urlString = "https://friendzr.com/about-us/"
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             break
-        case 5: //contactus
+        case 6://terms
+            if internetConect {
+                guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
+                vc.titleVC = "Terms & Conditions"
+                vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/EULAOct2021.pdf"
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            break
+        case 7://Privacy Policy
+            if internetConect {
+                guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
+                vc.titleVC = "Privacy Policy"
+                vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/Friendzr-Privacy-Policy.pdf"
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            break
+        case 8: //contactus
             if internetConect {
                 let subjectTitle = "Suggestions"
                 let messageBody = ""
@@ -260,27 +284,6 @@ extension MoreVC : UITableViewDelegate {
                 mc.setMessageBody(messageBody, isHTML: false)
                 mc.setToRecipients(toRecipents)
                 self.present(mc, animated: true, completion: nil)
-            }
-            break
-        case 6://aboutus
-            if internetConect {
-                guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
-                vc.titleVC = "About Us"
-                vc.urlString = "https://friendzr.com/about-us/"
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-            break
-        case 7://terms
-            if internetConect {
-                guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
-                vc.titleVC = "Terms & Conditions"
-                vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/EULAOct2021.pdf"
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-            break
-        case 8: //share
-            if internetConect {
-                shareApp()
             }
             break
         case 9://logout

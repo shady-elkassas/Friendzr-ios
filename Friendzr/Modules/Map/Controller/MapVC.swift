@@ -429,8 +429,25 @@ class MapVC: UIViewController {
     }
     
     @IBAction func profileBtn(_ sender: Any) {
-        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
-        self.navigationController?.pushViewController(vc, animated: true)
+//        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
+//        self.navigationController?.pushViewController(vc, animated: true)
+        
+        
+        let oldLocation = CLLocationCoordinate2D(latitude: 31.22680501785411, longitude: 29.941695705056187)
+        let newLocation = CLLocationCoordinate2D(latitude: 31.250491655423062, longitude: 29.975904934108254)
+        
+        //Apply the angle to the particular annotation for moving
+        let getAngle = angleFromCoordinate(firstCoordinate: oldLocation, secondCoordinate: newLocation)
+
+        
+        //Apply the new location for coordinate
+//        myAnnotation.coordinate = newLocation;
+//
+//        //Getting the MKAnnotationView
+//        let annotationView = self.mapView.view(for: myAnnotation)
+//
+//        //Angle for moving the car
+//        annotationView?.transform = CGAffineTransform(rotationAngle: CGFloat(getAngle))
     }
     
     @IBAction func convertMapStyleBtn(_ sender: Any) {
@@ -450,6 +467,24 @@ class MapVC: UIViewController {
         }
     }
     
+    
+    func angleFromCoordinate(firstCoordinate: CLLocationCoordinate2D,
+        secondCoordinate: CLLocationCoordinate2D) -> Double {
+
+        let deltaLongitude: Double = secondCoordinate.longitude - firstCoordinate.longitude
+        let deltaLatitude: Double = secondCoordinate.latitude - firstCoordinate.latitude
+        let angle = (Double.pi * 0.5) - atan(deltaLatitude / deltaLongitude)
+
+        if (deltaLongitude > 0) {
+            return angle
+        } else if (deltaLongitude < 0) {
+            return angle + Double.pi
+        } else if (deltaLatitude < 0) {
+            return Double.pi
+        } else {
+            return 0.0
+        }
+    }
 }
 
 //MARK: - GMSMap View Delegate

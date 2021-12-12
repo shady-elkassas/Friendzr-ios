@@ -49,34 +49,35 @@ struct CompassMarkerView: View {
     var body: some View {
         ZStack {
             Text(marker.label)
-                .fontWeight(.bold)
+//                .fontWeight(.medium)
+                .font(.caption)
                 .rotationEffect(self.textAngle())
                 .foregroundColor(.black)
-                .padding(.bottom, 75)
+                .padding(.bottom, 60)
 
             Capsule()
                 .frame(width: self.capsuleWidth(),
                        height: self.capsuleHeight())
                 .foregroundColor(self.capsuleColor())
-                .padding(.bottom, 165)
+                .padding(.bottom, 120)
 
             Text(marker.degreeText())
                 .fontWeight(.regular)
-                .font(.system(size: 10))
+                .font(.system(size: 8))
                 .rotationEffect(self.textAngle())
                 .foregroundColor(Color("primaryColor"))
-                .padding(.bottom,250)
+                .padding(.bottom,205)
 
         }
         .rotationEffect(Angle(degrees: marker.degrees))
     }
     
     private func capsuleWidth() -> CGFloat {
-        return self.marker.degrees == 0 ? 5 : 2
+        return self.marker.degrees == 0 ? 4 : 2
     }
 
     private func capsuleHeight() -> CGFloat {
-        return self.marker.degrees == 0 ? 16 : 10
+        return self.marker.degrees == 0 ? 13 : 6
     }
 
     private func capsuleColor() -> Color {
@@ -95,34 +96,28 @@ struct CompassViewSwiftUI: View {
 
     var body: some View {
         ZStack {
-            if #available(iOS 15.0, *) {
-                Color.clear
-            } else {
-                // Fallback on earlier versions
-            }
-            
             VStack {
                 Capsule()
                     .foregroundColor(.blue)
-                    .frame(width: 5,height: 30)
-                    .padding(.bottom,-10)
+                    .frame(width: 5,height: 22)
+                    .padding(.bottom,22)
                 ZStack {
                     ZStack {
                         Circle()
-                            .stroke(Color("primaryColor").opacity(0.15),style: StrokeStyle(lineWidth: 250))
-                            .padding(130)
-                        
-                        Circle()
-                            .stroke(Color("primaryColor"),style: StrokeStyle(lineWidth: 10))
-                            .padding(10)
-                        
-                        Circle()
-                            .stroke(Color("primaryColor"),style: StrokeStyle(lineWidth: 5))
+                            .stroke(Color("primaryColor").opacity(0.15),style: StrokeStyle(lineWidth: 150))
                             .padding(50)
                         
                         Circle()
-                            .stroke(Color.white,style: StrokeStyle(lineWidth: 40))
-                            .padding(90)
+                            .stroke(Color("primaryColor"),style: StrokeStyle(lineWidth: 10))
+                            .padding(-20)
+                        
+                        Circle()
+                            .stroke(Color("primaryColor"),style: StrokeStyle(lineWidth: 5))
+                            .padding(10)
+                        
+                        Circle()
+                            .stroke(Color.white,style: StrokeStyle(lineWidth: 25))
+                            .padding(50)
                         
                         ForEach(Marker.markers(), id: \.self) { marker in
                             CompassMarkerView(marker: marker,
@@ -130,7 +125,7 @@ struct CompassViewSwiftUI: View {
                         }
                         
                     }
-                    .frame(width: 320, height: 320)
+                    .frame(width: 200, height: 200)
                     .rotationEffect(Angle(degrees: self.compassHeading.degrees))
 
                     Text("\(Degree.degreeString)")
@@ -141,9 +136,8 @@ struct CompassViewSwiftUI: View {
                         .background(Color("primaryColor").opacity(0.5))
                         .cornerRadius(22.5)
                 }
-                
             }
-            .padding(.top,screenH - 500)
+//            .padding(.top,screenH - 400)
         }
 
     }

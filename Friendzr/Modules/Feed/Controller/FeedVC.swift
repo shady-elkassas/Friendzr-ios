@@ -74,7 +74,7 @@ class FeedVC: UIViewController {
     var settingVM:SettingsViewModel = SettingsViewModel()
 
     var refreshControl = UIRefreshControl()
-    let switchBarButton = UISwitch()
+    let switchBarButton = Switch()
     
     var btnsSelected:Bool = false
     var internetConnect:Bool = false
@@ -122,11 +122,17 @@ class FeedVC: UIViewController {
     }
     
     func addCompassView() {
-        
         let child = UIHostingController(rootView: CompassViewSwiftUI())
-        child.view.translatesAutoresizingMaskIntoConstraints = true
-        child.view.frame = CGRect(x: 0, y: 0, width: compassContanierView.bounds.width, height: compassContanierView.bounds.height)
+//        child.view.translatesAutoresizingMaskIntoConstraints = true
+//        child.view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         compassContanierView.addSubview(child.view)
+        
+        child.view.translatesAutoresizingMaskIntoConstraints = false
+        let horizontalConstraint = child.view.centerXAnchor.constraint(equalTo: compassContanierView.centerXAnchor)
+        let verticalConstraint = child.view.centerYAnchor.constraint(equalTo: compassContanierView.centerYAnchor)
+        let widthConstraint = child.view.widthAnchor.constraint(equalToConstant: 200)
+        let heightConstraint = child.view.heightAnchor.constraint(equalToConstant: 200)
+        compassContanierView.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
     }
     
     //MARK:- APIs
@@ -352,15 +358,8 @@ class FeedVC: UIViewController {
         filterDir = true
         filterBtn.isHidden = false
         compassContanierView.isHidden = false
-        compassContainerViewHeight.constant = 400
+        compassContainerViewHeight.constant = 320
 //        compassContanierView.addSubview(dScaView)
-        
-        compassContanierView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
-
-        let child = UIHostingController(rootView: CompassViewSwiftUI())
-        child.view.translatesAutoresizingMaskIntoConstraints = true
-        child.view.frame = CGRect(x: 0, y: 0, width: compassContanierView.bounds.width, height: compassContanierView.bounds.height)
-        compassContanierView.addSubview(child.view)
     }
     
     
@@ -695,9 +694,11 @@ extension FeedVC: CLLocationManagerDelegate {
     
     func initSwitchBarButton() {
 //        switchBarButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        
         switchBarButton.onTintColor = UIColor.FriendzrColors.primary!
         switchBarButton.thumbTintColor = .white
         switchBarButton.addTarget(self, action: #selector(handleSwitchBtn), for: .touchUpInside)
+        switchBarButton.thumbImage = UIImage(named: "compass_ic")?.cgImage
         let barButton = UIBarButtonItem(customView: switchBarButton)
         self.navigationItem.rightBarButtonItem = barButton
     }
@@ -720,9 +721,9 @@ extension FeedVC: CLLocationManagerDelegate {
                     filterDir = true
                     filterBtn.isHidden = false
                     compassContanierView.isHidden = false
-                    compassContainerViewHeight.constant = 400
+                    compassContainerViewHeight.constant = 320
 //                    compassContanierView.addSubview(dScaView)
-                    compassContanierView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
+                    compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
                 }
             }else {
                 filterHideView.isHidden = true

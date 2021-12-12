@@ -51,7 +51,6 @@ class SelectedTagsVC: UIViewController {
                 collectionView.dataSource = self
                 collectionView.reloadData()
                 layout = TagsLayout()
-                
             })
         }
         
@@ -126,12 +125,12 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
             arrSelectedDataNames = arrSelectedDataNames.filter { $0 != strData?.name}
         }
         else {
-            if arrSelectedDataIds.count < 5 {
+            if arrSelectedDataIds.count < 8 {
                 arrSelectedIndex.append(indexPath)
                 arrSelectedDataIds.append(strData?.id ?? "")
                 arrSelectedDataNames.append(strData?.name ?? "")
             }else {
-                self.showAlert(withMessage: "Please the number of tags must not be more than 5")
+                self.showAlert(withMessage: "Please the number of tags must not be more than 8")
             }
         }
         

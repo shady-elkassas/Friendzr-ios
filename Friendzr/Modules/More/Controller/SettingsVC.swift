@@ -53,8 +53,8 @@ class SettingsVC: UIViewController {
     var internetConect:Bool = false
     //    var btnsSelect:Bool = false
     
-    var ageFrom:Int = 13
-    var ageTo:Int = 100
+    var ageFrom:Int = 14
+    var ageTo:Int = 85
     var manualdistancecontrol:Double = 0.2
     
     //    var settingArray : [(String,UIImage)] = []
@@ -111,11 +111,11 @@ class SettingsVC: UIViewController {
         tableView.reloadData()
         
         
-        settingsViewHeight.constant = CGFloat(7 * 60)
+        settingsViewHeight.constant = CGFloat(8 * 60)
         
-        ageFrom = model?.agefrom ?? 13
-        ageTo = model?.ageto ?? 100
-        manualdistancecontrol = (model?.manualdistancecontrol ?? 0.2) / 1000
+        ageFrom = model?.agefrom ?? 14
+        ageTo = model?.ageto ?? 85
+        manualdistancecontrol = (model?.manualdistancecontrol ?? 0.2)
     }
     
     func updateUserInterface() {
@@ -232,8 +232,8 @@ class SettingsVC: UIViewController {
             self.distanceSliderView.isHidden = true
         }
         
-        ageSlider.minimumValue = 13    // default is 0.0
-        ageSlider.maximumValue = 100   // default is 1.0
+        ageSlider.minimumValue = 14    // default is 0.0
+        ageSlider.maximumValue = 85   // default is 1.0
         
         ageSlider.value = [CGFloat(self.ageFrom),CGFloat(self.ageTo)]
         
@@ -369,7 +369,7 @@ extension SettingsVC :CLLocationManagerDelegate {
 extension SettingsVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return 8
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -802,17 +802,23 @@ extension SettingsVC: UITableViewDataSource {
             //            cell.titleLbl.text = "Change Language"
             //            cell.iconImg.image = UIImage(named: "notifications_ic")
             //            return cell
-        case 4://filtring age
+            
+        case 4://block list
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
+            cell.titleLbl.text = "Block List"
+            cell.iconImg.image = UIImage(named: "blocked_ic")
+            return cell
+        case 5://filtring age
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Filtring According Age"
             cell.iconImg.image = UIImage(named: "filterAccourdingAge_ic")
             return cell
-        case 5://manual distance
+        case 6://manual distance
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Manual Distance Control"
             cell.iconImg.image = UIImage(named: "manaualDistanceControl_ic")
             return cell
-        case 6://delete account
+        case 7://delete account
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Delete Account"
             cell.iconImg.image = UIImage(named: "delete_ic")
@@ -834,15 +840,17 @@ extension SettingsVC: UITableViewDelegate {
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "ChangePasswordVC") as? ChangePasswordVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        //        else if indexPath.row == 5 {//change language
-        //        }
-        else if indexPath.row == 4 {//filtring age
+        else if indexPath.row == 4 {//block list
+            guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "BlockedListVC") as? BlockedListVC else {return}
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else if indexPath.row == 5 {//filtring age
             self.createAgeSlider()
         }
-        else if indexPath.row == 5 {//manual distance
+        else if indexPath.row == 6 {//manual distance
             self.createDistanceSlider()
         }
-        else if indexPath.row == 6 {
+        else if indexPath.row == 7 {
             deleteAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             deleteAlertView?.titleLbl.text = "Confirm?".localizedString

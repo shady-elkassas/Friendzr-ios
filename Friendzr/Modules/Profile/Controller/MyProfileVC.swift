@@ -121,6 +121,7 @@ class MyProfileVC: UIViewController {
         for item in model?.listoftagsmodel ?? [] {
             tagListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
         }
+        
         print("tagListView.rows \(tagListView.rows)")
         tagsViewhHeight.constant = CGFloat(tagListView.rows * 25)
     }
