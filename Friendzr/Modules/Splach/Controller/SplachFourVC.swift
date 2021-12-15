@@ -28,10 +28,10 @@ class SplachFourVC: UIViewController {
     }
     
     @IBAction func nextBtn(_ sender: Any) {
-        Router().toEditProfileVC()
+        Router().toEditProfileVC(needUpdate: true)
     }
     
     @IBAction func skipBtn(_ sender: Any) {
-        Router().toEditProfileVC()
+        Router().toEditProfileVC(needUpdate: true)
     }
 }

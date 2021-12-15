@@ -656,7 +656,7 @@
                                                     <constraint firstAttribute="width" secondItem="i2t-hE-qlt" secondAttribute="height" multiplier="1:0.95" id="Ahj-EE-san"/>
                                                 </constraints>
                                             </imageView>
-                                            <view alpha="0.20000000298023224" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hvb-Sd-jDI">
+                                            <view alpha="0.22220000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hvb-Sd-jDI">
                                                 <rect key="frame" x="0.0" y="333.5" width="414" height="60"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
@@ -995,6 +995,7 @@
                         <outlet property="editBtn" destination="cFs-8G-ykA" id="BIE-MD-Zgw"/>
                         <outlet property="eventImg" destination="i2t-hE-qlt" id="ova-08-8Pv"/>
                         <outlet property="eventTitleLbl" destination="eMg-Xj-xLT" id="BxV-gH-mk5"/>
+                        <outlet property="gradientView" destination="hvb-Sd-jDI" id="4cz-pz-IER"/>
                         <outlet property="hideView" destination="zU2-3D-MIw" id="zf5-MG-FXj"/>
                         <outlet property="interestsStatisticsView" destination="CHi-IY-LtZ" id="wgG-2W-Iby"/>
                         <outlet property="joinBtn" destination="J72-IK-cyb" id="8ol-5W-0oN"/>

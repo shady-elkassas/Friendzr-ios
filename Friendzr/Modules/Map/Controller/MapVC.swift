@@ -93,7 +93,7 @@ class MapVC: UIViewController {
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         updateLocation()
         setupViews()
     }
@@ -429,25 +429,24 @@ class MapVC: UIViewController {
     }
     
     @IBAction func profileBtn(_ sender: Any) {
-//        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
-//        self.navigationController?.pushViewController(vc, animated: true)
+        //        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
+        //        self.navigationController?.pushViewController(vc, animated: true)
         
         
-        let oldLocation = CLLocationCoordinate2D(latitude: 31.22680501785411, longitude: 29.941695705056187)
-        let newLocation = CLLocationCoordinate2D(latitude: 31.250491655423062, longitude: 29.975904934108254)
+//        let oldLocation = CLLocationCoordinate2D(latitude: 31.22680501785411, longitude: 29.941695705056187)
+//        let newLocation = CLLocationCoordinate2D(latitude: 31.250491655423062, longitude: 29.975904934108254)
         
         //Apply the angle to the particular annotation for moving
-        let getAngle = angleFromCoordinate(firstCoordinate: oldLocation, secondCoordinate: newLocation)
-
+//        let getAngle = angleFromCoordinate(firstCoordinate: oldLocation, secondCoordinate: newLocation)
         
         //Apply the new location for coordinate
-//        myAnnotation.coordinate = newLocation;
-//
-//        //Getting the MKAnnotationView
-//        let annotationView = self.mapView.view(for: myAnnotation)
-//
-//        //Angle for moving the car
-//        annotationView?.transform = CGAffineTransform(rotationAngle: CGFloat(getAngle))
+        //        myAnnotation.coordinate = newLocation;
+        //
+        //        //Getting the MKAnnotationView
+        //        let annotationView = self.mapView.view(for: myAnnotation)
+        //
+        //        //Angle for moving the car
+        //        annotationView?.transform = CGAffineTransform(rotationAngle: CGFloat(getAngle))
     }
     
     @IBAction func convertMapStyleBtn(_ sender: Any) {
@@ -469,12 +468,12 @@ class MapVC: UIViewController {
     
     
     func angleFromCoordinate(firstCoordinate: CLLocationCoordinate2D,
-        secondCoordinate: CLLocationCoordinate2D) -> Double {
-
+                             secondCoordinate: CLLocationCoordinate2D) -> Double {
+        
         let deltaLongitude: Double = secondCoordinate.longitude - firstCoordinate.longitude
         let deltaLatitude: Double = secondCoordinate.latitude - firstCoordinate.latitude
         let angle = (Double.pi * 0.5) - atan(deltaLatitude / deltaLongitude)
-
+        
         if (deltaLongitude > 0) {
             return angle
         } else if (deltaLongitude < 0) {
@@ -643,7 +642,7 @@ extension MapVC: GMSAutocompleteTableDataSourceDelegate {
         self.locationManager.stopUpdatingLocation()
         tableView.isHidden = true
         
-//        setupMarker(for: CLLocationCoordinate2D.init(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude))
+        //        setupMarker(for: CLLocationCoordinate2D.init(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude))
         self.locationName = (place.name)!
         print(self.locationName)
         print("\(self.location!.latitude) : \(self.location!.longitude)")
@@ -667,7 +666,7 @@ extension MapVC: GMSAutocompleteTableDataSourceDelegate {
                     print(street)
                 } else {
                     print("\(self.currentPlaceMark?.thoroughfare ?? "")")
-
+                    
                 }
                 
                 return
@@ -793,7 +792,7 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
             let locitm = CLLocationCoordinate2DMake(Double(item.lat!)!, Double(item.lang!)!)
             if index == indexPath.row {
                 if LocationZooming.locationLat != locitm.latitude {
-                    animationZoomingMap(zoomIN: 17, zoomOUT: 16, lat: locitm.latitude, lng: locitm.longitude)
+                    animationZoomingMap(zoomIN: 17, zoomOUT: 15, lat: locitm.latitude, lng: locitm.longitude)
                 }else {
                     self.mapView.clear()
                     self.setupMarkers()
@@ -828,21 +827,29 @@ extension MapVC {
     }
     
     func animationZoomingMap(zoomIN:Float,zoomOUT:Float,lat:Double,lng:Double) {
-        delay(seconds: 0.5) { () -> () in
-            let zoomOut = GMSCameraUpdate.zoom(to: zoomOUT)
-            self.mapView.animate(with: zoomOut)
-            
-            self.delay(seconds: 0.5, closure: { () -> () in
-                
-                let updatePos = CLLocationCoordinate2DMake(lat,lng)
-                let updateCam = GMSCameraUpdate.setTarget(updatePos)
-                self.mapView.animate(with: updateCam)
-                
-                self.delay(seconds: 0.5, closure: { () -> () in
-                    let zoomIn = GMSCameraUpdate.zoom(to: zoomIN)
-                    self.mapView.animate(with: zoomIn)
-                })
-            })
+//        delay(seconds: 0.5) { () -> () in
+//            let zoomOut = GMSCameraUpdate.zoom(to: zoomOUT)
+//            self.mapView.animate(with: zoomOut)
+//
+//            self.delay(seconds: 0.5, closure: { () -> () in
+//
+//                let updatePos = CLLocationCoordinate2DMake(lat,lng)
+//                let updateCam = GMSCameraUpdate.setTarget(updatePos)
+//                self.mapView.animate(with: updateCam)
+//
+//                self.delay(seconds: 0.5, closure: { () -> () in
+//                    let zoomIn = GMSCameraUpdate.zoom(to: zoomIN)
+//                    self.mapView.animate(with: zoomIn)
+//                })
+//            })
+//        }
+
+        let point = mapView.projection.point(for: CLLocationCoordinate2D(latitude: lat, longitude: lng))
+        let camera = mapView.projection.coordinate(for: point)
+        let position = GMSCameraUpdate.setTarget(camera)
+        
+        delay(seconds: 0.7) { () -> () in
+            self.mapView.animate(with: position)
         }
         
         LocationZooming.locationLat = lat
@@ -942,7 +949,7 @@ class MapUtil {
     class func translateCoordinate(coordinate: CLLocationCoordinate2D, metersLat: Double,metersLong: Double) -> (CLLocationCoordinate2D) {
         var tempCoord = coordinate
         
-//        let tempRegion = MKCoordinateRegionMakeWithDistance(coordinate, metersLat, metersLong)
+        //        let tempRegion = MKCoordinateRegionMakeWithDistance(coordinate, metersLat, metersLong)
         let tempRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: metersLat, longitudinalMeters: metersLong)
         
         let tempSpan = tempRegion.span

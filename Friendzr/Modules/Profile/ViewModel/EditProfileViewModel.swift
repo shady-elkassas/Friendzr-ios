@@ -52,13 +52,7 @@ class EditProfileViewModel {
         }
         
         let url = URLs.baseURLFirst + "Account/update"
-//        let headers = RequestComponent.headerComponent([.type,.authorization])
-        
-        
-        guard let dataList = try? JSONSerialization.data(withJSONObject: tagsId, options: []) else {return}
-        let listoftag = String(data: dataList, encoding: String.Encoding.utf8)
-//        let listoftagStr = String(describing: listoftag)
-        
+
         let parameters:[String:Any] = ["Gender":gender,"bio":bio,"birthdate":birthdate,"Username":userName,"listoftags[]": tagsId]
         let o = NSString(string: parameters.description)
         print(o)
@@ -83,7 +77,7 @@ class EditProfileViewModel {
                 let code  = httpResponse?.statusCode
                 print(httpResponse!)
                 print("statusCode: \(code!)")
-                print("**MD** response: \(response)")
+                print("**MD** response: \(String(describing: response))")
                 
                 if let data = data {
                     do {
@@ -132,7 +126,7 @@ class EditProfileViewModel {
                 let code  = httpResponse?.statusCode
                 print(httpResponse!)
                 print("statusCode: \(code!)")
-                print("**MD** response: \(response)")
+                print("**MD** response: \(String(describing: response))")
                 
                 if let data = data {
                     do {

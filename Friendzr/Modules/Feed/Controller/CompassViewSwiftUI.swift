@@ -128,9 +128,9 @@ struct CompassViewSwiftUI: View {
                     .frame(width: 200, height: 200)
                     .rotationEffect(Angle(degrees: self.compassHeading.degrees))
 
-                    Text("\(Degree.degreeString)")
-                        .font(.system(size: 14))
-                        .fontWeight(.bold)
+                    Text("Filter")
+                        .font(.system(size: 12))
+//                        .fontWeight(.bold)
                         .frame(width: 45, height: 45, alignment: .center)
                         .foregroundColor(Color("primaryColor"))
                         .background(Color("primaryColor").opacity(0.5))

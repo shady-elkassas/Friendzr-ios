@@ -44,6 +44,5 @@ class SplachOneVC: UIViewController {
 //        }}
         
         Router().toSplach2()
-
     }
 }

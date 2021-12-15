@@ -33,6 +33,6 @@ class SplachTwoVC: UIViewController {
     }
     
     @IBAction func skipBtn(_ sender: Any) {
-        Router().toEditProfileVC()
+        Router().toEditProfileVC(needUpdate: true)
     }
 }

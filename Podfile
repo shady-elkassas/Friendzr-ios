@@ -36,6 +36,9 @@ target 'Friendzr' do
   
   pod 'MessageKit', '~> 3.5.1'
   
+  
+  pod 'Google-Mobile-Ads-SDK'
+
   #  pod 'SFaceCompare'
   
   post_install do |installer|

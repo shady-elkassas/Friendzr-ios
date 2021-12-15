@@ -52,7 +52,7 @@ class Downloader {
     }
     
     func pushFile(_ destination: URL) {
-        var finalURL = destination.absoluteString
+        let finalURL = destination.absoluteString
         DispatchQueue.main.async {
             if let url = URL(string: finalURL) {
                 if #available(iOS 10, *){

@@ -91,10 +91,15 @@ class Router {
         go(withVC: nextVC)
     }
     
-    func toEditProfileVC() {
-        let id = "EditMyProfileNC"
-        let nextVC = Initializer.createViewController(storyBoard: .Profile, andId: id)
-        go(withVC: nextVC)
+    func toEditProfileVC(needUpdate:Bool) {
+        if let controller = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileNC") as? UINavigationController, let vc = controller.viewControllers.first as? EditMyProfileVC {
+            if needUpdate == true {
+                vc.needUpdateVC = true
+            }else {
+                vc.needUpdateVC = false
+            }
+            go(withVC: controller)
+        }
     }
     
     func toMap()  {

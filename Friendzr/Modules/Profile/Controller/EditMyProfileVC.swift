@@ -33,13 +33,17 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var selectTagsLbl: UILabel!
     @IBOutlet weak var hideView: UIView!
     
+    @IBOutlet weak var logoutBtn: UIButton!
     
     //MARK: - Properties
+    
+    lazy var logoutAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     lazy var alertView = Bundle.main.loadNibNamed("CalendarView", owner: self, options: nil)?.first as? CalendarView
     var genderString = ""
     let imagePicker = UIImagePickerController()
     var viewmodel:EditProfileViewModel = EditProfileViewModel()
     var profileVM: ProfileViewModel = ProfileViewModel()
+    var logoutVM:LogoutViewModel = LogoutViewModel()
     var tagsid:[String] = [String]()
     var tagsNames:[String] = [String]()
     var attachedImg:Bool = false
@@ -61,6 +65,8 @@ class EditMyProfileVC: UIViewController {
     var instgramLink = ""
     var snapchatLink = ""
     
+    var needUpdateVC:Bool = false
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,7 +81,13 @@ class EditMyProfileVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        initBackButton()
+        if needUpdateVC == true {
+            logoutBtn.isHidden = false
+            initCloseApp()
+        }else {
+            logoutBtn.isHidden = true
+            initBackButton()
+        }
         clearNavigationBar()
     }
     
@@ -133,6 +145,7 @@ class EditMyProfileVC: UIViewController {
         bioTxtView.cornerRadiusView(radius: 8)
         tagsView.cornerRadiusView(radius: 8)
         aboutMeView.cornerRadiusView(radius: 8)
+        logoutBtn.cornerRadiusView(radius: 8)
         profileImg.cornerRadiusForHeight()
         bioTxtView.delegate = self
         tagsListView.delegate = self
@@ -255,7 +268,53 @@ class EditMyProfileVC: UIViewController {
         }
     }
     
+    
+    func logout() {
+        logoutAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        logoutAlertView?.titleLbl.text = "Confirm?".localizedString
+        logoutAlertView?.detailsLbl.text = "Are you sure you want to logout?".localizedString
+        
+        logoutAlertView?.HandleConfirmBtn = {
+            self.updateUserInterface2()
+            if self.internetConect {
+                self.showLoading()
+                self.logoutVM.logoutRequest { error, data in
+                    self.hideLoading()
+                    if let error = error {
+                        self.showAlert(withMessage: error)
+                        return
+                    }
+                    
+                    guard let _ = data else {return}
+                    Defaults.deleteUserData()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
+                        Router().toOptionsSignUpVC()
+                    })
+                }
+            }
+            
+            // handling code
+            UIView.animate(withDuration: 0.3, animations: {
+                self.logoutAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.logoutAlertView?.alpha = 0
+            }) { (success: Bool) in
+                self.logoutAlertView?.removeFromSuperview()
+                self.logoutAlertView?.alpha = 1
+                self.logoutAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((logoutAlertView)!)
+    }
+    
     //MARK: - Actions
+    
+    @IBAction func logoutBtn(_ sender: Any) {
+        logout()
+    }
+    
     @IBAction func editProfileImgBtn(_ sender: Any) {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
@@ -562,7 +621,6 @@ extension EditMyProfileVC : TagListViewDelegate {
 //    func onLog(_ logInfo: String) {
 //        print(logInfo)
 //    }
-//
 //}
 
 //facebook integration
@@ -607,6 +665,34 @@ extension EditMyProfileVC {
                     self.facebookLink = "https://www.facebook.com/\(self.UserFBID)"
                 }
             }
+        }
+    }
+}
+
+extension EditMyProfileVC {
+    func initCloseApp() {
+        
+        var imageName = ""
+        if Language.currentLanguage() == "ar" {
+            imageName = "back_icon"
+        }else {
+            imageName = "back_icon"
+        }
+        
+        let button = UIButton.init(type: .custom)
+        let image = UIImage.init(named: imageName)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.setImage(image, for: .normal)
+        image?.withTintColor(UIColor.blue)
+        button.addTarget(self, action:  #selector(backToInbox), for: .touchUpInside)
+//        button.sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.leftBarButtonItem = barButton
+    }
+    
+    @objc func backToInbox() {
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
         }
     }
 }

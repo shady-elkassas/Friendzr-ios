@@ -152,7 +152,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         if isEvent {
             if leavevent == 0 {
                 messageInputBar.isHidden = false
-//                messageInputBar.inputTextView.becomeFirstResponder()
+                //                messageInputBar.inputTextView.becomeFirstResponder()
             }else if leavevent == 1 {
                 setupDownView(textLbl: "You have left this event")
             }else {
@@ -161,7 +161,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         }else {
             if isFriend == true {
                 messageInputBar.isHidden = false
-//                messageInputBar.inputTextView.becomeFirstResponder()
+                //                messageInputBar.inputTextView.becomeFirstResponder()
             }else {
                 setupDownView(textLbl: "You are now not a friend of this user and will not be able to message him")
             }
@@ -331,9 +331,12 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
                     }
                 }
                 
-                self.messagesCollectionView.reloadData()
-                self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-                self.refreshControl.endRefreshing()
+                //                self.messagesCollectionView.reloadData()
+                
+                messagesCollectionView.performBatchUpdates {
+                    self.messagesCollectionView.scrollToLastItem(animated: true)
+                    self.refreshControl.endRefreshing()
+                }
                 
                 updateTitleView(image: titleChatImage, subtitle: titleChatName)
             }
@@ -393,9 +396,12 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
                     }
                 }
                 
-                self.messagesCollectionView.reloadData()
-                self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-                self.refreshControl.endRefreshing()
+                //                self.messagesCollectionView.reloadData()
+                
+                messagesCollectionView.performBatchUpdates {
+                    self.messagesCollectionView.scrollToLastItem(animated: true)
+                    self.refreshControl.endRefreshing()
+                }
                 
                 updateTitleView(image: titleChatImage, subtitle: titleChatName)
             }
@@ -580,7 +586,7 @@ extension ChatVC: MessageCellDelegate {
     
     
     func pushFile(_ destination: URL) {
-        var finalURL = destination.absoluteString
+        let finalURL = destination.absoluteString
         
         DispatchQueue.main.async {
             if let url = URL(string: finalURL) {
@@ -715,9 +721,9 @@ extension ChatVC: InputBarAccessoryViewDelegate {
         DispatchQueue.main.async {
             inputBar.inputTextView.text = ""
             self.messagesCollectionView.reloadData()
-            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+            self.messagesCollectionView.scrollToLastItem(animated: true)
         }
-
+        
         if isEvent {
             viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
                 
@@ -732,7 +738,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
                 
                 DispatchQueue.main.async {
                     self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                    self.messagesCollectionView.scrollToLastItem(animated: true)
                 }
             }
         }else {
@@ -742,13 +748,13 @@ extension ChatVC: InputBarAccessoryViewDelegate {
                     return
                 }
                 
-                guard let data = data else {
+                guard data != nil else {
                     return
                 }
                 
                 DispatchQueue.main.async {
                     self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                    self.messagesCollectionView.scrollToLastItem(animated: true)
                 }
             }
         }
@@ -773,7 +779,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
             print("Autocompleted: `", substring, "` with context: ", context ?? [])
         }
         
-        let components = inputBar.inputTextView.components
+        //        let components = inputBar.inputTextView.components
         inputBar.inputTextView.text = String()
         inputBar.invalidatePlugins()
         // Send button activity animation
@@ -963,7 +969,7 @@ extension ChatVC {
             }
     }
     
-    func setupLeftInputButton(tapMessage:Bool,Recorder:String) -> InputBarAccessoryView {
+    func setupLeftInputButton(tapMessage:Bool,Recorder:String) {
         messageInputBar.inputTextView.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1)
         messageInputBar.inputTextView.cornerRadiusView(radius: 8)
         
@@ -996,7 +1002,7 @@ extension ChatVC {
         messageInputBar.padding.left = 5
         messageInputBar.setStackViewItems([button], forStack: .left, animated: false)
         
-        return messageInputBar
+        //        return messageInputBar
     }
     
     func setupDownView(textLbl:String) {
@@ -1322,7 +1328,7 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
                     
                     DispatchQueue.main.async {
                         self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                        self.messagesCollectionView.scrollToLastItem(animated: true)
                     }
                 }
             }else {
@@ -1339,7 +1345,7 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
                     
                     DispatchQueue.main.async {
                         self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                        self.messagesCollectionView.scrollToLastItem(animated: true)
                     }
                 }
             }
@@ -1429,7 +1435,7 @@ extension ChatVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         //        recordButton.isEnabled = true
         //        playButton.setTitle("Play", for: .normal)
-        //        setupLeftInputButton(tapMessage: false, Recorder: "play")
+        setupLeftInputButton(tapMessage: false, Recorder: "play")
     }
     
     private func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
@@ -1441,7 +1447,7 @@ extension ChatVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         //        playButton.isEnabled = true
         //        recordButton.setTitle("Record", for: .normal)
-        //        setupLeftInputButton(tapMessage: false, Recorder: "play")
+        setupLeftInputButton(tapMessage: false, Recorder: "play")
     }
     
     private func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
@@ -1545,7 +1551,7 @@ extension ChatVC: UIDocumentPickerDelegate {
                     
                     DispatchQueue.main.async {
                         self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                        self.messagesCollectionView.scrollToLastItem(animated: true)
                     }
                     
                 }
@@ -1570,7 +1576,7 @@ extension ChatVC: UIDocumentPickerDelegate {
                     
                     DispatchQueue.main.async {
                         self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                        self.messagesCollectionView.scrollToLastItem(animated: true)
                     }
                     
                 }

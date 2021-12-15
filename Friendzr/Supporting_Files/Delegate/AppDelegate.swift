@@ -22,6 +22,7 @@ import UserNotifications
 //import SCSDKLoginKit
 //import TikTokOpenSDK
 //import SFaceCompare
+import GoogleMobileAds
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -53,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         GMSServices.provideAPIKey("AIzaSyCLmWYc00w0KZ-qj8hIymWCIs8K5Z0cG0g")
         GMSPlacesClient.provideAPIKey("AIzaSyCLmWYc00w0KZ-qj8hIymWCIs8K5Z0cG0g")
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
 
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
             if error != nil || user == nil {
@@ -303,7 +305,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let actionId = userInfo["Action_code"] as? String //userid
             let chatTitle = userInfo["name"] as? String
             let chatTitleImage = userInfo["userimage"] as? String
-            let messageType = userInfo["Messagetype"] as? Int
+//            let messageType = userInfo["Messagetype"] as? Int
             
             if action == "Friend_Request" {
                 if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC,

@@ -63,21 +63,24 @@ class MainVC: UIViewController {
         pullToRefresh()
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadChatList), name: Notification.Name("reloadChatList"), object: nil)
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         initProfileBarButton()
         setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: true)
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
     }
     
     //MARK: - APIs
     
     @objc func reloadChatList() {
-        getAllChatList(pageNumber: 1)
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     func loadMoreItemsForList(){
@@ -90,6 +93,7 @@ class MainVC: UIViewController {
         viewmodel.getChatList(pageNumber: pageNumber)
         viewmodel.listChat.bind { [unowned self] value in
             DispatchQueue.main.async {
+
                 self.hideLoading()
                 tableView.delegate = self
                 tableView.dataSource = self

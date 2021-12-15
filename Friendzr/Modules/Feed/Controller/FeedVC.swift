@@ -32,6 +32,7 @@ class FeedVC: UIViewController {
     
     @IBOutlet weak var allowBtn: UIButton!
     
+    @IBOutlet weak var hideView: UIView!
     
     //MARK: - Properties
     private lazy var currLocation: CLLocation = CLLocation()
@@ -96,35 +97,33 @@ class FeedVC: UIViewController {
         initSwitchBarButton()
         pullToRefresh()
         addCompassView()
+        
+        if Defaults.allowMyLocation == true {
+            DispatchQueue.main.async {
+                self.updateUserInterface()
+            }
+            self.allowLocView.isHidden = true
+        }else {
+            self.hideView.isHidden = true
+            self.emptyView.isHidden = true
+            self.allowLocView.isHidden = false
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
         initProfileBarButton()
         filterDir = switchBarButton.isOn
-
-        if Defaults.allowMyLocation == true {
-            DispatchQueue.main.async {
-                self.updateUserInterface()
-            }
-            
-            self.allowLocView.isHidden = true
-        }else {
-            self.emptyView.isHidden = true
-            self.allowLocView.isHidden = false
-        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-
     }
     
     func addCompassView() {
         let child = UIHostingController(rootView: CompassViewSwiftUI())
-//        child.view.translatesAutoresizingMaskIntoConstraints = true
-//        child.view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         compassContanierView.addSubview(child.view)
         
         child.view.translatesAutoresizingMaskIntoConstraints = false
@@ -136,6 +135,19 @@ class FeedVC: UIViewController {
     }
     
     //MARK:- APIs
+    @objc func updateFeeds() {
+        if Defaults.allowMyLocation == true {
+            DispatchQueue.main.async {
+                self.updateUserInterface()
+            }
+            self.allowLocView.isHidden = true
+        }else {
+            self.hideView.isHidden = true
+            self.emptyView.isHidden = true
+            self.allowLocView.isHidden = false
+        }
+    }
+    
     func loadMoreItemsForList(){
         currentPage += 1
         getAllFeeds(pageNumber: currentPage)
@@ -143,15 +155,16 @@ class FeedVC: UIViewController {
     
     func getAllFeeds(pageNumber:Int) {
         self.showLoading()
+        hideView.isHidden = false
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 self.hideLoading()
+                hideView.isHidden = true
                 
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
-                
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
             })
@@ -217,6 +230,7 @@ class FeedVC: UIViewController {
         switch Network.reachability.status {
         case .unreachable:
             self.emptyView.isHidden = false
+            self.hideView.isHidden = true
             if Defaults.allowMyLocation == true {
                 self.allowLocView.isHidden = true
             }else {
@@ -737,7 +751,16 @@ extension FeedVC: CLLocationManagerDelegate {
                 
                 filterBtn.isHidden = true
                 compassContainerViewHeight.constant = 0
-                getAllFeeds(pageNumber: 0)
+                
+                if Defaults.allowMyLocation == true {
+                    DispatchQueue.main.async {
+                        self.updateUserInterface()
+                    }
+                    self.allowLocView.isHidden = true
+                }else {
+                    self.emptyView.isHidden = true
+                    self.allowLocView.isHidden = false
+                }
             }
         }else {
             switchBarButton.isOn = false

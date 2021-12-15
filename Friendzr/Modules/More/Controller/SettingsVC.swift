@@ -172,6 +172,9 @@ class SettingsVC: UIViewController {
             }
             
             guard let _ = data else {return}
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+            }
         }
     }
     

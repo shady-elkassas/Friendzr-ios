@@ -292,20 +292,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qt5-5L-W1W">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qt5-5L-W1W" customClass="GADBannerView">
                                 <rect key="frame" x="0.0" y="88" width="414" height="224"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GenderDistributionBG" translatesAutoresizingMaskIntoConstraints="NO" id="q7G-v7-CEj">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="224"/>
-                                    </imageView>
-                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="q7G-v7-CEj" secondAttribute="trailing" id="Gcg-MU-wge"/>
-                                    <constraint firstItem="q7G-v7-CEj" firstAttribute="top" secondItem="Qt5-5L-W1W" secondAttribute="top" id="JCp-od-cRX"/>
-                                    <constraint firstItem="q7G-v7-CEj" firstAttribute="leading" secondItem="Qt5-5L-W1W" secondAttribute="leading" id="Ngo-uf-fnh"/>
-                                    <constraint firstAttribute="bottom" secondItem="q7G-v7-CEj" secondAttribute="bottom" id="h3q-q8-rad"/>
-                                </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JR0-pi-jKY">
                                 <rect key="frame" x="25" y="342" width="364" height="250"/>
@@ -379,6 +368,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="5Ba-N6-IEe"/>
                     <connections>
+                        <outlet property="bannerView" destination="Qt5-5L-W1W" id="QfY-TU-NlP"/>
                         <outlet property="genderDistributionChart" destination="MGN-1y-Gsu" id="Bqj-CB-jUo"/>
                         <outlet property="genderDistributionView" destination="JR0-pi-jKY" id="gEZ-ZQ-la8"/>
                         <outlet property="hideView" destination="1Ra-yd-rrS" id="MaV-b3-jqW"/>
@@ -431,7 +421,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="GenderDistributionBG" width="411" height="288"/>
         <image name="addEvent_ic" width="256" height="256"/>
         <image name="current_location_ic" width="256" height="256"/>
         <image name="ic_map_marker" width="48" height="48"/>
