@@ -64,7 +64,7 @@ class MessageObj: NSObject,Mappable {
     var eventChatID: String? = ""
     var messagesdate: String? = ""
     var messagestime: String? = ""
-    var messageAttachedVM: [MessageAttachedModel]? = nil
+    var messageAttachedVM: [MessageAttachedModel]? = []
     var messagetype:Int? = 0
     
     override init() {
@@ -102,8 +102,6 @@ class MessageAttachedModel: Mappable {
         attached  <- map["attached"]
     }
 }
-
-
 
 class EventChatMessagesResponse: Mappable {
     

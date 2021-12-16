@@ -50,6 +50,7 @@ class MapVC: UIViewController {
     @IBOutlet weak var goAddEventBtn: UIButton!
     
     @IBOutlet weak var subView: UIView!
+    @IBOutlet weak var subViewHeight: NSLayoutConstraint!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     @IBOutlet weak var radiusMLbl: UILabel!
@@ -63,6 +64,7 @@ class MapVC: UIViewController {
     @IBOutlet weak var currentLocationBtn: UIButton!
     @IBOutlet weak var markerImg: UIImageView!
     
+    @IBOutlet weak var arrowUpDownImg: UIImageView!
     
     //MARK: - Properties
     var locations:[EventsLocation] = [EventsLocation]()
@@ -87,7 +89,7 @@ class MapVC: UIViewController {
     var tableDataSource: GMSAutocompleteTableDataSource!
     
     let screenSize = UIScreen.main.bounds.size
-    
+    var isViewUp:Bool = false
     var internetConect:Bool = false
     
     //MARK: - Life Cycle
@@ -117,7 +119,6 @@ class MapVC: UIViewController {
     
     //MARK: - APIs
     func bindToModel() {
-        //        self.showLoading()
         collectionViewHeight.constant = 0
         subView.isHidden = true
         viewmodel.getAllEventsAroundMe()
@@ -128,10 +129,8 @@ class MapVC: UIViewController {
                 self.collectionView.delegate = self
                 self.collectionView.reloadData()
                 
-                collectionViewHeight.constant = 140
-                subView.isHidden = false
-                
-                setupMarkers()
+                self.customSubViewHeight()
+                self.setupMarkers()
             }
         }
         
@@ -143,6 +142,7 @@ class MapVC: UIViewController {
             }
         }
     }
+    
     
     func getEvents(By lat:Double,lng:Double) {
         viewmodel.getEventsByLoction(lat: lat, lng: lng)
@@ -212,6 +212,20 @@ class MapVC: UIViewController {
     
     func HandleInternetConnection() {
         self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+    }
+    
+    func customSubViewHeight() {
+        if isViewUp == true {
+            collectionViewHeight.constant = 140
+            subViewHeight.constant = 190
+            subView.isHidden = false
+            arrowUpDownImg.image = UIImage(named: "arrow-down_ic")
+        }else {
+            collectionViewHeight.constant = 0
+            subViewHeight.constant = 50
+            subView.isHidden = false
+            arrowUpDownImg.image = UIImage(named: "arrow-up_ic")
+        }
     }
     
     // locations markers
@@ -429,24 +443,15 @@ class MapVC: UIViewController {
     }
     
     @IBAction func profileBtn(_ sender: Any) {
-        //        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
-        //        self.navigationController?.pushViewController(vc, animated: true)
+        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
+        self.navigationController?.pushViewController(vc, animated: true)
         
-        
-//        let oldLocation = CLLocationCoordinate2D(latitude: 31.22680501785411, longitude: 29.941695705056187)
-//        let newLocation = CLLocationCoordinate2D(latitude: 31.250491655423062, longitude: 29.975904934108254)
-        
-        //Apply the angle to the particular annotation for moving
-//        let getAngle = angleFromCoordinate(firstCoordinate: oldLocation, secondCoordinate: newLocation)
-        
-        //Apply the new location for coordinate
-        //        myAnnotation.coordinate = newLocation;
-        //
-        //        //Getting the MKAnnotationView
-        //        let annotationView = self.mapView.view(for: myAnnotation)
-        //
-        //        //Angle for moving the car
-        //        annotationView?.transform = CGAffineTransform(rotationAngle: CGFloat(getAngle))
+//        addBottomSheetView()
+    }
+    
+    @IBAction func upDownViewBtn(_ sender: Any) {
+        isViewUp = !isViewUp
+        customSubViewHeight()
     }
     
     @IBAction func convertMapStyleBtn(_ sender: Any) {
@@ -825,7 +830,6 @@ extension MapVC {
             closure()
         }
     }
-    
     func animationZoomingMap(zoomIN:Float,zoomOUT:Float,lat:Double,lng:Double) {
 //        delay(seconds: 0.5) { () -> () in
 //            let zoomOut = GMSCameraUpdate.zoom(to: zoomOUT)
@@ -859,89 +863,6 @@ extension MapVC {
             self.mapView.clear()
             self.setupMarkers()
         }
-    }
-}
-
-//MARK: - Draw Google API Dirction
-extension MapVC {
-    func getTotalDistance(destination:String) {
-        let origin = "\(Defaults.LocationLat),\(Defaults.LocationLng)"
-        let destination = destination
-        
-        let urlString = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=\(origin)&destination=\(destination)&units=imperial&mode=driving&language=en-EN&sensor=fasle&key=\(googleApiKey)"
-        
-        let url = URL(string: urlString)
-        
-        URLSession.shared.dataTask(with: url!) { (data,response,error) in
-            
-            if error != nil {
-                print(error!)
-            }else {
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:Any]
-                    let rows = json[ "rows"] as! NSArray
-                    print(rows)
-                    let dic = rows[0] as! Dictionary<String,Any>
-                    let elements = dic["elements"] as! NSArray
-                    let dis = elements[0] as! Dictionary<String,Any>
-                    let distanceMiles = dis["distance"] as! Dictionary<String, Any>
-                    let miles = distanceMiles["text"]! as! String
-                    let TimeRide = dis["duration"] as! Dictionary<String,Any>
-                    let finalTime = TimeRide[ "text"]! as! String
-                    
-                    
-                    print(finalTime,miles)
-                    
-                }
-                catch let error as NSError {
-                    print("error >> \(error)")
-                }
-            }
-        }.resume()
-    }
-    
-    
-    func drawGoogleAPIDirction(destination:String) {
-        let origin = "\(Defaults.LocationLat),\(Defaults.LocationLng)"
-        let destination = destination
-        
-        let urlString = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin)&destination=\(destination)&mode-driving&key=\(googleApiKey)"
-        
-        let url = URL(string: urlString)
-        URLSession.shared.dataTask(with: url!) { (data, response, error) in
-            if error != nil {
-                print(error!)
-            }else {
-                DispatchQueue.main.async {
-                    self.mapView.clear()
-                    //                    self.addSourceDestinationMarkers()
-                }
-                do {
-                    let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:Any]
-                    let routes = json["routes"] as! NSArray
-                    self.getTotalDistance(destination: destination)
-                    
-                    OperationQueue.main.addOperation({
-                        for route in routes {
-                            let route0verviewPolyline:NSDictionary = (route as! NSDictionary).value(forKey: "overview_polyline") as! NSDictionary
-                            
-                            let points = route0verviewPolyline.object(forKey: "points")
-                            let path = GMSPath.init (fromEncodedPath: points! as! String)
-                            let polyline = GMSPolyline.init(path: path)
-                            polyline.strokeWidth = 3
-                            polyline.strokeColor = UIColor.pink
-                            let bounds = GMSCoordinateBounds (path: path!)
-                            self.mapView!.animate(with: GMSCameraUpdate.fit(bounds, withPadding: 30))
-                            polyline.map = self.mapView
-                        }
-                    })
-                }
-                catch let error as NSError {
-                    print("error >> \(error)")
-                }
-                
-            }
-        }.resume()
     }
 }
 
@@ -983,5 +904,19 @@ class MapUtil {
         circle.fillColor = UIColor(red:0.09, green:0.6, blue:0.41, alpha:0.5)
         
         mapView.animate(toLocation: city) // animate to center
+    }
+}
+
+extension MapVC {
+    func addBottomSheetView(scrollable: Bool? = true) {
+        let bottomSheetVC = scrollable! ? ScrollableBottomSheetViewController() : BottomSheetViewController()
+        
+        self.addChild(bottomSheetVC)
+        self.view.addSubview(bottomSheetVC.view)
+        bottomSheetVC.didMove(toParent: self)
+
+        let height = view.frame.height
+        let width  = view.frame.width
+        bottomSheetVC.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
     }
 }

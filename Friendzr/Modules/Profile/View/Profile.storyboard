@@ -60,7 +60,7 @@
                                 <rect key="frame" x="0.0" y="-56" width="414" height="1022"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q3t-vF-vkv">
-                                        <rect key="frame" x="0.0" y="-100" width="414" height="613"/>
+                                        <rect key="frame" x="0.0" y="-100" width="414" height="598"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="ang-eV-F7i">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="393.5"/>
@@ -143,19 +143,19 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7C-9n-Sr5">
-                                                <rect key="frame" x="25" y="491.5" width="364" height="0.0"/>
+                                                <rect key="frame" x="25" y="476.5" width="364" height="0.0"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                                 <color key="textColor" name="ColorLbl1"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accounts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lwA-HS-221">
-                                                <rect key="frame" x="25" y="507.5" width="69" height="17.5"/>
+                                                <rect key="frame" x="25" y="492.5" width="69" height="17.5"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="14"/>
                                                 <color key="textColor" name="ColorLbl3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="gQA-dB-6h2">
-                                                <rect key="frame" x="25" y="541" width="230" height="42"/>
+                                                <rect key="frame" x="25" y="526" width="230" height="42"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="instagram-Link_ic" translatesAutoresizingMaskIntoConstraints="NO" id="GUe-tJ-bfP">
                                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
@@ -179,7 +179,7 @@
                                                 </subviews>
                                             </stackView>
                                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Wln-Ms-CzM">
-                                                <rect key="frame" x="25" y="541" width="230" height="42"/>
+                                                <rect key="frame" x="25" y="526" width="230" height="42"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yeb-6F-vMu">
                                                         <rect key="frame" x="0.0" y="0.0" width="42" height="42"/>
@@ -203,7 +203,7 @@
                                                 </subviews>
                                             </stackView>
                                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="noJ-sh-OMk" customClass="TagListView" customModule="Friendzr" customModuleProvider="target">
-                                                <rect key="frame" x="25" y="456.5" width="364" height="10"/>
+                                                <rect key="frame" x="25" y="441.5" width="364" height="10"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="10" id="IBl-Dj-Lal"/>
@@ -270,7 +270,7 @@
                                             <constraint firstItem="T9L-me-A7i" firstAttribute="centerY" secondItem="NWj-BI-g73" secondAttribute="centerY" id="ULg-Lc-aTA"/>
                                             <constraint firstItem="f10-a4-VnB" firstAttribute="centerY" secondItem="Y9x-m0-VoX" secondAttribute="centerY" id="Usu-X1-iDN"/>
                                             <constraint firstItem="M3b-g6-nYa" firstAttribute="leading" secondItem="q3t-vF-vkv" secondAttribute="leading" constant="25" id="ZkY-NS-U3e"/>
-                                            <constraint firstItem="noJ-sh-OMk" firstAttribute="top" secondItem="NYc-Ha-Nag" secondAttribute="bottom" constant="20" id="bao-Cj-sZC"/>
+                                            <constraint firstItem="noJ-sh-OMk" firstAttribute="top" secondItem="NYc-Ha-Nag" secondAttribute="bottom" constant="5" id="bao-Cj-sZC"/>
                                             <constraint firstItem="yeb-6F-vMu" firstAttribute="leading" secondItem="lwA-HS-221" secondAttribute="leading" id="fva-kx-R4K"/>
                                             <constraint firstItem="LFF-Ld-HM0" firstAttribute="centerY" secondItem="NYc-Ha-Nag" secondAttribute="centerY" id="gy3-ba-m4F"/>
                                             <constraint firstAttribute="trailing" secondItem="ang-eV-F7i" secondAttribute="trailing" id="r4D-wR-q6W"/>
@@ -283,7 +283,7 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XpZ-fP-1Fa">
-                                        <rect key="frame" x="0.0" y="-100" width="414" height="613"/>
+                                        <rect key="frame" x="0.0" y="-100" width="414" height="598"/>
                                         <color key="backgroundColor" name="Color0"/>
                                     </view>
                                 </subviews>
@@ -326,6 +326,8 @@
                         <outlet property="profileImg" destination="ang-eV-F7i" id="O5D-cX-iUy"/>
                         <outlet property="superView" destination="q3t-vF-vkv" id="0xk-TT-vmr"/>
                         <outlet property="tagListView" destination="noJ-sh-OMk" id="uzp-oA-l0W"/>
+                        <outlet property="tagsBotomConstrains" destination="NEr-wq-QYV" id="bXW-PL-I6p"/>
+                        <outlet property="tagsTopConstrains" destination="bao-Cj-sZC" id="n8E-kd-4PQ"/>
                         <outlet property="tagsViewhHeight" destination="IBl-Dj-Lal" id="Fqc-HZ-BDb"/>
                         <outlet property="userNameLbl" destination="LFF-Ld-HM0" id="nS7-eF-bwZ"/>
                     </connections>
@@ -725,6 +727,8 @@
                         <outlet property="svBtns" destination="D0K-8o-7NJ" id="kU6-N7-j7o"/>
                         <outlet property="tagListView" destination="bEl-iw-8Ek" id="6jn-VF-oqG"/>
                         <outlet property="tagListViewHeight" destination="NlC-yr-6cG" id="ZOd-jo-M2E"/>
+                        <outlet property="tagsBotomConstrains" destination="mge-lY-TZs" id="arC-tc-hFD"/>
+                        <outlet property="tagsTopConstrains" destination="MvM-cn-gT9" id="tBC-Yb-fl5"/>
                         <outlet property="unblockBtn" destination="Vxe-E7-HxL" id="zuT-Wc-uiY"/>
                         <outlet property="unfriendBtn" destination="Xlb-5p-HGm" id="ecj-5i-UCx"/>
                         <outlet property="userNameLbl" destination="C2e-5U-0Qj" id="aSD-en-vo0"/>

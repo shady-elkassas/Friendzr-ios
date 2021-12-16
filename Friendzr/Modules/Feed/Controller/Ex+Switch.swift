@@ -2,7 +2,7 @@
 //  Ex+Switch.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 12/12/2021.
+//  Created by Muhammad Sabri Saad on 12/12/2021.
 //
 
 import UIKit

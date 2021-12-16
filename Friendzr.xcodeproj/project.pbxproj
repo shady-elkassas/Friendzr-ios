@@ -52,7 +52,7 @@
 		43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D7B26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift */; };
 		43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D7D26E4F6D100AD2260 /* AddEventViewModel.swift */; };
 		431505782705F90E002387A1 /* DegreeScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431505772705F90E002387A1 /* DegreeScaleView.swift */; };
-		431D93E627577A3200A1F780 /* ExtensionMessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D93E527577A3200A1F780 /* ExtensionMessagesViewController.swift */; };
+		431D93E627577A3200A1F780 /* Extensions+ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D93E527577A3200A1F780 /* Extensions+ChatVC.swift */; };
 		431FF241270C8DEA002A15E0 /* GenderDistributionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */; };
 		4320A64626F1FC7B003604EE /* AllFriendesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */; };
 		4320A64826F1FD50003604EE /* AllFriendesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64726F1FD50003604EE /* AllFriendesModel.swift */; };
@@ -114,6 +114,10 @@
 		434428E927171AE800269444 /* ExtensionDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434428E827171AE800269444 /* ExtensionDate.swift */; };
 		4345BA3A271C14ED0076101A /* GenderbylocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345BA39271C14ED0076101A /* GenderbylocationViewModel.swift */; };
 		4345BA3C271C15410076101A /* GenderbylocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345BA3B271C15410076101A /* GenderbylocationModel.swift */; };
+		43526909276A0EDC00540726 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43526908276A0EDC00540726 /* BottomSheetViewController.swift */; };
+		43526916276A144A00540726 /* ScrollableBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43526914276A144A00540726 /* ScrollableBottomSheetViewController.swift */; };
+		43526917276A144A00540726 /* ScrollableBottomSheetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43526915276A144A00540726 /* ScrollableBottomSheetViewController.xib */; };
+		43526919276A1D6D00540726 /* Extensions + MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43526918276A1D6D00540726 /* Extensions + MapVC.swift */; };
 		4362887F26C8FECB00B51E51 /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4362887E26C8FECB00B51E51 /* Map.storyboard */; };
 		4362888126C8FEDE00B51E51 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362888026C8FEDE00B51E51 /* MapVC.swift */; };
 		4362888626C8FF3A00B51E51 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362888526C8FF3A00B51E51 /* FeedVC.swift */; };
@@ -318,7 +322,7 @@
 		43119D7B26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotlalNumberEventViewModel.swift; sourceTree = "<group>"; };
 		43119D7D26E4F6D100AD2260 /* AddEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventViewModel.swift; sourceTree = "<group>"; };
 		431505772705F90E002387A1 /* DegreeScaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeScaleView.swift; sourceTree = "<group>"; };
-		431D93E527577A3200A1F780 /* ExtensionMessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionMessagesViewController.swift; sourceTree = "<group>"; };
+		431D93E527577A3200A1F780 /* Extensions+ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+ChatVC.swift"; sourceTree = "<group>"; };
 		431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderDistributionVC.swift; sourceTree = "<group>"; };
 		4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFriendesViewModel.swift; sourceTree = "<group>"; };
 		4320A64726F1FD50003604EE /* AllFriendesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFriendesModel.swift; sourceTree = "<group>"; };
@@ -380,6 +384,10 @@
 		434428E827171AE800269444 /* ExtensionDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDate.swift; sourceTree = "<group>"; };
 		4345BA39271C14ED0076101A /* GenderbylocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderbylocationViewModel.swift; sourceTree = "<group>"; };
 		4345BA3B271C15410076101A /* GenderbylocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderbylocationModel.swift; sourceTree = "<group>"; };
+		43526908276A0EDC00540726 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
+		43526914276A144A00540726 /* ScrollableBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableBottomSheetViewController.swift; sourceTree = "<group>"; };
+		43526915276A144A00540726 /* ScrollableBottomSheetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScrollableBottomSheetViewController.xib; sourceTree = "<group>"; };
+		43526918276A1D6D00540726 /* Extensions + MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions + MapVC.swift"; sourceTree = "<group>"; };
 		4362887E26C8FECB00B51E51 /* Map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Map.storyboard; sourceTree = "<group>"; };
 		4362888026C8FEDE00B51E51 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		4362888526C8FF3A00B51E51 /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
@@ -880,7 +888,11 @@
 			isa = PBXGroup;
 			children = (
 				4362888026C8FEDE00B51E51 /* MapVC.swift */,
+				43526918276A1D6D00540726 /* Extensions + MapVC.swift */,
 				431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */,
+				43526908276A0EDC00540726 /* BottomSheetViewController.swift */,
+				43526914276A144A00540726 /* ScrollableBottomSheetViewController.swift */,
+				43526915276A144A00540726 /* ScrollableBottomSheetViewController.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1024,10 +1036,10 @@
 				4382AC1A26C27195005C1857 /* MainVC.swift */,
 				4344110126CE63AF00F8233E /* NewConversationVC.swift */,
 				430D426826D3BEBA00188E42 /* ChatVC.swift */,
+				431D93E527577A3200A1F780 /* Extensions+ChatVC.swift */,
 				430D426F26D3C33B00188E42 /* AudioVC.swift */,
 				43FBA22B26D5330F005F4FBF /* SendLocationChatVC.swift */,
 				4336ACC926D6377E00C8FD33 /* ShowImageVC.swift */,
-				431D93E527577A3200A1F780 /* ExtensionMessagesViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -1528,6 +1540,7 @@
 				43375F60271313C4009EBED6 /* NotificationTableViewCell.xib in Resources */,
 				430D425E26D38D9B00188E42 /* AttendeesTableViewCell.xib in Resources */,
 				4344110826CE885F00F8233E /* ContactsTableViewCell.xib in Resources */,
+				43526917276A144A00540726 /* ScrollableBottomSheetViewController.xib in Resources */,
 				4382AC9626C27FF2005C1857 /* Montserrat-Medium.ttf in Resources */,
 				4371D42727391B13003B8AFD /* EmptyViewTableViewCell.xib in Resources */,
 				4362889D26C9140E00B51E51 /* RequestTableViewCell.xib in Resources */,
@@ -1659,6 +1672,7 @@
 				4382ACBE26C2AFF7005C1857 /* SplachFourVC.swift in Sources */,
 				4382AC6726C27D33005C1857 /* UIFontExtension.swift in Sources */,
 				4344107C26CD54D600F8233E /* CategoriesView.swift in Sources */,
+				43526916276A144A00540726 /* ScrollableBottomSheetViewController.swift in Sources */,
 				4382ACBA26C2AFC2005C1857 /* SplachTwoVC.swift in Sources */,
 				43FED20C26DE3FD900255B96 /* EventsViewModel.swift in Sources */,
 				432E4A9A270AFC5E00963448 /* MessagesModel.swift in Sources */,
@@ -1675,7 +1689,7 @@
 				4336D12526DB88C00093C7A6 /* MobilenumberViewModel.swift in Sources */,
 				430A350B26CA5C9D00477A94 /* CalendarView.swift in Sources */,
 				437EE47226E8B39700765089 /* LeaveEventViewModel.swift in Sources */,
-				431D93E627577A3200A1F780 /* ExtensionMessagesViewController.swift in Sources */,
+				431D93E627577A3200A1F780 /* Extensions+ChatVC.swift in Sources */,
 				43CFB00C271C56EB000CB41E /* InterestsCollectionViewCell.swift in Sources */,
 				4382AC5926C27A65005C1857 /* StoryBoard.swift in Sources */,
 				430D425D26D38D9B00188E42 /* AttendeesTableViewCell.swift in Sources */,
@@ -1722,6 +1736,7 @@
 				43D545AB26CBB61F0064660A /* EventTimeCalenderView.swift in Sources */,
 				4333DA8226C3CFEC0029F2B0 /* RegisterVC.swift in Sources */,
 				4382AC6526C27CDF005C1857 /* UILabelExtension.swift in Sources */,
+				43526919276A1D6D00540726 /* Extensions + MapVC.swift in Sources */,
 				4371D42627391B13003B8AFD /* EmptyViewTableViewCell.swift in Sources */,
 				4382AC5726C27A03005C1857 /* UIViewControllerExtension.swift in Sources */,
 				4336D12326DB88B20093C7A6 /* RegisterViewModel.swift in Sources */,
@@ -1801,6 +1816,7 @@
 				43FDDD7A2701D9F400550876 /* SplachVC.swift in Sources */,
 				4382AC6226C27BC7005C1857 /* LoadingView.swift in Sources */,
 				430D426126D3A10F00188E42 /* EventTableViewCell.swift in Sources */,
+				43526909276A0EDC00540726 /* BottomSheetViewController.swift in Sources */,
 				4326A8F726F87AE000D471E0 /* SettingsViewModel.swift in Sources */,
 				4382AC5326C278D9005C1857 /* Localizer.swift in Sources */,
 				43F473B326E6175F001E4FAE /* AllCategoriesViewModel.swift in Sources */,

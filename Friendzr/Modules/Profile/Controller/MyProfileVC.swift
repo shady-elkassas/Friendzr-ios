@@ -24,6 +24,9 @@ class MyProfileVC: UIViewController {
     @IBOutlet weak var tagsViewhHeight: NSLayoutConstraint!
     @IBOutlet weak var hideView: UIView!
     
+    @IBOutlet weak var tagsTopConstrains: NSLayoutConstraint!
+    @IBOutlet weak var tagsBotomConstrains: NSLayoutConstraint!
+    
     //MARK: - Properties
     var viewmodel: ProfileViewModel = ProfileViewModel()
     var strWidth:CGFloat = 0
@@ -124,6 +127,20 @@ class MyProfileVC: UIViewController {
         
         print("tagListView.rows \(tagListView.rows)")
         tagsViewhHeight.constant = CGFloat(tagListView.rows * 25)
+
+        if tagListView.rows == 1 {
+            tagsTopConstrains.constant = 10
+            tagsBotomConstrains.constant = 10
+        }else if tagListView.rows == 2 {
+            tagsTopConstrains.constant = 8
+            tagsBotomConstrains.constant = 16
+        }else if tagListView.rows == 3 {
+            tagsTopConstrains.constant = 8
+            tagsBotomConstrains.constant = 30
+        }else {
+            tagsTopConstrains.constant = 8
+            tagsBotomConstrains.constant = 36
+        }
     }
     
     //MARK: - Actions

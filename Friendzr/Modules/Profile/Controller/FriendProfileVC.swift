@@ -29,6 +29,8 @@ class FriendProfileVC: UIViewController {
     @IBOutlet weak var tagListViewHeight: NSLayoutConstraint!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet weak var refusedBtn: UIButton!
+    @IBOutlet weak var tagsTopConstrains: NSLayoutConstraint!
+    @IBOutlet weak var tagsBotomConstrains: NSLayoutConstraint!
     
     //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
@@ -459,6 +461,20 @@ class FriendProfileVC: UIViewController {
         
         print("tagListView.rows \(tagListView.rows)")
         tagListViewHeight.constant = CGFloat(tagListView.rows * 25)
+        
+//        if tagListView.rows == 1 {
+//            tagsTopConstrains.constant = 10
+//            tagsBotomConstrains.constant = 10
+//        }else if tagListView.rows == 2 {
+//            tagsTopConstrains.constant = 8
+//            tagsBotomConstrains.constant = 16
+//        }else if tagListView.rows == 3 {
+//            tagsTopConstrains.constant = 8
+//            tagsBotomConstrains.constant = 30
+//        }else {
+//            tagsTopConstrains.constant = 8
+//            tagsBotomConstrains.constant = 36
+//        }
         
         switch model?.key {
         case 0:

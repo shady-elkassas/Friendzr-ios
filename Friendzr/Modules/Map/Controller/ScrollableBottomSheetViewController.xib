@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Medium.ttf">
+            <string>Montserrat-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ScrollableBottomSheetViewController" customModule="Friendzr" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="hXB-H4-U8C" id="c4s-Tp-iW6"/>
+                <outlet property="headerView" destination="BRi-Fe-OQJ" id="9v0-yI-gl3"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BRi-Fe-OQJ">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="65"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iWu-8s-MZi">
+                            <rect key="frame" x="167" y="8" width="80" height="1"/>
+                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="0Oq-Vy-TxY"/>
+                                <constraint firstAttribute="height" constant="1" id="16g-Q8-Jl7"/>
+                            </constraints>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Explore more" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gox-VP-T8K">
+                            <rect key="frame" x="169.5" y="14" width="75" height="13.5"/>
+                            <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="11"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="65" id="8sA-xC-oSh"/>
+                        <constraint firstItem="Gox-VP-T8K" firstAttribute="top" secondItem="iWu-8s-MZi" secondAttribute="bottom" constant="5" id="Bvo-l7-tTP"/>
+                        <constraint firstItem="Gox-VP-T8K" firstAttribute="centerX" secondItem="iWu-8s-MZi" secondAttribute="centerX" id="QPf-Bg-Jln"/>
+                        <constraint firstItem="iWu-8s-MZi" firstAttribute="top" secondItem="BRi-Fe-OQJ" secondAttribute="top" constant="8" id="XKP-Cd-NcI"/>
+                        <constraint firstItem="iWu-8s-MZi" firstAttribute="centerX" secondItem="BRi-Fe-OQJ" secondAttribute="centerX" id="eYk-Si-0op"/>
+                    </constraints>
+                </view>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="hXB-H4-U8C">
+                    <rect key="frame" x="0.0" y="65" width="414" height="797"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="eJm-Ji-KR2">
+                        <size key="itemSize" width="128" height="128"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="BRi-Fe-OQJ" secondAttribute="trailing" id="4G7-93-fux"/>
+                <constraint firstItem="hXB-H4-U8C" firstAttribute="top" secondItem="BRi-Fe-OQJ" secondAttribute="bottom" id="SZY-mv-aWI"/>
+                <constraint firstItem="BRi-Fe-OQJ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="X8F-dr-fAF"/>
+                <constraint firstItem="BRi-Fe-OQJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="fFQ-NM-peZ"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="hXB-H4-U8C" secondAttribute="bottom" id="kzT-bJ-Zu1"/>
+                <constraint firstItem="hXB-H4-U8C" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ukt-bb-U9s"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="hXB-H4-U8C" secondAttribute="trailing" id="x3u-he-zlE"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="101"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
