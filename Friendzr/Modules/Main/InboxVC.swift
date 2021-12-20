@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  InboxVC.swift
 //  Friendzr
 //
 //  Created by Muhammad Sabri Saad on 10/08/2021.
@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-class MainVC: UIViewController {
+class InboxVC: UIViewController {
     
     //MARK: - Outlets
     @IBOutlet weak var searchContainerView: UIView!
@@ -92,8 +92,8 @@ class MainVC: UIViewController {
         self.showLoading()
         viewmodel.getChatList(pageNumber: pageNumber)
         viewmodel.listChat.bind { [unowned self] value in
-            DispatchQueue.main.async {
-
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                
                 self.hideLoading()
                 tableView.delegate = self
                 tableView.dataSource = self
@@ -145,25 +145,6 @@ class MainVC: UIViewController {
             }
         }
     }
-    
-    //    func showEmptyView() {
-    //        if isSearch {
-    //            if searchVM.usersinChat.value?.data?.count == 0 {
-    //                emptyView.isHidden = false
-    //                emptyLbl.text = "You haven't any data yet".localizedString
-    //            }else {
-    //                emptyView.isHidden = true
-    //            }
-    //        }else {
-    //            if viewmodel.listChat.value?.data?.count == 0 {
-    //                emptyView.isHidden = false
-    //                emptyLbl.text = "You haven't any data yet".localizedString
-    //            }else {
-    //                emptyView.isHidden = true
-    //            }
-    //        }
-    //        tryAgainBtn.alpha = 0.0
-    //    }
     
     func HandleinvalidUrl() {
         emptyView.isHidden = false
@@ -262,7 +243,7 @@ class MainVC: UIViewController {
 }
 
 //MARK: - Extensions
-extension MainVC:UITableViewDataSource {
+extension InboxVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearch {
             if searchVM.usersinChat.value?.data?.count != 0 {
@@ -362,7 +343,7 @@ extension MainVC:UITableViewDataSource {
         }
     }
 }
-extension MainVC:UITableViewDelegate {
+extension InboxVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if isSearch {
             if searchVM.usersinChat.value?.data?.count != 0 {
@@ -389,7 +370,7 @@ extension MainVC:UITableViewDelegate {
                 model = searchVM.usersinChat.value?.data?[indexPath.row]
             }
             
-            Router().toChatVC(isEvent: model?.isevent ?? false, eventChatID: model?.id ?? "", leavevent: model?.leavevent ?? 0, chatuserID: model?.id ?? "", isFriend: model?.isfrind ?? false, titleChatImage: model?.image ?? "", titleChatName: model?.chatName ?? "")
+            Router().toConversationVC(isEvent: model?.isevent ?? false, eventChatID: model?.id ?? "", leavevent: model?.leavevent ?? 0, chatuserID: model?.id ?? "", isFriend: model?.isfrind ?? false, titleChatImage: model?.image ?? "", titleChatName: model?.chatName ?? "")
         }
     }
     
@@ -426,10 +407,7 @@ extension MainVC:UITableViewDelegate {
                             }
                             
                             DispatchQueue.main.async {
-                                self.viewmodel.listChat.value?.data?.remove(at: indexPath.row)
-                                self.tableView.beginUpdates()
-                                self.tableView.deleteRows(at: [indexPath], with: .fade)
-                                self.tableView.endUpdates()
+                                tableView.reloadData()
                             }
                         }
                     }))
@@ -453,10 +431,7 @@ extension MainVC:UITableViewDelegate {
                             }
                             
                             DispatchQueue.main.async {
-                                self.viewmodel.listChat.value?.data?.remove(at: indexPath.row)
-                                self.tableView.beginUpdates()
-                                self.tableView.deleteRows(at: [indexPath], with: .fade)
-                                self.tableView.endUpdates()
+                                tableView.reloadData()
                             }
                         }
                     }))
@@ -638,10 +613,14 @@ extension MainVC:UITableViewDelegate {
             muteAction.backgroundColor = UIColor.green
             
             if model?.isevent == true {
-                if model?.leavevent == 0 {
-                    return [deleteAction,leaveAction,muteAction]
+                if model?.myevent == true {
+                    return [deleteAction,muteAction]
                 }else {
-                    return [deleteAction]
+                    if model?.leavevent == 0 {
+                        return [deleteAction,leaveAction,muteAction]
+                    }else {
+                        return [deleteAction]
+                    }
                 }
             }else {
                 return [deleteAction,muteAction]
@@ -676,7 +655,7 @@ extension MainVC:UITableViewDelegate {
     }
 }
 
-extension MainVC: UISearchBarDelegate{
+extension InboxVC: UISearchBarDelegate{
     @objc func updateSearchResult() {
         guard let text = searchBar.text else {return}
         print(text)

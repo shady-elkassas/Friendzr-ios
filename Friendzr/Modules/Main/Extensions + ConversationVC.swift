@@ -1,5 +1,5 @@
 //
-//  Extensions+ChatVC.swift
+//  Extensions + ConversationVC.swift
 //  Friendzr
 //
 //  Created by Muhammad Sabri Saad on 01/12/2021.
@@ -32,7 +32,7 @@ extension MessagesViewController {
 }
 
 // MARK: - MessagesDataSource
-extension ChatVC: MessagesDataSource {
+extension ConversationVC: MessagesDataSource {
     
     func currentSender() -> SenderType {
         return senderUser
@@ -77,7 +77,7 @@ extension ChatVC: MessagesDataSource {
 }
 
 // MARK: - MessageCellDelegate
-extension ChatVC: MessageCellDelegate {
+extension ConversationVC: MessageCellDelegate {
     func didTapAvatar(in cell: MessageCollectionViewCell) {
         print("Avatar tapped")
         
@@ -115,7 +115,7 @@ extension ChatVC: MessageCellDelegate {
                                                 "comgooglemaps://?saddr=&daddr=\(location.latitude),\(location.longitude)&directionsmode=driving")!)
                 
             } else {
-                NSLog("Can't use comgooglemaps://");
+                NSLog("Can't use comgooglemaps://")
             }
             break
         case .contact(_):break
@@ -248,7 +248,7 @@ extension ChatVC: MessageCellDelegate {
 
 // MARK: - MessageLabelDelegate
 
-extension ChatVC: MessageLabelDelegate {
+extension ConversationVC: MessageLabelDelegate {
     func didSelectAddress(_ addressComponents: [String: String]) {
         print("Address Selected: \(addressComponents)")
     }
@@ -294,7 +294,7 @@ extension ChatVC: MessageLabelDelegate {
 }
 
 // MARK: - MessageInputBarDelegate
-extension ChatVC: InputBarAccessoryViewDelegate {
+extension ConversationVC: InputBarAccessoryViewDelegate {
     
     @objc func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         //        processInputBar(setupLeftInputButton(tapMessage: false, Recorder: "play"))
@@ -308,8 +308,6 @@ extension ChatVC: InputBarAccessoryViewDelegate {
         
         DispatchQueue.main.async {
             inputBar.inputTextView.text = ""
-            self.messagesCollectionView.reloadData()
-            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
         }
         
         if isEvent {
@@ -388,7 +386,7 @@ extension ChatVC: InputBarAccessoryViewDelegate {
 }
 
 // MARK: - MessagesDisplayDelegate
-extension ChatVC: MessagesDisplayDelegate {
+extension ConversationVC: MessagesDisplayDelegate {
     
     // MARK: - Text Messages
     func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
@@ -425,7 +423,7 @@ extension ChatVC: MessagesDisplayDelegate {
         case .video(_):
             return isFromCurrentSender(message: message) ? UIColor.clear : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .linkPreview(_):
-            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.red : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .attributedText(_):
             return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         default:
@@ -494,7 +492,7 @@ extension ChatVC: MessagesDisplayDelegate {
 
 
 //MARK: - Customize View
-extension ChatVC {
+extension ConversationVC {
     //handle Long Press
     @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {
         if sender.state == .began {
@@ -824,7 +822,7 @@ extension ChatVC {
     }
 }
 
-extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     //MARK:- Take Picture
     func openCamera(){
         fileUpload = "IMAGE"
@@ -948,7 +946,7 @@ extension ChatVC : UIImagePickerControllerDelegate,UINavigationControllerDelegat
     }
 }
 
-extension ChatVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
+extension ConversationVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     // MARK:- AVRecorder Setup
     
     func setupRecorder() {
@@ -1048,7 +1046,7 @@ extension ChatVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     }
 }
 
-extension ChatVC: MessagesLayoutDelegate {
+extension ConversationVC: MessagesLayoutDelegate {
     
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         if isTimeLabelVisible(at: indexPath) {
@@ -1095,7 +1093,7 @@ extension ChatVC: MessagesLayoutDelegate {
     }
 }
 
-extension ChatVC: UIDocumentPickerDelegate {
+extension ConversationVC: UIDocumentPickerDelegate {
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         
@@ -1116,13 +1114,11 @@ extension ChatVC: UIDocumentPickerDelegate {
             
             let messageDate = formatterDate.string(from: Date())
             let messageTime = formatterTime.string(from: Date())
-            
-            //            let imageData = try Data(contentsOf: selectedFileURL as URL)
+
             if isEvent {
-                
+                let imgView:UIImageView = UIImageView()
                 self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
                 
-                let imgView:UIImageView = UIImageView()
                 imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
                 self.sendingImageView  = imgView.image
                 
@@ -1144,9 +1140,8 @@ extension ChatVC: UIDocumentPickerDelegate {
                 }
             }else {
                 
-                self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
-                
                 let imgView:UIImageView = UIImageView()
+                self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
                 imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
                 self.sendingImageView  = imgView.image
                 

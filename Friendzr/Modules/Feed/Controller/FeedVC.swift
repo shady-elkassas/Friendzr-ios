@@ -155,13 +155,12 @@ class FeedVC: UIViewController {
     
     func getAllFeeds(pageNumber:Int) {
         self.showLoading()
-        hideView.isHidden = false
+//        hideView.isHidden = false
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 self.hideLoading()
                 hideView.isHidden = true
-                
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -590,7 +589,7 @@ extension FeedVC:UITableViewDataSource {
                 self.updateNetworkForBtns()
                 
                 if self.self.internetConnect {
-                    Router().toChatVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "")
+                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "")
                 }else {
                     return
                 }

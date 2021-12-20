@@ -53,6 +53,8 @@
 	<true/>
 	<key>FirebaseMessagingAutoInitEnabled</key>
 	<true/>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-9901362047037891~4064115975</string>
 	<key>InstagramClientId</key>
 	<string>284152480286634</string>
 	<key>InstagramRedirectURI</key>
@@ -123,10 +125,6 @@
 	<string>This application requiers location services to display the nearest friends arround you.</string>
 	<key>RequestOpenAccess</key>
 	<true/>
-	<key>TikTokAppID</key>
-	<string>awq4czdodvu3iy4y</string>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-9901362047037891~4064115975</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
@@ -278,6 +276,8 @@
 			<string>3qcr597p9d.skadnetwork</string>
 		</dict>
 	</array>
+	<key>TikTokAppID</key>
+	<string>awq4czdodvu3iy4y</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Black.ttf</string>

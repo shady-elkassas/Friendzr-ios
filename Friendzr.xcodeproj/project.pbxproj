@@ -35,7 +35,7 @@
 		430D425E26D38D9B00188E42 /* AttendeesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 430D425C26D38D9B00188E42 /* AttendeesTableViewCell.xib */; };
 		430D426126D3A10F00188E42 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D425F26D3A10F00188E42 /* EventTableViewCell.swift */; };
 		430D426226D3A10F00188E42 /* EventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 430D426026D3A10F00188E42 /* EventTableViewCell.xib */; };
-		430D426926D3BEBA00188E42 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D426826D3BEBA00188E42 /* ChatVC.swift */; };
+		430D426926D3BEBA00188E42 /* ConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D426826D3BEBA00188E42 /* ConversationVC.swift */; };
 		430D426B26D3BF1F00188E42 /* SimpleDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D426A26D3BF1F00188E42 /* SimpleDataModel.swift */; };
 		430D426D26D3C10900188E42 /* MessageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D426C26D3C10900188E42 /* MessageItem.swift */; };
 		430D427026D3C33B00188E42 /* AudioVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D426F26D3C33B00188E42 /* AudioVC.swift */; };
@@ -52,7 +52,7 @@
 		43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D7B26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift */; };
 		43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D7D26E4F6D100AD2260 /* AddEventViewModel.swift */; };
 		431505782705F90E002387A1 /* DegreeScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431505772705F90E002387A1 /* DegreeScaleView.swift */; };
-		431D93E627577A3200A1F780 /* Extensions+ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D93E527577A3200A1F780 /* Extensions+ChatVC.swift */; };
+		431D93E627577A3200A1F780 /* Extensions + ConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D93E527577A3200A1F780 /* Extensions + ConversationVC.swift */; };
 		431FF241270C8DEA002A15E0 /* GenderDistributionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */; };
 		4320A64626F1FC7B003604EE /* AllFriendesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */; };
 		4320A64826F1FD50003604EE /* AllFriendesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64726F1FD50003604EE /* AllFriendesModel.swift */; };
@@ -152,7 +152,7 @@
 		4381CC9C270DB45A00D40A6D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4381CC9B270DB45A00D40A6D /* GoogleService-Info.plist */; };
 		4382AC1726C27195005C1857 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1626C27195005C1857 /* AppDelegate.swift */; };
 		4382AC1926C27195005C1857 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1826C27195005C1857 /* SceneDelegate.swift */; };
-		4382AC1B26C27195005C1857 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1A26C27195005C1857 /* MainVC.swift */; };
+		4382AC1B26C27195005C1857 /* InboxVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1A26C27195005C1857 /* InboxVC.swift */; };
 		4382AC1E26C27195005C1857 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4382AC1C26C27195005C1857 /* Main.storyboard */; };
 		4382AC2126C27195005C1857 /* Friendzr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1F26C27195005C1857 /* Friendzr.xcdatamodeld */; };
 		4382AC2326C27195005C1857 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4382AC2226C27195005C1857 /* Assets.xcassets */; };
@@ -305,7 +305,7 @@
 		430D425C26D38D9B00188E42 /* AttendeesTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttendeesTableViewCell.xib; sourceTree = "<group>"; };
 		430D425F26D3A10F00188E42 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 		430D426026D3A10F00188E42 /* EventTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventTableViewCell.xib; sourceTree = "<group>"; };
-		430D426826D3BEBA00188E42 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
+		430D426826D3BEBA00188E42 /* ConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationVC.swift; sourceTree = "<group>"; };
 		430D426A26D3BF1F00188E42 /* SimpleDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleDataModel.swift; sourceTree = "<group>"; };
 		430D426C26D3C10900188E42 /* MessageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
 		430D426F26D3C33B00188E42 /* AudioVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVC.swift; sourceTree = "<group>"; };
@@ -322,7 +322,7 @@
 		43119D7B26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotlalNumberEventViewModel.swift; sourceTree = "<group>"; };
 		43119D7D26E4F6D100AD2260 /* AddEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventViewModel.swift; sourceTree = "<group>"; };
 		431505772705F90E002387A1 /* DegreeScaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeScaleView.swift; sourceTree = "<group>"; };
-		431D93E527577A3200A1F780 /* Extensions+ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+ChatVC.swift"; sourceTree = "<group>"; };
+		431D93E527577A3200A1F780 /* Extensions + ConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions + ConversationVC.swift"; sourceTree = "<group>"; };
 		431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderDistributionVC.swift; sourceTree = "<group>"; };
 		4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFriendesViewModel.swift; sourceTree = "<group>"; };
 		4320A64726F1FD50003604EE /* AllFriendesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFriendesModel.swift; sourceTree = "<group>"; };
@@ -425,7 +425,7 @@
 		4382AC1326C27195005C1857 /* Friendzr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Friendzr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4382AC1626C27195005C1857 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4382AC1826C27195005C1857 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		4382AC1A26C27195005C1857 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
+		4382AC1A26C27195005C1857 /* InboxVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxVC.swift; sourceTree = "<group>"; };
 		4382AC1D26C27195005C1857 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4382AC2026C27195005C1857 /* Friendzr.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Friendzr.xcdatamodel; sourceTree = "<group>"; };
 		4382AC2226C27195005C1857 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1033,10 +1033,10 @@
 		436288A726C93AEF00B51E51 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				4382AC1A26C27195005C1857 /* MainVC.swift */,
+				4382AC1A26C27195005C1857 /* InboxVC.swift */,
 				4344110126CE63AF00F8233E /* NewConversationVC.swift */,
-				430D426826D3BEBA00188E42 /* ChatVC.swift */,
-				431D93E527577A3200A1F780 /* Extensions+ChatVC.swift */,
+				430D426826D3BEBA00188E42 /* ConversationVC.swift */,
+				431D93E527577A3200A1F780 /* Extensions + ConversationVC.swift */,
 				430D426F26D3C33B00188E42 /* AudioVC.swift */,
 				43FBA22B26D5330F005F4FBF /* SendLocationChatVC.swift */,
 				4336ACC926D6377E00C8FD33 /* ShowImageVC.swift */,
@@ -1689,7 +1689,7 @@
 				4336D12526DB88C00093C7A6 /* MobilenumberViewModel.swift in Sources */,
 				430A350B26CA5C9D00477A94 /* CalendarView.swift in Sources */,
 				437EE47226E8B39700765089 /* LeaveEventViewModel.swift in Sources */,
-				431D93E627577A3200A1F780 /* Extensions+ChatVC.swift in Sources */,
+				431D93E627577A3200A1F780 /* Extensions + ConversationVC.swift in Sources */,
 				43CFB00C271C56EB000CB41E /* InterestsCollectionViewCell.swift in Sources */,
 				4382AC5926C27A65005C1857 /* StoryBoard.swift in Sources */,
 				430D425D26D38D9B00188E42 /* AttendeesTableViewCell.swift in Sources */,
@@ -1740,7 +1740,7 @@
 				4371D42627391B13003B8AFD /* EmptyViewTableViewCell.swift in Sources */,
 				4382AC5726C27A03005C1857 /* UIViewControllerExtension.swift in Sources */,
 				4336D12326DB88B20093C7A6 /* RegisterViewModel.swift in Sources */,
-				4382AC1B26C27195005C1857 /* MainVC.swift in Sources */,
+				4382AC1B26C27195005C1857 /* InboxVC.swift in Sources */,
 				43119D7A26E4F08D00AD2260 /* LocationEventViewModel.swift in Sources */,
 				4336D13726DB95670093C7A6 /* ProfileModel.swift in Sources */,
 				43119D7826E4F07000AD2260 /* CategoryEventViewModel.swift in Sources */,
@@ -1775,7 +1775,7 @@
 				4344110726CE885F00F8233E /* ContactsTableViewCell.swift in Sources */,
 				43D545C126CBEC5B0064660A /* EventDetailsVC.swift in Sources */,
 				43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */,
-				430D426926D3BEBA00188E42 /* ChatVC.swift in Sources */,
+				430D426926D3BEBA00188E42 /* ConversationVC.swift in Sources */,
 				43119D7226E4EFEB00AD2260 /* TitleEventViewModel.swift in Sources */,
 				43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */,
 				4382AC1726C27195005C1857 /* AppDelegate.swift in Sources */,
@@ -2028,7 +2028,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 2.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2056,7 +2056,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 2.1;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

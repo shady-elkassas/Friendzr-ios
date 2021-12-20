@@ -227,7 +227,7 @@ extension NewConversationVC: UITableViewDelegate {
         
         if internetConnect {
             let model = viewmodel.friends.value?.data?[indexPath.row]
-            Router().toChatVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "")
+            Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "")
         }else {
             return
         }

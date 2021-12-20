@@ -322,9 +322,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "event_chat"{
-                Router().toChatVC(isEvent: true, eventChatID: actionId ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "")
+                Router().toConversationVC(isEvent: true, eventChatID: actionId ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "")
             }else if action == "user_chat"{
-                Router().toChatVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: actionId ?? "", isFriend: true, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "")
+                Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: actionId ?? "", isFriend: true, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "")
             }else if action == "event_Updated"{
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
                    let tabBarController = rootViewController as? UITabBarController,

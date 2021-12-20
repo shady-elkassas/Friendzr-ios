@@ -1,5 +1,5 @@
 //
-//  ChatVC.swift
+//  ConversationVC.swift
 //  Friendzr
 //
 //  Created by Muhammad Sabri Saad on 23/08/2021.
@@ -17,7 +17,7 @@ import Firebase
 import FirebaseDatabase
 import FirebaseFirestore
 
-class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
+class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
     
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
@@ -145,24 +145,52 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
     func insertMessage(_ message: UserMessage) {
         setupNavigationbar()
         messageList.append(message)
+        
+//        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
+        
         // Reload last section to update header/footer labels and insert a new one
-        messagesCollectionView.performBatchUpdates({
-            messagesCollectionView.insertSections([messageList.count - 1])
-            if messageList.count >= 2 {
-                messagesCollectionView.reloadSections([messageList.count - 2])
-            }
-        }, completion: { [weak self] _ in
-            if self?.isLastSectionVisible() == true {
-                self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-            }
-        })
+//        messagesCollectionView.performBatchUpdates({
+//            messagesCollectionView.insertSections([messageList.count - 1])
+//            if messageList.count >= 2 {
+//                messagesCollectionView.reloadSections([messageList.count - 2])
+//            }
+//        }, completion: { [weak self] _ in
+//            if self?.isLastSectionVisible() == true {
+//                self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+//            }
+//        })
+
+        if messageList.isEmpty {
+            messagesCollectionView.reloadData()
+        }else {
+            messagesCollectionView.performBatchUpdates({
+                messagesCollectionView.insertSections([messageList.count - 1])
+                if messageList.count >= 2 {
+                    messagesCollectionView.reloadSections([messageList.count - 2])
+                }
+            }, completion: { [weak self] _ in
+                if self?.isLastSectionVisible() == true {
+                    self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                }
+            })
+        }
+        
+    }
+    
+    func reloadLastIndexInCollectionView() {
+        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
+        let contentOffset = messagesCollectionView.contentOffset
+        messagesCollectionView.reloadData()
+        messagesCollectionView.layoutIfNeeded()
+        messagesCollectionView.setContentOffset(contentOffset, animated: false)
+        messagesCollectionView.scrollToItem(at: lastIndexPath, at: .bottom, animated: false)
     }
     
     func showDownView() {
         if isEvent {
             if leavevent == 0 {
                 messageInputBar.isHidden = false
-                messageInputBar.inputTextView.becomeFirstResponder()
+//                messageInputBar.inputTextView.becomeFirstResponder()
             }else if leavevent == 1 {
                 setupDownView(textLbl: "You have left this event")
             }else {
@@ -171,7 +199,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
         }else {
             if isFriend == true {
                 messageInputBar.isHidden = false
-                messageInputBar.inputTextView.becomeFirstResponder()
+//                messageInputBar.inputTextView.becomeFirstResponder()
             }else {
                 setupDownView(textLbl: "You are now not a friend of this user and will not be able to message him")
             }
@@ -305,8 +333,12 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
                 }
                 
                 if pageNumber <= 1 {
-                    self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                    if messageList.isEmpty {
+                        messagesCollectionView.reloadData()
+                    }else {
+                        reloadLastIndexInCollectionView()
+
+                    }
                 }else {
                     self.messagesCollectionView.reloadDataAndKeepOffset()
                 }
@@ -376,14 +408,16 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
                 }
                 
                 if pageNumber <= 1 {
-                    self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                    if messageList.isEmpty {
+                        messagesCollectionView.reloadData()
+                    }else {
+                        reloadLastIndexInCollectionView()
+                    }
                 }else {
                     self.messagesCollectionView.reloadDataAndKeepOffset()
                 }
                 
                 self.refreshControl.endRefreshing()
-
                 updateTitleView(image: titleChatImage, subtitle: titleChatName)
             }
         }
@@ -424,7 +458,7 @@ class ChatVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
 }
 
 
-extension ChatVC {
+extension ConversationVC {
     func initBackChatButton() {
         
         var imageName = ""

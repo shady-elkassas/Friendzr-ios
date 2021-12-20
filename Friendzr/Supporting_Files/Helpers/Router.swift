@@ -115,7 +115,7 @@ class Router {
         nextVC.selectedIndex = 3
         go(withVC: nextVC)
     }
-
+    
     func toFeed()  {
         let id = "MainTBC"
         guard let nextVC = Initializer.createViewController(storyBoard: .Main, andId: id) as? UITabBarController else { return}
@@ -123,11 +123,8 @@ class Router {
         go(withVC: nextVC)
     }
     
-    
-
-    
-    func toChatVC(isEvent:Bool,eventChatID:String,leavevent:Int,chatuserID:String,isFriend:Bool,titleChatImage:String,titleChatName:String) {
-        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ChatNC") as? UINavigationController, let vc = controller.viewControllers.first as? ChatVC {
+    func toConversationVC(isEvent:Bool,eventChatID:String,leavevent:Int,chatuserID:String,isFriend:Bool,titleChatImage:String,titleChatName:String) {
+        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationNC") as? UINavigationController, let vc = controller.viewControllers.first as? ConversationVC {
             if isEvent == true {
                 vc.isEvent = true
                 vc.eventChatID = eventChatID
@@ -139,7 +136,7 @@ class Router {
                 vc.chatuserID = chatuserID
                 vc.isFriend = isFriend
             }
-
+            
             vc.titleChatImage = titleChatImage
             vc.titleChatName = titleChatName
             go(withVC: controller)

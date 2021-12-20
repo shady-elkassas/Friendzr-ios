@@ -18,10 +18,10 @@
         </array>
     </customFonts>
     <scenes>
-        <!--MainVC-->
+        <!--InboxVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="MainVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="MainVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="InboxVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="InboxVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -379,7 +379,7 @@
         <!--Inbox-->
         <scene sceneID="Lyz-GQ-0P0">
             <objects>
-                <navigationController storyboardIdentifier="MainNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6Gb-fD-31X" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="InboxNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6Gb-fD-31X" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Inbox" image="inbox_unselected_ic" selectedImage="inbox_selected_ic" id="2iS-8r-HPh"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jG3-5S-dIR">
@@ -453,10 +453,10 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="79.6875"/>
         </scene>
-        <!--ChatVC-->
+        <!--ConversationVC-->
         <scene sceneID="PAH-lq-Qpx">
             <objects>
-                <viewController storyboardIdentifier="ChatVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jcd-ye-iqU" customClass="ChatVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ConversationVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="jcd-ye-iqU" customClass="ConversationVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="But-Xr-uYK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -490,7 +490,7 @@
         <!--Navigation Controller-->
         <scene sceneID="i5y-3y-cqM">
             <objects>
-                <navigationController storyboardIdentifier="ChatNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tMW-xV-k97" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ConversationNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tMW-xV-k97" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="aZ4-gy-vDA">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

@@ -25,7 +25,7 @@ class DeleteEventViewModel {
         let url = URLs.baseURLFirst + "Events/DeletEventData"
         let headers = RequestComponent.headerComponent([.type,.authorization])
         let parameters:[String : Any] = ["id": eventid]
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<EventModel>().map(JSON: data!) else {
                 self.errorMsg = error!
