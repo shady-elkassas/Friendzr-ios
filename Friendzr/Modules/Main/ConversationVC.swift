@@ -146,20 +146,20 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         setupNavigationbar()
         messageList.append(message)
         
-//        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
+        //        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
         
         // Reload last section to update header/footer labels and insert a new one
-//        messagesCollectionView.performBatchUpdates({
-//            messagesCollectionView.insertSections([messageList.count - 1])
-//            if messageList.count >= 2 {
-//                messagesCollectionView.reloadSections([messageList.count - 2])
-//            }
-//        }, completion: { [weak self] _ in
-//            if self?.isLastSectionVisible() == true {
-//                self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-//            }
-//        })
-
+        //        messagesCollectionView.performBatchUpdates({
+        //            messagesCollectionView.insertSections([messageList.count - 1])
+        //            if messageList.count >= 2 {
+        //                messagesCollectionView.reloadSections([messageList.count - 2])
+        //            }
+        //        }, completion: { [weak self] _ in
+        //            if self?.isLastSectionVisible() == true {
+        //                self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+        //            }
+        //        })
+        
         if messageList.isEmpty {
             messagesCollectionView.reloadData()
         }else {
@@ -174,7 +174,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                 }
             })
         }
-        
     }
     
     func reloadLastIndexInCollectionView() {

@@ -142,9 +142,25 @@
             filePath = "Friendzr/Modules/Profile/Controller/EditMyProfileVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "676"
-            endingLineNumber = "676"
+            startingLineNumber = "696"
+            endingLineNumber = "696"
             landmarkName = "initCloseApp()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7A4A7AEF-D502-46D9-8DAA-C4DB325AD90A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Friendzr/Modules/Profile/Controller/EditMyProfileVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
+            landmarkName = "OnInterestsCallBack(_:_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -32,8 +32,11 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var tagsListView: TagListView!
     @IBOutlet weak var selectTagsLbl: UILabel!
     @IBOutlet weak var hideView: UIView!
-    
     @IBOutlet weak var logoutBtn: UIButton!
+    
+    @IBOutlet weak var tagsBottomSpaceLayout: NSLayoutConstraint!
+    @IBOutlet weak var tagsTopSpaceLayout: NSLayoutConstraint!
+    
     
     //MARK: - Properties
     
@@ -215,8 +218,10 @@ class EditMyProfileVC: UIViewController {
             selectTagsLbl.isHidden = false
             selectTagsLbl.textColor = .lightGray
         }else {
-            tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 30
+            tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 25
             selectTagsLbl.isHidden = true
+
+            print("tagsViewHeight.constant >> \(tagsViewHeight.constant)")
         }
         
         tagsListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
@@ -258,16 +263,31 @@ class EditMyProfileVC: UIViewController {
             selectTagsLbl.isHidden = false
             selectTagsLbl.textColor = .lightGray
         }else {
-            tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 30
+            tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 25
             selectTagsLbl.isHidden = true
         }
         
+        print("tagsViewHeight.constant >> \(tagsViewHeight.constant)")
+
         tagsid.removeAll()
         for itm in data {
             tagsid.append(itm)
         }
+        
+        if tagsListView.rows == 0 {
+            tagsTopSpaceLayout.constant = 5
+            tagsBottomSpaceLayout.constant = 5
+        }else if tagsListView.rows == 1 {
+            tagsTopSpaceLayout.constant = 12
+            tagsBottomSpaceLayout.constant = 5
+        }else if tagsListView.rows == 2 {
+            tagsTopSpaceLayout.constant = 10
+            tagsBottomSpaceLayout.constant = 5
+        }else if tagsListView.rows == 3 {
+            tagsTopSpaceLayout.constant = 10
+            tagsBottomSpaceLayout.constant = 5
+        }
     }
-    
     
     func logout() {
         logoutAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
