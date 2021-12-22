@@ -30,6 +30,4 @@ class ShowImageVC: UIViewController {
     @IBAction func cancelpopups(_ sender: UIButton) {
         self.dismiss(animated: true)
     }
-    
-    
 }

@@ -91,7 +91,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     let imagePicker = UIImagePickerController()
     var attachedImg = false
-    
     let database = Firestore.firestore()
     
     // MARK: - Lifecycle
@@ -106,18 +105,19 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
 
         configureMessageInputBar()
         setupLeftInputButton(tapMessage: false, Recorder: "play")
-        
-        //        setupRecorder()
-        
-        //        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(sender:)))
-        //        messagesCollectionView.addGestureRecognizer(longPress)
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessages), name: Notification.Name("listenToMessages"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessagesForEvent), name: Notification.Name("listenToMessagesForEvent"), object: nil)
         
         subviewInputBar.delegate = self
         additionalBottomInset = 88
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMessagesChat), name: UIResponder.keyboardDidShowNotification, object: nil)
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -143,37 +143,22 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     }
     
     func insertMessage(_ message: UserMessage) {
-        setupNavigationbar()
         messageList.append(message)
+        setupNavigationbar()
         
-        //        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
+//        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
         
-        // Reload last section to update header/footer labels and insert a new one
-        //        messagesCollectionView.performBatchUpdates({
-        //            messagesCollectionView.insertSections([messageList.count - 1])
-        //            if messageList.count >= 2 {
-        //                messagesCollectionView.reloadSections([messageList.count - 2])
-        //            }
-        //        }, completion: { [weak self] _ in
-        //            if self?.isLastSectionVisible() == true {
-        //                self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-        //            }
-        //        })
-        
-        if messageList.isEmpty {
-            messagesCollectionView.reloadData()
-        }else {
-            messagesCollectionView.performBatchUpdates({
-                messagesCollectionView.insertSections([messageList.count - 1])
-                if messageList.count >= 2 {
-                    messagesCollectionView.reloadSections([messageList.count - 2])
-                }
-            }, completion: { [weak self] _ in
-                if self?.isLastSectionVisible() == true {
-                    self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-                }
-            })
-        }
+//         Reload last section to update header/footer labels and insert a new one
+        messagesCollectionView.performBatchUpdates({
+            messagesCollectionView.insertSections([messageList.count - 1])
+            if messageList.count >= 2 {
+                messagesCollectionView.reloadSections([messageList.count - 2])
+            }
+        }, completion: { [weak self] _ in
+            if self?.isLastSectionVisible() == true {
+                self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+            }
+        })
     }
     
     func reloadLastIndexInCollectionView() {
@@ -183,6 +168,13 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         messagesCollectionView.layoutIfNeeded()
         messagesCollectionView.setContentOffset(contentOffset, animated: false)
         messagesCollectionView.scrollToItem(at: lastIndexPath, at: .bottom, animated: false)
+    }
+    
+    @objc func updateMessagesChat() {
+        print("POP")
+        setupNavigationbar()
+        NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
     }
     
     func showDownView() {
@@ -213,9 +205,10 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
         maintainPositionOnKeyboardFrameChanged = true // default false
         showMessageTimestampOnSwipeLeft = true // default false
+        
         messagesCollectionView.refreshControl = refreshControl
     }
-    
+
     func configureMessageInputBar() {
         messageInputBar.delegate = self
         messageInputBar.inputTextView.tintColor = UIColor.FriendzrColors.primary
@@ -478,10 +471,6 @@ extension ConversationVC {
     }
     
     @objc func backToInbox() {
-        //        self.view.addSubview(setupLeftInputButton(tapMessage: false, Recorder: "play"))
-        //        keyboardManager.bind(inputAccessoryView: setupLeftInputButton(tapMessage: false, Recorder: "play"))
-        //        keyboardManager.inputAccessoryView?.isHidden = true
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             Router().toHome()
         })

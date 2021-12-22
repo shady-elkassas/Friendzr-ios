@@ -135,22 +135,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "590876F1-7339-4FD2-AB1A-7589BADFDDD6"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Friendzr/Modules/Profile/Controller/EditMyProfileVC.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "696"
-            endingLineNumber = "696"
-            landmarkName = "initCloseApp()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "7A4A7AEF-D502-46D9-8DAA-C4DB325AD90A"
             shouldBeEnabled = "No"
             ignoreCount = "0"

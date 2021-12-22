@@ -294,7 +294,7 @@ extension ConversationVC: MessageLabelDelegate {
 }
 
 // MARK: - MessageInputBarDelegate
-extension ConversationVC: InputBarAccessoryViewDelegate {
+extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
     
     @objc func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         //        processInputBar(setupLeftInputButton(tapMessage: false, Recorder: "play"))
@@ -347,11 +347,22 @@ extension ConversationVC: InputBarAccessoryViewDelegate {
     }
     
     func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
+        print("PPPPPPPP")
         if text == "" {
             setupLeftInputButton(tapMessage: false, Recorder: "play")
         }else {
             setupLeftInputButton(tapMessage: true, Recorder: "play")
         }
+        
+        NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        print("SSSSSS")
+        setupNavigationbar()
+        NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
     }
     
     func processInputBar(_ inputBar: InputBarAccessoryView) {
@@ -556,6 +567,7 @@ extension ConversationVC {
     }
     
     func setupLeftInputButton(tapMessage:Bool,Recorder:String) {
+        messageInputBar.inputTextView.delegate = self
         messageInputBar.inputTextView.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1)
         messageInputBar.inputTextView.cornerRadiusView(radius: 8)
         
@@ -588,6 +600,9 @@ extension ConversationVC {
         messageInputBar.middleContentViewPadding.left = 8
         messageInputBar.padding.left = 5
         messageInputBar.setStackViewItems([button], forStack: .left, animated: false)
+        
+        NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
     }
     
     func setupDownView(textLbl:String) {
@@ -791,8 +806,7 @@ extension ConversationVC {
             present(settingsActionSheet, animated:true, completion:nil)
         }
     }
-    
-    
+
     func presentVideoInputActionSheet() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsAlert: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
