@@ -124,6 +124,7 @@ class MapVC: UIViewController {
         viewmodel.getAllEventsAroundMe()
         viewmodel.locations.bind { [unowned self] value in
             DispatchQueue.main.async {
+                subView.isHidden = false
                 self.hideLoading()
                 self.collectionView.dataSource = self
                 self.collectionView.delegate = self
@@ -289,8 +290,8 @@ class MapVC: UIViewController {
         
         subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
         subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
-//        subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
-//        subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
+        subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
+        subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
     }
     
     //create marker for location selected

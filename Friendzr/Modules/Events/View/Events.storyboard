@@ -657,7 +657,7 @@
                                                 </constraints>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hvb-Sd-jDI" customClass="GradientView" customModule="Friendzr" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="196.5" width="414" height="197"/>
+                                                <rect key="frame" x="0.0" y="262" width="414" height="131.5"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
                                                         <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -944,7 +944,7 @@
                                             <constraint firstItem="hvb-Sd-jDI" firstAttribute="leading" secondItem="Ebq-RJ-wR1" secondAttribute="leading" id="iwG-s6-XO2"/>
                                             <constraint firstAttribute="bottom" secondItem="754-0g-81S" secondAttribute="bottom" constant="30" id="kRu-mz-PwF"/>
                                             <constraint firstAttribute="trailing" secondItem="CHi-IY-LtZ" secondAttribute="trailing" id="pAK-A1-Kre"/>
-                                            <constraint firstItem="hvb-Sd-jDI" firstAttribute="height" secondItem="i2t-hE-qlt" secondAttribute="height" multiplier="1:2" id="pCm-66-kKg"/>
+                                            <constraint firstItem="hvb-Sd-jDI" firstAttribute="height" secondItem="i2t-hE-qlt" secondAttribute="height" multiplier="1:3" id="pCm-66-kKg"/>
                                             <constraint firstItem="i2t-hE-qlt" firstAttribute="leading" secondItem="Ebq-RJ-wR1" secondAttribute="leading" id="pfJ-3a-HL0"/>
                                             <constraint firstItem="orJ-JF-isd" firstAttribute="top" secondItem="CHi-IY-LtZ" secondAttribute="bottom" constant="10" id="ul2-5E-Pg7"/>
                                             <constraint firstItem="PFS-jv-9BV" firstAttribute="bottom" secondItem="hvb-Sd-jDI" secondAttribute="bottom" constant="-10" id="v1Q-Ls-2ht"/>
