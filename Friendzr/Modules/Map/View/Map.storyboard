@@ -147,13 +147,6 @@
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow-up_ic" translatesAutoresizingMaskIntoConstraints="NO" id="lmS-uX-lvD">
-                                        <rect key="frame" x="358" y="5" width="40" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="C2O-Dm-D3H"/>
-                                            <constraint firstAttribute="width" constant="40" id="Wvb-QX-GfL"/>
-                                        </constraints>
-                                    </imageView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9VD-SG-N5s">
                                         <rect key="frame" x="0.0" y="40" width="414" height="0.0"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -172,17 +165,6 @@
                                             <outlet property="delegate" destination="Y6W-OH-hqX" id="5iG-TA-VgX"/>
                                         </connections>
                                     </collectionView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YhO-0l-2jR">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="lfc-fB-1s9"/>
-                                        </constraints>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title=" "/>
-                                        <connections>
-                                            <action selector="upDownViewBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="I5f-HH-gIf"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -190,13 +172,9 @@
                                     <constraint firstItem="AH0-fq-45a" firstAttribute="top" secondItem="wUG-6d-BKB" secondAttribute="top" constant="8" id="Cs3-Zs-zPt"/>
                                     <constraint firstItem="9VD-SG-N5s" firstAttribute="leading" secondItem="wUG-6d-BKB" secondAttribute="leading" id="QLX-Lq-6Mh"/>
                                     <constraint firstAttribute="bottom" secondItem="9VD-SG-N5s" secondAttribute="bottom" id="SSk-PQ-XsO"/>
-                                    <constraint firstItem="lmS-uX-lvD" firstAttribute="centerY" secondItem="YhO-0l-2jR" secondAttribute="centerY" id="cnN-Kh-y5j"/>
                                     <constraint firstItem="rkR-nL-HY2" firstAttribute="top" secondItem="AH0-fq-45a" secondAttribute="bottom" constant="3" id="fKr-FL-SDX"/>
                                     <constraint firstAttribute="trailing" secondItem="9VD-SG-N5s" secondAttribute="trailing" id="kZk-Cm-e2Q"/>
                                     <constraint firstItem="rkR-nL-HY2" firstAttribute="centerX" secondItem="AH0-fq-45a" secondAttribute="centerX" id="nd0-yg-bWP"/>
-                                    <constraint firstAttribute="trailing" secondItem="YhO-0l-2jR" secondAttribute="trailing" id="qfJ-DS-3Wd"/>
-                                    <constraint firstItem="YhO-0l-2jR" firstAttribute="leading" secondItem="wUG-6d-BKB" secondAttribute="leading" id="s0X-xk-1KT"/>
-                                    <constraint firstItem="YhO-0l-2jR" firstAttribute="top" secondItem="wUG-6d-BKB" secondAttribute="top" id="tZH-wp-t14"/>
                                     <constraint firstAttribute="height" constant="40" id="vsw-T0-lGF"/>
                                     <constraint firstItem="AH0-fq-45a" firstAttribute="centerX" secondItem="wUG-6d-BKB" secondAttribute="centerX" id="z2W-KM-1AM"/>
                                 </constraints>
@@ -264,7 +242,6 @@
                             <constraint firstItem="FgW-BM-DOW" firstAttribute="centerX" secondItem="OIM-6b-ASS" secondAttribute="centerX" id="TuE-0l-dac"/>
                             <constraint firstItem="FgW-BM-DOW" firstAttribute="centerY" secondItem="OIM-6b-ASS" secondAttribute="centerY" id="Wbr-dh-Fg5"/>
                             <constraint firstItem="FgW-BM-DOW" firstAttribute="height" secondItem="OIM-6b-ASS" secondAttribute="height" id="WkU-eC-KSy"/>
-                            <constraint firstItem="lmS-uX-lvD" firstAttribute="centerX" secondItem="OIM-6b-ASS" secondAttribute="centerX" id="Wxn-wH-Ysw"/>
                             <constraint firstItem="Erl-g5-LHz" firstAttribute="width" secondItem="OIM-6b-ASS" secondAttribute="width" id="bea-3E-CWZ"/>
                             <constraint firstItem="wUG-6d-BKB" firstAttribute="top" secondItem="Kad-lD-qUK" secondAttribute="bottom" constant="10" id="bvI-Lu-HYO"/>
                             <constraint firstItem="F46-IT-SF3" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="eW6-7s-Gnp"/>
@@ -288,7 +265,6 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="addEventBtn" destination="OIM-6b-ASS" id="Guv-RQ-oEY"/>
-                        <outlet property="arrowUpDownImg" destination="lmS-uX-lvD" id="7d6-VE-Jbi"/>
                         <outlet property="collectionView" destination="9VD-SG-N5s" id="9c0-C6-zz4"/>
                         <outlet property="collectionViewHeight" destination="b2d-8e-jzV" id="GB0-T5-4GF"/>
                         <outlet property="currentLocationBtn" destination="Erl-g5-LHz" id="kVF-Lh-oW4"/>
@@ -463,7 +439,6 @@
     </scenes>
     <resources>
         <image name="addEvent_ic" width="256" height="256"/>
-        <image name="arrow-up_ic" width="256" height="256"/>
         <image name="current_location_ic" width="256" height="256"/>
         <image name="ic_map_marker" width="48" height="48"/>
         <image name="map_selected_ic" width="27" height="27"/>

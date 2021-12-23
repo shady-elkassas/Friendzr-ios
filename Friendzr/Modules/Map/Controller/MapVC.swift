@@ -64,7 +64,7 @@ class MapVC: UIViewController {
     @IBOutlet weak var currentLocationBtn: UIButton!
     @IBOutlet weak var markerImg: UIImageView!
     
-    @IBOutlet weak var arrowUpDownImg: UIImageView!
+//    @IBOutlet weak var arrowUpDownImg: UIImageView!
     
     //MARK: - Properties
     var locations:[EventsLocation] = [EventsLocation]()
@@ -128,8 +128,6 @@ class MapVC: UIViewController {
                 self.collectionView.dataSource = self
                 self.collectionView.delegate = self
                 self.collectionView.reloadData()
-                
-                self.customSubViewHeight()
                 self.setupMarkers()
             }
         }
@@ -214,19 +212,7 @@ class MapVC: UIViewController {
         self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
     }
     
-    func customSubViewHeight() {
-        if isViewUp == true {
-            collectionViewHeight.constant = 140
-            subViewHeight.constant = 190
-            subView.isHidden = false
-            arrowUpDownImg.image = UIImage(named: "arrow-down_ic")
-        }else {
-            collectionViewHeight.constant = 0
-            subViewHeight.constant = 50
-            subView.isHidden = false
-            arrowUpDownImg.image = UIImage(named: "arrow-up_ic")
-        }
-    }
+   
     
     // locations markers
     func setupMarkers() {
@@ -300,6 +286,11 @@ class MapVC: UIViewController {
         subView.setCornerforTop()
         
         zoomingStatisticsView.cornerRadiusView(radius: 6)
+        
+        subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
+        subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
+//        subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
+//        subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
     }
     
     //create marker for location selected
@@ -449,11 +440,11 @@ class MapVC: UIViewController {
 //        addBottomSheetView()
     }
     
-    @IBAction func upDownViewBtn(_ sender: Any) {
-        isViewUp = !isViewUp
-        customSubViewHeight()
-    }
-    
+//    @IBAction func upDownViewBtn(_ sender: Any) {
+//        isViewUp = !isViewUp
+//        customSubViewHeight()
+//    }
+
     @IBAction func convertMapStyleBtn(_ sender: Any) {
         MapAppType.type = !MapAppType.type
         if MapAppType.type {
@@ -919,4 +910,46 @@ extension MapVC {
         let width  = view.frame.width
         bottomSheetVC.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
     }
+    
+    // MARK: - Actions
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        // Current Frame
+        let frame = subView.frame
+        
+        switch sender.direction {
+        case .up:
+            print("Up")
+            collectionViewHeight.constant = 140
+            subViewHeight.constant = 190
+            subView.isHidden = false
+        case .down:
+            print("Down")
+            collectionViewHeight.constant = 0
+            subViewHeight.constant = 50
+            subView.isHidden = false
+        case .left: break
+        case .right: break
+        default:
+            break
+        }
+        
+        UIView.animate(withDuration: 0.25) {
+            self.subView.frame = frame
+        }
+        
+        print("x:\(frame.origin.x),y:\(frame.origin.y)")
+    }
+    
+    // MARK: - Helper Methods
+
+    private func createSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
+        // Initialize Swipe Gesture Recognizer
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        
+        // Configure Swipe Gesture Recognizer
+        swipeGestureRecognizer.direction = direction
+        
+        return swipeGestureRecognizer
+    }
 }
+

@@ -463,6 +463,8 @@ extension ConversationVC: MessagesDisplayDelegate {
         } else {
             imageView.image = self.sendingImageView
         }
+        
+        imageView.setBorder()
     }
     
     // MARK: - Location Messages
