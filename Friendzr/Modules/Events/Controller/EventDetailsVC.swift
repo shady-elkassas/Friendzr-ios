@@ -125,20 +125,7 @@ class EventDetailsVC: UIViewController {
         
         collectionView.register(UINib(nibName: interestCellID, bundle: nil), forCellWithReuseIdentifier: interestCellID)
         collectionView.register(UINib(nibName: genderCellID, bundle: nil), forCellWithReuseIdentifier: genderCellID)
-     
-//        setGradientBackground(viewz: gradientView)
     }
-    
-//    func setGradientBackground(viewz:UIView) {
-//        let colorTop =  UIColor.white.cgColor
-//        let colorBottom = UIColor.black.cgColor
-//        let gradientLayer = CAGradientLayer()
-//        gradientLayer.colors = [colorTop, colorBottom]
-//        gradientLayer.locations = [0.0, 1.0]
-//        gradientLayer.frame.size = viewz.bounds.size
-//
-//        viewz.layer.insertSublayer(gradientLayer, at:0)
-//    }
     
     func showNewtworkConnected() {
         appDelegate.networkReachability()

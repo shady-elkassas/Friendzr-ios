@@ -32,15 +32,20 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="p6U-Ed-4ym">
                                 <rect key="frame" x="0.0" y="0.0" width="330" height="193"/>
                             </imageView>
-                            <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q9y-9f-959">
-                                <rect key="frame" x="0.0" y="133" width="330" height="60"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="yMc-QW-xX0"/>
-                                </constraints>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q9y-9f-959" customClass="GradientView" customModule="Friendzr" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="64.5" width="330" height="128.5"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
+                                        <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="secondColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="vertical" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="1Iy-dx-cQb">
-                                <rect key="frame" x="20" y="146.5" width="99.5" height="33"/>
+                                <rect key="frame" x="20" y="150" width="99.5" height="33"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Soccer Match" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o8l-NP-JFX">
                                         <rect key="frame" x="0.0" y="0.0" width="99.5" height="17.5"/>
@@ -57,7 +62,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="xTA-gR-aaQ">
-                                <rect key="frame" x="199.5" y="148.5" width="110.5" height="29"/>
+                                <rect key="frame" x="199.5" y="152" width="110.5" height="29"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aug 23,2021 2:30 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aCf-Qy-pcA">
                                         <rect key="frame" x="0.0" y="0.0" width="110.5" height="13.5"/>
@@ -78,15 +83,16 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="q9y-9f-959" secondAttribute="trailing" id="0Rz-44-QxI"/>
                             <constraint firstItem="p6U-Ed-4ym" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" id="8T1-v0-k1b"/>
-                            <constraint firstItem="xTA-gR-aaQ" firstAttribute="centerY" secondItem="q9y-9f-959" secondAttribute="centerY" id="IJC-Vu-nKW"/>
                             <constraint firstItem="q9y-9f-959" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" id="Ktp-Ub-oO8"/>
                             <constraint firstAttribute="trailing" secondItem="xTA-gR-aaQ" secondAttribute="trailing" constant="20" id="cMK-yI-gJY"/>
                             <constraint firstItem="p6U-Ed-4ym" firstAttribute="top" secondItem="49f-aS-wFT" secondAttribute="top" id="hGB-dk-yDh"/>
+                            <constraint firstItem="q9y-9f-959" firstAttribute="height" secondItem="p6U-Ed-4ym" secondAttribute="height" multiplier="1:1.5" id="kK7-B2-mhU"/>
+                            <constraint firstItem="1Iy-dx-cQb" firstAttribute="bottom" secondItem="q9y-9f-959" secondAttribute="bottom" constant="-10" id="lUC-sh-OPC"/>
                             <constraint firstAttribute="trailing" secondItem="p6U-Ed-4ym" secondAttribute="trailing" id="pV6-ss-eCn"/>
                             <constraint firstAttribute="bottom" secondItem="q9y-9f-959" secondAttribute="bottom" id="qRp-se-JUg"/>
                             <constraint firstAttribute="bottom" secondItem="p6U-Ed-4ym" secondAttribute="bottom" id="tzP-DQ-X0R"/>
-                            <constraint firstItem="1Iy-dx-cQb" firstAttribute="centerY" secondItem="q9y-9f-959" secondAttribute="centerY" id="v2C-rb-zfR"/>
                             <constraint firstItem="1Iy-dx-cQb" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" constant="20" id="y1j-KA-GKp"/>
+                            <constraint firstItem="xTA-gR-aaQ" firstAttribute="centerY" secondItem="1Iy-dx-cQb" secondAttribute="centerY" id="y5V-62-K3i"/>
                         </constraints>
                     </view>
                 </subviews>

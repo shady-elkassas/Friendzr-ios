@@ -44,7 +44,7 @@ class MyProfileVC: UIViewController {
             self.updateUserInterface()
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         initBackButton()
         clearNavigationBar()

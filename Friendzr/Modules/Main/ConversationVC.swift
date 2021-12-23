@@ -181,7 +181,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         if isEvent {
             if leavevent == 0 {
                 messageInputBar.isHidden = false
-//                messageInputBar.inputTextView.becomeFirstResponder()
             }else if leavevent == 1 {
                 setupDownView(textLbl: "You have left this event")
             }else {
@@ -190,7 +189,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         }else {
             if isFriend == true {
                 messageInputBar.isHidden = false
-//                messageInputBar.inputTextView.becomeFirstResponder()
             }else {
                 setupDownView(textLbl: "You are now not a friend of this user and will not be able to message him")
             }
