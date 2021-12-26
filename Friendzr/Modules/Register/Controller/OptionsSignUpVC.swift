@@ -40,7 +40,7 @@ class OptionsSignUpVC: UIViewController {
     var UserG_userName = ""
     var socialMediaImge = ""
 
-    var socailMediaRegisterVM:SocialMediaRegisterViewModel = SocialMediaRegisterViewModel()
+//    var socailMediaRegisterVM:SocialMediaRegisterViewModel = SocialMediaRegisterViewModel()
     let socialMediaLoginVM: SocialMediaLoginViewModel = SocialMediaLoginViewModel()
 
     var internetConect:Bool = false
@@ -169,12 +169,12 @@ class OptionsSignUpVC: UIViewController {
                         self.userG_mailAccessToken = user.authentication.idToken ?? ""
                         self.UserG_userName = self.UserG_mailFirstName + " " + self.UserG_mailLastName
                         //            user.profile = user.profile.hasImage
-    //                    let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
+                        //                    let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
                         
                         print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
                         
                         self.showLoading()
-                        self.socailMediaRegisterVM.socialMediaRegisterUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, socialUser: "\(2)") { (error, data) in
+                        self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, completion: { (error, data) in
                             self.hideLoading()
                             if let error = error {
                                 self.showAlert(withMessage: error)
@@ -192,9 +192,8 @@ class OptionsSignUpVC: UIViewController {
                                     Router().toFeed()
                                 }
                             }
-                        }
+                        })
                     }
-                    
                 }
             }
         }else{
@@ -276,7 +275,7 @@ extension OptionsSignUpVC {
                     print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
                     
                     self.showLoading()
-                    self.socailMediaRegisterVM.socialMediaRegisterUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName, socialUser: "\(1)") { (error, data) in
+                    self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail, username: self.UserFBUserName, completion: { (error, data) in
                         self.hideLoading()
                         if let error = error {
                             self.showAlert(withMessage: error)
@@ -293,7 +292,7 @@ extension OptionsSignUpVC {
                                 Router().toFeed()
                             }
                         }
-                    }
+                    })
                 }
             }
         }

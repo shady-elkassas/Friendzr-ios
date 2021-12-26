@@ -129,6 +129,15 @@ class MapVC: UIViewController {
                 self.collectionView.dataSource = self
                 self.collectionView.delegate = self
                 self.collectionView.reloadData()
+                
+                if isViewUp == true {
+                    collectionViewHeight.constant = 140
+                    subViewHeight.constant = 190
+                }else {
+                    collectionViewHeight.constant = 0
+                    subViewHeight.constant = 50
+                }
+                
                 self.setupMarkers()
             }
         }
@@ -923,11 +932,13 @@ extension MapVC {
             collectionViewHeight.constant = 140
             subViewHeight.constant = 190
             subView.isHidden = false
+            isViewUp = true
         case .down:
             print("Down")
             collectionViewHeight.constant = 0
             subViewHeight.constant = 50
             subView.isHidden = false
+            isViewUp = false
         case .left: break
         case .right: break
         default:

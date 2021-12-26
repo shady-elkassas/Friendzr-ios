@@ -102,10 +102,10 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         initBackChatButton()
         showDownView()
         setupMessages()
-
+        
         configureMessageInputBar()
         setupLeftInputButton(tapMessage: false, Recorder: "play")
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessages), name: Notification.Name("listenToMessages"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessagesForEvent), name: Notification.Name("listenToMessagesForEvent"), object: nil)
@@ -123,7 +123,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         audioController.stopAnyOngoingPlaying()
@@ -146,9 +146,9 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         messageList.append(message)
         setupNavigationbar()
         
-//        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
+        //        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
         
-//         Reload last section to update header/footer labels and insert a new one
+        //         Reload last section to update header/footer labels and insert a new one
         messagesCollectionView.performBatchUpdates({
             messagesCollectionView.insertSections([messageList.count - 1])
             if messageList.count >= 2 {
@@ -206,7 +206,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         
         messagesCollectionView.refreshControl = refreshControl
     }
-
+    
     func configureMessageInputBar() {
         messageInputBar.delegate = self
         messageInputBar.inputTextView.tintColor = UIColor.FriendzrColors.primary
@@ -327,14 +327,14 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                         messagesCollectionView.reloadData()
                     }else {
                         reloadLastIndexInCollectionView()
-
+                        
                     }
                 }else {
                     self.messagesCollectionView.reloadDataAndKeepOffset()
                 }
-
+                
                 self.refreshControl.endRefreshing()
-
+                
                 updateTitleView(image: titleChatImage, subtitle: titleChatName)
             }
         }

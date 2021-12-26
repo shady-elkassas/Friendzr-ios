@@ -1064,12 +1064,12 @@ extension ConversationVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
 
 extension ConversationVC: MessagesLayoutDelegate {
     
-    func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        if isTimeLabelVisible(at: indexPath) {
-            return 18
-        }
-        return 0
-    }
+//    func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+//        if isTimeLabelVisible(at: indexPath) {
+//            return 18
+//        }
+//        return 0
+//    }
     
     func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         if isFromCurrentSender(message: message) {
@@ -1085,9 +1085,9 @@ extension ConversationVC: MessagesLayoutDelegate {
     
     
     // MARK: - Helpers
-    func isTimeLabelVisible(at indexPath: IndexPath) -> Bool {
-        return indexPath.section % 3 == 0 && !isPreviousMessageSameSender(at: indexPath)
-    }
+//    func isTimeLabelVisible(at indexPath: IndexPath) -> Bool {
+//        return indexPath.section % 3 == 0 && !isPreviousMessageSameSender(at: indexPath)
+//    }
     
     func isPreviousMessageSameSender(at indexPath: IndexPath) -> Bool {
         guard indexPath.section - 1 >= 0 else { return false }

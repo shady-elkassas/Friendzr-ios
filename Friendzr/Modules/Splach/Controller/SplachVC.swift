@@ -22,7 +22,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     var locationManager: CLLocationManager!
     var locationLat = 0.0
     var locationLng = 0.0
-    
+    var x = 0
     
     private lazy var imageView: UIImageView = {
         let image = UIImageView()

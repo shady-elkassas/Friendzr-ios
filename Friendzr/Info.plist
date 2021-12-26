@@ -49,8 +49,10 @@
 	<true/>
 	<key>FacebookDisplayName</key>
 	<string>Friendzr</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
-	<true/>
+	<false/>
 	<key>FirebaseMessagingAutoInitEnabled</key>
 	<true/>
 	<key>GADApplicationIdentifier</key>
