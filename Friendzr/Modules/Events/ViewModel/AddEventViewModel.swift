@@ -78,7 +78,7 @@ class AddEventViewModel {
             
             let session = URLSession.shared
             
-            session.dataTask(with: request) { (data, response, error) in
+            let task = session.dataTask(with: request, completionHandler: {(data, response, error) in
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
@@ -108,7 +108,12 @@ class AddEventViewModel {
                         print(error)
                     }
                 }
-            }.resume()
+            })
+            if CancelRequest.currentTask == true {
+                task.cancel()
+            }else {
+                task.resume()
+            }
         }else {
             guard let urlRequest = URL(string: url) else { return }
             var request = URLRequest(url: urlRequest)
@@ -122,7 +127,7 @@ class AddEventViewModel {
             
             let session = URLSession.shared
             
-            session.dataTask(with: request) { (data, response, error) in
+            let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
@@ -153,7 +158,12 @@ class AddEventViewModel {
                         print(error)
                     }
                 }
-            }.resume()
+            })
+            if CancelRequest.currentTask == true {
+                task.cancel()
+            }else {
+                task.resume()
+            }
         }
         
     }
@@ -226,9 +236,8 @@ struct MediaFile {
         self.key = key
         self.mimeType = "application/pdf"
         self.filename = "url.pdf"
-        //        guard let data = image.jpegData(compressionQuality: 0.7) else { return nil }
-        //        self.data = data
-        
+//        filename = ".doc"
+//        mimeType = "application/msword"
         let pdfData = try! Data(contentsOf: url.asURL())
         self.data = pdfData
     }

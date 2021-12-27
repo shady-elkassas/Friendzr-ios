@@ -9,6 +9,11 @@ import Foundation
 import UIKit
 import Alamofire
 
+//Singleton
+class CancelRequest {
+    static var currentTask: Bool = false
+}
+
 class RequestManager  {
     func request(fromUrl url: String, byMethod method: String? = nil, withParameters parameters: [String:Any]?
                  , andHeaders headers: HTTPHeaders?, completion: @escaping (_ response:[String:Any]?, _ error: String?) -> ()) {
@@ -128,11 +133,15 @@ class RequestManager  {
                     } catch {
                         print(error)
                     }
-                    //                    }
                 }
             }
         })
-        task.resume()
+        
+        if CancelRequest.currentTask == true {
+            task.cancel()
+        }else {
+            task.resume()
+        }
     }
 }
 

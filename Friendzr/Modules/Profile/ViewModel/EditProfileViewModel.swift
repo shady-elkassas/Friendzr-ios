@@ -71,7 +71,7 @@ class EditProfileViewModel {
             print(dataBody as Data)
             let session = URLSession.shared
             
-            session.dataTask(with: request) { (data, response, error) in
+            let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
@@ -104,7 +104,12 @@ class EditProfileViewModel {
                         print(error)
                     }
                 }
-            }.resume()
+            })
+            if CancelRequest.currentTask == true {
+                task.cancel()
+            }else {
+                task.resume()
+            }
         }else {
 //            guard let mediaImage = Media(withImage: UIImage(), forKey: "UserImags") else { return }
             guard let urlRequest = URL(string: url) else { return }
@@ -120,7 +125,7 @@ class EditProfileViewModel {
             print(dataBody as Data)
             let session = URLSession.shared
             
-            session.dataTask(with: request) { (data, response, error) in
+            let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
@@ -153,7 +158,12 @@ class EditProfileViewModel {
                         print(error)
                     }
                 }
-            }.resume()
+            })
+            if CancelRequest.currentTask == true {
+                task.cancel()
+            }else {
+                task.resume()
+            }
         }
     }
     

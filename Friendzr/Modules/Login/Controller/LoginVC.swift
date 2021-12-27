@@ -64,11 +64,12 @@ class LoginVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         hideNavigationBar(NavigationBar: false, BackButton: false)
+        CancelRequest.currentTask = false
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        performExistingAccountSetupFlows()
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     //MARK: - Actions

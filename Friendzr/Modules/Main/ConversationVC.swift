@@ -134,6 +134,11 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         setupNavigationbar()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
+    }
+    
     @objc func listenToMessages() {
         getUserChatMessages(pageNumber: 1)
     }
@@ -275,7 +280,8 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     }
     
     func getUserChatMessages(pageNumber:Int) {
-        
+        CancelRequest.currentTask = false
+
         if pageNumber > viewmodel.messages.value?.totalPages ?? 1 {
             return
         }
@@ -355,6 +361,8 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     }
     
     func getEventChatMessages(pageNumber:Int) {
+        CancelRequest.currentTask = false
+
         self.showLoading()
         viewmodel.getChatMessages(ByEventId: eventChatID, pageNumber: pageNumber)
         viewmodel.eventmessages.bind { [unowned self] value in

@@ -139,6 +139,7 @@ class Router {
             
             vc.titleChatImage = titleChatImage
             vc.titleChatName = titleChatName
+            CancelRequest.currentTask = false
             go(withVC: controller)
         }
     }

@@ -66,7 +66,14 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     
     override func viewWillAppear(_ animated: Bool) {
         Defaults.isFirstLaunch = true
+        CancelRequest.currentTask = false
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
+    }
+    
     
     func getProfileInformation() {
         self.showLoading()

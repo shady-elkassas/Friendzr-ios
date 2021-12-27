@@ -47,12 +47,19 @@ class BlockedListVC: UIViewController {
         pullToRefresh()
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         alertView?.addGestureRecognizer(tap)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
+        
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     //MARK:- APIs

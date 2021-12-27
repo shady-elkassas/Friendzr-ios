@@ -49,6 +49,12 @@ class MyProfileVC: UIViewController {
         initBackButton()
         clearNavigationBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     //MARK: - API

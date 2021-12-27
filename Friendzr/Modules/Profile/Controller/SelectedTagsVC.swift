@@ -35,6 +35,15 @@ class SelectedTagsVC: UIViewController {
         getAllTags()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
+    }
+    
     func setupView() {
         saveBtn.cornerRadiusView(radius: 8)
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)

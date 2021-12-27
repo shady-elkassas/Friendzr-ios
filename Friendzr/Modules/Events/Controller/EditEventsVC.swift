@@ -43,7 +43,7 @@ class EditEventsVC: UIViewController {
     
     let attendeesCellID = "AttendeesTableViewCell"
     let footerCellID = "SeeMoreTableViewCell"
-
+    
     var dayname = ""
     var monthname = ""
     var nday = ""
@@ -82,6 +82,12 @@ class EditEventsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     //MARK: - Helper
@@ -147,7 +153,7 @@ class EditEventsVC: UIViewController {
                 self.deleteEventVM.deleteEvent(ByEventid: self.eventModel?.id ?? "") { error, data in
                     self.hideLoading()
                     if let error = error {
-//                        self.showAlert(withMessage: error)
+                        //                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
@@ -236,7 +242,7 @@ class EditEventsVC: UIViewController {
                 
                 self.hideLoading()
                 if let error = error {
-//                    self.showAlert(withMessage: error)
+                    //                    self.showAlert(withMessage: error)
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
@@ -244,7 +250,7 @@ class EditEventsVC: UIViewController {
                 }
                 
                 guard let _ = data else {return}
-//                self.showAlert(withMessage: "Edit Save successfully")
+                //                self.showAlert(withMessage: "Edit Save successfully")
                 DispatchQueue.main.async {
                     self.view.makeToast("Edit Save successfully")
                 }
@@ -286,7 +292,7 @@ class EditEventsVC: UIViewController {
             present(settingsActionSheet, animated:true, completion:nil)
         }
     }
-
+    
     @IBAction func switchBtn(_ sender: UISwitch) {
         
         if switchAllDays.isOn == false {

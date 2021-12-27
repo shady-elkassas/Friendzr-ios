@@ -48,6 +48,13 @@ class RequestVC: UIViewController {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     //MARK:- APIs

@@ -8,22 +8,22 @@
 import UIKit
 
 class ForgetPasswordVC: UIViewController {
-
+    
     //MARK:- Outlets
     @IBOutlet weak var emailView: UIView!
     @IBOutlet weak var emailTxt: UITextField!
     @IBOutlet weak var resetBtnView: UIView!
     @IBOutlet weak var resetBtn: UIButton!
-
+    
     //MARK: - Properties
     var viewmodel:ForgetPasswordViewModel = ForgetPasswordViewModel()
     
     var internetConect:Bool = false
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         initBackButton()
         setup()
         clearNavigationBar()
@@ -33,6 +33,12 @@ class ForgetPasswordVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         hideNavigationBar(NavigationBar: false, BackButton: false)
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     //MARK: - Actions
@@ -43,14 +49,14 @@ class ForgetPasswordVC: UIViewController {
             viewmodel.ResetPassword(withEmail: emailTxt.text!) { error, data in
                 self.hideLoading()
                 if let error = error {
-//                    self.showAlert(withMessage: error)
+                    //                    self.showAlert(withMessage: error)
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
                     return
                 }
                 guard let _ = data else {return}
-//                self.showAlert(withMessage: "Please check your email")
+                //                self.showAlert(withMessage: "Please check your email")
                 
                 DispatchQueue.main.async {
                     self.view.makeToast("Please check your email")
@@ -103,5 +109,5 @@ class ForgetPasswordVC: UIViewController {
     func HandleInternetConnection() {
         self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
     }
-
+    
 }

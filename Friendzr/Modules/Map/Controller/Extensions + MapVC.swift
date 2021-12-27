@@ -41,7 +41,6 @@ extension MapVC {
                     
                     
                     print(finalTime,miles)
-                    
                 }
                 catch let error as NSError {
                     print("error >> \(error)")

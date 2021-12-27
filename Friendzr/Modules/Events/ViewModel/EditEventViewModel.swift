@@ -72,7 +72,7 @@ class EditEventViewModel {
             
             let session = URLSession.shared
             
-            session.dataTask(with: request) { (data, response, error) in
+            let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
@@ -102,7 +102,13 @@ class EditEventViewModel {
                         print(error)
                     }
                 }
-            }.resume()
+            })
+            if CancelRequest.currentTask == true {
+                task.cancel()
+            }else {
+                task.resume()
+            }
+            
         }else {
             guard let urlRequest = URL(string: url) else { return }
             var request = URLRequest(url: urlRequest)
@@ -116,7 +122,7 @@ class EditEventViewModel {
             
             let session = URLSession.shared
             
-            session.dataTask(with: request) { (data, response, error) in
+          let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
@@ -146,7 +152,12 @@ class EditEventViewModel {
                         print(error)
                     }
                 }
-            }.resume()
+            })
+            if CancelRequest.currentTask == true {
+                task.cancel()
+            }else {
+                task.resume()
+            }
         }
     }
     

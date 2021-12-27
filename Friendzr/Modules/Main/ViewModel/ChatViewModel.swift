@@ -93,7 +93,7 @@ class ChatViewModel {
                 print(dataBody as Data)
                 let session = URLSession.shared
                 
-                session.dataTask(with: request) { (data, response, error) in
+                let task = session.dataTask(with: request, completionHandler: {(data, response, error) in
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
@@ -125,10 +125,15 @@ class ChatViewModel {
                             print(error)
                         }
                     }
-                }.resume()
-
+                })
+                if CancelRequest.currentTask == true {
+                    task.cancel()
+                }else {
+                    task.resume()
+                }
                 
-            }else if messagetype == 3 {
+            }
+            else if messagetype == 3 {
                 guard let mediaImage = MediaFile(url: fileUrl, forKey: "Attach") else { return }
                 guard let urlRequest = URL(string: url) else { return }
                 var request = URLRequest(url: urlRequest)
@@ -143,7 +148,7 @@ class ChatViewModel {
                 print(dataBody as Data)
                 let session = URLSession.shared
                 
-                session.dataTask(with: request) { (data, response, error) in
+                let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
@@ -175,10 +180,15 @@ class ChatViewModel {
                             print(error)
                         }
                     }
-                }.resume()
-
+                })
+                if CancelRequest.currentTask == true {
+                    task.cancel()
+                }else {
+                    task.resume()
+                }
             }
-        }else {
+        }
+        else {
             guard let urlRequest = URL(string: url) else { return }
             var request = URLRequest(url: urlRequest)
             request.httpMethod = "POST"
@@ -192,11 +202,11 @@ class ChatViewModel {
             print(dataBody as Data)
             let session = URLSession.shared
             
-            session.dataTask(with: request) { (data, response, error) in
+            let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
-//                print(httpResponse!)
+                //                print(httpResponse!)
                 print("statusCode: \(code!)")
                 print("**MD** response: \(String(describing: response))")
                 
@@ -224,7 +234,12 @@ class ChatViewModel {
                         print(error)
                     }
                 }
-            }.resume()
+            })
+            if CancelRequest.currentTask == true {
+                task.cancel()
+            }else {
+                task.resume()
+            }
         }
     }
     
@@ -253,7 +268,7 @@ class ChatViewModel {
                 print(dataBody as Data)
                 let session = URLSession.shared
                 
-                session.dataTask(with: request) { (data, response, error) in
+                let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
@@ -285,8 +300,13 @@ class ChatViewModel {
                             print(error)
                         }
                     }
-                }.resume()
-
+                })
+                if CancelRequest.currentTask == true {
+                    task.cancel()
+                }else {
+                    task.resume()
+                }
+                
             }else if messagetype == 3 {
                 guard let mediaFile = MediaFile(url: fileUrl, forKey: "Attach") else { return }
                 guard let urlRequest = URL(string: url) else { return }
@@ -302,7 +322,7 @@ class ChatViewModel {
                 print(dataBody as Data)
                 let session = URLSession.shared
                 
-                session.dataTask(with: request) { (data, response, error) in
+                let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
@@ -334,7 +354,12 @@ class ChatViewModel {
                             print(error)
                         }
                     }
-                }.resume()
+                })
+                if CancelRequest.currentTask == true {
+                    task.cancel()
+                }else {
+                    task.resume()
+                }
 
             }
         }else {
@@ -351,7 +376,7 @@ class ChatViewModel {
             print(dataBody as Data)
             let session = URLSession.shared
             
-            session.dataTask(with: request) { (data, response, error) in
+            let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
@@ -383,7 +408,13 @@ class ChatViewModel {
                         print(error)
                     }
                 }
-            }.resume()
+            })
+            if CancelRequest.currentTask == true {
+                task.cancel()
+            }else {
+                task.resume()
+            }
+            
         }
     }
     
@@ -458,7 +489,6 @@ class ChatViewModel {
             }
         }
     }
-    
     
     //MARK:- mute chat
     func muteChat(ByID id:String,isevent:Bool,mute:Bool, completion: @escaping (_ error: String?, _ data: String?) -> ()) {

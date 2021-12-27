@@ -60,6 +60,12 @@ class FriendProfileVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         initBackButton()
         clearNavigationBar()
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     //MARK:- APIs

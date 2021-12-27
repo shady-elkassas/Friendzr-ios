@@ -81,6 +81,13 @@ class SettingsVC: UIViewController {
         initBackButton()
         
         setupCLLocationManager()
+
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     //MARK:- APIs

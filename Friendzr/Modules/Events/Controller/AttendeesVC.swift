@@ -56,6 +56,15 @@ class AttendeesVC: UIViewController {
         tryAgainBtn.cornerRadiusView(radius: 8)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
+    }
+    
     func setupSearchBar() {
         searchBar.delegate = self
         searchContainerView.cornerRadiusView(radius: 6)
@@ -117,7 +126,7 @@ class AttendeesVC: UIViewController {
             self.viewmodel.editAttendees(ByUserAttendId: UserattendId, AndEventid: eventID, AndStutus: Stutus,Actiontime: Actiontime ,ActionDate: ActionDate) { [self] error, data in
                 self.hideLoading()
                 if let error = error {
-//                    self.showAlert(withMessage: error)
+                    //                    self.showAlert(withMessage: error)
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
@@ -126,7 +135,7 @@ class AttendeesVC: UIViewController {
                 }
                 
                 guard let _ = data else {return}
-//                self.showAlert(withMessage: "Successfully \(messageString)")
+                //                self.showAlert(withMessage: "Successfully \(messageString)")
                 
                 DispatchQueue.main.async {
                     self.view.makeToast("Successfully \(messageString)" )

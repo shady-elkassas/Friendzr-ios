@@ -48,6 +48,12 @@ class EventsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     func loadMoreItemsForList(){

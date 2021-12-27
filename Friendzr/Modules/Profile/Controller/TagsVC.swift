@@ -57,6 +57,15 @@ class TagsVC: UIViewController {
 //        self.view.backgroundColor = UIColor.setColor(lightColor: .white, darkColor: .black)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
+    }
+    
     func addTags(node:InterestObj)  {
         let name = node.name
         let color = UIColor.colors.randomItem()

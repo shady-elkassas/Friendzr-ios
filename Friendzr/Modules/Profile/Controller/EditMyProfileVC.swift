@@ -92,6 +92,13 @@ class EditMyProfileVC: UIViewController {
             initBackButton()
         }
         clearNavigationBar()
+
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     //MARK: - Helpers
@@ -149,6 +156,9 @@ class EditMyProfileVC: UIViewController {
         tagsView.cornerRadiusView(radius: 8)
         aboutMeView.cornerRadiusView(radius: 8)
         logoutBtn.cornerRadiusView(radius: 8)
+        
+        logoutBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+        
         profileImg.cornerRadiusForHeight()
         bioTxtView.delegate = self
         tagsListView.delegate = self

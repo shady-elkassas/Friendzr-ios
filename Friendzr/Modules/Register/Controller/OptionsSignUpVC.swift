@@ -57,6 +57,12 @@ class OptionsSignUpVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         hideNavigationBar(NavigationBar: true, BackButton: true)
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     override func viewDidAppear(_ animated: Bool) {

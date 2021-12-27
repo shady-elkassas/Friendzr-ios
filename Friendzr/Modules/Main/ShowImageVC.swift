@@ -23,6 +23,15 @@ class ShowImageVC: UIViewController {
         imgView.sd_setImage(with: URL(string: imgURL ?? "") , placeholderImage: UIImage(named: "placeholder"))
     }
     
+//    override func viewWillAppear(_ animated: Bool) {
+//        CancelRequest.currentTask = false
+//    }
+//
+//    override func viewWillDisappear(_ animated: Bool) {
+//        self.hideLoading()
+//        CancelRequest.currentTask = true
+//    }
+    
     @IBAction func closeBtn(_ sender: Any) {
         self.dismiss(animated: true)
     }

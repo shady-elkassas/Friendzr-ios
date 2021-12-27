@@ -103,18 +103,23 @@ class MapVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         mapView.clear()
+        
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         appendNewLocation = false
         goAddEventBtn.isHidden = true
         addEventBtn.isHidden = false
-        
+        CancelRequest.currentTask = false
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.updateUserInterface()
         }
         
         hideNavigationBar(NavigationBar: true, BackButton: true)
+    
     }
     
     //MARK: - APIs
@@ -471,6 +476,8 @@ class MapVC: UIViewController {
         if self.internetConect {
             setupGoogleMap(zoom1: 15, zoom2: 18)
         }
+        
+        searchBar.text = ""
     }
     
     

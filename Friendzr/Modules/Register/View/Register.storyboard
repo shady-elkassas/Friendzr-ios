@@ -35,7 +35,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="912"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HFB-ys-BMU">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="845"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign up now" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xtD-bB-CgL">
                                                 <rect key="frame" x="24" y="60" width="230" height="34.5"/>
@@ -243,7 +243,7 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="8bV-ia-ddo">
-                                        <rect key="frame" x="108.5" y="865" width="197.5" height="27"/>
+                                        <rect key="frame" x="108.5" y="855" width="197.5" height="27"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J9O-ve-cdw">
                                                 <rect key="frame" x="0.0" y="0.0" width="154.5" height="27"/>
@@ -267,12 +267,12 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="HFB-ys-BMU" firstAttribute="top" secondItem="x8S-bj-7vV" secondAttribute="top" id="UNk-gy-0wL"/>
-                                    <constraint firstItem="8bV-ia-ddo" firstAttribute="top" secondItem="HFB-ys-BMU" secondAttribute="bottom" constant="20" id="Ynn-FQ-SGk"/>
+                                    <constraint firstItem="8bV-ia-ddo" firstAttribute="top" secondItem="HFB-ys-BMU" secondAttribute="bottom" constant="47" id="Ynn-FQ-SGk"/>
                                     <constraint firstItem="HFB-ys-BMU" firstAttribute="width" secondItem="x8S-bj-7vV" secondAttribute="width" id="cmD-Mq-2uG"/>
-                                    <constraint firstAttribute="bottom" secondItem="HFB-ys-BMU" secondAttribute="bottom" id="hkL-f2-gwI"/>
+                                    <constraint firstAttribute="bottom" secondItem="HFB-ys-BMU" secondAttribute="bottom" constant="104" id="hkL-f2-gwI"/>
                                     <constraint firstItem="8bV-ia-ddo" firstAttribute="centerX" secondItem="x8S-bj-7vV" secondAttribute="centerX" id="iow-om-1TT"/>
                                     <constraint firstItem="HFB-ys-BMU" firstAttribute="leading" secondItem="x8S-bj-7vV" secondAttribute="leading" id="jPx-dT-JkE"/>
-                                    <constraint firstItem="FTH-Fe-l16" firstAttribute="bottom" secondItem="8bV-ia-ddo" secondAttribute="bottom" constant="20" id="sli-xL-3xF"/>
+                                    <constraint firstItem="FTH-Fe-l16" firstAttribute="bottom" secondItem="8bV-ia-ddo" secondAttribute="bottom" constant="30" id="sli-xL-3xF"/>
                                     <constraint firstAttribute="trailing" secondItem="HFB-ys-BMU" secondAttribute="trailing" id="xoj-m5-PHA"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="ppp-ig-RVi"/>

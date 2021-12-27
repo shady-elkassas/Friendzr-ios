@@ -73,6 +73,12 @@ class InboxVC: UIViewController {
         initProfileBarButton()
         setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: true)
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     //MARK: - APIs

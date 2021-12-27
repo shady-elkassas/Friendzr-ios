@@ -108,6 +108,8 @@ class FeedVC: UIViewController {
             self.emptyView.isHidden = true
             self.allowLocView.isHidden = false
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -115,12 +117,19 @@ class FeedVC: UIViewController {
         initProfileBarButton()
         filterDir = switchBarButton.isOn
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
+        CancelRequest.currentTask = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.hideLoading()
+        CancelRequest.currentTask = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
+    
+
     
     func addCompassView() {
         let child = UIHostingController(rootView: CompassViewSwiftUI())
@@ -158,7 +167,7 @@ class FeedVC: UIViewController {
 //        hideView.isHidden = false
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                 self.hideLoading()
                 hideView.isHidden = true
                 tableView.delegate = self
