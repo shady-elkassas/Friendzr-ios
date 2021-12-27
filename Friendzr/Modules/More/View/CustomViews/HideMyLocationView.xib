@@ -45,7 +45,7 @@
                     <blurEffect style="dark"/>
                 </visualEffectView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r4M-K3-2sr">
-                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                     <state key="normal" title="Button"/>
                     <buttonConfiguration key="configuration" style="plain" title="Button"/>
                     <connections>
@@ -53,7 +53,7 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BJe-HM-eDJ">
-                    <rect key="frame" x="34.5" y="333.5" width="345" height="239"/>
+                    <rect key="frame" x="34.5" y="306.5" width="345" height="293"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hide from" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2q8-Iy-iYP">
                             <rect key="frame" x="25" y="25" width="94.5" height="22"/>
@@ -62,7 +62,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="59v-Z6-au6">
-                            <rect key="frame" x="25" y="67" width="295" height="152"/>
+                            <rect key="frame" x="25" y="67" width="295" height="206"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NgW-48-0SI">
                                     <rect key="frame" x="0.0" y="0.0" width="295" height="44"/>
@@ -94,6 +94,15 @@
                                         <action selector="womenBtn:" destination="8LJ-aZ-zmT" eventType="touchUpInside" id="Th9-la-oqR"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5ll-Eb-ds8">
+                                    <rect key="frame" x="0.0" y="162" width="295" height="44"/>
+                                    <color key="backgroundColor" red="1" green="0.80000000000000004" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                    <state key="normal" title="OTHER GENDER"/>
+                                    <connections>
+                                        <action selector="otherGenderBtn:" destination="8LJ-aZ-zmT" eventType="touchUpInside" id="OAp-Qz-LkP"/>
+                                    </connections>
+                                </button>
                             </subviews>
                         </stackView>
                     </subviews>
@@ -116,11 +125,11 @@
             <viewLayoutGuide key="safeArea" id="sRg-VF-f7O"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="sRg-VF-f7O" firstAttribute="bottom" secondItem="r4M-K3-2sr" secondAttribute="bottom" id="1fh-YN-bhF"/>
+                <constraint firstAttribute="bottom" secondItem="r4M-K3-2sr" secondAttribute="bottom" id="1fh-YN-bhF"/>
                 <constraint firstItem="r4M-K3-2sr" firstAttribute="leading" secondItem="sRg-VF-f7O" secondAttribute="leading" id="20h-6J-Jih"/>
                 <constraint firstItem="Sfh-Ax-LrQ" firstAttribute="leading" secondItem="8LJ-aZ-zmT" secondAttribute="leading" id="22y-Hk-dtP"/>
-                <constraint firstItem="r4M-K3-2sr" firstAttribute="top" secondItem="sRg-VF-f7O" secondAttribute="top" id="2BJ-yS-x1j"/>
-                <constraint firstItem="Sfh-Ax-LrQ" firstAttribute="trailing" secondItem="sRg-VF-f7O" secondAttribute="trailing" id="DXi-vR-V0g"/>
+                <constraint firstItem="r4M-K3-2sr" firstAttribute="top" secondItem="8LJ-aZ-zmT" secondAttribute="top" id="2BJ-yS-x1j"/>
+                <constraint firstItem="Sfh-Ax-LrQ" firstAttribute="trailing" secondItem="8LJ-aZ-zmT" secondAttribute="trailing" id="DXi-vR-V0g"/>
                 <constraint firstItem="sRg-VF-f7O" firstAttribute="trailing" secondItem="r4M-K3-2sr" secondAttribute="trailing" id="F9U-ef-jP7"/>
                 <constraint firstItem="Sfh-Ax-LrQ" firstAttribute="top" secondItem="8LJ-aZ-zmT" secondAttribute="top" id="OTo-rL-JX7"/>
                 <constraint firstItem="BJe-HM-eDJ" firstAttribute="centerY" secondItem="sRg-VF-f7O" secondAttribute="centerY" id="gi9-FR-bbu"/>
@@ -132,6 +141,7 @@
                 <outlet property="containerView" destination="BJe-HM-eDJ" id="Jok-NS-kSP"/>
                 <outlet property="everyoneBtn" destination="NgW-48-0SI" id="ZqY-10-6BH"/>
                 <outlet property="menBtn" destination="x8m-QI-dt9" id="gUt-BA-V4F"/>
+                <outlet property="otherGenderBtn" destination="5ll-Eb-ds8" id="ht9-JM-1eo"/>
                 <outlet property="womenBtn" destination="miB-Qy-boD" id="NcH-Lv-Uwd"/>
             </connections>
             <point key="canvasLocation" x="-135" y="56"/>
@@ -142,7 +152,7 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl3">
-            <color red="0.14117647058823529" green="0.074509803921568626" blue="0.19607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

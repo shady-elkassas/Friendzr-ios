@@ -18,7 +18,7 @@ class RequestFriendStatusViewModel {
     
     //add Request Friend Status
     func requestFriendStatus(withID id:String,AndKey key:Int,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/RequestFriendStatus"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["userid": id,"key":key]

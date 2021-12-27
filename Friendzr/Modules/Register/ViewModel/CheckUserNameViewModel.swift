@@ -19,7 +19,7 @@ class CheckUserNameViewModel {
     
     //MARK:- Check User Name Request
     func checkUserName(withUserName userName:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Authenticat/CheckUserName?UserName=\(userName)"
         let headers = RequestComponent.headerComponent([.type])
         

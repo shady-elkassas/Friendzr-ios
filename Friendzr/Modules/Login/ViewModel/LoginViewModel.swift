@@ -30,7 +30,7 @@ class LoginViewModel {
     // create a method for calling api which is return a Observable
     //MARK:- Login request
     func LoginUser(withEmail email:String, password: String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         emailViewModel.data = email
         passwordViewModel.data = password
         

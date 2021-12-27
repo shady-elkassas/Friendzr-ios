@@ -100,7 +100,7 @@
             <constraints>
                 <constraint firstItem="gLp-DM-igw" firstAttribute="width" secondItem="4sZ-uY-iCS" secondAttribute="width" multiplier="1:1.2" id="OZM-Ss-BPT"/>
                 <constraint firstAttribute="bottom" secondItem="R2e-hl-VM8" secondAttribute="bottom" id="Z7j-z1-5m8"/>
-                <constraint firstItem="R2e-hl-VM8" firstAttribute="trailing" secondItem="l0w-kI-nCz" secondAttribute="trailing" id="eZT-aW-do9"/>
+                <constraint firstItem="R2e-hl-VM8" firstAttribute="trailing" secondItem="4sZ-uY-iCS" secondAttribute="trailing" id="eZT-aW-do9"/>
                 <constraint firstItem="gLp-DM-igw" firstAttribute="centerY" secondItem="l0w-kI-nCz" secondAttribute="centerY" id="rA7-ya-1A6"/>
                 <constraint firstItem="R2e-hl-VM8" firstAttribute="leading" secondItem="4sZ-uY-iCS" secondAttribute="leading" id="res-aT-qgq"/>
                 <constraint firstItem="gLp-DM-igw" firstAttribute="centerX" secondItem="l0w-kI-nCz" secondAttribute="centerX" id="u9w-AT-I9v"/>

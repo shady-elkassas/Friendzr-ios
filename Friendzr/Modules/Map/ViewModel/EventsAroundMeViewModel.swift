@@ -20,7 +20,7 @@ class EventsAroundMeViewModel {
     var error:DynamicType<String> = DynamicType()
     
     func getAllEventsAroundMe() {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/Eventsaroundme"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
@@ -44,7 +44,7 @@ class EventsAroundMeViewModel {
     }
     
     func getEventsByLoction(lat:Double,lng:Double) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/locationEvente"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let params:[String:Any] = ["lat":lat,"lang":lng]

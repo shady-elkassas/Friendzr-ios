@@ -22,7 +22,7 @@ class RequestsViewModel {
 
     //Get All Requests
     func getAllRequests(pageNumber:Int) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/Allrequest"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]

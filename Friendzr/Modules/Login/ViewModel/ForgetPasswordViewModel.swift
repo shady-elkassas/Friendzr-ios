@@ -29,7 +29,7 @@ class ForgetPasswordViewModel {
     // create a method for calling api which is return a Observable
     //MARK:- Reset Password Request
     func ResetPassword(withEmail email:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         emailViewModel.data = email
         
         guard validateResetPasswordCredentials() else {

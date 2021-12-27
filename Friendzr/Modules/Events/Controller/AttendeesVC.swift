@@ -111,7 +111,7 @@ class AttendeesVC: UIViewController {
     }
     
     func showAlertView(messageString:String,eventID:String,UserattendId:String,Stutus :Int) {
-        self.alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         self.alertView?.titleLbl.text = "Confirm?".localizedString
         self.alertView?.detailsLbl.text = "Are you sure you want to \(messageString) this account?".localizedString

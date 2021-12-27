@@ -40,7 +40,6 @@ class BlockedListVC: UIViewController {
         
         self.title = "Blocked List"
         initBackButton()
-        setupNavBar()
         setupSearchBar()
         setupViews()
         
@@ -236,7 +235,7 @@ extension BlockedListVC: UITableViewDataSource {
             }
             
             cell.HandleUnblockBtn = {
-                self.alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 
                 self.alertView?.titleLbl.text = "Confirm?".localizedString
                 self.alertView?.detailsLbl.text = "Are you sure you want to unblock this account?".localizedString

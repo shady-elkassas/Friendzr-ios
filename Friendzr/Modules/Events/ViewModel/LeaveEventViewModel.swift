@@ -21,7 +21,7 @@ class LeaveEventViewModel {
     
     //MARK:- leave Event
     func leaveEvent(ByEventid eventid:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/leaveEvent"
         let headers = RequestComponent.headerComponent([.type,.authorization])
 //        let bodyData = "EventDataid=\(eventid)".data(using: .utf8)

@@ -21,7 +21,7 @@ class AllBlockedViewModel {
     var error:DynamicType<String> = DynamicType()
     
     func getAllBlockedList(pageNumber:Int) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/AllBlocked"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]

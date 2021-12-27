@@ -20,7 +20,7 @@ class SettingsViewModel {
     var errorMsg :DynamicType<String> = DynamicType()
     
     func getUserSetting() {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/UserSetting"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
@@ -46,7 +46,7 @@ class SettingsViewModel {
     
     
     func updatUserSetting(withPushNotification pushNotification:Bool, AndAllowMyLocation allowMyLocation: Bool,AndGhostMode ghostMode :Bool,allowmylocationtype:Int ,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["pushnotification": pushNotification,"allowmylocation":allowMyLocation,"ghostmode":ghostMode,"allowmylocationtype":allowmylocationtype]
@@ -75,7 +75,7 @@ class SettingsViewModel {
     
     
     func deleteAccount(_ completion: @escaping (_ error: String?, _ data: String?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/DeleteAccount"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
@@ -102,7 +102,7 @@ class SettingsViewModel {
     }
     
     func togglePushNotification(pushNotification:Bool,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["pushnotification": pushNotification]//"allowmylocation":allowMyLocation,"ghostmode":ghostMode,"allowmylocationtype":allowmylocationtype,"Manualdistancecontrol":12,"agefrom":10,"ageto":122,"Filteringaccordingtoage":true]
@@ -130,7 +130,7 @@ class SettingsViewModel {
     }
     
     func toggleAllowMyLocation(allowMyLocation: Bool,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["allowmylocation":allowMyLocation]
@@ -158,7 +158,7 @@ class SettingsViewModel {
     }
     
     func toggleGhostMode(ghostMode :Bool,allowmylocationtype:Int,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["ghostmode":ghostMode,"allowMyAppearanceType":allowmylocationtype]
@@ -186,7 +186,7 @@ class SettingsViewModel {
     }
     
     func updateManualdistanceControl(manualdistancecontrol: Double ,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["Manualdistancecontrol": manualdistancecontrol]
@@ -214,7 +214,7 @@ class SettingsViewModel {
     }
     
     func filteringAccordingToAge(filteringaccordingtoage : Bool, agefrom: Int,ageto :Int,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["agefrom":agefrom,"ageto":ageto,"Filteringaccordingtoage":filteringaccordingtoage]
@@ -240,5 +240,4 @@ class SettingsViewModel {
             }
         }
     }
-    
 }

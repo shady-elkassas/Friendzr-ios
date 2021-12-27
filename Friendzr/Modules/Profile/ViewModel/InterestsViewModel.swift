@@ -19,6 +19,7 @@ class InterestsViewModel {
     var error:DynamicType<String> = DynamicType()
     
     func getAllInterests(completion: @escaping (_ error: String?, _ data: [InterestObj]?) -> ())  {
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/GetAllInterests"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
@@ -45,6 +46,7 @@ class InterestsViewModel {
     }
     
     func getAllInterests()  {
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/GetAllInterests"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         

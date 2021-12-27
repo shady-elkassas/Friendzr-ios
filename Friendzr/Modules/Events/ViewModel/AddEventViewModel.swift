@@ -38,7 +38,7 @@ class AddEventViewModel {
     
     //MARK:- Add event
     func addNewEvent(withTitle title:String,AndDescription description:String,AndStatus status: String,AndCategory categoryId:String,lang:Double,lat:Double,totalnumbert:String,allday:Bool,eventdateFrom:String,eventDateto:String,eventfrom:String,eventto:String,creatDate:String,creattime:String,attachedImg:Bool,AndImage image:UIImage,completion: @escaping (_ error: String?, _ data: EventObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         titleEventViewModel.data = title
         descriptionViewModel.data = description
         categoryEventViewModel.data = categoryId

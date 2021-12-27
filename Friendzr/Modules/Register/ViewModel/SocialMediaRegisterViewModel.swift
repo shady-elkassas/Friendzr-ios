@@ -19,7 +19,7 @@ class SocialMediaRegisterViewModel {
     // create a method for calling api which is return a Observable
     //MARK:- Social Media Register Request
     func socialMediaRegisterUser(withSocialMediaId socialMediaId:String,AndEmail email:String,username:String,socialUser:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Authenticat/register"
         
         var parameters:[String : Any] = ["UserId":socialMediaId,"email": email,"registertype":1,"FcmToken":Defaults.fcmToken,"username":username,"Password":"Password1234","platform":2,"SocialUser":socialUser]

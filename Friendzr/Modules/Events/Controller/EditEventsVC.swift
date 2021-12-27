@@ -81,7 +81,7 @@ class EditEventsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setupNavBar()
+//        setupNavBar()
         CancelRequest.currentTask = false
     }
     
@@ -143,7 +143,7 @@ class EditEventsVC: UIViewController {
         
         if internetConect == true {
             
-            deleteAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             deleteAlertView?.titleLbl.text = "Confirm?".localizedString
             deleteAlertView?.detailsLbl.text = "Are you sure you want to delete your event?".localizedString
@@ -317,7 +317,7 @@ class EditEventsVC: UIViewController {
     }
     
     @IBAction func startDayBtn(_ sender: Any) {
-        dateAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        dateAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         self.dateAlertView?.calenderView.addTarget(self, action: #selector(self.dateChanged(_:)), for: .valueChanged)
         
@@ -366,7 +366,7 @@ class EditEventsVC: UIViewController {
     }
     
     @IBAction func endDayBtn(_ sender: Any) {
-        dateAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        dateAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         self.dateAlertView?.calenderView.addTarget(self, action: #selector(self.dateChanged(_:)), for: .valueChanged)
         
@@ -407,7 +407,7 @@ class EditEventsVC: UIViewController {
     }
     
     @IBAction func startTimeBtn(_ sender: Any) {
-        timeAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        timeAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         var comps2:DateComponents = DateComponents()
         comps2.day = -1
@@ -449,7 +449,7 @@ class EditEventsVC: UIViewController {
     }
     
     @IBAction func endTimeBtn(_ sender: Any) {
-        timeAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        timeAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         var comps2:DateComponents = DateComponents()
         comps2.day = -1

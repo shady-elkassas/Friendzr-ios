@@ -19,7 +19,7 @@ class GenderbylocationViewModel {
     var error:DynamicType<String> = DynamicType()
     
     func getGenderbylocation(ByLat lat:Double,AndLng lng:Double) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/Genderbylocation"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let params:[String:Any] = ["lat":lat,"lang":lng]

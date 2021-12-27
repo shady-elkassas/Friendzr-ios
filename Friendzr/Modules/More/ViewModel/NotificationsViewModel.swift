@@ -21,7 +21,7 @@ class NotificationsViewModel {
     var error:DynamicType<String> = DynamicType()
     
     func getNotifications(pageNumber:Int) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/NotificationData"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]

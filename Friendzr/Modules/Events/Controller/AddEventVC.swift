@@ -103,7 +103,7 @@ class AddEventVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setupNavBar()
+//        setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
     }
@@ -197,7 +197,7 @@ class AddEventVC: UIViewController {
     }
     
     @IBAction func startDayBtn(_ sender: Any) {
-        dateAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        dateAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         self.dateAlertView?.calenderView.addTarget(self, action: #selector(self.dateChanged(_:)), for: .valueChanged)
         
@@ -246,7 +246,7 @@ class AddEventVC: UIViewController {
     }
     
     @IBAction func endDayBtn(_ sender: Any) {
-        dateAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        dateAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         self.dateAlertView?.calenderView.addTarget(self, action: #selector(self.dateChanged(_:)), for: .valueChanged)
         
@@ -288,7 +288,7 @@ class AddEventVC: UIViewController {
     
     
     @IBAction func startTimeBtn(_ sender: Any) {
-        timeAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        timeAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         var comps2:DateComponents = DateComponents()
         comps2.day = -1
@@ -330,7 +330,7 @@ class AddEventVC: UIViewController {
     }
     
     @IBAction func endTimeBtn(_ sender: Any) {
-        timeAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        timeAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         var comps2:DateComponents = DateComponents()
         comps2.day = -1

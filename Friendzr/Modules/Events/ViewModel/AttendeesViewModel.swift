@@ -23,7 +23,7 @@ class AttendeesViewModel {
     
     //MARK:- Add event
     func editAttendees(ByUserAttendId userAttendId:String,AndEventid eventid:String,AndStutus stutus:Int,Actiontime:String,ActionDate:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/Clickoutevent"
         let headers = RequestComponent.headerComponent([.type,.authorization])
 

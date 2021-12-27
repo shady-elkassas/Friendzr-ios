@@ -18,7 +18,7 @@ class ProfileViewModel {
     var error:DynamicType<String> = DynamicType()
     
     func getProfileInfo() {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/getprofildata"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         

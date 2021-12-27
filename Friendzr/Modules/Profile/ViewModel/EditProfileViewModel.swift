@@ -39,6 +39,7 @@ class EditProfileViewModel {
     //MARK:- Edit Profile
     func editProfile(withUserName userName:String,AndGender gender:String,AndGeneratedUserName generatedUserName:String,AndBio bio:String,AndBirthdate birthdate:String,tagsId:[String],attachedImg:Bool,AndUserImage userImage:UIImage,completion: @escaping (_ error: String?, _ data: ProfileObj?) -> ()) {
         
+        CancelRequest.currentTask = false
         userNameViewModel.data = userName
 //        emailViewModel.data = email
         genderViewModel.data = gender

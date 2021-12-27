@@ -21,7 +21,7 @@ class AllFriendesViewModel {
     var error:DynamicType<String> = DynamicType()
     
     func getAllFriendes(pageNumber:Int) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/AllFriendes"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         

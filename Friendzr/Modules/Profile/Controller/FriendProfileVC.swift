@@ -123,7 +123,7 @@ class FriendProfileVC: UIViewController {
     }
     
     @IBAction func cancelRequestBtn(_ sender: Any) {
-        alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         alertView?.titleLbl.text = "Confirm?".localizedString
         alertView?.detailsLbl.text = "Are you sure you want to cancel this request?".localizedString
@@ -166,7 +166,7 @@ class FriendProfileVC: UIViewController {
     }
     
     @IBAction func refusedRequestBtn(_ sender: Any) {
-        alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         alertView?.titleLbl.text = "Confirm?".localizedString
         alertView?.detailsLbl.text = "Are you sure you want to cancel this request?".localizedString
@@ -233,7 +233,7 @@ class FriendProfileVC: UIViewController {
     }
     
     @IBAction func unfriendBtn(_ sender: Any) {
-        alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         alertView?.titleLbl.text = "Confirm?".localizedString
         alertView?.detailsLbl.text = "Are you sure you want to unfriend this account?".localizedString
@@ -283,7 +283,7 @@ class FriendProfileVC: UIViewController {
     }
     
     @IBAction func blockBtn(_ sender: Any) {
-        alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         alertView?.titleLbl.text = "Confirm?".localizedString
         alertView?.detailsLbl.text = "Are you sure you want to block this account?".localizedString
         
@@ -329,7 +329,7 @@ class FriendProfileVC: UIViewController {
     }
     
     @IBAction func unBlockBtn(_ sender: Any) {
-        alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         alertView?.titleLbl.text = "Confirm?".localizedString
         alertView?.detailsLbl.text = "Are you sure you want to unblock this account?".localizedString
@@ -471,19 +471,19 @@ class FriendProfileVC: UIViewController {
         print("tagListView.rows \(tagListView.rows)")
         tagListViewHeight.constant = CGFloat(tagListView.rows * 25)
         
-        //        if tagListView.rows == 1 {
-        //            tagsTopConstrains.constant = 10
-        //            tagsBotomConstrains.constant = 10
-        //        }else if tagListView.rows == 2 {
-        //            tagsTopConstrains.constant = 8
-        //            tagsBotomConstrains.constant = 16
-        //        }else if tagListView.rows == 3 {
-        //            tagsTopConstrains.constant = 8
-        //            tagsBotomConstrains.constant = 30
-        //        }else {
-        //            tagsTopConstrains.constant = 8
-        //            tagsBotomConstrains.constant = 36
-        //        }
+        if tagListView.rows == 1 {
+            tagsTopConstrains.constant = 16
+            tagsBotomConstrains.constant = 16
+        }else if tagListView.rows == 2 {
+            tagsTopConstrains.constant = 18
+            tagsBotomConstrains.constant = 26
+        }else if tagListView.rows == 3 {
+            tagsTopConstrains.constant = 18
+            tagsBotomConstrains.constant = 40
+        }else {
+            tagsTopConstrains.constant = 18
+            tagsBotomConstrains.constant = 46
+        }
         
         switch model?.key {
         case 0:

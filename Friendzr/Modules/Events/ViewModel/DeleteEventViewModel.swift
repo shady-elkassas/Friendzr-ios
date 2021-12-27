@@ -21,7 +21,7 @@ class DeleteEventViewModel {
     
     //MARK:- delete Event
     func deleteEvent(ByEventid eventid:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/DeletEventData"
         let headers = RequestComponent.headerComponent([.type,.authorization])
         let parameters:[String : Any] = ["id": eventid]

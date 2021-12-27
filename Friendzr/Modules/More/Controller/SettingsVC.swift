@@ -77,7 +77,7 @@ class SettingsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setupNavBar()
+//        setupNavBar()
         initBackButton()
         
         setupCLLocationManager()
@@ -407,7 +407,7 @@ extension SettingsVC: UITableViewDataSource {
             
             cell.HandleSwitchBtn = {
                 if self.model?.pushnotification == true {
-                    self.deleteAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     
                     self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
                     self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off notifications?".localizedString
@@ -456,7 +456,7 @@ extension SettingsVC: UITableViewDataSource {
                     
                     self.view.addSubview((self.deleteAlertView)!)
                 }else {
-                    self.deleteAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     
                     self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
                     self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn on notifications?"
@@ -520,7 +520,7 @@ extension SettingsVC: UITableViewDataSource {
             
             cell.HandleSwitchBtn = {
                 if self.model?.ghostmode == false {
-                    self.alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     
                     self.alertView?.HandleHideFromEveryOneBtn = {
                         
@@ -643,7 +643,7 @@ extension SettingsVC: UITableViewDataSource {
                     self.view.addSubview((self.alertView)!)
                     
                 }else {
-                    self.deleteAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     
                     self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
                     self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off ghost mode?"
@@ -705,7 +705,7 @@ extension SettingsVC: UITableViewDataSource {
             cell.HandleSwitchBtn = {
                 if self.model?.allowmylocation == false {
                     
-                    self.deleteAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
                     self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn on your location?"
                     
@@ -754,7 +754,7 @@ extension SettingsVC: UITableViewDataSource {
                     }
                     self.view.addSubview((self.deleteAlertView)!)
                 }else {
-                    self.deleteAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     
                     self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
                     self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off your location??"
@@ -896,7 +896,7 @@ extension SettingsVC: UITableViewDelegate {
             self.createDistanceSlider()
         }
         else if indexPath.row == 7 {
-            deleteAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             deleteAlertView?.titleLbl.text = "Confirm?".localizedString
             deleteAlertView?.detailsLbl.text = "Are you sure you want to delete your account?".localizedString

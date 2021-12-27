@@ -110,7 +110,7 @@
                 <constraint firstItem="eep-zp-mpo" firstAttribute="centerX" secondItem="a1H-mG-3GO" secondAttribute="centerX" id="IeB-wN-gRw"/>
                 <constraint firstAttribute="bottom" secondItem="t8Y-Zf-XxZ" secondAttribute="bottom" id="Vqb-CA-bHe"/>
                 <constraint firstItem="t8Y-Zf-XxZ" firstAttribute="leading" secondItem="yUn-f0-7Ud" secondAttribute="leading" id="bea-MY-Zz2"/>
-                <constraint firstItem="t8Y-Zf-XxZ" firstAttribute="trailing" secondItem="a1H-mG-3GO" secondAttribute="trailing" id="smA-TM-OAh"/>
+                <constraint firstItem="t8Y-Zf-XxZ" firstAttribute="trailing" secondItem="yUn-f0-7Ud" secondAttribute="trailing" id="smA-TM-OAh"/>
             </constraints>
             <connections>
                 <outlet property="confirmBtn" destination="Phc-kM-DMt" id="GK1-Nx-hD5"/>
@@ -129,10 +129,10 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl3">
-            <color red="0.14117647058823529" green="0.074509803921568626" blue="0.19607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="thirdryColor">
-            <color red="0.41176470588235292" green="0.41176470588235292" blue="0.41176470588235292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.41200000047683716" green="0.41200000047683716" blue="0.41200000047683716" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

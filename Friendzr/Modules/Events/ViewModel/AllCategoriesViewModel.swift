@@ -19,7 +19,7 @@ class AllCategoriesViewModel {
     var error:DynamicType<String> = DynamicType()
     
     func getAllCategories() {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/GetAllcategory"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         

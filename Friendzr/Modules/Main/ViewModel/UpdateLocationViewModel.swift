@@ -17,7 +17,7 @@ class UpdateLocationViewModel {
     var error:DynamicType<String> = DynamicType()
     
     func updatelocation(ByLat lat:String,AndLng lng:String,completion: @escaping (_ error: String?, _ data: ProfileObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/Updatelocation"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["lat": lat,"lang":lng]

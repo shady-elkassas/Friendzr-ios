@@ -22,7 +22,7 @@ class EventsViewModel {
     var error:DynamicType<String> = DynamicType()
     
     func getMyEvents(pageNumber:Int) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/getMyEvent"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
@@ -58,6 +58,7 @@ class EventsViewModel {
     }
     
     func getEventByID(id:String) {
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/getEvent"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["id": id]

@@ -20,6 +20,7 @@ class FriendViewModel {
     
     //Get Friend Details Request
     func getFriendDetails(ById id:String) {
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/Userprofil"
         
         let headers = RequestComponent.headerComponent([.authorization,.type])

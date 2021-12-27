@@ -19,7 +19,7 @@ class LogoutViewModel {
     var errorMsg : String = ""
     
     func logoutRequest( completion: @escaping (_ error: String?, _ data: String?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/logout"
         let headers = RequestComponent.headerComponent([.authorization,.lang])
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in

@@ -300,7 +300,7 @@ class EditMyProfileVC: UIViewController {
     }
     
     func logout() {
-        logoutAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        logoutAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         logoutAlertView?.titleLbl.text = "Confirm?".localizedString
         logoutAlertView?.detailsLbl.text = "Are you sure you want to logout?".localizedString
@@ -378,7 +378,7 @@ class EditMyProfileVC: UIViewController {
     }
     
     @IBAction func dateBtn(_ sender: Any) {
-        alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         alertView?.HandleOKBtn = {
             let formatter = DateFormatter()

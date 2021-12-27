@@ -33,7 +33,7 @@ class ChangePasswordViewModel {
     }
     
     func changePasswordRequest(witholdPassword oldPassword:String, AndNewPassword newPassword: String,AndConfirmNewPassword confirmNewPassword :String ,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
-        
+        CancelRequest.currentTask = false
         oldPasswordViewModel.data = oldPassword
         newPasswordViewModel.data = newPassword
         confirmNewPasswordViewModel.data = confirmNewPassword

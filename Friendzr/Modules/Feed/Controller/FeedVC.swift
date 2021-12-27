@@ -113,7 +113,7 @@ class FeedVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setupNavBar()
+//        setupNavBar()
         initProfileBarButton()
         filterDir = switchBarButton.isOn
         
@@ -398,7 +398,7 @@ class FeedVC: UIViewController {
     
     @IBAction func allowLocationBtn(_ sender: Any) {
         
-        self.deleteAlertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
         self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn on your location?"
         

@@ -163,7 +163,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     
     
     func logout() {
-        alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         alertView?.titleLbl.text = "Confirm?".localizedString
         alertView?.detailsLbl.text = "Are you sure you want to logout?".localizedString

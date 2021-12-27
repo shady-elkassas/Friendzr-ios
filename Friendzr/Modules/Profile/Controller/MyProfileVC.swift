@@ -135,17 +135,17 @@ class MyProfileVC: UIViewController {
         tagsViewhHeight.constant = CGFloat(tagListView.rows * 25)
 
         if tagListView.rows == 1 {
-            tagsTopConstrains.constant = 10
-            tagsBotomConstrains.constant = 10
-        }else if tagListView.rows == 2 {
-            tagsTopConstrains.constant = 8
+            tagsTopConstrains.constant = 16
             tagsBotomConstrains.constant = 16
+        }else if tagListView.rows == 2 {
+            tagsTopConstrains.constant = 18
+            tagsBotomConstrains.constant = 26
         }else if tagListView.rows == 3 {
-            tagsTopConstrains.constant = 8
-            tagsBotomConstrains.constant = 30
+            tagsTopConstrains.constant = 18
+            tagsBotomConstrains.constant = 40
         }else {
-            tagsTopConstrains.constant = 8
-            tagsBotomConstrains.constant = 36
+            tagsTopConstrains.constant = 18
+            tagsBotomConstrains.constant = 46
         }
     }
     

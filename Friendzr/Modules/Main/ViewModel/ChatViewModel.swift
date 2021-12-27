@@ -32,7 +32,7 @@ class ChatViewModel {
     // create a method for calling api which is return a Observable
     //MARK:- Chat list
     func getChatList(pageNumber:Int) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/UsersinChat"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
@@ -69,7 +69,7 @@ class ChatViewModel {
     
     //MARK:- Send Message with user
     func SendMessage(withUserId userId:String,AndMessage message:String,AndMessageType messagetype:Int,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,fileUrl:URL,completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/SendMessage"
         
         let parameters:[String:Any] = ["UserId":userId,"Message":message,"Messagetype":messagetype,"messagestime":messagestime,"messagesdate":messagesdate]
@@ -245,7 +245,7 @@ class ChatViewModel {
     
     //MARK:- Send Message with Event
     func SendMessage(withEventId eventId:String,AndMessageType messagetype:Int,AndMessage message:String,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,fileUrl:URL,completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/SendEventMessage"
         
         let parameters:[String:Any] = ["EventId":eventId,"Message":message,"Messagetype":messagetype,"messagestime":messagestime,"messagesdate":messagesdate]
@@ -419,7 +419,7 @@ class ChatViewModel {
     }
     
     func getChatMessages(ByUserId userid:String,pageNumber:Int) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/Chatdata"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
@@ -455,7 +455,7 @@ class ChatViewModel {
     }
     
     func getChatMessages(ByEventId eventid:String,pageNumber:Int) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/EventChat"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
@@ -492,7 +492,7 @@ class ChatViewModel {
     
     //MARK:- mute chat
     func muteChat(ByID id:String,isevent:Bool,mute:Bool, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/muitchat"
         let headers = RequestComponent.headerComponent([.type,.authorization])
         let parameters:[String : Any] = ["id":id,"isevent":isevent,"muit": mute]
@@ -519,7 +519,7 @@ class ChatViewModel {
     
     //MARK:- delte chat
     func deleteChat(ByID id:String,isevent:Bool, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/Deletchat"
         let headers = RequestComponent.headerComponent([.type,.authorization])
         let parameters:[String : Any] = ["id":id,"isevent":isevent]
@@ -546,7 +546,7 @@ class ChatViewModel {
     
     //MARK:- leave event chat
     func LeaveChat(ByID id:String,ActionDate:String,Actiontime:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
-        
+        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/leaveeventchat"
         let headers = RequestComponent.headerComponent([.type,.authorization])
         let parameters:[String : Any] = ["EventDataid":id,"ActionDate":ActionDate,"Actiontime":Actiontime]

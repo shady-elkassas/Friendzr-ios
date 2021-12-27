@@ -52,7 +52,7 @@ class RegisterViewModel {
     
     //MARK:- Register Request
     func RegisterNewUser(withUserName userName:String,AndEmail email:String, password: String,confirmPassword:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
-        
+        CancelRequest.currentTask = false
         userNameViewModel.data = userName
         emailViewModel.data = email
         passwordViewModel.data = password

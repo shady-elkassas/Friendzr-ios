@@ -72,7 +72,7 @@ extension UIViewController {
     func initCloseBarButton() {
         let button = UIButton.init(type: .custom)
         let image = UIImage(named: "close_ic")?.withRenderingMode(.alwaysTemplate)
-        
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
         button.addTarget(self, action: #selector(onDismiss), for: .touchUpInside)

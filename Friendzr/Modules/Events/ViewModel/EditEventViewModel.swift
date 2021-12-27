@@ -38,6 +38,7 @@ class EditEventViewModel {
     //MARK:- Edit event
     func editEvent(withID eventid:String,AndTitle title:String,AndDescription description:String,AndStatus status: String,AndCategory categoryId:String,lang:String,lat:String,totalnumbert:String,allday:Bool,eventdateFrom:String,eventDateto:String,eventfrom:String,eventto:String,attachedImg:Bool,AndImage image:UIImage,completion: @escaping (_ error: String?, _ data: EventObj?) -> ()) {
         
+        CancelRequest.currentTask = false
         titleEventViewModel.data = title
         descriptionViewModel.data = description
         categoryEventViewModel.data = categoryId
