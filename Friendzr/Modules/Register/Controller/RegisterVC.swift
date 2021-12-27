@@ -96,14 +96,19 @@ class RegisterVC: UIViewController {
             registerVM.RegisterNewUser(withUserName: userNameTxt.text!, AndEmail: emailTxt.text!, password: passwordTxt.text!,confirmPassword:confirmPasswordTxt.text!) { error, data in
                 self.hideLoading()
                 if let error = error {
-                    self.showAlert(withMessage: error)
+//                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
                     return
                 }
                 
                 guard let _ = data else {return}
                 
                 DispatchQueue.main.async {
-                    self.showAlert(withMessage: "Please check your email")
+//                    self.showAlert(withMessage: "Please check your email")
+                self.view.makeToast("Please check your email")
+
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3 , execute: {
@@ -191,7 +196,10 @@ class RegisterVC: UIViewController {
                         self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, socialUser: "\(2)") { (error, data) in
                             self.hideLoading()
                             if let error = error {
-                                self.showAlert(withMessage: error)
+//                                self.showAlert(withMessage: error)
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
                                 return
                             }
                             
@@ -335,7 +343,10 @@ extension RegisterVC {
                     self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName, socialUser: "\(1)") { (error, data) in
                         self.hideLoading()
                         if let error = error {
-                            self.showAlert(withMessage: error)
+//                            self.showAlert(withMessage: error)
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
                             return
                         }
                         
@@ -435,7 +446,10 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
             self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple, socialUser: "\(3)") { (error, data) in
                 self.hideLoading()
                 if let error = error {
-                    self.showAlert(withMessage: error)
+//                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
                     return
                 }
                 

@@ -43,11 +43,18 @@ class ForgetPasswordVC: UIViewController {
             viewmodel.ResetPassword(withEmail: emailTxt.text!) { error, data in
                 self.hideLoading()
                 if let error = error {
-                    self.showAlert(withMessage: error)
+//                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
                     return
                 }
                 guard let _ = data else {return}
-                self.showAlert(withMessage: "Please check your email")
+//                self.showAlert(withMessage: "Please check your email")
+                
+                DispatchQueue.main.async {
+                    self.view.makeToast("Please check your email")
+                }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.onPopup()

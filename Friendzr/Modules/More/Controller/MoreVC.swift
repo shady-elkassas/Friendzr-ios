@@ -78,12 +78,13 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
         moreList.append(("Notifications".localizedString, UIImage(named: "notificationList_ic")!))
         moreList.append(("Share".localizedString, UIImage(named: "Share_ic")!))
         moreList.append(("Settings".localizedString, UIImage(named: "Settings_ic")!))
+        moreList.append(("Tips & Guides".localizedString, UIImage(named: "Settings_ic")!))
         moreList.append(("About Us".localizedString, UIImage(named: "information_ic")!))
         moreList.append(("Terms & Conditions".localizedString, UIImage(named: "Terms_ic")!))
         moreList.append(("Privacy Policy".localizedString, UIImage(named: "privacy_ic")!))
         moreList.append(("Contact Friendzr".localizedString, UIImage(named: "Contactus_ic")!))
         moreList.append(("Log Out".localizedString, UIImage(named: "logout_ic")!))
-
+        
         profileImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 2)
         profileImg.cornerRadiusForHeight()
     }
@@ -212,6 +213,18 @@ extension MoreVC : UITableViewDataSource {
         cell.imgView.image = moreList[indexPath.row].1
         cell.titleLbl.text = moreList[indexPath.row].0
         cell.imgView.image?.withTintColor(UIColor.setColor(lightColor: .black, darkColor: .white))
+        
+        if  Defaults.badgeNumber == 0 {
+            cell.badgeView.isHidden = true
+        }else {
+            if indexPath.row == 2 {
+                cell.badgeLbl.text = "\(Defaults.badgeNumber)"
+                cell.badgeView.isHidden = false
+            }else {
+                cell.badgeView.isHidden = true
+            }
+        }
+        
         return cell
     }
 }
@@ -236,6 +249,8 @@ extension MoreVC : UITableViewDelegate {
             break
         case 2://notificationList
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "NotificationsVC") as? NotificationsVC else {return}
+            //            UIApplication.shared.applicationIconBadgeNumber == 0
+            Defaults.badgeNumber = 0
             self.navigationController?.pushViewController(vc, animated: true)
             break
         case 3: //share
@@ -249,7 +264,9 @@ extension MoreVC : UITableViewDelegate {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
-        case 5://aboutus
+        case 5://Tips& Guides
+            break
+        case 6://aboutus
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "About Us"
@@ -257,7 +274,7 @@ extension MoreVC : UITableViewDelegate {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
-        case 6://terms
+        case 7://terms
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "Terms & Conditions"
@@ -265,7 +282,7 @@ extension MoreVC : UITableViewDelegate {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
-        case 7://Privacy Policy
+        case 8://Privacy Policy
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "Privacy Policy"
@@ -273,7 +290,7 @@ extension MoreVC : UITableViewDelegate {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
-        case 8: //contactus
+        case 9: //contactus
             if internetConect {
                 let subjectTitle = "Suggestions"
                 let messageBody = ""
@@ -286,7 +303,7 @@ extension MoreVC : UITableViewDelegate {
                 self.present(mc, animated: true, completion: nil)
             }
             break
-        case 9://logout
+        case 10://logout
             logout()
             break
         default:

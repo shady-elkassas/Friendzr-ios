@@ -265,6 +265,7 @@ class MapVC: UIViewController {
         sataliteBtn.cornerRadiusView(radius: 10)
         currentLocationBtn.cornerRadiusView(radius: 10)
         topContainerView.cornerRadiusView(radius: 10)
+        
         profileImg.cornerRadiusForHeight()
         profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeholder"))
         
@@ -588,7 +589,10 @@ extension MapVC : CLLocationManagerDelegate {
                     print("Access")
                     settingVM.toggleAllowMyLocation(allowMyLocation: true) { error, data in
                         if let error = error {
-                            self.showAlert(withMessage: error)
+//                            self.showAlert(withMessage: error)
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
                             return
                         }
                         
@@ -606,7 +610,10 @@ extension MapVC : CLLocationManagerDelegate {
                 createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
             }
         }else {
-            self.showAlert(withMessage: "please allow your location")
+//            self.showAlert(withMessage: "please allow your location")
+            DispatchQueue.main.async {
+                self.view.makeToast("Please allow your location")
+            }
             return
         }
         
@@ -768,6 +775,12 @@ extension MapVC:UICollectionViewDataSource {
         cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
         cell.eventColorView.backgroundColor = UIColor.color(model?.color ?? "")
+        
+        cell.HandledetailsBtn = {
+            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
+            vc.eventId = model?.id ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
         return cell
     }
 }

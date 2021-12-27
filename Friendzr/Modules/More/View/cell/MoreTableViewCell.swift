@@ -12,11 +12,14 @@ class MoreTableViewCell: UITableViewCell {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var imgView: UIImageView!
+    @IBOutlet weak var badgeView: UIView!
+    @IBOutlet weak var badgeLbl: UILabel!
     
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        badgeView.cornerRadiusView(radius: 15)
         
     }
 

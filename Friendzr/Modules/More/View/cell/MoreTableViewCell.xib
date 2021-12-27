@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -39,13 +40,35 @@
                                 <color key="textColor" name="ColorLbl3"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xR7-bv-n4P">
+                                <rect key="frame" x="245" y="7.5" width="30" height="30"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bzY-fu-BF0">
+                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemRedColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="bzY-fu-BF0" secondAttribute="bottom" id="A1z-LJ-BRx"/>
+                                    <constraint firstItem="bzY-fu-BF0" firstAttribute="top" secondItem="xR7-bv-n4P" secondAttribute="top" id="BiR-wB-2pG"/>
+                                    <constraint firstAttribute="trailing" secondItem="bzY-fu-BF0" secondAttribute="trailing" id="UO7-F2-654"/>
+                                    <constraint firstAttribute="width" constant="30" id="ez5-nD-ffZ"/>
+                                    <constraint firstItem="bzY-fu-BF0" firstAttribute="leading" secondItem="xR7-bv-n4P" secondAttribute="leading" id="wLs-EI-4HG"/>
+                                    <constraint firstAttribute="width" secondItem="xR7-bv-n4P" secondAttribute="height" id="zr8-Uo-3oC"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" name="Color0"/>
                         <constraints>
                             <constraint firstItem="eYe-H2-zEY" firstAttribute="leading" secondItem="JL6-uP-13G" secondAttribute="leading" constant="5" id="5ZA-4K-rcP"/>
                             <constraint firstItem="Kbc-D0-9G4" firstAttribute="centerY" secondItem="JL6-uP-13G" secondAttribute="centerY" id="jzd-V6-1QK"/>
                             <constraint firstItem="eYe-H2-zEY" firstAttribute="centerY" secondItem="JL6-uP-13G" secondAttribute="centerY" id="lOe-dc-MhV"/>
+                            <constraint firstAttribute="trailing" secondItem="xR7-bv-n4P" secondAttribute="trailing" constant="5" id="rzj-Ng-nrt"/>
                             <constraint firstItem="Kbc-D0-9G4" firstAttribute="leading" secondItem="eYe-H2-zEY" secondAttribute="trailing" constant="8" id="sxP-bf-a7c"/>
+                            <constraint firstItem="xR7-bv-n4P" firstAttribute="centerY" secondItem="eYe-H2-zEY" secondAttribute="centerY" id="tEz-bd-ueQ"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ast-3i-Faq">
@@ -69,6 +92,8 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="badgeLbl" destination="bzY-fu-BF0" id="0pL-yw-kBv"/>
+                <outlet property="badgeView" destination="xR7-bv-n4P" id="Mle-hv-jXg"/>
                 <outlet property="containerView" destination="JL6-uP-13G" id="Dnw-jA-qy4"/>
                 <outlet property="imgView" destination="eYe-H2-zEY" id="Igz-HY-kJF"/>
                 <outlet property="titleLbl" destination="Kbc-D0-9G4" id="0fC-uE-xVC"/>
@@ -81,10 +106,13 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl3">
-            <color red="0.14117647058823529" green="0.074509803921568626" blue="0.19607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl5">
-            <color red="0.94117647058823528" green="0.95294117647058818" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94099998474121094" green="0.95300000905990601" blue="0.9570000171661377" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

@@ -212,7 +212,10 @@ class FeedVC: UIViewController {
     func updateMyLocation() {
         updateLocationVM.updatelocation(ByLat: "\(Defaults.LocationLat)", AndLng: "\(Defaults.LocationLng)") { error, data in
             if let error = error {
-                self.showAlert(withMessage: error)
+//                self.showAlert(withMessage: error)
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
                 return
             }
             
@@ -396,7 +399,10 @@ class FeedVC: UIViewController {
             if self.internetConnect {
                 self.settingVM.toggleAllowMyLocation(allowMyLocation: true) { error, data in
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     
@@ -518,12 +524,18 @@ extension FeedVC:UITableViewDataSource {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1) { error, message in
                         self.hideLoading()
                         if let error = error {
-                            self.showAlert(withMessage: error)
+//                            self.showAlert(withMessage: error)
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
                             return
                         }
                         
                         guard let message = message else {return}
-                        self.showAlert(withMessage: message)
+//                        self.showAlert(withMessage: message)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(message)
+                        }
                         
                         DispatchQueue.main.async {
                             self.getAllFeeds(pageNumber: 0)
@@ -543,12 +555,18 @@ extension FeedVC:UITableViewDataSource {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
                         self.hideLoading()
                         if let error = error {
-                            self.showAlert(withMessage: error)
+//                            self.showAlert(withMessage: error)
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
                             return
                         }
                         
                         guard let message = message else {return}
-                        self.showAlert(withMessage: message)
+//                        self.showAlert(withMessage: message)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(message)
+                        }
                       
                         DispatchQueue.main.async {
                             self.getAllFeeds(pageNumber: 0)
@@ -569,12 +587,19 @@ extension FeedVC:UITableViewDataSource {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
                         self.hideLoading()
                         if let error = error {
-                            self.showAlert(withMessage: error)
+//                            self.showAlert(withMessage: error)
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
                             return
                         }
                         
                         guard let message = message else {return}
-                        self.showAlert(withMessage: message)
+//                        self.showAlert(withMessage: message)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(message)
+                        }
+                        
                         DispatchQueue.main.async {
                             self.getAllFeeds(pageNumber: 0)
                         }
@@ -604,12 +629,19 @@ extension FeedVC:UITableViewDataSource {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
                         self.hideLoading()
                         if let error = error {
-                            self.showAlert(withMessage: error)
+//                            self.showAlert(withMessage: error)
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
                             return
                         }
                         
                         guard let message = message else {return}
-                        self.showAlert(withMessage: message)
+//                        self.showAlert(withMessage: message)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(message)
+                        }
+                        
                         DispatchQueue.main.async {
                             self.getAllFeeds(pageNumber: 0)
                         }
@@ -629,12 +661,19 @@ extension FeedVC:UITableViewDataSource {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
                         self.hideLoading()
                         if let error = error {
-                            self.showAlert(withMessage: error)
+//                            self.showAlert(withMessage: error)
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
                             return
                         }
                         
                         guard let message = message else {return}
-                        self.showAlert(withMessage: message)
+//                        self.showAlert(withMessage: message)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(message)
+                        }
+                        
                         DispatchQueue.main.async {
                             self.getAllFeeds(pageNumber: 0)
                         }

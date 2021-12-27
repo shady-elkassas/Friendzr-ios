@@ -141,8 +141,8 @@
                                             <constraint firstAttribute="height" constant="1" id="fo5-Ox-Htw"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Explore more" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkR-nL-HY2">
-                                        <rect key="frame" x="169.5" y="12" width="75" height="23"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nearby Events" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkR-nL-HY2">
+                                        <rect key="frame" x="167" y="12" width="80.5" height="23"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="11"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -442,7 +442,7 @@
         <image name="current_location_ic" width="256" height="256"/>
         <image name="ic_map_marker" width="48" height="48"/>
         <image name="map_selected_ic" width="27" height="27"/>
-        <image name="map_unselected_ic" width="18" height="18"/>
+        <image name="map_unselected_ic" width="16" height="16"/>
         <image name="placeholder" width="1000" height="1000"/>
         <image name="satellite_ic" width="256" height="256"/>
         <namedColor name="Color0">

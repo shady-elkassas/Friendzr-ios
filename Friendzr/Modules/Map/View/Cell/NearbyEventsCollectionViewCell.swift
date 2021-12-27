@@ -15,9 +15,10 @@ class NearbyEventsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var eventDateLbl: UILabel!
     @IBOutlet weak var eventTitleLbl: UILabel!
     @IBOutlet weak var joinedLbl: UILabel!
-//    @IBOutlet weak var directionBtn: UIButton!
+    @IBOutlet weak var detailsBtn: UIButton!
     
-//    var HandleDirectionBtn: (()->())?
+    
+    var HandledetailsBtn: (()->())?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,7 +28,9 @@ class NearbyEventsCollectionViewCell: UICollectionViewCell {
         eventColorView.setCornerforTop()
     }
     
-//    @IBAction func directionBtn(_ sender: Any) {
-//        HandleDirectionBtn?()
-//    }
+    @IBAction func detailsBtn(_ sender: Any) {
+        HandledetailsBtn?()
+    }
+    
+    
 }

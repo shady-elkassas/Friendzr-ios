@@ -428,11 +428,19 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     }
     
     func HandleinvalidUrl() {
-        self.showAlert(withMessage: "sorry for that we have some maintaince with our servers please try again in few moments".localizedString)
+//        self.showAlert(withMessage: "sorry for that we have some maintaince with our servers please try again in few moments".localizedString)
+        
+        DispatchQueue.main.async {
+            self.view.makeToast("sorry for that we have some maintaince with our servers please try again in few moments".localizedString)
+        }
     }
     
     func HandleInternetConnection() {
-        self.showAlert(withMessage: "No avaliable newtwok ,Please try again!".localizedString)
+//        self.showAlert(withMessage: "No avaliable newtwok ,Please try again!".localizedString)
+        
+        DispatchQueue.main.async {
+            self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        }
     }
     
     @objc func loadMoreMessages() {

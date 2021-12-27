@@ -147,7 +147,10 @@ class EditEventsVC: UIViewController {
                 self.deleteEventVM.deleteEvent(ByEventid: self.eventModel?.id ?? "") { error, data in
                     self.hideLoading()
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     
@@ -233,12 +236,18 @@ class EditEventsVC: UIViewController {
                 
                 self.hideLoading()
                 if let error = error {
-                    self.showAlert(withMessage: error)
+//                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
                     return
                 }
                 
                 guard let _ = data else {return}
-                self.showAlert(withMessage: "Edit Save successfully")
+//                self.showAlert(withMessage: "Edit Save successfully")
+                DispatchQueue.main.async {
+                    self.view.makeToast("Edit Save successfully")
+                }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     self.onPopup()

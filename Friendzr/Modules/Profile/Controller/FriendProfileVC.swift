@@ -92,44 +92,28 @@ class FriendProfileVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func sendRequestBtn(_ sender: Any) {
-        alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        
-        alertView?.titleLbl.text = "Confirm?".localizedString
-        alertView?.detailsLbl.text = "Are you sure you want to send request?".localizedString
-        
-        alertView?.HandleConfirmBtn = {
-            self.updateUserInterfaceBtns()
-            if self.internetConect == true {
-                self.showLoading()
-                self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1) { error, message in
-                    self.hideLoading()
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
+        self.updateUserInterfaceBtns()
+        if self.internetConect == true {
+            self.showLoading()
+            self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1) { error, message in
+                self.hideLoading()
+                if let error = error {
+//                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
                     }
-                    
-                    guard let message = message else {return}
-                    self.showAlert(withMessage: message)
-                    self.getFriendProfileInformation()
+                    return
                 }
-            }else {
-                return
-            }
-            
-            
-            
-            // handling code
-            UIView.animate(withDuration: 0.3, animations: {
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.alertView?.alpha = 0
-            }) { (success: Bool) in
-                self.alertView?.removeFromSuperview()
-                self.alertView?.alpha = 1
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                
+                guard let message = message else {return}
+//                self.showAlert(withMessage: message)
+                DispatchQueue.main.async {
+                    self.view.makeToast(message)
+                }
+                
+                self.getFriendProfileInformation()
             }
         }
-        
-        self.view.addSubview((alertView)!)
     }
     
     @IBAction func cancelRequestBtn(_ sender: Any) {
@@ -145,12 +129,18 @@ class FriendProfileVC: UIViewController {
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6) { error, message in
                     self.hideLoading()
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     
                     guard let message = message else {return}
-                    self.showAlert(withMessage: message)
+//                    self.showAlert(withMessage: message)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(message)
+                    }
                     self.getFriendProfileInformation()
                 }
             }
@@ -182,12 +172,18 @@ class FriendProfileVC: UIViewController {
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6) { error, message in
                     self.hideLoading()
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     
                     guard let message = message else {return}
-                    self.showAlert(withMessage: message)
+//                    self.showAlert(withMessage: message)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(message)
+                    }
                     self.getFriendProfileInformation()
                 }
             }
@@ -207,41 +203,27 @@ class FriendProfileVC: UIViewController {
     }
     
     @IBAction func respondBtn(_ sender: Any) {
-        alertView?.frame = CGRect(x: 0, y: -100, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        
-        alertView?.titleLbl.text = "Confirm?".localizedString
-        alertView?.detailsLbl.text = "Are you sure you want to accept this request?".localizedString
-        
-        alertView?.HandleConfirmBtn = {
-            self.updateUserInterfaceBtns()
-            if self.internetConect == true {
-                self.showLoading()
-                self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 2) { error, message in
-                    self.hideLoading()
-                    if let error = error {
-                        self.showAlert(withMessage: error)
-                        return
+        self.updateUserInterfaceBtns()
+        if self.internetConect == true {
+            self.showLoading()
+            self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 2) { error, message in
+                self.hideLoading()
+                if let error = error {
+//                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
                     }
-                    
-                    guard let message = message else {return}
-                    self.showAlert(withMessage: message)
-                    self.getFriendProfileInformation()
+                    return
                 }
-            }else {
-                return
-            }
-            // handling code
-            UIView.animate(withDuration: 0.3, animations: {
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.alertView?.alpha = 0
-            }) { (success: Bool) in
-                self.alertView?.removeFromSuperview()
-                self.alertView?.alpha = 1
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                
+                guard let message = message else {return}
+//                self.showAlert(withMessage: message)
+                DispatchQueue.main.async {
+                    self.view.makeToast(message)
+                }
+                self.getFriendProfileInformation()
             }
         }
-        
-        self.view.addSubview((alertView)!)
     }
     
     @IBAction func unfriendBtn(_ sender: Any) {
@@ -261,12 +243,19 @@ class FriendProfileVC: UIViewController {
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 5) { error, message in
                     self.hideLoading()
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     
                     guard let message = message else {return}
-                    self.showAlert(withMessage: message)
+//                    self.showAlert(withMessage: message)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(message)
+                    }
+                    
                     self.getFriendProfileInformation()
                 }
             }else {
@@ -301,12 +290,19 @@ class FriendProfileVC: UIViewController {
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 3) { error, message in
                     self.hideLoading()
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     
                     guard let message = message else {return}
-                    self.showAlert(withMessage: message)
+//                    self.showAlert(withMessage: message)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(message)
+                    }
+                    
                     self.getFriendProfileInformation()
                 }
             }else {
@@ -341,12 +337,19 @@ class FriendProfileVC: UIViewController {
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 4) { error, message in
                     self.hideLoading()
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     
                     guard let message = message else {return}
-                    self.showAlert(withMessage: message)
+//                    self.showAlert(withMessage: message)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(message)
+                    }
+                    
                     self.getFriendProfileInformation()
                 }
             }else {
@@ -365,7 +368,7 @@ class FriendProfileVC: UIViewController {
         
         self.view.addSubview((alertView)!)
     }
-        
+    
     //MARK: - Helpers
     
     func updateUserInterface() {
@@ -419,7 +422,7 @@ class FriendProfileVC: UIViewController {
         tagListView.delegate = self
         tagListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
         tagListView.tagLineBreakMode = .byTruncatingTail
-
+        
         sendRequestBtn.cornerRadiusView(radius: 15)
         cancelRequestBtn.cornerRadiusView(radius: 15)
         respondBtn.cornerRadiusView(radius: 15)
@@ -462,19 +465,19 @@ class FriendProfileVC: UIViewController {
         print("tagListView.rows \(tagListView.rows)")
         tagListViewHeight.constant = CGFloat(tagListView.rows * 25)
         
-//        if tagListView.rows == 1 {
-//            tagsTopConstrains.constant = 10
-//            tagsBotomConstrains.constant = 10
-//        }else if tagListView.rows == 2 {
-//            tagsTopConstrains.constant = 8
-//            tagsBotomConstrains.constant = 16
-//        }else if tagListView.rows == 3 {
-//            tagsTopConstrains.constant = 8
-//            tagsBotomConstrains.constant = 30
-//        }else {
-//            tagsTopConstrains.constant = 8
-//            tagsBotomConstrains.constant = 36
-//        }
+        //        if tagListView.rows == 1 {
+        //            tagsTopConstrains.constant = 10
+        //            tagsBotomConstrains.constant = 10
+        //        }else if tagListView.rows == 2 {
+        //            tagsTopConstrains.constant = 8
+        //            tagsBotomConstrains.constant = 16
+        //        }else if tagListView.rows == 3 {
+        //            tagsTopConstrains.constant = 8
+        //            tagsBotomConstrains.constant = 30
+        //        }else {
+        //            tagsTopConstrains.constant = 8
+        //            tagsBotomConstrains.constant = 36
+        //        }
         
         switch model?.key {
         case 0:
@@ -541,13 +544,13 @@ class FriendProfileVC: UIViewController {
 }
 
 extension FriendProfileVC : TagListViewDelegate {
-
+    
     // MARK: TagListViewDelegate
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag pressed: \(title), \(sender)")
-//        tagView.isSelected = !tagView.isSelected
+        //        tagView.isSelected = !tagView.isSelected
     }
-
+    
     func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag Remove pressed: \(title), \(sender)")
         //        sender.removeTagView(tagView)

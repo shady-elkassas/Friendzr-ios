@@ -398,7 +398,10 @@ extension InboxVC:UITableViewDelegate {
                         self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false) { error, data in
                             self.hideLoading()
                             if let error = error {
-                                self.showAlert(withMessage: error)
+//                                self.showAlert(withMessage: error)
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
                                 return
                             }
                             
@@ -422,7 +425,10 @@ extension InboxVC:UITableViewDelegate {
                         self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false) { error, data in
                             self.hideLoading()
                             if let error = error {
-                                self.showAlert(withMessage: error)
+//                                self.showAlert(withMessage: error)
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
                                 return
                             }
                             
@@ -452,7 +458,10 @@ extension InboxVC:UITableViewDelegate {
                         self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
                             self.hideLoading()
                             if let error = error {
-                                self.showAlert(withMessage: error)
+//                                self.showAlert(withMessage: error)
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
                                 return
                             }
                             
@@ -460,7 +469,11 @@ extension InboxVC:UITableViewDelegate {
                                 return
                             }
                             
-                            self.showAlert(withMessage: "You have successfully left the chat")
+//                            self.showAlert(withMessage: "You have successfully left the chat")
+                            
+                            DispatchQueue.main.async {
+                                self.view.makeToast("You have successfully left the chat")
+                            }
                             
                             DispatchQueue.main.async {
                                 tableView.reloadData()
@@ -478,7 +491,10 @@ extension InboxVC:UITableViewDelegate {
                         self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
                             self.hideLoading()
                             if let error = error {
-                                self.showAlert(withMessage: error)
+//                                self.showAlert(withMessage: error)
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
                                 return
                             }
                             
@@ -486,7 +502,10 @@ extension InboxVC:UITableViewDelegate {
                                 return
                             }
                             
-                            self.showAlert(withMessage: "You have successfully left the chat")
+//                            self.showAlert(withMessage: "You have successfully left the chat")
+                            DispatchQueue.main.async {
+                                self.view.makeToast("You have successfully left the chat")
+                            }
                             
                             DispatchQueue.main.async {
                                 tableView.reloadData()
@@ -510,7 +529,10 @@ extension InboxVC:UITableViewDelegate {
                             self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
                                 self.hideLoading()
                                 if let error = error {
-                                    self.showAlert(withMessage: error)
+//                                    self.showAlert(withMessage: error)
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
                                     return
                                 }
                                 
@@ -535,7 +557,10 @@ extension InboxVC:UITableViewDelegate {
                             self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
                                 self.hideLoading()
                                 if let error = error {
-                                    self.showAlert(withMessage: error)
+//                                    self.showAlert(withMessage: error)
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
                                     return
                                 }
                                 
@@ -563,7 +588,10 @@ extension InboxVC:UITableViewDelegate {
                             self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
                                 self.hideLoading()
                                 if let error = error {
-                                    self.showAlert(withMessage: error)
+//                                    self.showAlert(withMessage: error)
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
                                     return
                                 }
                                 
@@ -588,7 +616,10 @@ extension InboxVC:UITableViewDelegate {
                             self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
                                 self.hideLoading()
                                 if let error = error {
-                                    self.showAlert(withMessage: error)
+//                                    self.showAlert(withMessage: error)
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
                                     return
                                 }
                                 
@@ -670,7 +701,7 @@ extension InboxVC: UISearchBarDelegate{
     
     func initNewConversationBarButton() {
         let button = UIButton.init(type: .custom)
-        button.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         let image = UIImage(named: "newMessage_ic")?.withRenderingMode(.automatic)
         
         button.setImage(image, for: .normal)

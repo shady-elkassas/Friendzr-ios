@@ -117,12 +117,20 @@ class AttendeesVC: UIViewController {
             self.viewmodel.editAttendees(ByUserAttendId: UserattendId, AndEventid: eventID, AndStutus: Stutus,Actiontime: Actiontime ,ActionDate: ActionDate) { [self] error, data in
                 self.hideLoading()
                 if let error = error {
-                    self.showAlert(withMessage: error)
+//                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    
                     return
                 }
                 
                 guard let _ = data else {return}
-                self.showAlert(withMessage: "Successfully \(messageString)")
+//                self.showAlert(withMessage: "Successfully \(messageString)")
+                
+                DispatchQueue.main.async {
+                    self.view.makeToast("Successfully \(messageString)" )
+                }
                 
                 DispatchQueue.main.async {
                     self.getAllAttendees()

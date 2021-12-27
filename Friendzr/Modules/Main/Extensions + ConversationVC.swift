@@ -314,7 +314,10 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
             viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
                 
                 if let error = error {
-                    self.showAlert(withMessage: error)
+//                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
                     return
                 }
                 
@@ -330,7 +333,10 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
         }else {
             viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
                 if let error = error {
-                    self.showAlert(withMessage: error)
+//                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
                     return
                 }
                 
@@ -445,7 +451,16 @@ extension ConversationVC: MessagesDisplayDelegate {
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
         
         let tail: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
-        return .bubbleTail(tail, .curved)
+        var borderColor:UIColor = .clear
+        
+        switch message.kind {
+        case .photo(_):
+            borderColor = .gray
+        default:
+            break
+        }
+        
+        return .bubbleTailOutline(borderColor,tail, .curved)
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
@@ -463,8 +478,6 @@ extension ConversationVC: MessagesDisplayDelegate {
         } else {
             imageView.image = self.sendingImageView
         }
-        
-        imageView.setBorder()
     }
     
     // MARK: - Location Messages
@@ -919,7 +932,10 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
                 viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
                     
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     
@@ -936,7 +952,10 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
                 viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
                     
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     
@@ -1140,7 +1159,10 @@ extension ConversationVC: UIDocumentPickerDelegate {
                 
                 viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     
@@ -1164,7 +1186,10 @@ extension ConversationVC: UIDocumentPickerDelegate {
                 viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
                     
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     

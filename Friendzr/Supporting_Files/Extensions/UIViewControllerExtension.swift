@@ -94,9 +94,9 @@ extension UIViewController {
         btn.frame = view.bounds
         btn.tintColor = .clear
         
-        view.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        imgView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        btn.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        view.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        imgView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        btn.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         
         view.addSubview(imgView)
         view.addSubview(btn)
@@ -213,7 +213,7 @@ extension UIViewController {
     
     
     func updateTitleView(image: String, subtitle: String?) {
-
+        
         let imageUser = UIImageView(frame: CGRect(x: 0, y: -5, width: 25, height: 25))
         imageUser.backgroundColor = UIColor.clear
         imageUser.image = UIImage(named: image)

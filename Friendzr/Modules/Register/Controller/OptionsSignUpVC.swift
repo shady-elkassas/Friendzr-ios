@@ -177,7 +177,10 @@ class OptionsSignUpVC: UIViewController {
                         self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, completion: { (error, data) in
                             self.hideLoading()
                             if let error = error {
-                                self.showAlert(withMessage: error)
+//                                self.showAlert(withMessage: error)
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
                                 return
                             }
                             
@@ -278,7 +281,10 @@ extension OptionsSignUpVC {
                     self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail, username: self.UserFBUserName, completion: { (error, data) in
                         self.hideLoading()
                         if let error = error {
-                            self.showAlert(withMessage: error)
+//                            self.showAlert(withMessage: error)
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
                             return
                         }
                         
@@ -376,7 +382,10 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
             self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
                 self.hideLoading()
                 if let error = error {
-                    self.showAlert(withMessage: error)
+//                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
                     return
                 }
                 

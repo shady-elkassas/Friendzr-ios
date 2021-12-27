@@ -377,13 +377,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .inactive:
             print("Inactive")
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
         case .background:
             print("Background")
             // update badge count here
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
         case .active:
             print("Active")
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
+
         default:
             break
         }

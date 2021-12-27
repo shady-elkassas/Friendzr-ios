@@ -302,7 +302,10 @@ class EditMyProfileVC: UIViewController {
                 self.logoutVM.logoutRequest { error, data in
                     self.hideLoading()
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     
@@ -541,11 +544,17 @@ class EditMyProfileVC: UIViewController {
         
         updateUserInterface2()
         if self.attachedImg == false {
-            self.showAlert(withMessage: "Please add profile image")
+//            self.showAlert(withMessage: "Please add profile image")
+            DispatchQueue.main.async {
+                self.view.makeToast("Please add profile image")
+            }
             return
         }else {
             if tagsid.isEmpty {
-                self.showAlert(withMessage: "Please select your tags")
+//                self.showAlert(withMessage: "Please select your tags")
+                DispatchQueue.main.async {
+                    self.view.makeToast("Please select your tags")
+                }
                 return
             }else {
                 if internetConect {
@@ -554,7 +563,10 @@ class EditMyProfileVC: UIViewController {
                         
                         self.hideLoading()
                         if let error = error {
-                            self.showAlert(withMessage: error)
+//                            self.showAlert(withMessage: error)
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
                             return
                         }
                         

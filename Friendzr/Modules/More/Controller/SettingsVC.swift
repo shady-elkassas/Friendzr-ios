@@ -167,7 +167,10 @@ class SettingsVC: UIViewController {
     func updateMyLocation() {
         updateLocationVM.updatelocation(ByLat: Defaults.LocationLat, AndLng: Defaults.LocationLng) { error, data in
             if let error = error {
-                self.showAlert(withMessage: error)
+//                self.showAlert(withMessage: error)
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
                 return
             }
             
@@ -283,7 +286,10 @@ class SettingsVC: UIViewController {
         self.viewmodel.filteringAccordingToAge(filteringaccordingtoage: true, agefrom: ageFrom, ageto: ageTo) { error, data in
             self.hideLoading()
             if let error = error {
-                self.showAlert(withMessage: error)
+//                self.showAlert(withMessage: error)
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
                 return
             }
             
@@ -304,7 +310,10 @@ class SettingsVC: UIViewController {
         self.viewmodel.updateManualdistanceControl(manualdistancecontrol: manualdistancecontrol) { error, data in
             self.hideLoading()
             if let error = error {
-                self.showAlert(withMessage: error)
+//                self.showAlert(withMessage: error)
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
                 return
             }
             
@@ -402,7 +411,10 @@ extension SettingsVC: UITableViewDataSource {
                         if self.internetConect {
                             self.viewmodel.togglePushNotification(pushNotification: false) { error, data in
                                 if let error = error {
-                                    self.showAlert(withMessage: error)
+//                                    self.showAlert(withMessage: error)
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
                                     return
                                 }
                                 
@@ -448,7 +460,10 @@ extension SettingsVC: UITableViewDataSource {
                         if self.internetConect {
                             self.viewmodel.togglePushNotification(pushNotification: true) { error, data in
                                 if let error = error {
-                                    self.showAlert(withMessage: error)
+//                                    self.showAlert(withMessage: error)
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
                                     return
                                 }
                                 
@@ -507,7 +522,10 @@ extension SettingsVC: UITableViewDataSource {
                         if self.internetConect {
                             self.viewmodel.toggleGhostMode(ghostMode: true, allowmylocationtype: 1) { error, data in
                                 if let error = error {
-                                    self.showAlert(withMessage: error)
+//                                    self.showAlert(withMessage: error)
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
                                     return
                                 }
                                 
@@ -539,7 +557,10 @@ extension SettingsVC: UITableViewDataSource {
                         if self.internetConect {
                             self.viewmodel.toggleGhostMode(ghostMode: true, allowmylocationtype: 2) { error, data in
                                 if let error = error {
-                                    self.showAlert(withMessage: error)
+//                                    self.showAlert(withMessage: error)
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
                                     return
                                 }
                                 
@@ -571,7 +592,10 @@ extension SettingsVC: UITableViewDataSource {
                         if self.internetConect {
                             self.viewmodel.toggleGhostMode(ghostMode: true, allowmylocationtype: 3) { error, data in
                                 if let error = error {
-                                    self.showAlert(withMessage: error)
+//                                    self.showAlert(withMessage: error)
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
                                     return
                                 }
                                 
@@ -623,7 +647,10 @@ extension SettingsVC: UITableViewDataSource {
                         if self.internetConect {
                             self.viewmodel.toggleGhostMode(ghostMode: false, allowmylocationtype: 0, completion: { error, data in
                                 if let error = error {
-                                    self.showAlert(withMessage: error)
+//                                    self.showAlert(withMessage: error)
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
                                     return
                                 }
                                 
@@ -681,7 +708,10 @@ extension SettingsVC: UITableViewDataSource {
                         if self.internetConect {
                             self.viewmodel.toggleAllowMyLocation(allowMyLocation: true) { error, data in
                                 if let error = error {
-                                    self.showAlert(withMessage: error)
+//                                    self.showAlert(withMessage: error)
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
                                     return
                                 }
                                 
@@ -728,7 +758,10 @@ extension SettingsVC: UITableViewDataSource {
                         if self.internetConect {
                             self.viewmodel.toggleAllowMyLocation(allowMyLocation: false) { error, data in
                                 if let error = error {
-                                    self.showAlert(withMessage: error)
+//                                    self.showAlert(withMessage: error)
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
                                     return
                                 }
                                 
@@ -795,7 +828,18 @@ extension SettingsVC: UITableViewDataSource {
             //            }
             //
             //            return cell
-        case 3://change password
+        case 3://manual distance
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
+            cell.titleLbl.text = "Distance Filter"
+            cell.iconImg.image = UIImage(named: "manaualDistanceControl_ic")
+            return cell
+        case 4://filtring age
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
+            cell.titleLbl.text = "Age Filter"
+            cell.iconImg.image = UIImage(named: "filterAccourdingAge_ic")
+            return cell
+   
+        case 5://change password
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Change Password"
             cell.iconImg.image = UIImage(named: "changePassword_ic")
@@ -806,21 +850,12 @@ extension SettingsVC: UITableViewDataSource {
             //            cell.iconImg.image = UIImage(named: "notifications_ic")
             //            return cell
             
-        case 4://block list
+        case 6://block list
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Block List"
             cell.iconImg.image = UIImage(named: "blocked_ic")
             return cell
-        case 5://filtring age
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
-            cell.titleLbl.text = "Filtring According Age"
-            cell.iconImg.image = UIImage(named: "filterAccourdingAge_ic")
-            return cell
-        case 6://manual distance
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
-            cell.titleLbl.text = "Manual Distance Control"
-            cell.iconImg.image = UIImage(named: "manaualDistanceControl_ic")
-            return cell
+  
         case 7://delete account
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Delete Account"
@@ -839,18 +874,18 @@ extension SettingsVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 3 {//change password
+        if indexPath.row == 5 {//change password
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "ChangePasswordVC") as? ChangePasswordVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        else if indexPath.row == 4 {//block list
+        else if indexPath.row == 6 {//block list
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "BlockedListVC") as? BlockedListVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        else if indexPath.row == 5 {//filtring age
+        else if indexPath.row == 4 {//filtring age
             self.createAgeSlider()
         }
-        else if indexPath.row == 6 {//manual distance
+        else if indexPath.row == 3 {//manual distance
             self.createDistanceSlider()
         }
         else if indexPath.row == 7 {
@@ -867,7 +902,10 @@ extension SettingsVC: UITableViewDelegate {
                         self.hideLoading()
                         
                         if let error = error {
-                            self.showAlert(withMessage: error)
+//                            self.showAlert(withMessage: error)
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
                             return
                         }
                         

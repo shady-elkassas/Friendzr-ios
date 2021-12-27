@@ -204,6 +204,15 @@ class Defaults {
         }
     }
     
+    static var badgeNumber: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "badgeNumber")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "badgeNumber")
+        }
+    }
     
     static var facebook: String {
         set{
@@ -339,6 +348,7 @@ class Defaults {
         defaults.removeObject(forKey: "needUpdate")
         defaults.removeObject(forKey: "allowMyLocation")
         defaults.removeObject(forKey: "isFirstFilter")
+        defaults.removeObject(forKey: "badgeNumber")
 
         if let token = AccessToken.current,
            !token.isExpired {

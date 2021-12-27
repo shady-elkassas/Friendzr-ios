@@ -9,6 +9,7 @@ import UIKit
 import SwiftUI
 import SDWebImage
 import GoogleMaps
+import Alamofire
 
 class EventDetailsVC: UIViewController {
     
@@ -24,6 +25,7 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var leaveBtn: UIButton!
     @IBOutlet weak var joinBtn: UIButton!
+    @IBOutlet weak var chatBtn: UIButton!
     @IBOutlet weak var interestsStatisticsView: UIView!
     @IBOutlet weak var attendeesTableView: UITableView!
     @IBOutlet weak var attendeesViewHeight: NSLayoutConstraint!
@@ -116,9 +118,11 @@ class EventDetailsVC: UIViewController {
     func setupViews() {
         editBtn.cornerRadiusView(radius: 8)
         joinBtn.cornerRadiusView(radius: 8)
+        chatBtn.cornerRadiusView(radius: 8)
         leaveBtn.cornerRadiusView(radius: 8)
         detailsView.cornerRadiusView(radius: 21)
         interestsStatisticsView.cornerRadiusView(radius: 21)
+        chatBtn.setBorder()
         
         attendeesTableView.register(UINib(nibName: attendeesCellID, bundle: nil), forCellReuseIdentifier: attendeesCellID)
         attendeesTableView.register(UINib(nibName: footerCellID, bundle: nil), forHeaderFooterViewReuseIdentifier: footerCellID)
@@ -162,17 +166,20 @@ class EventDetailsVC: UIViewController {
         categoryNameLbl.text = model?.categorie
         descreptionLbl.text = model?.descriptionEvent
         eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
-        if model?.key == 1 {
+        if model?.key == 1 { //my event
             editBtn.isHidden = false
+            chatBtn.isHidden = false
             joinBtn.isHidden = true
             leaveBtn.isHidden = true
         }else if model?.key == 2 { // not join
             editBtn.isHidden = true
+            chatBtn.isHidden = true
             joinBtn.isHidden = false
             leaveBtn.isHidden = true
             attendeesViewHeight.constant = 0
         }else { // join
             editBtn.isHidden = true
+            chatBtn.isHidden = false
             joinBtn.isHidden = true
             leaveBtn.isHidden = false
             attendeesViewHeight.constant = 0
@@ -291,7 +298,9 @@ class EventDetailsVC: UIViewController {
             joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? "",JoinDate:JoinDate ,Jointime:Jointime) { error, data in
                 self.hideLoading()
                 if let error = error {
-                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
                     return
                 }
                 
@@ -315,7 +324,9 @@ class EventDetailsVC: UIViewController {
             leaveVM.leaveEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in
                 self.hideLoading()
                 if let error = error {
-                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
                     return
                 }
                 
@@ -330,6 +341,14 @@ class EventDetailsVC: UIViewController {
         }else {
             return
         }
+    }
+    
+    @IBAction func chatBtn(_ sender: Any) {
+//        if viewmodel.event.value?.key == 1 {
+            Router().toConversationVC(isEvent: true, eventChatID: viewmodel.event.value?.id ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: viewmodel.event.value?.image ?? "", titleChatName: viewmodel.event.value?.title ?? "")
+//        }else {
+//
+//        }
     }
     
     @IBAction func openGoogleDirectionsMapBtn(_ sender: Any) {
@@ -413,17 +432,18 @@ extension EventDetailsVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == 0 {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: interestCellID, for: indexPath) as? InterestsCollectionViewCell else {return UICollectionViewCell()}
-            cell.model = viewmodel.event.value?.interestStatistic
-            cell.parentVC = self
-            cell.tableView.reloadData()
-            return cell
-        }else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: genderCellID, for: indexPath) as? GenderCollectionViewCell else {return UICollectionViewCell()}
             cell.model = viewmodel.event.value?.genderStatistic
             cell.parentVC = self
             cell.tableView.reloadData()
             return cell
+        }else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: interestCellID, for: indexPath) as? InterestsCollectionViewCell else {return UICollectionViewCell()}
+            cell.model = viewmodel.event.value?.interestStatistic
+            cell.parentVC = self
+            cell.tableView.reloadData()
+            return cell
+
         }
     }
 }

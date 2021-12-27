@@ -158,7 +158,11 @@ class TagsVC: UIViewController {
             names.append(itm.text!)
             
             if ids.count > 5 {
-                self.showAlert(withMessage: "Choose maximum 5 interests".localizedString)
+//                self.showAlert(withMessage: "Choose maximum 5 interests".localizedString)
+                
+                DispatchQueue.main.async {
+                    self.view.makeToast("Choose maximum 5 interests".localizedString)
+                }
                 return
             }else {
                 onInterestsCallBackResponse!(ids,names)
@@ -166,7 +170,10 @@ class TagsVC: UIViewController {
         }
         
         if ids.count == 0 {
-            self.showAlert(withMessage: "You have to select Interests".localizedString)
+//            self.showAlert(withMessage: "You have to select Interests".localizedString)
+            DispatchQueue.main.async {
+                self.view.makeToast("You have to select Interests".localizedString)
+            }
             return
         }else {
             self.onPopup()
@@ -185,7 +192,10 @@ class TagsVC: UIViewController {
                 self.vm.getAllInterests(completion: { (error, cats) in
                     self.hideLoading()
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     guard let data = cats else {return}

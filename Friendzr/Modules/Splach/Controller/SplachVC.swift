@@ -199,7 +199,10 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
             if Defaults.token != "" {
                 self.settingVM.toggleAllowMyLocation(allowMyLocation: false) { error, data in
                     if let error = error {
-                        self.showAlert(withMessage: error)
+//                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
                     }
                     

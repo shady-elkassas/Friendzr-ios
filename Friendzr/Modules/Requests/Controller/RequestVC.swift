@@ -220,12 +220,18 @@ extension RequestVC:UITableViewDataSource {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
                         self.hideLoading()
                         if let error = error {
-                            self.showAlert(withMessage: error)
+//                            self.showAlert(withMessage: error)
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
                             return
                         }
                         
                         guard let message = message else {return}
-                        self.showAlert(withMessage: message)
+//                        self.showAlert(withMessage: message)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(message)
+                        }
                         
                         cell.stackViewBtns.isHidden = true
                         cell.messageBtn.isHidden = false
@@ -244,12 +250,18 @@ extension RequestVC:UITableViewDataSource {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
                         self.hideLoading()
                         if let error = error {
-                            self.showAlert(withMessage: error)
+//                            self.showAlert(withMessage: error)
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
                             return
                         }
                         
                         guard let message = message else {return}
-                        self.showAlert(withMessage: message)
+//                        self.showAlert(withMessage: message)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(message)
+                        }
                         
                         cell.stackViewBtns.isHidden = true
                         cell.messageBtn.isHidden = true

@@ -130,7 +130,11 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                 arrSelectedDataIds.append(strData?.id ?? "")
                 arrSelectedDataNames.append(strData?.name ?? "")
             }else {
-                self.showAlert(withMessage: "Please the number of tags must not be more than 8")
+//                self.showAlert(withMessage: "Please the number of tags must not be more than 8")
+                
+                DispatchQueue.main.async {
+                    self.view.makeToast("Please the number of tags must not be more than 8")
+                }
             }
         }
         

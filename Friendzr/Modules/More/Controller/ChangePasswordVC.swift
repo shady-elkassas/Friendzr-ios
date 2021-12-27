@@ -83,11 +83,18 @@ class ChangePasswordVC: UIViewController {
             viewmodel.changePasswordRequest(witholdPassword: oldPasswordTxt.text!, AndNewPassword: newPasswordTxt.text!, AndConfirmNewPassword: confirmNewPasswordTxt.text!) { error, data in
                 self.hideLoading()
                 if let error = error{
-                    self.showAlert(withMessage: error)
+//                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
                     return
                 }
                 guard let _ = data else {return}
-                self.showAlert(withMessage:"Password changed successfully".localizedString)
+//                self.showAlert(withMessage:"Password changed successfully".localizedString)
+                
+                DispatchQueue.main.async {
+                    self.view.makeToast("Password changed successfully".localizedString)
+                }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1 , execute: {
                     self.onPopup()
