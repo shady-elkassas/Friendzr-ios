@@ -419,7 +419,7 @@ class ChatViewModel {
     }
     
     func getChatMessages(ByUserId userid:String,pageNumber:Int) {
-        CancelRequest.currentTask = false
+//        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/Chatdata"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
@@ -455,7 +455,7 @@ class ChatViewModel {
     }
     
     func getChatMessages(ByEventId eventid:String,pageNumber:Int) {
-        CancelRequest.currentTask = false
+//        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/EventChat"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         

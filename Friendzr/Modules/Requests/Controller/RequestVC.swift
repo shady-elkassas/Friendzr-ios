@@ -39,16 +39,16 @@ class RequestVC: UIViewController {
         setup()
         pullToRefresh()
         self.title = "Request"
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
         initProfileBarButton()
-        
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
-        
+
         CancelRequest.currentTask = false
     }
     
