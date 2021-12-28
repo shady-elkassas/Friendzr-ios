@@ -92,7 +92,7 @@ class EditMyProfileVC: UIViewController {
             initBackButton()
         }
         clearNavigationBar()
-
+        
         CancelRequest.currentTask = false
     }
     
@@ -230,7 +230,7 @@ class EditMyProfileVC: UIViewController {
         }else {
             tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 25
             selectTagsLbl.isHidden = true
-
+            
             print("tagsViewHeight.constant >> \(tagsViewHeight.constant)")
         }
         
@@ -278,7 +278,7 @@ class EditMyProfileVC: UIViewController {
         }
         
         print("tagsViewHeight.constant >> \(tagsViewHeight.constant)")
-
+        
         tagsid.removeAll()
         for itm in data {
             tagsid.append(itm)
@@ -312,7 +312,7 @@ class EditMyProfileVC: UIViewController {
                 self.logoutVM.logoutRequest { error, data in
                     self.hideLoading()
                     if let error = error {
-//                        self.showAlert(withMessage: error)
+                        //                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
@@ -554,14 +554,14 @@ class EditMyProfileVC: UIViewController {
         
         updateUserInterface2()
         if self.attachedImg == false {
-//            self.showAlert(withMessage: "Please add profile image")
+            //            self.showAlert(withMessage: "Please add profile image")
             DispatchQueue.main.async {
                 self.view.makeToast("Please add profile image")
             }
             return
         }else {
             if tagsid.isEmpty {
-//                self.showAlert(withMessage: "Please select your tags")
+                //                self.showAlert(withMessage: "Please select your tags")
                 DispatchQueue.main.async {
                     self.view.makeToast("Please select your tags")
                 }
@@ -573,7 +573,7 @@ class EditMyProfileVC: UIViewController {
                         
                         self.hideLoading()
                         if let error = error {
-//                            self.showAlert(withMessage: error)
+                            //                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }
@@ -620,8 +620,9 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         picker.dismiss(animated:true, completion: {
-            
-            self.profileImg.image = image
+            let size = CGSize(width: screenW, height: screenW)
+            let img = image.crop(to: size)
+            self.profileImg.image = img
             self.attachedImg = true
         })
     }
@@ -727,7 +728,7 @@ extension EditMyProfileVC {
         button.setImage(image, for: .normal)
         image?.withTintColor(UIColor.blue)
         button.addTarget(self, action:  #selector(backToInbox), for: .touchUpInside)
-//        button.sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
+        //        button.sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.leftBarButtonItem = barButton
     }

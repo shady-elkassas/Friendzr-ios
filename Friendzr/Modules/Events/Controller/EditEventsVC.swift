@@ -508,7 +508,7 @@ extension EditEventsVC : UITextViewDelegate {
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (descriptionTxtView.text as NSString).replacingCharacters(in: range, with: text)
-        return newText.count < 250
+        return newText.count < 150
     }
 }
 
@@ -618,7 +618,9 @@ extension EditEventsVC : UIImagePickerControllerDelegate,UINavigationControllerD
         
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         picker.dismiss(animated:true, completion: {
-            self.eventImg.image = image
+            let size = CGSize(width: screenW, height: screenW)
+            let img = image.crop(to: size)
+            self.eventImg.image = img
             self.attachedImg = true
         })
     }
