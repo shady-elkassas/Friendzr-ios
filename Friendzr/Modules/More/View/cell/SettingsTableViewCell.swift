@@ -13,6 +13,7 @@ class SettingsTableViewCell: UITableViewCell {
     @IBOutlet weak var settingIcon: UIImageView!
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var switchBtn: UISwitch!
+    @IBOutlet weak var ghostModeTypeLbl: UILabel!
     
     var HandleSwitchBtn: (()->())?
 

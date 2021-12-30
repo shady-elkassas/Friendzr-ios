@@ -100,11 +100,10 @@ class FriendProfileVC: UIViewController {
     @IBAction func sendRequestBtn(_ sender: Any) {
         self.updateUserInterfaceBtns()
         if self.internetConect == true {
-            self.showLoading()
+            changeTitleBtns(btn: sendRequestBtn, title: "Sending...")
             self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1) { error, message in
-                self.hideLoading()
+//                self.hideLoading()
                 if let error = error {
-//                    self.showAlert(withMessage: error)
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
@@ -112,7 +111,6 @@ class FriendProfileVC: UIViewController {
                 }
                 
                 guard let message = message else {return}
-//                self.showAlert(withMessage: message)
                 DispatchQueue.main.async {
                     self.view.makeToast(message)
                 }
@@ -123,62 +121,40 @@ class FriendProfileVC: UIViewController {
     }
     
     @IBAction func cancelRequestBtn(_ sender: Any) {
-        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        
-        alertView?.titleLbl.text = "Confirm?".localizedString
-        alertView?.detailsLbl.text = "Are you sure you want to cancel this request?".localizedString
-        
-        alertView?.HandleConfirmBtn = {
-            self.updateUserInterfaceBtns()
-            if self.internetConect == true {
-                self.showLoading()
-                self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6) { error, message in
-                    self.hideLoading()
-                    if let error = error {
-//                        self.showAlert(withMessage: error)
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                        }
-                        return
-                    }
-                    
-                    guard let message = message else {return}
-//                    self.showAlert(withMessage: message)
+        self.updateUserInterfaceBtns()
+        if self.internetConect == true {
+            self.changeTitleBtns(btn: self.cancelRequestBtn, title: "Sending...")
+            self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6) { error, message in
+                self.hideLoading()
+                if let error = error {
                     DispatchQueue.main.async {
-                        self.view.makeToast(message)
+                        self.view.makeToast(error)
                     }
-                    self.getFriendProfileInformation()
+                    return
                 }
-            }
-            
-            // handling code
-            UIView.animate(withDuration: 0.3, animations: {
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.alertView?.alpha = 0
-            }) { (success: Bool) in
-                self.alertView?.removeFromSuperview()
-                self.alertView?.alpha = 1
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                
+                guard let message = message else {return}
+                DispatchQueue.main.async {
+                    self.view.makeToast(message)
+                }
+                
+                self.getFriendProfileInformation()
             }
         }
-        
-        self.view.addSubview((alertView)!)
     }
     
     @IBAction func refusedRequestBtn(_ sender: Any) {
         alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         alertView?.titleLbl.text = "Confirm?".localizedString
-        alertView?.detailsLbl.text = "Are you sure you want to cancel this request?".localizedString
+        alertView?.detailsLbl.text = "Are you sure you want to refuse this request?".localizedString
         
         alertView?.HandleConfirmBtn = {
             self.updateUserInterfaceBtns()
             if self.internetConect == true {
-                self.showLoading()
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6) { error, message in
                     self.hideLoading()
                     if let error = error {
-//                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
@@ -186,7 +162,6 @@ class FriendProfileVC: UIViewController {
                     }
                     
                     guard let message = message else {return}
-//                    self.showAlert(withMessage: message)
                     DispatchQueue.main.async {
                         self.view.makeToast(message)
                     }
@@ -211,11 +186,8 @@ class FriendProfileVC: UIViewController {
     @IBAction func respondBtn(_ sender: Any) {
         self.updateUserInterfaceBtns()
         if self.internetConect == true {
-            self.showLoading()
             self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 2) { error, message in
-                self.hideLoading()
                 if let error = error {
-//                    self.showAlert(withMessage: error)
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
@@ -223,7 +195,6 @@ class FriendProfileVC: UIViewController {
                 }
                 
                 guard let message = message else {return}
-//                self.showAlert(withMessage: message)
                 DispatchQueue.main.async {
                     self.view.makeToast(message)
                 }
@@ -245,11 +216,9 @@ class FriendProfileVC: UIViewController {
                 self.sendRequestBtn.isHidden = false
                 self.svBtns.isHidden = true
                 
-                self.showLoading()
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 5) { error, message in
                     self.hideLoading()
                     if let error = error {
-//                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
@@ -257,7 +226,7 @@ class FriendProfileVC: UIViewController {
                     }
                     
                     guard let message = message else {return}
-//                    self.showAlert(withMessage: message)
+
                     DispatchQueue.main.async {
                         self.view.makeToast(message)
                     }
@@ -292,11 +261,11 @@ class FriendProfileVC: UIViewController {
             self.updateUserInterfaceBtns()
             if self.internetConect == true {
                 
-                self.showLoading()
+//                self.showLoading()
+                self.changeTitleBtns(btn: self.blockBtn, title: "Sending...")
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 3) { error, message in
                     self.hideLoading()
                     if let error = error {
-//                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
@@ -304,15 +273,12 @@ class FriendProfileVC: UIViewController {
                     }
                     
                     guard let message = message else {return}
-//                    self.showAlert(withMessage: message)
                     DispatchQueue.main.async {
                         self.view.makeToast(message)
                     }
                     
                     self.getFriendProfileInformation()
                 }
-            }else {
-                return
             }
             
             UIView.animate(withDuration: 0.3, animations: {
@@ -334,16 +300,15 @@ class FriendProfileVC: UIViewController {
         alertView?.titleLbl.text = "Confirm?".localizedString
         alertView?.detailsLbl.text = "Are you sure you want to unblock this account?".localizedString
         
-        alertView?.HandleConfirmBtn = {
+        alertView?.HandleConfirmBtn = { [self] in
             // handling code
             self.updateUserInterfaceBtns()
             if self.internetConect == true {
                 
-                self.showLoading()
+                self.changeTitleBtns(btn: self.unblockBtn, title: "Sending...")
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 4) { error, message in
                     self.hideLoading()
                     if let error = error {
-//                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
@@ -351,7 +316,6 @@ class FriendProfileVC: UIViewController {
                     }
                     
                     guard let message = message else {return}
-//                    self.showAlert(withMessage: message)
                     DispatchQueue.main.async {
                         self.view.makeToast(message)
                     }
@@ -377,6 +341,11 @@ class FriendProfileVC: UIViewController {
     
     //MARK: - Helpers
     
+    //change title for any btns
+    func changeTitleBtns(btn:UIButton,title:String) {
+        btn.setTitle(title, for: .normal)
+    }
+
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -454,37 +423,61 @@ class FriendProfileVC: UIViewController {
         }
     }
     
+    let myGroup = DispatchGroup()
+
     func setupData() {
         let model = viewmodel.model.value
-        aboutFriendLbl.text = model?.bio
-        userNameLbl.text = "@\(model?.displayedUserName ?? "")"
-        nameLbl.text = model?.userName
-        ageLbl.text = "\(model?.age ?? 0)"
-        genderLbl.text = model?.gender
-        profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))
-        
-        tagListView.removeAllTags()
-        for item in model?.listoftagsmodel ?? [] {
-            tagListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
+        myGroup.notify(queue: .main) { [self] in
+            myGroup.enter()
+            DispatchQueue.main.async {
+                self.tagListView.removeAllTags()
+                for item in model?.listoftagsmodel ?? [] {
+                    self.tagListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
+                }
+                
+                print("tagListView.rows \(self.tagListView.rows)")
+                self.tagListViewHeight.constant = CGFloat(self.tagListView.rows * 25)
+                
+                if self.tagListView.rows == 1 {
+                    self.tagsTopConstrains.constant = 16
+                    self.tagsBotomConstrains.constant = 16
+                }else if self.tagListView.rows == 2 {
+                    self.tagsTopConstrains.constant = 18
+                    self.tagsBotomConstrains.constant = 26
+                }else if self.tagListView.rows == 3 {
+                    self.tagsTopConstrains.constant = 18
+                    self.tagsBotomConstrains.constant = 40
+                }else {
+                    self.tagsTopConstrains.constant = 18
+                    self.tagsBotomConstrains.constant = 46
+                }
+            }
+            
+            DispatchQueue.main.async {
+                
+                self.aboutFriendLbl.text = model?.bio
+                self.userNameLbl.text = "@\(model?.displayedUserName ?? "")"
+                self.nameLbl.text = model?.userName
+                self.ageLbl.text = "\(model?.age ?? 0)"
+                self.genderLbl.text = model?.gender
+                self.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            }
+            
+            DispatchQueue.main.async {
+                self.btnsState(model)
+                self.changeTitleBtns(btn: self.sendRequestBtn, title: "Send Request")
+                self.changeTitleBtns(btn: self.cancelRequestBtn, title: "Cancel Request")
+                self.changeTitleBtns(btn: self.unblockBtn, title: "Unblock")
+                self.changeTitleBtns(btn: self.blockBtn, title: "Block")
+                self.changeTitleBtns(btn: self.respondBtn, title: "Accept")
+            }
+            
+            myGroup.leave()
         }
         
-        print("tagListView.rows \(tagListView.rows)")
-        tagListViewHeight.constant = CGFloat(tagListView.rows * 25)
-        
-        if tagListView.rows == 1 {
-            tagsTopConstrains.constant = 16
-            tagsBotomConstrains.constant = 16
-        }else if tagListView.rows == 2 {
-            tagsTopConstrains.constant = 18
-            tagsBotomConstrains.constant = 26
-        }else if tagListView.rows == 3 {
-            tagsTopConstrains.constant = 18
-            tagsBotomConstrains.constant = 40
-        }else {
-            tagsTopConstrains.constant = 18
-            tagsBotomConstrains.constant = 46
-        }
-        
+    }
+    
+    func btnsState(_ model: FriendObj?) {
         switch model?.key {
         case 0:
             //Status = normal case

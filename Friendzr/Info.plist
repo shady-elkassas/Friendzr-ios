@@ -47,6 +47,8 @@
 	<string>546251653295074</string>
 	<key>FacebookAutoLogAppEventsEnabled</key>
 	<true/>
+	<key>FacebookClientToken</key>
+	<string>9a85ba547b6270263cc1fefb77c8bada</string>
 	<key>FacebookDisplayName</key>
 	<string>Friendzr</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>

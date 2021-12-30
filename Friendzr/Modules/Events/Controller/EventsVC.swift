@@ -152,6 +152,7 @@ class EventsVC: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
+        currentPage = 1
         updateUserInterface()
         self.refreshControl.endRefreshing()
     }

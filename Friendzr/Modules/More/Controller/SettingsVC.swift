@@ -118,7 +118,7 @@ class SettingsVC: UIViewController {
         tableView.reloadData()
         
         
-        settingsViewHeight.constant = CGFloat(8 * 60)
+        settingsViewHeight.constant = CGFloat(7 * 60)
         
         ageFrom = model?.agefrom ?? 14
         ageTo = model?.ageto ?? 85
@@ -388,7 +388,7 @@ extension SettingsVC :CLLocationManagerDelegate {
 extension SettingsVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        return 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -405,6 +405,7 @@ extension SettingsVC: UITableViewDataSource {
                 cell.switchBtn.isOn = false
             }
             
+            cell.ghostModeTypeLbl.isHidden = true
             cell.HandleSwitchBtn = {
                 if self.model?.pushnotification == true {
                     self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -514,8 +515,22 @@ extension SettingsVC: UITableViewDataSource {
             
             if model?.ghostmode == true {
                 cell.switchBtn.isOn = true
+                cell.ghostModeTypeLbl.isHidden = false
             }else{
                 cell.switchBtn.isOn = false
+                cell.ghostModeTypeLbl.isHidden = true
+            }
+            
+            if model?.allowMyAppearanceType == 1 {
+                cell.ghostModeTypeLbl.text = "Every One"
+            }else if model?.allowMyAppearanceType == 2 {
+                cell.ghostModeTypeLbl.text = "Men"
+            }else if model?.allowMyAppearanceType == 3 {
+                cell.ghostModeTypeLbl.text = "Women"
+            }else if model?.allowMyAppearanceType == 4 {
+                cell.ghostModeTypeLbl.text = "Other Gender"
+            }else {
+                cell.ghostModeTypeLbl.isHidden = true
             }
             
             cell.HandleSwitchBtn = {
@@ -627,6 +642,40 @@ extension SettingsVC: UITableViewDataSource {
                         }
                     }
                     
+                    self.alertView?.HandlehHideFromOtherGenderViewBtn = {
+                        
+                        self.updateUserInterfaceForBtns()
+                        
+                        if self.internetConect {
+                            self.viewmodel.toggleGhostMode(ghostMode: true, allowmylocationtype: 4) { error, data in
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
+                                    return
+                                }
+                                
+                                guard data != nil else {
+                                    return
+                                }
+                                
+                                self.model = data
+                                DispatchQueue.main.async {
+                                    self.setupData()
+                                }
+                            }
+                        }
+                        // handling code
+                        UIView.animate(withDuration: 0.3, animations: {
+                            self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                            self.alertView?.alpha = 0
+                        }) { (success: Bool) in
+                            self.alertView?.removeFromSuperview()
+                            self.alertView?.alpha = 1
+                            self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                        }
+                    }
+                    
                     self.alertView?.HandlehideViewBtn = {
                         self.setupData()
                         
@@ -640,6 +689,7 @@ extension SettingsVC: UITableViewDataSource {
                             self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
                         }
                     }
+                    
                     self.view.addSubview((self.alertView)!)
                     
                 }else {
@@ -691,124 +741,125 @@ extension SettingsVC: UITableViewDataSource {
                 }
             }
             return cell
-        case 2://allowlocation
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
-            cell.titleLbl.text = "Allow My Location"
-            cell.settingIcon.image = UIImage(named: "location_ic")
             
-            if model?.allowmylocation == true {
-                cell.switchBtn.isOn = true
-            }else {
-                cell.switchBtn.isOn = false
-            }
-            
-            cell.HandleSwitchBtn = {
-                if self.model?.allowmylocation == false {
-                    
-                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                    self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
-                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn on your location?"
-                    
-                    self.deleteAlertView?.HandleConfirmBtn = {
-                        self.updateUserInterfaceForBtns()
-                        
-                        if self.internetConect {
-                            self.viewmodel.toggleAllowMyLocation(allowMyLocation: true) { error, data in
-                                if let error = error {
-//                                    self.showAlert(withMessage: error)
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
-                                    }
-                                    return
-                                }
-                                
-                                guard let data = data else {
-                                    return
-                                }
-                                
-                                Defaults.allowMyLocation = data.allowmylocation ?? false
-                                
-                                self.model = data
-                                DispatchQueue.main.async {
-                                    self.setupData()
-                                }
-                                
-                                self.updateMyLocation()
-                            }
-                        }
-                        // handling code
-                        UIView.animate(withDuration: 0.3, animations: {
-                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                            self.deleteAlertView?.alpha = 0
-                        }) { (success: Bool) in
-                            self.deleteAlertView?.removeFromSuperview()
-                            self.deleteAlertView?.alpha = 1
-                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                        }
-                    }
-                    
-                    self.deleteAlertView?.HandleCancelBtn = {
-                        DispatchQueue.main.async {
-                            self.setupData()
-                        }
-                    }
-                    self.view.addSubview((self.deleteAlertView)!)
-                }else {
-                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                    
-                    self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
-                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off your location??"
-                    
-                    self.deleteAlertView?.HandleConfirmBtn = {
-                        self.updateUserInterfaceForBtns()
-                        
-                        if self.internetConect {
-                            self.viewmodel.toggleAllowMyLocation(allowMyLocation: false) { error, data in
-                                if let error = error {
-//                                    self.showAlert(withMessage: error)
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
-                                    }
-                                    return
-                                }
-                                
-                                guard let data = data else {
-                                    return
-                                }
-                                
-                                Defaults.allowMyLocation = data.allowmylocation ?? true
-                                
-                                self.model = data
-                                
-                                DispatchQueue.main.async {
-                                    self.setupData()
-                                }
-                                
-                            }
-                            
-                        }
-                        // handling code
-                        UIView.animate(withDuration: 0.3, animations: {
-                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                            self.deleteAlertView?.alpha = 0
-                        }) { (success: Bool) in
-                            self.deleteAlertView?.removeFromSuperview()
-                            self.deleteAlertView?.alpha = 1
-                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                        }
-                    }
-                    
-                    self.deleteAlertView?.HandleCancelBtn = {
-                        DispatchQueue.main.async {
-                            self.setupData()
-                        }
-                    }
-                    
-                    self.view.addSubview((self.deleteAlertView)!)
-                }
-            }
-            
-            return cell
+//        case 2://allowlocation
+//            guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
+//            cell.titleLbl.text = "Allow My Location"
+//            cell.settingIcon.image = UIImage(named: "location_ic")
+//
+//            if model?.allowmylocation == true {
+//                cell.switchBtn.isOn = true
+//            }else {
+//                cell.switchBtn.isOn = false
+//            }
+//
+//            cell.HandleSwitchBtn = {
+//                if self.model?.allowmylocation == false {
+//
+//                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+//                    self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
+//                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn on your location?"
+//
+//                    self.deleteAlertView?.HandleConfirmBtn = {
+//                        self.updateUserInterfaceForBtns()
+//
+//                        if self.internetConect {
+//                            self.viewmodel.toggleAllowMyLocation(allowMyLocation: true) { error, data in
+//                                if let error = error {
+////                                    self.showAlert(withMessage: error)
+//                                    DispatchQueue.main.async {
+//                                        self.view.makeToast(error)
+//                                    }
+//                                    return
+//                                }
+//
+//                                guard let data = data else {
+//                                    return
+//                                }
+//
+//                                Defaults.allowMyLocation = data.allowmylocation ?? false
+//
+//                                self.model = data
+//                                DispatchQueue.main.async {
+//                                    self.setupData()
+//                                }
+//
+//                                self.updateMyLocation()
+//                            }
+//                        }
+//                        // handling code
+//                        UIView.animate(withDuration: 0.3, animations: {
+//                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+//                            self.deleteAlertView?.alpha = 0
+//                        }) { (success: Bool) in
+//                            self.deleteAlertView?.removeFromSuperview()
+//                            self.deleteAlertView?.alpha = 1
+//                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+//                        }
+//                    }
+//
+//                    self.deleteAlertView?.HandleCancelBtn = {
+//                        DispatchQueue.main.async {
+//                            self.setupData()
+//                        }
+//                    }
+//                    self.view.addSubview((self.deleteAlertView)!)
+//                }else {
+//                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+//
+//                    self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
+//                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off your location??"
+//
+//                    self.deleteAlertView?.HandleConfirmBtn = {
+//                        self.updateUserInterfaceForBtns()
+//
+//                        if self.internetConect {
+//                            self.viewmodel.toggleAllowMyLocation(allowMyLocation: false) { error, data in
+//                                if let error = error {
+////                                    self.showAlert(withMessage: error)
+//                                    DispatchQueue.main.async {
+//                                        self.view.makeToast(error)
+//                                    }
+//                                    return
+//                                }
+//
+//                                guard let data = data else {
+//                                    return
+//                                }
+//
+//                                Defaults.allowMyLocation = data.allowmylocation ?? true
+//
+//                                self.model = data
+//
+//                                DispatchQueue.main.async {
+//                                    self.setupData()
+//                                }
+//
+//                            }
+//
+//                        }
+//                        // handling code
+//                        UIView.animate(withDuration: 0.3, animations: {
+//                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+//                            self.deleteAlertView?.alpha = 0
+//                        }) { (success: Bool) in
+//                            self.deleteAlertView?.removeFromSuperview()
+//                            self.deleteAlertView?.alpha = 1
+//                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+//                        }
+//                    }
+//
+//                    self.deleteAlertView?.HandleCancelBtn = {
+//                        DispatchQueue.main.async {
+//                            self.setupData()
+//                        }
+//                    }
+//
+//                    self.view.addSubview((self.deleteAlertView)!)
+//                }
+//            }
+//
+//            return cell
             //        case 3://darkmode
             //            guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
             //            cell.titleLbl.text = "Dark Mode"
@@ -835,18 +886,19 @@ extension SettingsVC: UITableViewDataSource {
             //            }
             //
             //            return cell
-        case 3://manual distance
+      
+        case 2://manual distance
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Distance Filter"
             cell.iconImg.image = UIImage(named: "manaualDistanceControl_ic")
             return cell
-        case 4://filtring age
+        case 3://filtring age
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Age Filter"
             cell.iconImg.image = UIImage(named: "filterAccourdingAge_ic")
             return cell
    
-        case 5://change password
+        case 4://change password
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Change Password"
             cell.iconImg.image = UIImage(named: "changePassword_ic")
@@ -857,13 +909,13 @@ extension SettingsVC: UITableViewDataSource {
             //            cell.iconImg.image = UIImage(named: "notifications_ic")
             //            return cell
             
-        case 6://block list
+        case 5://block list
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Block List"
             cell.iconImg.image = UIImage(named: "blocked_ic")
             return cell
   
-        case 7://delete account
+        case 6://delete account
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Delete Account"
             cell.iconImg.image = UIImage(named: "delete_ic")
@@ -881,21 +933,21 @@ extension SettingsVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 5 {//change password
+        if indexPath.row == 2 {//manual distance
+            self.createDistanceSlider()
+        }
+        else if indexPath.row == 3 {//filtring age
+            self.createAgeSlider()
+        }
+        else if indexPath.row == 4 {//change password
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "ChangePasswordVC") as? ChangePasswordVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        else if indexPath.row == 6 {//block list
+        else if indexPath.row == 5 {//block list
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "BlockedListVC") as? BlockedListVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        else if indexPath.row == 4 {//filtring age
-            self.createAgeSlider()
-        }
-        else if indexPath.row == 3 {//manual distance
-            self.createDistanceSlider()
-        }
-        else if indexPath.row == 7 {
+        else if indexPath.row == 6 {
             deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             deleteAlertView?.titleLbl.text = "Confirm?".localizedString

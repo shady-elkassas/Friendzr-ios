@@ -24,6 +24,10 @@ class MapAppType {
     static var type: Bool = false
 }
 
+class IsMoreEventAtMarker {
+    static var more: Bool = false
+}
+
 class LocationZooming {
     static var locationLat: Double = 0.0
     static var locationLng: Double = 0.0
@@ -34,11 +38,15 @@ class EventsLocation {
     var location:CLLocationCoordinate2D = CLLocationCoordinate2D()
     var typelocation:String = ""
     var markerIcon:String = ""
+    var markersCount:Int = 0
+    var markerId:String = ""
     
-    init(location:CLLocationCoordinate2D,markerIcon:String,typelocation:String) {
+    init(location:CLLocationCoordinate2D,markerIcon:String,typelocation:String,markersCount:Int,markerId:String) {
         self.location = location
         self.markerIcon = markerIcon
         self.typelocation = typelocation
+        self.markersCount = markersCount
+        self.markerId = markerId
     }
 }
 
@@ -98,6 +106,8 @@ class MapVC: UIViewController {
         
         updateLocation()
         setupViews()
+                
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSubViewHide), name: Notification.Name("handleSubViewHide"), object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -106,6 +116,8 @@ class MapVC: UIViewController {
         
         self.hideLoading()
         CancelRequest.currentTask = true
+        
+        NotificationCenter.default.post(name: Notification.Name("handleSubViewHide"), object: nil, userInfo: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -119,22 +131,22 @@ class MapVC: UIViewController {
         }
         
         hideNavigationBar(NavigationBar: true, BackButton: true)
-    
     }
     
     //MARK: - APIs
+
     func bindToModel() {
         collectionViewHeight.constant = 0
-        subView.isHidden = true
         viewmodel.getAllEventsAroundMe()
         viewmodel.locations.bind { [unowned self] value in
-            DispatchQueue.main.async {
-                subView.isHidden = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.hideLoading()
                 self.collectionView.dataSource = self
                 self.collectionView.delegate = self
                 self.collectionView.reloadData()
-                
+
+                self.subView.isHidden = false
+
                 if isViewUp == true {
                     collectionViewHeight.constant = 140
                     subViewHeight.constant = 190
@@ -156,7 +168,6 @@ class MapVC: UIViewController {
         }
     }
     
-    
     func getEvents(By lat:Double,lng:Double) {
         viewmodel.getEventsByLoction(lat: lat, lng: lng)
         viewmodel.events.bind { [unowned self] value in
@@ -165,7 +176,6 @@ class MapVC: UIViewController {
                 self.eventsTableView.dataSource = self
                 self.eventsTableView.delegate = self
                 self.eventsTableView.reloadData()
-                
             }
         }
         
@@ -227,27 +237,34 @@ class MapVC: UIViewController {
         self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
     }
     
-   
+    @objc func handleSubViewHide() {
+        print("handleSubViewHide")
+
+        subView.isHidden = true
+        isViewUp = false
+        collectionViewHeight.constant = 0
+        subViewHeight.constant = 50
+    }
     
     // locations markers
     func setupMarkers() {
         let model = viewmodel.locations.value
         locations.removeAll()
         for item in model?.eventlocationDataMV ?? [] {
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "eventMarker_ic", typelocation: "event"))
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "eventMarker_ic", typelocation: "event", markersCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : ""))
         }
         
         for item in model?.peoplocationDataMV ?? [] {
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "markerLocations_ic", typelocation: "people"))
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "markerLocations_ic", typelocation: "people", markersCount: 0, markerId: ""))
         }
         
         for item in locations {
-            setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation)
+            setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, markersCount: item.markersCount)
         }
     }
     
     //create markers for locations events
-    func setupMarkerz(for position:CLLocationCoordinate2D , markerIcon:String?,typelocation:String)  {
+    func setupMarkerz(for position:CLLocationCoordinate2D , markerIcon:String?,typelocation:String,markerID:String,markersCount:Int)  {
         if appendNewLocation {
             mapView.clear()
         }
@@ -255,7 +272,9 @@ class MapVC: UIViewController {
         
         marker.snippet = typelocation
         marker.icon = UIImage(named: markerIcon!)
-        
+        marker.title = markerID
+        marker.opacity = Float(markersCount)
+
         if LocationZooming.locationLat == position.latitude {
             marker.appearAnimation = .pop
         }
@@ -431,9 +450,9 @@ class MapVC: UIViewController {
         if self.appendNewLocation {
             self.updateUserInterfaceBtns()
             if self.internetConect {
-                self.setupMarkerz(for: self.location!, markerIcon: "eventMarker_ic", typelocation: "event")
+                self.setupMarkerz(for: self.location!, markerIcon: "eventMarker_ic", typelocation: "event", markerID: "", markersCount: 0)
                 
-                self.locations.append(EventsLocation(location: self.location!, markerIcon: "eventMarker_ic", typelocation: "event"))
+                self.locations.append(EventsLocation(location: self.location!, markerIcon: "eventMarker_ic", typelocation: "event",markersCount: 0,markerId: ""))
                 
                 LocationZooming.locationLat = self.location?.latitude ?? 0.0
                 LocationZooming.locationLng = self.location?.longitude ?? 0.0
@@ -530,7 +549,7 @@ extension MapVC : GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         updateUserInterfaceBtns()
-        
+
         if internetConect {
             var pos: CLLocationCoordinate2D? = nil
             pos = marker.position
@@ -538,8 +557,17 @@ extension MapVC : GMSMapViewDelegate {
             
             if marker.snippet == "event" {
                 //Events by location
-                getEvents(By: pos?.latitude ?? 0.0, lng: pos?.longitude ?? 0.0)
-                CreateSlideUpMenu()
+                if marker.title != "" {
+                    DispatchQueue.main.async {
+                        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
+                        vc.eventId = marker.title!
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }else {
+                    getEvents(By: pos?.latitude ?? 0.0, lng: pos?.longitude ?? 0.0)
+                    CreateSlideUpMenu()
+                }
+                
             }else if marker.snippet == "NewEvent" {
                 print("NEW EVENT")
             }else {

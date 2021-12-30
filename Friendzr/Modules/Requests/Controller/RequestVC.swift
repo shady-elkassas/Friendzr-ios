@@ -179,6 +179,7 @@ class RequestVC: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
+        currentPage = 0
         updateUserInterface()
         self.refreshControl.endRefreshing()
     }

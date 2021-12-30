@@ -46,7 +46,7 @@ class FeedVC: UIViewController {
         return scaleV
     }()
     
-    lazy var deleteAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
+    lazy var showAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
     private func createLocationManager() {
         locationManager.delegate = self
@@ -80,14 +80,15 @@ class FeedVC: UIViewController {
     var btnsSelected:Bool = false
     var internetConnect:Bool = false
     
-    var currentPage : Int = 0
+    var currentPage : Int = 1
     var isLoadingList : Bool = false
-
+    
     var isSendRequest:Bool = false
     
     var locationLat = 0.0
     var locationLng = 0.0
     
+        
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,7 +114,6 @@ class FeedVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        setupNavBar()
         initProfileBarButton()
         filterDir = switchBarButton.isOn
         
@@ -128,8 +128,6 @@ class FeedVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-    
-
     
     func addCompassView() {
         let child = UIHostingController(rootView: CompassViewSwiftUI())
@@ -182,23 +180,20 @@ class FeedVC: UIViewController {
         viewmodel.error.bind { error in
             DispatchQueue.main.async {
                 self.hideLoading()
-//                self.showAlert(withMessage: error)
                 print(error)
             }
         }
     }
         
     func filterFeedsBy(degree:Double,pageNumber:Int) {
-        self.showLoading()
+//        self.showLoading()
         viewmodel.filterFeeds(Bydegree: degree, pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
                 
-                self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
                 isSendRequest = false
@@ -350,6 +345,7 @@ class FeedVC: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
+        currentPage = 0
         updateUserInterface()
         self.refreshControl.endRefreshing()
     }
@@ -372,7 +368,11 @@ class FeedVC: UIViewController {
         nextBtn.cornerRadiusForHeight()
         
     }
-    
+
+    //change title for any btns
+    func changeTitleBtns(btn:UIButton,title:String) {
+        btn.setTitle(title, for: .normal)
+    }
     
     //MARK: - Actions
     @IBAction func nextBtn(_ sender: Any) {
@@ -398,11 +398,11 @@ class FeedVC: UIViewController {
     
     @IBAction func allowLocationBtn(_ sender: Any) {
         
-        self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
-        self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn on your location?"
+        self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        self.showAlertView?.titleLbl.text = "Confirm?".localizedString
+        self.showAlertView?.detailsLbl.text = "Are you sure you want to turn on your location?"
         
-        self.deleteAlertView?.HandleConfirmBtn = {
+        self.showAlertView?.HandleConfirmBtn = {
             self.updateNetworkForBtns()
             
             if self.internetConnect {
@@ -430,16 +430,16 @@ class FeedVC: UIViewController {
             }
             // handling code
             UIView.animate(withDuration: 0.3, animations: {
-                self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.deleteAlertView?.alpha = 0
+                self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.showAlertView?.alpha = 0
             }) { (success: Bool) in
-                self.deleteAlertView?.removeFromSuperview()
-                self.deleteAlertView?.alpha = 1
-                self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                self.showAlertView?.removeFromSuperview()
+                self.showAlertView?.alpha = 1
+                self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
             }
         }
         
-        self.view.addSubview((self.deleteAlertView)!)
+        self.view.addSubview((self.showAlertView)!)
     }
     
 }
@@ -463,6 +463,12 @@ extension FeedVC:UITableViewDataSource {
             cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
             cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
             
+            
+            //set title btns
+            self.changeTitleBtns(btn: cell.unblockBtn, title: "Unblock")
+            self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Cancel Request")
+            self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Send Request")
+
             //status key
             switch model?.key {
             case 0:
@@ -529,11 +535,9 @@ extension FeedVC:UITableViewDataSource {
                 self.btnsSelected = true
                 self.updateNetworkForBtns()
                 if self.internetConnect {
-                    self.showLoading()
+                    self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...")
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1) { error, message in
-                        self.hideLoading()
                         if let error = error {
-//                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }
@@ -541,7 +545,7 @@ extension FeedVC:UITableViewDataSource {
                         }
                         
                         guard let message = message else {return}
-//                        self.showAlert(withMessage: message)
+                        
                         DispatchQueue.main.async {
                             self.view.makeToast(message)
                         }
@@ -550,75 +554,97 @@ extension FeedVC:UITableViewDataSource {
                             self.getAllFeeds(pageNumber: 0)
                         }
                     }
-                }else {
-                    return
                 }
             }
             
             cell.HandleAccseptBtn = { //respond request
-                self.btnsSelected = true
-                self.updateNetworkForBtns()
                 
-                if self.internetConnect {
-                    self.showLoading()
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
-                        self.hideLoading()
-                        if let error = error {
-//                            self.showAlert(withMessage: error)
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
+                self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                self.showAlertView?.titleLbl.text = "Confirm?".localizedString
+                self.showAlertView?.detailsLbl.text = "Are you sure you will accept this request?"
+                
+                self.showAlertView?.HandleConfirmBtn = {
+                    self.btnsSelected = true
+                    self.updateNetworkForBtns()
+                    
+                    if self.internetConnect {
+    //                    self.showLoading()
+                        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
+    //                        self.hideLoading()
+                            if let error = error {
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
+                                return
                             }
-                            return
-                        }
-                        
-                        guard let message = message else {return}
-//                        self.showAlert(withMessage: message)
-                        DispatchQueue.main.async {
-                            self.view.makeToast(message)
-                        }
-                      
-                        DispatchQueue.main.async {
-                            self.getAllFeeds(pageNumber: 0)
+                            
+                            guard let message = message else {return}
+                            DispatchQueue.main.async {
+                                self.view.makeToast(message)
+                            }
+                          
+                            DispatchQueue.main.async {
+                                self.getAllFeeds(pageNumber: 0)
+                            }
                         }
                     }
-                }else {
-                    return
+                    // handling code
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                        self.showAlertView?.alpha = 0
+                    }) { (success: Bool) in
+                        self.showAlertView?.removeFromSuperview()
+                        self.showAlertView?.alpha = 1
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                    }
                 }
+                
+                self.view.addSubview((self.showAlertView)!)
             }
             
             cell.HandleRefusedBtn = { // refused request
-                
-                self.btnsSelected = true
-                self.updateNetworkForBtns()
-                
-                if self.internetConnect {
-                    self.showLoading()
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
-                        self.hideLoading()
-                        if let error = error {
-//                            self.showAlert(withMessage: error)
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
+                self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                self.showAlertView?.titleLbl.text = "Confirm?".localizedString
+                self.showAlertView?.detailsLbl.text = "Are you sure you will refuse this request?"
+
+                self.showAlertView?.HandleConfirmBtn = {
+                    self.btnsSelected = true
+                    self.updateNetworkForBtns()
+                    
+                    if self.internetConnect {
+                        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
+                            if let error = error {
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
+                                return
                             }
-                            return
-                        }
-                        
-                        guard let message = message else {return}
-//                        self.showAlert(withMessage: message)
-                        DispatchQueue.main.async {
-                            self.view.makeToast(message)
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.getAllFeeds(pageNumber: 0)
+                            
+                            guard let message = message else {return}
+                            DispatchQueue.main.async {
+                                self.view.makeToast(message)
+                            }
+                            
+                            DispatchQueue.main.async {
+                                self.getAllFeeds(pageNumber: 0)
+                            }
                         }
                     }
-                }else {
-                    return
+                    // handling code
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                        self.showAlertView?.alpha = 0
+                    }) { (success: Bool) in
+                        self.showAlertView?.removeFromSuperview()
+                        self.showAlertView?.alpha = 1
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                    }
                 }
+                
+                self.view.addSubview((self.showAlertView)!)
             }
             
-            cell.HandleMessageBtn = { //block account
+            cell.HandleMessageBtn = { //messages chat
                 self.btnsSelected = true
                 self.updateNetworkForBtns()
                 
@@ -634,11 +660,9 @@ extension FeedVC:UITableViewDataSource {
                 self.updateNetworkForBtns()
                 
                 if self.internetConnect {
-                    self.showLoading()
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
                         self.hideLoading()
                         if let error = error {
-//                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }
@@ -646,7 +670,6 @@ extension FeedVC:UITableViewDataSource {
                         }
                         
                         guard let message = message else {return}
-//                        self.showAlert(withMessage: message)
                         DispatchQueue.main.async {
                             self.view.makeToast(message)
                         }
@@ -666,11 +689,10 @@ extension FeedVC:UITableViewDataSource {
                 self.updateNetworkForBtns()
                 
                 if self.internetConnect {
-                    self.showLoading()
+                    self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Sending...")
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
-                        self.hideLoading()
+                        
                         if let error = error {
-//                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }
@@ -678,7 +700,6 @@ extension FeedVC:UITableViewDataSource {
                         }
                         
                         guard let message = message else {return}
-//                        self.showAlert(withMessage: message)
                         DispatchQueue.main.async {
                             self.view.makeToast(message)
                         }
@@ -687,14 +708,14 @@ extension FeedVC:UITableViewDataSource {
                             self.getAllFeeds(pageNumber: 0)
                         }
                     }
-                }else {
-                    return
                 }
             }
             
             return cell
 
-        }else {
+        }
+        
+        else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
             return cell
         }

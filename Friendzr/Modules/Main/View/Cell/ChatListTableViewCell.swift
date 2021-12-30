@@ -23,6 +23,7 @@ class ChatListTableViewCell: UITableViewCell {
         // Initialization code
         
         profileImg.cornerRadiusForHeight()
+        profileImg.setBorder()
         attachImg.cornerRadiusView(radius: 4)
     }
 

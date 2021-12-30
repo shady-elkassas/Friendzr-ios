@@ -236,6 +236,21 @@ class EditMyProfileVC: UIViewController {
         
         tagsListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
         
+        if tagsListView.rows == 0 {
+            tagsTopSpaceLayout.constant = 5
+            tagsBottomSpaceLayout.constant = 5
+        }else if tagsListView.rows == 1 {
+            tagsTopSpaceLayout.constant = 25
+            tagsBottomSpaceLayout.constant = 5
+        }else if tagsListView.rows == 2 {
+            tagsTopSpaceLayout.constant = 16
+            tagsBottomSpaceLayout.constant = 5
+        }else if tagsListView.rows == 3 {
+            tagsTopSpaceLayout.constant = 10
+            tagsBottomSpaceLayout.constant = 5
+        }
+        
+        
         if model?.gender == "male" {
             maleImg.image = UIImage(named: "select_ic")
             femaleImg.image = UIImage(named: "unSelect_ic")
@@ -288,10 +303,10 @@ class EditMyProfileVC: UIViewController {
             tagsTopSpaceLayout.constant = 5
             tagsBottomSpaceLayout.constant = 5
         }else if tagsListView.rows == 1 {
-            tagsTopSpaceLayout.constant = 12
+            tagsTopSpaceLayout.constant = 25
             tagsBottomSpaceLayout.constant = 5
         }else if tagsListView.rows == 2 {
-            tagsTopSpaceLayout.constant = 10
+            tagsTopSpaceLayout.constant = 16
             tagsBottomSpaceLayout.constant = 5
         }else if tagsListView.rows == 3 {
             tagsTopSpaceLayout.constant = 10

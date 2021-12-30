@@ -157,8 +157,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let sourceApplication: String? = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String
         let googleDidHandle = GIDSignIn.sharedInstance.handle(url as URL)
-        let facebookDidHandle = ApplicationDelegate.shared.application(app, open: url, sourceApplication: sourceApplication, annotation: nil)
-//        let snapDidHandle = SCSDKLoginClient.application(app, open: url, options: options)
+        let facebookDidHandle = ApplicationDelegate.shared.application(app, open: url, sourceApplication: sourceApplication, annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+
+        //        let snapDidHandle = SCSDKLoginClient.application(app, open: url, options: options)
         
 //        guard let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
 //              let annotation = options[UIApplication.OpenURLOptionsKey.annotation] else {

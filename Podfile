@@ -27,8 +27,8 @@ target 'Friendzr' do
   pod 'IQKeyboardManager'
   pod 'SDWebImage'
   
-#    pod 'TagsList'
-    
+  #    pod 'TagsList'
+  
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   
@@ -37,8 +37,9 @@ target 'Friendzr' do
   pod 'MessageKit', '~> 3.5.1'
   
   pod 'Google-Mobile-Ads-SDK'
-
-  #  pod 'SFaceCompare'
+  
+  #  pod 'UIView-Shimmer', '~> 1.0'
+#  pod 'SkeletonView'
   
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|

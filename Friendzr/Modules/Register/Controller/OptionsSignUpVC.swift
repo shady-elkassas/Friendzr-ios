@@ -137,7 +137,7 @@ class OptionsSignUpVC: UIViewController {
             }
             else {
                 let fbLoginManager : LoginManager = LoginManager()
-                fbLoginManager.logIn(permissions: ["email"], from: self) { (result, error) -> Void in
+                fbLoginManager.logIn(permissions: ["public_profile","email"], from: self) { (result, error) -> Void in
                     
                     if (error == nil) {
                         if error != nil {
@@ -261,7 +261,7 @@ extension OptionsSignUpVC {
     func getFBUserData(){
         if((AccessToken.current) != nil){
             
-            let request = GraphRequest(graphPath: "/me", parameters: ["fields": "id, picture.type(large), name,email"], httpMethod: HTTPMethod(rawValue: "GET"))
+            let request = GraphRequest(graphPath: "/me", parameters: ["fields": "id, picture.type(large), name,email"], httpMethod: .get)
             request.start { (connection, result, error) in
                 
                 
@@ -273,7 +273,7 @@ extension OptionsSignUpVC {
                     self.UserFBID = userInfo["id"] as! String
                     self.UserFBMobile = userInfo["phone"] as? String ?? ""
                     self.UserFBUserName = userInfo["name"] as! String
-                    self.UserFBEmail = userInfo["email"] as? String ?? ""
+                    self.UserFBEmail = userInfo["email"] as! String
                     self.userFace_BookAccessToken = AccessToken.current!.tokenString
                     let img = userInfo["picture"] as! [String:AnyObject]
                     //                    self.UserFBImage = img["data"]!["url"] as? String ?? ""

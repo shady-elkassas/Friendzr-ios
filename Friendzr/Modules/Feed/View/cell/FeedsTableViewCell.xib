@@ -35,6 +35,9 @@
                                     <constraint firstAttribute="height" constant="50" id="05X-ni-lwf"/>
                                     <constraint firstAttribute="width" constant="50" id="MP6-hW-yBt"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="reO-Ya-h3d">
                                 <rect key="frame" x="85" y="39" width="39" height="32"/>
@@ -44,14 +47,23 @@
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <color key="textColor" name="ColorLbl1"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iI3-xn-RvY">
                                         <rect key="frame" x="0.0" y="19.5" width="39" height="12.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="10"/>
                                         <color key="textColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                     </label>
                                 </subviews>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </stackView>
                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="9Qo-JD-wtH">
                                 <rect key="frame" x="222" y="40" width="70" height="30"/>
@@ -63,6 +75,9 @@
                                             <constraint firstAttribute="height" constant="30" id="ssj-yy-0R8"/>
                                         </constraints>
                                         <state key="normal" image="deleteRequest_ic"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="refusedRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="LDV-gy-5Jn"/>
                                         </connections>
@@ -70,6 +85,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n8Y-SS-wpi">
                                         <rect key="frame" x="40" y="0.0" width="30" height="30"/>
                                         <state key="normal" image="acceptRequest_ic"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="accseptRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="RvG-Mv-R7h"/>
                                         </connections>
@@ -81,6 +99,9 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="vVD-fg-6hC"/>
                                     <constraint firstAttribute="width" constant="70" id="y9U-rE-k5v"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="PGC-jE-WUn">
                                 <rect key="frame" x="192" y="40" width="130" height="30"/>
@@ -92,6 +113,9 @@
                                         <state key="normal" title="Send Request">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="sendRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="njZ-PQ-wh0"/>
                                         </connections>
@@ -103,6 +127,9 @@
                                         <state key="normal" title="Message">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="messageBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="GCT-vw-wxg"/>
                                         </connections>
@@ -113,6 +140,9 @@
                                         <state key="normal" title="Cancel Request">
                                             <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="cancelRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="aJd-zc-0nR"/>
                                         </connections>
@@ -124,6 +154,9 @@
                                         <state key="normal" title="Unblock">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="unblockBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="2yD-hx-mLb"/>
                                         </connections>
@@ -133,6 +166,9 @@
                                     <constraint firstAttribute="height" constant="30" id="nps-f7-pbD"/>
                                     <constraint firstAttribute="width" constant="130" id="tXN-sV-1gK"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" name="Color0"/>
@@ -147,6 +183,9 @@
                             <constraint firstItem="reO-Ya-h3d" firstAttribute="leading" secondItem="JYV-M0-z7e" secondAttribute="trailing" constant="10" id="nHt-Al-tt1"/>
                             <constraint firstItem="PGC-jE-WUn" firstAttribute="centerY" secondItem="reO-Ya-h3d" secondAttribute="centerY" id="uhM-2O-mFq"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -156,9 +195,15 @@
                     <constraint firstItem="igJ-gy-USL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="1" id="agf-mr-vjf"/>
                     <constraint firstAttribute="trailing" secondItem="igJ-gy-USL" secondAttribute="trailing" id="zV2-Kd-VXX"/>
                 </constraints>
+                <userDefinedRuntimeAttributes>
+                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                </userDefinedRuntimeAttributes>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+            </userDefinedRuntimeAttributes>
             <connections>
                 <outlet property="accseptRequestBtn" destination="n8Y-SS-wpi" id="2gp-a4-gov"/>
                 <outlet property="cancelRequestBtn" destination="a9Y-vr-ekR" id="laQ-KD-I44"/>

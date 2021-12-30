@@ -45,6 +45,5 @@ class PeopleAroundMeObj: Mappable {
         femalepercentage   <- map["femalepercentage"]
         otherpercentage   <- map["otherpercentage"]
         totalUsers   <- map["totalUsers"]
-        
     }
 }

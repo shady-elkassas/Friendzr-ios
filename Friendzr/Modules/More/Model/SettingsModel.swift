@@ -30,7 +30,7 @@ class SettingsObj: Mappable {
     var ghostmode: Bool?
     var pushnotification: Bool?
     var allowmylocation: Bool?
-    var allowmylocationtype: Int?
+    var allowMyAppearanceType: Int?
     var agefrom: Int?
     var ageto: Int?
     var filteringaccordingtoage:Bool?
@@ -44,7 +44,7 @@ class SettingsObj: Mappable {
         ghostmode    <- map["ghostmode"]
         pushnotification   <- map["pushnotification"]
         allowmylocation  <- map["allowmylocation"]
-        allowmylocationtype  <- map["allowmylocationtype"]
+        allowMyAppearanceType  <- map["allowMyAppearanceType"]
         agefrom  <- map["agefrom"]
         ageto  <- map["ageto"]
         filteringaccordingtoage  <- map["filteringaccordingtoage"]
