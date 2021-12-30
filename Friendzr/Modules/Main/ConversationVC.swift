@@ -45,6 +45,8 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     let subviewInputBar = InputBarAccessoryView()
     
+//    lazy var textMessageSizeCalculator: CustomTextLayoutSizeCalculator = CustomTextLayoutSizeCalculator(layout: self.messagesCollectionView.messagesCollectionViewFlowLayout)
+
     // MARK: - Private properties
     var senderUser = UserSender(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName)
     
@@ -54,8 +56,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     var cellSelect:Bool = false
     var currentPage : Int = 1
     var isLoadingList : Bool = false
-    
-    //    var chatUserModel:UserChatObj? = UserChatObj()
+
     var chatuserID = ""
     
     var isEvent:Bool = false
@@ -490,3 +491,11 @@ extension ConversationVC {
         })
     }
 }
+
+//extension ConversationVC {
+//    
+//    func customCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator {
+//        print("textMessageSizeCalculator = \(self.textMessageSizeCalculator)")
+//        return self.textMessageSizeCalculator
+//    }
+//}

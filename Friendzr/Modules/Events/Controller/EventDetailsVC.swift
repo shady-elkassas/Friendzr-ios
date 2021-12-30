@@ -125,11 +125,9 @@ class EventDetailsVC: UIViewController {
     func setupViews() {
         editBtn.cornerRadiusView(radius: 8)
         joinBtn.cornerRadiusView(radius: 8)
-        chatBtn.cornerRadiusView(radius: 8)
         leaveBtn.cornerRadiusView(radius: 8)
         detailsView.cornerRadiusView(radius: 21)
         interestsStatisticsView.cornerRadiusView(radius: 21)
-        chatBtn.setBorder()
         
         attendeesTableView.register(UINib(nibName: attendeesCellID, bundle: nil), forCellReuseIdentifier: attendeesCellID)
         attendeesTableView.register(UINib(nibName: footerCellID, bundle: nil), forHeaderFooterViewReuseIdentifier: footerCellID)

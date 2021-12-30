@@ -1102,7 +1102,6 @@ extension ConversationVC: MessagesLayoutDelegate {
         return (!isNextMessageSameSender(at: indexPath) && isFromCurrentSender(message: message)) ? 16 : 16
     }
     
-    
     // MARK: - Helpers
 //    func isTimeLabelVisible(at indexPath: IndexPath) -> Bool {
 //        return indexPath.section % 3 == 0 && !isPreviousMessageSameSender(at: indexPath)

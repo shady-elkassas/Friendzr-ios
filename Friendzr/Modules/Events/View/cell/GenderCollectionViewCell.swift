@@ -63,9 +63,7 @@ extension GenderCollectionViewCell: UITableViewDataSource {
         if indexPath.row == 3 {
             cell.bottonView.isHidden = true
         }
-        
-        
-        
+                
         return cell
     }
 }

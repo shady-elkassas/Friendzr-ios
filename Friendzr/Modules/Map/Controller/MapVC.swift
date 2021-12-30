@@ -805,11 +805,13 @@ extension MapVC:UICollectionViewDataSource {
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
-        cell.eventDateLbl.textColor = UIColor.color(model?.color ?? "")
+        cell.eventDateLbl.textColor = UIColor.color("#0BBEA1")
+//        UIColor.color(model?.color ?? "")
         
         cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
-        cell.eventColorView.backgroundColor = UIColor.color(model?.color ?? "")
+        cell.eventColorView.backgroundColor = UIColor.color("#0BBEA1")
+//        UIColor.color(model?.color ?? "")
         
         cell.HandledetailsBtn = {
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}

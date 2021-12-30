@@ -116,13 +116,14 @@ class SettingsVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.reloadData()
-        
-        
+
         settingsViewHeight.constant = CGFloat(7 * 60)
         
         ageFrom = model?.agefrom ?? 14
         ageTo = model?.ageto ?? 85
         manualdistancecontrol = (model?.manualdistancecontrol ?? 0.2)
+        
+        NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
     }
     
     func updateUserInterface() {
