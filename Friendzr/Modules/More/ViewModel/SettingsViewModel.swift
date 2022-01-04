@@ -185,11 +185,11 @@ class SettingsViewModel {
         }
     }
     
-    func updateManualdistanceControl(manualdistancecontrol: Double ,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
+    func updateManualdistanceControl(manualdistancecontrol: Double,distanceFilter:Bool ,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
         let headers = RequestComponent.headerComponent([.authorization,.type])
-        let parameters:[String : Any] = ["Manualdistancecontrol": manualdistancecontrol]
+        let parameters:[String : Any] = ["Manualdistancecontrol": manualdistancecontrol,"distanceFilter":distanceFilter]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             

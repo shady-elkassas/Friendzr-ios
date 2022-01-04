@@ -143,6 +143,12 @@ class Router {
             go(withVC: controller)
         }
     }
+    
+    func toReportVC()  {
+        let id = "ReportNC"
+        let nextVC = Initializer.createViewController(storyBoard: .Main, andId: id)
+        go(withVC: nextVC)
+    }
 }
 
 class HomeNC: UINavigationController {

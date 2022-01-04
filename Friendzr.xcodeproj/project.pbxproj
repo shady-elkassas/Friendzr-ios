@@ -24,8 +24,8 @@
 		430A350F26CA7A2200477A94 /* MoreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430A350D26CA7A2200477A94 /* MoreTableViewCell.swift */; };
 		430A351026CA7A2200477A94 /* MoreTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 430A350E26CA7A2200477A94 /* MoreTableViewCell.xib */; };
 		430A351226CA8A1200477A94 /* TermsAndConditionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430A351126CA8A1200477A94 /* TermsAndConditionsVC.swift */; };
-		430A351726CAA97300477A94 /* HideMyLocationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 430A351626CAA97300477A94 /* HideMyLocationView.xib */; };
-		430A351926CAA97F00477A94 /* HideMyLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430A351826CAA97F00477A94 /* HideMyLocationView.swift */; };
+		430A351726CAA97300477A94 /* HideGhostModeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 430A351626CAA97300477A94 /* HideGhostModeView.xib */; };
+		430A351926CAA97F00477A94 /* HideGhostModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430A351826CAA97F00477A94 /* HideGhostModeView.swift */; };
 		430A351E26CAB01A00477A94 /* EditEventsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430A351D26CAB01A00477A94 /* EditEventsVC.swift */; };
 		430A352026CAB02700477A94 /* EventsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430A351F26CAB02700477A94 /* EventsVC.swift */; };
 		430A352226CAB04B00477A94 /* Events.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 430A352126CAB04B00477A94 /* Events.storyboard */; };
@@ -184,6 +184,16 @@
 		4382ACBE26C2AFF7005C1857 /* SplachFourVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382ACBD26C2AFF7005C1857 /* SplachFourVC.swift */; };
 		4382ACC426C2C37A005C1857 /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4382ACC326C2C37A005C1857 /* Lato-Semibold.ttf */; };
 		4382ACC526C2CE5C005C1857 /* Pods_Friendzr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C5FB046276499FF1CB3316 /* Pods_Friendzr.framework */; };
+		4388685E278344F1004D36B2 /* ReportTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43886856278344ED004D36B2 /* ReportTitleTableViewCell.swift */; };
+		4388685F278344F1004D36B2 /* WriteProblemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43886857278344EE004D36B2 /* WriteProblemTableViewCell.xib */; };
+		43886860278344F1004D36B2 /* ReportTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43886858278344EE004D36B2 /* ReportTitleTableViewCell.xib */; };
+		43886861278344F1004D36B2 /* ProblemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43886859278344EF004D36B2 /* ProblemTableViewCell.swift */; };
+		43886862278344F1004D36B2 /* ConfirmReportButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388685A278344EF004D36B2 /* ConfirmReportButtonTableViewCell.swift */; };
+		43886863278344F1004D36B2 /* WriteProblemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388685B278344F0004D36B2 /* WriteProblemTableViewCell.swift */; };
+		43886864278344F1004D36B2 /* ProblemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4388685C278344F1004D36B2 /* ProblemTableViewCell.xib */; };
+		43886865278344F1004D36B2 /* ConfirmReportButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4388685D278344F1004D36B2 /* ConfirmReportButtonTableViewCell.xib */; };
+		4388686B27845BDC004D36B2 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388686A27845BDC004D36B2 /* ReportViewModel.swift */; };
+		4388686D27845C4D004D36B2 /* ReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4388686C27845C4D004D36B2 /* ReportModel.swift */; };
 		4397236D2709CE9E0062D684 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236C2709CE9E0062D684 /* ChatViewModel.swift */; };
 		4397236F2709D8870062D684 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236E2709D8870062D684 /* ChatModel.swift */; };
 		439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */; };
@@ -192,6 +202,13 @@
 		439DDE9426F749DC00E09FC1 /* EventsInLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */; };
 		43A251E2275CC27600EC48DB /* ChatTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A251E1275CC27600EC48DB /* ChatTitleView.swift */; };
 		43A251E4275CC28500EC48DB /* ChatTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A251E3275CC28500EC48DB /* ChatTitleView.xib */; };
+		43A332612781AE0F001ADB84 /* AddNewTagView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A332602781AE0F001ADB84 /* AddNewTagView.xib */; };
+		43A332632781AE37001ADB84 /* AddNewTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A332622781AE37001ADB84 /* AddNewTagView.swift */; };
+		43A332682781C9B2001ADB84 /* GhostModeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A332662781C9B2001ADB84 /* GhostModeTableViewCell.swift */; };
+		43A332692781C9B2001ADB84 /* GhostModeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A332672781C9B2001ADB84 /* GhostModeTableViewCell.xib */; };
+		43A3326F2782FBF9001ADB84 /* ReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A3326E2782FBF9001ADB84 /* ReportVC.swift */; };
+		43A332AF27832F04001ADB84 /* MyTagsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A332AD27832F04001ADB84 /* MyTagsCollectionViewCell.swift */; };
+		43A332B027832F04001ADB84 /* MyTagsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A332AE27832F04001ADB84 /* MyTagsCollectionViewCell.xib */; };
 		43B22412274B89D7004C6912 /* SelectedTagsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22411274B89D7004C6912 /* SelectedTagsVC.swift */; };
 		43B22416274D132C004C6912 /* CategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22415274D132C004C6912 /* CategoriesVC.swift */; };
 		43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */; };
@@ -294,8 +311,8 @@
 		430A350D26CA7A2200477A94 /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
 		430A350E26CA7A2200477A94 /* MoreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoreTableViewCell.xib; sourceTree = "<group>"; };
 		430A351126CA8A1200477A94 /* TermsAndConditionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsVC.swift; sourceTree = "<group>"; };
-		430A351626CAA97300477A94 /* HideMyLocationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HideMyLocationView.xib; sourceTree = "<group>"; };
-		430A351826CAA97F00477A94 /* HideMyLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideMyLocationView.swift; sourceTree = "<group>"; };
+		430A351626CAA97300477A94 /* HideGhostModeView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HideGhostModeView.xib; sourceTree = "<group>"; };
+		430A351826CAA97F00477A94 /* HideGhostModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideGhostModeView.swift; sourceTree = "<group>"; };
 		430A351D26CAB01A00477A94 /* EditEventsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventsVC.swift; sourceTree = "<group>"; };
 		430A351F26CAB02700477A94 /* EventsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsVC.swift; sourceTree = "<group>"; };
 		430A352126CAB04B00477A94 /* Events.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Events.storyboard; sourceTree = "<group>"; };
@@ -420,7 +437,6 @@
 		437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassViewSwiftUI.swift; sourceTree = "<group>"; };
 		437EE47126E8B39700765089 /* LeaveEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveEventViewModel.swift; sourceTree = "<group>"; };
 		437EE47326E8BC1C00765089 /* AttendeesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendeesModel.swift; sourceTree = "<group>"; };
-		4380503927576C9C0005F0CF /* Friendzr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Friendzr-Bridging-Header.h"; sourceTree = "<group>"; };
 		4381CC9B270DB45A00D40A6D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4382AC1326C27195005C1857 /* Friendzr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Friendzr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4382AC1626C27195005C1857 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -458,6 +474,17 @@
 		4382ACBB26C2AFE9005C1857 /* SplachThreeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachThreeVC.swift; sourceTree = "<group>"; };
 		4382ACBD26C2AFF7005C1857 /* SplachFourVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachFourVC.swift; sourceTree = "<group>"; };
 		4382ACC326C2C37A005C1857 /* Lato-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Semibold.ttf"; sourceTree = "<group>"; };
+		43886856278344ED004D36B2 /* ReportTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTitleTableViewCell.swift; sourceTree = "<group>"; };
+		43886857278344EE004D36B2 /* WriteProblemTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WriteProblemTableViewCell.xib; sourceTree = "<group>"; };
+		43886858278344EE004D36B2 /* ReportTitleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportTitleTableViewCell.xib; sourceTree = "<group>"; };
+		43886859278344EF004D36B2 /* ProblemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProblemTableViewCell.swift; sourceTree = "<group>"; };
+		4388685A278344EF004D36B2 /* ConfirmReportButtonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmReportButtonTableViewCell.swift; sourceTree = "<group>"; };
+		4388685B278344F0004D36B2 /* WriteProblemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriteProblemTableViewCell.swift; sourceTree = "<group>"; };
+		4388685C278344F1004D36B2 /* ProblemTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProblemTableViewCell.xib; sourceTree = "<group>"; };
+		4388685D278344F1004D36B2 /* ConfirmReportButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfirmReportButtonTableViewCell.xib; sourceTree = "<group>"; };
+		4388686927844445004D36B2 /* Friendzr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Friendzr-Bridging-Header.h"; sourceTree = "<group>"; };
+		4388686A27845BDC004D36B2 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
+		4388686C27845C4D004D36B2 /* ReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportModel.swift; sourceTree = "<group>"; };
 		4397236C2709CE9E0062D684 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		4397236E2709D8870062D684 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeViewModel.swift; sourceTree = "<group>"; };
@@ -466,6 +493,14 @@
 		439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventsInLocationTableViewCell.xib; sourceTree = "<group>"; };
 		43A251E1275CC27600EC48DB /* ChatTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTitleView.swift; sourceTree = "<group>"; };
 		43A251E3275CC28500EC48DB /* ChatTitleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTitleView.xib; sourceTree = "<group>"; };
+		43A332602781AE0F001ADB84 /* AddNewTagView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddNewTagView.xib; sourceTree = "<group>"; };
+		43A332622781AE37001ADB84 /* AddNewTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTagView.swift; sourceTree = "<group>"; };
+		43A332662781C9B2001ADB84 /* GhostModeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostModeTableViewCell.swift; sourceTree = "<group>"; };
+		43A332672781C9B2001ADB84 /* GhostModeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GhostModeTableViewCell.xib; sourceTree = "<group>"; };
+		43A3326E2782FBF9001ADB84 /* ReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportVC.swift; sourceTree = "<group>"; };
+		43A3328827830938001ADB84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		43A332AD27832F04001ADB84 /* MyTagsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTagsCollectionViewCell.swift; sourceTree = "<group>"; };
+		43A332AE27832F04001ADB84 /* MyTagsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyTagsCollectionViewCell.xib; sourceTree = "<group>"; };
 		43B22411274B89D7004C6912 /* SelectedTagsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTagsVC.swift; sourceTree = "<group>"; };
 		43B22415274D132C004C6912 /* CategoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesVC.swift; sourceTree = "<group>"; };
 		43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -509,7 +544,6 @@
 		43FC3C7E2726F5F700D94ABB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
 		43FC3C7F2726F5F800D94ABB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		43FC3C802726F5F800D94ABB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
-		43FC3C812726F60800D94ABB /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		43FC3C822726F60800D94ABB /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		43FC3C832726F60900D94ABB /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		43FC3C9D2726F7BA00D94ABB /* LoadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingView.xib; sourceTree = "<group>"; };
@@ -630,6 +664,8 @@
 				430A350226CA4A3600477A94 /* BlockAlertView.swift */,
 				430A350626CA5AFD00477A94 /* CalendarView.xib */,
 				430A350A26CA5C9D00477A94 /* CalendarView.swift */,
+				43A332602781AE0F001ADB84 /* AddNewTagView.xib */,
+				43A332622781AE37001ADB84 /* AddNewTagView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -654,8 +690,10 @@
 		430A351526CAA94A00477A94 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
-				430A351626CAA97300477A94 /* HideMyLocationView.xib */,
-				430A351826CAA97F00477A94 /* HideMyLocationView.swift */,
+				430A351626CAA97300477A94 /* HideGhostModeView.xib */,
+				430A351826CAA97F00477A94 /* HideGhostModeView.swift */,
+				43A332662781C9B2001ADB84 /* GhostModeTableViewCell.swift */,
+				43A332672781C9B2001ADB84 /* GhostModeTableViewCell.xib */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -725,6 +763,7 @@
 				4320A64726F1FD50003604EE /* AllFriendesModel.swift */,
 				4397236E2709D8870062D684 /* ChatModel.swift */,
 				432E4A99270AFC5E00963448 /* MessagesModel.swift */,
+				4388686C27845C4D004D36B2 /* ReportModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -736,6 +775,7 @@
 				4320A65126F234BF003604EE /* UpdateLocationViewModel.swift */,
 				4397236C2709CE9E0062D684 /* ChatViewModel.swift */,
 				43D10EAA271EB6440099A995 /* SearchUserViewModel.swift */,
+				4388686A27845BDC004D36B2 /* ReportViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1002,6 +1042,14 @@
 		4362889826C90CC600B51E51 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				4388685A278344EF004D36B2 /* ConfirmReportButtonTableViewCell.swift */,
+				4388685D278344F1004D36B2 /* ConfirmReportButtonTableViewCell.xib */,
+				43886859278344EF004D36B2 /* ProblemTableViewCell.swift */,
+				4388685C278344F1004D36B2 /* ProblemTableViewCell.xib */,
+				43886856278344ED004D36B2 /* ReportTitleTableViewCell.swift */,
+				43886858278344EE004D36B2 /* ReportTitleTableViewCell.xib */,
+				4388685B278344F0004D36B2 /* WriteProblemTableViewCell.swift */,
+				43886857278344EE004D36B2 /* WriteProblemTableViewCell.xib */,
 				436288A326C9334900B51E51 /* ChatListTableViewCell.swift */,
 				436288A426C9334900B51E51 /* ChatListTableViewCell.xib */,
 				4344110526CE885F00F8233E /* ContactsTableViewCell.swift */,
@@ -1040,6 +1088,7 @@
 				430D426F26D3C33B00188E42 /* AudioVC.swift */,
 				43FBA22B26D5330F005F4FBF /* SendLocationChatVC.swift */,
 				4336ACC926D6377E00C8FD33 /* ShowImageVC.swift */,
+				43A3326E2782FBF9001ADB84 /* ReportVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -1075,8 +1124,7 @@
 				430A34FF26CA496300477A94 /* CustomViews */,
 				432C6AD526F33BCC0029FB89 /* TagListView */,
 				436288AC26C93B5C00B51E51 /* Profile.storyboard */,
-				4368509D27453E3800A62287 /* TagCollectionViewCell.swift */,
-				4368509E27453E3800A62287 /* TagCollectionViewCell.xib */,
+				43A332AC27832EEA001ADB84 /* Cell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1150,7 +1198,7 @@
 				4382AC2426C27195005C1857 /* LaunchScreen.storyboard */,
 				4371D40D273127F3003B8AFD /* Info.plist */,
 				4381CC9B270DB45A00D40A6D /* GoogleService-Info.plist */,
-				4380503927576C9C0005F0CF /* Friendzr-Bridging-Header.h */,
+				4388686927844445004D36B2 /* Friendzr-Bridging-Header.h */,
 			);
 			path = Friendzr;
 			sourceTree = "<group>";
@@ -1305,6 +1353,17 @@
 				439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */,
 				4306C59D27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.swift */,
 				4306C59E27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.xib */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		43A332AC27832EEA001ADB84 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				4368509D27453E3800A62287 /* TagCollectionViewCell.swift */,
+				4368509E27453E3800A62287 /* TagCollectionViewCell.xib */,
+				43A332AD27832F04001ADB84 /* MyTagsCollectionViewCell.swift */,
+				43A332AE27832F04001ADB84 /* MyTagsCollectionViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1499,21 +1558,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43886864278344F1004D36B2 /* ProblemTableViewCell.xib in Resources */,
 				4382AC9A26C27FF2005C1857 /* Montserrat-Light.ttf in Resources */,
 				43FC3C9E2726F7BA00D94ABB /* LoadingView.xib in Resources */,
 				4362889726C8FFA200B51E51 /* More.storyboard in Resources */,
 				436288A626C9334900B51E51 /* ChatListTableViewCell.xib in Resources */,
 				4382AC2626C27195005C1857 /* LaunchScreen.storyboard in Resources */,
 				4344107E26CD54E000F8233E /* CategoriesView.xib in Resources */,
+				43886860278344F1004D36B2 /* ReportTitleTableViewCell.xib in Resources */,
 				43B2241A274D16B5004C6912 /* CategoryCollectionViewCell.xib in Resources */,
 				4320A65026F21180003604EE /* BlockedTableViewCell.xib in Resources */,
 				43FC3CA827280BD500D94ABB /* SettingsTableViewCell.xib in Resources */,
+				43A332B027832F04001ADB84 /* MyTagsCollectionViewCell.xib in Resources */,
 				4362887F26C8FECB00B51E51 /* Map.storyboard in Resources */,
 				4382AC9D26C27FF2005C1857 /* Montserrat-Regular.ttf in Resources */,
 				430D425A26D3854200188E42 /* InterestsTableViewCell.xib in Resources */,
 				43CFB011271C56FC000CB41E /* GenderCollectionViewCell.xib in Resources */,
 				430A350726CA5AFD00477A94 /* CalendarView.xib in Resources */,
 				4382AC9326C27FF2005C1857 /* Montserrat-Black.ttf in Resources */,
+				43A332692781C9B2001ADB84 /* GhostModeTableViewCell.xib in Resources */,
 				43CFB00D271C56EB000CB41E /* InterestsCollectionViewCell.xib in Resources */,
 				430D426226D3A10F00188E42 /* EventTableViewCell.xib in Resources */,
 				4382ACC426C2C37A005C1857 /* Lato-Semibold.ttf in Resources */,
@@ -1527,6 +1590,7 @@
 				43FC3C7B2726F5A600D94ABB /* Localizable.strings in Resources */,
 				4362888826C8FF4000B51E51 /* Feed.storyboard in Resources */,
 				430A351026CA7A2200477A94 /* MoreTableViewCell.xib in Resources */,
+				43A332612781AE0F001ADB84 /* AddNewTagView.xib in Resources */,
 				436288A226C9186C00B51E51 /* FeedsTableViewCell.xib in Resources */,
 				43D545AD26CBB6270064660A /* EventTimeCalenderView.xib in Resources */,
 				43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */,
@@ -1536,17 +1600,19 @@
 				43FC3CAC27280C9E00D94ABB /* DeleteAccountTableViewCell.xib in Resources */,
 				4333DA7526C3B1E50029F2B0 /* Register.storyboard in Resources */,
 				4382ACB126C29001005C1857 /* Splach.storyboard in Resources */,
-				430A351726CAA97300477A94 /* HideMyLocationView.xib in Resources */,
+				430A351726CAA97300477A94 /* HideGhostModeView.xib in Resources */,
 				43375F60271313C4009EBED6 /* NotificationTableViewCell.xib in Resources */,
 				430D425E26D38D9B00188E42 /* AttendeesTableViewCell.xib in Resources */,
 				4344110826CE885F00F8233E /* ContactsTableViewCell.xib in Resources */,
 				43526917276A144A00540726 /* ScrollableBottomSheetViewController.xib in Resources */,
+				4388685F278344F1004D36B2 /* WriteProblemTableViewCell.xib in Resources */,
 				4382AC9626C27FF2005C1857 /* Montserrat-Medium.ttf in Resources */,
 				4371D42727391B13003B8AFD /* EmptyViewTableViewCell.xib in Resources */,
 				4362889D26C9140E00B51E51 /* RequestTableViewCell.xib in Resources */,
 				436850A027453E3800A62287 /* TagCollectionViewCell.xib in Resources */,
 				4382AC1E26C27195005C1857 /* Main.storyboard in Resources */,
 				43D545A726CBB02D0064660A /* EventCalendarView.xib in Resources */,
+				43886865278344F1004D36B2 /* ConfirmReportButtonTableViewCell.xib in Resources */,
 				4381CC9C270DB45A00D40A6D /* GoogleService-Info.plist in Resources */,
 				439DDE9426F749DC00E09FC1 /* EventsInLocationTableViewCell.xib in Resources */,
 				4333DA7026C3B1C10029F2B0 /* Login.storyboard in Resources */,
@@ -1659,8 +1725,9 @@
 				4362888626C8FF3A00B51E51 /* FeedVC.swift in Sources */,
 				4333DA7726C3BC350029F2B0 /* OptionsSignUpVC.swift in Sources */,
 				43375F5F271313C4009EBED6 /* NotificationTableViewCell.swift in Sources */,
-				430A351926CAA97F00477A94 /* HideMyLocationView.swift in Sources */,
+				430A351926CAA97F00477A94 /* HideGhostModeView.swift in Sources */,
 				4336D12F26DB8AF80093C7A6 /* CheckUserNameViewModel.swift in Sources */,
+				43886863278344F1004D36B2 /* WriteProblemTableViewCell.swift in Sources */,
 				430D426D26D3C10900188E42 /* MessageItem.swift in Sources */,
 				437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */,
 				4309E73926EF813A001B227D /* SocialMediaLoginViewModel.swift in Sources */,
@@ -1679,6 +1746,7 @@
 				430A351E26CAB01A00477A94 /* EditEventsVC.swift in Sources */,
 				432940FB26EE0FB60066BE87 /* FriendModel.swift in Sources */,
 				439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */,
+				43886862278344F1004D36B2 /* ConfirmReportButtonTableViewCell.swift in Sources */,
 				43119D7426E4F00000AD2260 /* DescriptionViewModel.swift in Sources */,
 				43B22416274D132C004C6912 /* CategoriesVC.swift in Sources */,
 				4382AC5026C2788D005C1857 /* StringExtension.swift in Sources */,
@@ -1700,6 +1768,7 @@
 				4320A65226F234BF003604EE /* UpdateLocationViewModel.swift in Sources */,
 				43F473BB26E63FAE001E4FAE /* EditEventViewModel.swift in Sources */,
 				4345BA3C271C15410076101A /* GenderbylocationModel.swift in Sources */,
+				43A3326F2782FBF9001ADB84 /* ReportVC.swift in Sources */,
 				43D545B726CBD8340064660A /* MagneticView.swift in Sources */,
 				432C6AD926F33BDF0029FB89 /* TagListView.swift in Sources */,
 				4344110226CE63AF00F8233E /* NewConversationVC.swift in Sources */,
@@ -1718,10 +1787,12 @@
 				4345BA3A271C14ED0076101A /* GenderbylocationViewModel.swift in Sources */,
 				4362889426C8FF9300B51E51 /* MoreVC.swift in Sources */,
 				43119D6A26E4C1A000AD2260 /* BioViewModel.swift in Sources */,
+				43A332632781AE37001ADB84 /* AddNewTagView.swift in Sources */,
 				43375F5827130D94009EBED6 /* NotificationsModel.swift in Sources */,
 				43119D6626E4BFDB00AD2260 /* EditProfileViewModel.swift in Sources */,
 				430D425926D3854200188E42 /* InterestsTableViewCell.swift in Sources */,
 				4362889C26C9140E00B51E51 /* RequestTableViewCell.swift in Sources */,
+				43886861278344F1004D36B2 /* ProblemTableViewCell.swift in Sources */,
 				43FED20A26DE3FCF00255B96 /* EventModel.swift in Sources */,
 				43119D7026E4C1E800AD2260 /* GeneratedUserNameViewModel.swift in Sources */,
 				4325E21026F0AF34008F73C4 /* DeleteEventViewModel.swift in Sources */,
@@ -1731,6 +1802,7 @@
 				4308EB7E26EA34FC00D71379 /* LogoutModel.swift in Sources */,
 				434428E927171AE800269444 /* ExtensionDate.swift in Sources */,
 				43F473B726E61E7F001E4FAE /* InterestsViewModel.swift in Sources */,
+				4388686B27845BDC004D36B2 /* ReportViewModel.swift in Sources */,
 				4382AC5B26C27B24005C1857 /* LoadingViewExtension.swift in Sources */,
 				43D545B226CBD7E40064660A /* ExtensionsNodes.swift in Sources */,
 				43D545AB26CBB61F0064660A /* EventTimeCalenderView.swift in Sources */,
@@ -1754,6 +1826,7 @@
 				43119D6E26E4C1CC00AD2260 /* UserImageViewModel.swift in Sources */,
 				4336ACCA26D6377E00C8FD33 /* ShowImageVC.swift in Sources */,
 				43D545B926CBD8470064660A /* Node.swift in Sources */,
+				4388686D27845C4D004D36B2 /* ReportModel.swift in Sources */,
 				43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */,
 				43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */,
 				432C6AD726F33BD60029FB89 /* TagView.swift in Sources */,
@@ -1781,6 +1854,8 @@
 				4382AC1726C27195005C1857 /* AppDelegate.swift in Sources */,
 				430D426B26D3BF1F00188E42 /* SimpleDataModel.swift in Sources */,
 				43FBA22C26D5330F005F4FBF /* SendLocationChatVC.swift in Sources */,
+				43A332AF27832F04001ADB84 /* MyTagsCollectionViewCell.swift in Sources */,
+				4388685E278344F1004D36B2 /* ReportTitleTableViewCell.swift in Sources */,
 				4320A64F26F21180003604EE /* BlockedTableViewCell.swift in Sources */,
 				43D545B526CBD81E0064660A /* Magnetic.swift in Sources */,
 				43375F5A27130D9E009EBED6 /* NotificationsViewModel.swift in Sources */,
@@ -1831,6 +1906,7 @@
 				43F473B526E61791001E4FAE /* CategoriesModel.swift in Sources */,
 				437EE47426E8BC1C00765089 /* AttendeesModel.swift in Sources */,
 				4382ACA626C28327005C1857 /* Initializer.swift in Sources */,
+				43A332682781C9B2001ADB84 /* GhostModeTableViewCell.swift in Sources */,
 				4309E73726EF422F001B227D /* RequestFriendStatusViewModel.swift in Sources */,
 				43D545AF26CBD76E0064660A /* TagsVC.swift in Sources */,
 			);
@@ -1871,7 +1947,7 @@
 			children = (
 				4382AC1D26C27195005C1857 /* Base */,
 				43FC3C7E2726F5F700D94ABB /* ar */,
-				43FC3C812726F60800D94ABB /* fr */,
+				43A3328827830938001ADB84 /* fr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

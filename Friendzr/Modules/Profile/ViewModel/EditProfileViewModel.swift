@@ -37,7 +37,7 @@ class EditProfileViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Edit Profile
-    func editProfile(withUserName userName:String,AndGender gender:String,AndGeneratedUserName generatedUserName:String,AndBio bio:String,AndBirthdate birthdate:String,tagsId:[String],attachedImg:Bool,AndUserImage userImage:UIImage,completion: @escaping (_ error: String?, _ data: ProfileObj?) -> ()) {
+    func editProfile(withUserName userName:String,AndGender gender:String,AndGeneratedUserName generatedUserName:String,AndBio bio:String,AndBirthdate birthdate:String,OtherGenderName:String,tagsId:[String],attachedImg:Bool,AndUserImage userImage:UIImage,completion: @escaping (_ error: String?, _ data: ProfileObj?) -> ()) {
         
         CancelRequest.currentTask = false
         userNameViewModel.data = userName
@@ -52,9 +52,17 @@ class EditProfileViewModel {
             return
         }
         
+        if gender == "other" {
+            if OtherGenderName == "" {
+                errorMsg = "Please enter a valid other gender name "
+                completion(errorMsg,nil)
+                return
+            }
+        }
+        
         let url = URLs.baseURLFirst + "Account/update"
 
-        let parameters:[String:Any] = ["Gender":gender,"bio":bio,"birthdate":birthdate,"Username":userName,"listoftags[]": tagsId]
+        let parameters:[String:Any] = ["Gender":gender,"bio":bio,"birthdate":birthdate,"Username":userName,"listoftags[]": tagsId,"OtherGenderName":OtherGenderName]
         let o = NSString(string: parameters.description)
         print(o)
         if attachedImg {
@@ -183,6 +191,7 @@ class EditProfileViewModel {
         Defaults.key = user.key
 //        Defaults.LocationLng = user.lang
 //        Defaults.LocationLat = user.lat
+        Defaults.OtherGenderName = user.OtherGenderName
         Defaults.age = user.age
         Defaults.userId = user.userid
         Defaults.needUpdate = user.needUpdate

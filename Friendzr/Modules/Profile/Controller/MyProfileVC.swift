@@ -46,7 +46,7 @@ class MyProfileVC: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        initBackButton()
+        initBackColorButton()
         clearNavigationBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false

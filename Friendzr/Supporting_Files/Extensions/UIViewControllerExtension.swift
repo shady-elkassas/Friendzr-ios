@@ -69,6 +69,27 @@ extension UIViewController {
         self.navigationItem.leftBarButtonItem = barButton
     }
     
+    func initBackColorButton() {
+        
+        var imageName = ""
+        if Language.currentLanguage() == "ar" {
+            imageName = "back_icon"
+        }else {
+            imageName = "back_icon"
+        }
+        
+        let button = UIButton.init(type: .custom)
+        let image = UIImage.init(named: imageName)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.setImage(image, for: .normal)
+        image?.withTintColor(UIColor.blue)
+        button.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
+        button.cornerRadiusForHeight()
+        button.addTarget(self, action:  #selector(onPopup), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.leftBarButtonItem = barButton
+    }
+    
     func initCloseBarButton() {
         let button = UIButton.init(type: .custom)
         let image = UIImage(named: "close_ic")?.withRenderingMode(.alwaysTemplate)
@@ -79,6 +100,9 @@ extension UIViewController {
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.leftBarButtonItem = barButton
     }
+    
+    
+    
     
     func initProfileBarButton(_ color: UIColor? = .white) {
         let view = UIView()

@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Group 19287.png",
+      "filename" : "export 2 icon x32.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Group 19287@2x.png",
+      "filename" : "export 2 icon x64.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Group 19287@3x.png",
+      "filename" : "export 2 icon x128.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

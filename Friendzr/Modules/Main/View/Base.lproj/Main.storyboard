@@ -352,6 +352,41 @@
             </objects>
             <point key="canvasLocation" x="3700.0000000000005" y="79.6875"/>
         </scene>
+        <!--ReportVC-->
+        <scene sceneID="aoQ-WX-vPH">
+            <objects>
+                <viewController storyboardIdentifier="ReportVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="V0f-xW-UC5" customClass="ReportVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Vxy-Ru-jjg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="OUW-Se-qYN">
+                                <rect key="frame" x="0.0" y="90" width="414" height="772"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="V0f-xW-UC5" id="xba-jG-EjT"/>
+                                    <outlet property="delegate" destination="V0f-xW-UC5" id="2y8-s7-XlG"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="XaS-1y-1kG"/>
+                        <color key="backgroundColor" name="Color0"/>
+                        <constraints>
+                            <constraint firstItem="XaS-1y-1kG" firstAttribute="bottom" secondItem="OUW-Se-qYN" secondAttribute="bottom" id="Itt-yE-aRN"/>
+                            <constraint firstItem="XaS-1y-1kG" firstAttribute="trailing" secondItem="OUW-Se-qYN" secondAttribute="trailing" id="MCv-r8-Ugb"/>
+                            <constraint firstItem="OUW-Se-qYN" firstAttribute="top" secondItem="XaS-1y-1kG" secondAttribute="top" constant="2" id="PU9-1P-Flo"/>
+                            <constraint firstItem="OUW-Se-qYN" firstAttribute="leading" secondItem="XaS-1y-1kG" secondAttribute="leading" id="yFP-gb-43h"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="bfk-5W-Tjf"/>
+                    <connections>
+                        <outlet property="tableView" destination="OUW-Se-qYN" id="HPK-EH-vTj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TWl-BD-4eW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5546.376811594203" y="68.973214285714278"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="0YY-LY-eeQ">
             <objects>
@@ -607,6 +642,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u6K-lb-Hv9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3543" y="787"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="wbA-ey-dPf">
+            <objects>
+                <navigationController storyboardIdentifier="ReportNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="XbI-VT-PjB" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nrh-Ho-7lE">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="V0f-xW-UC5" kind="relationship" relationship="rootViewController" id="dmk-8i-7va"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gMN-zj-VcR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4636.231884057971" y="68.973214285714278"/>
         </scene>
     </scenes>
     <resources>

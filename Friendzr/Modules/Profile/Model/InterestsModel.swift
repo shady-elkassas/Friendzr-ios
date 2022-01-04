@@ -35,6 +35,10 @@ class InterestObj : Mappable {
     
     required init?(map: Map) {
     }
+    
+    init() {
+        
+    }
     // Mappable
     func mapping(map: Map) {
         id    <- map["id"]

@@ -33,10 +33,13 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var selectTagsLbl: UILabel!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet weak var logoutBtn: UIButton!
-    
+
     @IBOutlet weak var tagsBottomSpaceLayout: NSLayoutConstraint!
     @IBOutlet weak var tagsTopSpaceLayout: NSLayoutConstraint!
     
+    @IBOutlet weak var otherGenderSubView: UIView!
+    @IBOutlet weak var otherGenderView: UIView!
+    @IBOutlet weak var otherGenderTxt: UITextField!
     
     //MARK: - Properties
     
@@ -155,6 +158,7 @@ class EditMyProfileVC: UIViewController {
         bioTxtView.cornerRadiusView(radius: 8)
         tagsView.cornerRadiusView(radius: 8)
         aboutMeView.cornerRadiusView(radius: 8)
+        otherGenderSubView.cornerRadiusView(radius: 8)
         logoutBtn.cornerRadiusView(radius: 8)
         
         logoutBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
@@ -255,18 +259,24 @@ class EditMyProfileVC: UIViewController {
             maleImg.image = UIImage(named: "select_ic")
             femaleImg.image = UIImage(named: "unSelect_ic")
             otherImg.image = UIImage(named: "unSelect_ic")
-            
+            otherGenderView.isHidden = true
+            otherGenderTxt.text = ""
+
             genderString = "male"
         }else if model?.gender == "female" {
             femaleImg.image = UIImage(named: "select_ic")
             maleImg.image = UIImage(named: "unSelect_ic")
             otherImg.image = UIImage(named: "unSelect_ic")
-            
+            otherGenderView.isHidden = true
+            otherGenderTxt.text = ""
+
             genderString = "female"
         }else {
             otherImg.image = UIImage(named: "select_ic")
             maleImg.image = UIImage(named: "unSelect_ic")
             femaleImg.image = UIImage(named: "unSelect_ic")
+            otherGenderView.isHidden = false
+            otherGenderTxt.text = model?.OtherGenderName
             
             genderString = "other"
         }
@@ -431,7 +441,9 @@ class EditMyProfileVC: UIViewController {
         maleImg.image = UIImage(named: "select_ic")
         femaleImg.image = UIImage(named: "unSelect_ic")
         otherImg.image = UIImage(named: "unSelect_ic")
-        
+        otherGenderView.isHidden = true
+        otherGenderTxt.text = ""
+
         genderString = "male"
     }
     
@@ -439,7 +451,9 @@ class EditMyProfileVC: UIViewController {
         femaleImg.image = UIImage(named: "select_ic")
         maleImg.image = UIImage(named: "unSelect_ic")
         otherImg.image = UIImage(named: "unSelect_ic")
-        
+        otherGenderView.isHidden = true
+        otherGenderTxt.text = ""
+
         genderString = "female"
     }
     
@@ -447,7 +461,9 @@ class EditMyProfileVC: UIViewController {
         otherImg.image = UIImage(named: "select_ic")
         maleImg.image = UIImage(named: "unSelect_ic")
         femaleImg.image = UIImage(named: "unSelect_ic")
-        
+        otherGenderView.isHidden = false
+        otherGenderTxt.text = Defaults.OtherGenderName
+
         genderString = "other"
     }
     
@@ -584,11 +600,10 @@ class EditMyProfileVC: UIViewController {
             }else {
                 if internetConect {
                     self.showLoading()
-                    viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in
+                    viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in
                         
                         self.hideLoading()
                         if let error = error {
-                            //                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }

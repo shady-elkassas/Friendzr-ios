@@ -563,6 +563,7 @@ PODS:
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
+  - Shimmer (1.0.2)
   - SweeterSwift (1.1.4)
 
 DEPENDENCIES:
@@ -585,6 +586,7 @@ DEPENDENCIES:
   - MultiSlider
   - ObjectMapper
   - SDWebImage
+  - Shimmer
 
 SPEC REPOS:
   trunk:
@@ -629,6 +631,7 @@ SPEC REPOS:
     - ObjectMapper
     - PromisesObjC
     - SDWebImage
+    - Shimmer
     - SweeterSwift
 
 SPEC CHECKSUMS:
@@ -673,8 +676,9 @@ SPEC CHECKSUMS:
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
+  Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SweeterSwift: 8a90cf3156f5a1b6f39785c479369a16633b5ea9
 
-PODFILE CHECKSUM: baf0a429a52e73effba7d782aa2c7b9fa9844f22
+PODFILE CHECKSUM: 123c0fe854076b7785567db2b64e7a2c3317362c
 
 COCOAPODS: 1.10.2

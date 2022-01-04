@@ -17,7 +17,6 @@ class TagCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        containerView.setBorder()
         containerView.cornerRadiusView(radius: 10)
     }
 }

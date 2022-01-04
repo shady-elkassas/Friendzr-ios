@@ -45,8 +45,8 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     let subviewInputBar = InputBarAccessoryView()
     
-//    lazy var textMessageSizeCalculator: CustomTextLayoutSizeCalculator = CustomTextLayoutSizeCalculator(layout: self.messagesCollectionView.messagesCollectionViewFlowLayout)
-
+    //    lazy var textMessageSizeCalculator: CustomTextLayoutSizeCalculator = CustomTextLayoutSizeCalculator(layout: self.messagesCollectionView.messagesCollectionViewFlowLayout)
+    
     // MARK: - Private properties
     var senderUser = UserSender(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName)
     
@@ -56,7 +56,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     var cellSelect:Bool = false
     var currentPage : Int = 1
     var isLoadingList : Bool = false
-
+    
     var chatuserID = ""
     
     var isEvent:Bool = false
@@ -187,6 +187,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         if isEvent {
             if leavevent == 0 {
                 messageInputBar.isHidden = false
+                initOptionsInChatEventButton()
             }else if leavevent == 1 {
                 setupDownView(textLbl: "You have left this event")
             }else {
@@ -195,6 +196,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         }else {
             if isFriend == true {
                 messageInputBar.isHidden = false
+                initOptionsInChatUserButton()
             }else {
                 setupDownView(textLbl: "You are now not a friend of this user and will not be able to message him")
             }
@@ -282,7 +284,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     func getUserChatMessages(pageNumber:Int) {
         CancelRequest.currentTask = false
-
+        
         if pageNumber > viewmodel.messages.value?.totalPages ?? 1 {
             return
         }
@@ -363,7 +365,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     func getEventChatMessages(pageNumber:Int) {
         CancelRequest.currentTask = false
-
+        
         self.showLoading()
         viewmodel.getChatMessages(ByEventId: eventChatID, pageNumber: pageNumber)
         viewmodel.eventmessages.bind { [unowned self] value in
@@ -437,16 +439,12 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     }
     
     func HandleinvalidUrl() {
-//        self.showAlert(withMessage: "sorry for that we have some maintaince with our servers please try again in few moments".localizedString)
-        
         DispatchQueue.main.async {
             self.view.makeToast("sorry for that we have some maintaince with our servers please try again in few moments".localizedString)
         }
     }
     
     func HandleInternetConnection() {
-//        self.showAlert(withMessage: "No avaliable newtwok ,Please try again!".localizedString)
-        
         DispatchQueue.main.async {
             self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
         }
@@ -463,7 +461,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         }
     }
 }
-
 
 extension ConversationVC {
     func initBackChatButton() {
@@ -490,12 +487,93 @@ extension ConversationVC {
             Router().toHome()
         })
     }
-}
+    
+    func initOptionsInChatUserButton() {
+        let imageName = "options_ic"
+        let button = UIButton.init(type: .custom)
+        let image = UIImage.init(named: imageName)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.setImage(image, for: .normal)
+        image?.withTintColor(UIColor.blue)
+        button.addTarget(self, action:  #selector(handleUserOptionsBtn), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
+    }
+    
+    func initOptionsInChatEventButton() {
+        
+        let imageName = "options_ic"
+        let button = UIButton.init(type: .custom)
+        let image = UIImage.init(named: imageName)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.setImage(image, for: .normal)
+        image?.withTintColor(UIColor.blue)
+        button.addTarget(self, action:  #selector(handleEventOptionsBtn), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
+    }
+    
+    @objc func handleUserOptionsBtn() {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+            actionAlert.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: { action in
+            }))
+            actionAlert.addAction(UIAlertAction(title: "Block", style: .default, handler: { action in
+                
+            }))
+            actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+                Router().toReportVC()
 
-//extension ConversationVC {
-//    
-//    func customCellSizeCalculator(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CellSizeCalculator {
-//        print("textMessageSizeCalculator = \(self.textMessageSizeCalculator)")
-//        return self.textMessageSizeCalculator
-//    }
-//}
+            }))
+            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionAlert, animated: true, completion: nil)
+        }else {
+            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: { action in
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: { action in
+                
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+                Router().toReportVC()
+
+            }))
+            
+            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionSheet, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func handleEventOptionsBtn() {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+            actionAlert.addAction(UIAlertAction(title: "Leave", style: .default, handler: { action in
+            }))
+            actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+                Router().toReportVC()
+
+            }))
+            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionAlert, animated: true, completion: nil)
+        }else {
+            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "Leave", style: .default, handler: { action in
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+                Router().toReportVC()
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            }))
+            present(actionSheet, animated: true, completion: nil)
+        }
+    }
+    
+    
+    
+}

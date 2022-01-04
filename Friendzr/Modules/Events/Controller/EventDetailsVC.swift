@@ -72,7 +72,7 @@ class EventDetailsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initBackButton()
+        initBackColorButton()
         setupViews()
     }
     
@@ -183,11 +183,20 @@ class EventDetailsVC: UIViewController {
             leaveBtn.isHidden = true
             attendeesViewHeight.constant = 0
         }else { // join
-            editBtn.isHidden = true
-            chatBtn.isHidden = false
-            joinBtn.isHidden = true
-            leaveBtn.isHidden = false
+            if viewmodel.event.value?.leveevent == 1 {
+                editBtn.isHidden = true
+                chatBtn.isHidden = false
+                joinBtn.isHidden = true
+                leaveBtn.isHidden = false
+            }else {
+                editBtn.isHidden = true
+                chatBtn.isHidden = true
+                joinBtn.isHidden = true
+                leaveBtn.isHidden = false
+            }
+            
             attendeesViewHeight.constant = 0
+
         }
         
         attendeesView.cornerRadiusView(radius: 21)
@@ -349,10 +358,12 @@ class EventDetailsVC: UIViewController {
     }
     
     @IBAction func chatBtn(_ sender: Any) {
-//        if viewmodel.event.value?.key == 1 {
+//        if viewmodel.event.value?.leveevent == 1 {
             Router().toConversationVC(isEvent: true, eventChatID: viewmodel.event.value?.id ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: viewmodel.event.value?.image ?? "", titleChatName: viewmodel.event.value?.title ?? "")
 //        }else {
+//            DispatchQueue.main.async {
 //
+//            }
 //        }
     }
     

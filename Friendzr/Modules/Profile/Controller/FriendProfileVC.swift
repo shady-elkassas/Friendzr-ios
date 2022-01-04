@@ -55,10 +55,12 @@ class FriendProfileVC: UIViewController {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        initOptionsUserButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        initBackButton()
+        initBackColorButton()
         clearNavigationBar()
         CancelRequest.currentTask = false
     }
@@ -553,5 +555,58 @@ extension FriendProfileVC : TagListViewDelegate {
     func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag Remove pressed: \(title), \(sender)")
         //        sender.removeTagView(tagView)
+    }
+}
+
+extension FriendProfileVC {
+    func initOptionsUserButton() {
+        let imageName = "options_ic"
+        let button = UIButton.init(type: .custom)
+        let image = UIImage.init(named: imageName)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.setImage(image, for: .normal)
+        image?.withTintColor(UIColor.blue)
+        button.addTarget(self, action:  #selector(handleUserOptionsBtn), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
+    }
+    
+    @objc func handleUserOptionsBtn() {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+//            actionAlert.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: { action in
+//            }))
+//            actionAlert.addAction(UIAlertAction(title: "Block", style: .default, handler: { action in
+//
+//            }))
+            actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                    vc.selectedVC = "Friend"
+                    self.present(controller, animated: true)
+                }
+            }))
+            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionAlert, animated: true, completion: nil)
+        }else {
+            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//            actionSheet.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: { action in
+//            }))
+//            actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: { action in
+//
+//            }))
+            actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                    vc.selectedVC = "Friend"
+                    self.present(controller, animated: true)
+                }
+            }))
+            
+            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionSheet, animated: true, completion: nil)
+        }
     }
 }

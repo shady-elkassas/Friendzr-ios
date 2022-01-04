@@ -152,6 +152,16 @@ class Defaults {
         }
     }
     
+    static var OtherGenderName: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "OtherGenderName")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "OtherGenderName") ?? ""
+        }
+    }
+
     
     static var LocationLng: String {
         set{
@@ -319,6 +329,7 @@ class Defaults {
         Defaults.key = user.key
 //        Defaults.LocationLng = user.lang
 //        Defaults.LocationLat = user.lat
+        Defaults.OtherGenderName = user.OtherGenderName
         Defaults.age = user.age
         Defaults.userId = user.userid
         Defaults.needUpdate = user.needUpdate
@@ -349,7 +360,7 @@ class Defaults {
         defaults.removeObject(forKey: "allowMyLocation")
         defaults.removeObject(forKey: "isFirstFilter")
         defaults.removeObject(forKey: "badgeNumber")
-
+        defaults.removeObject(forKey: "OtherGenderName")
         if let token = AccessToken.current,
            !token.isExpired {
             // User is logged in, do work such as go to next view controller.

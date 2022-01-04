@@ -40,6 +40,7 @@ class UserObj: Mappable {
         allowMyAppearanceType <- map["allowMyAppearanceType"]
         ghostmode <- map["ghostmode"]
         pushnotification <- map["pushnotification"]
+        OtherGenderName <- map["OtherGenderName"]
     }
     
     
@@ -53,6 +54,7 @@ class UserObj: Mappable {
     var displayedUserName = ""
     var bio = ""
     var gender = ""
+    var OtherGenderName = ""
     var birthdate = ""
     var linkAccountmodel:LinkAccountModel? = nil
     var listoftagsmodel:TagsModel? = nil

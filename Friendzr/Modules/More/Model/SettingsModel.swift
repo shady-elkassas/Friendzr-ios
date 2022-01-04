@@ -27,15 +27,15 @@ class SettingsModel: Mappable {
 
 class SettingsObj: Mappable {
     
-    var ghostmode: Bool?
-    var pushnotification: Bool?
-    var allowmylocation: Bool?
-    var allowMyAppearanceType: Int?
-    var agefrom: Int?
-    var ageto: Int?
-    var filteringaccordingtoage:Bool?
-    var manualdistancecontrol: Double?
-
+    var ghostmode: Bool? = false
+    var pushnotification: Bool? = false
+    var allowmylocation: Bool? = false
+    var allowMyAppearanceType: Int? = 0
+    var agefrom: Int? = 0
+    var ageto: Int? = 0
+    var filteringaccordingtoage:Bool? = false
+    var manualdistancecontrol: Double? = 0
+    var distanceFilter:Bool? = false
     
     required init?(map: Map) {
     }
@@ -49,6 +49,7 @@ class SettingsObj: Mappable {
         ageto  <- map["ageto"]
         filteringaccordingtoage  <- map["filteringaccordingtoage"]
         manualdistancecontrol  <- map["manualdistancecontrol"]
+        distanceFilter  <- map["distanceFilter"]
     }
 }
 

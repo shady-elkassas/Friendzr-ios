@@ -32,6 +32,7 @@ class RequestVC: UIViewController {
     var currentPage : Int = 0
     var isLoadingList : Bool = false
     
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +66,7 @@ class RequestVC: UIViewController {
     
     func getAllUserRequests(pageNumber:Int) {
         self.showLoading()
+//        setupShimmerView()
         viewmodel.getAllRequests(pageNumber: pageNumber)
         viewmodel.requests.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -77,6 +79,10 @@ class RequestVC: UIViewController {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
+                
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+//                    self.tableView.stopShimmerAnimation(animated: true)
+//                }
             }
         }
         
@@ -212,6 +218,9 @@ extension RequestVC:UITableViewDataSource {
             return cell
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? RequestTableViewCell else {return UITableViewCell()}
+            cell.setNeedsLayout()
+            cell.setNeedsDisplay()
+
             let model = viewmodel.requests.value?.data?[indexPath.row]
             
             cell.friendRequestNameLbl.text = model?.userName
