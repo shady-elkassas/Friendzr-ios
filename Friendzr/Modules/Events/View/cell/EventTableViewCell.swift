@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ListPlaceholder
 
 class EventTableViewCell: UITableViewCell {
     

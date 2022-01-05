@@ -11,6 +11,8 @@ class ConfirmReportButtonTableViewCell: UITableViewCell {
 
     @IBOutlet weak var confirmBtn: UIButton!
     
+    var HandleConfirmBtn: (() -> ())?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -24,6 +26,6 @@ class ConfirmReportButtonTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     @IBAction func confirmBtn(_ sender: Any) {
+        HandleConfirmBtn?()
     }
-    
 }

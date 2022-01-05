@@ -42,7 +42,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     }()
     
     var keyboardManager = KeyboardManager()
-    
     let subviewInputBar = InputBarAccessoryView()
     
     //    lazy var textMessageSizeCalculator: CustomTextLayoutSizeCalculator = CustomTextLayoutSizeCalculator(layout: self.messagesCollectionView.messagesCollectionViewFlowLayout)
@@ -94,6 +93,10 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     var attachedImg = false
     let database = Firestore.firestore()
     
+    lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
+    
+    var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -115,6 +118,21 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         additionalBottomInset = 88
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateMessagesChat), name: UIResponder.keyboardDidShowNotification, object: nil)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        alertView?.addGestureRecognizer(tap)
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        // handling code
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.alertView?.alpha = 0
+        }) { (success: Bool) in
+            self.alertView?.removeFromSuperview()
+            self.alertView?.alpha = 1
+            self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+        }
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -517,13 +535,17 @@ extension ConversationVC {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: { action in
+                self.unFriendAccount()
             }))
             actionAlert.addAction(UIAlertAction(title: "Block", style: .default, handler: { action in
-                
+                self.blockFriendAccount()
             }))
             actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
-                Router().toReportVC()
-
+                if self.isEvent == true {
+                    Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                }else {
+                    Router().toReportVC(id: self.chatuserID, isEvent: false, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                }
             }))
             actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
             }))
@@ -532,13 +554,18 @@ extension ConversationVC {
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: { action in
+                self.unFriendAccount()
             }))
             actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: { action in
-                
+                self.blockFriendAccount()
             }))
             actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
-                Router().toReportVC()
-
+                if self.isEvent == true {
+                    Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                }else {
+                    Router().toReportVC(id: self.chatuserID, isEvent: false, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                }
+                
             }))
             
             actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
@@ -552,10 +579,14 @@ extension ConversationVC {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Leave", style: .default, handler: { action in
+                self.leaveEvent()
             }))
             actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
-                Router().toReportVC()
-
+                if self.isEvent == true {
+                    Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                }else {
+                    Router().toReportVC(id: self.chatuserID, isEvent: false, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                }
             }))
             actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
             }))
@@ -564,9 +595,14 @@ extension ConversationVC {
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Leave", style: .default, handler: { action in
+                self.leaveEvent()
             }))
             actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
-                Router().toReportVC()
+                if self.isEvent == true {
+                    Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                }else {
+                    Router().toReportVC(id: self.chatuserID, isEvent: false, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                }
             }))
             actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
             }))
@@ -574,6 +610,127 @@ extension ConversationVC {
         }
     }
     
+    func leaveEvent() {
+        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        alertView?.titleLbl.text = "Confirm?".localizedString
+        alertView?.detailsLbl.text = "Are you sure you want to leave this event chat?".localizedString
+        
+        let actionDate = formatterDate.string(from: Date())
+        let actionTime = formatterTime.string(from: Date())
+        
+        alertView?.HandleConfirmBtn = {
+            self.viewmodel.LeaveChat(ByID: self.eventChatID, ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                self.hideLoading()
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    return
+                }
+                
+                guard let _ = data else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.view.makeToast("You have successfully left the chat")
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    Router().toHome()
+                }
+            }
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alertView?.alpha = 0
+            }) { (success: Bool) in
+                self.alertView?.removeFromSuperview()
+                self.alertView?.alpha = 1
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((alertView)!)
+        
+    }
     
+    func unFriendAccount() {
+        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        alertView?.titleLbl.text = "Confirm?".localizedString
+        alertView?.detailsLbl.text = "Are you sure you want to unfriend this account?".localizedString
+        
+        alertView?.HandleConfirmBtn = {
+            self.requestFriendVM.requestFriendStatus(withID: self.chatuserID, AndKey: 5) { error, message in
+                self.hideLoading()
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    return
+                }
+                
+                guard let message = message else {return}
+                
+                DispatchQueue.main.async {
+                    self.view.makeToast(message)
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    Router().toHome()
+                }
+            }
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alertView?.alpha = 0
+            }) { (success: Bool) in
+                self.alertView?.removeFromSuperview()
+                self.alertView?.alpha = 1
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((alertView)!)
+    }
     
+    func blockFriendAccount() {
+        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        alertView?.titleLbl.text = "Confirm?".localizedString
+        alertView?.detailsLbl.text = "Are you sure you want to block this account?".localizedString
+        
+        alertView?.HandleConfirmBtn = {
+            self.requestFriendVM.requestFriendStatus(withID: self.chatuserID, AndKey: 3) { error, message in
+                self.hideLoading()
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    return
+                }
+                
+                guard let message = message else {return}
+                
+                DispatchQueue.main.async {
+                    self.view.makeToast(message)
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    Router().toHome()
+                }
+            }
+            // handling code
+            UIView.animate(withDuration: 0.3, animations: {
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alertView?.alpha = 0
+            }) { (success: Bool) in
+                self.alertView?.removeFromSuperview()
+                self.alertView?.alpha = 1
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((alertView)!)
+    }
 }
+

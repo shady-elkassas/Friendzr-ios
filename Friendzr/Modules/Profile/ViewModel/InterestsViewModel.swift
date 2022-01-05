@@ -25,7 +25,7 @@ class InterestsViewModel {
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
-            guard let nodesResponse = Mapper<InterestsModel>().map(JSON: data!) else {
+            guard let interestResponse = Mapper<InterestsModel>().map(JSON: data!) else {
                 self.error.value = error!
                 completion(self.error.value, nil)
                 return
@@ -37,7 +37,7 @@ class InterestsViewModel {
             }
             else {
                 // When set the listener (if any) will be notified
-                if let toAdd = nodesResponse.data {
+                if let toAdd = interestResponse.data {
                     print("toAdd ::: \(toAdd)")
                     completion(nil,toAdd)
                 }
@@ -52,7 +52,7 @@ class InterestsViewModel {
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
-            guard let nodesResponse = Mapper<InterestsModel>().map(JSON: data!) else {
+            guard let interestResponse = Mapper<InterestsModel>().map(JSON: data!) else {
                 self.error.value = error!
                 return
             }
@@ -62,11 +62,39 @@ class InterestsViewModel {
             }
             else {
                 // When set the listener (if any) will be notified
-                if let toAdd = nodesResponse.data {
+                if let toAdd = interestResponse.data {
                     print("toAdd ::: \(toAdd)")
                     self.interests.value = toAdd
                 }
             }
         }
     }
+    
+    func addMyNewInterest(name:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+        CancelRequest.currentTask = false
+        let url = URLs.baseURLFirst + "Interests/userTag"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let parameters:[String : Any] = ["name": name]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            
+            guard let interestResponse = Mapper<AddUserInterestModel>().map(JSON: data!) else {
+                self.error.value = error!
+                completion(self.error.value, nil)
+                return
+            }
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.error.value = error
+                completion(self.error.value, nil)
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = interestResponse.message {
+                    completion(nil,toAdd)
+                }
+            }
+        }
+    }
+    
 }

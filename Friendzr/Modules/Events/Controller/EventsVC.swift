@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import ListPlaceholder
 
 class EventsVC: UIViewController {
     
@@ -63,7 +64,8 @@ class EventsVC: UIViewController {
     
     //MARK:- APIs
     func getAllEvents(pageNumber:Int) {
-        self.showLoading()
+//        self.showLoading()
+//        LoadingShimmer.startCovering(tableView, with: [cellID,cellID,cellID])
         viewmodel.getMyEvents(pageNumber: pageNumber)
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -75,6 +77,11 @@ class EventsVC: UIViewController {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
+                
+                self.tableView.showLoader()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.tableView.hideLoader()
+                }
             }
         }
         

@@ -8,7 +8,7 @@
 import UIKit
 
 class ReportVC: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     let titleCellID = "ReportTitleTableViewCell"
@@ -18,7 +18,15 @@ class ReportVC: UIViewController {
     var selectedVC = ""
     var viewmodel:ReportViewModel = ReportViewModel()
     var internetConnect:Bool = false
-
+    
+    
+    var id:String = ""
+    var problemID:String = ""
+    var message:String = ""
+    var isEvent:Bool = false
+    var chatimg:String = ""
+    var chatname:String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,7 +54,7 @@ class ReportVC: UIViewController {
         
         setupNavBar()
     }
-
+    
     func setupView() {
         tableView.register(UINib(nibName: titleCellID, bundle: nil), forCellReuseIdentifier: titleCellID)
         tableView.register(UINib(nibName: confirmBtnCellID, bundle: nil), forCellReuseIdentifier: confirmBtnCellID)
@@ -154,7 +162,7 @@ extension ReportVC: UITableViewDataSource {
             }
             
             cell.bottomView.isHidden = true
-//            cell.checkMarkImg.isHidden = true
+            //            cell.checkMarkImg.isHidden = true
             return cell
         }
         else if indexPath.section == 1 {
@@ -167,11 +175,39 @@ extension ReportVC: UITableViewDataSource {
         }
         else if indexPath.section == 2 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: detailsCellID, for: indexPath) as? WriteProblemTableViewCell else {return UITableViewCell()}
-            
+            self.message = cell.textView.text
             return cell
         }
         else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: confirmBtnCellID, for: indexPath) as? ConfirmReportButtonTableViewCell else {return UITableViewCell()}
+            cell.HandleConfirmBtn = {
+                self.updateNetworkForBtns()
+                
+                if self.internetConnect {
+                    self.viewmodel.sendReport(withID: self.id, isEvent: self.isEvent, message: self.message, reportReasonID: self.problemID) { error, data in
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let message = data else {return}
+                        
+                        DispatchQueue.main.async {
+                            self.view.makeToast(message)
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            if self.isEvent == true {
+                                Router().toHome()
+                            }else {
+                                Router().toFeed()
+                            }
+                        }
+                    }
+                }
+            }
             return cell
         }
     }
@@ -197,6 +233,7 @@ extension ReportVC: UITableViewDelegate {
         if indexPath.section == 1 {
             let model = viewmodel.model.value?[indexPath.row]
             print("\(indexPath.row),\(model?.name ?? "")")
+            self.problemID = model?.id ?? ""
         }else {
             return
         }
@@ -225,7 +262,7 @@ extension ReportVC {
     
     @objc func backToInbox() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            Router().toHome()
+            Router().toConversationVC(isEvent: self.isEvent, eventChatID: self.id, leavevent: 0, chatuserID: self.id, isFriend: true, titleChatImage: self.chatimg, titleChatName: self.chatname)
         })
     }
 }

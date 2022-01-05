@@ -25,6 +25,21 @@ class ReportProblemsModel: Mappable {
         message  <- map["message"]
     }
 }
+
+class SendReportResponse : Mappable {
+    
+    var isSuccessful: Bool?
+    var message: String?
+    
+    required init?(map: Map) {
+    }
+    // Mappable
+    func mapping(map: Map) {
+        isSuccessful   <- map["isSuccessful"]
+        message  <- map["message"]
+    }
+}
+
 class ProblemObj: Mappable {
     
     var id: String?

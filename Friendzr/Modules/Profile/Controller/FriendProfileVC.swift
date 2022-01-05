@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Shimmer
+import LoadingShimmer
 
 class FriendProfileVC: UIViewController {
     
@@ -43,12 +45,13 @@ class FriendProfileVC: UIViewController {
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var internetConect:Bool = false
     
+//    var shimmer = FBShimmeringView()
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         alertView?.addGestureRecognizer(tap)
         
@@ -72,12 +75,18 @@ class FriendProfileVC: UIViewController {
     
     //MARK:- APIs
     func getFriendProfileInformation() {
-        self.showLoading()
+//        self.showLoading()
+        hideView.isHidden = true
+//        setupShimmerView()
+        LoadingShimmer.startCovering(superView, with: [""])
+        
         viewmodel.getFriendDetails(ById: userID)
         viewmodel.model.bind { [unowned self]value in
             self.hideLoading()
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 hideView.isHidden = true
+//                shimmer.isShimmering = false
+                LoadingShimmer.stopCovering(superView)
                 setupData()
             }
         }
@@ -96,6 +105,14 @@ class FriendProfileVC: UIViewController {
         }
     }
     
+//    func setupShimmerView() {
+//        shimmer = FBShimmeringView(frame: self.profileImg.frame)
+//        shimmer.contentView = self.profileImg
+//        shimmer.shimmeringOpacity = 0.2
+//        shimmer.backgroundColor = .darkGray
+//        self.view.addSubview(shimmer)
+//        shimmer.isShimmering = true
+//    }
     //set data for user
     
     //MARK: - Actions
@@ -582,6 +599,8 @@ extension FriendProfileVC {
             actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.selectedVC = "Friend"
+                    vc.isEvent = false
+                    vc.id = self.userID
                     self.present(controller, animated: true)
                 }
             }))
@@ -599,6 +618,8 @@ extension FriendProfileVC {
             actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.selectedVC = "Friend"
+                    vc.isEvent = false
+                    vc.id = self.userID
                     self.present(controller, animated: true)
                 }
             }))

@@ -33,9 +33,6 @@ class SelectedTagsVC: UIViewController {
     var viewmodel = InterestsViewModel()
     var selectedInterests:[InterestObj]!
     
-    
-    var newTagsAdded:[newTag] = []
-    
     var onInterestsCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
     
     var arrData = [String]() // This is your data array
@@ -107,32 +104,26 @@ class SelectedTagsVC: UIViewController {
 
 extension SelectedTagsVC:UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 1
     }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        }else if section == 1 {
-            print(newTagsAdded.count)
-            return newTagsAdded.count
-        }else {
-            return viewmodel.interests.value?.count ?? 0
-        }
+        return viewmodel.interests.value?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.section == 0 {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? TagCollectionViewCell else {return UICollectionViewCell()}
-            cell.tagNameLbl.text = "My Tags"
-            cell.tagNameLbl.textColor = UIColor.FriendzrColors.primary!
-            cell.containerView.backgroundColor = .clear
-            return cell
-        }else if indexPath.section == 1 {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: myTagsCellId, for: indexPath) as? MyTagsCollectionViewCell else {return UICollectionViewCell()}
-            let model = newTagsAdded[indexPath.row]
-            cell.tagTitleLbl.text = "#\(model.name ?? "")"
-            return cell
-        }else {
+//        if indexPath.section == 0 {
+//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? TagCollectionViewCell else {return UICollectionViewCell()}
+//            cell.tagNameLbl.text = "My Tags"
+//            cell.tagNameLbl.textColor = UIColor.FriendzrColors.primary!
+//            cell.containerView.backgroundColor = .clear
+//            return cell
+//        }else if indexPath.section == 1 {
+//            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: myTagsCellId, for: indexPath) as? MyTagsCollectionViewCell else {return UICollectionViewCell()}
+//            let model = newTagsAdded[indexPath.row]
+//            cell.tagTitleLbl.text = "#\(model.name ?? "")"
+//            return cell
+//        }else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? TagCollectionViewCell else {return UICollectionViewCell()}
             let model = viewmodel.interests.value?[indexPath.row]
             cell.tagNameLbl.text = "#\(model?.name ?? "")"
@@ -146,24 +137,24 @@ extension SelectedTagsVC:UICollectionViewDataSource {
             
             cell.layoutSubviews()
             return cell
-        }
+//        }
     }
 }
 
 extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        if indexPath.section == 0 {
-            return CGSize(width: 110, height: 45)
-        }else if indexPath.section == 1 {
-            let model = newTagsAdded[indexPath.row]
-            let width = model.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
-            return CGSize(width: width! + 150, height: 45)
-        }else {
+//        if indexPath.section == 0 {
+//            return CGSize(width: 110, height: 45)
+//        }else if indexPath.section == 1 {
+//            let model = newTagsAdded[indexPath.row]
+//            let width = model.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
+//            return CGSize(width: width! + 150, height: 45)
+//        }else {
             let model = viewmodel.interests.value?[indexPath.row]
             let width = model?.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
             return CGSize(width: width! + 50, height: 45)
-        }
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -180,12 +171,12 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("You selected cell #\(indexPath.row)!")
-        if indexPath.section == 0 {
-            return
-        }else if indexPath.section == 1 {
-            return
-        }
-        else {
+//        if indexPath.section == 0 {
+//            return
+//        }else if indexPath.section == 1 {
+//            return
+//        }
+//        else {
             let strData = viewmodel.interests.value?[indexPath.row]
             
             if arrSelectedDataIds.contains(strData?.id ?? "") {
@@ -209,7 +200,7 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
 
             print(arrSelectedDataIds)
             collectionView.reloadData()
-        }
+//        }
     }
     
     
@@ -226,18 +217,32 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
     @objc func addnewtag() {
         addNewTagView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
-        let name = addNewTagView?.newTagTxt.text
-        
         addNewTagView?.HandleConfirmBtn = {
             if self.addNewTagView?.newTagTxt.text == "" {
                 self.view.makeToast("Please type the name of the tag first")
             }else {
-                self.newTagsAdded.removeAll()
-                self.newTagsAdded.append(newTag(id: "\(self.newTagsAdded.count + 1)", name: name!, isSelected: false))
-                print(self.newTagsAdded.count)
+                
+                self.viewmodel.addMyNewInterest(name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
+                    
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard let message = data else {return}
+                    
+                    DispatchQueue.main.async {
+                        self.view.makeToast(message)
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.getAllTags()
+                    }
+                }
             }
             
-            self.collectionView.reloadData()
             
             // handling code
             UIView.animate(withDuration: 0.3, animations: {

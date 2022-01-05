@@ -386,8 +386,8 @@ extension SettingsVC :CLLocationManagerDelegate {
     
     
     //ghostmode toggle
-    func ghostModeToggle(ghostMode:Bool,allowmylocationtype:Int) {
-        self.viewmodel.toggleGhostMode(ghostMode: true, allowmylocationtype: 1) { error, data in
+    func ghostModeToggle(ghostMode:Bool,allowmylocationtype:[Int]) {
+        self.viewmodel.toggleGhostMode(ghostMode: ghostMode, allowmylocationtype: 1) { error, data in
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
@@ -410,6 +410,7 @@ extension SettingsVC :CLLocationManagerDelegate {
     func onHideGhostModeTypesCallBack(_ data: [String], _ value: [Int]) -> () {
         print(data)
         print(value)
+        ghostModeToggle(ghostMode: true, allowmylocationtype:value)
     }
 }
 
@@ -570,7 +571,6 @@ extension SettingsVC: UITableViewDataSource {
                     
                     self.alertView?.parentVC = self
                     self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
-                    
                     
                     //cancel view
                     self.alertView?.HandlehideViewBtn = {
@@ -857,12 +857,6 @@ extension SettingsVC: UITableViewDataSource {
             cell.titleLbl.text = "Change Password"
             cell.iconImg.image = UIImage(named: "changePassword_ic")
             return cell
-            //        case 5://change language
-            //            guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
-            //            cell.titleLbl.text = "Change Language"
-            //            cell.iconImg.image = UIImage(named: "notifications_ic")
-            //            return cell
-            
         case 5://block list
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Block List"
@@ -886,12 +880,6 @@ extension SettingsVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if indexPath.row == 2 {//manual distance
-//            self.createDistanceSlider()
-//        }
-//        else if indexPath.row == 3 {//filtring age
-//            self.createAgeSlider()
-//        }
         if indexPath.row == 4 {//change password
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "ChangePasswordVC") as? ChangePasswordVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
@@ -914,7 +902,6 @@ extension SettingsVC: UITableViewDelegate {
                         self.hideLoading()
                         
                         if let error = error {
-//                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }

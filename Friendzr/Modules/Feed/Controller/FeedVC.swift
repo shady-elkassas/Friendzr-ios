@@ -9,6 +9,7 @@ import UIKit
 import SwiftUI
 import CoreLocation
 import Contacts
+import ListPlaceholder
 
 let screenH: CGFloat = UIScreen.main.bounds.height
 let screenW: CGFloat = UIScreen.main.bounds.width
@@ -161,7 +162,7 @@ class FeedVC: UIViewController {
     }
     
     func getAllFeeds(pageNumber:Int) {
-        self.showLoading()
+//        self.showLoading()
 //        hideView.isHidden = false
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
@@ -173,6 +174,11 @@ class FeedVC: UIViewController {
                 tableView.reloadData()
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
+                
+                self.tableView.showLoader()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.tableView.hideLoader()
+                }
             })
         }
         

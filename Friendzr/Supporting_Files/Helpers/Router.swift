@@ -144,10 +144,14 @@ class Router {
         }
     }
     
-    func toReportVC()  {
-        let id = "ReportNC"
-        let nextVC = Initializer.createViewController(storyBoard: .Main, andId: id)
-        go(withVC: nextVC)
+    func toReportVC(id:String,isEvent:Bool,chatimg:String,chatname:String)  {
+        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+            vc.id = id
+            vc.chatimg = chatimg
+            vc.chatname = chatname
+            vc.isEvent = isEvent
+            go(withVC: controller)
+        }
     }
 }
 

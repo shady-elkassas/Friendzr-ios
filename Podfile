@@ -40,6 +40,8 @@ target 'Friendzr' do
   
   pod 'Shimmer'
 
+  pod 'LoadingShimmer'
+  pod 'ListPlaceholder'
 
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|

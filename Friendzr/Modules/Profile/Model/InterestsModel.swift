@@ -26,6 +26,22 @@ class InterestsModel: Mappable {
     }
 }
 
+class AddUserInterestModel: Mappable {
+    
+    var isSuccessful: Bool?
+    var message: String?
+    var data: InterestObj? = nil
+    
+    required init?(map: Map) {
+    }
+    // Mappable
+    func mapping(map: Map) {
+        data    <- map["model"]
+        isSuccessful   <- map["isSuccessful"]
+        message  <- map["message"]
+    }
+}
+
 class InterestObj : Mappable {
     
     var id: String? = ""

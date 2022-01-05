@@ -548,6 +548,8 @@ PODS:
   - InputBarAccessoryView/Core (5.3.1)
   - IQKeyboardManager (6.5.6)
   - leveldb-library (1.22.1)
+  - ListPlaceholder (1.5)
+  - LoadingShimmer (1.0.3)
   - MessageKit (3.5.1):
     - InputBarAccessoryView (~> 5.3.0)
   - MultiSlider (1.11.2):
@@ -582,6 +584,8 @@ DEPENDENCIES:
   - GooglePlaces
   - GoogleSignIn
   - IQKeyboardManager
+  - ListPlaceholder
+  - LoadingShimmer
   - MessageKit (~> 3.5.1)
   - MultiSlider
   - ObjectMapper
@@ -625,6 +629,8 @@ SPEC REPOS:
     - InputBarAccessoryView
     - IQKeyboardManager
     - leveldb-library
+    - ListPlaceholder
+    - LoadingShimmer
     - MessageKit
     - MultiSlider
     - nanopb
@@ -670,6 +676,8 @@ SPEC CHECKSUMS:
   InputBarAccessoryView: 1f75d8c9f75e5e57f3ffac36ed58635a8005e0bc
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
+  ListPlaceholder: 2d7950014852ee5613d636cf14fd1bb93419e330
+  LoadingShimmer: dd681218498ec9648f572b845a7299b9c62e8e30
   MessageKit: 6a15a240a9a4767279de542a8fae861e83d8aedc
   MultiSlider: 944d00877d371bbb5ce0a512fec517de87958775
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
@@ -679,6 +687,6 @@ SPEC CHECKSUMS:
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SweeterSwift: 8a90cf3156f5a1b6f39785c479369a16633b5ea9
 
-PODFILE CHECKSUM: 123c0fe854076b7785567db2b64e7a2c3317362c
+PODFILE CHECKSUM: a358e0769bdd48aef037517420d997c1b56c672a
 
 COCOAPODS: 1.10.2

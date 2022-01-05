@@ -150,16 +150,21 @@ extension HideGhostModeView : UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+
         if indexPath.section == 0 {
             print("0000000")
             SelectedSingleTone.isSelected = true
             selectedHideType.removeAll()
             typeIDs.removeAll()
             typeStrings.removeAll()
+            
+            for itm in hideArray {
+                itm.isSelected = false
+            }
         }else {
             SelectedSingleTone.isSelected = false
-            
             let type = hideArray[indexPath.row]
+
             if selectedHideType.contains(where: { $0.id == type.id }) {
                 // found
                 print("remove")
@@ -195,15 +200,19 @@ extension HideGhostModeView : UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+
         if indexPath.section == 0 {
             print("999999")
             SelectedSingleTone.isSelected = true
             selectedHideType.removeAll()
             typeIDs.removeAll()
             typeStrings.removeAll()
+            
+            for itm in hideArray {
+                itm.isSelected = false
+            }
         }else {
             SelectedSingleTone.isSelected = false
-            
             let type = hideArray[indexPath.row]
             if selectedHideType.contains(where: { $0.id == type.id }) {
                 // found

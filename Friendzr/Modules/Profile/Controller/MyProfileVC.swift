@@ -7,6 +7,7 @@
 
 import UIKit
 import SDWebImage
+import Shimmer
 
 class MyProfileVC: UIViewController {
     
@@ -34,6 +35,9 @@ class MyProfileVC: UIViewController {
     
     var internetConnection:Bool = false
     
+    
+    var shimmer: FBShimmeringView!
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +63,8 @@ class MyProfileVC: UIViewController {
     
     //MARK: - API
     func getProfileInformation() {
-        self.showLoading()
+//        self.showLoading()
+        
         viewmodel.getProfileInfo()
         viewmodel.userModel.bind { [unowned self]value in
             self.hideLoading()
