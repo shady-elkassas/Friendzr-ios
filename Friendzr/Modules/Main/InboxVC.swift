@@ -48,7 +48,7 @@ class InboxVC: UIViewController {
     private let formatterTime: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
-        formatter.dateFormat = "HH:mm"
+        formatter.dateFormat = "HH:mm:ss"
         return formatter
     }()
     
@@ -96,12 +96,10 @@ class InboxVC: UIViewController {
     }
     
     func getAllChatList(pageNumber:Int) {
-        self.showLoading()
         viewmodel.getChatList(pageNumber: pageNumber)
         viewmodel.listChat.bind { [unowned self] value in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                
-                self.hideLoading()
+            DispatchQueue.main.async {
+                tableView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -126,8 +124,41 @@ class InboxVC: UIViewController {
         }
     }
     
+    func loadAllchatList(pageNumber:Int) {
+        viewmodel.getChatList(pageNumber: pageNumber)
+        viewmodel.listChat.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+                
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+                
+                self.tableView.showLoader()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.tableView.hideLoader()
+                }
+                
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else if error == "Bad Request" {
+                    HandleinvalidUrl()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
+            }
+        }
+    }
+    
+    
     func getSearchUsers(text:String) {
-        //        self.showLoading()
         searchVM.SearshUsersinChat(ByUserName: text)
         searchVM.usersinChat.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -180,7 +211,7 @@ class InboxVC: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        updateUserInterface()
+        getAllChatList(pageNumber: 1)
         self.refreshControl.endRefreshing()
     }
     
@@ -211,11 +242,11 @@ class InboxVC: UIViewController {
         case .wwan:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllChatList(pageNumber: 1)
+            loadAllchatList(pageNumber: 1)
         case .wifi:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllChatList(pageNumber: 1)
+            loadAllchatList(pageNumber: 1)
         }
         
         print("Reachability Summary")
@@ -281,6 +312,8 @@ extension InboxVC:UITableViewDataSource {
                 if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
                     if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
                         cell.underView.isHidden = true
+                    }else {
+                        cell.underView.isHidden = false
                     }
                 }
                 
@@ -312,6 +345,8 @@ extension InboxVC:UITableViewDataSource {
                 if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
                     if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
                         cell.underView.isHidden = true
+                    }else {
+                        cell.underView.isHidden = false
                     }
                 }
                 
@@ -321,27 +356,30 @@ extension InboxVC:UITableViewDataSource {
                     cell.attachTypeLbl.isHidden = true
                     cell.lastMessageLbl.isHidden = false
                     cell.lastMessageLbl.text = ""
-                }else if model?.messagestype == 1 {
+                }
+                else if model?.messagestype == 1 {
                     cell.attachImg.isHidden = true
                     cell.attachTypeLbl.isHidden = true
                     cell.lastMessageLbl.isHidden = false
                     cell.lastMessageLbl.text = model?.messages
-                }else if model?.messagestype == 2 {
+                }
+                else if model?.messagestype == 2 {
                     cell.attachImg.isHidden = false
                     cell.attachTypeLbl.isHidden = false
                     cell.lastMessageLbl.isHidden = true
                     cell.attachImg.image = UIImage(named: "placeholder")
                     cell.attachTypeLbl.text = "Photo"
-                }else if model?.messagestype == 3 {
+                }
+                else if model?.messagestype == 3 {
                     cell.attachImg.isHidden = false
                     cell.attachTypeLbl.isHidden = false
                     cell.lastMessageLbl.isHidden = true
                     cell.attachImg.image = UIImage(named: "attachFile_ic")
                     cell.attachTypeLbl.text = "File"
-                }else {
+                }
+                else {
                     print("\(model?.messagestype ?? 0)")
                 }
-                
                 return cell
             }else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
@@ -402,7 +440,7 @@ extension InboxVC:UITableViewDelegate {
                     
                     settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                         self.showLoading()
-                        self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false) { error, data in
+                        self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
                             self.hideLoading()
                             if let error = error {
                                 DispatchQueue.main.async {
@@ -428,7 +466,7 @@ extension InboxVC:UITableViewDelegate {
                     
                     settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                         self.showLoading()
-                        self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false) { error, data in
+                        self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
                             self.hideLoading()
                             if let error = error {
                                 DispatchQueue.main.async {
@@ -691,7 +729,7 @@ extension InboxVC: UISearchBarDelegate{
             getSearchUsers(text: text)
         }else {
             isSearch = false
-            getAllChatList(pageNumber: 0)
+            getAllChatList(pageNumber: 1)
         }
     }
     

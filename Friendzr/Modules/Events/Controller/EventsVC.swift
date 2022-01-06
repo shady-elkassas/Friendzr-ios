@@ -64,8 +64,38 @@ class EventsVC: UIViewController {
     
     //MARK:- APIs
     func getAllEvents(pageNumber:Int) {
-//        self.showLoading()
-//        LoadingShimmer.startCovering(tableView, with: [cellID,cellID,cellID])
+        self.tableView.hideLoader()
+        viewmodel.getMyEvents(pageNumber: pageNumber)
+        viewmodel.events.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+                initAddNewEventBarButton(total: value.totalRecords ?? 0)
+                
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else if error == "Bad Request" {
+                    HandleinvalidUrl()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
+            }
+        }
+    }
+    
+    
+    func LoadAllEvents(pageNumber:Int) {
         viewmodel.getMyEvents(pageNumber: pageNumber)
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -79,7 +109,7 @@ class EventsVC: UIViewController {
                 self.tableView.tableFooterView = nil
                 
                 self.tableView.showLoader()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self.tableView.hideLoader()
                 }
             }
@@ -112,11 +142,11 @@ class EventsVC: UIViewController {
         case .wwan:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllEvents(pageNumber: 1)
+            LoadAllEvents(pageNumber: 1)
         case .wifi:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllEvents(pageNumber: 1)
+            LoadAllEvents(pageNumber: 1)
         }
         
         print("Reachability Summary")

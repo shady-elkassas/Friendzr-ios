@@ -6,8 +6,7 @@
 //
 
 import UIKit
-import Shimmer
-import LoadingShimmer
+import ListPlaceholder
 
 class FriendProfileVC: UIViewController {
     
@@ -29,7 +28,6 @@ class FriendProfileVC: UIViewController {
     @IBOutlet weak var unblockBtn: UIButton!
     @IBOutlet weak var tagListView: TagListView!
     @IBOutlet weak var tagListViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var hideView: UIView!
     @IBOutlet weak var refusedBtn: UIButton!
     @IBOutlet weak var tagsTopConstrains: NSLayoutConstraint!
     @IBOutlet weak var tagsBotomConstrains: NSLayoutConstraint!
@@ -75,18 +73,11 @@ class FriendProfileVC: UIViewController {
     
     //MARK:- APIs
     func getFriendProfileInformation() {
-//        self.showLoading()
-        hideView.isHidden = true
-//        setupShimmerView()
-        LoadingShimmer.startCovering(superView, with: [""])
-        
+        self.superView.hideLoader()
         viewmodel.getFriendDetails(ById: userID)
         viewmodel.model.bind { [unowned self]value in
             self.hideLoading()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                hideView.isHidden = true
-//                shimmer.isShimmering = false
-                LoadingShimmer.stopCovering(superView)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 setupData()
             }
         }
@@ -105,15 +96,29 @@ class FriendProfileVC: UIViewController {
         }
     }
     
-//    func setupShimmerView() {
-//        shimmer = FBShimmeringView(frame: self.profileImg.frame)
-//        shimmer.contentView = self.profileImg
-//        shimmer.shimmeringOpacity = 0.2
-//        shimmer.backgroundColor = .darkGray
-//        self.view.addSubview(shimmer)
-//        shimmer.isShimmering = true
-//    }
-    //set data for user
+    
+    func loadUserData() {
+        self.superView.showLoader()
+        viewmodel.getFriendDetails(ById: userID)
+        viewmodel.model.bind { [unowned self]value in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                setupData()
+                self.superView.hideLoader()
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
+            }
+        }
+    }
     
     //MARK: - Actions
     @IBAction func sendRequestBtn(_ sender: Any) {
@@ -121,7 +126,6 @@ class FriendProfileVC: UIViewController {
         if self.internetConect == true {
             changeTitleBtns(btn: sendRequestBtn, title: "Sending...")
             self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1) { error, message in
-//                self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -374,10 +378,10 @@ class FriendProfileVC: UIViewController {
             HandleInternetConnection()
         case .wwan:
             internetConect = true
-            getFriendProfileInformation()
+            loadUserData()
         case .wifi:
             internetConect = true
-            getFriendProfileInformation()
+            loadUserData()
         }
         
         print("Reachability Summary")
@@ -478,7 +482,13 @@ class FriendProfileVC: UIViewController {
                 self.userNameLbl.text = "@\(model?.displayedUserName ?? "")"
                 self.nameLbl.text = model?.userName
                 self.ageLbl.text = "\(model?.age ?? 0)"
-                self.genderLbl.text = model?.gender
+                
+                if model?.gender == "other" {
+                    genderLbl.text = "other(\(model?.otherGenderName ?? ""))"
+                }else {
+                    genderLbl.text = model?.gender
+                }
+                
                 self.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))
             }
             
@@ -591,11 +601,6 @@ extension FriendProfileVC {
     @objc func handleUserOptionsBtn() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-//            actionAlert.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: { action in
-//            }))
-//            actionAlert.addAction(UIAlertAction(title: "Block", style: .default, handler: { action in
-//
-//            }))
             actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.selectedVC = "Friend"
@@ -610,11 +615,6 @@ extension FriendProfileVC {
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//            actionSheet.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: { action in
-//            }))
-//            actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: { action in
-//
-//            }))
             actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.selectedVC = "Friend"

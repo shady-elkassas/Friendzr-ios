@@ -15,14 +15,15 @@ class AddNewTagView: UIView {
     @IBOutlet weak var newTagTxt: UITextField!
     @IBOutlet weak var confirmBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
+    @IBOutlet weak var textBorderView: UIView!
     
     var HandleConfirmBtn: (()->())?
     var HandleCancelBtn: (()->())?
 
     override func awakeFromNib() {
         
-        newTagTxt.setBorder()
-        newTagTxt.cornerRadiusView(radius: 8)
+        textBorderView.setBorder()
+        textBorderView.cornerRadiusView(radius: 8)
         confirmBtn.cornerRadiusView(radius: 8)
         cancelBtn.cornerRadiusView(radius: 8)
     }

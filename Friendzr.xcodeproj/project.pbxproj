@@ -105,6 +105,7 @@
 		43375F5A27130D9E009EBED6 /* NotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43375F5927130D9E009EBED6 /* NotificationsViewModel.swift */; };
 		43375F5F271313C4009EBED6 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43375F5D271313C4009EBED6 /* NotificationTableViewCell.swift */; };
 		43375F60271313C4009EBED6 /* NotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43375F5E271313C4009EBED6 /* NotificationTableViewCell.xib */; };
+		4337B4732785D9CC0077B794 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4337B4722785D9CC0077B794 /* GoogleService-Info.plist */; };
 		4344107C26CD54D600F8233E /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344107B26CD54D600F8233E /* CategoriesView.swift */; };
 		4344107E26CD54E000F8233E /* CategoriesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4344107D26CD54E000F8233E /* CategoriesView.xib */; };
 		4344110226CE63AF00F8233E /* NewConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344110126CE63AF00F8233E /* NewConversationVC.swift */; };
@@ -149,7 +150,6 @@
 		437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */; };
 		437EE47226E8B39700765089 /* LeaveEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437EE47126E8B39700765089 /* LeaveEventViewModel.swift */; };
 		437EE47426E8BC1C00765089 /* AttendeesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437EE47326E8BC1C00765089 /* AttendeesModel.swift */; };
-		4381CC9C270DB45A00D40A6D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4381CC9B270DB45A00D40A6D /* GoogleService-Info.plist */; };
 		4382AC1726C27195005C1857 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1626C27195005C1857 /* AppDelegate.swift */; };
 		4382AC1926C27195005C1857 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1826C27195005C1857 /* SceneDelegate.swift */; };
 		4382AC1B26C27195005C1857 /* InboxVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1A26C27195005C1857 /* InboxVC.swift */; };
@@ -207,8 +207,6 @@
 		43A332682781C9B2001ADB84 /* GhostModeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A332662781C9B2001ADB84 /* GhostModeTableViewCell.swift */; };
 		43A332692781C9B2001ADB84 /* GhostModeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A332672781C9B2001ADB84 /* GhostModeTableViewCell.xib */; };
 		43A3326F2782FBF9001ADB84 /* ReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A3326E2782FBF9001ADB84 /* ReportVC.swift */; };
-		43A332AF27832F04001ADB84 /* MyTagsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A332AD27832F04001ADB84 /* MyTagsCollectionViewCell.swift */; };
-		43A332B027832F04001ADB84 /* MyTagsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A332AE27832F04001ADB84 /* MyTagsCollectionViewCell.xib */; };
 		43B22412274B89D7004C6912 /* SelectedTagsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22411274B89D7004C6912 /* SelectedTagsVC.swift */; };
 		43B22416274D132C004C6912 /* CategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22415274D132C004C6912 /* CategoriesVC.swift */; };
 		43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */; };
@@ -392,6 +390,7 @@
 		43375F5927130D9E009EBED6 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
 		43375F5D271313C4009EBED6 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		43375F5E271313C4009EBED6 /* NotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationTableViewCell.xib; sourceTree = "<group>"; };
+		4337B4722785D9CC0077B794 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4344107B26CD54D600F8233E /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
 		4344107D26CD54E000F8233E /* CategoriesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoriesView.xib; sourceTree = "<group>"; };
 		4344110126CE63AF00F8233E /* NewConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationVC.swift; sourceTree = "<group>"; };
@@ -437,7 +436,6 @@
 		437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassViewSwiftUI.swift; sourceTree = "<group>"; };
 		437EE47126E8B39700765089 /* LeaveEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveEventViewModel.swift; sourceTree = "<group>"; };
 		437EE47326E8BC1C00765089 /* AttendeesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendeesModel.swift; sourceTree = "<group>"; };
-		4381CC9B270DB45A00D40A6D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4382AC1326C27195005C1857 /* Friendzr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Friendzr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4382AC1626C27195005C1857 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4382AC1826C27195005C1857 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -499,8 +497,6 @@
 		43A332672781C9B2001ADB84 /* GhostModeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GhostModeTableViewCell.xib; sourceTree = "<group>"; };
 		43A3326E2782FBF9001ADB84 /* ReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportVC.swift; sourceTree = "<group>"; };
 		43A3328827830938001ADB84 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
-		43A332AD27832F04001ADB84 /* MyTagsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTagsCollectionViewCell.swift; sourceTree = "<group>"; };
-		43A332AE27832F04001ADB84 /* MyTagsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyTagsCollectionViewCell.xib; sourceTree = "<group>"; };
 		43B22411274B89D7004C6912 /* SelectedTagsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTagsVC.swift; sourceTree = "<group>"; };
 		43B22415274D132C004C6912 /* CategoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesVC.swift; sourceTree = "<group>"; };
 		43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1197,7 +1193,7 @@
 				4382AC2226C27195005C1857 /* Assets.xcassets */,
 				4382AC2426C27195005C1857 /* LaunchScreen.storyboard */,
 				4371D40D273127F3003B8AFD /* Info.plist */,
-				4381CC9B270DB45A00D40A6D /* GoogleService-Info.plist */,
+				4337B4722785D9CC0077B794 /* GoogleService-Info.plist */,
 				4388686927844445004D36B2 /* Friendzr-Bridging-Header.h */,
 			);
 			path = Friendzr;
@@ -1362,8 +1358,6 @@
 			children = (
 				4368509D27453E3800A62287 /* TagCollectionViewCell.swift */,
 				4368509E27453E3800A62287 /* TagCollectionViewCell.xib */,
-				43A332AD27832F04001ADB84 /* MyTagsCollectionViewCell.swift */,
-				43A332AE27832F04001ADB84 /* MyTagsCollectionViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1569,7 +1563,6 @@
 				43B2241A274D16B5004C6912 /* CategoryCollectionViewCell.xib in Resources */,
 				4320A65026F21180003604EE /* BlockedTableViewCell.xib in Resources */,
 				43FC3CA827280BD500D94ABB /* SettingsTableViewCell.xib in Resources */,
-				43A332B027832F04001ADB84 /* MyTagsCollectionViewCell.xib in Resources */,
 				4362887F26C8FECB00B51E51 /* Map.storyboard in Resources */,
 				4382AC9D26C27FF2005C1857 /* Montserrat-Regular.ttf in Resources */,
 				430D425A26D3854200188E42 /* InterestsTableViewCell.xib in Resources */,
@@ -1591,6 +1584,7 @@
 				4362888826C8FF4000B51E51 /* Feed.storyboard in Resources */,
 				430A351026CA7A2200477A94 /* MoreTableViewCell.xib in Resources */,
 				43A332612781AE0F001ADB84 /* AddNewTagView.xib in Resources */,
+				4337B4732785D9CC0077B794 /* GoogleService-Info.plist in Resources */,
 				436288A226C9186C00B51E51 /* FeedsTableViewCell.xib in Resources */,
 				43D545AD26CBB6270064660A /* EventTimeCalenderView.xib in Resources */,
 				43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */,
@@ -1613,7 +1607,6 @@
 				4382AC1E26C27195005C1857 /* Main.storyboard in Resources */,
 				43D545A726CBB02D0064660A /* EventCalendarView.xib in Resources */,
 				43886865278344F1004D36B2 /* ConfirmReportButtonTableViewCell.xib in Resources */,
-				4381CC9C270DB45A00D40A6D /* GoogleService-Info.plist in Resources */,
 				439DDE9426F749DC00E09FC1 /* EventsInLocationTableViewCell.xib in Resources */,
 				4333DA7026C3B1C10029F2B0 /* Login.storyboard in Resources */,
 			);
@@ -1854,7 +1847,6 @@
 				4382AC1726C27195005C1857 /* AppDelegate.swift in Sources */,
 				430D426B26D3BF1F00188E42 /* SimpleDataModel.swift in Sources */,
 				43FBA22C26D5330F005F4FBF /* SendLocationChatVC.swift in Sources */,
-				43A332AF27832F04001ADB84 /* MyTagsCollectionViewCell.swift in Sources */,
 				4388685E278344F1004D36B2 /* ReportTitleTableViewCell.swift in Sources */,
 				4320A64F26F21180003604EE /* BlockedTableViewCell.swift in Sources */,
 				43D545B526CBD81E0064660A /* Magnetic.swift in Sources */,

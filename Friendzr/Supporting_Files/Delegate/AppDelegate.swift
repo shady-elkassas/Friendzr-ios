@@ -44,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .selected)
         
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
-//        TikTokOpenSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
 
         if #available(iOS 13, *) {
         } else {
@@ -378,17 +377,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .inactive:
             print("Inactive")
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-            Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
         case .background:
             print("Background")
             // update badge count here
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-            Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
         case .active:
             print("Active")
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-            Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
-
         default:
             break
         }
@@ -454,6 +449,12 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
+        
+        if action == "user_chat" || action == "event_chat" {
+            print("user_chat Or event_chat")
+        }else {
+            Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
+        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
@@ -470,7 +471,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
-        
+        let action = userInfo["Action"] as? String //action transaction
+
         if isMute == "False" {
             if #available(iOS 14.0, *) {
                 completionHandler([[.alert, .badge, .sound,.banner,.list]])
@@ -484,6 +486,12 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
+        
+        if action == "user_chat" || action == "event_chat" {
+            print("user_chat Or event_chat")
+        }else {
+            Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
+        }
     }
 }
 

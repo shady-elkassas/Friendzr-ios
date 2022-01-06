@@ -10,6 +10,7 @@ import UIKit
 //import TikTokOpenSDK
 import FBSDKCoreKit
 import FBSDKLoginKit
+import ListPlaceholder
 
 class EditMyProfileVC: UIViewController {
     
@@ -31,7 +32,6 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var tagsViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tagsListView: TagListView!
     @IBOutlet weak var selectTagsLbl: UILabel!
-    @IBOutlet weak var hideView: UIView!
     @IBOutlet weak var logoutBtn: UIButton!
 
     @IBOutlet weak var tagsBottomSpaceLayout: NSLayoutConstraint!
@@ -170,11 +170,12 @@ class EditMyProfileVC: UIViewController {
     
     //MARK: - API
     func getProfileInformation() {
+        self.superView.showLoader()
         profileVM.getProfileInfo()
         profileVM.userModel.bind { [unowned self]value in
             DispatchQueue.main.async {
-                hideView.isHidden = true
                 setupDate()
+                self.superView.hideLoader()
             }
         }
         
@@ -276,7 +277,7 @@ class EditMyProfileVC: UIViewController {
             maleImg.image = UIImage(named: "unSelect_ic")
             femaleImg.image = UIImage(named: "unSelect_ic")
             otherGenderView.isHidden = false
-            otherGenderTxt.text = model?.OtherGenderName
+            otherGenderTxt.text = model?.otherGenderName
             
             genderString = "other"
         }
@@ -650,9 +651,9 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         picker.dismiss(animated:true, completion: {
-            let size = CGSize(width: screenW, height: screenW)
-            let img = image.crop(to: size)
-            self.profileImg.image = img
+//            let size = CGSize(width: screenW, height: screenW)
+//            let img = image.crop(to: size)
+            self.profileImg.image = image
             self.attachedImg = true
         })
     }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ListPlaceholder
 
 class NewConversationVC: UIViewController {
     
@@ -65,11 +66,11 @@ class NewConversationVC: UIViewController {
         case .wwan:
             self.emptyView.isHidden = true
             internetConnect = true
-            getAllFriends(pageNumber: 1)
+            LaodAllFriends(pageNumber: 1)
         case .wifi:
             self.emptyView.isHidden = true
             internetConnect = true
-            getAllFriends(pageNumber: 1)
+            LaodAllFriends(pageNumber: 1)
         }
         
         print("Reachability Summary")
@@ -154,11 +155,11 @@ class NewConversationVC: UIViewController {
     }
     
     func getAllFriends(pageNumber:Int) {
-        self.showLoading()
+        
         viewmodel.getAllFriendes(pageNumber: pageNumber)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
+                tableView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -167,6 +168,41 @@ class NewConversationVC: UIViewController {
                 self.tableView.tableFooterView = nil
                 
                 showEmptyView()
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
+            }
+        }
+    }
+    
+    func LaodAllFriends(pageNumber:Int) {
+        
+        viewmodel.getAllFriendes(pageNumber: pageNumber)
+        viewmodel.friends.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+                
+                tableView.showLoader()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.tableView.hideLoader()
+                }
+                
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+                
+                showEmptyView()
+                
             }
         }
         

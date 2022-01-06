@@ -183,18 +183,12 @@
                                     <constraint firstAttribute="trailing" secondItem="QsD-Ea-3kU" secondAttribute="trailing" constant="20" id="xNN-ZW-Drj"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bqa-i3-Ju0">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" name="Color0"/>
                         <constraints>
                             <constraint firstItem="UtC-Tq-WiR" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="19H-bD-18w"/>
-                            <constraint firstItem="Bqa-i3-Ju0" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="3Up-lM-LWg"/>
                             <constraint firstItem="o4n-R1-jfN" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="7ZP-rk-EzN"/>
-                            <constraint firstItem="Bqa-i3-Ju0" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="7gc-48-Uzk"/>
                             <constraint firstItem="uVd-d5-wKP" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="95k-UZ-7CR"/>
                             <constraint firstItem="o4n-R1-jfN" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="9Ec-lM-hSN"/>
                             <constraint firstItem="AmQ-Mf-f01" firstAttribute="height" secondItem="o4n-R1-jfN" secondAttribute="height" id="C53-0P-1bq"/>
@@ -206,13 +200,11 @@
                             <constraint firstItem="AmQ-Mf-f01" firstAttribute="width" secondItem="o4n-R1-jfN" secondAttribute="width" id="OFL-gD-GSC"/>
                             <constraint firstItem="U4C-4L-NwC" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Q1d-wC-QVY"/>
                             <constraint firstItem="o4n-R1-jfN" firstAttribute="top" secondItem="uVd-d5-wKP" secondAttribute="bottom" id="Rmu-oY-91F"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Bqa-i3-Ju0" secondAttribute="trailing" id="Toi-tu-8Jh"/>
                             <constraint firstItem="o4n-R1-jfN" firstAttribute="top" secondItem="U4C-4L-NwC" secondAttribute="bottom" id="W7I-Oq-6hi"/>
                             <constraint firstItem="UtC-Tq-WiR" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="bzr-Hr-yJC"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="UtC-Tq-WiR" secondAttribute="trailing" id="eGJ-AB-Wal"/>
                             <constraint firstItem="o4n-R1-jfN" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="kV2-pu-8Of"/>
                             <constraint firstItem="6jQ-G6-5Bh" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="lmd-sD-cYT"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Bqa-i3-Ju0" secondAttribute="bottom" id="mqy-Qn-Col"/>
                             <constraint firstItem="6jQ-G6-5Bh" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="mv1-qP-dX2"/>
                             <constraint firstItem="AmQ-Mf-f01" firstAttribute="centerY" secondItem="o4n-R1-jfN" secondAttribute="centerY" id="qin-mn-d8N"/>
                             <constraint firstItem="o4n-R1-jfN" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="sgT-dj-jB4"/>
@@ -234,7 +226,6 @@
                         <outlet property="emptyView" destination="uVd-d5-wKP" id="Ugu-hn-Bez"/>
                         <outlet property="filterBtn" destination="AmQ-Mf-f01" id="780-3d-9vH"/>
                         <outlet property="filterHideView" destination="UtC-Tq-WiR" id="Vqc-X5-ceX"/>
-                        <outlet property="hideView" destination="Bqa-i3-Ju0" id="Rli-3Q-owV"/>
                         <outlet property="nextBtn" destination="elc-iH-3pR" id="UeG-yk-I0H"/>
                         <outlet property="tableView" destination="U4C-4L-NwC" id="hdN-aa-eUb"/>
                         <outlet property="tryAgainBtn" destination="My6-XU-aBM" id="Pvf-K7-dwe"/>
@@ -268,8 +259,8 @@
     <resources>
         <image name="dialog_ic" width="299" height="124"/>
         <image name="emptyImage" width="512" height="512"/>
-        <image name="feeds_selected_ic" width="27" height="27"/>
-        <image name="feeds_unselected_ic" width="17" height="17"/>
+        <image name="feeds_selected_ic" width="32" height="32"/>
+        <image name="feeds_unselected_ic" width="32" height="32"/>
         <namedColor name="BGColor">
             <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

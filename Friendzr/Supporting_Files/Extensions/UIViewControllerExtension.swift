@@ -73,9 +73,9 @@ extension UIViewController {
         
         var imageName = ""
         if Language.currentLanguage() == "ar" {
-            imageName = "back_icon"
+            imageName = "backWhite_icon"
         }else {
-            imageName = "back_icon"
+            imageName = "backWhite_icon"
         }
         
         let button = UIButton.init(type: .custom)
@@ -101,28 +101,24 @@ extension UIViewController {
         self.navigationItem.leftBarButtonItem = barButton
     }
     
-    
-    
-    
     func initProfileBarButton(_ color: UIColor? = .white) {
         let view = UIView()
-        view.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        view.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
+        
         let imgView = UIImageView()
         imgView.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeholder"))
-        imgView.frame = view.bounds
-        imgView.contentMode = .scaleToFill
-        imgView.cornerRadiusView(radius: 20)
         
         let btn = UIButton(type: .custom)
         btn.addTarget(self, action: #selector(goToMyProfile), for: .touchUpInside)
         btn.frame = view.bounds
         btn.tintColor = .clear
+        btn.setImage(imgView.image, for: .normal)
+        btn.cornerRadiusView(radius: 22)
         
         view.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         imgView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         btn.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         
-        view.addSubview(imgView)
         view.addSubview(btn)
         
         let barButton = UIBarButtonItem(customView: view)

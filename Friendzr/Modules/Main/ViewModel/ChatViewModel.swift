@@ -518,11 +518,11 @@ class ChatViewModel {
     }
     
     //MARK:- delte chat
-    func deleteChat(ByID id:String,isevent:Bool, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+    func deleteChat(ByID id:String,isevent:Bool,deleteDateTime:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/Deletchat"
         let headers = RequestComponent.headerComponent([.type,.authorization])
-        let parameters:[String : Any] = ["id":id,"isevent":isevent]
+        let parameters:[String : Any] = ["id":id,"isevent":isevent,"DeleteDateTime":deleteDateTime]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<ChatsListModel>().map(JSON: data!) else {

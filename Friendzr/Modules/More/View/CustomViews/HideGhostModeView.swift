@@ -77,21 +77,27 @@ class HideGhostModeView: UIView {
     }
     
     @IBAction func saveBtn(_ sender: Any) {
-        if SelectedSingleTone.isSelected == true {
-            onTypesCallBackResponse?(["Every One"],[1])
+   
+        if typeIDs.count > 2 {
+            self.parentVC.view.makeToast("Please, do not choose more than two")
+            return
         }else {
-            onTypesCallBackResponse?(typeStrings,typeIDs)
-        }
-        
-        HandleSaveBtn?()
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.alpha = 0
-        }) { (success: Bool) in
-            self.removeFromSuperview()
-            self.alpha = 1
-            self.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            if SelectedSingleTone.isSelected == true {
+                onTypesCallBackResponse?(["Every One"],[1])
+            }else {
+                onTypesCallBackResponse?(typeStrings,typeIDs)
+            }
+            
+            HandleSaveBtn?()
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alpha = 0
+            }) { (success: Bool) in
+                self.removeFromSuperview()
+                self.alpha = 1
+                self.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
         }
     }
 }
@@ -152,7 +158,6 @@ extension HideGhostModeView : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
 
         if indexPath.section == 0 {
-            print("0000000")
             SelectedSingleTone.isSelected = true
             selectedHideType.removeAll()
             typeIDs.removeAll()
@@ -202,7 +207,6 @@ extension HideGhostModeView : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
 
         if indexPath.section == 0 {
-            print("999999")
             SelectedSingleTone.isSelected = true
             selectedHideType.removeAll()
             typeIDs.removeAll()

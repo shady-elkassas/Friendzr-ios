@@ -33,8 +33,6 @@ class FeedVC: UIViewController {
     
     @IBOutlet weak var allowBtn: UIButton!
     
-    @IBOutlet weak var hideView: UIView!
-    
     //MARK: - Properties
     private lazy var currLocation: CLLocation = CLLocation()
     private lazy var locationManager : CLLocationManager = CLLocationManager()
@@ -106,7 +104,6 @@ class FeedVC: UIViewController {
             }
             self.allowLocView.isHidden = true
         }else {
-            self.hideView.isHidden = true
             self.emptyView.isHidden = true
             self.allowLocView.isHidden = false
         }
@@ -150,7 +147,6 @@ class FeedVC: UIViewController {
             }
             self.allowLocView.isHidden = true
         }else {
-            self.hideView.isHidden = true
             self.emptyView.isHidden = true
             self.allowLocView.isHidden = false
         }
@@ -162,21 +158,40 @@ class FeedVC: UIViewController {
     }
     
     func getAllFeeds(pageNumber:Int) {
-//        self.showLoading()
-//        hideView.isHidden = false
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+                self.tableView.hideLoader()
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+            })
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { error in
+            DispatchQueue.main.async {
                 self.hideLoading()
-                hideView.isHidden = true
+                print(error)
+            }
+        }
+    }
+    
+    func LoadAllFeeds(pageNumber:Int) {
+        self.tableView.hideLoader()
+        viewmodel.getAllUsers(pageNumber: pageNumber)
+        viewmodel.feeds.bind { [unowned self] value in
+            DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                self.tableView.showLoader()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                tableView.showLoader()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self.tableView.hideLoader()
                 }
             })
@@ -192,7 +207,6 @@ class FeedVC: UIViewController {
     }
         
     func filterFeedsBy(degree:Double,pageNumber:Int) {
-//        self.showLoading()
         viewmodel.filterFeeds(Bydegree: degree, pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
@@ -203,9 +217,6 @@ class FeedVC: UIViewController {
                 self.tableView.tableFooterView = nil
                 
                 isSendRequest = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                    self.hideLoading()
-                })
             })
         }
         
@@ -213,7 +224,6 @@ class FeedVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 self.hideLoading()
-//                self.showAlert(withMessage: error)
                 print(error)
             }
         }
@@ -242,7 +252,6 @@ class FeedVC: UIViewController {
         switch Network.reachability.status {
         case .unreachable:
             self.emptyView.isHidden = false
-            self.hideView.isHidden = true
             if Defaults.allowMyLocation == true {
                 self.allowLocView.isHidden = true
             }else {
@@ -253,7 +262,7 @@ class FeedVC: UIViewController {
         case .wwan:
             self.emptyView.isHidden = true
             internetConnect = true
-            getAllFeeds(pageNumber: 0)
+            LoadAllFeeds(pageNumber: 0)
             
             if Defaults.allowMyLocation == true {
                 self.allowLocView.isHidden = true
@@ -272,7 +281,7 @@ class FeedVC: UIViewController {
                 self.allowLocView.isHidden = false
             }
             internetConnect = true
-            getAllFeeds(pageNumber: 0)
+            LoadAllFeeds(pageNumber: 0)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
                 self.updateMyLocation()
@@ -351,8 +360,8 @@ class FeedVC: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        currentPage = 0
-        updateUserInterface()
+        currentPage = 1
+        getAllFeeds(pageNumber: 1)
         self.refreshControl.endRefreshing()
     }
     
@@ -574,9 +583,7 @@ extension FeedVC:UITableViewDataSource {
                     self.updateNetworkForBtns()
                     
                     if self.internetConnect {
-    //                    self.showLoading()
                         self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
-    //                        self.hideLoading()
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)

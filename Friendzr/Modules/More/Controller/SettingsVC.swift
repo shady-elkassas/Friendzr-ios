@@ -9,12 +9,7 @@ import UIKit
 import CoreLocation
 import SwiftUI
 import MultiSlider
-
-
-//Singleton
-//class AllowMyLocation {
-//    static var active: Bool = false
-//}
+import ListPlaceholder
 
 class SettingsVC: UIViewController {
     
@@ -51,13 +46,10 @@ class SettingsVC: UIViewController {
     let screenSize = UIScreen.main.bounds.size
     
     var internetConect:Bool = false
-    //    var btnsSelect:Bool = false
     
     var ageFrom:Int = 14
     var ageTo:Int = 85
     var manualdistancecontrol:Double = 0.2
-    
-    //    var settingArray : [(String,UIImage)] = []
     
     let settingCellID = "SettingsTableViewCell"
     let deleteCllID = "DeleteAccountTableViewCell"
@@ -77,7 +69,6 @@ class SettingsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        setupNavBar()
         initBackButton()
         
         setupCLLocationManager()
@@ -92,7 +83,7 @@ class SettingsVC: UIViewController {
     
     //MARK:- APIs
     func getUserSettings() {
-        self.showLoading()
+//        self.showLoading()
         viewmodel.getUserSetting()
         viewmodel.userSettings.bind { [unowned self]value in
             DispatchQueue.main.async {

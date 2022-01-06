@@ -38,9 +38,8 @@ target 'Friendzr' do
   
   pod 'Google-Mobile-Ads-SDK'
   
-  pod 'Shimmer'
-
-  pod 'LoadingShimmer'
+#  pod 'Shimmer'
+#  pod 'LoadingShimmer'
   pod 'ListPlaceholder'
 
   post_install do |installer|

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ListPlaceholder
 
 class AttendeesVC: UIViewController {
     
@@ -82,11 +83,10 @@ class AttendeesVC: UIViewController {
     }
     
     func getAllAttendees() {
-        self.showLoading()
+        self.tableView.hideLoader()
         viewmodel.getEventAttendees(ByEventID: eventID)
         viewmodel.attendees.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -110,6 +110,41 @@ class AttendeesVC: UIViewController {
         }
     }
     
+    
+    func loadAllAttendees() {
+        viewmodel.getEventAttendees(ByEventID: eventID)
+        viewmodel.attendees.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+                
+                self.tableView.showLoader()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.tableView.hideLoader()
+                }
+                
+                showEmptyView()
+                
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else if error == "Bad Request" {
+                    HandleinvalidUrl()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
+            }
+        }
+    }
+    
+    
     func showAlertView(messageString:String,eventID:String,UserattendId:String,Stutus :Int) {
         self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
@@ -126,7 +161,6 @@ class AttendeesVC: UIViewController {
             self.viewmodel.editAttendees(ByUserAttendId: UserattendId, AndEventid: eventID, AndStutus: Stutus,Actiontime: Actiontime ,ActionDate: ActionDate) { [self] error, data in
                 self.hideLoading()
                 if let error = error {
-                    //                    self.showAlert(withMessage: error)
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
@@ -135,7 +169,6 @@ class AttendeesVC: UIViewController {
                 }
                 
                 guard let _ = data else {return}
-                //                self.showAlert(withMessage: "Successfully \(messageString)")
                 
                 DispatchQueue.main.async {
                     self.view.makeToast("Successfully \(messageString)" )
@@ -184,10 +217,10 @@ class AttendeesVC: UIViewController {
             HandleInternetConnection()
         case .wwan:
             self.emptyView.isHidden = true
-            getAllAttendees()
+            loadAllAttendees()
         case .wifi:
             self.emptyView.isHidden = true
-            getAllAttendees()
+            loadAllAttendees()
         }
         
         print("Reachability Summary")

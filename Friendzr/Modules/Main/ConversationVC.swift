@@ -578,9 +578,9 @@ extension ConversationVC {
     @objc func handleEventOptionsBtn() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Leave", style: .default, handler: { action in
-                self.leaveEvent()
-            }))
+//            actionAlert.addAction(UIAlertAction(title: "Leave", style: .default, handler: { action in
+//                self.leaveEvent()
+//            }))
             actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
                 if self.isEvent == true {
                     Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)
@@ -594,9 +594,9 @@ extension ConversationVC {
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Leave", style: .default, handler: { action in
-                self.leaveEvent()
-            }))
+//            actionSheet.addAction(UIAlertAction(title: "Leave", style: .default, handler: { action in
+//                self.leaveEvent()
+//            }))
             actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
                 if self.isEvent == true {
                     Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)

@@ -6,13 +6,13 @@
 //
 
 import UIKit
+import ListPlaceholder
 
 class RequestVC: UIViewController {
     
     //MARK:- Outlets
     @IBOutlet weak var totalRequestLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
@@ -21,7 +21,7 @@ class RequestVC: UIViewController {
     //MARK: - Properties
     let cellID = "RequestTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
-
+    
     var viewmodel:RequestsViewModel = RequestsViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var refreshControl = UIRefreshControl()
@@ -32,7 +32,7 @@ class RequestVC: UIViewController {
     var currentPage : Int = 0
     var isLoadingList : Bool = false
     
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +49,7 @@ class RequestVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
         initProfileBarButton()
-
+        
         CancelRequest.currentTask = false
     }
     
@@ -65,12 +65,10 @@ class RequestVC: UIViewController {
     }
     
     func getAllUserRequests(pageNumber:Int) {
-        self.showLoading()
-//        setupShimmerView()
         viewmodel.getAllRequests(pageNumber: pageNumber)
         viewmodel.requests.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
+                self.tableView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -79,10 +77,40 @@ class RequestVC: UIViewController {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
+            }
+        }
+    }
+    
+    func loadAllUserRequests(pageNumber:Int) {
+        viewmodel.getAllRequests(pageNumber: pageNumber)
+        viewmodel.requests.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
                 
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-//                    self.tableView.stopShimmerAnimation(animated: true)
-//                }
+                tableView.showLoader()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.tableView.hideLoader()
+                }
+                
+                totalRequestLbl.text = ": \(value.data?.count ?? 0)"
+                
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+                
             }
         }
         
@@ -111,11 +139,11 @@ class RequestVC: UIViewController {
         case .wwan:
             self.emptyView.isHidden = true
             internetConnect = true
-            getAllUserRequests(pageNumber: 0)
+            loadAllUserRequests(pageNumber: 0)
         case .wifi:
             self.emptyView.isHidden = true
             internetConnect = true
-            getAllUserRequests(pageNumber: 0)
+            loadAllUserRequests(pageNumber: 0)
         }
         
         print("Reachability Summary")
@@ -186,7 +214,7 @@ class RequestVC: UIViewController {
     @objc func didPullToRefresh() {
         print("Refersh")
         currentPage = 0
-        updateUserInterface()
+        getAllUserRequests(pageNumber: 1)
         self.refreshControl.endRefreshing()
     }
     
@@ -220,7 +248,7 @@ extension RequestVC:UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? RequestTableViewCell else {return UITableViewCell()}
             cell.setNeedsLayout()
             cell.setNeedsDisplay()
-
+            
             let model = viewmodel.requests.value?.data?[indexPath.row]
             
             cell.friendRequestNameLbl.text = model?.userName
@@ -237,7 +265,7 @@ extension RequestVC:UITableViewDataSource {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
                         self.hideLoading()
                         if let error = error {
-//                            self.showAlert(withMessage: error)
+                            //                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }
@@ -245,7 +273,7 @@ extension RequestVC:UITableViewDataSource {
                         }
                         
                         guard let message = message else {return}
-//                        self.showAlert(withMessage: message)
+                        //                        self.showAlert(withMessage: message)
                         DispatchQueue.main.async {
                             self.view.makeToast(message)
                         }
@@ -267,7 +295,7 @@ extension RequestVC:UITableViewDataSource {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
                         self.hideLoading()
                         if let error = error {
-//                            self.showAlert(withMessage: error)
+                            //                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }
@@ -275,7 +303,7 @@ extension RequestVC:UITableViewDataSource {
                         }
                         
                         guard let message = message else {return}
-//                        self.showAlert(withMessage: message)
+                        //                        self.showAlert(withMessage: message)
                         DispatchQueue.main.async {
                             self.view.makeToast(message)
                         }
@@ -300,7 +328,7 @@ extension RequestVC:UITableViewDataSource {
             }
             
             return cell
-
+            
         }
     }
 }

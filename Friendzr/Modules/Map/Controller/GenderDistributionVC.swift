@@ -35,13 +35,17 @@ class GenderDistributionVC: UIViewController {
         setupNavBar()
         
         getGenderbylocation(lat: lat, lng: lng)
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
         bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
 //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
 //        addBannerViewToView(bannerView)
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
         bannerView.delegate = self
+
     }
     
     func getGenderbylocation(lat:Double,lng:Double) {
@@ -105,6 +109,14 @@ class GenderDistributionVC: UIViewController {
 //        ])
 //     }
 
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        print("scrollViewDidEndScrollingAnimation")
+    }
+    
+    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        print("scrollViewDidScrollToTop")
+
+    }
 }
 extension GenderDistributionVC:GADBannerViewDelegate {
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
@@ -121,6 +133,7 @@ extension GenderDistributionVC:GADBannerViewDelegate {
 
     func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
       print("bannerViewWillPresentScreen")
+        bannerView.load(GADRequest())
     }
 
     func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {

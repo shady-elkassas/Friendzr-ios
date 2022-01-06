@@ -969,22 +969,14 @@
                                             <constraint firstItem="khf-tp-S69" firstAttribute="trailing" secondItem="r70-tN-4nN" secondAttribute="trailing" id="w0l-wK-Tva"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zU2-3D-MIw">
-                                        <rect key="frame" x="0.0" y="-100" width="414" height="1335.5"/>
-                                        <color key="backgroundColor" name="Color0"/>
-                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="Ebq-RJ-wR1" firstAttribute="width" secondItem="VhU-GW-vSk" secondAttribute="width" id="7zZ-dD-bRX"/>
                                     <constraint firstItem="Ebq-RJ-wR1" firstAttribute="leading" secondItem="VhU-GW-vSk" secondAttribute="leading" id="EfZ-bu-B9O"/>
-                                    <constraint firstItem="zU2-3D-MIw" firstAttribute="height" secondItem="Ebq-RJ-wR1" secondAttribute="height" id="FFO-If-dPV"/>
-                                    <constraint firstItem="zU2-3D-MIw" firstAttribute="centerX" secondItem="Ebq-RJ-wR1" secondAttribute="centerX" id="ROu-k8-MqA"/>
-                                    <constraint firstItem="zU2-3D-MIw" firstAttribute="width" secondItem="Ebq-RJ-wR1" secondAttribute="width" id="U3j-uH-pmw"/>
                                     <constraint firstItem="Ebq-RJ-wR1" firstAttribute="top" secondItem="VhU-GW-vSk" secondAttribute="top" constant="-100" id="ZYW-eJ-NhI"/>
                                     <constraint firstAttribute="bottom" secondItem="Ebq-RJ-wR1" secondAttribute="bottom" id="iY8-c3-nsl"/>
                                     <constraint firstAttribute="trailing" secondItem="Ebq-RJ-wR1" secondAttribute="trailing" id="nyp-CX-jwV"/>
-                                    <constraint firstItem="zU2-3D-MIw" firstAttribute="centerY" secondItem="Ebq-RJ-wR1" secondAttribute="centerY" id="swl-q1-kM5"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="xwj-zi-SgP"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="HZN-zK-Erb"/>
@@ -1018,7 +1010,6 @@
                         <outlet property="eventImg" destination="i2t-hE-qlt" id="ova-08-8Pv"/>
                         <outlet property="eventTitleLbl" destination="eMg-Xj-xLT" id="BxV-gH-mk5"/>
                         <outlet property="gradientView" destination="hvb-Sd-jDI" id="4cz-pz-IER"/>
-                        <outlet property="hideView" destination="zU2-3D-MIw" id="zf5-MG-FXj"/>
                         <outlet property="interestsStatisticsView" destination="CHi-IY-LtZ" id="wgG-2W-Iby"/>
                         <outlet property="joinBtn" destination="J72-IK-cyb" id="8ol-5W-0oN"/>
                         <outlet property="leaveBtn" destination="ANd-ec-8iz" id="oGS-Gz-bJV"/>

@@ -191,7 +191,7 @@ class EditProfileViewModel {
         Defaults.key = user.key
 //        Defaults.LocationLng = user.lang
 //        Defaults.LocationLat = user.lat
-        Defaults.OtherGenderName = user.OtherGenderName
+        Defaults.OtherGenderName = user.otherGenderName
         Defaults.age = user.age
         Defaults.userId = user.userid
         Defaults.needUpdate = user.needUpdate

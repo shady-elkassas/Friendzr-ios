@@ -7,7 +7,7 @@
 
 import UIKit
 import SDWebImage
-import Shimmer
+import ListPlaceholder
 
 class MyProfileVC: UIViewController {
     
@@ -23,8 +23,6 @@ class MyProfileVC: UIViewController {
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var tagListView: TagListView!
     @IBOutlet weak var tagsViewhHeight: NSLayoutConstraint!
-    @IBOutlet weak var hideView: UIView!
-    
     @IBOutlet weak var tagsTopConstrains: NSLayoutConstraint!
     @IBOutlet weak var tagsBotomConstrains: NSLayoutConstraint!
     
@@ -36,8 +34,6 @@ class MyProfileVC: UIViewController {
     var internetConnection:Bool = false
     
     
-    var shimmer: FBShimmeringView!
-
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +44,7 @@ class MyProfileVC: UIViewController {
             self.updateUserInterface()
         }
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         initBackColorButton()
         clearNavigationBar()
@@ -63,14 +59,13 @@ class MyProfileVC: UIViewController {
     
     //MARK: - API
     func getProfileInformation() {
-//        self.showLoading()
-        
+        self.superView.showLoader()
         viewmodel.getProfileInfo()
         viewmodel.userModel.bind { [unowned self]value in
             self.hideLoading()
             DispatchQueue.main.async {
-                hideView.isHidden = true
                 self.setProfileData()
+                self.superView.hideLoader()
             }
         }
         
@@ -128,7 +123,13 @@ class MyProfileVC: UIViewController {
         userNameLbl.text = "@\(model?.displayedUserName ?? "")"
         nameLbl.text = model?.userName
         ageLbl.text = "\(model?.age ?? 0)"
-        genderLbl.text = model?.gender
+        
+        if model?.gender == "other" {
+            genderLbl.text = "other(\(model?.otherGenderName ?? ""))"
+        }else {
+            genderLbl.text = model?.gender
+        }
+        
         profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
         tagListView.removeAllTags()
@@ -138,7 +139,7 @@ class MyProfileVC: UIViewController {
         
         print("tagListView.rows \(tagListView.rows)")
         tagsViewhHeight.constant = CGFloat(tagListView.rows * 25)
-
+        
         if tagListView.rows == 1 {
             tagsTopConstrains.constant = 16
             tagsBotomConstrains.constant = 16
@@ -167,16 +168,16 @@ class MyProfileVC: UIViewController {
 }
 
 extension MyProfileVC : TagListViewDelegate {
-
+    
     // MARK: TagListViewDelegate
     func tagPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag pressed: \(title), \(tagView.tagId)")
-//        tagView.isSelected = !tagView.isSelected
+        //        tagView.isSelected = !tagView.isSelected
     }
-
+    
     func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag Remove pressed: \(title), \(sender)")
         //        sender.removeTagView(tagView)
     }
-
+    
 }

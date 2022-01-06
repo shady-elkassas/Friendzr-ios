@@ -53,7 +53,7 @@ class ProfileObj: Mappable {
         lat <- map["lat"]
         age <- map["age"]
         needUpdate <- map["needUpdate"]
-        OtherGenderName <- map["OtherGenderName"]
+        otherGenderName <- map["otherGenderName"]
     }
     
     
@@ -78,5 +78,5 @@ class ProfileObj: Mappable {
     var lat = ""
     var age = 0
     var needUpdate = 0
-    var OtherGenderName: String = ""
+    var otherGenderName: String = ""
 }

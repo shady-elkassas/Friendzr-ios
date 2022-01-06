@@ -30,7 +30,7 @@ class AddUserInterestModel: Mappable {
     
     var isSuccessful: Bool?
     var message: String?
-    var data: InterestObj? = nil
+    var data: NewTagAddedObj? = nil
     
     required init?(map: Map) {
     }
@@ -46,6 +46,7 @@ class InterestObj : Mappable {
     
     var id: String? = ""
     var name: String? = ""
+    var isSharedForAll:Bool? = false
     
     var isSelected: Bool = false
     
@@ -58,6 +59,27 @@ class InterestObj : Mappable {
     // Mappable
     func mapping(map: Map) {
         id    <- map["id"]
+        name   <- map["name"]
+        isSharedForAll   <- map["isSharedForAll"]
+    }
+}
+
+class NewTagAddedObj : Mappable {
+    
+    var entityId: String? = ""
+    var name: String? = ""
+    
+    var isSelected: Bool = false
+    
+    required init?(map: Map) {
+    }
+    
+    init() {
+        
+    }
+    // Mappable
+    func mapping(map: Map) {
+        entityId    <- map["entityId"]
         name   <- map["name"]
     }
 }

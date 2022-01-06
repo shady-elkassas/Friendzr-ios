@@ -549,7 +549,6 @@ PODS:
   - IQKeyboardManager (6.5.6)
   - leveldb-library (1.22.1)
   - ListPlaceholder (1.5)
-  - LoadingShimmer (1.0.3)
   - MessageKit (3.5.1):
     - InputBarAccessoryView (~> 5.3.0)
   - MultiSlider (1.11.2):
@@ -565,7 +564,6 @@ PODS:
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
-  - Shimmer (1.0.2)
   - SweeterSwift (1.1.4)
 
 DEPENDENCIES:
@@ -585,12 +583,10 @@ DEPENDENCIES:
   - GoogleSignIn
   - IQKeyboardManager
   - ListPlaceholder
-  - LoadingShimmer
   - MessageKit (~> 3.5.1)
   - MultiSlider
   - ObjectMapper
   - SDWebImage
-  - Shimmer
 
 SPEC REPOS:
   trunk:
@@ -630,14 +626,12 @@ SPEC REPOS:
     - IQKeyboardManager
     - leveldb-library
     - ListPlaceholder
-    - LoadingShimmer
     - MessageKit
     - MultiSlider
     - nanopb
     - ObjectMapper
     - PromisesObjC
     - SDWebImage
-    - Shimmer
     - SweeterSwift
 
 SPEC CHECKSUMS:
@@ -677,16 +671,14 @@ SPEC CHECKSUMS:
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   ListPlaceholder: 2d7950014852ee5613d636cf14fd1bb93419e330
-  LoadingShimmer: dd681218498ec9648f572b845a7299b9c62e8e30
   MessageKit: 6a15a240a9a4767279de542a8fae861e83d8aedc
   MultiSlider: 944d00877d371bbb5ce0a512fec517de87958775
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
-  Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SweeterSwift: 8a90cf3156f5a1b6f39785c479369a16633b5ea9
 
-PODFILE CHECKSUM: a358e0769bdd48aef037517420d997c1b56c672a
+PODFILE CHECKSUM: 080df4e12bb312ff73c56969dbcce66f3850671f
 
 COCOAPODS: 1.10.2

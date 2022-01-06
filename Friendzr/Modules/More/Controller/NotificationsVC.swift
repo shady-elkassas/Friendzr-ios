@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ListPlaceholder
 
 class NotificationsVC: UIViewController {
     
@@ -59,15 +60,46 @@ class NotificationsVC: UIViewController {
     }
     
     func getNotificationsList(pageNumber:Int) {
-        self.showLoading()
         viewmodel.getNotifications(pageNumber: pageNumber)
         viewmodel.notifications.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
+                tableView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
                 
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else if error == "Bad Request" {
+                    HandleinvalidUrl()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
+            }
+        }
+    }
+    
+    func LoadAllNotifications(pageNumber:Int) {
+        viewmodel.getNotifications(pageNumber: pageNumber)
+        viewmodel.notifications.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+                
+                tableView.showLoader()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.tableView.hideLoader()
+                }
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
             }
@@ -100,11 +132,11 @@ class NotificationsVC: UIViewController {
         case .wwan:
             internetConect = true
             self.emptyView.isHidden = true
-            getNotificationsList(pageNumber: 1)
+            LoadAllNotifications(pageNumber: 1)
         case .wifi:
             internetConect = true
             self.emptyView.isHidden = true
-            getNotificationsList(pageNumber: 1)
+            LoadAllNotifications(pageNumber: 1)
         }
         
         print("Reachability Summary")
@@ -157,7 +189,7 @@ class NotificationsVC: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        updateUserInterface()
+        getNotificationsList(pageNumber: 1)
         self.refreshControl.endRefreshing()
     }
     

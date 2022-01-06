@@ -256,8 +256,8 @@ extension MoreVC : UITableViewDelegate {
             break
         case 2://notificationList
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "NotificationsVC") as? NotificationsVC else {return}
-            //            UIApplication.shared.applicationIconBadgeNumber == 0
             Defaults.badgeNumber = 0
+            self.tableView.reloadData()
             self.navigationController?.pushViewController(vc, animated: true)
             break
         case 3: //share

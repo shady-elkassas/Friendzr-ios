@@ -192,10 +192,10 @@ extension ReportVC: UITableViewDataSource {
                             return
                         }
                         
-                        guard let message = data else {return}
+                        guard let _ = data else {return}
                         
                         DispatchQueue.main.async {
-                            self.view.makeToast(message)
+                            self.view.makeToast("The report has been sent successfully")
                         }
                         
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {

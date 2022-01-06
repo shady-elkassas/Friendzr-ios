@@ -9,7 +9,7 @@
 	<key>ANDROID_CLIENT_ID</key>
 	<string>43837105804-drl7sqkat7pohcgtufvea4gsrd1emmi5.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBuHQVBvPaf1ckpnaKbbwSBo6OK6p5q9GA</string>
+	<string>AIzaSyCLmWYc00w0KZ-qj8hIymWCIs8K5Z0cG0g</string>
 	<key>GCM_SENDER_ID</key>
 	<string>43837105804</string>
 	<key>PLIST_VERSION</key>
@@ -21,15 +21,15 @@
 	<key>STORAGE_BUCKET</key>
 	<string>friendzr-1631017594822.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:43837105804:ios:bfcf2135eacae54bc3bda9</string>
 </dict>

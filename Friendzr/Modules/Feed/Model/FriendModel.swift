@@ -45,6 +45,7 @@ class FriendObj: NSObject,Mappable {
     var linkAccountmodel:[String]?
     var listoftagsmodel:[TagsModel]?
     var regestdata:String? = ""
+    var otherGenderName:String? = ""
     
     required init?(map: Map) {
     }
@@ -74,5 +75,6 @@ class FriendObj: NSObject,Mappable {
         linkAccountmodel    <- map["linkAccountmodel"]
         listoftagsmodel    <- map["listoftagsmodel"]
         regestdata    <- map["regestdata"]
+        otherGenderName    <- map["otherGenderName"]
     }
 }

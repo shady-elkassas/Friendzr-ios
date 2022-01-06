@@ -20,7 +20,7 @@ class InterestsViewModel {
     
     func getAllInterests(completion: @escaping (_ error: String?, _ data: [InterestObj]?) -> ())  {
         CancelRequest.currentTask = false
-        let url = URLs.baseURLFirst + "Events/GetAllInterests"
+        let url = URLs.baseURLFirst + "Interests/GetAllInterests"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
@@ -47,7 +47,7 @@ class InterestsViewModel {
     
     func getAllInterests()  {
         CancelRequest.currentTask = false
-        let url = URLs.baseURLFirst + "Events/GetAllInterests"
+        let url = URLs.baseURLFirst + "Interests/GetAllInterests"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
@@ -70,11 +70,38 @@ class InterestsViewModel {
         }
     }
     
-    func addMyNewInterest(name:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+    func addMyNewInterest(name:String,completion: @escaping (_ error: String?, _ data: NewTagAddedObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Interests/userTag"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["name": name]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            
+            guard let interestResponse = Mapper<AddUserInterestModel>().map(JSON: data!) else {
+                self.error.value = error!
+                completion(self.error.value, nil)
+                return
+            }
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.error.value = error
+                completion(self.error.value, nil)
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = interestResponse.data {
+                    completion(nil,toAdd)
+                }
+            }
+        }
+    }
+    
+    func deleteInterest(ById id:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+        CancelRequest.currentTask = false
+        let url = URLs.baseURLFirst + "Interests/DeleteInterest"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let parameters:[String : Any] = ["interestID": id]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
@@ -97,4 +124,30 @@ class InterestsViewModel {
         }
     }
     
+    func EditInterest(ByID id:String,name:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+        CancelRequest.currentTask = false
+        let url = URLs.baseURLFirst + "Interests/updateInterest"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let parameters:[String : Any] = ["name": name,"entityId":id]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            
+            guard let interestResponse = Mapper<AddUserInterestModel>().map(JSON: data!) else {
+                self.error.value = error!
+                completion(self.error.value, nil)
+                return
+            }
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.error.value = error
+                completion(self.error.value, nil)
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = interestResponse.message {
+                    completion(nil,toAdd)
+                }
+            }
+        }
+    }
 }

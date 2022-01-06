@@ -10,6 +10,7 @@ import SwiftUI
 import SDWebImage
 import GoogleMaps
 import Alamofire
+import ListPlaceholder
 
 class EventDetailsVC: UIViewController {
     
@@ -30,7 +31,6 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var attendeesTableView: UITableView!
     @IBOutlet weak var attendeesViewHeight: NSLayoutConstraint!
     @IBOutlet weak var eventTitleLbl: UILabel!
-    @IBOutlet weak var hideView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var dateAndTimeView: UIView!
     @IBOutlet weak var attendeesView: UIView!
@@ -105,10 +105,10 @@ class EventDetailsVC: UIViewController {
             HandleInternetConnection()
         case .wwan:
             internetConect = true
-            getEventDetails()
+            loadEventDataDetails()
         case .wifi:
             internetConect = true
-            getEventDetails()
+            loadEventDataDetails()
         }
         
         print("Reachability Summary")
@@ -251,13 +251,10 @@ class EventDetailsVC: UIViewController {
     
     //MARK:- APIs
     func getEventDetails() {
-        hideView.isHidden = false
-        self.showLoading()
+        self.superView.hideLoader()
         viewmodel.getEventByID(id: eventId)
         viewmodel.event.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
-                self.hideLoading()
-                hideView.isHidden = true
                 collectionView.delegate = self
                 collectionView.dataSource = self
                 collectionView.reloadData()
@@ -277,6 +274,44 @@ class EventDetailsVC: UIViewController {
                 }else {
                     attendeesViewHeight.constant = CGFloat(275)
                 }
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.showAlert(withMessage: error)
+            }
+        }
+    }
+    
+    
+    func loadEventDataDetails() {
+        self.superView.showLoader()
+        viewmodel.getEventByID(id: eventId)
+        viewmodel.event.bind { [unowned self] value in
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
+                collectionView.delegate = self
+                collectionView.dataSource = self
+                collectionView.reloadData()
+                
+                attendeesTableView.delegate = self
+                attendeesTableView.dataSource = self
+                attendeesTableView.reloadData()
+                
+                setupData()
+                
+                if value.attendees?.count == 0 {
+                    attendeesViewHeight.constant = 0
+                }else if value.attendees?.count == 1 {
+                    attendeesViewHeight.constant = CGFloat(120)
+                }else if value.attendees?.count == 2 {
+                    attendeesViewHeight.constant = CGFloat(220)
+                }else {
+                    attendeesViewHeight.constant = CGFloat(275)
+                }
+                
+                self.superView.hideLoader()
             }
         }
         
@@ -308,9 +343,9 @@ class EventDetailsVC: UIViewController {
         let Jointime = self.formatterTime.string(from: Date())
         
         if internetConect == true {
-            self.showLoading()
+//            self.showLoading()
             joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? "",JoinDate:JoinDate ,Jointime:Jointime) { error, data in
-                self.hideLoading()
+//                self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -334,9 +369,9 @@ class EventDetailsVC: UIViewController {
     @IBAction func leaveBtn(_ sender: Any) {
         showNewtworkConnected()
         if internetConect == true {
-            self.showLoading()
+//            self.showLoading()
             leaveVM.leaveEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in
-                self.hideLoading()
+//                self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -358,13 +393,7 @@ class EventDetailsVC: UIViewController {
     }
     
     @IBAction func chatBtn(_ sender: Any) {
-//        if viewmodel.event.value?.leveevent == 1 {
-            Router().toConversationVC(isEvent: true, eventChatID: viewmodel.event.value?.id ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: viewmodel.event.value?.image ?? "", titleChatName: viewmodel.event.value?.title ?? "")
-//        }else {
-//            DispatchQueue.main.async {
-//
-//            }
-//        }
+        Router().toConversationVC(isEvent: true, eventChatID: viewmodel.event.value?.id ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: viewmodel.event.value?.image ?? "", titleChatName: viewmodel.event.value?.title ?? "")
     }
     
     @IBAction func openGoogleDirectionsMapBtn(_ sender: Any) {

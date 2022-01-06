@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ListPlaceholder
 
 class BlockedListVC: UIViewController {
     
@@ -68,14 +69,46 @@ class BlockedListVC: UIViewController {
     }
     
     func getAllBlockedList(pageNumber:Int) {
-        self.showLoading()
         viewmodel.getAllBlockedList(pageNumber: pageNumber)
         viewmodel.blocklist.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
+                tableView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
+                
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else if error == "Bad Request" {
+                    HandleinvalidUrl()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
+            }
+        }
+    }
+    
+    func LoadBlockedList(pageNumber:Int) {
+        viewmodel.getAllBlockedList(pageNumber: pageNumber)
+        viewmodel.blocklist.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+                
+                tableView.showLoader()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.tableView.hideLoader()
+                }
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
@@ -131,11 +164,11 @@ class BlockedListVC: UIViewController {
         case .wwan:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllBlockedList(pageNumber: 1)
+            LoadBlockedList(pageNumber: 1)
         case .wifi:
             internetConect = true
             self.emptyView.isHidden = true
-            getAllBlockedList(pageNumber: 1)
+            LoadBlockedList(pageNumber: 1)
         }
         
         print("Reachability Summary")
@@ -193,7 +226,7 @@ class BlockedListVC: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        updateUserInterface()
+        getAllBlockedList(pageNumber: 1)
         self.refreshControl.endRefreshing()
     }
     
@@ -246,11 +279,9 @@ extension BlockedListVC: UITableViewDataSource {
                     self.updateUserInterface()
                     
                     if self.internetConect {
-//                        self.showLoading()
                         self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
                             self.hideLoading()
                             if let error = error {
-//                                self.showAlert(withMessage: error)
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
                                 }
@@ -258,13 +289,12 @@ extension BlockedListVC: UITableViewDataSource {
                             }
                             
                             guard let message = message else {return}
-//                            self.showAlert(withMessage: message)
                             DispatchQueue.main.async {
                                 self.view.makeToast(message)
                             }
                             
                             DispatchQueue.main.async {
-                                self.updateUserInterface()
+                                self.getAllBlockedList(pageNumber: 1)
                             }
                         }
                     }else {
