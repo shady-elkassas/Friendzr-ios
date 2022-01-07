@@ -37,7 +37,7 @@ class UserObj: Mappable {
         needUpdate <- map["needUpdate"]
         age <- map["age"]
         allowmylocation <- map["allowmylocation"]
-        allowMyAppearanceType <- map["allowMyAppearanceType"]
+        myAppearanceTypes <- map["myAppearanceTypes"]
         ghostmode <- map["ghostmode"]
         pushnotification <- map["pushnotification"]
         OtherGenderName <- map["OtherGenderName"]
@@ -68,7 +68,7 @@ class UserObj: Mappable {
     var needUpdate:Int = 0
     var age:Int = 0
     var allowmylocation:Bool = false
-    var allowMyAppearanceType:Int = 0
+    var myAppearanceTypes:[Int] = []
     var ghostmode:Bool = false
     var pushnotification:Bool = false
 }

@@ -11,6 +11,7 @@ import SDWebImage
 import GoogleMaps
 import Alamofire
 import ListPlaceholder
+import GoogleMobileAds
 
 class EventDetailsVC: UIViewController {
     
@@ -38,6 +39,8 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var gradientView: UIView!
     
+    @IBOutlet var bannerView: GADBannerView!
+
     //MARK: - Properties
     var numbers:[Double] = [1,2,3]
     var genders:[String] = ["Men","Women","Other"]
@@ -88,11 +91,21 @@ class EventDetailsVC: UIViewController {
         hideNavigationBar(NavigationBar: false, BackButton: false)
         
         CancelRequest.currentTask = false
+        seyupAds()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
+    }
+    
+    func seyupAds() {
+        bannerView.adUnitID = adUnitID
+        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        //        addBannerViewToView(bannerView)
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        bannerView.delegate = self
     }
     
     //MARK: - Helper
@@ -541,5 +554,32 @@ extension EventDetailsVC : GMSMapViewDelegate {
         }
         let tabBarController = rootViewController as? UITabBarController
         tabBarController?.selectedIndex = 1
+    }
+}
+
+extension EventDetailsVC:GADBannerViewDelegate {
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print(error)
+    }
+
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("Receive Ad")
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+      print("bannerViewDidRecordImpression")
+    }
+
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+      print("bannerViewWillPresentScreen")
+        bannerView.load(GADRequest())
+    }
+
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+      print("bannerViewWillDIsmissScreen")
+    }
+
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+      print("bannerViewDidDismissScreen")
     }
 }

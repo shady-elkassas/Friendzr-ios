@@ -232,42 +232,7 @@ extension UIViewController {
     }
     
     
-    func updateTitleView(image: String, subtitle: String?) {
-        
-        let imageUser = UIImageView(frame: CGRect(x: 0, y: -5, width: 25, height: 25))
-        imageUser.backgroundColor = UIColor.clear
-        imageUser.image = UIImage(named: image)
-        imageUser.contentMode = .scaleToFill
-        imageUser.cornerRadiusView(radius: 12.5)
-        imageUser.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder"))
-        
-        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 20, width: 0, height: 0))
-        subtitleLabel.textColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
-        subtitleLabel.font = UIFont.init(name: "Montserrat-Medium", size: 12)
-        subtitleLabel.text = subtitle
-        subtitleLabel.textAlignment = .center
-        subtitleLabel.adjustsFontSizeToFitWidth = true
-        subtitleLabel.sizeToFit()
-        
-        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(imageUser.frame.size.width, subtitleLabel.frame.size.width), height: 30))
-        titleView.addSubview(imageUser)
-        if subtitle != nil {
-            titleView.addSubview(subtitleLabel)
-        } else {
-            imageUser.frame = titleView.frame
-        }
-        let widthDiff = subtitleLabel.frame.size.width - imageUser.frame.size.width
-        if widthDiff < 0 {
-            let newX = widthDiff / 2
-            subtitleLabel.frame.origin.x = abs(newX)
-        } else {
-            let newX = widthDiff / 2
-            imageUser.frame.origin.x = newX
-        }
-        
-        navigationItem.titleView = titleView
-    }
-    
+
     @objc func handleSkipBtn(){
         Router().toFeed()
     }

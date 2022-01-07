@@ -132,6 +132,16 @@ class Defaults {
         }
     }
     
+    static var myAppearanceTypes: Array<Int> {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "myAppearanceTypes")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.object(forKey: "myAppearanceTypes") as? Array ?? []
+        }
+    }
+    
     static var birthdate: String {
         set{
             UserDefaults.standard.set(newValue, forKey: "birthdate")
@@ -334,6 +344,7 @@ class Defaults {
         Defaults.userId = user.userid
         Defaults.needUpdate = user.needUpdate
         Defaults.allowMyLocation = user.allowmylocation
+        Defaults.myAppearanceTypes = user.myAppearanceTypes
     }
     
     static func deleteUserData(){
@@ -361,6 +372,8 @@ class Defaults {
         defaults.removeObject(forKey: "isFirstFilter")
         defaults.removeObject(forKey: "badgeNumber")
         defaults.removeObject(forKey: "OtherGenderName")
+        defaults.removeObject(forKey: "myAppearanceTypes")
+        
         if let token = AccessToken.current,
            !token.isExpired {
             // User is logged in, do work such as go to next view controller.

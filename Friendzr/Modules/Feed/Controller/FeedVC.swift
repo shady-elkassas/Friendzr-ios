@@ -10,6 +10,7 @@ import SwiftUI
 import CoreLocation
 import Contacts
 import ListPlaceholder
+import GoogleMobileAds
 
 let screenH: CGFloat = UIScreen.main.bounds.height
 let screenW: CGFloat = UIScreen.main.bounds.width
@@ -27,11 +28,12 @@ class FeedVC: UIViewController {
     @IBOutlet weak var filterBtn: UIButton!
     @IBOutlet weak var allowLocView: UIView!
     @IBOutlet weak var nextBtn: UIButton!
-    
     @IBOutlet weak var filterHideView: UIView!
     @IBOutlet weak var dialogimg: UIImageView!
-    
     @IBOutlet weak var allowBtn: UIButton!
+    
+    
+    @IBOutlet var bannerView: GADBannerView!
     
     //MARK: - Properties
     private lazy var currLocation: CLLocation = CLLocation()
@@ -65,14 +67,14 @@ class FeedVC: UIViewController {
     var compassDegree:Double = 0.0
     var filterDir = false
     
-    let cellID = "FeedsTableViewCell"
+    let cellID = "UsersFeedTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
     
     var viewmodel:FeedViewModel = FeedViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
     var settingVM:SettingsViewModel = SettingsViewModel()
-
+    
     var refreshControl = UIRefreshControl()
     let switchBarButton = Switch()
     
@@ -87,7 +89,7 @@ class FeedVC: UIViewController {
     var locationLat = 0.0
     var locationLng = 0.0
     
-        
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,6 +118,7 @@ class FeedVC: UIViewController {
         filterDir = switchBarButton.isOn
         
         CancelRequest.currentTask = false
+        seyupAds()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -139,11 +142,21 @@ class FeedVC: UIViewController {
         compassContanierView.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
     }
     
+    
+    func seyupAds() {
+        bannerView.adUnitID = adUnitID
+        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        //        addBannerViewToView(bannerView)
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        bannerView.delegate = self
+    }
+    
     //MARK:- APIs
     @objc func updateFeeds() {
         if Defaults.allowMyLocation == true {
             DispatchQueue.main.async {
-                self.updateUserInterface()
+                self.getAllFeeds(pageNumber: 1)
             }
             self.allowLocView.isHidden = true
         }else {
@@ -190,9 +203,11 @@ class FeedVC: UIViewController {
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                tableView.showLoader()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.tableView.hideLoader()
+                if value.data?.count != 0 {
+                    tableView.showLoader()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.tableView.hideLoader()
+                    }
                 }
             })
         }
@@ -205,7 +220,7 @@ class FeedVC: UIViewController {
             }
         }
     }
-        
+    
     func filterFeedsBy(degree:Double,pageNumber:Int) {
         viewmodel.filterFeeds(Bydegree: degree, pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
@@ -232,7 +247,7 @@ class FeedVC: UIViewController {
     func updateMyLocation() {
         updateLocationVM.updatelocation(ByLat: "\(Defaults.LocationLat)", AndLng: "\(Defaults.LocationLng)") { error, data in
             if let error = error {
-//                self.showAlert(withMessage: error)
+                //                self.showAlert(withMessage: error)
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                 }
@@ -351,7 +366,7 @@ class FeedVC: UIViewController {
             tryAgainBtn.alpha = 1.0
         }
     }
-
+    
     func pullToRefresh() {
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -383,7 +398,7 @@ class FeedVC: UIViewController {
         nextBtn.cornerRadiusForHeight()
         
     }
-
+    
     //change title for any btns
     func changeTitleBtns(btn:UIButton,title:String) {
         btn.setTitle(title, for: .normal)
@@ -399,14 +414,14 @@ class FeedVC: UIViewController {
         filterBtn.isHidden = false
         compassContanierView.isHidden = false
         compassContainerViewHeight.constant = 320
-//        compassContanierView.addSubview(dScaView)
+        //        compassContanierView.addSubview(dScaView)
     }
     
     
     @IBAction func tryAgainBtn(_ sender: Any) {
         updateUserInterface()
     }
-
+    
     @IBAction func filterBtn(_ sender: Any) {
         filterFeedsBy(degree: compassDegree, pageNumber: 1)
     }
@@ -423,7 +438,6 @@ class FeedVC: UIViewController {
             if self.internetConnect {
                 self.settingVM.toggleAllowMyLocation(allowMyLocation: true) { error, data in
                     if let error = error {
-//                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
@@ -472,18 +486,30 @@ extension FeedVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if viewmodel.feeds.value?.data?.count != 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? FeedsTableViewCell else {return UITableViewCell()}
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? UsersFeedTableViewCell else {return UITableViewCell()}
             let model = viewmodel.feeds.value?.data?[indexPath.row]
             cell.friendRequestNameLbl.text = model?.userName
             cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
             cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            
+            if indexPath.row == 0 {
+                cell.upView.isHidden = false
+            }else {
+                cell.upView.isHidden = false
+            }
+            
+            if indexPath.row == (viewmodel.feeds.value?.data?.count ?? 0) - 1 {
+                cell.downView.isHidden = true
+            }else {
+                cell.downView.isHidden = false
+            }
             
             
             //set title btns
             self.changeTitleBtns(btn: cell.unblockBtn, title: "Unblock")
             self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Cancel Request")
             self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Send Request")
-
+            
             //status key
             switch model?.key {
             case 0:
@@ -595,7 +621,7 @@ extension FeedVC:UITableViewDataSource {
                             DispatchQueue.main.async {
                                 self.view.makeToast(message)
                             }
-                          
+                            
                             DispatchQueue.main.async {
                                 self.getAllFeeds(pageNumber: 0)
                             }
@@ -619,7 +645,7 @@ extension FeedVC:UITableViewDataSource {
                 self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 self.showAlertView?.titleLbl.text = "Confirm?".localizedString
                 self.showAlertView?.detailsLbl.text = "Are you sure you will refuse this request?"
-
+                
                 self.showAlertView?.HandleConfirmBtn = {
                     self.btnsSelected = true
                     self.updateNetworkForBtns()
@@ -725,7 +751,7 @@ extension FeedVC:UITableViewDataSource {
             }
             
             return cell
-
+            
         }
         
         else {
@@ -764,31 +790,31 @@ extension FeedVC:UITableViewDelegate {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-          if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
-              self.isLoadingList = true
-              
-              if currentPage < viewmodel.feeds.value?.totalPages ?? 0 {
-                  self.tableView.tableFooterView = self.createFooterView()
-                  
-                  DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
-                      print("self.currentPage >> \(self.currentPage)")
-                      self.loadMoreItemsForList()
-                  }
-              }else {
-                  self.tableView.tableFooterView = nil
-                  DispatchQueue.main.async {
-                      self.view.makeToast("No more data here")
-                  }
-                  return
-              }
-          }
-      }
+        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+            self.isLoadingList = true
+            
+            if currentPage < viewmodel.feeds.value?.totalPages ?? 0 {
+                self.tableView.tableFooterView = self.createFooterView()
+                
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                    print("self.currentPage >> \(self.currentPage)")
+                    self.loadMoreItemsForList()
+                }
+            }else {
+                self.tableView.tableFooterView = nil
+                DispatchQueue.main.async {
+                    self.view.makeToast("No more data here")
+                }
+                return
+            }
+        }
+    }
 }
 
 extension FeedVC: CLLocationManagerDelegate {
     
     func initSwitchBarButton() {
-//        switchBarButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+        //        switchBarButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
         switchBarButton.onTintColor = UIColor.FriendzrColors.primary!
         switchBarButton.thumbTintColor = .white
@@ -798,10 +824,10 @@ extension FeedVC: CLLocationManagerDelegate {
         self.navigationItem.rightBarButtonItem = barButton
     }
     
-
+    
     @objc func handleSwitchBtn() {
         print("\(switchBarButton.isOn)")
-
+        
         // Azimuth
         if Defaults.allowMyLocation == true {
             if switchBarButton.isOn {
@@ -817,7 +843,7 @@ extension FeedVC: CLLocationManagerDelegate {
                     filterBtn.isHidden = false
                     compassContanierView.isHidden = false
                     compassContainerViewHeight.constant = 320
-//                    compassContanierView.addSubview(dScaView)
+                    //                    compassContanierView.addSubview(dScaView)
                     compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
                 }
             }else {
@@ -835,7 +861,7 @@ extension FeedVC: CLLocationManagerDelegate {
                 
                 if Defaults.allowMyLocation == true {
                     DispatchQueue.main.async {
-                        self.updateUserInterface()
+                        self.getAllFeeds(pageNumber: 1)
                     }
                     self.allowLocView.isHidden = true
                 }else {
@@ -848,11 +874,11 @@ extension FeedVC: CLLocationManagerDelegate {
             self.showAlert(withMessage: "Please allow your location")
         }
     }
-
+    
     //Navigation related methods
     // Callback method after successful positioning, as long as the position changes, this method will be called
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-       
+        
         // Get the latest coordinates
         currLocation = locations.last!
         
@@ -864,7 +890,7 @@ extension FeedVC: CLLocationManagerDelegate {
         
         locationLat = currLocation.coordinate.latitude
         locationLng = currLocation.coordinate.longitude
-
+        
         /// Altitude
         let altitudeStr = "\(Int(currLocation.altitude))"
         
@@ -883,34 +909,34 @@ extension FeedVC: CLLocationManagerDelegate {
         // Anti-geocoding
         /// Create CLGeocoder object
         let geocoder = CLGeocoder()
-
+        
         /*** Reverse geocoding request ***/
-
+        
         // Reverse analysis based on the given latitude and longitude address to get the string address.
         geocoder.reverseGeocodeLocation(currLocation) { (placemarks, error) in
-
+            
             guard let placeM = placemarks else { return }
             // If the analysis is successful, execute the following code
             guard placeM.count > 0 else { return }
             /* placemark: a structure containing all location information */
             // Landmark object containing district, street and other information
             let placemark: CLPlacemark = placeM[0]
-
+            
             /// Store street, province and city information
             let addressDictionary = placemark.postalAddress
-
+            
             /// nation
             guard let country = addressDictionary?.country else { return }
-
+            
             /// city
             guard let city = addressDictionary?.city else { return }
-
+            
             /// Sub location
             guard let subLocality = addressDictionary?.subLocality else { return }
-
+            
             /// Street
             guard let street = addressDictionary?.street else { return }
-
+            
             print("\(country)\(city) \(subLocality) \(street)")
         }
     }
@@ -919,7 +945,7 @@ extension FeedVC: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
         /*
          trueHeading: true north direction
-                     magneticHeading: magnetic north direction
+         magneticHeading: magnetic north direction
          */
         /// Get the current device
         let device = UIDevice.current
@@ -932,7 +958,7 @@ extension FeedVC: CLLocationManagerDelegate {
             
             // Geographic heading data: trueHeading
             //let trueHeading: Float = heading(Float(newHeading.trueHeading), fromOrirntation: device.orientation)
-         
+            
             /// Geomagnetic north direction
             let headi: Float = -1.0 * Float.pi * Float(newHeading.magneticHeading) / 180.0
             // Set the angle label text
@@ -960,12 +986,12 @@ extension FeedVC: CLLocationManagerDelegate {
     }
     
     /// If the authorization status changes, call
-        ///
-        ///-Parameters:
-        ///-manager: location manager
-        ///-status: current authorization status
+    ///
+    ///-Parameters:
+    ///-manager: location manager
+    ///-status: current authorization status
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
- 
+        
         switch status {
         case .notDetermined:
             print("User undecided")
@@ -1050,5 +1076,32 @@ extension FeedVC: CLLocationManagerDelegate {
             realHeading += 366
         }
         return realHeading
+    }
+}
+
+extension FeedVC:GADBannerViewDelegate {
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print(error)
+    }
+    
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("Receive Ad")
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+        print("bannerViewDidRecordImpression")
+    }
+    
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillPresentScreen")
+        bannerView.load(GADRequest())
+    }
+    
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillDIsmissScreen")
+    }
+    
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewDidDismissScreen")
     }
 }

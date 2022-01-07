@@ -157,11 +157,12 @@ class SettingsViewModel {
         }
     }
     
-    func toggleGhostMode(ghostMode :Bool,allowmylocationtype:Int,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
+    func toggleGhostMode(ghostMode :Bool,myAppearanceTypes:[Int],completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
         let headers = RequestComponent.headerComponent([.authorization,.type])
-        let parameters:[String : Any] = ["ghostmode":ghostMode,"allowMyAppearanceType":allowmylocationtype]
+        
+        let parameters:[String : Any] = ["ghostmode":ghostMode,"MyAppearanceTypes[]":myAppearanceTypes]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             

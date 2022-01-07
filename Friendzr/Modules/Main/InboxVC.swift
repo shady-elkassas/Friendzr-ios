@@ -21,7 +21,7 @@ class InboxVC: UIViewController {
     @IBOutlet weak var emptyImg: UIImageView!
     
     //MARK: - Properties
-    let cellID = "ChatListTableViewCell"
+    let cellID = "InboxTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
     
     var viewmodel:ChatViewModel = ChatViewModel()
@@ -96,6 +96,7 @@ class InboxVC: UIViewController {
     }
     
     func getAllChatList(pageNumber:Int) {
+        tableView.hideLoader()
         viewmodel.getChatList(pageNumber: pageNumber)
         viewmodel.listChat.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -135,11 +136,12 @@ class InboxVC: UIViewController {
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                self.tableView.showLoader()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.tableView.hideLoader()
+                if value.data?.count != 0 {
+                    tableView.showLoader()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.tableView.hideLoader()
+                    }
                 }
-                
             }
         }
         
@@ -301,7 +303,7 @@ extension InboxVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isSearch {
             if searchVM.usersinChat.value?.data?.count != 0 {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ChatListTableViewCell else {return UITableViewCell()}
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? InboxTableViewCell else {return UITableViewCell()}
                 let model = searchVM.usersinChat.value?.data?[indexPath.row]
                 cell.nameLbl.text = model?.chatName
                 cell.lastMessageLbl.text = model?.messages
@@ -311,9 +313,9 @@ extension InboxVC:UITableViewDataSource {
                 
                 if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
                     if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
-                        cell.underView.isHidden = true
+                        cell.downView.isHidden = true
                     }else {
-                        cell.underView.isHidden = false
+                        cell.downView.isHidden = false
                     }
                 }
                 
@@ -335,7 +337,7 @@ extension InboxVC:UITableViewDataSource {
             }
         }else {
             if viewmodel.listChat.value?.data?.count != 0 {
-                guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ChatListTableViewCell else {return UITableViewCell()}
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? InboxTableViewCell else {return UITableViewCell()}
                 let model = viewmodel.listChat.value?.data?[indexPath.row]
                 cell.nameLbl.text = model?.chatName
                 cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
@@ -344,9 +346,9 @@ extension InboxVC:UITableViewDataSource {
                 
                 if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
                     if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
-                        cell.underView.isHidden = true
+                        cell.downView.isHidden = true
                     }else {
-                        cell.underView.isHidden = false
+                        cell.downView.isHidden = false
                     }
                 }
                 

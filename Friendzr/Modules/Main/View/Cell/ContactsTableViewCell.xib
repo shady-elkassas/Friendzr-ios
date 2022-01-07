@@ -23,33 +23,21 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W7D-IK-LYt">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="51"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="QcA-Wm-oap">
-                                <rect key="frame" x="25" y="5.5" width="40" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="EZ6-Ie-b1m"/>
-                                    <constraint firstAttribute="height" constant="40" id="VIb-40-hwX"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kate Austen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="88p-bQ-hAw">
-                                <rect key="frame" x="75" y="13.5" width="99" height="20"/>
-                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="16"/>
-                                <color key="textColor" name="ColorLbl3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" name="Color0"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="QcA-Wm-oap">
+                        <rect key="frame" x="20" y="12.5" width="40" height="40"/>
                         <constraints>
-                            <constraint firstItem="QcA-Wm-oap" firstAttribute="centerY" secondItem="W7D-IK-LYt" secondAttribute="centerY" id="6uf-W4-k92"/>
-                            <constraint firstItem="88p-bQ-hAw" firstAttribute="top" secondItem="QcA-Wm-oap" secondAttribute="top" constant="8" id="9Pv-5s-1WZ"/>
-                            <constraint firstItem="QcA-Wm-oap" firstAttribute="leading" secondItem="W7D-IK-LYt" secondAttribute="leading" constant="25" id="JPy-vQ-ppB"/>
-                            <constraint firstItem="88p-bQ-hAw" firstAttribute="leading" secondItem="QcA-Wm-oap" secondAttribute="trailing" constant="10" id="wtW-RN-Icu"/>
+                            <constraint firstAttribute="width" constant="40" id="EZ6-Ie-b1m"/>
+                            <constraint firstAttribute="height" constant="40" id="VIb-40-hwX"/>
                         </constraints>
-                    </view>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kate Austen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="88p-bQ-hAw">
+                        <rect key="frame" x="65" y="22.5" width="99" height="20"/>
+                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="16"/>
+                        <color key="textColor" name="ColorLbl3"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sBh-up-VOZ">
-                        <rect key="frame" x="25" y="59" width="295" height="1"/>
+                        <rect key="frame" x="20" y="59" width="300" height="1"/>
                         <color key="backgroundColor" name="ColorLbl5"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="wdd-sw-rkq"/>
@@ -58,24 +46,24 @@
                 </subviews>
                 <color key="backgroundColor" name="Color0"/>
                 <constraints>
-                    <constraint firstItem="W7D-IK-LYt" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="3Kh-4w-dh4"/>
-                    <constraint firstItem="sBh-up-VOZ" firstAttribute="top" secondItem="W7D-IK-LYt" secondAttribute="bottom" constant="8" id="GqE-1i-kan"/>
+                    <constraint firstItem="QcA-Wm-oap" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="DCB-Ab-8B6"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="88p-bQ-hAw" secondAttribute="trailing" constant="10" id="FLb-O4-lGn"/>
+                    <constraint firstItem="sBh-up-VOZ" firstAttribute="leading" secondItem="QcA-Wm-oap" secondAttribute="leading" id="JXk-pq-7E8"/>
                     <constraint firstAttribute="bottom" secondItem="sBh-up-VOZ" secondAttribute="bottom" constant="5" id="OpO-hU-TBj"/>
-                    <constraint firstItem="sBh-up-VOZ" firstAttribute="leading" secondItem="QcA-Wm-oap" secondAttribute="leading" id="Tfr-lM-4Up"/>
-                    <constraint firstItem="W7D-IK-LYt" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="ViN-QJ-ExH"/>
-                    <constraint firstAttribute="trailing" secondItem="W7D-IK-LYt" secondAttribute="trailing" id="g5a-rh-z0c"/>
+                    <constraint firstItem="QcA-Wm-oap" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="f2o-f1-6R2"/>
+                    <constraint firstItem="88p-bQ-hAw" firstAttribute="leading" secondItem="QcA-Wm-oap" secondAttribute="trailing" constant="5" id="gWf-qi-iAV"/>
                     <constraint firstAttribute="trailing" secondItem="sBh-up-VOZ" secondAttribute="trailing" id="taS-b4-5fd"/>
+                    <constraint firstItem="88p-bQ-hAw" firstAttribute="centerY" secondItem="QcA-Wm-oap" secondAttribute="centerY" id="wrs-Sw-UMr"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="containerView" destination="W7D-IK-LYt" id="c6C-ra-5NN"/>
                 <outlet property="nameLbl" destination="88p-bQ-hAw" id="gP5-NS-yPv"/>
                 <outlet property="profileImg" destination="QcA-Wm-oap" id="jmC-Og-MFf"/>
                 <outlet property="underView" destination="sBh-up-VOZ" id="SfN-Ni-Lzv"/>
             </connections>
-            <point key="canvasLocation" x="79.710144927536234" y="120.87053571428571"/>
+            <point key="canvasLocation" x="225" y="130"/>
         </tableViewCell>
     </objects>
     <resources>
@@ -84,10 +72,10 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl3">
-            <color red="0.14117647058823529" green="0.074509803921568626" blue="0.19607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl5">
-            <color red="0.94117647058823528" green="0.95294117647058818" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94099998474121094" green="0.95300000905990601" blue="0.9570000171661377" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

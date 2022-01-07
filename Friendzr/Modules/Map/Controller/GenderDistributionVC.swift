@@ -9,6 +9,12 @@ import UIKit
 import SwiftUI
 import GoogleMobileAds
 
+let adUnitID =  "ca-app-pub-3940256099942544/2934735716"
+//let publisherID = "ca-app-pub-3940256099942544/2934735716"
+//let adUnitID = "ca-app-pub-9901362047037891/8741727589"
+//let appID = "ca-app-pub-9901362047037891~4064115975"
+
+
 class GenderDistributionVC: UIViewController {
 
     @IBOutlet var bannerView: GADBannerView!
@@ -37,15 +43,19 @@ class GenderDistributionVC: UIViewController {
         getGenderbylocation(lat: lat, lng: lng)
     }
     
+
+    
     override func viewWillAppear(_ animated: Bool) {
-        bannerView.translatesAutoresizingMaskIntoConstraints = false
-        bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
-//        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-//        addBannerViewToView(bannerView)
+        seyupAds()
+    }
+    
+    func seyupAds() {
+        bannerView.adUnitID = adUnitID
+        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        //        addBannerViewToView(bannerView)
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
         bannerView.delegate = self
-
     }
     
     func getGenderbylocation(lat:Double,lng:Double) {
@@ -109,14 +119,6 @@ class GenderDistributionVC: UIViewController {
 //        ])
 //     }
 
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        print("scrollViewDidEndScrollingAnimation")
-    }
-    
-    func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
-        print("scrollViewDidScrollToTop")
-
-    }
 }
 extension GenderDistributionVC:GADBannerViewDelegate {
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
@@ -182,8 +184,3 @@ extension GenderDistributionVC: UITableViewDelegate {
         return 50
     }
 }
-
-
-//Your Publisher ID: pub-9901362047037891
-//unit id : ca-app-pub-9901362047037891/8741727589
-//APP ID : ca-app-pub-9901362047037891~4064115975

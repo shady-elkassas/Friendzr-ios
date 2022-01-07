@@ -166,7 +166,6 @@ class SettingsVC: UIViewController {
     func updateMyLocation() {
         updateLocationVM.updatelocation(ByLat: Defaults.LocationLat, AndLng: Defaults.LocationLng) { error, data in
             if let error = error {
-//                self.showAlert(withMessage: error)
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                 }
@@ -377,8 +376,8 @@ extension SettingsVC :CLLocationManagerDelegate {
     
     
     //ghostmode toggle
-    func ghostModeToggle(ghostMode:Bool,allowmylocationtype:[Int]) {
-        self.viewmodel.toggleGhostMode(ghostMode: ghostMode, allowmylocationtype: 1) { error, data in
+    func ghostModeToggle(ghostMode:Bool,myAppearanceTypes:[Int]) {
+        self.viewmodel.toggleGhostMode(ghostMode: ghostMode, myAppearanceTypes: myAppearanceTypes) { error, data in
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
@@ -401,7 +400,7 @@ extension SettingsVC :CLLocationManagerDelegate {
     func onHideGhostModeTypesCallBack(_ data: [String], _ value: [Int]) -> () {
         print(data)
         print(value)
-        ghostModeToggle(ghostMode: true, allowmylocationtype:value)
+        ghostModeToggle(ghostMode: true, myAppearanceTypes:value)
     }
 }
 
@@ -538,23 +537,34 @@ extension SettingsVC: UITableViewDataSource {
             if model?.ghostmode == true {
                 cell.switchBtn.isOn = true
                 cell.ghostModeTypeLbl.isHidden = false
+                
+                
+                var mtypsInt:[Int] = []
+                for itm in model?.myAppearanceTypes ?? [] {
+                    mtypsInt.append(itm)
+                }
+                
+                if mtypsInt.contains(where: {$0 == 1}) {
+                    cell.ghostModeTypeLbl.text = "Every One"
+                }else {
+                    if mtypsInt == [2] {
+                        cell.ghostModeTypeLbl.text = "Men"
+                    }else if mtypsInt == [3] {
+                        cell.ghostModeTypeLbl.text = "Women"
+                    }else if mtypsInt == [4] {
+                        cell.ghostModeTypeLbl.text = "Other Gender"
+                    }else if mtypsInt == [2,3] || mtypsInt == [3,2] {
+                        cell.ghostModeTypeLbl.text = "Men, Women"
+                    }else if mtypsInt == [2,4] ||  mtypsInt == [4,2]  {
+                        cell.ghostModeTypeLbl.text = "Men, Other Gender"
+                    }else if mtypsInt == [3,4] || mtypsInt == [4,3] {
+                        cell.ghostModeTypeLbl.text = "Women, Other Gender"
+                    }
+                }
             }else{
                 cell.switchBtn.isOn = false
                 cell.ghostModeTypeLbl.isHidden = true
             }
-            
-            if model?.allowMyAppearanceType == 1 {
-                cell.ghostModeTypeLbl.text = "Every One"
-            }else if model?.allowMyAppearanceType == 2 {
-                cell.ghostModeTypeLbl.text = "Men"
-            }else if model?.allowMyAppearanceType == 3 {
-                cell.ghostModeTypeLbl.text = "Women"
-            }else if model?.allowMyAppearanceType == 4 {
-                cell.ghostModeTypeLbl.text = "Other Gender"
-            }else {
-                cell.ghostModeTypeLbl.isHidden = true
-            }
-            
             
             cell.HandleSwitchBtn = {
                 if self.model?.ghostmode == false {
@@ -586,9 +596,8 @@ extension SettingsVC: UITableViewDataSource {
                         self.updateUserInterfaceForBtns()
                         
                         if self.internetConect {
-                            self.viewmodel.toggleGhostMode(ghostMode: false, allowmylocationtype: 0, completion: { error, data in
+                            self.viewmodel.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
                                 if let error = error {
-                                    //                                    self.showAlert(withMessage: error)
                                     DispatchQueue.main.async {
                                         self.view.makeToast(error)
                                     }

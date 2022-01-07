@@ -92,6 +92,13 @@
                                     <action selector="profileBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="yuv-Ow-2Ho"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fE0-XQ-LAZ" customClass="GADBannerView">
+                                <rect key="frame" x="41.5" y="104" width="331" height="60"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="sEo-ed-EDe"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kad-lD-qUK">
                                 <rect key="frame" x="10" y="743" width="140" height="20"/>
                                 <subviews>
@@ -231,6 +238,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="F46-IT-SF3" secondAttribute="trailing" id="2Z7-fV-4W5"/>
                             <constraint firstItem="OIM-6b-ASS" firstAttribute="top" secondItem="0Ky-Fj-X6K" secondAttribute="bottom" constant="10" id="6oK-gd-fhP"/>
                             <constraint firstItem="yKF-cx-bWi" firstAttribute="centerY" secondItem="F46-IT-SF3" secondAttribute="centerY" id="6wk-Ts-Od9"/>
+                            <constraint firstItem="fE0-XQ-LAZ" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="BKI-jr-YP1"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="F46-IT-SF3" secondAttribute="bottom" id="G74-aF-VAW"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="xjN-Ay-cOd" secondAttribute="trailing" id="GWV-ID-fcA"/>
                             <constraint firstItem="0Ky-Fj-X6K" firstAttribute="top" secondItem="Erl-g5-LHz" secondAttribute="bottom" constant="10" id="Ivh-f0-SNp"/>
@@ -242,6 +250,7 @@
                             <constraint firstItem="FgW-BM-DOW" firstAttribute="centerX" secondItem="OIM-6b-ASS" secondAttribute="centerX" id="TuE-0l-dac"/>
                             <constraint firstItem="FgW-BM-DOW" firstAttribute="centerY" secondItem="OIM-6b-ASS" secondAttribute="centerY" id="Wbr-dh-Fg5"/>
                             <constraint firstItem="FgW-BM-DOW" firstAttribute="height" secondItem="OIM-6b-ASS" secondAttribute="height" id="WkU-eC-KSy"/>
+                            <constraint firstItem="fE0-XQ-LAZ" firstAttribute="width" secondItem="xjN-Ay-cOd" secondAttribute="width" multiplier="1:1.25" id="Z5B-Ba-ifU"/>
                             <constraint firstItem="Erl-g5-LHz" firstAttribute="width" secondItem="OIM-6b-ASS" secondAttribute="width" id="bea-3E-CWZ"/>
                             <constraint firstItem="wUG-6d-BKB" firstAttribute="top" secondItem="Kad-lD-qUK" secondAttribute="bottom" constant="10" id="bvI-Lu-HYO"/>
                             <constraint firstItem="F46-IT-SF3" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="eW6-7s-Gnp"/>
@@ -252,6 +261,7 @@
                             <constraint firstItem="wUG-6d-BKB" firstAttribute="bottom" secondItem="F46-IT-SF3" secondAttribute="bottom" id="lfm-xy-GRI"/>
                             <constraint firstItem="yKF-cx-bWi" firstAttribute="centerX" secondItem="F46-IT-SF3" secondAttribute="centerX" id="oMq-Uw-Joa"/>
                             <constraint firstItem="Jhb-xC-bQx" firstAttribute="centerX" secondItem="FZl-vM-xh3" secondAttribute="centerX" id="pMe-Cr-Ro7"/>
+                            <constraint firstItem="fE0-XQ-LAZ" firstAttribute="top" secondItem="xjN-Ay-cOd" secondAttribute="bottom" id="qaA-ZF-Nql"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="wUG-6d-BKB" secondAttribute="trailing" id="rjT-2A-ZdS"/>
                             <constraint firstItem="Erl-g5-LHz" firstAttribute="height" secondItem="OIM-6b-ASS" secondAttribute="height" id="tyH-KU-2hR"/>
                             <constraint firstItem="wUG-6d-BKB" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="vHi-jJ-vmP"/>
@@ -265,6 +275,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="addEventBtn" destination="OIM-6b-ASS" id="Guv-RQ-oEY"/>
+                        <outlet property="bannerView" destination="fE0-XQ-LAZ" id="QCs-QD-bc9"/>
                         <outlet property="collectionView" destination="9VD-SG-N5s" id="9c0-C6-zz4"/>
                         <outlet property="collectionViewHeight" destination="b2d-8e-jzV" id="GB0-T5-4GF"/>
                         <outlet property="currentLocationBtn" destination="Erl-g5-LHz" id="kVF-Lh-oW4"/>
@@ -442,7 +453,7 @@
         <image name="current_location_ic" width="256" height="256"/>
         <image name="ic_map_marker" width="48" height="48"/>
         <image name="map_selected_ic" width="27" height="27"/>
-        <image name="map_unselected_ic" width="16" height="16"/>
+        <image name="map_unselected_ic" width="27" height="27"/>
         <image name="placeholder" width="1000" height="1000"/>
         <image name="satellite_ic" width="256" height="256"/>
         <namedColor name="Color0">
@@ -453,6 +464,9 @@
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemIndigoColor">
             <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

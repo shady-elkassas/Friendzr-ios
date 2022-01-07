@@ -30,12 +30,13 @@ class SettingsObj: Mappable {
     var ghostmode: Bool? = false
     var pushnotification: Bool? = false
     var allowmylocation: Bool? = false
-    var allowMyAppearanceType: Int? = 0
+    var myAppearanceTypes: [Int]? = []
     var agefrom: Int? = 0
     var ageto: Int? = 0
     var filteringaccordingtoage:Bool? = false
     var manualdistancecontrol: Double? = 0
     var distanceFilter:Bool? = false
+    var language:String? = ""
     
     required init?(map: Map) {
     }
@@ -44,12 +45,13 @@ class SettingsObj: Mappable {
         ghostmode    <- map["ghostmode"]
         pushnotification   <- map["pushnotification"]
         allowmylocation  <- map["allowmylocation"]
-        allowMyAppearanceType  <- map["allowMyAppearanceType"]
+        myAppearanceTypes  <- map["myAppearanceTypes"]
         agefrom  <- map["agefrom"]
         ageto  <- map["ageto"]
         filteringaccordingtoage  <- map["filteringaccordingtoage"]
         manualdistancecontrol  <- map["manualdistancecontrol"]
         distanceFilter  <- map["distanceFilter"]
+        language  <- map["language"]
     }
 }
 

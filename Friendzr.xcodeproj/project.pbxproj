@@ -106,6 +106,12 @@
 		43375F5F271313C4009EBED6 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43375F5D271313C4009EBED6 /* NotificationTableViewCell.swift */; };
 		43375F60271313C4009EBED6 /* NotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43375F5E271313C4009EBED6 /* NotificationTableViewCell.xib */; };
 		4337B4732785D9CC0077B794 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4337B4722785D9CC0077B794 /* GoogleService-Info.plist */; };
+		4337B47627870F000077B794 /* RequestsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4337B47427870F000077B794 /* RequestsTableViewCell.swift */; };
+		4337B47727870F000077B794 /* RequestsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4337B47527870F000077B794 /* RequestsTableViewCell.xib */; };
+		4337B47A278714630077B794 /* UsersFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4337B478278714630077B794 /* UsersFeedTableViewCell.swift */; };
+		4337B47B278714630077B794 /* UsersFeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4337B479278714630077B794 /* UsersFeedTableViewCell.xib */; };
+		4337B47E278718880077B794 /* InboxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4337B47C278718880077B794 /* InboxTableViewCell.swift */; };
+		4337B47F278718880077B794 /* InboxTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4337B47D278718880077B794 /* InboxTableViewCell.xib */; };
 		4344107C26CD54D600F8233E /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344107B26CD54D600F8233E /* CategoriesView.swift */; };
 		4344107E26CD54E000F8233E /* CategoriesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4344107D26CD54E000F8233E /* CategoriesView.xib */; };
 		4344110226CE63AF00F8233E /* NewConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344110126CE63AF00F8233E /* NewConversationVC.swift */; };
@@ -200,8 +206,6 @@
 		439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */; };
 		439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */; };
 		439DDE9426F749DC00E09FC1 /* EventsInLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */; };
-		43A251E2275CC27600EC48DB /* ChatTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A251E1275CC27600EC48DB /* ChatTitleView.swift */; };
-		43A251E4275CC28500EC48DB /* ChatTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A251E3275CC28500EC48DB /* ChatTitleView.xib */; };
 		43A332612781AE0F001ADB84 /* AddNewTagView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A332602781AE0F001ADB84 /* AddNewTagView.xib */; };
 		43A332632781AE37001ADB84 /* AddNewTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A332622781AE37001ADB84 /* AddNewTagView.swift */; };
 		43A332682781C9B2001ADB84 /* GhostModeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A332662781C9B2001ADB84 /* GhostModeTableViewCell.swift */; };
@@ -391,6 +395,12 @@
 		43375F5D271313C4009EBED6 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		43375F5E271313C4009EBED6 /* NotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationTableViewCell.xib; sourceTree = "<group>"; };
 		4337B4722785D9CC0077B794 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4337B47427870F000077B794 /* RequestsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsTableViewCell.swift; sourceTree = "<group>"; };
+		4337B47527870F000077B794 /* RequestsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RequestsTableViewCell.xib; sourceTree = "<group>"; };
+		4337B478278714630077B794 /* UsersFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersFeedTableViewCell.swift; sourceTree = "<group>"; };
+		4337B479278714630077B794 /* UsersFeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UsersFeedTableViewCell.xib; sourceTree = "<group>"; };
+		4337B47C278718880077B794 /* InboxTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTableViewCell.swift; sourceTree = "<group>"; };
+		4337B47D278718880077B794 /* InboxTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InboxTableViewCell.xib; sourceTree = "<group>"; };
 		4344107B26CD54D600F8233E /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
 		4344107D26CD54E000F8233E /* CategoriesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoriesView.xib; sourceTree = "<group>"; };
 		4344110126CE63AF00F8233E /* NewConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationVC.swift; sourceTree = "<group>"; };
@@ -489,8 +499,6 @@
 		439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeModel.swift; sourceTree = "<group>"; };
 		439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsInLocationTableViewCell.swift; sourceTree = "<group>"; };
 		439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventsInLocationTableViewCell.xib; sourceTree = "<group>"; };
-		43A251E1275CC27600EC48DB /* ChatTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTitleView.swift; sourceTree = "<group>"; };
-		43A251E3275CC28500EC48DB /* ChatTitleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTitleView.xib; sourceTree = "<group>"; };
 		43A332602781AE0F001ADB84 /* AddNewTagView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddNewTagView.xib; sourceTree = "<group>"; };
 		43A332622781AE37001ADB84 /* AddNewTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTagView.swift; sourceTree = "<group>"; };
 		43A332662781C9B2001ADB84 /* GhostModeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostModeTableViewCell.swift; sourceTree = "<group>"; };
@@ -1050,6 +1058,8 @@
 				436288A426C9334900B51E51 /* ChatListTableViewCell.xib */,
 				4344110526CE885F00F8233E /* ContactsTableViewCell.swift */,
 				4344110626CE885F00F8233E /* ContactsTableViewCell.xib */,
+				4337B47C278718880077B794 /* InboxTableViewCell.swift */,
+				4337B47D278718880077B794 /* InboxTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1059,6 +1069,8 @@
 			children = (
 				4362889A26C9140E00B51E51 /* RequestTableViewCell.swift */,
 				4362889B26C9140E00B51E51 /* RequestTableViewCell.xib */,
+				4337B47427870F000077B794 /* RequestsTableViewCell.swift */,
+				4337B47527870F000077B794 /* RequestsTableViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1070,6 +1082,8 @@
 				436288A026C9186C00B51E51 /* FeedsTableViewCell.xib */,
 				4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */,
 				4371D42527391B12003B8AFD /* EmptyViewTableViewCell.xib */,
+				4337B478278714630077B794 /* UsersFeedTableViewCell.swift */,
+				4337B479278714630077B794 /* UsersFeedTableViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1096,8 +1110,6 @@
 				4371D4222737D054003B8AFD /* CustomMessagesFlowLayout.swift */,
 				4362889826C90CC600B51E51 /* Cell */,
 				4382AC1C26C27195005C1857 /* Main.storyboard */,
-				43A251E1275CC27600EC48DB /* ChatTitleView.swift */,
-				43A251E3275CC28500EC48DB /* ChatTitleView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1560,6 +1572,8 @@
 				4382AC2626C27195005C1857 /* LaunchScreen.storyboard in Resources */,
 				4344107E26CD54E000F8233E /* CategoriesView.xib in Resources */,
 				43886860278344F1004D36B2 /* ReportTitleTableViewCell.xib in Resources */,
+				4337B47B278714630077B794 /* UsersFeedTableViewCell.xib in Resources */,
+				4337B47F278718880077B794 /* InboxTableViewCell.xib in Resources */,
 				43B2241A274D16B5004C6912 /* CategoryCollectionViewCell.xib in Resources */,
 				4320A65026F21180003604EE /* BlockedTableViewCell.xib in Resources */,
 				43FC3CA827280BD500D94ABB /* SettingsTableViewCell.xib in Resources */,
@@ -1577,8 +1591,8 @@
 				4382AC9F26C27FF2005C1857 /* Montserrat-SemiBold.ttf in Resources */,
 				4382AC9526C27FF2005C1857 /* Montserrat-Bold.ttf in Resources */,
 				436288AD26C93B5C00B51E51 /* Profile.storyboard in Resources */,
+				4337B47727870F000077B794 /* RequestsTableViewCell.xib in Resources */,
 				430A352226CAB04B00477A94 /* Events.storyboard in Resources */,
-				43A251E4275CC28500EC48DB /* ChatTitleView.xib in Resources */,
 				4362888F26C8FF6B00B51E51 /* Request.storyboard in Resources */,
 				43FC3C7B2726F5A600D94ABB /* Localizable.strings in Resources */,
 				4362888826C8FF4000B51E51 /* Feed.storyboard in Resources */,
@@ -1728,6 +1742,7 @@
 				431505782705F90E002387A1 /* DegreeScaleView.swift in Sources */,
 				4336D12926DB89370093C7A6 /* PasswordViewModel.swift in Sources */,
 				436288B126C95B1300B51E51 /* FriendProfileVC.swift in Sources */,
+				4337B47627870F000077B794 /* RequestsTableViewCell.swift in Sources */,
 				4325E20C26F0A048008F73C4 /* ChangePasswordVC.swift in Sources */,
 				4382ACBE26C2AFF7005C1857 /* SplachFourVC.swift in Sources */,
 				4382AC6726C27D33005C1857 /* UIFontExtension.swift in Sources */,
@@ -1823,7 +1838,6 @@
 				43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */,
 				43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */,
 				432C6AD726F33BD60029FB89 /* TagView.swift in Sources */,
-				43A251E2275CC27600EC48DB /* ChatTitleView.swift in Sources */,
 				439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */,
 				430A350F26CA7A2200477A94 /* MoreTableViewCell.swift in Sources */,
 				4382AC5526C27911005C1857 /* Language.swift in Sources */,
@@ -1838,6 +1852,7 @@
 				4382AC4C26C2748B005C1857 /* UIColorExtension.swift in Sources */,
 				4336D13926DB95D20093C7A6 /* ChangePasswordViewModel.swift in Sources */,
 				4306C59F27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.swift in Sources */,
+				4337B47A278714630077B794 /* UsersFeedTableViewCell.swift in Sources */,
 				4344110726CE885F00F8233E /* ContactsTableViewCell.swift in Sources */,
 				43D545C126CBEC5B0064660A /* EventDetailsVC.swift in Sources */,
 				43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */,
@@ -1892,6 +1907,7 @@
 				4371D4212733F46C003B8AFD /* CustomCell.swift in Sources */,
 				43FC3CA02727EBD000D94ABB /* MyLocation.swift in Sources */,
 				43D545BF26CBD8BB0064660A /* Toast.swift in Sources */,
+				4337B47E278718880077B794 /* InboxTableViewCell.swift in Sources */,
 				43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */,
 				4344110426CE796300F8233E /* ForgetPasswordVC.swift in Sources */,
 				4336D11026DB7F410093C7A6 /* Constants.swift in Sources */,

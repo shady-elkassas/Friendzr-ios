@@ -11,6 +11,7 @@ import CoreLocation
 import GooglePlaces
 import ObjectMapper
 import MapKit
+import GoogleMobileAds
 
 let googleApiKey = "AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY"
 
@@ -72,8 +73,8 @@ class MapVC: UIViewController {
     @IBOutlet weak var currentLocationBtn: UIButton!
     @IBOutlet weak var markerImg: UIImageView!
     
-//    @IBOutlet weak var arrowUpDownImg: UIImageView!
-    
+    @IBOutlet var bannerView: GADBannerView!
+
     //MARK: - Properties
     var locations:[EventsLocation] = [EventsLocation]()
     var location: CLLocationCoordinate2D? = nil
@@ -131,6 +132,18 @@ class MapVC: UIViewController {
         }
         
         hideNavigationBar(NavigationBar: true, BackButton: true)
+        
+        seyupAds()
+    }
+    
+    
+    func seyupAds() {
+        bannerView.adUnitID = adUnitID
+        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        //        addBannerViewToView(bannerView)
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        bannerView.delegate = self
     }
     
     //MARK: - APIs
@@ -1015,3 +1028,30 @@ extension MapVC {
     }
 }
 
+
+extension MapVC:GADBannerViewDelegate {
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print(error)
+    }
+
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("Receive Ad")
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+      print("bannerViewDidRecordImpression")
+    }
+
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+      print("bannerViewWillPresentScreen")
+        bannerView.load(GADRequest())
+    }
+
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+      print("bannerViewWillDIsmissScreen")
+    }
+
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+      print("bannerViewDidDismissScreen")
+    }
+}

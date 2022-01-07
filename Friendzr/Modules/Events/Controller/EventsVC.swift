@@ -64,7 +64,6 @@ class EventsVC: UIViewController {
     
     //MARK:- APIs
     func getAllEvents(pageNumber:Int) {
-        self.tableView.hideLoader()
         viewmodel.getMyEvents(pageNumber: pageNumber)
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -73,7 +72,7 @@ class EventsVC: UIViewController {
                 tableView.dataSource = self
                 tableView.reloadData()
                 initAddNewEventBarButton(total: value.totalRecords ?? 0)
-                
+                self.tableView.hideLoader()
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
             }
@@ -108,9 +107,12 @@ class EventsVC: UIViewController {
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                self.tableView.showLoader()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.tableView.hideLoader()
+                
+                if value.data?.count != 0 {
+                    tableView.showLoader()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.tableView.hideLoader()
+                    }
                 }
             }
         }
@@ -190,7 +192,7 @@ class EventsVC: UIViewController {
     @objc func didPullToRefresh() {
         print("Refersh")
         currentPage = 1
-        updateUserInterface()
+        getAllEvents(pageNumber: currentPage)
         self.refreshControl.endRefreshing()
     }
     

@@ -37,7 +37,7 @@ class ForgetPasswordViewModel {
             return
         }
         
-        let url = URLs.baseURLFirst + "Authenticat/forgetpass"
+        let url = URLs.baseURLFirst + "Authenticat/ForgotPassword"
         let parameters:[String : Any] = ["email": email]
         let headers = RequestComponent.headerComponent([.type,.lang])
 

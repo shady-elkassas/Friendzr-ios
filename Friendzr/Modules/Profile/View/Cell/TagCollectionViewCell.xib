@@ -38,7 +38,7 @@
                                     <constraint firstAttribute="width" constant="30" id="4g2-Py-FXl"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="menu" title=" "/>
+                                <buttonConfiguration key="configuration" style="plain" image="menuwhite_ic" title=" "/>
                                 <connections>
                                     <action selector="editBtn:" destination="gTV-IL-0wX" eventType="touchUpInside" id="Sgp-Id-1Mo"/>
                                 </connections>
@@ -76,7 +76,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="menu" width="20" height="20"/>
+        <image name="menuwhite_ic" width="20" height="20"/>
         <namedColor name="Color0">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

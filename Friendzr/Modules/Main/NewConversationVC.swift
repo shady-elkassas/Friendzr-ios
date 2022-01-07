@@ -155,7 +155,6 @@ class NewConversationVC: UIViewController {
     }
     
     func getAllFriends(pageNumber:Int) {
-        
         viewmodel.getAllFriendes(pageNumber: pageNumber)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -193,9 +192,12 @@ class NewConversationVC: UIViewController {
                 tableView.dataSource = self
                 tableView.reloadData()
                 
-                tableView.showLoader()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.tableView.hideLoader()
+                
+                if value.data?.count != 0 {
+                    tableView.showLoader()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.tableView.hideLoader()
+                    }
                 }
                 
                 self.isLoadingList = false

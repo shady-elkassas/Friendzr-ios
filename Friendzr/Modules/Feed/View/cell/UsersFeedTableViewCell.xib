@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Medium.ttf">
+            <string>Montserrat-Medium</string>
+        </array>
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="UsersFeedTableViewCell" rowHeight="104" id="KGk-i7-Jjw" customClass="UsersFeedTableViewCell" customModule="Friendzr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Ld-CC-cBM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
+                        <color key="backgroundColor" name="BGColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="zN7-OW-385"/>
+                        </constraints>
+                    </view>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="j3q-OK-73z">
+                        <rect key="frame" x="20" y="27" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="P9S-ye-uXB"/>
+                            <constraint firstAttribute="height" constant="50" id="dEx-cc-sfH"/>
+                        </constraints>
+                    </imageView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="gU2-4c-CCD">
+                        <rect key="frame" x="80" y="36" width="39" height="32"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2mt-gd-63X">
+                                <rect key="frame" x="0.0" y="0.0" width="39" height="17.5"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                <color key="textColor" name="ColorLbl1"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HVf-lY-knW">
+                                <rect key="frame" x="0.0" y="19.5" width="39" height="12.5"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="10"/>
+                                <color key="textColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </label>
+                        </subviews>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </stackView>
+                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vhv-lO-oaP">
+                        <rect key="frame" x="200" y="37" width="70" height="30"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IWi-hd-7t5">
+                                <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="fxS-gu-mdd"/>
+                                    <constraint firstAttribute="width" constant="30" id="pVy-fE-4Q8"/>
+                                </constraints>
+                                <state key="normal" image="deleteRequest_ic"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="refusedRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Rdf-Y7-WzP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wsS-Xh-0T7">
+                                <rect key="frame" x="40" y="0.0" width="30" height="30"/>
+                                <state key="normal" image="acceptRequest_ic"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="accseptRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="vzQ-d6-vH7"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="3cd-MO-WLP"/>
+                            <constraint firstAttribute="height" constant="30" id="Jex-rT-Ntb"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="V6A-uz-PoF"/>
+                            <constraint firstAttribute="width" constant="70" id="oA9-yN-8oG"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </stackView>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="9sO-WH-tQf">
+                        <rect key="frame" x="170" y="37" width="130" height="30"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Veo-yp-N1D">
+                                <rect key="frame" x="0.0" y="0.0" width="130" height="30"/>
+                                <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
+                                <state key="normal" title="Send Request">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="sendRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0pj-Wi-Psk"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wjr-cu-EjV">
+                                <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
+                                <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
+                                <state key="normal" title="Message">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="messageBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="7Bl-5w-hzp"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xgf-Q5-xI1">
+                                <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
+                                <state key="normal" title="Cancel Request">
+                                    <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="cancelRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="uDx-cv-Dxz"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aNd-BI-f3I">
+                                <rect key="frame" x="130" y="0.0" width="0.0" height="30"/>
+                                <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
+                                <state key="normal" title="Unblock">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="unblockBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Lgh-tG-Zke"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="130" id="gmA-O1-WCw"/>
+                            <constraint firstAttribute="height" constant="30" id="xiW-sL-h66"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </stackView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P0K-fl-uqX">
+                        <rect key="frame" x="0.0" y="103" width="320" height="1"/>
+                        <color key="backgroundColor" name="BGColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="sTr-fj-DBQ"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="P0K-fl-uqX" secondAttribute="bottom" id="2qL-uh-Ddl"/>
+                    <constraint firstItem="vhv-lO-oaP" firstAttribute="centerY" secondItem="9sO-WH-tQf" secondAttribute="centerY" id="6v7-dW-9Uu"/>
+                    <constraint firstItem="vhv-lO-oaP" firstAttribute="height" secondItem="9sO-WH-tQf" secondAttribute="height" id="80a-Ha-qMl"/>
+                    <constraint firstItem="j3q-OK-73z" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="HDx-9K-stH"/>
+                    <constraint firstItem="gU2-4c-CCD" firstAttribute="leading" secondItem="j3q-OK-73z" secondAttribute="trailing" constant="10" id="Nsh-Gd-gUd"/>
+                    <constraint firstAttribute="trailing" secondItem="P0K-fl-uqX" secondAttribute="trailing" id="PTk-5w-hpz"/>
+                    <constraint firstItem="vhv-lO-oaP" firstAttribute="centerX" secondItem="9sO-WH-tQf" secondAttribute="centerX" id="Q19-R5-I0U"/>
+                    <constraint firstItem="9sO-WH-tQf" firstAttribute="centerY" secondItem="gU2-4c-CCD" secondAttribute="centerY" id="Qlw-BU-fLk"/>
+                    <constraint firstItem="P0K-fl-uqX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="X3h-NU-rcS"/>
+                    <constraint firstAttribute="trailing" secondItem="9sO-WH-tQf" secondAttribute="trailing" constant="20" id="dmJ-SD-sY7"/>
+                    <constraint firstItem="6Ld-CC-cBM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="qA8-l2-bZc"/>
+                    <constraint firstItem="j3q-OK-73z" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="rmX-s0-66z"/>
+                    <constraint firstAttribute="trailing" secondItem="6Ld-CC-cBM" secondAttribute="trailing" id="sta-Xy-UzX"/>
+                    <constraint firstItem="gU2-4c-CCD" firstAttribute="centerY" secondItem="j3q-OK-73z" secondAttribute="centerY" id="u5w-kO-pwV"/>
+                    <constraint firstItem="9sO-WH-tQf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gU2-4c-CCD" secondAttribute="trailing" constant="5" id="xSk-Rn-SkN"/>
+                    <constraint firstItem="6Ld-CC-cBM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="xpm-ci-C9P"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="accseptRequestBtn" destination="wsS-Xh-0T7" id="Q4b-tX-zs6"/>
+                <outlet property="cancelRequestBtn" destination="Xgf-Q5-xI1" id="Ibe-BW-sdJ"/>
+                <outlet property="downView" destination="P0K-fl-uqX" id="pBw-oZ-74Y"/>
+                <outlet property="friendRequestImg" destination="j3q-OK-73z" id="7NY-nk-TLp"/>
+                <outlet property="friendRequestNameLbl" destination="2mt-gd-63X" id="b7i-79-0Ae"/>
+                <outlet property="friendRequestUserNameLbl" destination="HVf-lY-knW" id="ZZF-GF-CJU"/>
+                <outlet property="messageBtn" destination="wjr-cu-EjV" id="FbV-m2-zQR"/>
+                <outlet property="refusedRequestBtn" destination="IWi-hd-7t5" id="Vu1-Wt-HjQ"/>
+                <outlet property="sendRequestBtn" destination="Veo-yp-N1D" id="Fn6-Qv-ZdI"/>
+                <outlet property="subStackView" destination="vhv-lO-oaP" id="ZDj-j6-ePj"/>
+                <outlet property="superStackView" destination="9sO-WH-tQf" id="2VC-xz-XQx"/>
+                <outlet property="unblockBtn" destination="aNd-BI-f3I" id="HcF-oI-U25"/>
+                <outlet property="upView" destination="6Ld-CC-cBM" id="WzB-QQ-GpR"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="120.53571428571428"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="acceptRequest_ic" width="52" height="52"/>
+        <image name="deleteRequest_ic" width="52" height="52"/>
+        <image name="placeholder" width="1000" height="1000"/>
+        <namedColor name="BGColor">
+            <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ColorLbl1">
+            <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

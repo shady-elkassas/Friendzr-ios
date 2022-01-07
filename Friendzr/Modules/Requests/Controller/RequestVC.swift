@@ -19,7 +19,7 @@ class RequestVC: UIViewController {
     @IBOutlet weak var emptyImg: UIImageView!
     
     //MARK: - Properties
-    let cellID = "RequestTableViewCell"
+    let cellID = "RequestsTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
     
     var viewmodel:RequestsViewModel = RequestsViewModel()
@@ -101,9 +101,11 @@ class RequestVC: UIViewController {
                 tableView.dataSource = self
                 tableView.reloadData()
                 
-                tableView.showLoader()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.tableView.hideLoader()
+                if value.data?.count != 0 {
+                    tableView.showLoader()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.tableView.hideLoader()
+                    }
                 }
                 
                 totalRequestLbl.text = ": \(value.data?.count ?? 0)"
@@ -245,7 +247,7 @@ extension RequestVC:UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
             return cell
         }else {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? RequestTableViewCell else {return UITableViewCell()}
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? RequestsTableViewCell else {return UITableViewCell()}
             cell.setNeedsLayout()
             cell.setNeedsDisplay()
             
@@ -265,7 +267,6 @@ extension RequestVC:UITableViewDataSource {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
                         self.hideLoading()
                         if let error = error {
-                            //                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }
@@ -273,7 +274,6 @@ extension RequestVC:UITableViewDataSource {
                         }
                         
                         guard let message = message else {return}
-                        //                        self.showAlert(withMessage: message)
                         DispatchQueue.main.async {
                             self.view.makeToast(message)
                         }
@@ -295,7 +295,6 @@ extension RequestVC:UITableViewDataSource {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
                         self.hideLoading()
                         if let error = error {
-                            //                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }
@@ -303,7 +302,6 @@ extension RequestVC:UITableViewDataSource {
                         }
                         
                         guard let message = message else {return}
-                        //                        self.showAlert(withMessage: message)
                         DispatchQueue.main.async {
                             self.view.makeToast(message)
                         }
