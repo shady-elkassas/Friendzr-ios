@@ -58,19 +58,19 @@ extension InterestsCollectionViewCell: UITableViewDataSource {
         cell.interestNameLbl.text = model?.name
         cell.percentageLbl.text = "\(model?.interestcount ?? 0) %"
         
-        if indexPath.row == 3 {
-            cell.bottonView.isHidden = true
-        }
+//        if indexPath.row == 3 {
+//            cell.bottonView.isHidden = true
+//        }
         
-        if indexPath.row == 0 {
-            cell.lblColor.backgroundColor = UIColor.blue
-            
-        }else if indexPath.row == 1 {
-            cell.lblColor.backgroundColor = UIColor.red
-            
-        }else {
-            cell.lblColor.backgroundColor = UIColor.green
-        }
+//        if indexPath.row == 0 {
+//            cell.lblColor.backgroundColor = UIColor.blue
+//
+//        }else if indexPath.row == 1 {
+//            cell.lblColor.backgroundColor = UIColor.red
+//
+//        }else {
+//            cell.lblColor.backgroundColor = UIColor.green
+//        }
         
         return cell
     }

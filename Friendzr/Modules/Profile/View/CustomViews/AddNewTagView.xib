@@ -133,6 +133,7 @@
                 <outlet property="containerView" destination="Ll2-tc-F01" id="Nzx-oe-cVS"/>
                 <outlet property="newTagTxt" destination="2Zn-9H-Xw4" id="Kbd-WB-bvg"/>
                 <outlet property="textBorderView" destination="MNW-cj-ZxB" id="gXw-3T-WXD"/>
+                <outlet property="titleViewLbl" destination="vYu-lU-TlL" id="efZ-yD-NF7"/>
             </connections>
             <point key="canvasLocation" x="-135" y="56"/>
         </view>

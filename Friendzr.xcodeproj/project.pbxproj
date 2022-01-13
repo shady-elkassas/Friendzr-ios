@@ -51,7 +51,15 @@
 		43119D7A26E4F08D00AD2260 /* LocationEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D7926E4F08D00AD2260 /* LocationEventViewModel.swift */; };
 		43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D7B26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift */; };
 		43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D7D26E4F6D100AD2260 /* AddEventViewModel.swift */; };
+		43148538278C3E110048EC01 /* SelectedFriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43148536278C3E110048EC01 /* SelectedFriendTableViewCell.swift */; };
+		43148539278C3E110048EC01 /* SelectedFriendTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43148537278C3E110048EC01 /* SelectedFriendTableViewCell.xib */; };
+		4314853B278C42930048EC01 /* AddGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314853A278C42930048EC01 /* AddGroupVC.swift */; };
+		4314853D278C701D0048EC01 /* GroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314853C278C701D0048EC01 /* GroupVC.swift */; };
+		43148540278D86570048EC01 /* StatisticsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314853E278D86570048EC01 /* StatisticsCollectionViewCell.swift */; };
+		43148541278D86570048EC01 /* StatisticsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4314853F278D86570048EC01 /* StatisticsCollectionViewCell.xib */; };
 		431505782705F90E002387A1 /* DegreeScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431505772705F90E002387A1 /* DegreeScaleView.swift */; };
+		4315DB41278DBB12005AB950 /* GenderDistributionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4315DB3F278DBB12005AB950 /* GenderDistributionTableViewCell.swift */; };
+		4315DB42278DBB12005AB950 /* GenderDistributionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4315DB40278DBB12005AB950 /* GenderDistributionTableViewCell.xib */; };
 		431D93E627577A3200A1F780 /* Extensions + ConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D93E527577A3200A1F780 /* Extensions + ConversationVC.swift */; };
 		431FF241270C8DEA002A15E0 /* GenderDistributionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */; };
 		4320A64626F1FC7B003604EE /* AllFriendesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */; };
@@ -340,7 +348,15 @@
 		43119D7926E4F08D00AD2260 /* LocationEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEventViewModel.swift; sourceTree = "<group>"; };
 		43119D7B26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotlalNumberEventViewModel.swift; sourceTree = "<group>"; };
 		43119D7D26E4F6D100AD2260 /* AddEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventViewModel.swift; sourceTree = "<group>"; };
+		43148536278C3E110048EC01 /* SelectedFriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedFriendTableViewCell.swift; sourceTree = "<group>"; };
+		43148537278C3E110048EC01 /* SelectedFriendTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectedFriendTableViewCell.xib; sourceTree = "<group>"; };
+		4314853A278C42930048EC01 /* AddGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupVC.swift; sourceTree = "<group>"; };
+		4314853C278C701D0048EC01 /* GroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupVC.swift; sourceTree = "<group>"; };
+		4314853E278D86570048EC01 /* StatisticsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCollectionViewCell.swift; sourceTree = "<group>"; };
+		4314853F278D86570048EC01 /* StatisticsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatisticsCollectionViewCell.xib; sourceTree = "<group>"; };
 		431505772705F90E002387A1 /* DegreeScaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeScaleView.swift; sourceTree = "<group>"; };
+		4315DB3F278DBB12005AB950 /* GenderDistributionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderDistributionTableViewCell.swift; sourceTree = "<group>"; };
+		4315DB40278DBB12005AB950 /* GenderDistributionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenderDistributionTableViewCell.xib; sourceTree = "<group>"; };
 		431D93E527577A3200A1F780 /* Extensions + ConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions + ConversationVC.swift"; sourceTree = "<group>"; };
 		431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderDistributionVC.swift; sourceTree = "<group>"; };
 		4320A64526F1FC7B003604EE /* AllFriendesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllFriendesViewModel.swift; sourceTree = "<group>"; };
@@ -755,6 +771,8 @@
 				43CFB00F271C56FC000CB41E /* GenderCollectionViewCell.xib */,
 				43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */,
 				43B22418274D16B5004C6912 /* CategoryCollectionViewCell.xib */,
+				4314853E278D86570048EC01 /* StatisticsCollectionViewCell.swift */,
+				4314853F278D86570048EC01 /* StatisticsCollectionViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1060,6 +1078,8 @@
 				4344110626CE885F00F8233E /* ContactsTableViewCell.xib */,
 				4337B47C278718880077B794 /* InboxTableViewCell.swift */,
 				4337B47D278718880077B794 /* InboxTableViewCell.xib */,
+				43148536278C3E110048EC01 /* SelectedFriendTableViewCell.swift */,
+				43148537278C3E110048EC01 /* SelectedFriendTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1093,6 +1113,8 @@
 			children = (
 				4382AC1A26C27195005C1857 /* InboxVC.swift */,
 				4344110126CE63AF00F8233E /* NewConversationVC.swift */,
+				4314853A278C42930048EC01 /* AddGroupVC.swift */,
+				4314853C278C701D0048EC01 /* GroupVC.swift */,
 				430D426826D3BEBA00188E42 /* ConversationVC.swift */,
 				431D93E527577A3200A1F780 /* Extensions + ConversationVC.swift */,
 				430D426F26D3C33B00188E42 /* AudioVC.swift */,
@@ -1361,6 +1383,8 @@
 				439DDE9226F749DC00E09FC1 /* EventsInLocationTableViewCell.xib */,
 				4306C59D27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.swift */,
 				4306C59E27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.xib */,
+				4315DB3F278DBB12005AB950 /* GenderDistributionTableViewCell.swift */,
+				4315DB40278DBB12005AB950 /* GenderDistributionTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1598,6 +1622,7 @@
 				4362888826C8FF4000B51E51 /* Feed.storyboard in Resources */,
 				430A351026CA7A2200477A94 /* MoreTableViewCell.xib in Resources */,
 				43A332612781AE0F001ADB84 /* AddNewTagView.xib in Resources */,
+				4315DB42278DBB12005AB950 /* GenderDistributionTableViewCell.xib in Resources */,
 				4337B4732785D9CC0077B794 /* GoogleService-Info.plist in Resources */,
 				436288A226C9186C00B51E51 /* FeedsTableViewCell.xib in Resources */,
 				43D545AD26CBB6270064660A /* EventTimeCalenderView.xib in Resources */,
@@ -1615,11 +1640,13 @@
 				43526917276A144A00540726 /* ScrollableBottomSheetViewController.xib in Resources */,
 				4388685F278344F1004D36B2 /* WriteProblemTableViewCell.xib in Resources */,
 				4382AC9626C27FF2005C1857 /* Montserrat-Medium.ttf in Resources */,
+				43148541278D86570048EC01 /* StatisticsCollectionViewCell.xib in Resources */,
 				4371D42727391B13003B8AFD /* EmptyViewTableViewCell.xib in Resources */,
 				4362889D26C9140E00B51E51 /* RequestTableViewCell.xib in Resources */,
 				436850A027453E3800A62287 /* TagCollectionViewCell.xib in Resources */,
 				4382AC1E26C27195005C1857 /* Main.storyboard in Resources */,
 				43D545A726CBB02D0064660A /* EventCalendarView.xib in Resources */,
+				43148539278C3E110048EC01 /* SelectedFriendTableViewCell.xib in Resources */,
 				43886865278344F1004D36B2 /* ConfirmReportButtonTableViewCell.xib in Resources */,
 				439DDE9426F749DC00E09FC1 /* EventsInLocationTableViewCell.xib in Resources */,
 				4333DA7026C3B1C10029F2B0 /* Login.storyboard in Resources */,
@@ -1733,6 +1760,7 @@
 				4333DA7726C3BC350029F2B0 /* OptionsSignUpVC.swift in Sources */,
 				43375F5F271313C4009EBED6 /* NotificationTableViewCell.swift in Sources */,
 				430A351926CAA97F00477A94 /* HideGhostModeView.swift in Sources */,
+				43148538278C3E110048EC01 /* SelectedFriendTableViewCell.swift in Sources */,
 				4336D12F26DB8AF80093C7A6 /* CheckUserNameViewModel.swift in Sources */,
 				43886863278344F1004D36B2 /* WriteProblemTableViewCell.swift in Sources */,
 				430D426D26D3C10900188E42 /* MessageItem.swift in Sources */,
@@ -1744,8 +1772,10 @@
 				436288B126C95B1300B51E51 /* FriendProfileVC.swift in Sources */,
 				4337B47627870F000077B794 /* RequestsTableViewCell.swift in Sources */,
 				4325E20C26F0A048008F73C4 /* ChangePasswordVC.swift in Sources */,
+				4314853B278C42930048EC01 /* AddGroupVC.swift in Sources */,
 				4382ACBE26C2AFF7005C1857 /* SplachFourVC.swift in Sources */,
 				4382AC6726C27D33005C1857 /* UIFontExtension.swift in Sources */,
+				43148540278D86570048EC01 /* StatisticsCollectionViewCell.swift in Sources */,
 				4344107C26CD54D600F8233E /* CategoriesView.swift in Sources */,
 				43526916276A144A00540726 /* ScrollableBottomSheetViewController.swift in Sources */,
 				4382ACBA26C2AFC2005C1857 /* SplachTwoVC.swift in Sources */,
@@ -1795,6 +1825,7 @@
 				4345BA3A271C14ED0076101A /* GenderbylocationViewModel.swift in Sources */,
 				4362889426C8FF9300B51E51 /* MoreVC.swift in Sources */,
 				43119D6A26E4C1A000AD2260 /* BioViewModel.swift in Sources */,
+				4314853D278C701D0048EC01 /* GroupVC.swift in Sources */,
 				43A332632781AE37001ADB84 /* AddNewTagView.swift in Sources */,
 				43375F5827130D94009EBED6 /* NotificationsModel.swift in Sources */,
 				43119D6626E4BFDB00AD2260 /* EditProfileViewModel.swift in Sources */,
@@ -1815,6 +1846,7 @@
 				43D545B226CBD7E40064660A /* ExtensionsNodes.swift in Sources */,
 				43D545AB26CBB61F0064660A /* EventTimeCalenderView.swift in Sources */,
 				4333DA8226C3CFEC0029F2B0 /* RegisterVC.swift in Sources */,
+				4315DB41278DBB12005AB950 /* GenderDistributionTableViewCell.swift in Sources */,
 				4382AC6526C27CDF005C1857 /* UILabelExtension.swift in Sources */,
 				43526919276A1D6D00540726 /* Extensions + MapVC.swift in Sources */,
 				4371D42627391B13003B8AFD /* EmptyViewTableViewCell.swift in Sources */,
@@ -2112,7 +2144,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.7.1;
+				CURRENT_PROJECT_VERSION = 2.7.2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2140,7 +2172,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.7.1;
+				CURRENT_PROJECT_VERSION = 2.7.2;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

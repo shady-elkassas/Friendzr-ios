@@ -46,7 +46,7 @@ class ReportVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if selectedVC == "Friend" {
+        if selectedVC == "Present" {
             initCloseBarButton()
         }else {
             initBackChatButton()
@@ -162,7 +162,6 @@ extension ReportVC: UITableViewDataSource {
             }
             
             cell.bottomView.isHidden = true
-            //            cell.checkMarkImg.isHidden = true
             return cell
         }
         else if indexPath.section == 1 {
@@ -182,31 +181,38 @@ extension ReportVC: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: confirmBtnCellID, for: indexPath) as? ConfirmReportButtonTableViewCell else {return UITableViewCell()}
             cell.HandleConfirmBtn = {
                 self.updateNetworkForBtns()
-                
-                if self.internetConnect {
-                    self.viewmodel.sendReport(withID: self.id, isEvent: self.isEvent, message: self.message, reportReasonID: self.problemID) { error, data in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
+                if self.id != "" {
+                    if self.internetConnect {
+                        self.viewmodel.sendReport(withID: self.id, isEvent: self.isEvent, message: self.message, reportReasonID: self.problemID) { error, data in
+                            if let error = error {
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
+                                return
                             }
-                            return
-                        }
-                        
-                        guard let _ = data else {return}
-                        
-                        DispatchQueue.main.async {
-                            self.view.makeToast("The report has been sent successfully")
-                        }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            if self.isEvent == true {
-                                Router().toHome()
-                            }else {
-                                Router().toFeed()
+                            
+                            guard let _ = data else {return}
+                            
+                            DispatchQueue.main.async {
+                                self.view.makeToast("The report has been sent successfully")
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                if self.selectedVC == "Present" {
+                                    self.onDismiss()
+                                }else {
+                                    Router().toHome()
+                                }
                             }
                         }
                     }
+                }else {
+                    DispatchQueue.main.async {
+                        self.view.makeToast("Please select a problem first")
+                        return
+                    }
                 }
+
             }
             return cell
         }
@@ -255,12 +261,12 @@ extension ReportVC {
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         button.setImage(image, for: .normal)
         image?.withTintColor(UIColor.blue)
-        button.addTarget(self, action:  #selector(backToInbox), for: .touchUpInside)
+        button.addTarget(self, action:  #selector(backToConversationVC), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.leftBarButtonItem = barButton
     }
     
-    @objc func backToInbox() {
+    @objc func backToConversationVC() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             Router().toConversationVC(isEvent: self.isEvent, eventChatID: self.id, leavevent: 0, chatuserID: self.id, isFriend: true, titleChatImage: self.chatimg, titleChatName: self.chatname)
         })

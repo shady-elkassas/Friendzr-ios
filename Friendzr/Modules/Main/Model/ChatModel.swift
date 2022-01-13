@@ -67,6 +67,8 @@ class UserChatObj: NSObject,Mappable {
     var messagestype:Int? = 0
     var messagesattach:String? = ""
     
+    var isSelected:Bool? = false
+    
     override init() {
         super.init()
     }
@@ -145,6 +147,7 @@ class UserConversationModel: NSObject,Mappable {
     var email:String = ""
     var displayedUserName:String = ""
 
+    var isSelected:Bool = false
     override init() {
         super.init()
     }

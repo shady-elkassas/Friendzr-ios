@@ -14,9 +14,9 @@ open class CustomMessagesFlowLayout: MessagesCollectionViewFlowLayout {
     open lazy var customMessageSizeCalculator = CustomMessageSizeCalculator(layout: self)
     
     open override func cellSizeCalculatorForItem(at indexPath: IndexPath) -> CellSizeCalculator {
-        if isSectionReservedForTypingIndicator(indexPath.section) {
-            return typingIndicatorSizeCalculator
-        }
+//        if isSectionReservedForTypingIndicator(indexPath.section) {
+//            return typingIndicatorSizeCalculator
+//        }
         let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
         if case .custom = message.kind {
             return customMessageSizeCalculator

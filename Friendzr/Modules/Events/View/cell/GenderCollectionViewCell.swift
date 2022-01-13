@@ -52,17 +52,17 @@ extension GenderCollectionViewCell: UITableViewDataSource {
         cell.percentageLbl.text = "\(model?.gendercount ?? 0) %"
         cell.interestNameLbl.text = model?.key
 
-        if model?.key == "Male" {
-            cell.lblColor.backgroundColor = UIColor.blue
-        }else if model?.key == "Female" {
-            cell.lblColor.backgroundColor = UIColor.red
-        }else {
-            cell.lblColor.backgroundColor = UIColor.green
-        }
+//        if model?.key == "Male" {
+//            cell.lblColor.backgroundColor = UIColor.blue
+//        }else if model?.key == "Female" {
+//            cell.lblColor.backgroundColor = UIColor.red
+//        }else {
+//            cell.lblColor.backgroundColor = UIColor.green
+//        }
         
-        if indexPath.row == 3 {
-            cell.bottonView.isHidden = true
-        }
+//        if indexPath.row == 3 {
+//            cell.bottonView.isHidden = true
+//        }
                 
         return cell
     }

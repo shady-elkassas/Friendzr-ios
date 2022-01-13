@@ -40,18 +40,20 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var gradientView: UIView!
     
     @IBOutlet var bannerView: GADBannerView!
-
+    
     //MARK: - Properties
     var numbers:[Double] = [1,2,3]
     var genders:[String] = ["Men","Women","Other"]
     let attendeesCellID = "AttendeesTableViewCell"
     private var footerCellID = "SeeMoreTableViewCell"
-    let interestCellID = "InterestsCollectionViewCell"
-    let genderCellID = "GenderCollectionViewCell"
+    //    let interestCellID = "InterestsCollectionViewCell"
+    //    let genderCellID = "GenderCollectionViewCell"
+    let statisticsCellID = "StatisticsCollectionViewCell"
     var eventId:String = ""
     var viewmodel:EventsViewModel = EventsViewModel()
     var joinVM:JoinEventViewModel = JoinEventViewModel()
     var leaveVM:LeaveEventViewModel = LeaveEventViewModel()
+    var joinCahtEventVM:ChatViewModel = ChatViewModel()
     var locationTitle = ""
     var internetConect:Bool = false
     
@@ -67,8 +69,15 @@ class EventDetailsVC: UIViewController {
     private let formatterTime: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
-        formatter.dateFormat = "HH:mm"
+        formatter.dateFormat = "HH:mm:ss"
         return formatter
+    }()
+    
+    let viewX: UIView = {
+        let viewX = UIView()
+        viewX.bounds = CGRect(x: 0, y: 0, width: screenW, height: 200)
+        viewX.backgroundColor = .red
+        return viewX
     }()
     
     //MARK: - Life Cycle
@@ -77,6 +86,7 @@ class EventDetailsVC: UIViewController {
         
         initBackColorButton()
         setupViews()
+        initOptionsEventButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,6 +116,7 @@ class EventDetailsVC: UIViewController {
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
         bannerView.delegate = self
+        bannerView.cornerRadiusView(radius: 12)
     }
     
     //MARK: - Helper
@@ -144,9 +155,10 @@ class EventDetailsVC: UIViewController {
         
         attendeesTableView.register(UINib(nibName: attendeesCellID, bundle: nil), forCellReuseIdentifier: attendeesCellID)
         attendeesTableView.register(UINib(nibName: footerCellID, bundle: nil), forHeaderFooterViewReuseIdentifier: footerCellID)
+        collectionView.register(UINib(nibName: statisticsCellID, bundle: nil), forCellWithReuseIdentifier: statisticsCellID)
         
-        collectionView.register(UINib(nibName: interestCellID, bundle: nil), forCellWithReuseIdentifier: interestCellID)
-        collectionView.register(UINib(nibName: genderCellID, bundle: nil), forCellWithReuseIdentifier: genderCellID)
+        //        collectionView.register(UINib(nibName: interestCellID, bundle: nil), forCellWithReuseIdentifier: interestCellID)
+        //        collectionView.register(UINib(nibName: genderCellID, bundle: nil), forCellWithReuseIdentifier: genderCellID)
     }
     
     func showNewtworkConnected() {
@@ -196,20 +208,24 @@ class EventDetailsVC: UIViewController {
             leaveBtn.isHidden = true
             attendeesViewHeight.constant = 0
         }else { // join
-            if viewmodel.event.value?.leveevent == 1 {
-                editBtn.isHidden = true
-                chatBtn.isHidden = false
-                joinBtn.isHidden = true
-                leaveBtn.isHidden = false
-            }else {
-                editBtn.isHidden = true
-                chatBtn.isHidden = true
-                joinBtn.isHidden = true
-                leaveBtn.isHidden = false
-            }
+            //            if viewmodel.event.value?.leveevent == 1 {
+            //                editBtn.isHidden = true
+            //                chatBtn.isHidden = false
+            //                joinBtn.isHidden = true
+            //                leaveBtn.isHidden = false
+            //            }else {
+            //                editBtn.isHidden = true
+            //                chatBtn.isHidden = true
+            //                joinBtn.isHidden = true
+            //                leaveBtn.isHidden = false
+            //            }
             
+            editBtn.isHidden = true
+            chatBtn.isHidden = false
+            joinBtn.isHidden = true
+            leaveBtn.isHidden = false
             attendeesViewHeight.constant = 0
-
+            
         }
         
         attendeesView.cornerRadiusView(radius: 21)
@@ -356,9 +372,7 @@ class EventDetailsVC: UIViewController {
         let Jointime = self.formatterTime.string(from: Date())
         
         if internetConect == true {
-//            self.showLoading()
             joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? "",JoinDate:JoinDate ,Jointime:Jointime) { error, data in
-//                self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -382,9 +396,7 @@ class EventDetailsVC: UIViewController {
     @IBAction func leaveBtn(_ sender: Any) {
         showNewtworkConnected()
         if internetConect == true {
-//            self.showLoading()
             leaveVM.leaveEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in
-//                self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -406,7 +418,34 @@ class EventDetailsVC: UIViewController {
     }
     
     @IBAction func chatBtn(_ sender: Any) {
-        Router().toConversationVC(isEvent: true, eventChatID: viewmodel.event.value?.id ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: viewmodel.event.value?.image ?? "", titleChatName: viewmodel.event.value?.title ?? "")
+        let JoinDate = self.formatterDate.string(from: Date())
+        let Jointime = self.formatterTime.string(from: Date())
+        
+        if viewmodel.event.value?.leveevent == 1 {
+            Router().toConversationVC(isEvent: true, eventChatID: eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: viewmodel.event.value?.image ?? "", titleChatName: viewmodel.event.value?.title ?? "")
+        }else {
+            self.view.makeToast("Wait, I'll join you in the event chat...")
+            joinCahtEventVM.joinChat(ByID: eventId, ActionDate: JoinDate, Actiontime: Jointime) { error, data in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    return
+                }
+                
+                guard let _ = data else {return}
+                
+                DispatchQueue.main.async {
+                    self.view.makeToast("You have now joined the chat event")
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    Router().toConversationVC(isEvent: true, eventChatID: self.eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: self.viewmodel.event.value?.image ?? "", titleChatName: self.viewmodel.event.value?.title ?? "")
+                }
+                
+            }
+            
+        }
     }
     
     @IBAction func openGoogleDirectionsMapBtn(_ sender: Any) {
@@ -485,24 +524,25 @@ extension EventDetailsVC: UITableViewDelegate {
 
 extension EventDetailsVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == 0 {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: genderCellID, for: indexPath) as? GenderCollectionViewCell else {return UICollectionViewCell()}
-            cell.model = viewmodel.event.value?.genderStatistic
-            cell.parentVC = self
-            cell.tableView.reloadData()
-            return cell
-        }else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: interestCellID, for: indexPath) as? InterestsCollectionViewCell else {return UICollectionViewCell()}
-            cell.model = viewmodel.event.value?.interestStatistic
-            cell.parentVC = self
-            cell.tableView.reloadData()
-            return cell
-
-        }
+        //        if indexPath.row == 0 {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: statisticsCellID, for: indexPath) as? StatisticsCollectionViewCell else {return UICollectionViewCell()}
+        cell.genderModel = viewmodel.event.value?.genderStatistic
+        cell.interestModel = viewmodel.event.value?.interestStatistic
+        cell.parentVC = self
+        cell.genderTV.reloadData()
+        cell.interestTV.reloadData()
+        return cell
+        //        }else {
+        //            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: interestCellID, for: indexPath) as? InterestsCollectionViewCell else {return UICollectionViewCell()}
+        //            cell.model = viewmodel.event.value?.interestStatistic
+        //            cell.parentVC = self
+        //            cell.tableView.reloadData()
+        //            return cell
+        //        }
     }
 }
 
@@ -516,20 +556,20 @@ extension EventDetailsVC: UICollectionViewDelegate,UICollectionViewDelegateFlowL
     }
     
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        
-        let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.bounds.size)
-        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
-        let visibleIndexPatho = collectionView.indexPathForItem(at: visiblePoint)
-        print("visibleIndexPatho : \(visibleIndexPatho?.row ?? 0)")
-        
-        //        for cell in collectionView.visibleCells {
-        //            let indexPath = collectionView.indexPath(for: cell)
-        //            print("indexPath : \(indexPath?.row ?? 0)")
-        //
-        visibleIndexPath = visibleIndexPatho?.row ?? 0
-        //        }
-    }
+    //    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    //
+    //        let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.bounds.size)
+    //        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+    //        let visibleIndexPatho = collectionView.indexPathForItem(at: visiblePoint)
+    //        print("visibleIndexPatho : \(visibleIndexPatho?.row ?? 0)")
+    //
+    //        //        for cell in collectionView.visibleCells {
+    //        //            let indexPath = collectionView.indexPath(for: cell)
+    //        //            print("indexPath : \(indexPath?.row ?? 0)")
+    //        //
+    //        visibleIndexPath = visibleIndexPatho?.row ?? 0
+    //        //        }
+    //    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
@@ -561,25 +601,122 @@ extension EventDetailsVC:GADBannerViewDelegate {
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print(error)
     }
-
+    
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
         print("Receive Ad")
     }
     
     func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-      print("bannerViewDidRecordImpression")
+        print("bannerViewDidRecordImpression")
     }
-
+    
     func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-      print("bannerViewWillPresentScreen")
+        print("bannerViewWillPresentScreen")
         bannerView.load(GADRequest())
     }
-
+    
     func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-      print("bannerViewWillDIsmissScreen")
+        print("bannerViewWillDIsmissScreen")
     }
-
+    
     func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-      print("bannerViewDidDismissScreen")
+        print("bannerViewDidDismissScreen")
+    }
+}
+
+extension EventDetailsVC {
+    func initOptionsEventButton() {
+        let imageName = "menu_WH_ic"
+        let button = UIButton.init(type: .custom)
+        let image = UIImage.init(named: imageName)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
+        button.cornerRadiusForHeight()
+        button.setImage(image, for: .normal)
+        image?.withTintColor(UIColor.blue)
+        button.addTarget(self, action:  #selector(handleEventOptionsBtn), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
+    }
+    
+    @objc func handleEventOptionsBtn() {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+            actionAlert.addAction(UIAlertAction(title: "Share", style: .default, handler: { action in
+                self.shareEvent()
+            }))
+            actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                    vc.id = self.eventId
+                    vc.isEvent = true
+                    vc.selectedVC = "Present"
+                    self.present(controller, animated: true)
+                }
+            }))
+            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionAlert, animated: true, completion: nil)
+        }else {
+            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "Share", style: .default, handler: { action in
+                self.shareEvent()
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                    vc.id = self.eventId
+                    vc.isEvent = true
+                    vc.selectedVC = "Present"
+                    self.present(controller, animated: true)
+                }
+            }))
+            
+            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionSheet, animated: true, completion: nil)
+        }
+    }
+    
+    func shareEvent() {
+        // Setting description
+        let firstActivityItem = ""
+        
+        // Setting url
+        let secondActivityItem : NSURL = NSURL(string: "https://friendzr.com/about-us/")!
+        
+        // If you want to use an image
+        let image : UIImage = UIImage(named: "Share_ic")!
+        
+        let activityViewController : UIActivityViewController = UIActivityViewController(
+            activityItems: [firstActivityItem, secondActivityItem, image], applicationActivities: nil)
+        
+        // This lines is for the popover you need to show in iPad
+        activityViewController.popoverPresentationController?.sourceView = activityViewController.view
+        
+        // This line remove the arrow of the popover to show in iPad
+        activityViewController.popoverPresentationController?.permittedArrowDirections =  UIPopoverArrowDirection.down
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+        
+        // Pre-configuring activity items
+        activityViewController.activityItemsConfiguration = [
+            UIActivity.ActivityType.message
+        ] as? UIActivityItemsConfigurationReading
+        
+        // Anything you want to exclude
+        activityViewController.excludedActivityTypes = [
+            UIActivity.ActivityType.postToWeibo,
+            UIActivity.ActivityType.print,
+            UIActivity.ActivityType.assignToContact,
+            UIActivity.ActivityType.saveToCameraRoll,
+            UIActivity.ActivityType.addToReadingList,
+            UIActivity.ActivityType.postToFlickr,
+            UIActivity.ActivityType.postToVimeo,
+            UIActivity.ActivityType.postToTencentWeibo,
+            UIActivity.ActivityType.postToFacebook
+        ]
+        
+        activityViewController.isModalInPresentation = true
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }

@@ -94,6 +94,7 @@ class RequestVC: UIViewController {
     }
     
     func loadAllUserRequests(pageNumber:Int) {
+        self.view.makeToast("Please wait for the data to load...")
         viewmodel.getAllRequests(pageNumber: pageNumber)
         viewmodel.requests.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -101,9 +102,10 @@ class RequestVC: UIViewController {
                 tableView.dataSource = self
                 tableView.reloadData()
                 
+                self.view.hideToast()
                 if value.data?.count != 0 {
                     tableView.showLoader()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self.tableView.hideLoader()
                     }
                 }

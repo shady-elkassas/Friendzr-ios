@@ -26,7 +26,7 @@ class GenderDistributionVC: UIViewController {
     
     @IBOutlet weak var hideView: UIView!
     
-    let cellID = "InterestsTableViewCell"
+    let cellID = "GenderDistributionTableViewCell"
     var genderbylocationVM: GenderbylocationViewModel = GenderbylocationViewModel()
     
     var lat:Double = 0.0
@@ -152,7 +152,7 @@ extension GenderDistributionVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? InterestsTableViewCell else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? GenderDistributionTableViewCell else {return UITableViewCell()}
         
         let model = genderbylocationVM.gender.value
         
@@ -165,7 +165,7 @@ extension GenderDistributionVC: UITableViewDataSource {
             cell.lblColor.backgroundColor = UIColor.red
             cell.percentageLbl.text = "\(model?.femalepercentage ?? 0) %"
         }else {
-            cell.interestNameLbl.text = "Other"
+            cell.interestNameLbl.text = "Other Gender"
             cell.lblColor.backgroundColor = UIColor.green
             cell.percentageLbl.text = "\(model?.otherpercentage ?? 0) %"
         }

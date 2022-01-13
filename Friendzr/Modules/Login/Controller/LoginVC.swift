@@ -322,7 +322,6 @@ extension LoginVC {
                     self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName) { (error, data) in
                         self.hideLoading()
                         if let error = error {
-                            //                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }

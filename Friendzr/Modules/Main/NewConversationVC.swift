@@ -35,10 +35,11 @@ class NewConversationVC: UIViewController {
         super.viewDidLoad()
         
         self.title = "New Conversation"
-        initCloseBarButton()
+        initCancelBarButton()
         setupNavBar()
         setupSearchBar()
         setupViews()
+        initAddGroupBarButton()
         
         DispatchQueue.main.async {
             self.updateUserInterface()
@@ -299,6 +300,25 @@ extension NewConversationVC: UITableViewDelegate {
                 }
                 return
             }
+        }
+    }
+}
+
+extension NewConversationVC {
+    func initAddGroupBarButton() {
+        let button = UIButton.init(type: .custom)
+        let image = UIImage(named: "Plus_ic")?.withRenderingMode(.alwaysTemplate)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
+        button.addTarget(self, action: #selector(handleAddGroupVC), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
+    }
+    
+    @objc func handleAddGroupVC() {
+        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "AddGroupNC") as? UINavigationController, let _ = controller.viewControllers.first as? AddGroupVC {
+            self.present(controller, animated: true)
         }
     }
 }

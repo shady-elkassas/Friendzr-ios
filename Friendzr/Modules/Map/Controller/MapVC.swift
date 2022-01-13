@@ -39,15 +39,19 @@ class EventsLocation {
     var location:CLLocationCoordinate2D = CLLocationCoordinate2D()
     var typelocation:String = ""
     var markerIcon:String = ""
-    var markersCount:Int = 0
+    var eventsCount:Int = 0
     var markerId:String = ""
+    var isEvent:Bool = false
+    var peopleCount:Int = 0
     
-    init(location:CLLocationCoordinate2D,markerIcon:String,typelocation:String,markersCount:Int,markerId:String) {
+    init(location:CLLocationCoordinate2D,markerIcon:String,typelocation:String,eventsCount:Int,markerId:String,isEvent:Bool,peopleCount:Int) {
         self.location = location
         self.markerIcon = markerIcon
         self.typelocation = typelocation
-        self.markersCount = markersCount
+        self.eventsCount = eventsCount
         self.markerId = markerId
+        self.isEvent = isEvent
+        self.peopleCount = peopleCount
     }
 }
 
@@ -264,32 +268,49 @@ class MapVC: UIViewController {
         let model = viewmodel.locations.value
         locations.removeAll()
         for item in model?.eventlocationDataMV ?? [] {
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "eventMarker_ic", typelocation: "event", markersCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : ""))
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "eventMarker_ic", typelocation: "event", eventsCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : "",isEvent: true,peopleCount: 0))
         }
         
         for item in model?.peoplocationDataMV ?? [] {
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "markerLocations_ic", typelocation: "people", markersCount: 1, markerId: "1"))
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "markerLocations_ic", typelocation: "people", eventsCount: 1, markerId: "1",isEvent: false,peopleCount: item.totalUsers ?? 0))
         }
         
         for item in locations {
-            setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, markersCount: item.markersCount)
+            setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, eventsCount: item.eventsCount,isEvent: item.isEvent,peopleCount: item.peopleCount)
         }
     }
     
     //create markers for locations events
-    func setupMarkerz(for position:CLLocationCoordinate2D , markerIcon:String?,typelocation:String,markerID:String,markersCount:Int)  {
+    func setupMarkerz(for position:CLLocationCoordinate2D , markerIcon:String?,typelocation:String,markerID:String,eventsCount:Int,isEvent: Bool,peopleCount: Int)  {
         if appendNewLocation {
             mapView.clear()
         }
         let marker = GMSMarker(position: position)
         
         marker.snippet = typelocation
-        marker.icon = UIImage(named: markerIcon!)
         marker.title = markerID
-        marker.opacity = Float(markersCount)
+        marker.opacity = Float(eventsCount)
 
         if LocationZooming.locationLat == position.latitude {
             marker.appearAnimation = .pop
+        }
+        
+        let xview:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        let labl = UILabel()
+        labl.frame = xview.frame
+        xview.cornerRadiusForHeight()
+        xview.addSubview(labl)
+        xview.backgroundColor = .red
+        labl.text = "\(peopleCount)"
+        
+        
+        if isEvent {
+            marker.icon = UIImage(named: markerIcon!)
+//            marker.iconView = nil
+        }else {
+//            marker.iconView = xview
+//            marker.icon = nil
+            marker.icon = UIImage(named: markerIcon!)
         }
         
         marker.map = mapView
@@ -463,9 +484,9 @@ class MapVC: UIViewController {
         if self.appendNewLocation {
             self.updateUserInterfaceBtns()
             if self.internetConect {
-                self.setupMarkerz(for: self.location!, markerIcon: "eventMarker_ic", typelocation: "event", markerID: "", markersCount: 0)
+                self.setupMarkerz(for: self.location!, markerIcon: "eventMarker_ic", typelocation: "event", markerID: "", eventsCount: 0,isEvent: true,peopleCount: 0)
                 
-                self.locations.append(EventsLocation(location: self.location!, markerIcon: "eventMarker_ic", typelocation: "event",markersCount: 0,markerId: ""))
+                self.locations.append(EventsLocation(location: self.location!, markerIcon: "eventMarker_ic", typelocation: "event",eventsCount: 0,markerId: "",isEvent: true,peopleCount: 0))
                 
                 LocationZooming.locationLat = self.location?.latitude ?? 0.0
                 LocationZooming.locationLng = self.location?.longitude ?? 0.0
@@ -584,11 +605,11 @@ extension MapVC : GMSMapViewDelegate {
             }else if marker.snippet == "NewEvent" {
                 print("NEW EVENT")
             }else {
-                if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "GenderDistributionNC") as? UINavigationController, let vc = controller.viewControllers.first as? GenderDistributionVC {
-                    vc.lat = pos?.latitude ?? 0.0
-                    vc.lng = pos?.longitude ?? 0.0
-                    self.present(controller, animated: true)
-                }
+//                if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "GenderDistributionNC") as? UINavigationController, let vc = controller.viewControllers.first as? GenderDistributionVC {
+//                    vc.lat = pos?.latitude ?? 0.0
+//                    vc.lng = pos?.longitude ?? 0.0
+//                    self.present(controller, animated: true)
+//                }
             }
         }
         

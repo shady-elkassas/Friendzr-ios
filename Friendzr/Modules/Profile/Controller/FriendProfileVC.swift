@@ -133,11 +133,7 @@ class FriendProfileVC: UIViewController {
                     return
                 }
                 
-                guard let message = message else {return}
-                DispatchQueue.main.async {
-                    self.view.makeToast(message)
-                }
-                
+                guard let _ = message else {return}
                 self.getFriendProfileInformation()
             }
         }
@@ -156,11 +152,7 @@ class FriendProfileVC: UIViewController {
                     return
                 }
                 
-                guard let message = message else {return}
-                DispatchQueue.main.async {
-                    self.view.makeToast(message)
-                }
-                
+                guard let _ = message else {return}
                 self.getFriendProfileInformation()
             }
         }
@@ -184,10 +176,7 @@ class FriendProfileVC: UIViewController {
                         return
                     }
                     
-                    guard let message = message else {return}
-                    DispatchQueue.main.async {
-                        self.view.makeToast(message)
-                    }
+                    guard let _ = message else {return}
                     self.getFriendProfileInformation()
                 }
             }
@@ -214,13 +203,12 @@ class FriendProfileVC: UIViewController {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
+                    
                     return
                 }
                 
-                guard let message = message else {return}
-                DispatchQueue.main.async {
-                    self.view.makeToast(message)
-                }
+                guard let _ = message else {return}
+
                 self.getFriendProfileInformation()
             }
         }
@@ -248,11 +236,11 @@ class FriendProfileVC: UIViewController {
                         return
                     }
                     
-                    guard let message = message else {return}
+                    guard let _ = message else {return}
 
-                    DispatchQueue.main.async {
-                        self.view.makeToast(message)
-                    }
+//                    DispatchQueue.main.async {
+//                        self.view.makeToast(message)
+//                    }
                     
                     self.getFriendProfileInformation()
                 }
@@ -295,10 +283,10 @@ class FriendProfileVC: UIViewController {
                         return
                     }
                     
-                    guard let message = message else {return}
-                    DispatchQueue.main.async {
-                        self.view.makeToast(message)
-                    }
+                    guard let _ = message else {return}
+//                    DispatchQueue.main.async {
+//                        self.view.makeToast(message)
+//                    }
                     
                     self.getFriendProfileInformation()
                 }
@@ -338,10 +326,10 @@ class FriendProfileVC: UIViewController {
                         return
                     }
                     
-                    guard let message = message else {return}
-                    DispatchQueue.main.async {
-                        self.view.makeToast(message)
-                    }
+                    guard let _ = message else {return}
+//                    DispatchQueue.main.async {
+//                        self.view.makeToast(message)
+//                    }
                     
                     self.getFriendProfileInformation()
                 }
@@ -587,10 +575,12 @@ extension FriendProfileVC : TagListViewDelegate {
 
 extension FriendProfileVC {
     func initOptionsUserButton() {
-        let imageName = "options_ic"
+        let imageName = "menu_WH_ic"
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
+        button.cornerRadiusForHeight()
         button.setImage(image, for: .normal)
         image?.withTintColor(UIColor.blue)
         button.addTarget(self, action:  #selector(handleUserOptionsBtn), for: .touchUpInside)
@@ -603,7 +593,7 @@ extension FriendProfileVC {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                    vc.selectedVC = "Friend"
+                    vc.selectedVC = "Present"
                     vc.isEvent = false
                     vc.id = self.userID
                     self.present(controller, animated: true)
@@ -617,7 +607,7 @@ extension FriendProfileVC {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                    vc.selectedVC = "Friend"
+                    vc.selectedVC = "Present"
                     vc.isEvent = false
                     vc.id = self.userID
                     self.present(controller, animated: true)

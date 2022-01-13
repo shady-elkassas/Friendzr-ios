@@ -438,7 +438,6 @@ extension SettingsVC: UITableViewDataSource {
                         if self.internetConect {
                             self.viewmodel.togglePushNotification(pushNotification: false) { error, data in
                                 if let error = error {
-                                    //                                    self.showAlert(withMessage: error)
                                     DispatchQueue.main.async {
                                         self.view.makeToast(error)
                                     }
@@ -488,7 +487,6 @@ extension SettingsVC: UITableViewDataSource {
                         if self.internetConect {
                             self.viewmodel.togglePushNotification(pushNotification: true) { error, data in
                                 if let error = error {
-                                    //                                    self.showAlert(withMessage: error)
                                     DispatchQueue.main.async {
                                         self.view.makeToast(error)
                                     }

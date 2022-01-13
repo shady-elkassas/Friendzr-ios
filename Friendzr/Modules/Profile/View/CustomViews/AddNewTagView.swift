@@ -11,6 +11,7 @@ import UIKit
 
 class AddNewTagView: UIView {
     
+    @IBOutlet weak var titleViewLbl: UILabel!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var newTagTxt: UITextField!
     @IBOutlet weak var confirmBtn: UIButton!

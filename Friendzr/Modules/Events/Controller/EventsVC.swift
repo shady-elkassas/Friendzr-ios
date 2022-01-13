@@ -95,6 +95,7 @@ class EventsVC: UIViewController {
     
     
     func LoadAllEvents(pageNumber:Int) {
+        self.view.makeToast("Please wait for the data to load...")
         viewmodel.getMyEvents(pageNumber: pageNumber)
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -107,10 +108,10 @@ class EventsVC: UIViewController {
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                
+                self.view.hideToast()
                 if value.data?.count != 0 {
                     tableView.showLoader()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self.tableView.hideLoader()
                     }
                 }

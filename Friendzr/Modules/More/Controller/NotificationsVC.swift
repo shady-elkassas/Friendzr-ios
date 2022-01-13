@@ -96,10 +96,13 @@ class NotificationsVC: UIViewController {
                 tableView.dataSource = self
                 tableView.reloadData()
                 
-                tableView.showLoader()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.tableView.hideLoader()
+                if value.data?.count != 0 {
+                    tableView.showLoader()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self.tableView.hideLoader()
+                    }
                 }
+                
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
             }

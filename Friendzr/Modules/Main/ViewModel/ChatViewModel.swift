@@ -571,6 +571,32 @@ class ChatViewModel {
         }
     }
 
+    //MARK:- join event chat
+    func joinChat(ByID id:String,ActionDate:String,Actiontime:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+        CancelRequest.currentTask = false
+        let url = URLs.baseURLFirst + "Events/joineventchat"
+        let headers = RequestComponent.headerComponent([.type,.authorization])
+        let parameters:[String : Any] = ["EventDataid":id,"ActionDate":ActionDate,"Actiontime":Actiontime]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            guard let userResponse = Mapper<EventModel>().map(JSON: data!) else {
+                self.error.value = error!
+                completion(self.error.value, nil)
+                return
+            }
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.error.value = error
+                completion(self.error.value, nil)
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = userResponse.message {
+                    completion(nil,toAdd)
+                }
+            }
+        }
+    }
 }
 
 extension ChatViewModel {

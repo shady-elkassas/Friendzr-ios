@@ -32,8 +32,8 @@ class FeedVC: UIViewController {
     @IBOutlet weak var dialogimg: UIImageView!
     @IBOutlet weak var allowBtn: UIButton!
     
-    
     @IBOutlet var bannerView: GADBannerView!
+    @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
     
     //MARK: - Properties
     private lazy var currLocation: CLLocation = CLLocation()
@@ -111,6 +111,8 @@ class FeedVC: UIViewController {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
+        
+        seyupAds()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -118,7 +120,6 @@ class FeedVC: UIViewController {
         filterDir = switchBarButton.isOn
         
         CancelRequest.currentTask = false
-        seyupAds()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -150,6 +151,7 @@ class FeedVC: UIViewController {
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
         bannerView.delegate = self
+        bannerView.setCornerforTop()
     }
     
     //MARK:- APIs
@@ -194,6 +196,7 @@ class FeedVC: UIViewController {
     
     func LoadAllFeeds(pageNumber:Int) {
         self.tableView.hideLoader()
+        self.view.makeToast("Please wait for the data to load...")
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
@@ -202,10 +205,10 @@ class FeedVC: UIViewController {
                 tableView.reloadData()
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
-                
+                self.view.hideToast()
                 if value.data?.count != 0 {
                     tableView.showLoader()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         self.tableView.hideLoader()
                     }
                 }
@@ -247,7 +250,6 @@ class FeedVC: UIViewController {
     func updateMyLocation() {
         updateLocationVM.updatelocation(ByLat: "\(Defaults.LocationLat)", AndLng: "\(Defaults.LocationLng)") { error, data in
             if let error = error {
-                //                self.showAlert(withMessage: error)
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                 }
@@ -585,11 +587,11 @@ extension FeedVC:UITableViewDataSource {
                             return
                         }
                         
-                        guard let message = message else {return}
+                        guard let _ = message else {return}
                         
-                        DispatchQueue.main.async {
-                            self.view.makeToast(message)
-                        }
+//                        DispatchQueue.main.async {
+//                            self.view.makeToast(message)
+//                        }
                         
                         DispatchQueue.main.async {
                             self.getAllFeeds(pageNumber: 0)
@@ -617,11 +619,11 @@ extension FeedVC:UITableViewDataSource {
                                 return
                             }
                             
-                            guard let message = message else {return}
-                            DispatchQueue.main.async {
-                                self.view.makeToast(message)
-                            }
-                            
+                            guard let _ = message else {return}
+//                            DispatchQueue.main.async {
+//                                self.view.makeToast(message)
+//                            }
+//
                             DispatchQueue.main.async {
                                 self.getAllFeeds(pageNumber: 0)
                             }
@@ -659,11 +661,11 @@ extension FeedVC:UITableViewDataSource {
                                 return
                             }
                             
-                            guard let message = message else {return}
-                            DispatchQueue.main.async {
-                                self.view.makeToast(message)
-                            }
-                            
+                            guard let _ = message else {return}
+//                            DispatchQueue.main.async {
+//                                self.view.makeToast(message)
+//                            }
+//
                             DispatchQueue.main.async {
                                 self.getAllFeeds(pageNumber: 0)
                             }
@@ -708,11 +710,7 @@ extension FeedVC:UITableViewDataSource {
                             return
                         }
                         
-                        guard let message = message else {return}
-                        DispatchQueue.main.async {
-                            self.view.makeToast(message)
-                        }
-                        
+                        guard let _ = message else {return}
                         DispatchQueue.main.async {
                             self.getAllFeeds(pageNumber: 0)
                         }
@@ -738,11 +736,7 @@ extension FeedVC:UITableViewDataSource {
                             return
                         }
                         
-                        guard let message = message else {return}
-                        DispatchQueue.main.async {
-                            self.view.makeToast(message)
-                        }
-                        
+                        guard let _ = message else {return}
                         DispatchQueue.main.async {
                             self.getAllFeeds(pageNumber: 0)
                         }
@@ -814,8 +808,6 @@ extension FeedVC:UITableViewDelegate {
 extension FeedVC: CLLocationManagerDelegate {
     
     func initSwitchBarButton() {
-        //        switchBarButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-        
         switchBarButton.onTintColor = UIColor.FriendzrColors.primary!
         switchBarButton.thumbTintColor = .white
         switchBarButton.addTarget(self, action: #selector(handleSwitchBtn), for: .touchUpInside)
@@ -831,6 +823,7 @@ extension FeedVC: CLLocationManagerDelegate {
         // Azimuth
         if Defaults.allowMyLocation == true {
             if switchBarButton.isOn {
+                bannerViewHeight.constant = 50
                 if !Defaults.isFirstFilter {
                     filterHideView.isHidden = false
                     Defaults.isFirstFilter = true
@@ -843,13 +836,13 @@ extension FeedVC: CLLocationManagerDelegate {
                     filterBtn.isHidden = false
                     compassContanierView.isHidden = false
                     compassContainerViewHeight.constant = 320
-                    //                    compassContanierView.addSubview(dScaView)
                     compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
                 }
             }else {
                 filterHideView.isHidden = true
                 Defaults.isFirstFilter = true
-                
+                bannerViewHeight.constant = 100
+
                 locationManager.stopUpdatingLocation()
                 locationManager.stopUpdatingHeading()
                 filterDir = false
@@ -872,6 +865,7 @@ extension FeedVC: CLLocationManagerDelegate {
         }else {
             switchBarButton.isOn = false
             self.showAlert(withMessage: "Please allow your location")
+            bannerViewHeight.constant = 100
         }
     }
     

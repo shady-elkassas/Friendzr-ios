@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 import ListPlaceholder
+import GoogleMobileAds
 
 class InboxVC: UIViewController {
     
@@ -19,7 +20,8 @@ class InboxVC: UIViewController {
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
-    
+    @IBOutlet var bannerView: GADBannerView!
+
     //MARK: - Properties
     let cellID = "InboxTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
@@ -36,7 +38,8 @@ class InboxVC: UIViewController {
     var isLoadingList : Bool = false
     
     var isSearch:Bool = false
-    
+    var leaveOrJoinTitle:String = ""
+
     
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -75,6 +78,7 @@ class InboxVC: UIViewController {
         setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: true)
         CancelRequest.currentTask = false
+        seyupAds()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -83,6 +87,15 @@ class InboxVC: UIViewController {
     }
     
     //MARK: - APIs
+    func seyupAds() {
+        bannerView.adUnitID = adUnitID
+        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        //        addBannerViewToView(bannerView)
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        bannerView.delegate = self
+        bannerView.setCornerforTop()
+    }
     
     @objc func reloadChatList() {
         DispatchQueue.main.async {
@@ -126,6 +139,7 @@ class InboxVC: UIViewController {
     }
     
     func loadAllchatList(pageNumber:Int) {
+        self.view.makeToast("Please wait for the data to load...")
         viewmodel.getChatList(pageNumber: pageNumber)
         viewmodel.listChat.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -136,9 +150,10 @@ class InboxVC: UIViewController {
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
+                self.view.hideToast()
                 if value.data?.count != 0 {
                     tableView.showLoader()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         self.tableView.hideLoader()
                     }
                 }
@@ -158,7 +173,6 @@ class InboxVC: UIViewController {
             }
         }
     }
-    
     
     func getSearchUsers(text:String) {
         searchVM.SearshUsersinChat(ByUserName: text)
@@ -428,7 +442,13 @@ extension InboxVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         if searchVM.usersinChat.value?.data?.count != 0 || viewmodel.listChat.value?.data?.count != 0  {
             let model = self.viewmodel.listChat.value?.data?[indexPath.row]
-            let muteTitle = self.viewmodel.listChat.value?.data?[indexPath.row].isMute ?? false ? "UnMute" : "Mute"
+            let muteTitle = model?.isMute ?? false ? "UnMute" : "Mute"
+            
+            if model?.leavevent == 0 {
+                self.leaveOrJoinTitle = "Leave"
+            }else {
+                self.leaveOrJoinTitle = "Join"
+            }
             
             let actionDate = formatterDate.string(from: Date())
             let actionTime = formatterTime.string(from: Date())
@@ -492,69 +512,137 @@ extension InboxVC:UITableViewDelegate {
                 }
             }
             
-            let leaveAction = UITableViewRowAction(style: .default, title: "Leave") { action, indexPath in
+            let leaveAction = UITableViewRowAction(style: .default, title: self.leaveOrJoinTitle) { action, indexPath in
                 print("LeaveAction")
                 
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-                    
-                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                        self.showLoading()
-                        self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                            self.hideLoading()
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
+                if model?.leavevent == 0 {
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+                        
+                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                            self.showLoading()
+                            self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                                self.hideLoading()
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
+                                    return
                                 }
-                                return
+                                
+                                guard let _ = data else {
+                                    return
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.view.makeToast("You have successfully left the chat")
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.getAllChatList(pageNumber: 1)
+                                }
                             }
-                            
-                            guard let _ = data else {
-                                return
+                        }))
+                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                        
+                        self.present(settingsActionSheet, animated:true, completion:nil)
+                    }
+                    else {
+                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                        
+                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                            self.showLoading()
+                            self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                                self.hideLoading()
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
+                                    return
+                                }
+                                
+                                guard let _ = data else {
+                                    return
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.view.makeToast("You have successfully left the chat")
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.getAllChatList(pageNumber: 1)
+                                }
                             }
-                            
-                            DispatchQueue.main.async {
-                                self.view.makeToast("You have successfully left the chat")
-                            }
-                            
-                            DispatchQueue.main.async {
-                                self.getAllChatList(pageNumber: 1)
-                            }
-                        }
-                    }))
-                    settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                    
-                    self.present(settingsActionSheet, animated:true, completion:nil)
+                        }))
+                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                        
+                        self.present(settingsActionSheet, animated:true, completion:nil)
+                    }
+
                 }else {
-                    let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                    
-                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                        self.showLoading()
-                        self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                            self.hideLoading()
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+                        
+                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                            self.showLoading()
+                            self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                                self.hideLoading()
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
+                                    return
                                 }
-                                return
+                                
+                                guard let _ = data else {
+                                    return
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.view.makeToast("You have successfully join the chat")
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.getAllChatList(pageNumber: 1)
+                                }
                             }
-                            
-                            guard let _ = data else {
-                                return
+                        }))
+                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                        
+                        self.present(settingsActionSheet, animated:true, completion:nil)
+                    }
+                    else {
+                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                        
+                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                            self.showLoading()
+                            self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                                self.hideLoading()
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
+                                    return
+                                }
+                                
+                                guard let _ = data else {
+                                    return
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.view.makeToast("You have successfully join the chat")
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.getAllChatList(pageNumber: 1)
+                                }
                             }
-                            
-                            DispatchQueue.main.async {
-                                self.view.makeToast("You have successfully left the chat")
-                            }
-                            
-                            DispatchQueue.main.async {
-                                self.getAllChatList(pageNumber: 1)
-                            }
-                        }
-                    }))
-                    settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                    
-                    self.present(settingsActionSheet, animated:true, completion:nil)
+                        }))
+                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                        
+                        self.present(settingsActionSheet, animated:true, completion:nil)
+                    }
+
                 }
             }
             
@@ -588,7 +676,8 @@ extension InboxVC:UITableViewDelegate {
                         settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                         
                         self.present(settingsActionSheet, animated:true, completion:nil)
-                    }else {
+                    }
+                    else {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
@@ -645,7 +734,8 @@ extension InboxVC:UITableViewDelegate {
                         settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                         
                         self.present(settingsActionSheet, animated:true, completion:nil)
-                    }else {
+                    }
+                    else {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
@@ -686,7 +776,7 @@ extension InboxVC:UITableViewDelegate {
                     if model?.leavevent == 0 {
                         return [deleteAction,leaveAction,muteAction]
                     }else {
-                        return [deleteAction]
+                        return [deleteAction,leaveAction]
                     }
                 }
             }else {
@@ -752,5 +842,32 @@ extension InboxVC: UISearchBarDelegate{
         if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "NewConversationNC") as? UINavigationController, let _ = controller.viewControllers.first as? NewConversationVC {
             self.present(controller, animated: true)
         }
+    }
+}
+
+extension InboxVC : GADBannerViewDelegate {
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print(error)
+    }
+    
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("Receive Ad")
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+        print("bannerViewDidRecordImpression")
+    }
+    
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillPresentScreen")
+        bannerView.load(GADRequest())
+    }
+    
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillDIsmissScreen")
+    }
+    
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewDidDismissScreen")
     }
 }

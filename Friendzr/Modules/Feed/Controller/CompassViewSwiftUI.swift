@@ -49,7 +49,6 @@ struct CompassMarkerView: View {
     var body: some View {
         ZStack {
             Text(marker.label)
-            //                .fontWeight(.medium)
                 .font(.caption)
                 .rotationEffect(self.textAngle())
                 .foregroundColor(.black)
@@ -98,7 +97,7 @@ struct CompassViewSwiftUI: View {
         ZStack {
             VStack {
                 Capsule()
-                    .foregroundColor(.blue)
+                    .foregroundColor(Color("primaryColor"))
                     .frame(width: 5,height: 20)
                     .padding(.bottom,20)
                 ZStack {

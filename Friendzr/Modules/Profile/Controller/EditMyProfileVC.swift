@@ -651,9 +651,9 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         picker.dismiss(animated:true, completion: {
-//            let size = CGSize(width: screenW, height: screenW)
-//            let img = image.crop(to: size)
-            self.profileImg.image = image
+            let size = CGSize(width: screenW, height: screenW)
+            let img = image.crop(to: size)
+            self.profileImg.image = img
             self.attachedImg = true
         })
     }

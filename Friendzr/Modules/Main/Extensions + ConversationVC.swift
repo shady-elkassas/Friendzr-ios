@@ -62,13 +62,20 @@ extension ConversationVC: MessagesDataSource {
         
         let name = (isFromCurrentSender(message: message) ? senderUser.displayName : model.user.displayName)
         
-        return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.init(name: "Montserrat-Light", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2)])
+        let colorlbl = isFromCurrentSender(message: message) ? UIColor.clear : UIColor.darkGray
+        
+        return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font:
+                                                                UIFont.init(name: "Montserrat-Medium", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2),
+                                                             NSAttributedString.Key.foregroundColor:colorlbl])
     }
     
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         let model = messageList[indexPath.section]
-        //        let dateString = formatter.string(from: model.sentDate)
-        return NSAttributedString(string: model.dateandtime, attributes: [NSAttributedString.Key.font: UIFont.init(name: "Montserrat-Light", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2)])
+        let colorlbl = isFromCurrentSender(message: message) ? UIColor.white : UIColor.gray
+
+        return NSAttributedString(string: model.dateandtime, attributes: [NSAttributedString.Key.font:
+                                                                            UIFont(name: "Montserrat-Medium", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2),
+                                                                          NSAttributedString.Key.foregroundColor:colorlbl])
     }
     
     func textCell(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionViewCell? {
@@ -314,7 +321,6 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
             viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
                 
                 if let error = error {
-//                    self.showAlert(withMessage: error)
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
@@ -412,7 +418,7 @@ extension ConversationVC: MessagesDisplayDelegate {
     
     func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
         switch detector {
-        case .hashtag, .mention, .url : return [.foregroundColor: UIColor.blue]
+        case .hashtag, .mention, .url : return [.foregroundColor: UIColor.yellow]
         default: return MessageLabel.defaultAttributes
         }
     }
@@ -1082,13 +1088,6 @@ extension ConversationVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
 }
 
 extension ConversationVC: MessagesLayoutDelegate {
-    
-//    func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-//        if isTimeLabelVisible(at: indexPath) {
-//            return 18
-//        }
-//        return 0
-//    }
     
     func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         if isFromCurrentSender(message: message) {

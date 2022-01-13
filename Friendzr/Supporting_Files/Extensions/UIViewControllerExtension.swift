@@ -101,6 +101,28 @@ extension UIViewController {
         self.navigationItem.leftBarButtonItem = barButton
     }
     
+    func initShareBarButton() {
+        let button = UIButton.init(type: .custom)
+        let image = UIImage(named: "share_ic")?.withRenderingMode(.alwaysTemplate)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.FriendzrColors.primary
+        button.addTarget(self, action: #selector(onDismiss), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
+    }
+    
+    func initCancelBarButton() {
+        let button = UIButton.init(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.setTitle("Cancel", for: .normal)
+        button.tintColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
+        button.setTitleColor(UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white), for: .normal)
+        button.addTarget(self, action: #selector(onDismiss), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.leftBarButtonItem = barButton
+    }
+    
     func initProfileBarButton(_ color: UIColor? = .white) {
         let view = UIView()
         view.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
