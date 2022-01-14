@@ -13,6 +13,7 @@ import Alamofire
 class AttendeesViewModel {
     
     var attendees : DynamicType<AttendeesList> = DynamicType<AttendeesList>()
+    var attendeesTemp : AttendeesList = AttendeesModel()
 
     // Fields that bind to our view's
     var isSuccess : Bool = false
@@ -49,16 +50,16 @@ class AttendeesViewModel {
         }
     }
 
-    func getEventAttendees(ByEventID eventid:String) {
+    func getEventAttendees(ByEventID eventid:String,pageNumber:Int,search:String) {
         
         let url = URLs.baseURLFirst + "Events/getEventAttende"
         let headers = RequestComponent.headerComponent([.authorization,.type])
 //        let bodyData = "id=\(eventid)".data(using: .utf8)
-        let parameters:[String : Any] = ["id": eventid]
-
+        let parameters:[String : Any] = ["id": eventid,"pageNumber": pageNumber,"pageSize":10,"search":search]
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
-            guard let userResponse = Mapper<AttendeesModel>().map(JSON: data!) else {
+            guard let userResponse = Mapper<AttendeesResponse>().map(JSON: data!) else {
                 self.error.value = error!
                 return
             }
@@ -69,7 +70,17 @@ class AttendeesViewModel {
             else {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
-                    self.attendees.value = toAdd
+                    if pageNumber > 1 {
+                        for itm in toAdd.data ?? [] {
+                            if !(self.attendeesTemp.data?.contains(where: { $0.userId == itm.userId }) ?? false) {
+                                self.attendeesTemp.data?.append(itm)
+                            }
+                        }
+                        self.attendees.value = self.attendeesTemp
+                    } else {
+                        self.attendees.value = toAdd
+                        self.attendeesTemp = toAdd
+                    }
                 }
             }
         }

@@ -295,18 +295,36 @@ class MapVC: UIViewController {
             marker.appearAnimation = .pop
         }
         
-        let xview:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
+        let xview:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
         let labl = UILabel()
         labl.frame = xview.frame
-        xview.cornerRadiusForHeight()
-        xview.addSubview(labl)
-        xview.backgroundColor = .red
-        labl.text = "\(peopleCount)"
+        xview.backgroundColor = .clear
+        labl.text = "\(eventsCount)"
+        labl.textColor = .black
+        labl.textAlignment = .center
+        labl.font = UIFont(name: "Montserrat-Medium", size: 14)
+        let imag:UIImageView = UIImageView()
+        imag.frame = xview.frame
+        imag.image = UIImage(named: markerIcon ?? "")
+        imag.contentMode = .scaleToFill
         
+        xview.addSubview(imag)
+        xview.addSubview(labl)
+        
+        
+        labl.translatesAutoresizingMaskIntoConstraints = false
+
+        let horizontalConstraint = labl.centerXAnchor.constraint(equalTo: xview.centerXAnchor)
+        let verticalConstraint = labl.centerYAnchor.constraint(equalTo: xview.centerYAnchor, constant: -5)
+        let widthConstraint = labl.widthAnchor.constraint(equalToConstant: xview.bounds.width)
+        let heightConstraint = labl.heightAnchor.constraint(equalToConstant: xview.bounds.height)
+        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+
+
         
         if isEvent {
-            marker.icon = UIImage(named: markerIcon!)
-//            marker.iconView = nil
+//            marker.icon = UIImage(named: markerIcon!)
+            marker.iconView = xview
         }else {
 //            marker.iconView = xview
 //            marker.icon = nil
@@ -315,6 +333,12 @@ class MapVC: UIViewController {
         
         marker.map = mapView
     }
+    
+    func setupViewForMarker() {
+        
+
+    }
+    
     
     func setupViews() {
         //setup search bar

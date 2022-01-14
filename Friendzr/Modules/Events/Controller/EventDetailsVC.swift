@@ -38,7 +38,8 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var mapContainerView: UIView!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var gradientView: UIView!
-    
+    @IBOutlet weak var menuBtn: UIButton!
+    @IBOutlet weak var backBtn: UIButton!
     @IBOutlet var bannerView: GADBannerView!
     
     //MARK: - Properties
@@ -84,9 +85,9 @@ class EventDetailsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initBackColorButton()
+//        initBackColorButton()
         setupViews()
-        initOptionsEventButton()
+//        initOptionsEventButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -98,7 +99,7 @@ class EventDetailsVC: UIViewController {
             self.updateUserInterface()
         }
         
-        hideNavigationBar(NavigationBar: false, BackButton: false)
+        hideNavigationBar(NavigationBar: false, BackButton: true)
         
         CancelRequest.currentTask = false
         seyupAds()
@@ -152,6 +153,8 @@ class EventDetailsVC: UIViewController {
         leaveBtn.cornerRadiusView(radius: 8)
         detailsView.cornerRadiusView(radius: 21)
         interestsStatisticsView.cornerRadiusView(radius: 21)
+        backBtn.cornerRadiusForHeight()
+        menuBtn.cornerRadiusForHeight()
         
         attendeesTableView.register(UINib(nibName: attendeesCellID, bundle: nil), forCellReuseIdentifier: attendeesCellID)
         attendeesTableView.register(UINib(nibName: footerCellID, bundle: nil), forHeaderFooterViewReuseIdentifier: footerCellID)
@@ -454,6 +457,49 @@ class EventDetailsVC: UIViewController {
             UIApplication.shared.open(URL(string: "comgooglemaps://?saddr=&daddr=\(model?.lat ?? ""),\(model?.lang ?? "")&directionsmode=driving")!)
         }else {
             print("")
+        }
+    }
+    
+    @IBAction func backBtn(_ sender: Any) {
+        self.onPopup()
+    }
+    
+    @IBAction func menuBtn(_ sender: Any) {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+            actionAlert.addAction(UIAlertAction(title: "Share", style: .default, handler: { action in
+                self.shareEvent()
+            }))
+            actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                    vc.id = self.eventId
+                    vc.isEvent = true
+                    vc.selectedVC = "Present"
+                    self.present(controller, animated: true)
+                }
+            }))
+            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionAlert, animated: true, completion: nil)
+        }else {
+            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "Share", style: .default, handler: { action in
+                self.shareEvent()
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                    vc.id = self.eventId
+                    vc.isEvent = true
+                    vc.selectedVC = "Present"
+                    self.present(controller, animated: true)
+                }
+            }))
+            
+            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionSheet, animated: true, completion: nil)
         }
     }
     

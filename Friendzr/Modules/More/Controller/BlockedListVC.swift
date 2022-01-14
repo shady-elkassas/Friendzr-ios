@@ -63,13 +63,13 @@ class BlockedListVC: UIViewController {
     }
     
     //MARK:- APIs
-    func loadMoreItemsForList(){
+    func loadMoreItemsForList(search:String){
         currentPage += 1
-        getAllBlockedList(pageNumber: currentPage)
+        getAllBlockedList(pageNumber: currentPage,search: search)
     }
     
-    func getAllBlockedList(pageNumber:Int) {
-        viewmodel.getAllBlockedList(pageNumber: pageNumber)
+    func getAllBlockedList(pageNumber:Int,search:String) {
+        viewmodel.getAllBlockedList(pageNumber: pageNumber,search: search)
         viewmodel.blocklist.bind { [unowned self] value in
             DispatchQueue.main.async {
                 tableView.hideLoader()
@@ -97,8 +97,8 @@ class BlockedListVC: UIViewController {
         }
     }
     
-    func LoadBlockedList(pageNumber:Int) {
-        viewmodel.getAllBlockedList(pageNumber: pageNumber)
+    func LoadBlockedList(pageNumber:Int,search:String) {
+        viewmodel.getAllBlockedList(pageNumber: pageNumber,search:search)
         viewmodel.blocklist.bind { [unowned self] value in
             DispatchQueue.main.async {
                 tableView.delegate = self
@@ -166,11 +166,11 @@ class BlockedListVC: UIViewController {
         case .wwan:
             internetConect = true
             self.emptyView.isHidden = true
-            LoadBlockedList(pageNumber: 1)
+            LoadBlockedList(pageNumber: 1,search: searchbar.text ?? "")
         case .wifi:
             internetConect = true
             self.emptyView.isHidden = true
-            LoadBlockedList(pageNumber: 1)
+            LoadBlockedList(pageNumber: 1,search: searchbar.text ?? "")
         }
         
         print("Reachability Summary")
@@ -228,7 +228,7 @@ class BlockedListVC: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        getAllBlockedList(pageNumber: 1)
+        getAllBlockedList(pageNumber: 1,search: searchbar.text ?? "")
         self.refreshControl.endRefreshing()
     }
     
@@ -245,6 +245,7 @@ extension BlockedListVC : UISearchBarDelegate {
     @objc func updateSearchResult() {
         guard let text = searchbar.text else {return}
         print(text)
+        getAllBlockedList(pageNumber: 1,search: text)
     }
 }
 
@@ -296,7 +297,7 @@ extension BlockedListVC: UITableViewDataSource {
                             }
                             
                             DispatchQueue.main.async {
-                                self.getAllBlockedList(pageNumber: 1)
+                                self.getAllBlockedList(pageNumber: 1,search: self.searchbar.text ?? "")
                             }
                         }
                     }else {
@@ -356,7 +357,7 @@ extension BlockedListVC: UITableViewDelegate {
                 
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
                     print("self.currentPage >> \(self.currentPage)")
-                    self.loadMoreItemsForList()
+                    self.loadMoreItemsForList(search: self.searchbar.text ?? "")
                 }
             }else {
                 self.tableView.tableFooterView = nil

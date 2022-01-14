@@ -21,7 +21,9 @@ class AttendeesVC: UIViewController {
     let cellID = "AttendeesTableViewCell"
     var viewmodel:AttendeesViewModel = AttendeesViewModel()
     var eventID:String = ""
-    
+    var currentPage : Int = 1
+    var isLoadingList : Bool = false
+
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
     private let formatterDate: DateFormatter = {
@@ -82,14 +84,23 @@ class AttendeesVC: UIViewController {
         searchBar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
     }
     
-    func getAllAttendees() {
+    
+    func loadMoreItemsForList(){
+        currentPage += 1
+        getAllAttendees(pageNumber: currentPage, search: searchBar.text ?? "")
+    }
+    
+    func getAllAttendees(pageNumber:Int,search:String) {
         self.tableView.hideLoader()
-        viewmodel.getEventAttendees(ByEventID: eventID)
+        viewmodel.getEventAttendees(ByEventID: eventID, pageNumber: pageNumber, search: search)
         viewmodel.attendees.bind { [unowned self] value in
             DispatchQueue.main.async {
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
+                
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
                 
                 showEmptyView()
             }
@@ -111,8 +122,8 @@ class AttendeesVC: UIViewController {
     }
     
     
-    func loadAllAttendees() {
-        viewmodel.getEventAttendees(ByEventID: eventID)
+    func loadAllAttendees(pageNumber:Int,search:String) {
+        viewmodel.getEventAttendees(ByEventID: eventID, pageNumber: pageNumber, search: search)
         viewmodel.attendees.bind { [unowned self] value in
             DispatchQueue.main.async {
                 tableView.delegate = self
@@ -124,6 +135,9 @@ class AttendeesVC: UIViewController {
                     self.tableView.hideLoader()
                 }
                 
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+                
                 showEmptyView()
                 
             }
@@ -144,6 +158,14 @@ class AttendeesVC: UIViewController {
         }
     }
     
+    func createFooterView() -> UIView {
+        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.center = footerview.center
+        footerview.addSubview(indicatorView)
+        indicatorView.startAnimating()
+        return footerview
+    }
     
     func showAlertView(messageString:String,eventID:String,UserattendId:String,Stutus :Int) {
         self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -175,7 +197,7 @@ class AttendeesVC: UIViewController {
                 }
                 
                 DispatchQueue.main.async {
-                    self.getAllAttendees()
+                    self.getAllAttendees(pageNumber: 0, search: searchBar.text ?? "")
                 }
             }
             
@@ -217,10 +239,10 @@ class AttendeesVC: UIViewController {
             HandleInternetConnection()
         case .wwan:
             self.emptyView.isHidden = true
-            loadAllAttendees()
+            loadAllAttendees(pageNumber: 0, search: searchBar.text ?? "")
         case .wifi:
             self.emptyView.isHidden = true
-            loadAllAttendees()
+            loadAllAttendees(pageNumber: 0, search: searchBar.text ?? "")
         }
         
         print("Reachability Summary")
@@ -231,7 +253,7 @@ class AttendeesVC: UIViewController {
     }
     
     func showEmptyView() {
-        if viewmodel.attendees.value?.count == 0 {
+        if viewmodel.attendees.value?.data?.count == 0 {
             emptyView.isHidden = false
             emptyLbl.text = "You haven't any data yet".localizedString
         }else {
@@ -261,6 +283,7 @@ extension AttendeesVC: UISearchBarDelegate{
     @objc func updateSearchResult() {
         guard let text = searchBar.text else {return}
         print(text)
+        getAllAttendees(pageNumber: 0, search: text)
     }
     
     func initNewConversationBarButton() {
@@ -286,12 +309,12 @@ extension AttendeesVC: UISearchBarDelegate{
 //MARK: - tableView DataSource & Delegate
 extension AttendeesVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.attendees.value?.count ?? 0
+        return viewmodel.attendees.value?.data?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? AttendeesTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.attendees.value?[indexPath.row]
+        let model = viewmodel.attendees.value?.data?[indexPath.row]
         
         
         if model?.myEventO == true {
@@ -341,7 +364,7 @@ extension AttendeesVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = viewmodel.attendees.value?[indexPath.row]
+        let model = viewmodel.attendees.value?.data?[indexPath.row]
         
         if model?.myEventO == true {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
@@ -350,6 +373,26 @@ extension AttendeesVC:UITableViewDelegate {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
             vc.userID = model?.userId ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+            self.isLoadingList = true
+            if currentPage < viewmodel.attendees.value?.totalPages ?? 0 {
+                self.tableView.tableFooterView = self.createFooterView()
+                
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                    print("self.currentPage >> \(self.currentPage)")
+                    self.loadMoreItemsForList()
+                }
+            }else {
+                self.tableView.tableFooterView = nil
+                DispatchQueue.main.async {
+                    self.view.makeToast("No more data here")
+                }
+                return
+            }
         }
     }
 }

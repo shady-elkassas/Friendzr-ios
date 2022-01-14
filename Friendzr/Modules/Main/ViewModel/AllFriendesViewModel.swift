@@ -13,19 +13,18 @@ import Alamofire
 class AllFriendesViewModel {
     
     var friends : DynamicType<ConversationList> = DynamicType<ConversationList>()
-
     var friendsTemp : ConversationList = ConversationsDataModel()
 
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
-    func getAllFriendes(pageNumber:Int) {
+    func getAllFriendes(pageNumber:Int,search:String) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/AllFriendes"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
-        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]
+        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10,"search":search]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             

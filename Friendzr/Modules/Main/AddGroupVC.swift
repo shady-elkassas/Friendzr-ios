@@ -65,10 +65,10 @@ class AddGroupVC: UIViewController {
             HandleInternetConnection()
         case .wwan:
             internetConnect = true
-            LaodAllFriends(pageNumber: 1)
+            LaodAllFriends(pageNumber: 1, search: searchbar.text ?? "")
         case .wifi:
             internetConnect = true
-            LaodAllFriends(pageNumber: 1)
+            LaodAllFriends(pageNumber: 1, search: searchbar.text ?? "")
         }
         
         print("Reachability Summary")
@@ -128,11 +128,11 @@ class AddGroupVC: UIViewController {
     //MARK:- APIs
     func loadMoreItemsForList(){
         currentPage += 1
-        getAllFriends(pageNumber: currentPage)
+        getAllFriends(pageNumber: currentPage, search: searchbar.text ?? "")
     }
     
-    func getAllFriends(pageNumber:Int) {
-        viewmodel.getAllFriendes(pageNumber: pageNumber)
+    func getAllFriends(pageNumber:Int,search:String) {
+        viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
                 tableView.hideLoader()
@@ -158,9 +158,9 @@ class AddGroupVC: UIViewController {
         }
     }
     
-    func LaodAllFriends(pageNumber:Int) {
+    func LaodAllFriends(pageNumber:Int,search:String) {
         
-        viewmodel.getAllFriendes(pageNumber: pageNumber)
+        viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
                 tableView.delegate = self
@@ -244,6 +244,8 @@ extension AddGroupVC : UISearchBarDelegate {
     @objc func updateSearchResult() {
         guard let text = searchbar.text else {return}
         print(text)
+        
+        getAllFriends(pageNumber: 1, search: text)
     }
 }
 
