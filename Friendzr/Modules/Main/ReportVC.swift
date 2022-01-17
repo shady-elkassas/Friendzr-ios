@@ -30,7 +30,7 @@ class ReportVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Report"
+        title = "Report".localizedString
         setupView()
         
         DispatchQueue.main.async {
@@ -70,7 +70,7 @@ class ReportVC: UIViewController {
         case .unreachable:
             internetConnect = false
             DispatchQueue.main.async {
-                self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+                self.view.makeToast("No avaliable network ,Please try again!".localizedString)
             }
         case .wwan:
             internetConnect = true
@@ -94,7 +94,7 @@ class ReportVC: UIViewController {
         case .unreachable:
             internetConnect = false
             DispatchQueue.main.async {
-                self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+                self.view.makeToast("No avaliable network ,Please try again!".localizedString)
             }
         case .wwan:
             internetConnect = true
@@ -152,11 +152,11 @@ extension ReportVC: UITableViewDataSource {
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: titleCellID, for: indexPath) as? ReportTitleTableViewCell else {return UITableViewCell()}
             if indexPath.row == 0 {
-                cell.titleLbl.text = "Please select a problem"
+                cell.titleLbl.text = "Please select a problem".localizedString
                 cell.titleLbl.font = UIFont.init(name: "Montserrat-Bold", size: 16)
                 cell.titleLbl.textColor = .black
             }else {
-                cell.titleLbl.text = "if someone is in immediate danger, get help before reporting to Friendzr. Don't wait."
+                cell.titleLbl.text = "if someone is in immediate danger, get help before reporting to Friendzr. Don't wait.".localizedString
                 cell.titleLbl.font = UIFont.init(name: "Montserrat-Medium", size: 12)
                 cell.titleLbl.textColor = .gray
             }
@@ -194,7 +194,7 @@ extension ReportVC: UITableViewDataSource {
                             guard let _ = data else {return}
                             
                             DispatchQueue.main.async {
-                                self.view.makeToast("The report has been sent successfully")
+                                self.view.makeToast("The report has been sent successfully".localizedString)
                             }
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -208,7 +208,7 @@ extension ReportVC: UITableViewDataSource {
                     }
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast("Please select a problem first")
+                        self.view.makeToast("Please select a problem first".localizedString)
                         return
                     }
                 }

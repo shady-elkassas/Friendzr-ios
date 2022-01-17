@@ -24,7 +24,6 @@ class LeaveEventViewModel {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/leaveEvent"
         let headers = RequestComponent.headerComponent([.type,.authorization])
-//        let bodyData = "EventDataid=\(eventid)".data(using: .utf8)
         let parameters:[String : Any] = ["EventDataid": eventid]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

@@ -37,7 +37,7 @@ class GenderDistributionVC: UIViewController {
         
         setupView()
         initCloseBarButton()
-        title = "Gender Distribution"
+        title = "Gender Distribution".localizedString
         setupNavBar()
         
         getGenderbylocation(lat: lat, lng: lng)
@@ -157,15 +157,15 @@ extension GenderDistributionVC: UITableViewDataSource {
         let model = genderbylocationVM.gender.value
         
         if indexPath.row == 0 {
-            cell.interestNameLbl.text = "Male"
+            cell.interestNameLbl.text = "Male".localizedString
             cell.lblColor.backgroundColor = UIColor.blue
             cell.percentageLbl.text = "\(model?.malePercentage ?? 0) %"
         }else if indexPath.row == 1 {
-            cell.interestNameLbl.text = "Female"
+            cell.interestNameLbl.text = "Female".localizedString
             cell.lblColor.backgroundColor = UIColor.red
             cell.percentageLbl.text = "\(model?.femalepercentage ?? 0) %"
         }else {
-            cell.interestNameLbl.text = "Other Gender"
+            cell.interestNameLbl.text = "Other Gender".localizedString
             cell.lblColor.backgroundColor = UIColor.green
             cell.percentageLbl.text = "\(model?.otherpercentage ?? 0) %"
         }

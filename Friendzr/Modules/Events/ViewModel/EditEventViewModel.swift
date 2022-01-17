@@ -52,7 +52,6 @@ class EditEventViewModel {
         }
         
         let url = URLs.baseURLFirst + "Events/updateEventData"
-        //        let headers = RequestComponent.headerComponent([.type,.authorization])
         var parameters:[String : Any] = ["eventId":eventid,"Title": title,"description":description,"status":status,"categorieId":categoryId,"lang":lang,"lat":lat,"totalnumbert":totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto]
         
         if allday == true {

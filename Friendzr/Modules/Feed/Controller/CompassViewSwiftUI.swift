@@ -127,7 +127,7 @@ struct CompassViewSwiftUI: View {
                     .frame(width: 200, height: 200)
                     .rotationEffect(Angle(degrees: self.compassHeading.degrees))
                     
-                    Text("Filter")
+                    Text("Filter".localizedString)
                         .font(.system(size: 12))
                         .frame(width: 45, height: 45, alignment: .center)
                         .foregroundColor(Color("primaryColor"))
@@ -135,7 +135,7 @@ struct CompassViewSwiftUI: View {
                         .cornerRadius(22.5)
                 }
                 
-                Text("Tap compass to filter feed in chosen direction")
+                Text("Tap compass to filter feed in chosen direction".localizedString)
                     .padding(.top,20)
                     .font(.system(size: 11))
                     .multilineTextAlignment(.center)

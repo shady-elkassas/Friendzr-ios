@@ -1,0 +1,36 @@
+
+/* Class = "UITabBarItem"; title = "Feed"; ObjectID = "4KE-9w-2wx"; */
+"4KE-9w-2wx.title" = "Feed";
+
+/* Class = "UIButton"; configuration.title = "   "; ObjectID = "AmQ-Mf-f01"; */
+"AmQ-Mf-f01.configuration.title" = "   ";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "AmQ-Mf-f01"; */
+"AmQ-Mf-f01.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "Try Again!"; ObjectID = "My6-XU-aBM"; */
+"My6-XU-aBM.configuration.title" = "Try Again!";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "My6-XU-aBM"; */
+"My6-XU-aBM.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "We do not have permission for your loctoin,please give us permission for your location to show you the feeds"; ObjectID = "RDY-qb-Y4O"; */
+"RDY-qb-Y4O.text" = "We do not have permission for your loctoin,please give us permission for your location to show you the feeds";
+
+/* Class = "UIButton"; configuration.title = "Allow Your Location"; ObjectID = "a45-Zh-t2z"; */
+"a45-Zh-t2z.configuration.title" = "Allow Your Location";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "a45-Zh-t2z"; */
+"a45-Zh-t2z.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "NEXT"; ObjectID = "elc-iH-3pR"; */
+"elc-iH-3pR.configuration.title" = "NEXT";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "elc-iH-3pR"; */
+"elc-iH-3pR.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "pPN-NP-zJa"; */
+"pPN-NP-zJa.text" = "Label";
+
+/* Class = "UILabel"; text = "Point your phone in any direction; Friendzrs are listed nearest first in that direction"; ObjectID = "tev-W4-QGL"; */
+"tev-W4-QGL.text" = "Point your phone in any direction; Friendzrs are listed nearest first in that direction";

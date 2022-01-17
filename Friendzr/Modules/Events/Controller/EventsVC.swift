@@ -35,7 +35,7 @@ class EventsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "My Events"
+        self.title = "My Events".localizedString
         setupView()
         
         initBackButton()
@@ -169,11 +169,11 @@ class EventsVC: UIViewController {
     func HandleInternetConnection() {
         if cellSelect {
             emptyView.isHidden = true
-            self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+            self.view.makeToast("No avaliable network ,Please try again!".localizedString)
         }else {
             emptyView.isHidden = false
             emptyImg.image = UIImage.init(named: "nointernet")
-            emptyLbl.text = "No avaliable newtwok ,Please try again!".localizedString
+            emptyLbl.text = "No avaliable network ,Please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }
     }
@@ -230,7 +230,7 @@ extension EventsVC: UITableViewDataSource {
         if viewmodel.events.value?.data?.count != 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? EventTableViewCell else {return UITableViewCell()}
             let model = viewmodel.events.value?.data?[indexPath.row]
-            cell.attendeesLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
+            cell.attendeesLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
             cell.eventTitleLbl.text = model?.title
             cell.categoryLbl.text = model?.categorie
             cell.dateLbl.text = model?.eventdate
@@ -277,7 +277,7 @@ extension EventsVC: UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data here")
+                    self.view.makeToast("No more data here".localizedString)
                 }
                 return
             }

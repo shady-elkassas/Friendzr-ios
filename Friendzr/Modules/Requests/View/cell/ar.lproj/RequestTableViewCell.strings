@@ -1,0 +1,15 @@
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "Sxh-HJ-Iwm"; */
+"Sxh-HJ-Iwm.text" = "Label";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "dho-fR-gho"; */
+"dho-fR-gho.text" = "Label";
+
+/* Class = "UILabel"; text = "Request Removed"; ObjectID = "fyN-CZ-XgI"; */
+"fyN-CZ-XgI.text" = "تم ازالة الطلب";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "n9B-xD-O7Q"; */
+"n9B-xD-O7Q.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Message"; ObjectID = "zn4-IF-fAd"; */
+"zn4-IF-fAd.normalTitle" = "رسالة";

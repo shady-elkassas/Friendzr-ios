@@ -79,7 +79,7 @@ class HideGhostModeView: UIView {
     @IBAction func saveBtn(_ sender: Any) {
    
         if typeIDs.count > 2 {
-            self.parentVC.view.makeToast("Please, do not choose more than two")
+            self.parentVC.view.makeToast("Please, do not choose more than two".localizedString)
             return
         }else {
             if SelectedSingleTone.isSelected == true {

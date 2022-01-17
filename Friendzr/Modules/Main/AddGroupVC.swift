@@ -35,7 +35,7 @@ class AddGroupVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Select Friends"
+        self.title = "Select Friends".localizedString
         initCancelBarButton()
         setupSearchBar()
         setupViews()
@@ -121,7 +121,7 @@ class AddGroupVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
     }
     
     
@@ -217,7 +217,7 @@ class AddGroupVC: UIViewController {
         
         addNewTagView?.HandleConfirmBtn = {
             if self.addNewTagView?.newTagTxt.text == "" {
-                self.view.makeToast("Please type the name of your group first")
+                self.view.makeToast("Please type the name of your group first".localizedString)
             }else {
                 print("Done")
             }
@@ -338,7 +338,7 @@ extension AddGroupVC: UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data here")
+                    self.view.makeToast("No more data here".localizedString)
                 }
                 return
             }

@@ -124,7 +124,7 @@ class FriendProfileVC: UIViewController {
     @IBAction func sendRequestBtn(_ sender: Any) {
         self.updateUserInterfaceBtns()
         if self.internetConect == true {
-            changeTitleBtns(btn: sendRequestBtn, title: "Sending...")
+            changeTitleBtns(btn: sendRequestBtn, title: "Sending...".localizedString)
             self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1) { error, message in
                 if let error = error {
                     DispatchQueue.main.async {
@@ -142,7 +142,7 @@ class FriendProfileVC: UIViewController {
     @IBAction func cancelRequestBtn(_ sender: Any) {
         self.updateUserInterfaceBtns()
         if self.internetConect == true {
-            self.changeTitleBtns(btn: self.cancelRequestBtn, title: "Sending...")
+            self.changeTitleBtns(btn: self.cancelRequestBtn, title: "Sending...".localizedString)
             self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6) { error, message in
                 self.hideLoading()
                 if let error = error {
@@ -237,10 +237,6 @@ class FriendProfileVC: UIViewController {
                     }
                     
                     guard let _ = message else {return}
-
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast(message)
-//                    }
                     
                     self.getFriendProfileInformation()
                 }
@@ -271,9 +267,7 @@ class FriendProfileVC: UIViewController {
             // handling code
             self.updateUserInterfaceBtns()
             if self.internetConect == true {
-                
-//                self.showLoading()
-                self.changeTitleBtns(btn: self.blockBtn, title: "Sending...")
+                self.changeTitleBtns(btn: self.blockBtn, title: "Sending...".localizedString)
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 3) { error, message in
                     self.hideLoading()
                     if let error = error {
@@ -284,10 +278,6 @@ class FriendProfileVC: UIViewController {
                     }
                     
                     guard let _ = message else {return}
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast(message)
-//                    }
-                    
                     self.getFriendProfileInformation()
                 }
             }
@@ -327,10 +317,6 @@ class FriendProfileVC: UIViewController {
                     }
                     
                     guard let _ = message else {return}
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast(message)
-//                    }
-                    
                     self.getFriendProfileInformation()
                 }
             }else {
@@ -401,7 +387,7 @@ class FriendProfileVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast( "No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast( "No avaliable network ,Please try again!".localizedString)
     }
     
     func setup() {
@@ -472,7 +458,7 @@ class FriendProfileVC: UIViewController {
                 self.ageLbl.text = "\(model?.age ?? 0)"
                 
                 if model?.gender == "other" {
-                    genderLbl.text = "other(\(model?.otherGenderName ?? ""))"
+                    genderLbl.text = "other(".localizedString + "\(model?.otherGenderName ?? ""))"
                 }else {
                     genderLbl.text = model?.gender
                 }
@@ -482,11 +468,11 @@ class FriendProfileVC: UIViewController {
             
             DispatchQueue.main.async {
                 self.btnsState(model)
-                self.changeTitleBtns(btn: self.sendRequestBtn, title: "Send Request")
-                self.changeTitleBtns(btn: self.cancelRequestBtn, title: "Cancel Request")
-                self.changeTitleBtns(btn: self.unblockBtn, title: "Unblock")
-                self.changeTitleBtns(btn: self.blockBtn, title: "Block")
-                self.changeTitleBtns(btn: self.respondBtn, title: "Accept")
+                self.changeTitleBtns(btn: self.sendRequestBtn, title: "Send Request".localizedString)
+                self.changeTitleBtns(btn: self.cancelRequestBtn, title: "Cancel Request".localizedString)
+                self.changeTitleBtns(btn: self.unblockBtn, title: "Unblock".localizedString)
+                self.changeTitleBtns(btn: self.blockBtn, title: "Block".localizedString)
+                self.changeTitleBtns(btn: self.respondBtn, title: "Accept".localizedString)
             }
             
             myGroup.leave()
@@ -591,7 +577,7 @@ extension FriendProfileVC {
     @objc func handleUserOptionsBtn() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.selectedVC = "Present"
                     vc.isEvent = false
@@ -599,13 +585,13 @@ extension FriendProfileVC {
                     self.present(controller, animated: true)
                 }
             }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+            actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.selectedVC = "Present"
                     vc.isEvent = false
@@ -614,7 +600,7 @@ extension FriendProfileVC {
                 }
             }))
             
-            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
             present(actionSheet, animated: true, completion: nil)

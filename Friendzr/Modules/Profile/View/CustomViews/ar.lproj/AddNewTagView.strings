@@ -1,0 +1,12 @@
+
+/* Class = "UITextField"; placeholder = "Type your new tag"; ObjectID = "2Zn-9H-Xw4"; */
+"2Zn-9H-Xw4.placeholder" = "اكتب علامتك الجديدة";
+
+/* Class = "UIButton"; normalTitle = "Confirm"; ObjectID = "AhR-nL-oKg"; */
+"AhR-nL-oKg.normalTitle" = "تأكيد";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "tLu-Hr-MqJ"; */
+"tLu-Hr-MqJ.normalTitle" = "الغاء";
+
+/* Class = "UILabel"; text = "New Tag"; ObjectID = "vYu-lU-TlL"; */
+"vYu-lU-TlL.text" = "علامة جديدة";

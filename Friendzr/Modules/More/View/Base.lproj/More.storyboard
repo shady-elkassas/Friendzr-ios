@@ -873,8 +873,8 @@
     </scenes>
     <resources>
         <image name="emptyImage" width="512" height="512"/>
-        <image name="more_selected_ic" width="32" height="32"/>
-        <image name="more_unselected_ic" width="32" height="32"/>
+        <image name="more_selected_ic" width="27" height="27"/>
+        <image name="more_unselected_ic" width="27" height="27"/>
         <image name="placeholder" width="1000" height="1000"/>
         <image name="showPassword_ic" width="15" height="11"/>
         <image name="unShowPassword_ic" width="16" height="16"/>

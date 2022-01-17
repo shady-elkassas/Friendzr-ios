@@ -34,7 +34,7 @@ class NotificationsVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
-        title = "Notifications"
+        title = "Notifications".localizedString
         setupNavBar()
         pullToRefresh()
         initBackButton()
@@ -159,11 +159,11 @@ class NotificationsVC: UIViewController {
     func HandleInternetConnection() {
         if btnsSelect {
             emptyView.isHidden = true
-            self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+            self.view.makeToast("No avaliable network ,Please try again!".localizedString)
         }else {
             emptyView.isHidden = false
             emptyImg.image = UIImage.init(named: "nointernet")
-            emptyLbl.text = "No avaliable newtwok ,Please try again!".localizedString
+            emptyLbl.text = "No avaliable network ,Please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }
     }
@@ -297,7 +297,7 @@ extension NotificationsVC: UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data here")
+                    self.view.makeToast("No more data here".localizedString)
                 }
                 return
             }

@@ -13,8 +13,9 @@ class DeleteAccountTableViewCell: UITableViewCell {
     @IBOutlet weak var iconImg: UIImageView!
     @IBOutlet weak var arrowImg: UIImageView!
     @IBOutlet weak var titleLbl: UILabel!
-    
+    @IBOutlet weak var langLbl: UILabel!
     @IBOutlet weak var bottomView: UIView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }

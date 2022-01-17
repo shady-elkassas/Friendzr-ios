@@ -1,0 +1,60 @@
+
+/* Class = "UILabel"; text = "Live map"; ObjectID = "42Z-IF-ivN"; */
+"42Z-IF-ivN.text" = "Live map";
+
+/* Class = "UILabel"; text = "Adhere to any event guidelines."; ObjectID = "6JN-A6-wRP"; */
+"6JN-A6-wRP.text" = "Adhere to any event guidelines.";
+
+/* Class = "UIButton"; normalTitle = "NEXT"; ObjectID = "9fM-8S-fMa"; */
+"9fM-8S-fMa.normalTitle" = "NEXT";
+
+/* Class = "UILabel"; text = "Events"; ObjectID = "9qe-xw-Kef"; */
+"9qe-xw-Kef.text" = "Events";
+
+/* Class = "UILabel"; text = "Treat other Friendzrs with respect and dignity."; ObjectID = "FA3-4L-jZr"; */
+"FA3-4L-jZr.text" = "Treat other Friendzrs with respect and dignity.";
+
+/* Class = "UILabel"; text = "The list of Friendzrs will only display a photo and a name. The Friendzrs nearest you will always be at the top of the list. To engage with someone specific from the list you can either message them or toggle on the directional filter."; ObjectID = "HyY-8Q-xMa"; */
+"HyY-8Q-xMa.text" = "The list of Friendzrs will only display a photo and a name. The Friendzrs nearest you will always be at the top of the list. To engage with someone specific from the list you can either message them or toggle on the directional filter.";
+
+/* Class = "UILabel"; text = "Community Guidelines"; ObjectID = "II2-3n-tiy"; */
+"II2-3n-tiy.text" = "Community Guidelines";
+
+/* Class = "UILabel"; text = "Communicate and engage with courtesy and respect."; ObjectID = "Jb7-wZ-cgc"; */
+"Jb7-wZ-cgc.text" = "Communicate and engage with courtesy and respect.";
+
+/* Class = "UIButton"; normalTitle = "SKIP"; ObjectID = "MU9-g5-wqM"; */
+"MU9-g5-wqM.normalTitle" = "SKIP";
+
+/* Class = "UIButton"; normalTitle = "SKIP"; ObjectID = "ODM-9h-CbI"; */
+"ODM-9h-CbI.normalTitle" = "SKIP";
+
+/* Class = "UILabel"; text = "List of Friendzrs near you"; ObjectID = "UIF-GO-rwU"; */
+"UIF-GO-rwU.text" = "List of Friendzrs near you";
+
+/* Class = "UILabel"; text = "No bullying, profanity or stalking Won't be tolerated on Friendzr."; ObjectID = "YBO-Az-xdt"; */
+"YBO-Az-xdt.text" = "No bullying, profanity or stalking Won't be tolerated on Friendzr.";
+
+/* Class = "UIButton"; normalTitle = "SKIP"; ObjectID = "akw-h7-aph"; */
+"akw-h7-aph.normalTitle" = "SKIP";
+
+/* Class = "UIButton"; normalTitle = "NEXT"; ObjectID = "fLe-vK-Qgw"; */
+"fLe-vK-Qgw.normalTitle" = "NEXT";
+
+/* Class = "UILabel"; text = "Actively participate in events and respect other participants."; ObjectID = "fVa-gr-Czf"; */
+"fVa-gr-Czf.text" = "Actively participate in events and respect other participants.";
+
+/* Class = "UIButton"; normalTitle = "GET STARTED"; ObjectID = "j7N-pp-EBy"; */
+"j7N-pp-EBy.normalTitle" = "GET STARTED";
+
+/* Class = "UIButton"; normalTitle = "NEXT"; ObjectID = "mXZ-AG-faP"; */
+"mXZ-AG-faP.normalTitle" = "NEXT";
+
+/* Class = "UILabel"; text = "It’s easy to set up your own event or join other Friendzrs events in your area. Events can be based on mutual interests or simply an opportunity to enjoy a great party."; ObjectID = "msK-5W-vyS"; */
+"msK-5W-vyS.text" = "It’s easy to set up your own event or join other Friendzrs events in your area. Events can be based on mutual interests or simply an opportunity to enjoy a great party.";
+
+/* Class = "UILabel"; text = "By using the map you will be able to easily see local Friendzr and Events where Friendzers congregate and pinned on the map within your proximity. From the map you can navigate and get more information."; ObjectID = "pHm-zf-wih"; */
+"pHm-zf-wih.text" = "By using the map you will be able to easily see local Friendzr and Events where Friendzers congregate and pinned on the map within your proximity. From the map you can navigate and get more information.";
+
+/* Class = "UILabel"; text = "Respect other Friendzr’s privacy and personal information."; ObjectID = "zmk-g4-Suh"; */
+"zmk-g4-Suh.text" = "Respect other Friendzr’s privacy and personal information.";

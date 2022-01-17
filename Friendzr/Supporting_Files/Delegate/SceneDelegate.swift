@@ -35,6 +35,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //                window.overrideUserInterfaceStyle = .light
         //            }
         //        }
+        Localizer.DoExchange()
+        if Language.currentLanguage() == "ar" {
+            UIView.appearance().semanticContentAttribute = .forceRightToLeft
+        }else{
+            UIView.appearance().semanticContentAttribute = .forceLeftToRight
+        }
         
         guard let _ = (scene as? UIWindowScene) else { return }
         Router().toSplach()

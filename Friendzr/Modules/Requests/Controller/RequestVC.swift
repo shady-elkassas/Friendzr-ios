@@ -39,7 +39,7 @@ class RequestVC: UIViewController {
         
         setup()
         pullToRefresh()
-        self.title = "Request"
+        self.title = "Request".localizedString
         
         DispatchQueue.main.async {
             self.updateUserInterface()
@@ -94,7 +94,7 @@ class RequestVC: UIViewController {
     }
     
     func loadAllUserRequests(pageNumber:Int) {
-        self.view.makeToast("Please wait for the data to load...")
+        self.view.makeToast("Please wait for the data to load...".localizedString)
         viewmodel.getAllRequests(pageNumber: pageNumber)
         viewmodel.requests.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -190,11 +190,11 @@ class RequestVC: UIViewController {
     func HandleInternetConnection() {
         if cellSelected {
             emptyView.isHidden = true
-            self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+            self.view.makeToast("No avaliable network ,Please try again!".localizedString)
         }else {
             emptyView.isHidden = false
             emptyImg.image = UIImage.init(named: "nointernet")
-            emptyLbl.text = "No avaliable newtwok ,Please try again!".localizedString
+            emptyLbl.text = "No avaliable network ,Please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }
     }
@@ -370,7 +370,7 @@ extension RequestVC:UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data here")
+                    self.view.makeToast("No more data here".localizedString)
                 }
                 return
             }

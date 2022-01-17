@@ -125,6 +125,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Defaults.allowMyLocation = true
         }
         
+        Localizer.DoExchange()
+        if Language.currentLanguage() == "ar" {
+            UIView.appearance().semanticContentAttribute = .forceRightToLeft
+        }else{
+            UIView.appearance().semanticContentAttribute = .forceLeftToRight
+        }
+
         return true
     }
     

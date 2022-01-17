@@ -35,7 +35,7 @@ class SelectedTagsVC: UIViewController {
         
         initBackButton()
         initAddTagButton()
-        title = "Choose Your Tags"
+        title = "Choose Your Tags".localizedString
         
         setupView()
         loadAllTags()
@@ -186,7 +186,7 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                 arrSelectedDataNames.append(strData?.name ?? "")
             }else {
                 DispatchQueue.main.async {
-                    self.view.makeToast("Please the number of tags must not be more than 8")
+                    self.view.makeToast("Please the number of tags must not be more than 8".localizedString)
                 }
             }
         }
@@ -212,7 +212,7 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
         
         addNewTagView?.HandleConfirmBtn = {
             if self.addNewTagView?.newTagTxt.text == "" {
-                self.view.makeToast("Please type the name of the tag first")
+                self.view.makeToast("Please type the name of the tag first".localizedString)
             }else {
                 
                 self.viewmodel.addMyNewInterest(name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
@@ -239,7 +239,7 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                     
                     
                     DispatchQueue.main.async {
-                        self.view.makeToast("Added successfully")
+                        self.view.makeToast("Added successfully".localizedString)
                     }
                 }
             }
@@ -264,13 +264,13 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
         
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Edit", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Edit".localizedString, style: .default, handler: { action in
                 self.addNewTagView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 self.addNewTagView?.newTagTxt.text = name
                 
                 self.addNewTagView?.HandleConfirmBtn = {
                     if self.addNewTagView?.newTagTxt.text == "" {
-                        self.view.makeToast("Please type the name of the tag first")
+                        self.view.makeToast("Please type the name of the tag first".localizedString)
                     }else {
                         self.viewmodel.EditInterest(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
                             if let error = error {
@@ -287,7 +287,7 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                             }
                             
                             DispatchQueue.main.async {
-                                self.view.makeToast("Edit successfully")
+                                self.view.makeToast("Edit successfully".localizedString)
                             }
                         }
                     }
@@ -307,7 +307,7 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                 self.view.addSubview((self.addNewTagView)!)
                 
             }))
-            actionAlert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
                 self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
                 self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
                 
@@ -325,23 +325,23 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                     }
                     
                     DispatchQueue.main.async {
-                        self.view.makeToast("Deleted successfully")
+                        self.view.makeToast("Deleted successfully".localizedString)
                     }
                 }
             }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: { action in
+            actionSheet.addAction(UIAlertAction(title: "Edit".localizedString, style: .default, handler: { action in
                 self.addNewTagView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 self.addNewTagView?.newTagTxt.text = name
                 
                 self.addNewTagView?.HandleConfirmBtn = {
                     if self.addNewTagView?.newTagTxt.text == "" {
-                        self.view.makeToast("Please type the name of the tag first")
+                        self.view.makeToast("Please type the name of the tag first".localizedString)
                     }else {
                         self.viewmodel.EditInterest(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
                             if let error = error {
@@ -358,7 +358,7 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                             }
                             
                             DispatchQueue.main.async {
-                                self.view.makeToast("Edit successfully")
+                                self.view.makeToast("Edit successfully".localizedString)
                             }
                         }
                     }
@@ -377,7 +377,7 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                 
                 self.view.addSubview((self.addNewTagView)!)
             }))
-            actionSheet.addAction(UIAlertAction(title: "Delete", style: .default, handler: { action in
+            actionSheet.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
                 self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
                 self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
                 
@@ -395,11 +395,11 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                     }
                     
                     DispatchQueue.main.async {
-                        self.view.makeToast("Deleted successfully")
+                        self.view.makeToast("Deleted successfully".localizedString)
                     }
                 }
             }))
-            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
             present(actionSheet, animated: true, completion: nil)

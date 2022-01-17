@@ -59,7 +59,7 @@ class ForgetPasswordVC: UIViewController {
                 //                self.showAlert(withMessage: "Please check your email")
                 
                 DispatchQueue.main.async {
-                    self.view.makeToast("Please check your email")
+                    self.view.makeToast("Please check your email".localizedString)
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -107,7 +107,7 @@ class ForgetPasswordVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
     }
     
 }

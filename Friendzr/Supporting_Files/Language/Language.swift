@@ -16,12 +16,12 @@ class Language {
         let language = def.object(forKey: "AppleLanguages") as! NSArray
         let firstLang = language.firstObject as! String
         
-        if firstLang == "ar-EG" {
+        if firstLang == "ar" {
             return firstLang
-        } else if firstLang == "en-US"{
-            return "en-US"
+        } else if firstLang == "en"{
+            return "en"
         } else {
-            return "fr-FR"
+            return "fr"
         }
         
     }

@@ -22,7 +22,7 @@ class CategoriesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Categories"
+        self.title = "Categories".localizedString
         initBackButton()
         setupNavBar()
         setupViews()

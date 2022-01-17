@@ -1,0 +1,60 @@
+
+/* Class = "UILabel"; text = "Live map"; ObjectID = "42Z-IF-ivN"; */
+"42Z-IF-ivN.text" = "خريطة حية";
+
+/* Class = "UILabel"; text = "Adhere to any event guidelines."; ObjectID = "6JN-A6-wRP"; */
+"6JN-A6-wRP.text" = "إعلان هنا لإرشادات أي حدث.";
+
+/* Class = "UIButton"; normalTitle = "NEXT"; ObjectID = "9fM-8S-fMa"; */
+"9fM-8S-fMa.normalTitle" = "التالي";
+
+/* Class = "UILabel"; text = "Events"; ObjectID = "9qe-xw-Kef"; */
+"9qe-xw-Kef.text" = "الاحداث";
+
+/* Class = "UILabel"; text = "Treat other Friendzrs with respect and dignity."; ObjectID = "FA3-4L-jZr"; */
+"FA3-4L-jZr.text" = "تعامل مع Friendzrs الآخرين باحترام وكرامة.";
+
+/* Class = "UILabel"; text = "The list of Friendzrs will only display a photo and a name. The Friendzrs nearest you will always be at the top of the list. To engage with someone specific from the list you can either message them or toggle on the directional filter."; ObjectID = "HyY-8Q-xMa"; */
+"HyY-8Q-xMa.text" = "ستعرض قائمة Friendzrs صورة واسم فقط. سوف يكون Friendzrs الأقرب إليك دائمًا في أعلى القائمة. للتفاعل مع شخص محدد من القائمة ، يمكنك إما مراسلته أو التبديل إلى عامل تصفية الاتجاهات.";
+
+/* Class = "UILabel"; text = "Community Guidelines"; ObjectID = "II2-3n-tiy"; */
+"II2-3n-tiy.text" = "إرشادات المجتمع";
+
+/* Class = "UILabel"; text = "Communicate and engage with courtesy and respect."; ObjectID = "Jb7-wZ-cgc"; */
+"Jb7-wZ-cgc.text" = "التواصل والتعامل بلطف واحترام.";
+
+/* Class = "UIButton"; normalTitle = "SKIP"; ObjectID = "MU9-g5-wqM"; */
+"MU9-g5-wqM.normalTitle" = "تخطي";
+
+/* Class = "UIButton"; normalTitle = "SKIP"; ObjectID = "ODM-9h-CbI"; */
+"ODM-9h-CbI.normalTitle" = "تخطي";
+
+/* Class = "UILabel"; text = "List of Friendzrs near you"; ObjectID = "UIF-GO-rwU"; */
+"UIF-GO-rwU.text" = "قائمة Friendzrs بالقرب منك";
+
+/* Class = "UILabel"; text = "No bullying, profanity or stalking Won't be tolerated on Friendzr."; ObjectID = "YBO-Az-xdt"; */
+"YBO-Az-xdt.text" = "لن يتم التسامح مع التنمر أو الألفاظ النابية أو المطاردة في Friendzr.";
+
+/* Class = "UIButton"; normalTitle = "SKIP"; ObjectID = "akw-h7-aph"; */
+"akw-h7-aph.normalTitle" = "تخطي";
+
+/* Class = "UIButton"; normalTitle = "NEXT"; ObjectID = "fLe-vK-Qgw"; */
+"fLe-vK-Qgw.normalTitle" = "التالي";
+
+/* Class = "UILabel"; text = "Actively participate in events and respect other participants."; ObjectID = "fVa-gr-Czf"; */
+"fVa-gr-Czf.text" = "شارك بنشاط في الأحداث واحترم المشاركين الآخرين.";
+
+/* Class = "UIButton"; normalTitle = "GET STARTED"; ObjectID = "j7N-pp-EBy"; */
+"j7N-pp-EBy.normalTitle" = "البدء";
+
+/* Class = "UIButton"; normalTitle = "NEXT"; ObjectID = "mXZ-AG-faP"; */
+"mXZ-AG-faP.normalTitle" = "التالي";
+
+/* Class = "UILabel"; text = "It’s easy to set up your own event or join other Friendzrs events in your area. Events can be based on mutual interests or simply an opportunity to enjoy a great party."; ObjectID = "msK-5W-vyS"; */
+"msK-5W-vyS.text" = "من السهل إعداد الحدث الخاص بك أو الانضمام إلى أحداث Friendzrs الأخرى في منطقتك. يمكن أن تستند الأحداث إلى المصالح المشتركة أو مجرد فرصة للاستمتاع بحفلة رائعة.";
+
+/* Class = "UILabel"; text = "By using the map you will be able to easily see local Friendzr and Events where Friendzers congregate and pinned on the map within your proximity. From the map you can navigate and get more information."; ObjectID = "pHm-zf-wih"; */
+"pHm-zf-wih.text" = "باستخدام الخريطة ، ستتمكن بسهولة من رؤية Friendzr والأحداث المحلية حيث يتجمع Friendzers ويتم تثبيتها على الخريطة بالقرب منك. من الخريطة يمكنك التنقل والحصول على مزيد من المعلومات.";
+
+/* Class = "UILabel"; text = "Respect other Friendzr’s privacy and personal information."; ObjectID = "zmk-g4-Suh"; */
+"zmk-g4-Suh.text" = "احترم خصوصية Friendzr والمعلومات الشخصية الأخرى.";

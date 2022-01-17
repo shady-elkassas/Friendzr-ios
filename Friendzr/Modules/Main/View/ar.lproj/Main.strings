@@ -1,15 +1,15 @@
 
 /* Class = "UISearchBar"; placeholder = "Search Messages"; ObjectID = "1Y7-7B-Za0"; */
-"1Y7-7B-Za0.placeholder" = "Search Messages";
+"1Y7-7B-Za0.placeholder" = "بحث";
 
 /* Class = "UITabBarItem"; title = "Inbox"; ObjectID = "2iS-8r-HPh"; */
-"2iS-8r-HPh.title" = "Inbox";
+"2iS-8r-HPh.title" = "الوارد";
 
 /* Class = "UISearchBar"; placeholder = "Search Messages"; ObjectID = "50Q-Ux-eL4"; */
-"50Q-Ux-eL4.placeholder" = "Search Messages";
+"50Q-Ux-eL4.placeholder" = "بحث";
 
 /* Class = "UIButton"; configuration.title = "Try Again!"; ObjectID = "DDk-EQ-eim"; */
-"DDk-EQ-eim.configuration.title" = "Try Again!";
+"DDk-EQ-eim.configuration.title" = "حاول مرة اخري!";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "DDk-EQ-eim"; */
 "DDk-EQ-eim.normalTitle" = "Button";
@@ -18,7 +18,7 @@
 "R6Q-SE-yeC.text" = "Label";
 
 /* Class = "UIButton"; configuration.title = "Try Again!"; ObjectID = "SrE-I2-0bx"; */
-"SrE-I2-0bx.configuration.title" = "Try Again!";
+"SrE-I2-0bx.configuration.title" = "حاول مرة اخري!";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "SrE-I2-0bx"; */
 "SrE-I2-0bx.normalTitle" = "Button";
@@ -30,7 +30,7 @@
 "bA3-y7-XNA.title" = "Item";
 
 /* Class = "UILabel"; text = "Choose the location you want to send and click send"; ObjectID = "hv6-ud-ERr"; */
-"hv6-ud-ERr.text" = "Choose the location you want to send and click send";
+"hv6-ud-ERr.text" = "اختر الموقع الذي تريد إرساله وانقر فوق إرسال";
 
 /* Class = "UITabBarItem"; title = "Item"; ObjectID = "itO-nh-3Lr"; */
 "itO-nh-3Lr.title" = "Item";
@@ -42,4 +42,4 @@
 "wzX-qN-5X2.title" = "Item";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "x4D-lA-lF4"; */
-"x4D-lA-lF4.normalTitle" = "Send";
+"x4D-lA-lF4.normalTitle" = "ارسل";

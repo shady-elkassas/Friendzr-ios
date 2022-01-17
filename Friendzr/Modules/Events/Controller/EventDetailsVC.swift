@@ -44,7 +44,7 @@ class EventDetailsVC: UIViewController {
     
     //MARK: - Properties
     var numbers:[Double] = [1,2,3]
-    var genders:[String] = ["Men","Women","Other"]
+    var genders:[String] = ["Men","Women","Other Gender"]
     let attendeesCellID = "AttendeesTableViewCell"
     private var footerCellID = "SeeMoreTableViewCell"
     //    let interestCellID = "InterestsCollectionViewCell"
@@ -144,7 +144,7 @@ class EventDetailsVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
     }
     
     func setupViews() {
@@ -192,10 +192,10 @@ class EventDetailsVC: UIViewController {
         if model?.timefrom != "" && model?.allday == false {
             timeCreateLbl.text = model?.timetext
         }else {
-            timeCreateLbl.text = "All Day"
+            timeCreateLbl.text = "All Day".localizedString
         }
         
-        attendLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
+        attendLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
         categoryNameLbl.text = model?.categorie
         descreptionLbl.text = model?.descriptionEvent
         eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
@@ -211,18 +211,6 @@ class EventDetailsVC: UIViewController {
             leaveBtn.isHidden = true
             attendeesViewHeight.constant = 0
         }else { // join
-            //            if viewmodel.event.value?.leveevent == 1 {
-            //                editBtn.isHidden = true
-            //                chatBtn.isHidden = false
-            //                joinBtn.isHidden = true
-            //                leaveBtn.isHidden = false
-            //            }else {
-            //                editBtn.isHidden = true
-            //                chatBtn.isHidden = true
-            //                joinBtn.isHidden = true
-            //                leaveBtn.isHidden = false
-            //            }
-            
             editBtn.isHidden = true
             chatBtn.isHidden = false
             joinBtn.isHidden = true
@@ -386,7 +374,7 @@ class EventDetailsVC: UIViewController {
                 guard let _ = data else {return}
                 
                 DispatchQueue.main.async {
-                    self.view.makeToast("You have successfully subscribed to event")
+                    self.view.makeToast("You have successfully subscribed to event".localizedString)
                 }
                 
                 self.getEventDetails()
@@ -410,7 +398,7 @@ class EventDetailsVC: UIViewController {
                 guard let _ = data else {return}
                 
                 DispatchQueue.main.async {
-                    self.view.makeToast("You have successfully leave event")
+                    self.view.makeToast("You have successfully leave event".localizedString)
                 }
                 
                 self.getEventDetails()
@@ -427,7 +415,7 @@ class EventDetailsVC: UIViewController {
         if viewmodel.event.value?.leveevent == 1 {
             Router().toConversationVC(isEvent: true, eventChatID: eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: viewmodel.event.value?.image ?? "", titleChatName: viewmodel.event.value?.title ?? "")
         }else {
-            self.view.makeToast("Wait, I'll join you in the event chat...")
+            self.view.makeToast("Wait, I'll join you in the event chat...".localizedString)
             joinCahtEventVM.joinChat(ByID: eventId, ActionDate: JoinDate, Actiontime: Jointime) { error, data in
                 if let error = error {
                     DispatchQueue.main.async {
@@ -439,7 +427,7 @@ class EventDetailsVC: UIViewController {
                 guard let _ = data else {return}
                 
                 DispatchQueue.main.async {
-                    self.view.makeToast("You have now joined the chat event")
+                    self.view.makeToast("You have now joined the chat event".localizedString)
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -467,10 +455,10 @@ class EventDetailsVC: UIViewController {
     @IBAction func menuBtn(_ sender: Any) {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Share", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
                 self.shareEvent()
             }))
-            actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.id = self.eventId
                     vc.isEvent = true
@@ -478,16 +466,16 @@ class EventDetailsVC: UIViewController {
                     self.present(controller, animated: true)
                 }
             }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Share", style: .default, handler: { action in
+            actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
                 self.shareEvent()
             }))
-            actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+            actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.id = self.eventId
                     vc.isEvent = true
@@ -496,7 +484,7 @@ class EventDetailsVC: UIViewController {
                 }
             }))
             
-            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
             present(actionSheet, animated: true, completion: nil)
@@ -688,10 +676,10 @@ extension EventDetailsVC {
     @objc func handleEventOptionsBtn() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Share", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
                 self.shareEvent()
             }))
-            actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.id = self.eventId
                     vc.isEvent = true
@@ -699,16 +687,16 @@ extension EventDetailsVC {
                     self.present(controller, animated: true)
                 }
             }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Share", style: .default, handler: { action in
+            actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
                 self.shareEvent()
             }))
-            actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+            actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.id = self.eventId
                     vc.isEvent = true
@@ -717,7 +705,7 @@ extension EventDetailsVC {
                 }
             }))
             
-            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
             present(actionSheet, animated: true, completion: nil)

@@ -9,7 +9,7 @@ import Foundation
 
 class GenderViewModel : ValidationViewModel{
     var errorValue: String?
-    var errorMessage: String = "Please choose a valid gender".localizedString
+    var errorMessage: String = "Please choose gender".localizedString
     var data: String = ""
     
     func validateCredentials() -> Bool {

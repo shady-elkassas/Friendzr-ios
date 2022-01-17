@@ -73,7 +73,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
     }
     
     func setupView() {
@@ -276,7 +276,7 @@ extension MoreVC : UITableViewDelegate {
         case 6://aboutus
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
-                vc.titleVC = "About Us"
+                vc.titleVC = "About Us".localizedString
                 vc.urlString = "https://friendzr.com/about-us/"
                 self.navigationController?.pushViewController(vc, animated: true)
             }
@@ -284,7 +284,7 @@ extension MoreVC : UITableViewDelegate {
         case 7://terms
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
-                vc.titleVC = "Terms & Conditions"
+                vc.titleVC = "Terms & Conditions".localizedString
                 vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/EULAOct2021.pdf"
                 self.navigationController?.pushViewController(vc, animated: true)
             }
@@ -292,7 +292,7 @@ extension MoreVC : UITableViewDelegate {
         case 8://Privacy Policy
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
-                vc.titleVC = "Privacy Policy"
+                vc.titleVC = "Privacy Policy".localizedString
                 vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/Friendzr-Privacy-Policy.pdf"
                 self.navigationController?.pushViewController(vc, animated: true)
             }

@@ -72,7 +72,7 @@ class SettingsVC: UIViewController {
         initBackButton()
         
         setupCLLocationManager()
-
+        
         CancelRequest.currentTask = false
     }
     
@@ -83,7 +83,7 @@ class SettingsVC: UIViewController {
     
     //MARK:- APIs
     func getUserSettings() {
-//        self.showLoading()
+        //        self.showLoading()
         viewmodel.getUserSetting()
         viewmodel.userSettings.bind { [unowned self]value in
             DispatchQueue.main.async {
@@ -107,8 +107,8 @@ class SettingsVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.reloadData()
-
-        settingsViewHeight.constant = CGFloat(7 * 60)
+        
+        settingsViewHeight.constant = CGFloat(8 * 60)
         
         ageFrom = model?.agefrom ?? 14
         ageTo = model?.ageto ?? 85
@@ -160,7 +160,7 @@ class SettingsVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
     }
     
     func updateMyLocation() {
@@ -266,6 +266,60 @@ class SettingsVC: UIViewController {
     }
     
     
+    func changeLanguage() {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+            actionAlert.addAction(UIAlertAction(title: "English", style: .default, handler: {_ in
+                self.UpdateClientLanguage(lang: "en")
+            }))
+            actionAlert.addAction(UIAlertAction(title: "French", style: .default, handler: {_ in
+                self.UpdateClientLanguage(lang: "fr")
+            }))
+            actionAlert.addAction(UIAlertAction(title: "العربية", style: .default, handler: {_ in
+                self.UpdateClientLanguage(lang: "ar")
+            }))
+            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionAlert, animated: true, completion: nil)
+        }else {
+            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "English", style: .default, handler: {_ in
+                self.UpdateClientLanguage(lang: "en")
+            }))
+            actionSheet.addAction(UIAlertAction(title: "French", style: .default, handler: {_ in
+                self.UpdateClientLanguage(lang: "fr")
+            }))
+            actionSheet.addAction(UIAlertAction(title: "العربية", style: .default, handler: {_ in
+                self.UpdateClientLanguage(lang: "ar")
+            }))
+            
+            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionSheet, animated: true, completion: nil)
+        }
+    }
+    
+    func UpdateClientLanguage(lang: String) {
+        Language.setAppLanuage(lang: lang)
+        Localizer.DoExchange()
+        languagechange()
+    }
+    
+    func languagechange() {
+        if Language.currentLanguage() == "ar" {
+            UIView.appearance().semanticContentAttribute = .forceRightToLeft
+        }else{
+            UIView.appearance().semanticContentAttribute = .forceLeftToRight
+        }
+        
+        Router().toFeed()
+        UIView.appearance().semanticContentAttribute = Language.currentLanguage() == "ar" ? .forceRightToLeft : .forceLeftToRight
+    }
+    
+    
+    
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         
         self.setupData()
@@ -284,7 +338,6 @@ class SettingsVC: UIViewController {
         self.viewmodel.filteringAccordingToAge(filteringaccordingtoage: true, agefrom: ageFrom, ageto: ageTo) { error, data in
             self.hideLoading()
             if let error = error {
-//                self.showAlert(withMessage: error)
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                 }
@@ -384,11 +437,11 @@ extension SettingsVC :CLLocationManagerDelegate {
                 }
                 return
             }
-
+            
             guard data != nil else {
                 return
             }
-
+            
             self.model = data
             DispatchQueue.main.async {
                 self.setupData()
@@ -407,7 +460,7 @@ extension SettingsVC :CLLocationManagerDelegate {
 extension SettingsVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return 8
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -415,7 +468,7 @@ extension SettingsVC: UITableViewDataSource {
         switch indexPath.row {
         case 0://notification
             guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
-            cell.titleLbl.text = "Push Notifications"
+            cell.titleLbl.text = "Push Notifications".localizedString
             cell.settingIcon.image = UIImage(named: "notifications_ic")
             
             if model?.pushnotification == true {
@@ -479,7 +532,7 @@ extension SettingsVC: UITableViewDataSource {
                     self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     
                     self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
-                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn on notifications?"
+                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn on notifications?".localizedString
                     
                     self.deleteAlertView?.HandleConfirmBtn = {
                         self.updateUserInterfaceForBtns()
@@ -529,7 +582,7 @@ extension SettingsVC: UITableViewDataSource {
             
         case 1://ghostmode
             guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
-            cell.titleLbl.text = "Ghost Mode"
+            cell.titleLbl.text = "Ghost Mode".localizedString
             cell.settingIcon.image = UIImage(named: "ghostMode_ic")
             
             if model?.ghostmode == true {
@@ -543,20 +596,20 @@ extension SettingsVC: UITableViewDataSource {
                 }
                 
                 if mtypsInt.contains(where: {$0 == 1}) {
-                    cell.ghostModeTypeLbl.text = "Every One"
+                    cell.ghostModeTypeLbl.text = "Every One".localizedString
                 }else {
                     if mtypsInt == [2] {
-                        cell.ghostModeTypeLbl.text = "Men"
+                        cell.ghostModeTypeLbl.text = "Men".localizedString
                     }else if mtypsInt == [3] {
-                        cell.ghostModeTypeLbl.text = "Women"
+                        cell.ghostModeTypeLbl.text = "Women".localizedString
                     }else if mtypsInt == [4] {
-                        cell.ghostModeTypeLbl.text = "Other Gender"
+                        cell.ghostModeTypeLbl.text = "Other Gender".localizedString
                     }else if mtypsInt == [2,3] || mtypsInt == [3,2] {
-                        cell.ghostModeTypeLbl.text = "Men, Women"
+                        cell.ghostModeTypeLbl.text = "Men, Women".localizedString
                     }else if mtypsInt == [2,4] ||  mtypsInt == [4,2]  {
-                        cell.ghostModeTypeLbl.text = "Men, Other Gender"
+                        cell.ghostModeTypeLbl.text = "Men, Other Gender".localizedString
                     }else if mtypsInt == [3,4] || mtypsInt == [4,3] {
-                        cell.ghostModeTypeLbl.text = "Women, Other Gender"
+                        cell.ghostModeTypeLbl.text = "Women, Other Gender".localizedString
                     }
                 }
             }else{
@@ -588,7 +641,7 @@ extension SettingsVC: UITableViewDataSource {
                     self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     
                     self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
-                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off ghost mode?"
+                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off ghost mode?".localizedString
                     
                     self.deleteAlertView?.HandleConfirmBtn = {
                         self.updateUserInterfaceForBtns()
@@ -780,7 +833,7 @@ extension SettingsVC: UITableViewDataSource {
             
         case 2://manual distance
             guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
-            cell.titleLbl.text = "Distance Filter"
+            cell.titleLbl.text = "Distance Filter".localizedString
             cell.settingIcon.image = UIImage(named: "manaualDistanceControl_ic")
             
             if model?.distanceFilter == true {
@@ -813,6 +866,7 @@ extension SettingsVC: UITableViewDataSource {
                 }
             }
             return cell
+            
         case 3://filtring age
             guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
             
@@ -822,7 +876,7 @@ extension SettingsVC: UITableViewDataSource {
                 cell.switchBtn.isOn = false
             }
             
-            cell.titleLbl.text = "Age Filter"
+            cell.titleLbl.text = "Age Filter".localizedString
             cell.settingIcon.image = UIImage(named: "filterAccourdingAge_ic")
             
             cell.HandleSwitchBtn = {
@@ -852,18 +906,23 @@ extension SettingsVC: UITableViewDataSource {
             return cell
         case 4://change password
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
-            cell.titleLbl.text = "Change Password"
+            cell.titleLbl.text = "Change Password".localizedString
             cell.iconImg.image = UIImage(named: "changePassword_ic")
             return cell
         case 5://block list
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
-            cell.titleLbl.text = "Block List"
+            cell.titleLbl.text = "Block List".localizedString
             cell.iconImg.image = UIImage(named: "blocked_ic")
             return cell
-            
-        case 6://delete account
+        case 6://Language
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
-            cell.titleLbl.text = "Delete Account"
+            cell.titleLbl.text = "Language".localizedString
+            cell.iconImg.image = UIImage(named: "blocked_ic")
+            cell.langLbl.text = Language.currentLanguage()
+            return cell
+        case 7://delete account
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
+            cell.titleLbl.text = "Delete Account".localizedString
             cell.iconImg.image = UIImage(named: "delete_ic")
             cell.bottomView.isHidden = true
             return cell
@@ -878,15 +937,21 @@ extension SettingsVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 4 {//change password
+        if indexPath.row == 4 { //change password
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "ChangePasswordVC") as? ChangePasswordVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        else if indexPath.row == 5 {//block list
+        
+        else if indexPath.row == 5 { //block list
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "BlockedListVC") as? BlockedListVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }
-        else if indexPath.row == 6 {
+        
+        else if indexPath.row == 6 { //Language
+            self.changeLanguage()
+        }
+        
+        else if indexPath.row == 7 { //delete account
             deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             deleteAlertView?.titleLbl.text = "Confirm?".localizedString

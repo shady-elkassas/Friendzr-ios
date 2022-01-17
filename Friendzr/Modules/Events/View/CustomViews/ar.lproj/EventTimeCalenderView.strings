@@ -1,0 +1,9 @@
+
+/* Class = "UILabel"; text = "Set time"; ObjectID = "2Oq-lk-ZT7"; */
+"2Oq-lk-ZT7.text" = "ضبط الوقت";
+
+/* Class = "UIButton"; normalTitle = "CANCEL"; ObjectID = "dEY-Ar-Rj8"; */
+"dEY-Ar-Rj8.normalTitle" = "الغاء";
+
+/* Class = "UIButton"; normalTitle = "OK"; ObjectID = "rj7-88-t9S"; */
+"rj7-88-t9S.normalTitle" = "تأكيد";

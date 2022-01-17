@@ -1,0 +1,63 @@
+
+/* Class = "UILabel"; text = "By clicking Sign up you agree to our terms of usage"; ObjectID = "5S2-xb-U52"; */
+"5S2-xb-U52.text" = "By clicking Sign up you agree to our terms of usage";
+
+/* Class = "UILabel"; text = "Sign Up"; ObjectID = "8CP-hQ-VJd"; */
+"8CP-hQ-VJd.text" = "Sign Up";
+
+/* Class = "UIButton"; normalTitle = "Log In"; ObjectID = "9xH-08-yty"; */
+"9xH-08-yty.normalTitle" = "Log In";
+
+/* Class = "UILabel"; text = "SIGN UP WITH APPLE"; ObjectID = "E3m-VV-h58"; */
+"E3m-VV-h58.text" = "SIGN UP WITH APPLE";
+
+/* Class = "UILabel"; text = "SIGN UP WITH GOOGLE"; ObjectID = "Eby-mc-eXd"; */
+"Eby-mc-eXd.text" = "SIGN UP WITH GOOGLE";
+
+/* Class = "UILabel"; text = "Already have an account?"; ObjectID = "J9O-ve-cdw"; */
+"J9O-ve-cdw.text" = "Already have an account?";
+
+/* Class = "UILabel"; text = "SIGN UP WITH FACEBOOK"; ObjectID = "K1P-ez-pPT"; */
+"K1P-ez-pPT.text" = "SIGN UP WITH FACEBOOK";
+
+/* Class = "UILabel"; text = "SIGN UP WITH GOOGLE"; ObjectID = "UtU-P3-XMr"; */
+"UtU-P3-XMr.text" = "SIGN UP WITH GOOGLE";
+
+/* Class = "UILabel"; text = "Sign up to be the first to hear about updates, events, new features."; ObjectID = "Uwg-36-ZfI"; */
+"Uwg-36-ZfI.text" = "Sign up to be the first to hear about updates, events, new features.";
+
+/* Class = "UILabel"; text = "SIGN UP WITH EMAIL"; ObjectID = "VXC-FY-FWQ"; */
+"VXC-FY-FWQ.text" = "SIGN UP WITH EMAIL";
+
+/* Class = "UILabel"; text = "SIGN UP WITH APPLE"; ObjectID = "aku-QQ-mxt"; */
+"aku-QQ-mxt.text" = "SIGN UP WITH APPLE";
+
+/* Class = "UILabel"; text = "By continuing, you agree to accept our Privacy Policy & Terms of Service."; ObjectID = "cZt-3B-TlD"; */
+"cZt-3B-TlD.text" = "By continuing, you agree to accept our Privacy Policy & Terms of Service.";
+
+/* Class = "UILabel"; text = "OR"; ObjectID = "cvx-sp-lPu"; */
+"cvx-sp-lPu.text" = "OR";
+
+/* Class = "UIButton"; configuration.title = " "; ObjectID = "eNh-F3-esW"; */
+"eNh-F3-esW.configuration.title" = " ";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "eNh-F3-esW"; */
+"eNh-F3-esW.normalTitle" = "Button";
+
+/* Class = "UITextField"; placeholder = "Confirm Password"; ObjectID = "g2z-Bm-pCC"; */
+"g2z-Bm-pCC.placeholder" = "Confirm Password";
+
+/* Class = "UILabel"; text = "SIGN UP WITH FACEBOOK"; ObjectID = "n3U-3i-5Nz"; */
+"n3U-3i-5Nz.text" = "SIGN UP WITH FACEBOOK";
+
+/* Class = "UIButton"; configuration.title = " "; ObjectID = "nKm-Wf-tt3"; */
+"nKm-Wf-tt3.configuration.title" = " ";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "nKm-Wf-tt3"; */
+"nKm-Wf-tt3.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Sign up now"; ObjectID = "xtD-bB-CgL"; */
+"xtD-bB-CgL.text" = "Sign up now";
+
+/* Class = "UIButton"; normalTitle = "SIGN UP"; ObjectID = "zBg-me-iMs"; */
+"zBg-me-iMs.normalTitle" = "SIGN UP";

@@ -1,0 +1,39 @@
+
+/* Class = "UILabel"; text = "OR"; ObjectID = "1ZM-x0-CaL"; */
+"1ZM-x0-CaL.text" = "او";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "CnX-OK-17D"; */
+"CnX-OK-17D.placeholder" = "البريد الالكتروني";
+
+/* Class = "UILabel"; text = "Log In"; ObjectID = "EHD-G1-Axg"; */
+"EHD-G1-Axg.text" = "تسجيل الدخول";
+
+/* Class = "UIButton"; normalTitle = "RESET"; ObjectID = "H0g-c1-lIx"; */
+"H0g-c1-lIx.normalTitle" = "إعادة تعيين";
+
+/* Class = "UILabel"; text = "SIGN IN WITH FACEBOOK"; ObjectID = "KUY-xt-1c8"; */
+"KUY-xt-1c8.text" = "تسجيل الدخول باستخدام الفيس بوك";
+
+/* Class = "UIButton"; normalTitle = "Forget Password?"; ObjectID = "Ks3-EZ-Zou"; */
+"Ks3-EZ-Zou.normalTitle" = "هل نسيت كلمة المرور؟";
+
+/* Class = "UILabel"; text = "SIGN IN WITH APPLE"; ObjectID = "MSa-tt-xuH"; */
+"MSa-tt-xuH.text" = "تسجيل الدخول بواسطه آبل";
+
+/* Class = "UIButton"; normalTitle = "Sign up"; ObjectID = "TOV-WU-Qyc"; */
+"TOV-WU-Qyc.normalTitle" = "اشتراك";
+
+/* Class = "UILabel"; text = "SIGN IN WITH GOOGLE"; ObjectID = "Zfc-5m-HeB"; */
+"Zfc-5m-HeB.text" = "تسجيل الدخول باستخدام جوجل";
+
+/* Class = "UIButton"; normalTitle = "LOG IN"; ObjectID = "c5Z-9w-lG6"; */
+"c5Z-9w-lG6.normalTitle" = "تسجيل الدخول";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "gF8-o7-Qzf"; */
+"gF8-o7-Qzf.placeholder" = "كلمة المرور";
+
+/* Class = "UILabel"; text = "Forget Password"; ObjectID = "pzd-J1-RJb"; */
+"pzd-J1-RJb.text" = "نسيت كلمة المرور";
+
+/* Class = "UILabel"; text = "Don't have an account?"; ObjectID = "xHk-QY-fhs"; */
+"xHk-QY-fhs.text" = "ليس لديك حساب؟";

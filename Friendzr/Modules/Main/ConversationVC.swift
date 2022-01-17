@@ -210,16 +210,16 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                 messageInputBar.isHidden = false
                 initOptionsInChatEventButton()
             }else if leavevent == 1 {
-                setupDownView(textLbl: "You have left this event")
+                setupDownView(textLbl: "You have left this event".localizedString)
             }else {
-                setupDownView(textLbl: "You have left this chat event")
+                setupDownView(textLbl: "You have left this chat event".localizedString)
             }
         }else {
             if isFriend == true {
                 messageInputBar.isHidden = false
                 initOptionsInChatUserButton()
             }else {
-                setupDownView(textLbl: "You are now not a friend of this user and will not be able to message him")
+                setupDownView(textLbl: "You are now not a friend of this user and will not be able to message him".localizedString)
             }
         }
     }
@@ -631,7 +631,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     func HandleInternetConnection() {
         DispatchQueue.main.async {
-            self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+            self.view.makeToast("No avaliable network ,Please try again!".localizedString)
         }
     }
     
@@ -700,32 +700,32 @@ extension ConversationVC {
     @objc func handleUserOptionsBtn() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Unfriend".localizedString, style: .default, handler: { action in
                 self.unFriendAccount()
             }))
-            actionAlert.addAction(UIAlertAction(title: "Block", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Block".localizedString, style: .default, handler: { action in
                 self.blockFriendAccount()
             }))
-            actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
                     Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)
                 }else {
                     Router().toReportVC(id: self.chatuserID, isEvent: false, chatimg: self.titleChatImage, chatname: self.titleChatName)
                 }
             }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Unfriend", style: .default, handler: { action in
+            actionSheet.addAction(UIAlertAction(title: "Unfriend".localizedString, style: .default, handler: { action in
                 self.unFriendAccount()
             }))
-            actionSheet.addAction(UIAlertAction(title: "Block", style: .default, handler: { action in
+            actionSheet.addAction(UIAlertAction(title: "Block".localizedString, style: .default, handler: { action in
                 self.blockFriendAccount()
             }))
-            actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+            actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
                     Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)
                 }else {
@@ -734,7 +734,7 @@ extension ConversationVC {
                 
             }))
             
-            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
             present(actionSheet, animated: true, completion: nil)
@@ -747,14 +747,14 @@ extension ConversationVC {
 //            actionAlert.addAction(UIAlertAction(title: "Leave", style: .default, handler: { action in
 //                self.leaveEvent()
 //            }))
-            actionAlert.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
                     Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)
                 }else {
                     Router().toReportVC(id: self.chatuserID, isEvent: false, chatimg: self.titleChatImage, chatname: self.titleChatName)
                 }
             }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
             present(actionAlert, animated: true, completion: nil)
@@ -763,14 +763,14 @@ extension ConversationVC {
 //            actionSheet.addAction(UIAlertAction(title: "Leave", style: .default, handler: { action in
 //                self.leaveEvent()
 //            }))
-            actionSheet.addAction(UIAlertAction(title: "Report", style: .default, handler: { action in
+            actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
                     Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)
                 }else {
                     Router().toReportVC(id: self.chatuserID, isEvent: false, chatimg: self.titleChatImage, chatname: self.titleChatName)
                 }
             }))
-            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             present(actionSheet, animated: true, completion: nil)
         }
@@ -799,7 +799,7 @@ extension ConversationVC {
                     return
                 }
                 DispatchQueue.main.async {
-                    self.view.makeToast("You have successfully left the chat")
+                    self.view.makeToast("You have successfully left the chat".localizedString)
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -960,5 +960,4 @@ extension ConversationVC {
         vc.eventId = self.titleID!
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
 }

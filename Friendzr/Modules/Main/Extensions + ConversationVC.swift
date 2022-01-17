@@ -54,7 +54,7 @@ extension ConversationVC: MessagesDataSource {
     }
     
     func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
-        return NSAttributedString(string: "Read", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
+        return NSAttributedString(string: "Read".localizedString, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 10), NSAttributedString.Key.foregroundColor: UIColor.darkGray])
     }
     
     func messageTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
@@ -393,7 +393,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
         inputBar.invalidatePlugins()
         // Send button activity animation
         inputBar.sendButton.startAnimating()
-        inputBar.inputTextView.placeholder = "Sending..."
+        inputBar.inputTextView.placeholder = "Sending...".localizedString
         // Resign first responder for iPad split view
         inputBar.inputTextView.resignFirstResponder()
         DispatchQueue.global(qos: .default).async {
@@ -401,7 +401,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
             sleep(1)
             DispatchQueue.main.async { [weak self] in
                 inputBar.sendButton.stopAnimating()
-                inputBar.inputTextView.placeholder = "Aa"
+                inputBar.inputTextView.placeholder = "Aa".localizedString
                 self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
             }
         }
@@ -678,70 +678,70 @@ extension ConversationVC {
     
     private func presentActionSheetForLongPress(indexPath:Int) {
         if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: "", message: "Choose the action you want to do?", preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { action in
+            let actionAlert  = UIAlertController(title: "", message: "Choose the action you want to do?".localizedString, preferredStyle: .alert)
+            actionAlert.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
                 print("\(indexPath)")
                 self.messageList.remove(at: indexPath)
                 self.messagesCollectionView.reloadData()
             }))
             
-            actionAlert.addAction(UIAlertAction(title: "Hide", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Hide".localizedString, style: .default, handler: { action in
             }))
-            actionAlert.addAction(UIAlertAction(title: "Copy", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Copy".localizedString, style: .default, handler: { action in
                 let message = self.messageList[indexPath]
                 switch message.kind {
                 case .contact(let contact):
                     UIPasteboard.general.string = contact.phoneNumbers[0]
-                    self.view.makeToast("Copied")
+                    self.view.makeToast("Copied".localizedString)
                     break
                 case .emoji((let text)):
                     UIPasteboard.general.string = text
-                    self.view.makeToast("Copied")
+                    self.view.makeToast("Copied".localizedString)
                     break
                 case .text(let text):
                     UIPasteboard.general.string = text
-                    self.view.makeToast("Copied")
+                    self.view.makeToast("Copied".localizedString)
                     break
                 default: break
                 }
             }))
-            actionAlert.addAction(UIAlertAction(title: "Replay", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Replay".localizedString, style: .default, handler: { action in
             }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             //            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
             present(actionAlert, animated: true, completion: nil)
         }else {
-            let actionAlert  = UIAlertController(title: "", message: "Choose the action you want to do?", preferredStyle: .actionSheet)
+            let actionAlert  = UIAlertController(title: "", message: "Choose the action you want to do?".localizedString, preferredStyle: .actionSheet)
             
-            actionAlert.addAction(UIAlertAction(title: "Delete", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
                 print("\(indexPath)")
                 self.messageList.remove(at: indexPath)
                 self.messagesCollectionView.reloadData()
             }))
-            actionAlert.addAction(UIAlertAction(title: "Hide", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Hide".localizedString, style: .default, handler: { action in
             }))
-            actionAlert.addAction(UIAlertAction(title: "Copy", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Copy".localizedString, style: .default, handler: { action in
                 let message = self.messageList[indexPath]
                 switch message.kind {
                 case .contact(let contact):
                     UIPasteboard.general.string = contact.phoneNumbers[0]
-                    self.view.makeToast("Copied")
+                    self.view.makeToast("Copied".localizedString)
                     break
                 case .emoji((let text)):
                     UIPasteboard.general.string = text
-                    self.view.makeToast("Copied")
+                    self.view.makeToast("Copied".localizedString)
                     break
                 case .text(let text):
                     UIPasteboard.general.string = text
-                    self.view.makeToast("Copied")
+                    self.view.makeToast("Copied".localizedString)
                     break
                 default: break
                 }
             }))
-            actionAlert.addAction(UIAlertAction(title: "Replay", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "Replay".localizedString, style: .default, handler: { action in
             }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             //            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
             present(actionAlert, animated: true, completion: nil)
@@ -750,8 +750,8 @@ extension ConversationVC {
     
     private func presentInputActionSheet() {
         if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: "Attach Media", message: "What would you like attach?", preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Photo", style: .default, handler: { action in
+            let actionAlert  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .alert)
+            actionAlert.addAction(UIAlertAction(title: "Photo".localizedString, style: .default, handler: { action in
                 self.presentPhotoInputActionSheet()
             }))
             
@@ -764,18 +764,18 @@ extension ConversationVC {
             //                self.navigationController?.pushViewController(vc, animated: true)
             //            }))
             
-            actionAlert.addAction(UIAlertAction(title: "File", style: .default, handler: { action in
+            actionAlert.addAction(UIAlertAction(title: "File".localizedString, style: .default, handler: { action in
                 
             }))
             
-            actionAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
             //            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
             present(actionAlert, animated: true, completion: nil)
         }else {
-            let actionSheet  = UIAlertController(title: "Attach Media", message: "What would you like attach?", preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Photo", style: .default, handler: { action in
+            let actionSheet  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "Photo".localizedString, style: .default, handler: { action in
                 self.presentPhotoInputActionSheet()
             }))
             
@@ -789,11 +789,11 @@ extension ConversationVC {
             //                self.navigationController?.pushViewController(vc, animated: true)
             //            }))
             
-            actionSheet.addAction(UIAlertAction(title: "File", style: .default, handler: { action in
+            actionSheet.addAction(UIAlertAction(title: "File".localizedString, style: .default, handler: { action in
                 self.openFileLibrary()
             }))
             
-            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: {  _ in
+            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
             present(actionSheet, animated: true, completion: nil)
@@ -804,10 +804,10 @@ extension ConversationVC {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsAlert: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
             
-            settingsAlert.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            settingsAlert.addAction(UIAlertAction(title:"Camera".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openCamera()
             }))
-            settingsAlert.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            settingsAlert.addAction(UIAlertAction(title:"Photo Library".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openLibrary()
             }))
             settingsAlert.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -938,7 +938,6 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
                 viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
                     
                     if let error = error {
-//                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
@@ -958,7 +957,6 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
                 viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
                     
                     if let error = error {
-//                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
@@ -1117,7 +1115,7 @@ extension ConversationVC: MessagesLayoutDelegate {
     }
     
     func setTypingIndicatorViewHidden(_ isHidden: Bool, performUpdates updates: (() -> Void)? = nil) {
-        updateTitleView(title: "Mesaages Room", subtitle: isHidden ? "2 Online" : "Typing...")
+        updateTitleView(title: "Mesaages Room".localizedString, subtitle: isHidden ? "2 Online".localizedString : "Typing...".localizedString)
         setTypingIndicatorViewHidden(isHidden, animated: true, whilePerforming: updates) { [weak self] success in
             if success, self?.isLastSectionVisible() == true {
                 self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
@@ -1157,7 +1155,6 @@ extension ConversationVC: UIDocumentPickerDelegate {
                 
                 viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
                     if let error = error {
-//                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
@@ -1184,7 +1181,6 @@ extension ConversationVC: UIDocumentPickerDelegate {
                 viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
                     
                     if let error = error {
-//                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }

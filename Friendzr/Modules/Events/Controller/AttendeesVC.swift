@@ -46,7 +46,7 @@ class AttendeesVC: UIViewController {
         setupSearchBar()
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         initBackButton()
-        title = "Attendees"
+        title = "Attendees".localizedString
         tryAgainBtn.cornerRadiusView(radius: 8)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
@@ -171,7 +171,7 @@ class AttendeesVC: UIViewController {
         self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         self.alertView?.titleLbl.text = "Confirm?".localizedString
-        self.alertView?.detailsLbl.text = "Are you sure you want to \(messageString) this account?".localizedString
+        self.alertView?.detailsLbl.text = "Are you sure you want to ".localizedString + "\(messageString)" + " this account?".localizedString
         
         let ActionDate = self.formatterDate.string(from: Date())
         let Actiontime = self.formatterTime.string(from: Date())
@@ -193,7 +193,7 @@ class AttendeesVC: UIViewController {
                 guard let _ = data else {return}
                 
                 DispatchQueue.main.async {
-                    self.view.makeToast("Successfully \(messageString)" )
+                    self.view.makeToast("Successfully" )
                 }
                 
                 DispatchQueue.main.async {
@@ -273,7 +273,7 @@ class AttendeesVC: UIViewController {
     func HandleInternetConnection() {
         emptyView.isHidden = false
         emptyImg.image = UIImage.init(named: "nointernet")
-        emptyLbl.text = "No avaliable newtwok ,Please try again!".localizedString
+        emptyLbl.text = "No avaliable network ,Please try again!".localizedString
         tryAgainBtn.alpha = 1.0
     }
 }
@@ -325,7 +325,7 @@ extension AttendeesVC:UITableViewDataSource {
         
         cell.friendNameLbl.text = model?.userName
         cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
-        cell.joinDateLbl.text = "join Date: \(model?.joinDate ?? "")"
+        cell.joinDateLbl.text = "join Date: " + "\(model?.joinDate ?? "")"
         
         cell.HandleDropDownBtn = {
             if UIDevice.current.userInterfaceIdiom == .pad {
@@ -334,20 +334,20 @@ extension AttendeesVC:UITableViewDataSource {
                 settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                     self.showAlertView(messageString: "delete", eventID: self.eventID, UserattendId: model?.userId ?? "", Stutus: 1)
                 }))
-                settingsActionSheet.addAction(UIAlertAction(title:"Block".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "block", eventID: self.eventID, UserattendId: model?.userId ?? "", Stutus: 2)
+                settingsActionSheet.addAction(UIAlertAction(title:"Block".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    self.showAlertView(messageString: "block".localizedString, eventID: self.eventID, UserattendId: model?.userId ?? "", Stutus: 2)
                 }))
-                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString.localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                 
                 self.present(settingsActionSheet, animated:true, completion:nil)
             }else {
                 let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                 
-                settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "delete", eventID: self.eventID, UserattendId: model?.userId ?? "", Stutus: 1)
+                settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    self.showAlertView(messageString: "delete".localizedString, eventID: self.eventID, UserattendId: model?.userId ?? "", Stutus: 1)
                 }))
-                settingsActionSheet.addAction(UIAlertAction(title:"Block".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "block", eventID: self.eventID, UserattendId: model?.userId ?? "", Stutus: 2)
+                settingsActionSheet.addAction(UIAlertAction(title:"Block".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    self.showAlertView(messageString: "block".localizedString, eventID: self.eventID, UserattendId: model?.userId ?? "", Stutus: 2)
                 }))
                 settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                 
@@ -389,7 +389,7 @@ extension AttendeesVC:UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data here")
+                    self.view.makeToast("No more data here".localizedString)
                 }
                 return
             }

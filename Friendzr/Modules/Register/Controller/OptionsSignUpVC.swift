@@ -45,7 +45,7 @@ class OptionsSignUpVC: UIViewController {
 
     var internetConect:Bool = false
 
-    var myString:String = "By clicking ‘Sign up’, you agree to our terms of usage see more"
+    var myString:String = "By clicking ‘Sign up’, you agree to our terms of usage see more".localizedString
     var myMutableString = NSMutableAttributedString()
 
     //MARK: - Life Cycle
@@ -106,13 +106,13 @@ class OptionsSignUpVC: UIViewController {
     }
 
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
     }
 
     //MARK: - Actions
     @IBAction func termsBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
-        vc.titleVC = "Terms & Conditions"
+        vc.titleVC = "Terms & Conditions".localizedString
         vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/EULAOct2021.pdf"
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -141,7 +141,6 @@ class OptionsSignUpVC: UIViewController {
                     
                     if (error == nil) {
                         if error != nil {
-                            //                        print("Process error")
                         }else if (result?.isCancelled)!{
                             return
                         }else {

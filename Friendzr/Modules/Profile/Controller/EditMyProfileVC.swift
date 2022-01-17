@@ -77,7 +77,7 @@ class EditMyProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Edit Profile"
+        self.title = "Edit Profile".localizedString
         setup()
         setupDate()
         
@@ -148,7 +148,7 @@ class EditMyProfileVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
     }
     
     func setup() {
@@ -207,7 +207,7 @@ class EditMyProfileVC: UIViewController {
         }
         
         if model?.birthdate == "" {
-            dateBirthLbl.text = "Select your birthdate"
+            dateBirthLbl.text = "Select your birthdate".localizedString
             dateBirthLbl.textColor = .lightGray
         }else {
             dateBirthLbl.text = model?.birthdate
@@ -338,7 +338,6 @@ class EditMyProfileVC: UIViewController {
                 self.logoutVM.logoutRequest { error, data in
                     self.hideLoading()
                     if let error = error {
-                        //                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
@@ -582,20 +581,16 @@ class EditMyProfileVC: UIViewController {
     }
     
     @IBAction func saveBtn(_ sender: Any) {
-        //        updateUserInterface()
-        
         updateUserInterface2()
         if self.attachedImg == false {
-            //            self.showAlert(withMessage: "Please add profile image")
             DispatchQueue.main.async {
-                self.view.makeToast("Please add profile image")
+                self.view.makeToast("Please add profile image".localizedString)
             }
             return
         }else {
             if tagsid.isEmpty {
-                //                self.showAlert(withMessage: "Please select your tags")
                 DispatchQueue.main.async {
-                    self.view.makeToast("Please select your tags")
+                    self.view.makeToast("Please select your tags".localizedString)
                 }
                 return
             }else {

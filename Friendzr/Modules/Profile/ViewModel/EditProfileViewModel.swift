@@ -54,7 +54,7 @@ class EditProfileViewModel {
         
         if gender == "other" {
             if OtherGenderName == "" {
-                errorMsg = "Please enter a valid other gender name "
+                errorMsg = "Please enter a valid other gender name".localizedString
                 completion(errorMsg,nil)
                 return
             }
@@ -120,7 +120,6 @@ class EditProfileViewModel {
                 task.resume()
             }
         }else {
-//            guard let mediaImage = Media(withImage: UIImage(), forKey: "UserImags") else { return }
             guard let urlRequest = URL(string: url) else { return }
             var request = URLRequest(url: urlRequest)
             request.httpMethod = "POST"

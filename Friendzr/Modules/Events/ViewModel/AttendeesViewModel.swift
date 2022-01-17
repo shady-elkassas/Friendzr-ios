@@ -54,7 +54,6 @@ class AttendeesViewModel {
         
         let url = URLs.baseURLFirst + "Events/getEventAttende"
         let headers = RequestComponent.headerComponent([.authorization,.type])
-//        let bodyData = "id=\(eventid)".data(using: .utf8)
         let parameters:[String : Any] = ["id": eventid,"pageNumber": pageNumber,"pageSize":10,"search":search]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

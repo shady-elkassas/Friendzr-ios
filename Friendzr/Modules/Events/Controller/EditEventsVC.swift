@@ -112,7 +112,7 @@ class EditEventsVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
     }
     
     func setup() {
@@ -129,7 +129,7 @@ class EditEventsVC: UIViewController {
     
     func initDeleteEventButton(btnColor: UIColor? = .red) {
         let button = UIButton.init(type: .custom)
-        button.setTitle("Delete Event", for: .normal)
+        button.setTitle("Delete Event".localizedString, for: .normal)
         button.setTitleColor(btnColor, for: .normal)
         button.titleLabel?.font = UIFont(name: "Montserrat-Medium", size: 12)
         button.addTarget(self, action:  #selector(handleDeleteEvent), for: .touchUpInside)
@@ -252,7 +252,7 @@ class EditEventsVC: UIViewController {
                 guard let _ = data else {return}
                 //                self.showAlert(withMessage: "Edit Save successfully")
                 DispatchQueue.main.async {
-                    self.view.makeToast("Edit Save successfully")
+                    self.view.makeToast("Edit Save successfully".localizedString)
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -523,25 +523,25 @@ extension EditEventsVC {
             
             switch weekday {
             case 1:
-                dayname = "Sun"
+                dayname = "Sun".localizedString
                 break
             case 2:
-                dayname = "Mon"
+                dayname = "Mon".localizedString
                 break
             case 3:
-                dayname = "Tue"
+                dayname = "Tue".localizedString
                 break
             case 4:
-                dayname = "Wed"
+                dayname = "Wed".localizedString
                 break
             case 5:
-                dayname = "Thu"
+                dayname = "Thu".localizedString
                 break
             case 6:
-                dayname = "Fri"
+                dayname = "Fri".localizedString
                 break
             case 7:
-                dayname = "Sat"
+                dayname = "Sat".localizedString
                 break
             default:
                 break
@@ -549,41 +549,41 @@ extension EditEventsVC {
             
             switch month {
             case 1:
-                monthname = "Jan"
+                monthname = "Jan".localizedString
                 
                 break
             case 2:
-                monthname = "Feb"
+                monthname = "Feb".localizedString
                 break
             case 3:
-                monthname = "Mar"
+                monthname = "Mar".localizedString
                 break
             case 4:
-                monthname = "Apr"
+                monthname = "Apr".localizedString
                 break
             case 5:
-                monthname = "May"
+                monthname = "May".localizedString
                 break
             case 6:
-                monthname = "Jun"
+                monthname = "Jun".localizedString
                 break
             case 7:
-                monthname = "Jul"
+                monthname = "Jul".localizedString
                 break
             case 8:
-                monthname = "Aug"
+                monthname = "Aug".localizedString
                 break
             case 9:
-                monthname = "Sep"
+                monthname = "Sep".localizedString
                 break
             case 10:
-                monthname = "Oct"
+                monthname = "Oct".localizedString
                 break
             case 11:
-                monthname = "Nov"
+                monthname = "Nov".localizedString
                 break
             case 12:
-                monthname = "Dec"
+                monthname = "Dec".localizedString
                 break
             default:
                 break

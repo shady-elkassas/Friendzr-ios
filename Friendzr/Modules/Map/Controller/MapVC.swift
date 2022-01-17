@@ -251,7 +251,7 @@ class MapVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
     }
     
     @objc func handleSubViewHide() {
@@ -445,7 +445,7 @@ class MapVC: UIViewController {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: "Cancel".localizedString, style: .cancel)
         let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
         }
@@ -491,7 +491,7 @@ class MapVC: UIViewController {
     @IBAction func addEventBtn(_ sender: Any) {
         if Defaults.allowMyLocation == true {
             self.appendNewLocation = true
-            self.view.makeToast("Please pick the event location")
+            self.view.makeToast("Please pick the event location".localizedString)
             self.goAddEventBtn.isHidden = false
             self.addEventBtn.isHidden = true
             
@@ -586,8 +586,6 @@ extension MapVC : GMSMapViewDelegate {
         mapView.animate(to: camera)
         
         if self.appendNewLocation {
-            //            self.setupMarker(for: self.location!)
-            
             geocode(latitude: location!.latitude, longitude: location!.longitude) { (PM, error) in
                 guard let error = error else {
                     self.locationName = (PM?.name)!
@@ -703,9 +701,8 @@ extension MapVC : CLLocationManagerDelegate {
                 createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
             }
         }else {
-//            self.showAlert(withMessage: "please allow your location")
             DispatchQueue.main.async {
-                self.view.makeToast("Please allow your location")
+                self.view.makeToast("Please allow your location".localizedString)
             }
             return
         }
@@ -862,7 +859,7 @@ extension MapVC:UICollectionViewDataSource {
         
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
-        cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
+        cell.joinedLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
         cell.eventDateLbl.textColor = UIColor.color("#0BBEA1")
 //        UIColor.color(model?.color ?? "")
         

@@ -94,7 +94,7 @@ class FeedVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Feed"
+        self.title = "Feed".localizedString
         setup()
         initSwitchBarButton()
         pullToRefresh()
@@ -196,7 +196,7 @@ class FeedVC: UIViewController {
     
     func LoadAllFeeds(pageNumber:Int) {
         self.tableView.hideLoader()
-        self.view.makeToast("Please wait for the data to load...")
+        self.view.makeToast("Please wait for the data to load...".localizedString)
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
@@ -355,7 +355,7 @@ class FeedVC: UIViewController {
             }else {
                 self.allowLocView.isHidden = false
             }
-            self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+            self.view.makeToast("No avaliable network ,Please try again!".localizedString)
         }else {
             emptyView.isHidden = false
             if Defaults.allowMyLocation == true {
@@ -364,7 +364,7 @@ class FeedVC: UIViewController {
                 self.allowLocView.isHidden = false
             }
             emptyImg.image = UIImage.init(named: "nointernet")
-            emptyLbl.text = "No avaliable newtwok ,Please try again!".localizedString
+            emptyLbl.text = "No avaliable network ,Please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }
     }
@@ -432,7 +432,7 @@ class FeedVC: UIViewController {
         
         self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-        self.showAlertView?.detailsLbl.text = "Are you sure you want to turn on your location?"
+        self.showAlertView?.detailsLbl.text = "Are you sure you want to turn on your location?".localizedString
         
         self.showAlertView?.HandleConfirmBtn = {
             self.updateNetworkForBtns()
@@ -508,9 +508,9 @@ extension FeedVC:UITableViewDataSource {
             
             
             //set title btns
-            self.changeTitleBtns(btn: cell.unblockBtn, title: "Unblock")
-            self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Cancel Request")
-            self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Send Request")
+            self.changeTitleBtns(btn: cell.unblockBtn, title: "Unblock".localizedString)
+            self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Cancel Request".localizedString)
+            self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Send Request".localizedString)
             
             //status key
             switch model?.key {
@@ -578,7 +578,7 @@ extension FeedVC:UITableViewDataSource {
                 self.btnsSelected = true
                 self.updateNetworkForBtns()
                 if self.internetConnect {
-                    self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...")
+                    self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1) { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
@@ -604,7 +604,7 @@ extension FeedVC:UITableViewDataSource {
                 
                 self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-                self.showAlertView?.detailsLbl.text = "Are you sure you will accept this request?"
+                self.showAlertView?.detailsLbl.text = "Are you sure you will accept this request?".localizedString
                 
                 self.showAlertView?.HandleConfirmBtn = {
                     self.btnsSelected = true
@@ -620,10 +620,6 @@ extension FeedVC:UITableViewDataSource {
                             }
                             
                             guard let _ = message else {return}
-//                            DispatchQueue.main.async {
-//                                self.view.makeToast(message)
-//                            }
-//
                             DispatchQueue.main.async {
                                 self.getAllFeeds(pageNumber: 0)
                             }
@@ -662,10 +658,6 @@ extension FeedVC:UITableViewDataSource {
                             }
                             
                             guard let _ = message else {return}
-//                            DispatchQueue.main.async {
-//                                self.view.makeToast(message)
-//                            }
-//
                             DispatchQueue.main.async {
                                 self.getAllFeeds(pageNumber: 0)
                             }
@@ -726,7 +718,7 @@ extension FeedVC:UITableViewDataSource {
                 self.updateNetworkForBtns()
                 
                 if self.internetConnect {
-                    self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Sending...")
+                    self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Sending...".localizedString)
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
                         
                         if let error = error {
@@ -797,7 +789,7 @@ extension FeedVC:UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data here")
+                    self.view.makeToast("No more data here".localizedString)
                 }
                 return
             }
@@ -864,7 +856,7 @@ extension FeedVC: CLLocationManagerDelegate {
             }
         }else {
             switchBarButton.isOn = false
-            self.showAlert(withMessage: "Please allow your location")
+            self.showAlert(withMessage: "Please allow your location".localizedString)
             bannerViewHeight.constant = 100
         }
     }

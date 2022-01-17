@@ -62,7 +62,7 @@ class InboxVC: UIViewController {
         setupView()
         
         initNewConversationBarButton()
-        self.title = "Inbox"
+        self.title = "Inbox".localizedString
         
         pullToRefresh()
         
@@ -139,7 +139,7 @@ class InboxVC: UIViewController {
     }
     
     func loadAllchatList(pageNumber:Int) {
-        self.view.makeToast("Please wait for the data to load...")
+        self.view.makeToast("Please wait for the data to load...".localizedString)
         viewmodel.getChatList(pageNumber: pageNumber)
         viewmodel.listChat.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -210,7 +210,7 @@ class InboxVC: UIViewController {
     func HandleInternetConnection() {
         if cellSelect {
             emptyView.isHidden = true
-            self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+            self.view.makeToast("No avaliable network ,Please try again!".localizedString)
         }else {
             emptyView.isHidden = false
             emptyImg.image = UIImage.init(named: "nointernet")
@@ -384,14 +384,14 @@ extension InboxVC:UITableViewDataSource {
                     cell.attachTypeLbl.isHidden = false
                     cell.lastMessageLbl.isHidden = true
                     cell.attachImg.image = UIImage(named: "placeholder")
-                    cell.attachTypeLbl.text = "Photo"
+                    cell.attachTypeLbl.text = "Photo".localizedString
                 }
                 else if model?.messagestype == 3 {
                     cell.attachImg.isHidden = false
                     cell.attachTypeLbl.isHidden = false
                     cell.lastMessageLbl.isHidden = true
                     cell.attachImg.image = UIImage(named: "attachFile_ic")
-                    cell.attachTypeLbl.text = "File"
+                    cell.attachTypeLbl.text = "File".localizedString
                 }
                 else {
                     print("\(model?.messagestype ?? 0)")
@@ -442,19 +442,19 @@ extension InboxVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         if searchVM.usersinChat.value?.data?.count != 0 || viewmodel.listChat.value?.data?.count != 0  {
             let model = self.viewmodel.listChat.value?.data?[indexPath.row]
-            let muteTitle = model?.isMute ?? false ? "UnMute" : "Mute"
+            let muteTitle = model?.isMute ?? false ? "UnMute".localizedString : "Mute".localizedString
             
             if model?.leavevent == 0 {
-                self.leaveOrJoinTitle = "Leave"
+                self.leaveOrJoinTitle = "Leave".localizedString
             }else {
-                self.leaveOrJoinTitle = "Join"
+                self.leaveOrJoinTitle = "Join".localizedString
             }
             
             let actionDate = formatterDate.string(from: Date())
             let actionTime = formatterTime.string(from: Date())
             
             
-            let deleteAction = UITableViewRowAction(style: .default, title: "Delete") { action, indexPath in
+            let deleteAction = UITableViewRowAction(style: .default, title: "Delete".localizedString) { action, indexPath in
                 print("deleteAction")
                 
                 if UIDevice.current.userInterfaceIdiom == .pad {
@@ -535,7 +535,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                                 
                                 DispatchQueue.main.async {
-                                    self.view.makeToast("You have successfully left the chat")
+                                    self.view.makeToast("You have successfully left the chat".localizedString)
                                 }
                                 
                                 DispatchQueue.main.async {
@@ -566,7 +566,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                                 
                                 DispatchQueue.main.async {
-                                    self.view.makeToast("You have successfully left the chat")
+                                    self.view.makeToast("You have successfully left the chat".localizedString)
                                 }
                                 
                                 DispatchQueue.main.async {
@@ -599,7 +599,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                                 
                                 DispatchQueue.main.async {
-                                    self.view.makeToast("You have successfully join the chat")
+                                    self.view.makeToast("You have successfully join the chat".localizedString)
                                 }
                                 
                                 DispatchQueue.main.async {
@@ -630,7 +630,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                                 
                                 DispatchQueue.main.async {
-                                    self.view.makeToast("You have successfully join the chat")
+                                    self.view.makeToast("You have successfully join the chat".localizedString)
                                 }
                                 
                                 DispatchQueue.main.async {
@@ -803,7 +803,7 @@ extension InboxVC:UITableViewDelegate {
                 }else {
                     self.tableView.tableFooterView = nil
                     DispatchQueue.main.async {
-                        self.view.makeToast("No more data here")
+                        self.view.makeToast("No more data here".localizedString)
                     }
                     return
                 }

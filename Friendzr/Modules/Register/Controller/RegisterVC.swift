@@ -57,7 +57,7 @@ class RegisterVC: UIViewController {
     var internetConect:Bool = false
     //    var btnsSelect:Bool = false
     
-    var myString:String = "By clicking ‘Sign up’, you agree to our terms of usage see more"
+    var myString:String = "By clicking ‘Sign up’, you agree to our terms of usage see more".localizedString
     var myMutableString = NSMutableAttributedString()
 
     //MARK: - Life Cycle
@@ -90,7 +90,7 @@ class RegisterVC: UIViewController {
             }
             
             guard let _ = data else {return}
-            self.view.makeToast("Done successfully")
+            self.view.makeToast("Done successfully".localizedString)
         }
     }
     
@@ -102,7 +102,6 @@ class RegisterVC: UIViewController {
             registerVM.RegisterNewUser(withUserName: userNameTxt.text!, AndEmail: emailTxt.text!, password: passwordTxt.text!,confirmPassword:confirmPasswordTxt.text!) { error, data in
                 self.hideLoading()
                 if let error = error {
-//                    self.showAlert(withMessage: error)
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
@@ -112,9 +111,7 @@ class RegisterVC: UIViewController {
                 guard let _ = data else {return}
                 
                 DispatchQueue.main.async {
-//                    self.showAlert(withMessage: "Please check your email")
-                self.view.makeToast("Please check your email")
-
+                    self.view.makeToast("Please check your email".localizedString)
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3 , execute: {
@@ -128,7 +125,7 @@ class RegisterVC: UIViewController {
     
     @IBAction func termsBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
-        vc.titleVC = "Terms & Conditions"
+        vc.titleVC = "Terms & Conditions".localizedString
         vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/EULAOct2021.pdf"
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -302,7 +299,7 @@ class RegisterVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
     }
 }
 
@@ -349,7 +346,6 @@ extension RegisterVC {
                     self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName, socialUser: "\(1)") { (error, data) in
                         self.hideLoading()
                         if let error = error {
-//                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }

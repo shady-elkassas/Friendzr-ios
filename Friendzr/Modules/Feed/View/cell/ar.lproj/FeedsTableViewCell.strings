@@ -1,0 +1,18 @@
+
+/* Class = "UIButton"; normalTitle = "Message"; ObjectID = "7UF-TT-qka"; */
+"7UF-TT-qka.normalTitle" = "رسالة";
+
+/* Class = "UIButton"; normalTitle = "Unblock"; ObjectID = "NU4-ZR-GKU"; */
+"NU4-ZR-GKU.normalTitle" = "رفع الحظر";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "SuI-ZI-y9r"; */
+"SuI-ZI-y9r.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Cancel Request"; ObjectID = "a9Y-vr-ekR"; */
+"a9Y-vr-ekR.normalTitle" = "إلغاء الطلب";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "iI3-xn-RvY"; */
+"iI3-xn-RvY.text" = "Label";
+
+/* Class = "UIButton"; normalTitle = "Send Request"; ObjectID = "pPE-Km-DIm"; */
+"pPE-Km-DIm.normalTitle" = "ارسل طلب";

@@ -1,0 +1,15 @@
+
+/* Class = "UILabel"; text = "Jul 22, 2021 2:30 PM"; ObjectID = "k3R-Eo-NEq"; */
+"k3R-Eo-NEq.text" = "Jul 22, 2021 2:30 PM";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "lL9-ok-926"; */
+"lL9-ok-926.text" = "Title";
+
+/* Class = "UILabel"; text = "Joined : 12/20"; ObjectID = "noZ-w2-CnB"; */
+"noZ-w2-CnB.text" = "Joined : 12/20";
+
+/* Class = "UIButton"; configuration.title = " "; ObjectID = "xvg-GD-Pvb"; */
+"xvg-GD-Pvb.configuration.title" = " ";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "xvg-GD-Pvb"; */
+"xvg-GD-Pvb.normalTitle" = "Button";

@@ -202,7 +202,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: {_ in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel".localizedString, comment: ""), style: .cancel, handler: {_ in
             if Defaults.token != "" {
                 self.settingVM.toggleAllowMyLocation(allowMyLocation: false) { error, data in
                     if let error = error {
@@ -221,7 +221,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
                 }
             }
         })
-        let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
+        let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString.localizedString, comment: ""), style: .default) { (UIAlertAction) in
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
         }
         alertController.addAction(cancelAction)

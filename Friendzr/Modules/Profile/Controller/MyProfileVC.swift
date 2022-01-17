@@ -125,7 +125,7 @@ class MyProfileVC: UIViewController {
         ageLbl.text = "\(model?.age ?? 0)"
         
         if model?.gender == "other" {
-            genderLbl.text = "other(\(model?.otherGenderName ?? ""))"
+            genderLbl.text = "other(".localizedString + "\(model?.otherGenderName ?? "")" + ")"
         }else {
             genderLbl.text = model?.gender
         }

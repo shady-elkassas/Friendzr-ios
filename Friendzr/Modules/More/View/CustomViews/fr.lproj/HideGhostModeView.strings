@@ -1,0 +1,15 @@
+
+/* Class = "UILabel"; text = "Hide from"; ObjectID = "2q8-Iy-iYP"; */
+"2q8-Iy-iYP.text" = "Hide from";
+
+/* Class = "UIButton"; configuration.title = "SAVE"; ObjectID = "QXo-hw-JPp"; */
+"QXo-hw-JPp.configuration.title" = "SAVE";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "QXo-hw-JPp"; */
+"QXo-hw-JPp.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "Button"; ObjectID = "r4M-K3-2sr"; */
+"r4M-K3-2sr.configuration.title" = "Button";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "r4M-K3-2sr"; */
+"r4M-K3-2sr.normalTitle" = "Button";

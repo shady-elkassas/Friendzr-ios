@@ -18,7 +18,7 @@ class ShowImageVC: UIViewController {
         super.viewDidLoad()
         
         initBackButton()
-        title = "Show Image"
+        title = "Show Image".localizedString
         setupNavBar()
         imgView.sd_setImage(with: URL(string: imgURL ?? "") , placeholderImage: UIImage(named: "placeholder"))
     }

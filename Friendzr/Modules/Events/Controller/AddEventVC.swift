@@ -460,7 +460,7 @@ class AddEventVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
     }
     
     func setupView() {
@@ -515,25 +515,25 @@ extension AddEventVC {
             
             switch weekday {
             case 1:
-                dayname = "Sun"
+                dayname = "Sun".localizedString
                 break
             case 2:
-                dayname = "Mon"
+                dayname = "Mon".localizedString
                 break
             case 3:
-                dayname = "Tue"
+                dayname = "Tue".localizedString
                 break
             case 4:
-                dayname = "Wed"
+                dayname = "Wed".localizedString
                 break
             case 5:
-                dayname = "Thu"
+                dayname = "Thu".localizedString
                 break
             case 6:
-                dayname = "Fri"
+                dayname = "Fri".localizedString
                 break
             case 7:
-                dayname = "Sat"
+                dayname = "Sat".localizedString
                 break
             default:
                 break
@@ -541,41 +541,41 @@ extension AddEventVC {
             
             switch month {
             case 1:
-                monthname = "Jan"
+                monthname = "Jan".localizedString
                 
                 break
             case 2:
-                monthname = "Feb"
+                monthname = "Feb".localizedString
                 break
             case 3:
-                monthname = "Mar"
+                monthname = "Mar".localizedString
                 break
             case 4:
-                monthname = "Apr"
+                monthname = "Apr".localizedString
                 break
             case 5:
-                monthname = "May"
+                monthname = "May".localizedString
                 break
             case 6:
-                monthname = "Jun"
+                monthname = "Jun".localizedString
                 break
             case 7:
-                monthname = "Jul"
+                monthname = "Jul".localizedString
                 break
             case 8:
-                monthname = "Aug"
+                monthname = "Aug".localizedString
                 break
             case 9:
-                monthname = "Sep"
+                monthname = "Sep".localizedString
                 break
             case 10:
-                monthname = "Oct"
+                monthname = "Oct".localizedString
                 break
             case 11:
-                monthname = "Nov"
+                monthname = "Nov".localizedString
                 break
             case 12:
-                monthname = "Dec"
+                monthname = "Dec".localizedString
                 break
             default:
                 break

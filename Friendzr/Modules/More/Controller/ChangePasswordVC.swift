@@ -64,7 +64,7 @@ class ChangePasswordVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
     }
 
     
@@ -98,8 +98,6 @@ class ChangePasswordVC: UIViewController {
                     return
                 }
                 guard let _ = data else {return}
-//                self.showAlert(withMessage:"Password changed successfully".localizedString)
-                
                 DispatchQueue.main.async {
                     self.view.makeToast("Password changed successfully".localizedString)
                 }
