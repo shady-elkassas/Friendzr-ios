@@ -28,6 +28,7 @@ class InboxVC: UIViewController {
     
     var viewmodel:ChatViewModel = ChatViewModel()
     var searchVM:SearchUserViewModel = SearchUserViewModel()
+    var groupVM:GroupViewModel = GroupViewModel()
     
     var refreshControl = UIRefreshControl()
     
@@ -431,7 +432,7 @@ extension InboxVC:UITableViewDelegate {
                 model = searchVM.usersinChat.value?.data?[indexPath.row]
             }
             
-            Router().toConversationVC(isEvent: model?.isevent ?? false, eventChatID: model?.id ?? "", leavevent: model?.leavevent ?? 0, chatuserID: model?.id ?? "", isFriend: model?.isfrind ?? false, titleChatImage: model?.image ?? "", titleChatName: model?.chatName ?? "")
+            Router().toConversationVC(isEvent: model?.isevent ?? false, eventChatID: model?.id ?? "", leavevent: model?.leavevent ?? 0, chatuserID: model?.id ?? "", isFriend: model?.isfrind ?? false, titleChatImage: model?.image ?? "", titleChatName: model?.chatName ?? "", isChatGroupAdmin: model?.isChatGroupAdmin ?? false, isChatGroup: model?.isChatGroup ?? false, groupId: model?.id ?? "",leaveGroup: model?.leaveGroup ?? 0)
         }
     }
     
@@ -443,6 +444,7 @@ extension InboxVC:UITableViewDelegate {
         if searchVM.usersinChat.value?.data?.count != 0 || viewmodel.listChat.value?.data?.count != 0  {
             let model = self.viewmodel.listChat.value?.data?[indexPath.row]
             let muteTitle = model?.isMute ?? false ? "UnMute".localizedString : "Mute".localizedString
+            let deleteTitle = model?.isChatGroup ?? true ? "Clear".localizedString : "Delete".localizedString
             
             if model?.leavevent == 0 {
                 self.leaveOrJoinTitle = "Leave".localizedString
@@ -450,59 +452,117 @@ extension InboxVC:UITableViewDelegate {
                 self.leaveOrJoinTitle = "Join".localizedString
             }
             
+            if model?.isChatGroup == true {
+                if model?.leaveGroup == 0 {
+                    self.leaveOrJoinTitle = "Leave".localizedString
+                }else {
+                    self.leaveOrJoinTitle = "Join".localizedString
+                }
+            }else {
+                if model?.leavevent == 0 {
+                    self.leaveOrJoinTitle = "Leave".localizedString
+                }else {
+                    self.leaveOrJoinTitle = "Join".localizedString
+                }
+            }
+            
+            
             let actionDate = formatterDate.string(from: Date())
             let actionTime = formatterTime.string(from: Date())
             
             
-            let deleteAction = UITableViewRowAction(style: .default, title: "Delete".localizedString) { action, indexPath in
+            let deleteAction = UITableViewRowAction(style: .default, title: deleteTitle.localizedString) { action, indexPath in
                 print("deleteAction")
                 
                 if UIDevice.current.userInterfaceIdiom == .pad {
                     let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                     
                     settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                        self.showLoading()
-                        self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
-                            self.hideLoading()
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
+                        if model?.isChatGroup == true {
+                            self.showLoading()
+                            self.groupVM.clearGroupChat(ByID: model?.id ?? "", registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
+                                self.hideLoading()
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
+                                    return
                                 }
-                                return
+                                
+                                guard let _ = data else {
+                                    return
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.getAllChatList(pageNumber: 1)
+                                }
                             }
-                            
-                            guard let _ = data else {
-                                return
-                            }
-                            
-                            DispatchQueue.main.async {
-                                self.getAllChatList(pageNumber: 1)
+                        }else {
+                            self.showLoading()
+                            self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
+                                self.hideLoading()
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
+                                    return
+                                }
+                                
+                                guard let _ = data else {
+                                    return
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.getAllChatList(pageNumber: 1)
+                                }
                             }
                         }
                     }))
                     settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                     
                     self.present(settingsActionSheet, animated:true, completion:nil)
-                }else {
+                }
+                else {
                     let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                     
                     settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                        self.showLoading()
-                        self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
-                            self.hideLoading()
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
+                        if model?.isChatGroup == true {
+                            self.showLoading()
+                            self.groupVM.clearGroupChat(ByID: model?.id ?? "", registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
+                                self.hideLoading()
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
+                                    return
                                 }
-                                return
+                                
+                                guard let _ = data else {
+                                    return
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.getAllChatList(pageNumber: 1)
+                                }
                             }
-                            
-                            guard let _ = data else {
-                                return
-                            }
-                            
-                            DispatchQueue.main.async {
-                                self.getAllChatList(pageNumber: 1)
+                        }else {
+                            self.showLoading()
+                            self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
+                                self.hideLoading()
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
+                                    return
+                                }
+                                
+                                guard let _ = data else {
+                                    return
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    self.getAllChatList(pageNumber: 1)
+                                }
                             }
                         }
                     }))
@@ -653,23 +713,46 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.showLoading()
-                            self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
-                                self.hideLoading()
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
+                            if model?.isChatGroup == true {
+                                self.showLoading()
+                                self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: false) { error, data in
+                                    self.hideLoading()
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
                                     }
-                                    return
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                        tableView.reloadData()
+                                    }
                                 }
                                 
-                                guard let _ = data else {
-                                    return
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                    tableView.reloadData()
+                            }else {
+                                self.showLoading()
+                                self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
+                                    self.hideLoading()
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
+                                    }
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                        tableView.reloadData()
+                                    }
                                 }
                             }
                         }))
@@ -681,53 +764,99 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.showLoading()
-                            self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
-                                self.hideLoading()
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
+                            if model?.isChatGroup == true {
+                                self.showLoading()
+                                self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: false) { error, data in
+                                    self.hideLoading()
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
                                     }
-                                    return
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                        tableView.reloadData()
+                                    }
                                 }
                                 
-                                guard let _ = data else {
-                                    return
+                            }else {
+                                self.showLoading()
+                                self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
+                                    self.hideLoading()
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
+                                    }
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                        tableView.reloadData()
+                                    }
                                 }
-                                
-                                DispatchQueue.main.async {
-                                    self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                    tableView.reloadData()
-                                }
-                                
                             }
                         }))
                         settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                         
                         self.present(settingsActionSheet, animated:true, completion:nil)
                     }
-                }else {
+                }
+                else {
                     if UIDevice.current.userInterfaceIdiom == .pad {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.showLoading()
-                            self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
-                                self.hideLoading()
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
+                            if model?.isChatGroup == true {
+                                self.showLoading()
+                                self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: true) { error, data in
+                                    self.hideLoading()
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
                                     }
-                                    return
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                        tableView.reloadData()
+                                    }
                                 }
                                 
-                                guard let _ = data else {
-                                    return
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                    tableView.reloadData()
+                            }else {
+                                self.showLoading()
+                                self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
+                                    self.hideLoading()
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
+                                    }
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                        tableView.reloadData()
+                                    }
                                 }
                             }
                         }))
@@ -739,23 +868,46 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.showLoading()
-                            self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
-                                self.hideLoading()
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
+                            if model?.isChatGroup == true {
+                                self.showLoading()
+                                self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: true) { error, data in
+                                    self.hideLoading()
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
                                     }
-                                    return
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                        tableView.reloadData()
+                                    }
                                 }
                                 
-                                guard let _ = data else {
-                                    return
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                    tableView.reloadData()
+                            }else {
+                                self.showLoading()
+                                self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
+                                    self.hideLoading()
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
+                                    }
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                        tableView.reloadData()
+                                    }
                                 }
                             }
                         }))
@@ -779,7 +931,19 @@ extension InboxVC:UITableViewDelegate {
                         return [deleteAction,leaveAction]
                     }
                 }
-            }else {
+            }
+            else if model?.isChatGroup == true {
+                if model?.isChatGroupAdmin == true {
+                    return [deleteAction,muteAction]
+                }else {
+                    if model?.leaveGroup == 0 {
+                        return [deleteAction,leaveAction,muteAction]
+                    }else {
+                        return [deleteAction]
+                    }
+                }
+            }
+            else {
                 return [deleteAction,muteAction]
             }
         }else {

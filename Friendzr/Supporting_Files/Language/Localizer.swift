@@ -45,7 +45,7 @@ extension UIApplication {
         get {
             var direction = UIUserInterfaceLayoutDirection.leftToRight
             
-            if Language.currentLanguage() == "ar-EG" {
+            if Language.currentLanguage() == "ar" {
                 direction = .leftToRight
             }
             return direction

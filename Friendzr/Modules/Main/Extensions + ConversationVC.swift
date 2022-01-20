@@ -337,24 +337,44 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
                 }
             }
         }else {
-            viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
-                if let error = error {
-//                    self.showAlert(withMessage: error)
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
+            if isChatGroup {
+                viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
                     }
-                    return
+                    
+                    guard data != nil else {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.messagesCollectionView.reloadData()
+                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                    }
                 }
-                
-                guard data != nil else {
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+            }else {
+                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard data != nil else {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.messagesCollectionView.reloadData()
+                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                    }
                 }
             }
+
         }
     }
     
@@ -954,22 +974,42 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
                     }
                 }
             }else {
-                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
-                    
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
+                if isChatGroup {
+                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
                         }
-                        return
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.messagesCollectionView.reloadData()
+                            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                        }
                     }
-                    
-                    guard let _ = data else {
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                }else {
+                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
+                        
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.messagesCollectionView.reloadData()
+                            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                        }
                     }
                 }
             }
@@ -1172,31 +1212,58 @@ extension ConversationVC: UIDocumentPickerDelegate {
                     
                 }
             }else {
-                
-                let imgView:UIImageView = UIImageView()
-                self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
-                imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
-                self.sendingImageView  = imgView.image
-                
-                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
-                    
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
+                if isChatGroup {
+                    let imgView:UIImageView = UIImageView()
+                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
+                    imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
+                    self.sendingImageView  = imgView.image
+
+                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
+                        
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
                         }
-                        return
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.messagesCollectionView.reloadData()
+                            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                        }
+                        
                     }
+                }else {
+                    let imgView:UIImageView = UIImageView()
+                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
+                    imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
+                    self.sendingImageView  = imgView.image
                     
-                    guard let _ = data else {
-                        return
+                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
+                        
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.messagesCollectionView.reloadData()
+                            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                        }
+                        
                     }
-                    
-                    DispatchQueue.main.async {
-                        self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
-                    }
-                    
                 }
+
             }
             
         }

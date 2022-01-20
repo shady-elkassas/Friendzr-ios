@@ -329,10 +329,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     navController.pushViewController(vc, animated: true)
                 }
             }else if action == "event_chat"{
-                Router().toConversationVC(isEvent: true, eventChatID: actionId ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "")
+                Router().toConversationVC(isEvent: true, eventChatID: actionId ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
             }else if action == "user_chat"{
-                Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: actionId ?? "", isFriend: true, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "")
-            }else if action == "event_Updated"{
+                Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: actionId ?? "", isFriend: true, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
+                
+            }
+            else if action == "user_chatGroup" {
+                Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: true, isChatGroup: true, groupId: actionId ?? "", leaveGroup: 0)
+            }else if action == "Join Chat Group" {
+                Router().toHome()
+            }else if action == "Kickedout From Chat Group" {
+                Router().toHome()
+            }
+            else if action == "event_Updated"{
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -437,6 +446,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
         }else if action == "event_chat" {
             NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
+        }else if action == "user_chatGroup" {
+            NotificationCenter.default.post(name: Notification.Name("listenToMessagesForGroup"), object: nil, userInfo: nil)
         }
         
         
@@ -457,8 +468,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         
-        if action == "user_chat" || action == "event_chat" {
-            print("user_chat Or event_chat")
+        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
+            print("user_chat OR event_chat OR user_chatGroup")
         }else {
             Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
         }
@@ -494,7 +505,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         
-        if action == "user_chat" || action == "event_chat" {
+        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
             print("user_chat Or event_chat")
         }else {
             Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber

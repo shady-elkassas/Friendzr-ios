@@ -26,6 +26,7 @@ class ReportVC: UIViewController {
     var isEvent:Bool = false
     var chatimg:String = ""
     var chatname:String = ""
+    var reportType:Int = 0 //1 group 2 event 3 user
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -183,7 +184,7 @@ extension ReportVC: UITableViewDataSource {
                 self.updateNetworkForBtns()
                 if self.id != "" {
                     if self.internetConnect {
-                        self.viewmodel.sendReport(withID: self.id, isEvent: self.isEvent, message: self.message, reportReasonID: self.problemID) { error, data in
+                        self.viewmodel.sendReport(withID: self.id, reportType: self.reportType, message: self.message, reportReasonID: self.problemID) { error, data in
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
@@ -212,7 +213,7 @@ extension ReportVC: UITableViewDataSource {
                         return
                     }
                 }
-
+                
             }
             return cell
         }
@@ -267,8 +268,9 @@ extension ReportVC {
     }
     
     @objc func backToConversationVC() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            Router().toConversationVC(isEvent: self.isEvent, eventChatID: self.id, leavevent: 0, chatuserID: self.id, isFriend: true, titleChatImage: self.chatimg, titleChatName: self.chatname)
-        })
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+//            Router().toConversationVC(isEvent: self.isEvent, eventChatID: self.id, leavevent: 0, chatuserID: self.id, isFriend: true, titleChatImage: self.chatimg, titleChatName: self.chatname, isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
+//        })
+        Router().toHome()
     }
 }

@@ -21,8 +21,7 @@ class InterestsTableViewCell: UITableViewCell {
         // Initialization code
         sliderLbl.maximumValue = 100
         sliderLbl.minimumValue = 0
-        
-        
+     
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

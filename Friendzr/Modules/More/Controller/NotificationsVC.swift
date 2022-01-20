@@ -257,9 +257,9 @@ extension NotificationsVC: UITableViewDelegate {
                     vc.userID = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else if model?.action == "event_chat" {
-                    Router().toConversationVC(isEvent: true, eventChatID: model?.action_code ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: "", titleChatName: "")
+                    Router().toConversationVC(isEvent: true, eventChatID: model?.action_code ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: "", titleChatName: "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
                 }else if model?.action == "user_chat" {
-                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.action_code ?? "", isFriend: true, titleChatImage: model?.imageUrl ?? "", titleChatName: model?.title ?? "")
+                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.action_code ?? "", isFriend: true, titleChatImage: model?.imageUrl ?? "", titleChatName: model?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
                 }else if model?.action == "event_Updated" {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
                     vc.eventId = model?.action_code ?? ""

@@ -108,7 +108,7 @@ class SettingsVC: UIViewController {
         tableView.delegate = self
         tableView.reloadData()
         
-        settingsViewHeight.constant = CGFloat(8 * 60)
+        settingsViewHeight.constant = CGFloat(7 * 60)
         
         ageFrom = model?.agefrom ?? 14
         ageTo = model?.ageto ?? 85
@@ -460,7 +460,7 @@ extension SettingsVC :CLLocationManagerDelegate {
 extension SettingsVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 8
+        return 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -914,13 +914,13 @@ extension SettingsVC: UITableViewDataSource {
             cell.titleLbl.text = "Block List".localizedString
             cell.iconImg.image = UIImage(named: "blocked_ic")
             return cell
-        case 6://Language
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
-            cell.titleLbl.text = "Language".localizedString
-            cell.iconImg.image = UIImage(named: "blocked_ic")
-            cell.langLbl.text = Language.currentLanguage()
-            return cell
-        case 7://delete account
+//        case 6://Language
+//            guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
+//            cell.titleLbl.text = "Language".localizedString
+//            cell.iconImg.image = UIImage(named: "blocked_ic")
+//            cell.langLbl.text = Language.currentLanguage()
+//            return cell
+        case 6://delete account
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Delete Account".localizedString
             cell.iconImg.image = UIImage(named: "delete_ic")
@@ -947,11 +947,11 @@ extension SettingsVC: UITableViewDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
         }
         
-        else if indexPath.row == 6 { //Language
-            self.changeLanguage()
-        }
+//        else if indexPath.row == 6 { //Language
+//            self.changeLanguage()
+//        }
         
-        else if indexPath.row == 7 { //delete account
+        else if indexPath.row == 6 { //delete account
             deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             deleteAlertView?.titleLbl.text = "Confirm?".localizedString

@@ -8,7 +8,7 @@
 import UIKit
 import ListPlaceholder
 
-class FriendProfileVC: UIViewController {
+class FriendProfileVC: UIViewController { //UIGestureRecognizerDelegate
     
     //MARK:- Outlets
     @IBOutlet weak var superView: UIView!
@@ -58,6 +58,9 @@ class FriendProfileVC: UIViewController {
         }
         
         initOptionsUserButton()
+        
+//        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +72,12 @@ class FriendProfileVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
+//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
+    
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return true
+//    }
     
     //MARK:- APIs
     func getFriendProfileInformation() {
@@ -101,7 +109,7 @@ class FriendProfileVC: UIViewController {
         self.superView.showLoader()
         viewmodel.getFriendDetails(ById: userID)
         viewmodel.model.bind { [unowned self]value in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
                 setupData()
                 self.superView.hideLoader()
             }
@@ -582,6 +590,7 @@ extension FriendProfileVC {
                     vc.selectedVC = "Present"
                     vc.isEvent = false
                     vc.id = self.userID
+                    vc.reportType = 3
                     self.present(controller, animated: true)
                 }
             }))
@@ -596,6 +605,7 @@ extension FriendProfileVC {
                     vc.selectedVC = "Present"
                     vc.isEvent = false
                     vc.id = self.userID
+                    vc.reportType = 3
                     self.present(controller, animated: true)
                 }
             }))

@@ -277,7 +277,7 @@ extension NewConversationVC: UITableViewDelegate {
         
         if internetConnect {
             let model = viewmodel.friends.value?.data?[indexPath.row]
-            Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "")
+            Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
         }else {
             return
         }
@@ -309,9 +309,10 @@ extension NewConversationVC: UITableViewDelegate {
 extension NewConversationVC {
     func initAddGroupBarButton() {
         let button = UIButton.init(type: .custom)
-        let image = UIImage(named: "Plus_ic")?.withRenderingMode(.alwaysTemplate)
+        button.setTitle("Create Group", for: .normal)
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        button.setImage(image, for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Montserrat-Medium", size: 12)
         button.tintColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
         button.addTarget(self, action: #selector(handleAddGroupVC), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
@@ -319,8 +320,13 @@ extension NewConversationVC {
     }
     
     @objc func handleAddGroupVC() {
-        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "AddGroupNC") as? UINavigationController, let _ = controller.viewControllers.first as? AddGroupVC {
-            self.present(controller, animated: true)
+        if viewmodel.friends.value?.data?.count == 0 {
+            self.view.makeToast("If you need to create a group, you must have friends first".localizedString)
+            return
+        }else {
+            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "AddGroupNC") as? UINavigationController, let _ = controller.viewControllers.first as? AddGroupVC {
+                self.present(controller, animated: true)
+            }
         }
     }
 }

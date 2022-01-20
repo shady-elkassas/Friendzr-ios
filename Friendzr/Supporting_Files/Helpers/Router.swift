@@ -123,18 +123,46 @@ class Router {
         go(withVC: nextVC)
     }
     
-    func toConversationVC(isEvent:Bool,eventChatID:String,leavevent:Int,chatuserID:String,isFriend:Bool,titleChatImage:String,titleChatName:String) {
+    func toConversationVC(isEvent:Bool,eventChatID:String,leavevent:Int,chatuserID:String,isFriend:Bool,titleChatImage:String,titleChatName:String,isChatGroupAdmin:Bool,isChatGroup:Bool,groupId:String,leaveGroup:Int) {
         if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationNC") as? UINavigationController, let vc = controller.viewControllers.first as? ConversationVC {
             if isEvent == true {
                 vc.isEvent = true
                 vc.eventChatID = eventChatID
                 vc.chatuserID = ""
                 vc.leavevent = leavevent
+                vc.leaveGroup = 1
+                vc.isFriend = false
+                vc.titleChatImage = titleChatImage
+                vc.titleChatName = titleChatName
+                vc.isChatGroupAdmin = false
+                vc.isChatGroup = false
+                vc.groupId = ""
             }else {
-                vc.isEvent = false
-                vc.eventChatID = ""
-                vc.chatuserID = chatuserID
-                vc.isFriend = isFriend
+                if isChatGroup == true {
+                    vc.isEvent = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = ""
+                    vc.leavevent = 1
+                    vc.leaveGroup = leaveGroup
+                    vc.isFriend = false
+                    vc.titleChatImage = titleChatImage
+                    vc.titleChatName = titleChatName
+                    vc.isChatGroupAdmin = isChatGroupAdmin
+                    vc.isChatGroup = isChatGroup
+                    vc.groupId = groupId
+                }else {
+                    vc.isEvent = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = chatuserID
+                    vc.leaveGroup = 1
+                    vc.isFriend = isFriend
+                    vc.leavevent = leavevent
+                    vc.titleChatImage = titleChatImage
+                    vc.titleChatName = titleChatName
+                    vc.isChatGroupAdmin = false
+                    vc.isChatGroup = false
+                    vc.groupId = ""
+                }
             }
             
             vc.titleChatImage = titleChatImage
@@ -144,12 +172,19 @@ class Router {
         }
     }
     
-    func toReportVC(id:String,isEvent:Bool,chatimg:String,chatname:String)  {
+    func toReportVC(id:String,reportType:Int,chatimg:String,chatname:String)  {
         if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
             vc.id = id
             vc.chatimg = chatimg
             vc.chatname = chatname
-            vc.isEvent = isEvent
+            vc.reportType = reportType
+            go(withVC: controller)
+        }
+    }
+    func toGroupVC(groupId:String,isGroupAdmin:Bool)  {
+        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupVC {
+            vc.groupId = groupId
+            vc.isGroupAdmin = isGroupAdmin
             go(withVC: controller)
         }
     }

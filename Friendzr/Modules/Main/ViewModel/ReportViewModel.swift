@@ -42,11 +42,12 @@ class ReportViewModel {
         }
     }
     
-    func sendReport(withID id:String,isEvent:Bool,message:String,reportReasonID:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+    //1 group 2 event 3 user
+    func sendReport(withID id:String,reportType:Int,message:String,reportReasonID:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Report/sendReport"
         let headers = RequestComponent.headerComponent([.authorization,.type])
-        let parameters:[String : Any] = ["ID": id,"IsEvent":isEvent,"Message":message,"ReportReasonID":reportReasonID]
+        let parameters:[String : Any] = ["ID": id,"ReportType":reportType,"Message":message,"ReportReasonID":reportReasonID]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             

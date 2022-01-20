@@ -66,8 +66,12 @@ class UserChatObj: NSObject,Mappable {
     var myevent:Bool? = false
     var messagestype:Int? = 0
     var messagesattach:String? = ""
+    var isChatGroup:Bool? = false
+    var isChatGroupAdmin:Bool? = false
+    var leaveGroup:Int? = 0
     
     var isSelected:Bool? = false
+    
     
     override init() {
         super.init()
@@ -91,6 +95,9 @@ class UserChatObj: NSObject,Mappable {
         myevent  <- map["myevent"]
         messagestype  <- map["messagestype"]
         messagesattach  <- map["messagesattach"]
+        isChatGroup  <- map["isChatGroup"]
+        isChatGroupAdmin  <- map["isChatGroupAdmin"]
+        leaveGroup <- map["leaveGroup"]
     }
 }
 

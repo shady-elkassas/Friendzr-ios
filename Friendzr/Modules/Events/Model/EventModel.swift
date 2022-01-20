@@ -111,6 +111,7 @@ class EventObj: NSObject,Mappable {
     var categorieid:Int? = 0
     var color:String? = ""
     var leveevent:Int? = 0
+    var encryptedID:String = ""
     
     override init() {
         super.init()
@@ -144,6 +145,8 @@ class EventObj: NSObject,Mappable {
         timetext <- map["timetext"]
         color <- map["color"]
         leveevent <- map["leveevent"]
+        encryptedID <- map["encryptedID"]
+
     }
 }
 

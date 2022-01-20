@@ -21,6 +21,7 @@
 "Delete" = "حذف";
 "Confirm" = "تأكيد";
 "Cancel" = "الغاء";
+"Skip" = "تخطي";
 "You have successfully left the chat" = "لقد غادرت الدردشة بنجاح";
 "You have successfully join the chat" = "لقد انضممت للدردشة بنجاح";
 "No more data here" = "لا مزيد من البيانات هنا";
@@ -176,7 +177,7 @@
 "Please, do not choose more than two" = "من فضلك لا تختار أكثر من اثنين";
 "Are you sure you want to delete your account?" = "هل انت متأكد انك تريد حذف حسابك؟";
 "Confirm?" = "تأكيد";
-
+"OK" = "تأكيد";
 //MAP
 "Please pick the event location" = "الرجاء اختيار موقع الحدث";
 "Please enable location services to continue using the app" = "يرجى تمكين خدمات الموقع لمواصلة استخدام التطبيق";

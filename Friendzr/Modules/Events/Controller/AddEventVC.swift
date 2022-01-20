@@ -390,7 +390,6 @@ class AddEventVC: UIViewController {
                     self.hideLoading()
                     
                     if let error = error {
-//                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
@@ -398,8 +397,6 @@ class AddEventVC: UIViewController {
                     }
                     
                     guard let _ = data else {return}
-//                    self.showAlert(withMessage: "Your event added successfully")
-                    
                     DispatchQueue.main.async {
                         self.view.makeToast("Your event added successfully".localizedString)
                     }
@@ -407,8 +404,6 @@ class AddEventVC: UIViewController {
                     DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
                         Router().toMap()
                     }
-                    
-                    //                NotificationCenter.default.post(name: Notification.Name("refreshAllEvents"), object: nil, userInfo: nil)
                 }
             }
         }else {

@@ -24,6 +24,10 @@ class ChatViewModel {
     var eventmessages:DynamicType<EventChatMessages> = DynamicType<EventChatMessages>()
     var eventmessagesTemp: EventChatMessages = EventMessagesModel()
     
+    var groupmessages:DynamicType<GroupChatMessages> = DynamicType<GroupChatMessages>()
+    var groupmessagesTemp: GroupChatMessages = GroupMessagesModel()
+
+
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var isLoading : Bool = false
@@ -489,6 +493,220 @@ class ChatViewModel {
             }
         }
     }
+    
+    func SendMessage(withGroupId groupId:String,AndMessageType messagetype:Int,AndMessage message:String,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,fileUrl:URL,completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
+        
+        CancelRequest.currentTask = false
+        let url = URLs.baseURLFirst + "Messages/SendChatGroupMessage"
+        
+        let parameters:[String:Any] = ["ChatGroupID":groupId,"Message":message,"Messagetype":messagetype,"MessagesDateTime":"\(messagesdate) \(messagestime)"]
+        let oParam = NSString(string: parameters.description)
+        print(oParam)
+        
+        if attachedImg {
+            if messagetype == 2 {
+                guard let mediaImage = Media(withImage: attachImage, forKey: "Attach_File") else { return }
+                guard let urlRequest = URL(string: url) else { return }
+                var request = URLRequest(url: urlRequest)
+                request.httpMethod = "POST"
+                let boundary = generateBoundary()
+                
+                request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+                request.addValue("Bearer \(Defaults.token)", forHTTPHeaderField: "Authorization")
+                let dataBody = createDataBody(withParameters: parameters, media: [mediaImage], boundary: boundary)
+                request.httpBody = dataBody
+                
+                print(dataBody as Data)
+                let session = URLSession.shared
+                
+                let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+                    
+                    let httpResponse = response as? HTTPURLResponse
+                    let code  = httpResponse?.statusCode
+                    print(httpResponse!)
+                    print("statusCode: \(code!)")
+                    print("**MD** response: \(String(describing: response))")
+                    
+                    if let data = data {
+                        do {
+                            let json = try JSONSerialization.jsonObject(with: data, options: [])
+                            let valJsonBlock = json as! [String : Any]
+                            guard let userResponse = Mapper<SendMessageModel>().map(JSON: valJsonBlock) else {
+                                completion(self.error.value, nil)
+                                return
+                            }
+                            
+                            if code == 200 || code == 201 {
+                                if let toAdd = userResponse.data {
+                                    completion(nil,toAdd)
+                                }
+                            }else {
+                                if let error = userResponse.message {
+                                    print ("Error while fetching data \(error)")
+                                    self.error.value = error
+                                    completion(self.error.value,nil)
+                                }
+                            }
+                        } catch {
+                            print(error)
+                        }
+                    }
+                })
+                if CancelRequest.currentTask == true {
+                    task.cancel()
+                }else {
+                    task.resume()
+                }
+                
+            }
+            else if messagetype == 3 {
+                guard let mediaFile = MediaFile(url: fileUrl, forKey: "Attach_File") else { return }
+                guard let urlRequest = URL(string: url) else { return }
+                var request = URLRequest(url: urlRequest)
+                request.httpMethod = "POST"
+                let boundary = generateBoundary()
+                
+                request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+                request.addValue("Bearer \(Defaults.token)", forHTTPHeaderField: "Authorization")
+                let dataBody = createDataBodyFile(withParameters: parameters, media: [mediaFile], boundary: boundary)
+                request.httpBody = dataBody
+                
+                print(dataBody as Data)
+                let session = URLSession.shared
+                
+                let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+                    
+                    let httpResponse = response as? HTTPURLResponse
+                    let code  = httpResponse?.statusCode
+                    print(httpResponse!)
+                    print("statusCode: \(code!)")
+                    print("**MD** response: \(String(describing: response))")
+                    
+                    if let data = data {
+                        do {
+                            let json = try JSONSerialization.jsonObject(with: data, options: [])
+                            let valJsonBlock = json as! [String : Any]
+                            guard let userResponse = Mapper<SendMessageModel>().map(JSON: valJsonBlock) else {
+                                completion(self.error.value, nil)
+                                return
+                            }
+                            
+                            if code == 200 || code == 201 {
+                                if let toAdd = userResponse.data {
+                                    completion(nil,toAdd)
+                                }
+                            }else {
+                                if let error = userResponse.message {
+                                    print ("Error while fetching data \(error)")
+                                    self.error.value = error
+                                    completion(self.error.value,nil)
+                                }
+                            }
+                        } catch {
+                            print(error)
+                        }
+                    }
+                })
+                if CancelRequest.currentTask == true {
+                    task.cancel()
+                }else {
+                    task.resume()
+                }
+
+            }
+        }
+        else {
+            guard let urlRequest = URL(string: url) else { return }
+            var request = URLRequest(url: urlRequest)
+            request.httpMethod = "POST"
+            let boundary = generateBoundary()
+            
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            request.addValue("Bearer \(Defaults.token)", forHTTPHeaderField: "Authorization")
+            let dataBody = createDataBody(withParameters: parameters, media: nil, boundary: boundary)
+            request.httpBody = dataBody
+            
+            print(dataBody as Data)
+            let session = URLSession.shared
+            
+            let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+                
+                let httpResponse = response as? HTTPURLResponse
+                let code  = httpResponse?.statusCode
+                print(httpResponse!)
+                print("statusCode: \(code!)")
+                print("**MD** response: \(String(describing: response))")
+                
+                if let data = data {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        let valJsonBlock = json as! [String : Any]
+                        guard let userResponse = Mapper<SendMessageModel>().map(JSON: valJsonBlock) else {
+                            completion(self.error.value, nil)
+                            return
+                        }
+                        
+                        if code == 200 || code == 201 {
+                            if let toAdd = userResponse.data {
+                                completion(nil,toAdd)
+                            }
+                        }else {
+                            if let error = userResponse.message {
+                                print ("Error while fetching data \(error)")
+                                self.error.value = error
+                                completion(self.error.value,nil)
+                            }
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+            })
+            if CancelRequest.currentTask == true {
+                task.cancel()
+            }else {
+                task.resume()
+            }
+            
+        }
+    }
+    
+    func getChatMessages(BygroupId groupId:String,pageNumber:Int) {
+//        CancelRequest.currentTask = false
+        let url = URLs.baseURLFirst + "ChatGroup/GetChat"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        
+        let parameters:[String : Any] = ["ID":groupId,"pageNumber": pageNumber,"pageSize":10]
+        
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            
+            guard let userResponse = Mapper<GroupChatMessagesResponse>().map(JSON: data!) else {
+                self.error.value = error
+                return
+            }
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.error.value = error
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = userResponse.data {
+                    if pageNumber > 1 {
+                        for itm in toAdd.pagedModel?.data ?? [] {
+                            if !(self.groupmessagesTemp.pagedModel?.data?.contains(where: { $0.id == itm.id}) ?? false) {
+                                self.groupmessagesTemp.pagedModel?.data?.append(itm)
+                            }
+                        }
+                        self.groupmessages.value = self.groupmessagesTemp
+                    } else {
+                        self.groupmessages.value = toAdd
+                        self.groupmessagesTemp = toAdd
+                    }
+                }
+            }
+        }
+    }
+    
     
     //MARK:- mute chat
     func muteChat(ByID id:String,isevent:Bool,mute:Bool, completion: @escaping (_ error: String?, _ data: String?) -> ()) {

@@ -62,35 +62,56 @@ extension StatisticsCollectionViewCell:UITableViewDataSource {
             cell.sliderLbl.value = Float(model?.gendercount ?? 0)
             
             if model?.key == "Male" {
-                cell.sliderLbl.minimumTrackTintColor = UIColor.blue
+                cell.sliderLbl.minimumTrackTintColor = .blue
+                if model?.gendercount == 0 {
+                    cell.sliderLbl.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }else if model?.gendercount == 100 {
+                    cell.sliderLbl.maximumTrackTintColor = .blue
+                }
             }else if model?.key == "Female" {
-                cell.sliderLbl.minimumTrackTintColor = UIColor.red
+                cell.sliderLbl.minimumTrackTintColor = .red
+                if model?.gendercount == 0 {
+                    cell.sliderLbl.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }else if model?.gendercount == 100 {
+                    cell.sliderLbl.maximumTrackTintColor = .red
+                }
             }else {
-                cell.sliderLbl.minimumTrackTintColor = UIColor.darkGray
+                cell.sliderLbl.minimumTrackTintColor = .darkGray
+                if model?.gendercount == 0 {
+                    cell.sliderLbl.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }else if model?.gendercount == 100 {
+                    cell.sliderLbl.maximumTrackTintColor = .darkGray
+                }
             }
-            
-//            if indexPath.row == 3 {
-//                cell.bottonView.isHidden = true
-//            }
+
         }else {
             let model = interestModel?[indexPath.row]
             
             cell.interestNameLbl.text = model?.name
             cell.percentageLbl.text = "\(model?.interestcount ?? 0) %"
             cell.sliderLbl.value = Float((model?.interestcount ?? 0))
-
-//            if indexPath.row == 3 {
-//                cell.bottonView.isHidden = true
-//            }
             
             if indexPath.row == 0 {
-                cell.sliderLbl.minimumTrackTintColor = UIColor.blue
-                
+                cell.sliderLbl.minimumTrackTintColor = .blue
+                if model?.interestcount == 0 {
+                    cell.sliderLbl.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }else if model?.interestcount == 100 {
+                    cell.sliderLbl.maximumTrackTintColor = .blue
+                }
             }else if indexPath.row == 1 {
-                cell.sliderLbl.minimumTrackTintColor = UIColor.red
-                
+                cell.sliderLbl.minimumTrackTintColor = .red
+                if model?.interestcount == 0 {
+                    cell.sliderLbl.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }else if model?.interestcount == 100 {
+                    cell.sliderLbl.maximumTrackTintColor = .red
+                }
             }else {
-                cell.sliderLbl.minimumTrackTintColor = UIColor.green
+                cell.sliderLbl.minimumTrackTintColor = .green
+                if model?.interestcount == 0 {
+                    cell.sliderLbl.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }else if model?.interestcount == 100 {
+                    cell.sliderLbl.maximumTrackTintColor = .green
+                }
             }
         }
         

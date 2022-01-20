@@ -29,7 +29,7 @@ extension UIViewController {
         }
     }
     private func setupLoadingView(){
-          loadingView = Bundle.main.loadNibNamed("LoadingView", owner: self, options: nil)?.first as? LoadingView
+        loadingView = Bundle.main.loadNibNamed("LoadingView", owner: self, options: nil)?.first as? LoadingView
           if loadingView != nil{
               currentView().addSubview(loadingView!)
               setupLoadingViewConstraints()

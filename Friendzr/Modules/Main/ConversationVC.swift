@@ -69,8 +69,13 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     var titleChatImage = ""
     var titleChatName:String = ""
     
+    var isChatGroupAdmin:Bool = false
+    var isChatGroup:Bool = false
+    var groupId:String = ""
+    var leaveGroup:Int = 0
     
     var titleID:String? = ""
+    
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -116,6 +121,8 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessages), name: Notification.Name("listenToMessages"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessagesForEvent), name: Notification.Name("listenToMessagesForEvent"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(listenToMessagesForGroup), name: Notification.Name("listenToMessagesForGroup"), object: nil)
         
         subviewInputBar.delegate = self
         additionalBottomInset = 88
@@ -169,6 +176,10 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         getEventChatMessages(pageNumber: 1)
     }
     
+    @objc func listenToMessagesForGroup() {
+        getGroupChatMessages(pageNumber: 1)
+    }
+    
     func insertMessage(_ message: UserMessage) {
         messageList.append(message)
         setupNavigationbar()
@@ -214,12 +225,22 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             }else {
                 setupDownView(textLbl: "You have left this chat event".localizedString)
             }
-        }else {
-            if isFriend == true {
-                messageInputBar.isHidden = false
-                initOptionsInChatUserButton()
+        }
+        else {
+            if isChatGroup == true {
+                if leaveGroup == 0 {
+                    messageInputBar.isHidden = false
+                    initOptionsInChatEventButton()
+                }else {
+                    setupDownView(textLbl: "You are not subscribed to this group".localizedString)
+                }
             }else {
-                setupDownView(textLbl: "You are now not a friend of this user and will not be able to message him".localizedString)
+                if isFriend == true {
+                    messageInputBar.isHidden = false
+                    initOptionsInChatUserButton()
+                }else {
+                    setupDownView(textLbl: "You are now not a friend of this user and will not be able to message him".localizedString)
+                }
             }
         }
     }
@@ -274,7 +295,11 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         if isEvent {
             self.getEventChatMessages(pageNumber: 1)
         }else {
-            self.getUserChatMessages(pageNumber: 1)
+            if isChatGroup {
+                self.getGroupChatMessages(pageNumber: 1)
+            }else {
+                self.getUserChatMessages(pageNumber: 1)
+            }
         }
     }
     
@@ -313,7 +338,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         viewmodel.getChatMessages(ByUserId: chatuserID, pageNumber: pageNumber)
         viewmodel.messages.bind { [unowned self] value in
             DispatchQueue.main.async {
-
+                
                 messageList.removeAll()
                 
                 for itm in value.data ?? [] {
@@ -455,173 +480,80 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         }
     }
     
-      
-//    func LoadUserChatMessages(pageNumber:Int) {
-//        CancelRequest.currentTask = false
-//
-//        if pageNumber > viewmodel.messages.value?.totalPages ?? 1 {
-//            return
-//        }
-//
-//        self.messagesCollectionView.hideLoader()
-//        viewmodel.getChatMessages(ByUserId: chatuserID, pageNumber: pageNumber)
-//        viewmodel.messages.bind { [unowned self] value in
-//            DispatchQueue.main.async {
-//                self.hideLoading()
-//
-//                messageList.removeAll()
-//
-//                for itm in value.data ?? [] {
-//                    if itm.currentuserMessage! {
-//                        if itm.messagetype == 1 { //text
-//                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                        }else if itm.messagetype == 2 { //image
-//                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
-//                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                            }
-//                        }else if itm.messagetype == 3 { //file
-//                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
-//                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                            }
-//                        }
-//
-//                    }else {
-//                        if itm.messagetype == 1 { //text
-//                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                        }
-//                        else if itm.messagetype == 2 { //image
-//                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
-//                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                            }
-//                        }
-//                        else if itm.messagetype == 3 { //file
-//                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
-//                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                            }
-//                        }
-//
-//                        receiveimg = itm.userimage ?? ""
-//                        receiveName = itm.username ?? ""
-//                    }
-//                }
-//
-//                if pageNumber <= 1 {
-//                    if messageList.isEmpty {
-//                        messagesCollectionView.reloadData()
-//                        messagesCollectionView.hideLoader()
-//                    }else {
-//                        messagesCollectionView.showLoader()
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                            self.messagesCollectionView.hideLoader()
-//                        }
-//                        reloadLastIndexInCollectionView()
-//                    }
-//                }else {
-//                    self.messagesCollectionView.reloadDataAndKeepOffset()
-//                }
-//
-//                self.refreshControl.endRefreshing()
-//
-//                updateTitleView(image: titleChatImage, subtitle: titleChatName, titleId: chatuserID, isEvent: false)
-//            }
-//        }
-//
-//        // Set View Model Event Listener
-//        viewmodel.error.bind { [unowned self]error in
-//            DispatchQueue.main.async {
-//                self.hideLoading()
-//                if error == "Internal Server Error" {
-//                    HandleInternetConnection()
-//                }else if error == "Bad Request" {
-//                    HandleinvalidUrl()
-//                }else {
-//                    self.showAlert(withMessage: error)
-//                }
-//            }
-//        }
-//    }
+    func getGroupChatMessages(pageNumber:Int) {
+        CancelRequest.currentTask = false
+        
+        viewmodel.getChatMessages(BygroupId: groupId, pageNumber: pageNumber)
+        viewmodel.groupmessages.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                
+                messageList.removeAll()
+                for itm in value.pagedModel?.data ?? [] {
+                    if itm.currentuserMessage! {
+                        if itm.messagetype == 1 { //text
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                        }else if itm.messagetype == 2 { //image
+                            if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            }else {
+                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            }
+                        }else if itm.messagetype == 3 { //file
+                            if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            }else {
+                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            }
+                        }
+                    }else {
+                        if itm.messagetype == 1 { //text
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                        }else if itm.messagetype == 2 { //image
+                            if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
+                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            }
+                        }else if itm.messagetype == 3 { //file
+                            if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
+                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            }
+                        }
+                        
+                        receiveimg = itm.userimage ?? ""
+                        receiveName = itm.username ?? ""
+                    }
+                }
+                
+                if pageNumber <= 1 {
+                    if messageList.isEmpty {
+                        messagesCollectionView.reloadData()
+                    }else {
+                        reloadLastIndexInCollectionView()
+                    }
+                }else {
+                    self.messagesCollectionView.reloadDataAndKeepOffset()
+                }
+                
+                self.refreshControl.endRefreshing()
+                updateTitleView(image: titleChatImage, subtitle: titleChatName, titleId: groupId, isEvent: false)
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                if error == "Internal Server Error" {
+                    HandleInternetConnection()
+                }else if error == "Bad Request" {
+                    HandleinvalidUrl()
+                }else {
+                    self.showAlert(withMessage: error)
+                }
+            }
+        }
+    }
     
-//    func LoadEventChatMessages(pageNumber:Int) {
-//        CancelRequest.currentTask = false
-//
-//        self.messagesCollectionView.hideLoader()
-//        viewmodel.getChatMessages(ByEventId: eventChatID, pageNumber: pageNumber)
-//        viewmodel.eventmessages.bind { [unowned self] value in
-//            DispatchQueue.main.async {
-//                self.hideLoading()
-//
-//                messageList.removeAll()
-//                for itm in value.pagedModel?.data ?? [] {
-//                    if itm.currentuserMessage! {
-//                        if itm.messagetype == 1 { //text
-//                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                        }else if itm.messagetype == 2 { //image
-//                            if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-//                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                            }else {
-//                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                            }
-//                        }else if itm.messagetype == 3 { //file
-//                            if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-//                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                            }else {
-//                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                            }
-//                        }
-//                    }else {
-//                        if itm.messagetype == 1 { //text
-//                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                        }else if itm.messagetype == 2 { //image
-//                            if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-//                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                            }
-//                        }else if itm.messagetype == 3 { //file
-//                            if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-//                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
-//                            }
-//                        }
-//
-//                        receiveimg = itm.userimage ?? ""
-//                        receiveName = itm.username ?? ""
-//                    }
-//                }
-//
-//                if pageNumber <= 1 {
-//                    if messageList.isEmpty {
-//                        messagesCollectionView.reloadData()
-//                        self.messagesCollectionView.hideLoader()
-//                    }else {
-//                        reloadLastIndexInCollectionView()
-//
-//                        messagesCollectionView.showLoader()
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                            self.messagesCollectionView.hideLoader()
-//                        }
-//                    }
-//                }else {
-//                    self.messagesCollectionView.reloadDataAndKeepOffset()
-//                }
-//
-//                self.refreshControl.endRefreshing()
-//                updateTitleView(image: titleChatImage, subtitle: titleChatName, titleId: eventChatID, isEvent: true)
-//            }
-//        }
-//
-//        // Set View Model Event Listener
-//        viewmodel.error.bind { [unowned self]error in
-//            DispatchQueue.main.async {
-//                self.hideLoading()
-//                if error == "Internal Server Error" {
-//                    HandleInternetConnection()
-//                }else if error == "Bad Request" {
-//                    HandleinvalidUrl()
-//                }else {
-//                    self.showAlert(withMessage: error)
-//                }
-//            }
-//        }
-//    }
-
     
     func HandleinvalidUrl() {
         DispatchQueue.main.async {
@@ -641,7 +573,11 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             if self.isEvent {
                 self.getEventChatMessages(pageNumber: self.currentPage)
             }else {
-                self.getUserChatMessages(pageNumber: self.currentPage)
+                if self.isChatGroup {
+                    self.getGroupChatMessages(pageNumber: self.currentPage)
+                }else {
+                    self.getUserChatMessages(pageNumber: self.currentPage)
+                }
             }
         }
     }
@@ -708,9 +644,13 @@ extension ConversationVC {
             }))
             actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
                 }else {
-                    Router().toReportVC(id: self.chatuserID, isEvent: false, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    if self.isChatGroup == true {
+                        Router().toReportVC(id: self.eventChatID, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    }else {
+                        Router().toReportVC(id: self.eventChatID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    }
                 }
             }))
             actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
@@ -727,9 +667,13 @@ extension ConversationVC {
             }))
             actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
                 }else {
-                    Router().toReportVC(id: self.chatuserID, isEvent: false, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    if self.isChatGroup == true {
+                        Router().toReportVC(id: self.eventChatID, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    }else {
+                        Router().toReportVC(id: self.eventChatID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    }
                 }
                 
             }))
@@ -744,14 +688,15 @@ extension ConversationVC {
     @objc func handleEventOptionsBtn() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-//            actionAlert.addAction(UIAlertAction(title: "Leave", style: .default, handler: { action in
-//                self.leaveEvent()
-//            }))
             actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
                 }else {
-                    Router().toReportVC(id: self.chatuserID, isEvent: false, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    if self.isChatGroup == true {
+                        Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    }else {
+                        Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    }
                 }
             }))
             actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
@@ -760,14 +705,15 @@ extension ConversationVC {
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//            actionSheet.addAction(UIAlertAction(title: "Leave", style: .default, handler: { action in
-//                self.leaveEvent()
-//            }))
             actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    Router().toReportVC(id: self.eventChatID, isEvent: true, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
                 }else {
-                    Router().toReportVC(id: self.chatuserID, isEvent: false, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    if self.isChatGroup == true {
+                        Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    }else {
+                        Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    }
                 }
             }))
             actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
@@ -900,7 +846,6 @@ extension ConversationVC {
     }
 }
 
-
 extension ConversationVC {
     func updateTitleView(image: String, subtitle: String?,titleId:String,isEvent:Bool) {
         
@@ -936,17 +881,27 @@ extension ConversationVC {
         }
         
         self.titleID = titleId
-
+        
         let btn = UIButton(frame: titleView.frame)
         if isEvent == true {
             btn.addTarget(self, action: #selector(goToEventDetailsVC), for: .touchUpInside)
         }else {
-            btn.addTarget(self, action: #selector(goToUserProfileVC), for: .touchUpInside)
+            if isChatGroup {
+                if self.leaveGroup == 0 {
+                    btn.addTarget(self, action: #selector(goToGroupVC), for: .touchUpInside)
+                }
+            }else {
+                btn.addTarget(self, action: #selector(goToUserProfileVC), for: .touchUpInside)
+            }
         }
         
         titleView.addSubview(btn)
         
         navigationItem.titleView = titleView
+    }
+    
+    @objc func goToGroupVC() {
+        Router().toGroupVC(groupId: groupId, isGroupAdmin: isChatGroupAdmin)
     }
     
     @objc func goToUserProfileVC() {

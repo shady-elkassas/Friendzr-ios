@@ -12,10 +12,13 @@ import Contacts
 import ListPlaceholder
 import GoogleMobileAds
 
+
+// MARK: Deep Link
+
 let screenH: CGFloat = UIScreen.main.bounds.height
 let screenW: CGFloat = UIScreen.main.bounds.width
 
-class FeedVC: UIViewController {
+class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK:- Outlets
     @IBOutlet weak var tableView: UITableView!
@@ -113,6 +116,8 @@ class FeedVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
         
         seyupAds()
+        
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -589,9 +594,9 @@ extension FeedVC:UITableViewDataSource {
                         
                         guard let _ = message else {return}
                         
-//                        DispatchQueue.main.async {
-//                            self.view.makeToast(message)
-//                        }
+                        //                        DispatchQueue.main.async {
+                        //                            self.view.makeToast(message)
+                        //                        }
                         
                         DispatchQueue.main.async {
                             self.getAllFeeds(pageNumber: 0)
@@ -682,7 +687,7 @@ extension FeedVC:UITableViewDataSource {
                 self.updateNetworkForBtns()
                 
                 if self.self.internetConnect {
-                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "")
+                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
                 }else {
                     return
                 }
@@ -766,6 +771,7 @@ extension FeedVC:UITableViewDelegate {
             if viewmodel.feeds.value?.data?.count != 0 {
                 guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
                 vc.userID = viewmodel.feeds.value?.data?[indexPath.row].userId ?? ""
+                //                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
                 self.navigationController?.pushViewController(vc, animated: true)
             }else {
                 return
@@ -834,7 +840,7 @@ extension FeedVC: CLLocationManagerDelegate {
                 filterHideView.isHidden = true
                 Defaults.isFirstFilter = true
                 bannerViewHeight.constant = 100
-
+                
                 locationManager.stopUpdatingLocation()
                 locationManager.stopUpdatingHeading()
                 filterDir = false

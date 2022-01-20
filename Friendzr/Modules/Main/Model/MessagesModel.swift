@@ -10,6 +10,7 @@ import ObjectMapper
 
 typealias MessagesChat = MessagesDataModel
 typealias EventChatMessages = EventMessagesModel
+typealias GroupChatMessages = GroupMessagesModel
 
 class MessagesChatResponse: Mappable {
     
@@ -133,6 +134,40 @@ class EventMessagesModel: Mappable {
     // Mappable
     func mapping(map: Map) {
         attendees   <- map["attendees"]
+        pagedModel  <- map["pagedModel"]
+    }
+}
+
+class GroupChatMessagesResponse: Mappable {
+    
+    var isSuccessful: Bool?
+    var message: String?
+    var data: GroupMessagesModel? = nil
+    
+    required init?(map: Map) {
+    }
+    // Mappable
+    func mapping(map: Map) {
+        data    <- map["model"]
+        isSuccessful   <- map["isSuccessful"]
+        message  <- map["message"]
+    }
+}
+
+class GroupMessagesModel: Mappable {
+    
+    var subscribers: [ChatGroupSubscribersObj]?
+    var pagedModel: MessagesDataModel?
+    
+    required init?(map: Map) {
+    }
+    
+    init() {
+    }
+    
+    // Mappable
+    func mapping(map: Map) {
+        subscribers   <- map["subscribers"]
         pagedModel  <- map["pagedModel"]
     }
 }

@@ -47,8 +47,6 @@ class EventDetailsVC: UIViewController {
     var genders:[String] = ["Men","Women","Other Gender"]
     let attendeesCellID = "AttendeesTableViewCell"
     private var footerCellID = "SeeMoreTableViewCell"
-    //    let interestCellID = "InterestsCollectionViewCell"
-    //    let genderCellID = "GenderCollectionViewCell"
     let statisticsCellID = "StatisticsCollectionViewCell"
     var eventId:String = ""
     var viewmodel:EventsViewModel = EventsViewModel()
@@ -59,7 +57,8 @@ class EventDetailsVC: UIViewController {
     var internetConect:Bool = false
     
     var visibleIndexPath:Int = 0
-    
+    var encryptedID:String = ""
+
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -198,6 +197,7 @@ class EventDetailsVC: UIViewController {
         attendLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
         categoryNameLbl.text = model?.categorie
         descreptionLbl.text = model?.descriptionEvent
+        encryptedID = model?.encryptedID ?? ""
         eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
         if model?.key == 1 { //my event
             editBtn.isHidden = false
@@ -413,7 +413,7 @@ class EventDetailsVC: UIViewController {
         let Jointime = self.formatterTime.string(from: Date())
         
         if viewmodel.event.value?.leveevent == 1 {
-            Router().toConversationVC(isEvent: true, eventChatID: eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: viewmodel.event.value?.image ?? "", titleChatName: viewmodel.event.value?.title ?? "")
+            Router().toConversationVC(isEvent: true, eventChatID: eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: viewmodel.event.value?.image ?? "", titleChatName: viewmodel.event.value?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
         }else {
             self.view.makeToast("Wait, I'll join you in the event chat...".localizedString)
             joinCahtEventVM.joinChat(ByID: eventId, ActionDate: JoinDate, Actiontime: Jointime) { error, data in
@@ -431,7 +431,7 @@ class EventDetailsVC: UIViewController {
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    Router().toConversationVC(isEvent: true, eventChatID: self.eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: self.viewmodel.event.value?.image ?? "", titleChatName: self.viewmodel.event.value?.title ?? "")
+                    Router().toConversationVC(isEvent: true, eventChatID: self.eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: self.viewmodel.event.value?.image ?? "", titleChatName: self.viewmodel.event.value?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
                 }
                 
             }
@@ -456,13 +456,17 @@ class EventDetailsVC: UIViewController {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                self.shareEvent()
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareVC {
+                    vc.encryptedID = self.encryptedID
+                    self.present(controller, animated: true)
+                }
             }))
             actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.id = self.eventId
                     vc.isEvent = true
                     vc.selectedVC = "Present"
+                    vc.reportType = 2
                     self.present(controller, animated: true)
                 }
             }))
@@ -473,13 +477,17 @@ class EventDetailsVC: UIViewController {
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                self.shareEvent()
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareVC {
+                    vc.encryptedID = self.encryptedID
+                    self.present(controller, animated: true)
+                }
             }))
             actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.id = self.eventId
                     vc.isEvent = true
                     vc.selectedVC = "Present"
+                    vc.reportType = 2
                     self.present(controller, animated: true)
                 }
             }))
@@ -677,13 +685,14 @@ extension EventDetailsVC {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                self.shareEvent()
+//                self.shareEvent()
             }))
             actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.id = self.eventId
                     vc.isEvent = true
                     vc.selectedVC = "Present"
+                    vc.reportType = 2
                     self.present(controller, animated: true)
                 }
             }))
@@ -694,13 +703,14 @@ extension EventDetailsVC {
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                self.shareEvent()
+//                self.shareEvent()
             }))
             actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.id = self.eventId
                     vc.isEvent = true
                     vc.selectedVC = "Present"
+                    vc.reportType = 2
                     self.present(controller, animated: true)
                 }
             }))
@@ -714,10 +724,11 @@ extension EventDetailsVC {
     
     func shareEvent() {
         // Setting description
+        let encryptedID = viewmodel.event.value?.encryptedID ?? ""
         let firstActivityItem = ""
         
         // Setting url
-        let secondActivityItem : NSURL = NSURL(string: "https://friendzr.com/about-us/")!
+        let secondActivityItem : NSURL = NSURL(string: "Friendzr//\(encryptedID)")!
         
         // If you want to use an image
         let image : UIImage = UIImage(named: "Share_ic")!

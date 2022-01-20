@@ -115,8 +115,9 @@ extension UIViewController {
     func initCancelBarButton() {
         let button = UIButton.init(type: .custom)
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        button.setTitle("Cancel", for: .normal)
-        button.tintColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
+        button.setTitle("Cancel".localizedString, for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Montserrat-Medium", size: 12)
         button.setTitleColor(UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white), for: .normal)
         button.addTarget(self, action: #selector(onDismiss), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)

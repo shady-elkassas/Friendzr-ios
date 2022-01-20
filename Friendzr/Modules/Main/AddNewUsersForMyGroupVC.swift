@@ -1,28 +1,25 @@
 //
-//  AddGroupVC.swift
+//  AddNewUsersForMyGroupVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 10/01/2022.
+//  Created by Shady Elkassas on 18/01/2022.
 //
 
 import UIKit
 
-class AddGroupVC: UIViewController {
-
+class AddNewUsersForMyGroupVC: UIViewController {
+    
     @IBOutlet weak var searchbar: UISearchBar!
     @IBOutlet weak var searchBarView: UIView!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var imgBtn: UIButton!
-    @IBOutlet weak var groupImg: UIImageView!
     @IBOutlet weak var doneBtn: UIButton!
-    @IBOutlet weak var nameView: UIView!
-    @IBOutlet weak var groupNameTxt: UITextField!
-    
     
     //MARK: - Properties
     let cellID = "SelectedFriendTableViewCell"
     var viewmodel:AllFriendesViewModel = AllFriendesViewModel()
-    var addGroupChat:GroupViewModel = GroupViewModel()
+    var addNewUserGroupVM:GroupViewModel = GroupViewModel()
+    
+    var groupId:String = ""
     
     var cellSelected:Bool = false
     var internetConnect:Bool = false
@@ -34,8 +31,6 @@ class AddGroupVC: UIViewController {
     var selectedIDs = [String]()
     var selectedNames = [String]()
     
-    let imagePicker = UIImagePickerController()
-    var attachedImg:Bool = false
     
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -54,7 +49,7 @@ class AddGroupVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Create Group".localizedString
+        self.title = "Select Friends".localizedString
         initCancelBarButton()
         setupSearchBar()
         setupViews()
@@ -62,15 +57,6 @@ class AddGroupVC: UIViewController {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        CancelRequest.currentTask = false
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.hideLoading()
-        CancelRequest.currentTask = true
     }
     
     //MARK: - Helper
@@ -136,10 +122,6 @@ class AddGroupVC: UIViewController {
         tableView.allowsMultipleSelection = true
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         doneBtn.cornerRadiusView(radius: 8)
-        groupImg.cornerRadiusForHeight()
-        nameView.setBorder()
-        nameView.cornerRadiusView(radius: 8)
-        
     }
     
     func HandleInternetConnection() {
@@ -223,46 +205,16 @@ class AddGroupVC: UIViewController {
         indicatorView.startAnimating()
         return footerview
     }
-
-    @IBAction func imgBtn(_ sender: Any) {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-            
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-        }
-    }
+    
     
     @IBAction func doneBtn(_ sender: Any) {
         let actionDate = formatterDate.string(from: Date())
         let actionTime = formatterTime.string(from: Date())
-
+        
         if selectedIDs.count == 0 {
             self.view.makeToast("Please select a group of friends".localizedString)
         }else {
-            self.showLoading()
-            addGroupChat.createGroup(withName: groupNameTxt.text!, AndListOfUserIDs: selectedIDs, AndRegistrationDateTime: "\(actionDate) \(actionTime)", attachedImg: self.attachedImg, AndImage: groupImg.image ?? UIImage()) { error, data in
-                self.hideLoading()
+            addNewUserGroupVM.addUsersGroup(withGroupId: groupId, AndListOfUserIDs: selectedIDs, AndRegistrationDateTime: "\(actionDate) \(actionTime)") { error, data in
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -273,19 +225,20 @@ class AddGroupVC: UIViewController {
                 guard let _ = data else {return}
                 
                 DispatchQueue.main.async {
-                    self.view.makeToast("Your group added successfully".localizedString)
+                    self.view.makeToast("New friends have been added to the group successfully".localizedString)
                 }
                 
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
-                    Router().toHome()
+                    self.onDismiss()
                 }
             }
         }
     }
 }
 
+
 //MARK: - Extensions
-extension AddGroupVC : UISearchBarDelegate {
+extension AddNewUsersForMyGroupVC : UISearchBarDelegate {
     @objc func updateSearchResult() {
         guard let text = searchbar.text else {return}
         print(text)
@@ -294,7 +247,7 @@ extension AddGroupVC : UISearchBarDelegate {
     }
 }
 
-extension AddGroupVC: UITableViewDataSource {
+extension AddNewUsersForMyGroupVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.friends.value?.data?.count ?? 0
     }
@@ -308,12 +261,12 @@ extension AddGroupVC: UITableViewDataSource {
         if indexPath.row == ((viewmodel.friends.value?.data?.count ?? 0) - 1 ) {
             cell.bottomView.isHidden = true
         }
-
+        
         return cell
     }
 }
 
-extension AddGroupVC: UITableViewDelegate {
+extension AddNewUsersForMyGroupVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
@@ -388,41 +341,5 @@ extension AddGroupVC: UITableViewDelegate {
                 return
             }
         }
-    }
-}
-
-extension AddGroupVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-    //MARK:- Take Picture
-    func openCamera(){
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerController.SourceType.camera;
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
-        }
-    }
-    //MARK:- Open Library
-    func openLibrary(){
-        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            imagePicker.delegate = self
-            imagePicker.sourceType = .photoLibrary
-            imagePicker.allowsEditing = true
-            self.present(imagePicker, animated: true, completion: nil)
-        }
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        let image = info[.originalImage] as! UIImage
-        picker.dismiss(animated:true, completion: {
-            let size = CGSize(width: screenW, height: screenW)
-            let img = image.crop(to: size)
-            self.groupImg.image = img
-            self.attachedImg = true
-        })
-    }
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated:true, completion: nil)
     }
 }
