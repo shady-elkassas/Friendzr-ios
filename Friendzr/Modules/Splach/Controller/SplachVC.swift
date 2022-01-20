@@ -90,7 +90,10 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
             self.hideLoading()
             DispatchQueue.main.async {
                 self.hideLoading()
-                self.showAlert(withMessage: error)
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
             }
         }
     }

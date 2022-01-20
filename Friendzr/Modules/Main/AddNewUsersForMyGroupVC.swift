@@ -156,7 +156,10 @@ class AddNewUsersForMyGroupVC: UIViewController {
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else {
-                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    
                 }
             }
         }
@@ -191,7 +194,10 @@ class AddNewUsersForMyGroupVC: UIViewController {
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else {
-                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    
                 }
             }
         }

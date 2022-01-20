@@ -98,7 +98,10 @@ class FriendProfileVC: UIViewController { //UIGestureRecognizerDelegate
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else {
-                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    
                 }
             }
         }
@@ -122,7 +125,10 @@ class FriendProfileVC: UIViewController { //UIGestureRecognizerDelegate
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else {
-                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    
                 }
             }
         }

@@ -91,7 +91,10 @@ class TagsVC: UIViewController {
                     }else if error == "Bad Request" {
                         self.HandleinvalidUrl()
                     }else {
-                        self.showAlert(withMessage: error)
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        
                     }
                 }
                 

@@ -115,7 +115,10 @@ class AttendeesVC: UIViewController {
                 }else if error == "Bad Request" {
                     HandleinvalidUrl()
                 }else {
-                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    
                 }
             }
         }
@@ -152,7 +155,10 @@ class AttendeesVC: UIViewController {
                 }else if error == "Bad Request" {
                     HandleinvalidUrl()
                 }else {
-                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    
                 }
             }
         }

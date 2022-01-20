@@ -137,7 +137,10 @@ class AddEventVC: UIViewController {
         catsVM.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 self.hideLoading()
-                self.showAlert(withMessage: error)
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
             }
         }
     }

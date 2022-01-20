@@ -187,7 +187,10 @@ class EditMyProfileVC: UIViewController {
                     HandleInternetConnection()
                 }
                 else {
-                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    
                 }
             }
         }

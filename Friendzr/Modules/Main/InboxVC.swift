@@ -133,7 +133,10 @@ class InboxVC: UIViewController {
                 }else if error == "Bad Request" {
                     HandleinvalidUrl()
                 }else {
-                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    
                 }
             }
         }
@@ -169,7 +172,10 @@ class InboxVC: UIViewController {
                 }else if error == "Bad Request" {
                     HandleinvalidUrl()
                 }else {
-                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    
                 }
             }
         }
@@ -195,7 +201,9 @@ class InboxVC: UIViewController {
                 }else if error == "Bad Request" {
                     HandleinvalidUrl()
                 }else {
-                    self.showAlert(withMessage: error)
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }                    
                 }
             }
         }
@@ -409,13 +417,13 @@ extension InboxVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if isSearch {
             if searchVM.usersinChat.value?.data?.count != 0 {
-                return 100
+                return 80
             }else {
                 return 350
             }
         }else {
             if viewmodel.listChat.value?.data?.count != 0 {
-                return 100
+                return 80
             }else {
                 return 350
             }

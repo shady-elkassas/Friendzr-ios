@@ -112,7 +112,7 @@ class ReportVC: UIViewController {
     
     
     func getAllProblems() {
-        self.showLoading()
+//        self.showLoading()
         viewmodel.getAllProblems()
         viewmodel.model.bind { [unowned self] value in
             DispatchQueue.main.async {

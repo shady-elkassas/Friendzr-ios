@@ -300,7 +300,10 @@ class EventDetailsVC: UIViewController {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.showAlert(withMessage: error)
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
             }
         }
     }
@@ -339,7 +342,10 @@ class EventDetailsVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 self.hideLoading()
-                self.showAlert(withMessage: error)
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
             }
         }
     }
@@ -363,8 +369,11 @@ class EventDetailsVC: UIViewController {
         let Jointime = self.formatterTime.string(from: Date())
         
         if internetConect == true {
+//            self.showLoading()
+            joinBtn.isUserInteractionEnabled = false
             joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? "",JoinDate:JoinDate ,Jointime:Jointime) { error, data in
                 if let error = error {
+                    self.hideLoading()
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
@@ -372,8 +381,8 @@ class EventDetailsVC: UIViewController {
                 }
                 
                 guard let _ = data else {return}
-                
                 DispatchQueue.main.async {
+                    self.joinBtn.isUserInteractionEnabled = true
                     self.view.makeToast("You have successfully subscribed to event".localizedString)
                 }
                 
@@ -387,7 +396,9 @@ class EventDetailsVC: UIViewController {
     @IBAction func leaveBtn(_ sender: Any) {
         showNewtworkConnected()
         if internetConect == true {
+            leaveBtn.isUserInteractionEnabled = false
             leaveVM.leaveEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in
+                self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -398,6 +409,7 @@ class EventDetailsVC: UIViewController {
                 guard let _ = data else {return}
                 
                 DispatchQueue.main.async {
+                    self.leaveBtn.isUserInteractionEnabled = true
                     self.view.makeToast("You have successfully leave event".localizedString)
                 }
                 

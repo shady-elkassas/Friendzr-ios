@@ -29,23 +29,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="oE9-xp-h6p">
-                                <rect key="frame" x="157" y="104" width="100" height="100"/>
+                                <rect key="frame" x="127" y="104" width="160" height="160"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="Atf-Cx-pnc"/>
-                                    <constraint firstAttribute="height" constant="100" id="Ngq-N4-I3J"/>
+                                    <constraint firstAttribute="width" constant="160" id="Atf-Cx-pnc"/>
+                                    <constraint firstAttribute="height" constant="160" id="Ngq-N4-I3J"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mohamed Sabri" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mId-F3-GkZ">
-                                <rect key="frame" x="150.5" y="214" width="113.5" height="17.5"/>
+                                <rect key="frame" x="150.5" y="274" width="113.5" height="17.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                 <color key="textColor" name="ColorLbl3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8UJ-DC-w0L">
-                                <rect key="frame" x="0.0" y="261.5" width="414" height="551.5"/>
+                                <rect key="frame" x="0.0" y="321.5" width="414" height="491.5"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fgx-u5-X0C">
-                                        <rect key="frame" x="0.0" y="20" width="414" height="531.5"/>
+                                        <rect key="frame" x="0.0" y="20" width="414" height="471.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="dataSource" destination="Y6W-OH-hqX" id="woz-Nk-FIR"/>
