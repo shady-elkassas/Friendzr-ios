@@ -30,39 +30,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="118"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="v6w-K9-YIM">
-                                <rect key="frame" x="25" y="21.5" width="75" height="75"/>
+                                <rect key="frame" x="25" y="31.5" width="55" height="55"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="75" id="Qth-r8-mfC"/>
-                                    <constraint firstAttribute="height" constant="75" id="YRI-do-NCL"/>
+                                    <constraint firstAttribute="width" constant="55" id="Qth-r8-mfC"/>
+                                    <constraint firstAttribute="height" constant="55" id="YRI-do-NCL"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kate Austen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="20d-vx-Wca">
-                                <rect key="frame" x="110" y="29.5" width="99" height="20"/>
+                                <rect key="frame" x="90" y="36.5" width="99" height="20"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="16"/>
                                 <color key="textColor" name="ColorLbl1"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hey Cody, you should definitely check out Yoga Six for hot yoga! They have…" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rxI-Le-4v3">
-                                <rect key="frame" x="110" y="54.5" width="185" height="44"/>
+                                <rect key="frame" x="90" y="61.5" width="205" height="44"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                 <color key="textColor" name="ColorLbl2"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11:23 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4tK-aC-ZdE">
-                                <rect key="frame" x="247" y="32" width="48" height="15"/>
+                                <rect key="frame" x="247" y="39" width="48" height="15"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                 <color key="textColor" name="ColorLbl3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Gpw-Ye-ejk">
-                                <rect key="frame" x="110" y="54.5" width="25" height="25"/>
+                                <rect key="frame" x="90" y="61.5" width="25" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="ETl-gR-3M3"/>
                                     <constraint firstAttribute="width" constant="25" id="jF9-aY-u5c"/>
                                 </constraints>
                             </imageView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O0H-aT-73v">
-                                <rect key="frame" x="139" y="69" width="0.0" height="0.0"/>
+                                <rect key="frame" x="119" y="76" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -81,7 +81,7 @@
                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="rxI-Le-4v3" secondAttribute="bottom" constant="5" id="bRb-ts-B8T"/>
                             <constraint firstItem="O0H-aT-73v" firstAttribute="centerY" secondItem="Gpw-Ye-ejk" secondAttribute="centerY" constant="2" id="cgn-D9-b6N"/>
                             <constraint firstItem="rxI-Le-4v3" firstAttribute="top" secondItem="20d-vx-Wca" secondAttribute="bottom" constant="5" id="hpJ-eB-kJw"/>
-                            <constraint firstItem="20d-vx-Wca" firstAttribute="top" secondItem="v6w-K9-YIM" secondAttribute="top" constant="8" id="rHs-qn-EEi"/>
+                            <constraint firstItem="20d-vx-Wca" firstAttribute="top" secondItem="v6w-K9-YIM" secondAttribute="top" constant="5" id="rHs-qn-EEi"/>
                             <constraint firstItem="Gpw-Ye-ejk" firstAttribute="top" secondItem="20d-vx-Wca" secondAttribute="bottom" constant="5" id="xID-0g-H6b"/>
                             <constraint firstItem="v6w-K9-YIM" firstAttribute="centerY" secondItem="7Nl-Cs-3fj" secondAttribute="centerY" id="yMb-pj-J8i"/>
                             <constraint firstItem="rxI-Le-4v3" firstAttribute="leading" secondItem="20d-vx-Wca" secondAttribute="leading" id="zHi-1C-KhB"/>

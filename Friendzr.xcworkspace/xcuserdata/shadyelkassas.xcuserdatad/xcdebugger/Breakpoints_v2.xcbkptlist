@@ -152,7 +152,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "721E2EA2-AA2B-4223-A412-E2AF59A884A0"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Friendzr/Modules/Login/Controller/LoginVC.swift"
@@ -168,7 +168,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "EF033D98-1F0A-47FD-BFB9-20353C79BF27"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Friendzr/Modules/Login/Controller/LoginVC.swift"
@@ -190,8 +190,8 @@
             filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "277"
-            endingLineNumber = "277"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
             landmarkName = "setupMarkers()"
             landmarkType = "7">
          </BreakpointContent>

@@ -31,27 +31,27 @@
                                 <color key="backgroundColor" name="Color0"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xjN-Ay-cOd">
-                                <rect key="frame" x="0.0" y="44" width="414" height="60"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="0.0"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Ik-au-9Lj">
-                                        <rect key="frame" x="19" y="2.5" width="376" height="55"/>
+                                        <rect key="frame" x="19" y="0.0" width="376" height="0.0"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="FZl-vM-xh3">
-                                                <rect key="frame" x="10" y="9.5" width="36" height="36"/>
+                                                <rect key="frame" x="10" y="-18" width="36" height="36"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="36" id="G6w-Iy-syZ"/>
                                                     <constraint firstAttribute="width" constant="36" id="MD0-tD-YWh"/>
                                                 </constraints>
                                             </imageView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="az9-iC-iwF">
-                                                <rect key="frame" x="51" y="9.5" width="1" height="36"/>
+                                                <rect key="frame" x="51" y="0.0" width="1" height="0.0"/>
                                                 <color key="backgroundColor" white="0.67000000000000004" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="1" id="aOW-qU-ipA"/>
                                                 </constraints>
                                             </view>
                                             <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="ZUa-Ut-cAm">
-                                                <rect key="frame" x="52" y="0.0" width="314" height="55"/>
+                                                <rect key="frame" x="52" y="0.0" width="314" height="0.0"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <textInputTraits key="textInputTraits"/>
                                                 <scopeButtonTitles>
@@ -80,12 +80,12 @@
                                     <constraint firstItem="6Ik-au-9Lj" firstAttribute="centerY" secondItem="xjN-Ay-cOd" secondAttribute="centerY" id="0OH-Qy-3iN"/>
                                     <constraint firstItem="6Ik-au-9Lj" firstAttribute="width" secondItem="xjN-Ay-cOd" secondAttribute="width" multiplier="1:1.1" id="DjL-Nf-hbe"/>
                                     <constraint firstItem="6Ik-au-9Lj" firstAttribute="height" secondItem="xjN-Ay-cOd" secondAttribute="height" multiplier="1:1.1" id="Hgl-55-TCm"/>
-                                    <constraint firstAttribute="height" constant="60" id="KwK-dF-vWO"/>
+                                    <constraint firstAttribute="height" id="KwK-dF-vWO"/>
                                     <constraint firstItem="6Ik-au-9Lj" firstAttribute="centerX" secondItem="xjN-Ay-cOd" secondAttribute="centerX" id="oh3-UH-lWB"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jhb-xC-bQx">
-                                <rect key="frame" x="29" y="56" width="36" height="36"/>
+                                <rect key="frame" x="29" y="26" width="36" height="36"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title=" "/>
                                 <connections>
@@ -93,10 +93,10 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fE0-XQ-LAZ" customClass="GADBannerView">
-                                <rect key="frame" x="41.5" y="104" width="331" height="60"/>
+                                <rect key="frame" x="41.5" y="44" width="331" height="100"/>
                                 <color key="backgroundColor" systemColor="systemGreenColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="sEo-ed-EDe"/>
+                                    <constraint firstAttribute="height" constant="100" id="sEo-ed-EDe"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kad-lD-qUK">
@@ -142,7 +142,7 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AH0-fq-45a">
                                         <rect key="frame" x="172" y="8" width="70" height="1"/>
-                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" name="primaryColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="Ai4-Eo-Hdd"/>
                                             <constraint firstAttribute="height" constant="1" id="fo5-Ox-Htw"/>
@@ -461,6 +461,9 @@
         </namedColor>
         <namedColor name="ColorLbl3">
             <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="primaryColor">
+            <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

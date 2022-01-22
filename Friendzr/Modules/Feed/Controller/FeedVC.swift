@@ -34,7 +34,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var filterHideView: UIView!
     @IBOutlet weak var dialogimg: UIImageView!
     @IBOutlet weak var allowBtn: UIButton!
-    
     @IBOutlet var bannerView: GADBannerView!
     @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
     
@@ -756,7 +755,7 @@ extension FeedVC:UITableViewDataSource {
 extension FeedVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if viewmodel.feeds.value?.data?.count != 0 {
-            return 80
+            return 75
         }else {
             return 350
         }

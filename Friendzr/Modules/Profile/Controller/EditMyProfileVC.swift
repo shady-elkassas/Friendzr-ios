@@ -41,10 +41,15 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var otherGenderView: UIView!
     @IBOutlet weak var otherGenderTxt: UITextField!
     
+    @IBOutlet weak var ProcessingLbl: UILabel!
+
     //MARK: - Properties
     
     lazy var logoutAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
-    lazy var alertView = Bundle.main.loadNibNamed("CalendarView", owner: self, options: nil)?.first as? CalendarView
+    lazy var calendarView = Bundle.main.loadNibNamed("CalendarView", owner: self, options: nil)?.first as? CalendarView
+    lazy var verifyFaceView = Bundle.main.loadNibNamed("VerifyFaceRegistrationAlertView", owner: self, options: nil)?.first as? VerifyFaceRegistrationAlertView
+
+    
     var genderString = ""
     let imagePicker = UIImagePickerController()
     var viewmodel:EditProfileViewModel = EditProfileViewModel()
@@ -73,6 +78,9 @@ class EditMyProfileVC: UIViewController {
     
     var needUpdateVC:Bool = false
     
+    var faceImgOne: UIImage = UIImage()
+    var faceImgTwo: UIImage = UIImage()
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -370,6 +378,19 @@ class EditMyProfileVC: UIViewController {
         self.view.addSubview((logoutAlertView)!)
     }
     
+    
+    func showFailAlert() {
+        verifyFaceView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        verifyFaceView?.HandleOkBtn = {
+            self.ProcessingLbl.isHidden = true
+            self.ProcessingLbl.text = "Processing...".localizedString
+            self.ProcessingLbl.textColor = .blue
+        }
+        
+        self.view.addSubview((verifyFaceView)!)
+    }
+    
     //MARK: - Actions
     
     @IBAction func logoutBtn(_ sender: Any) {
@@ -406,38 +427,38 @@ class EditMyProfileVC: UIViewController {
     }
     
     @IBAction func dateBtn(_ sender: Any) {
-        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        calendarView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
-        alertView?.HandleOKBtn = {
+        calendarView?.HandleOKBtn = {
             let formatter = DateFormatter()
             formatter.dateFormat = "dd-MM-yyyy"
-            self.dateBirthLbl.text = formatter.string(from: (self.alertView?.calendarView.date)!)
-            self.birthDay = formatter.string(from: (self.alertView?.calendarView.date)!)
+            self.dateBirthLbl.text = formatter.string(from: (self.calendarView?.calendarView.date)!)
+            self.birthDay = formatter.string(from: (self.calendarView?.calendarView.date)!)
             self.dateBirthLbl.textColor = .black
             
             UIView.animate(withDuration: 0.3, animations: {
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.alertView?.alpha = 0
+                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.calendarView?.alpha = 0
             }) { (success: Bool) in
-                self.alertView?.removeFromSuperview()
-                self.alertView?.alpha = 1
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                self.calendarView?.removeFromSuperview()
+                self.calendarView?.alpha = 1
+                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
             }
         }
         
-        alertView?.HandleCancelBtn = {
+        calendarView?.HandleCancelBtn = {
             // handling code
             UIView.animate(withDuration: 0.3, animations: {
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.alertView?.alpha = 0
+                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.calendarView?.alpha = 0
             }) { (success: Bool) in
-                self.alertView?.removeFromSuperview()
-                self.alertView?.alpha = 1
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                self.calendarView?.removeFromSuperview()
+                self.calendarView?.alpha = 1
+                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
             }
         }
         
-        self.view.addSubview((alertView)!)
+        self.view.addSubview((calendarView)!)
     }
     
     @IBAction func maleBtn(_ sender: Any) {
@@ -483,106 +504,6 @@ class EditMyProfileVC: UIViewController {
         }
     }
     
-    @IBAction func integrationInstgramBtn(_ sender: Any) {
-        //        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "InstagramWebVC") as? InstagramWebVC else {return}
-        //        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    @IBAction func integrationSnapchatBtn(_ sender: Any) {
-        //        SCSDKLoginClient.login(from: self, completion: { success, error in
-        //
-        //            if let error = error {
-        //                print(error.localizedDescription)
-        //                return
-        //            }
-        //
-        //            if success {
-        //                self.fetchSnapUserInfo() //used in the demo app to get user info
-        //            }
-        //        })
-    }
-    
-    //    private func fetchSnapUserInfo(){
-    //        let graphQLQuery = "{me{displayName, bitmoji{avatar}}}"
-    //
-    //        SCSDKLoginClient
-    //            .fetchUserData(
-    //                withQuery: graphQLQuery,
-    //                variables: nil,
-    //                success: { userInfo in
-    //
-    //                    if let userInfo = userInfo,
-    //                       let data = try? JSONSerialization.data(withJSONObject: userInfo, options: .prettyPrinted),
-    //                       let userEntity = try? JSONDecoder().decode(UserEntity.self, from: data) {
-    //
-    //                        DispatchQueue.main.async {
-    //                            self.goToLoginConfirm(userEntity)
-    //                        }
-    //                    }
-    //                }) { (error, isUserLoggedOut) in
-    //                    print(error?.localizedDescription ?? "")
-    //                }
-    //    }
-    
-    @IBAction func integrationFacebookBtn(_ sender: Any) {
-        //        updateUserInterface2()
-        //        if internetConect {
-        //            let fbLoginManager : LoginManager = LoginManager()
-        //
-        //            fbLoginManager.logIn(permissions: ["email"], from: self) { (result, error) -> Void in
-        //
-        //                if (error == nil) {
-        //                    // if user cancel the login
-        //                    if error != nil {
-        //                    }else if (result?.isCancelled)!{
-        //                        return
-        //                    }else {
-        //                        self.getFBUserData()
-        //                    }
-        //                }
-        //            }
-        //        }
-    }
-    
-    @IBAction func integrationTiktokBtn(_ sender: Any) {
-        //        TikTokOpenSDKApplicationDelegate.sharedInstance().logDelegate = self
-        //
-        //        let scopes = ["user.info.basic","video.list"] // list your scopes
-        //        let scopesSet = NSOrderedSet(array:scopes)
-        //        let request = TikTokOpenSDKAuthRequest()
-        //        request.permissions = scopesSet
-        //
-        //        request.send(self, completion: { resp -> Void in
-        //            /* STEP 3 */
-        //
-        //            if resp.errCode.rawValue == 0 {
-        //                /* STEP 3.a */
-        //                let clientKey = "awq4czdodvu3iy4y" // you will receive this once you register in the Developer Portal
-        //                let clientSecretKey = "64eabf5c9ae2cc2c5b15ea4897227bb3"
-        //                let responseCode = resp.code ?? ""
-        //
-        //                // replace this baseURLstring with your own wrapper API
-        //                let baseURlString = "https://open-api.tiktok.com/oauth/access_token/?client_key=\(clientKey)&client_secret=\(clientSecretKey)&grant_type=authorization_code&code=\(responseCode)"
-        //
-        //                //                let baseURlString = "https://open-api.tiktok.com/demoapp/callback/?code=\(responseCode)&client_key=\(clientKey)"
-        //
-        //                let url = NSURL(string: baseURlString)
-        //
-        //                /* STEP 3.b */
-        //                let session = URLSession(configuration: .default)
-        //                let urlRequest = NSMutableURLRequest(url: url! as URL)
-        //                let task = session.dataTask(with: urlRequest as URLRequest) { (data, response, error) -> Void in
-        //                    /* STEP 3.c */
-        //                    //                print(response)
-        //                    //                print(data)
-        //                }
-        //                task.resume()
-        //            } else {
-        //                // handle error
-        //            }
-        //        })
-    }
-    
     @IBAction func saveBtn(_ sender: Any) {
         updateUserInterface2()
         if self.attachedImg == false {
@@ -622,6 +543,23 @@ class EditMyProfileVC: UIViewController {
             }
         }
     }
+    
+    
+    
+    func onFaceRegistrationCallBack(_ faceImgOne:UIImage, _ faceImgTwo:UIImage,_ verify:Bool) -> () {
+        self.faceImgTwo = faceImgOne
+        self.faceImgTwo = faceImgTwo
+        
+        self.ProcessingLbl.isHidden = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.ProcessingLbl.text = "Failed".localizedString
+            self.ProcessingLbl.textColor = .red
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.showFailAlert()
+            }            
+        }
+    }
 }
 
 //MARK: - Extensions
@@ -649,10 +587,14 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         picker.dismiss(animated:true, completion: {
-            let size = CGSize(width: screenW, height: screenW)
-            let img = image.crop(to: size)
-            self.profileImg.image = img
-            self.attachedImg = true
+//            let size = CGSize(width: screenW, height: screenW)
+//            let img = image.crop(to: size)
+//            self.profileImg.image = img
+//            self.attachedImg = true
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FaceRecognitionVC") as? FaceRecognitionVC else {return}
+            vc.faceImgOne = self.faceImgOne
+            vc.onFaceRegistrationCallBackResponse = self.onFaceRegistrationCallBack
+            self.navigationController?.pushViewController(vc, animated: true)
         })
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -684,60 +626,6 @@ extension EditMyProfileVC : TagListViewDelegate {
     func tagRemoveButtonPressed(_ title: String, tagView: TagView, sender: TagListView) {
         print("Tag Remove pressed: \(title), \(sender)")
         //        sender.removeTagView(tagView)
-    }
-}
-
-//tiktok integration
-//extension EditMyProfileVC : TikTokOpenSDKLogDelegate {
-//
-//    func onLog(_ logInfo: String) {
-//        print(logInfo)
-//    }
-//}
-
-//facebook integration
-extension EditMyProfileVC {
-    func getFBUserData(completion:@escaping (_ : [String: Any]?,_ : Error?) -> Void) {
-        
-        GraphRequest(graphPath: "me", parameters: ["fields": "id,user_name,name, first_name, last_name, picture.type(large), email, phone"]).start { (connection, response, error)  in
-            
-            if error != nil {
-                //                print(error?.localizedDescription ?? "")
-                completion(nil, error)
-                return
-            }
-            completion(response as? [String : Any], nil)
-        }
-    }
-    
-    func getFBUserData(){
-        if((AccessToken.current) != nil){
-            
-            let request = GraphRequest(graphPath: "/me", parameters: ["fields": "id,user_name, picture.type(large), name,email"], httpMethod: HTTPMethod(rawValue: "GET"))
-            request.start { (connection, result, error) in
-                
-                if let error = error {
-                    print("\(error.localizedDescription)")
-                } else{
-                    let userInfo = result as! [String : AnyObject]
-                    
-                    self.UserFBID = userInfo["id"] as! String
-                    self.UserFBMobile = userInfo["phone"] as? String ?? ""
-                    self.UserFBUserName = userInfo["name"] as? String ?? ""
-                    self.UserFBEmail = userInfo["email"] as? String ?? ""
-                    self.userFace_BookAccessToken = AccessToken.current!.tokenString
-                    let img = userInfo["picture"] as! [String:AnyObject]
-                    //                    self.UserFBImage = img["data"]!["url"] as? String ?? ""
-                    if let imgurL = img["data"] as? [String:AnyObject] {
-                        self.UserFBImage = imgurL["url"] as? String ?? ""
-                    }
-                    
-                    print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
-                    
-                    self.facebookLink = "https://www.facebook.com/\(self.UserFBID)"
-                }
-            }
-        }
     }
 }
 

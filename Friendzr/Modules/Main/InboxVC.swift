@@ -417,13 +417,13 @@ extension InboxVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if isSearch {
             if searchVM.usersinChat.value?.data?.count != 0 {
-                return 80
+                return 75
             }else {
                 return 350
             }
         }else {
             if viewmodel.listChat.value?.data?.count != 0 {
-                return 80
+                return 75
             }else {
                 return 350
             }

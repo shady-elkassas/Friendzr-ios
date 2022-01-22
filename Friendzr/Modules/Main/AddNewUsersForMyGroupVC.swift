@@ -13,9 +13,12 @@ class AddNewUsersForMyGroupVC: UIViewController {
     @IBOutlet weak var searchBarView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var doneBtn: UIButton!
+    @IBOutlet weak var emptyView: UIView!
     
     //MARK: - Properties
     let cellID = "SelectedFriendTableViewCell"
+    let emptyCellID = "EmptyViewTableViewCell"
+
     var viewmodel:AllFriendesViewModel = AllFriendesViewModel()
     var addNewUserGroupVM:GroupViewModel = GroupViewModel()
     
@@ -184,6 +187,7 @@ class AddNewUsersForMyGroupVC: UIViewController {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
+                showEmptyView()
             }
         }
         
@@ -203,6 +207,15 @@ class AddNewUsersForMyGroupVC: UIViewController {
         }
     }
     
+    
+    func showEmptyView() {
+        let model = viewmodel.friends.value?.data
+        if model?.count != 0 {
+            emptyView.isHidden = true
+        }else {
+            emptyView.isHidden = false
+        }
+    }
     func createFooterView() -> UIView {
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
         let indicatorView = UIActivityIndicatorView()
@@ -274,7 +287,7 @@ extension AddNewUsersForMyGroupVC: UITableViewDataSource {
 
 extension AddNewUsersForMyGroupVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 75
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){

@@ -111,7 +111,7 @@ class MapVC: UIViewController {
         
         updateLocation()
         setupViews()
-                
+        title = "Map".localizedString
         NotificationCenter.default.addObserver(self, selector: #selector(handleSubViewHide), name: Notification.Name("handleSubViewHide"), object: nil)
     }
     
@@ -135,8 +135,10 @@ class MapVC: UIViewController {
             self.updateUserInterface()
         }
         
-        hideNavigationBar(NavigationBar: true, BackButton: true)
-        
+//        hideNavigationBar(NavigationBar: true, BackButton: true)
+        initProfileBarButton()
+//        setupNavBar()
+
         seyupAds()
     }
     
@@ -148,6 +150,7 @@ class MapVC: UIViewController {
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
         bannerView.delegate = self
+        bannerView.cornerRadiusView(radius: 10)
     }
     
     //MARK: - APIs

@@ -258,6 +258,9 @@
 		43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545CC26CD49F40064660A /* CategoryTableViewCell.swift */; };
 		43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D545CD26CD49F40064660A /* CategoryTableViewCell.xib */; };
 		43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E692BF2765FF9D0075671D /* Ex+Switch.swift */; };
+		43E7EC43279C341900631AA0 /* FaceRecognitionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */; };
+		43E7EC45279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E7EC44279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib */; };
+		43E7EC47279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E7EC46279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift */; };
 		43F473B326E6175F001E4FAE /* AllCategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B226E6175F001E4FAE /* AllCategoriesViewModel.swift */; };
 		43F473B526E61791001E4FAE /* CategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B426E61791001E4FAE /* CategoriesModel.swift */; };
 		43F473B726E61E7F001E4FAE /* InterestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */; };
@@ -632,6 +635,9 @@
 		43D545CC26CD49F40064660A /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		43D545CD26CD49F40064660A /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
 		43E692BF2765FF9D0075671D /* Ex+Switch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Switch.swift"; sourceTree = "<group>"; };
+		43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionVC.swift; sourceTree = "<group>"; };
+		43E7EC44279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VerifyFaceRegistrationAlertView.xib; sourceTree = "<group>"; };
+		43E7EC46279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyFaceRegistrationAlertView.swift; sourceTree = "<group>"; };
 		43F473B226E6175F001E4FAE /* AllCategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesViewModel.swift; sourceTree = "<group>"; };
 		43F473B426E61791001E4FAE /* CategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModel.swift; sourceTree = "<group>"; };
 		43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewModel.swift; sourceTree = "<group>"; };
@@ -764,6 +770,8 @@
 				430A350A26CA5C9D00477A94 /* CalendarView.swift */,
 				43967D7F2794440F005B1F5D /* AddNewTagView.xib */,
 				43A332622781AE37001ADB84 /* AddNewTagView.swift */,
+				43E7EC44279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib */,
+				43E7EC46279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -1253,6 +1261,7 @@
 				43D545AE26CBD76E0064660A /* TagsVC.swift */,
 				436850972745008500A62287 /* InstagramWebVC.swift */,
 				43B22411274B89D7004C6912 /* SelectedTagsVC.swift */,
+				43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1728,6 +1737,7 @@
 				43526917276A144A00540726 /* ScrollableBottomSheetViewController.xib in Resources */,
 				43967DC427944E92005B1F5D /* WriteProblemTableViewCell.xib in Resources */,
 				4382AC9626C27FF2005C1857 /* Montserrat-Medium.ttf in Resources */,
+				43E7EC45279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib in Resources */,
 				43967DB627944E15005B1F5D /* StatisticsCollectionViewCell.xib in Resources */,
 				43D008DA2794386A00370E2C /* EmptyViewTableViewCell.xib in Resources */,
 				43D008EF27943A1500370E2C /* RequestTableViewCell.xib in Resources */,
@@ -1969,6 +1979,7 @@
 				4308EB7226E9FC5600D71379 /* RequestsViewModel.swift in Sources */,
 				436288A526C9334900B51E51 /* ChatListTableViewCell.swift in Sources */,
 				43119D6826E4C18A00AD2260 /* GenderViewModel.swift in Sources */,
+				43E7EC47279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift in Sources */,
 				4397236F2709D8870062D684 /* ChatModel.swift in Sources */,
 				4382AC2126C27195005C1857 /* Friendzr.xcdatamodeld in Sources */,
 				43FC3CA22727EC5D00D94ABB /* LocationsStorage.swift in Sources */,
@@ -1997,6 +2008,7 @@
 				4368509F27453E3800A62287 /* TagCollectionViewCell.swift in Sources */,
 				4330757026E75EDC002940DF /* AttendeesVC.swift in Sources */,
 				4320A64826F1FD50003604EE /* AllFriendesModel.swift in Sources */,
+				43E7EC43279C341900631AA0 /* FaceRecognitionVC.swift in Sources */,
 				436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */,
 				4382ACBC26C2AFE9005C1857 /* SplachThreeVC.swift in Sources */,
 				4368509A274500DD00A62287 /* structAPI.swift in Sources */,

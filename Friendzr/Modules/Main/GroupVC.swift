@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ListPlaceholder
 
 class GroupVC: UIViewController {
     
@@ -15,11 +16,10 @@ class GroupVC: UIViewController {
     @IBOutlet weak var nameTxtView: UIView!
     @IBOutlet weak var nameTxt: UITextField!
     @IBOutlet weak var tableView: UITableView!
-//    @IBOutlet weak var editNameGroupBtn: UIButton!
     @IBOutlet weak var addUsersBtn: UIButton!
-//    @IBOutlet weak var saveChangeNameBtnWidth: NSLayoutConstraint!
-//    @IBOutlet weak var saveChangeNameBtn: UIButton!
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var searchbar: UISearchBar!
+    @IBOutlet weak var searchBarView: UIView!
     
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -36,6 +36,8 @@ class GroupVC: UIViewController {
     }()
     
     let cellID = "SelectedFriendTableViewCell"
+    let emptyCellID = "EmptyViewTableViewCell"
+
     var groupId:String = ""
     var isGroupAdmin:Bool = false
     
@@ -51,7 +53,7 @@ class GroupVC: UIViewController {
         title = "Group Details"
         
         getGroupDetails()
-        
+        setupSearchBar()
         initBackChatButton()
     }
     
@@ -79,9 +81,26 @@ class GroupVC: UIViewController {
         }
     }
     
+    func setupSearchBar() {
+        searchbar.delegate = self
+        searchBarView.cornerRadiusView(radius: 6)
+        searchBarView.setBorder()
+        searchbar.backgroundImage = UIImage()
+        searchbar.searchTextField.textColor = .black
+        searchbar.searchTextField.backgroundColor = .clear
+        searchbar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
+        var placeHolder = NSMutableAttributedString()
+        let textHolder  = "Search...".localizedString
+        let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
+        placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
+        searchbar.searchTextField.attributedPlaceholder = placeHolder
+        searchbar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
+    }
+    
     
     func getGroupDetails() {
-        self.showLoading()
+//        self.showLoading()
+        self.superView.showLoader()
         viewmodel.getGroupDetails(id: groupId)
         viewmodel.groupMembers.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -90,10 +109,12 @@ class GroupVC: UIViewController {
                 tableView.dataSource = self
                 tableView.reloadData()
                 
-                tableViewHeight.constant = CGFloat((value.chatGroupSubscribers?.count ?? 0) * 50)
+                tableViewHeight.constant = CGFloat((value.chatGroupSubscribers?.count ?? 0) * 75)
                 
                 groupImg.sd_setImage(with: URL(string: value.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
                 nameTxt.text = value.name
+                
+                self.superView.hideLoader()
             }
         }
         
@@ -145,16 +166,6 @@ class GroupVC: UIViewController {
             self.present(controller, animated: true)
         }
     }
-
-//    @IBAction func saveChangeNameBtn(_ sender: Any) {
-//    }
-//
-//    @IBAction func editNameGroupBtn(_ sender: Any) {
-////        saveChangeNameBtn.isHidden = false
-////        saveChangeNameBtnWidth.constant = 65
-////        nameTxt.isUserInteractionEnabled = true
-//    }
-    
 }
 
 extension GroupVC {
@@ -569,6 +580,15 @@ extension GroupVC : UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 75
+    }
+}
+
+extension GroupVC : UISearchBarDelegate {
+    @objc func updateSearchResult() {
+        guard let text = searchbar.text else {return}
+        print(text)
+        
+//        getAllFriends(pageNumber: 1, search: text)
     }
 }

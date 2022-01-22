@@ -17,7 +17,7 @@ class AddGroupVC: UIViewController {
     @IBOutlet weak var doneBtn: UIButton!
     @IBOutlet weak var nameView: UIView!
     @IBOutlet weak var groupNameTxt: UITextField!
-    
+    @IBOutlet weak var emptyView: UIView!
     
     //MARK: - Properties
     let cellID = "SelectedFriendTableViewCell"
@@ -202,6 +202,8 @@ class AddGroupVC: UIViewController {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
+                
+                showEmptyView()
             }
         }
         
@@ -218,6 +220,16 @@ class AddGroupVC: UIViewController {
                     
                 }
             }
+        }
+    }
+    
+    func showEmptyView() {
+        let model = viewmodel.friends.value?.data
+        if model?.count != 0 {
+            emptyView.isHidden = true
+            
+        }else {
+            emptyView.isHidden = false
         }
     }
     
@@ -321,7 +333,7 @@ extension AddGroupVC: UITableViewDataSource {
 
 extension AddGroupVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return 75
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){

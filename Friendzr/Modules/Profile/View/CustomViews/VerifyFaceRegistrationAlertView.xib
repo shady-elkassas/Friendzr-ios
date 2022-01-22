@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Bold.ttf">
+            <string>Montserrat-Bold</string>
+        </array>
+        <array key="Montserrat-Regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" restorationIdentifier="VerifyFaceRegistrationAlertView" id="vuA-Aj-EVf" customClass="VerifyFaceRegistrationAlertView" customModule="Friendzr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <visualEffectView opaque="NO" alpha="0.40000000596046448" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iv6-mg-1Yd">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="vuc-I5-VTJ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Ge-Uf-EDy">
+                                <rect key="frame" x="-1" y="0.0" width="414" height="895"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="lNA-eV-ASu">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="895"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <vibrancyEffect>
+                                    <blurEffect style="light"/>
+                                </vibrancyEffect>
+                            </visualEffectView>
+                        </subviews>
+                    </view>
+                    <blurEffect style="dark"/>
+                </visualEffectView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6qh-nO-jiO">
+                    <rect key="frame" x="34.5" y="362" width="345" height="182.5"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a clear photo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fbs-P9-TWo">
+                            <rect key="frame" x="20" y="25" width="154.5" height="17.5"/>
+                            <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="14"/>
+                            <color key="textColor" name="ColorLbl3"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="URY-oe-KT2">
+                            <rect key="frame" x="265" y="122.5" width="60" height="40"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eve-au-NVk">
+                                    <rect key="frame" x="0.0" y="0.0" width="60" height="40"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="60" id="2mq-tH-7yK"/>
+                                        <constraint firstAttribute="height" constant="40" id="zdr-Pf-01r"/>
+                                    </constraints>
+                                    <state key="normal" title="Ok">
+                                        <color key="titleColor" name="primaryColor"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="okBtn:" destination="vuA-Aj-EVf" eventType="touchUpInside" id="NYo-zQ-7AQ"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Make the best first impression by choosing a photo that clearly shows your face for your first picture." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fm-Md-RrN">
+                            <rect key="frame" x="20" y="58.5" width="305" height="44"/>
+                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" name="Color0"/>
+                    <constraints>
+                        <constraint firstItem="fbs-P9-TWo" firstAttribute="top" secondItem="6qh-nO-jiO" secondAttribute="top" constant="25" id="0es-pA-0lK"/>
+                        <constraint firstAttribute="trailing" secondItem="2fm-Md-RrN" secondAttribute="trailing" constant="20" id="54W-el-ewb"/>
+                        <constraint firstItem="2fm-Md-RrN" firstAttribute="leading" secondItem="fbs-P9-TWo" secondAttribute="leading" id="DUT-vm-cXs"/>
+                        <constraint firstItem="fbs-P9-TWo" firstAttribute="leading" secondItem="6qh-nO-jiO" secondAttribute="leading" constant="20" id="Jva-4E-JaV"/>
+                        <constraint firstItem="2fm-Md-RrN" firstAttribute="top" secondItem="fbs-P9-TWo" secondAttribute="bottom" constant="16" id="MB8-0I-Zd3"/>
+                        <constraint firstItem="URY-oe-KT2" firstAttribute="top" secondItem="2fm-Md-RrN" secondAttribute="bottom" constant="20" id="P0r-Mr-lwf"/>
+                        <constraint firstAttribute="bottom" secondItem="URY-oe-KT2" secondAttribute="bottom" constant="20" id="sWc-QQ-4Rn"/>
+                        <constraint firstAttribute="trailing" secondItem="URY-oe-KT2" secondAttribute="trailing" constant="20" id="u55-Uc-Pjq"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <integer key="value" value="15"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="BeV-BE-xRg"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="Iv6-mg-1Yd" firstAttribute="leading" secondItem="vuA-Aj-EVf" secondAttribute="leading" id="FVh-Z4-OFs"/>
+                <constraint firstItem="6qh-nO-jiO" firstAttribute="centerX" secondItem="BeV-BE-xRg" secondAttribute="centerX" id="Itz-Py-0Mg"/>
+                <constraint firstItem="6qh-nO-jiO" firstAttribute="centerY" secondItem="BeV-BE-xRg" secondAttribute="centerY" id="MLG-Mj-Pkb"/>
+                <constraint firstItem="Iv6-mg-1Yd" firstAttribute="top" secondItem="vuA-Aj-EVf" secondAttribute="top" id="bId-yJ-A9L"/>
+                <constraint firstAttribute="bottom" secondItem="Iv6-mg-1Yd" secondAttribute="bottom" id="drf-bw-ATE"/>
+                <constraint firstItem="6qh-nO-jiO" firstAttribute="width" secondItem="vuA-Aj-EVf" secondAttribute="width" multiplier="1:1.2" id="idX-lN-bmb"/>
+                <constraint firstItem="Iv6-mg-1Yd" firstAttribute="trailing" secondItem="vuA-Aj-EVf" secondAttribute="trailing" id="wvh-NE-Q0v"/>
+            </constraints>
+            <connections>
+                <outlet property="containerView" destination="6qh-nO-jiO" id="1kW-oG-dRK"/>
+                <outlet property="okBtn" destination="eve-au-NVk" id="4B3-2y-fdB"/>
+                <outlet property="subTitleAlertLbl" destination="2fm-Md-RrN" id="Sai-Fb-sIT"/>
+                <outlet property="titleAlertLbl" destination="fbs-P9-TWo" id="J1X-gZ-k1t"/>
+            </connections>
+            <point key="canvasLocation" x="-136.23188405797103" y="55.580357142857139"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="Color0">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ColorLbl3">
+            <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="primaryColor">
+            <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
