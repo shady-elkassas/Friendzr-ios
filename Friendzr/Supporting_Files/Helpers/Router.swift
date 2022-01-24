@@ -26,7 +26,6 @@ class Router {
         window.rootViewController = navVC
     }
     
-    
     func toOptionsSignUpVC() {
         let id = "OptionsSignUpNC"
         let nextVC = Initializer.createViewController(storyBoard: .Register, andId: id)

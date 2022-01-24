@@ -8,7 +8,7 @@
 import UIKit
 import ListPlaceholder
 
-class FriendProfileVC: UIViewController { //UIGestureRecognizerDelegate
+class FriendProfileVC: UIViewController {
     
     //MARK:- Outlets
     @IBOutlet weak var superView: UIView!
@@ -42,9 +42,7 @@ class FriendProfileVC: UIViewController { //UIGestureRecognizerDelegate
     
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var internetConect:Bool = false
-    
-//    var shimmer = FBShimmeringView()
-    
+        
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,8 +57,6 @@ class FriendProfileVC: UIViewController { //UIGestureRecognizerDelegate
         
         initOptionsUserButton()
         
-//        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,12 +68,7 @@ class FriendProfileVC: UIViewController { //UIGestureRecognizerDelegate
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
-//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
-    
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//        return true
-//    }
     
     //MARK:- APIs
     func getFriendProfileInformation() {

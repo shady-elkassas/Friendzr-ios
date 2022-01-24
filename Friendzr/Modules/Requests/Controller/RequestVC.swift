@@ -8,7 +8,7 @@
 import UIKit
 import ListPlaceholder
 
-class RequestVC: UIViewController {
+class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK:- Outlets
     @IBOutlet weak var totalRequestLbl: UILabel!
@@ -44,6 +44,8 @@ class RequestVC: UIViewController {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {

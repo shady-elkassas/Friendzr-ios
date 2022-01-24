@@ -2,7 +2,7 @@
 //  GroupViewModel.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 17/01/2022.
+//  Created by Muhammad Sabri Saad on 17/01/2022.
 //
 
 import Foundation
@@ -13,6 +13,9 @@ import Alamofire
 class GroupViewModel {
     
     var groupMembers : DynamicType<GroupUsers> = DynamicType<GroupUsers>()
+
+    var listChat : DynamicType<ChatList> = DynamicType<ChatList>()
+    var chatsTemp : ChatList = ChatListDataModel()
 
     // Initialise ViewModel's
     let nameGroupViewModel = NameGroupViewModel()
@@ -459,6 +462,41 @@ class GroupViewModel {
         }
     }
     
+    func getAllGroupChat(pageNumber:Int,search:String) {
+        CancelRequest.currentTask = false
+        let url = URLs.baseURLFirst + "ChatGroup/GetAllChats"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        
+        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10,"search":search]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
+            
+            guard let userResponse = Mapper<ChatsListModel>().map(JSON: data!) else {
+                self.errorMsg.value = error
+                return
+            }
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.errorMsg.value = error
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = userResponse.data {
+                    if pageNumber > 1 {
+                        for itm in toAdd.data ?? [] {
+                            if !(self.chatsTemp.data?.contains(where: { $0.id == itm.id }) ?? false) {
+                                self.chatsTemp.data?.append(itm)
+                            }
+                        }
+                        self.listChat.value = self.chatsTemp
+                    } else {
+                        self.listChat.value = toAdd
+                        self.chatsTemp = toAdd
+                    }
+                }
+            }
+        }
+    }
 }
 
 

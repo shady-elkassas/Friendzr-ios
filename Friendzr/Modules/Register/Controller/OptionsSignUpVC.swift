@@ -11,7 +11,7 @@ import FBSDKLoginKit
 import GoogleSignIn
 import AuthenticationServices
 
-class OptionsSignUpVC: UIViewController {
+class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
 
     //MARK:- Outlets
     @IBOutlet weak var emailView: UIView!
@@ -53,6 +53,9 @@ class OptionsSignUpVC: UIViewController {
         super.viewDidLoad()
         
         setupView()
+        
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,11 +66,16 @@ class OptionsSignUpVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 //        performExistingAccountSetupFlows()
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     //MARK: - Helper

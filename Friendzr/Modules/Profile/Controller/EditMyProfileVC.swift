@@ -55,6 +55,7 @@ class EditMyProfileVC: UIViewController {
     var viewmodel:EditProfileViewModel = EditProfileViewModel()
     var profileVM: ProfileViewModel = ProfileViewModel()
     var logoutVM:LogoutViewModel = LogoutViewModel()
+    var faceRecognitionVM:FaceRecognitionViewModel = FaceRecognitionViewModel()
     var tagsid:[String] = [String]()
     var tagsNames:[String] = [String]()
     var attachedImg:Bool = false
@@ -547,17 +548,47 @@ class EditMyProfileVC: UIViewController {
     
     
     func onFaceRegistrationCallBack(_ faceImgOne:UIImage, _ faceImgTwo:UIImage,_ verify:Bool) -> () {
-        self.faceImgTwo = faceImgOne
+        self.faceImgOne = faceImgOne
         self.faceImgTwo = faceImgTwo
         
+//        self.showLoading()
         self.ProcessingLbl.isHidden = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.ProcessingLbl.text = "Failed".localizedString
-            self.ProcessingLbl.textColor = .red
+        faceRecognitionVM.compare(withImage1: faceImgOne, AndImage2: faceImgTwo) { error, data in
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                self.showFailAlert()
-            }            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let data = data else {return}
+            print(data)
+            if data == "Matched" {
+                DispatchQueue.main.async {
+                    self.ProcessingLbl.text = "Matched"
+                    self.ProcessingLbl.textColor = .green
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.ProcessingLbl.isHidden = true
+                    self.ProcessingLbl.text = "Processing...".localizedString
+                    self.ProcessingLbl.textColor = .blue
+                }
+
+                DispatchQueue.main.async {
+                    self.profileImg.image = faceImgOne
+                }
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.ProcessingLbl.text = "Failed".localizedString
+                    self.ProcessingLbl.textColor = .red
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.showFailAlert()
+                    }
+                }
+            }
         }
     }
 }
@@ -591,6 +622,8 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
 //            let img = image.crop(to: size)
 //            self.profileImg.image = img
 //            self.attachedImg = true
+            self.faceImgOne = image
+            
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FaceRecognitionVC") as? FaceRecognitionVC else {return}
             vc.faceImgOne = self.faceImgOne
             vc.onFaceRegistrationCallBackResponse = self.onFaceRegistrationCallBack

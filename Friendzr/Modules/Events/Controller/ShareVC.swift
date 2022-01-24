@@ -2,7 +2,7 @@
 //  ShareVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 18/01/2022.
+//  Created by Muhammad Sabri Saad on 18/01/2022.
 //
 
 import UIKit
@@ -16,6 +16,8 @@ class ShareVC: UIViewController {
     
     var myFriendsVM:AllFriendesViewModel = AllFriendesViewModel()
     var myEventsVM:EventsViewModel = EventsViewModel()
+    var myGroupsVM:GroupViewModel = GroupViewModel()
+    
     var encryptedID:String = ""
     
     override func viewDidLoad() {
@@ -23,8 +25,9 @@ class ShareVC: UIViewController {
 
         title = "Share".localizedString
         setupViews()
-        getAllEvents(pageNumber: 1)
-        getAllFriends(pageNumber: 1, search: "")
+        getAllMyEvents(pageNumber: 1)
+        getAllMyGroups(pageNumber: 1, search: "")
+        getAllMyFriends(pageNumber: 1, search: "")
         initCloseBarButton()
         setupNavBar()
     }
@@ -35,7 +38,7 @@ class ShareVC: UIViewController {
     }
     
     //MARK:- APIs
-    func getAllEvents(pageNumber:Int) {
+    func getAllMyEvents(pageNumber:Int) {
         myEventsVM.getMyEvents(pageNumber: pageNumber)
         myEventsVM.events.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -57,9 +60,29 @@ class ShareVC: UIViewController {
             }
         }
     }
-    
-    
-    func getAllFriends(pageNumber:Int,search:String) {
+    func getAllMyGroups(pageNumber:Int,search:String) {
+        myGroupsVM.getAllGroupChat(pageNumber: pageNumber, search: search)
+        myGroupsVM.listChat.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+            }
+        }
+        
+        // Set View Model Event Listener
+        myGroupsVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+            }
+        }
+    }
+    func getAllMyFriends(pageNumber:Int,search:String) {
         myFriendsVM.getAllFriendes(pageNumber: pageNumber, search: search)
         myFriendsVM.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -81,7 +104,6 @@ class ShareVC: UIViewController {
             }
         }
     }
-    
     
     func shareEvent() {
         // Setting description
@@ -128,16 +150,34 @@ class ShareVC: UIViewController {
 
 extension ShareVC:UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let myFriendsCount = myFriendsVM.friends.value?.data?.count
+        let myeventsCount = myEventsVM.events.value?.data?.count
+        let myGroupsCount = myGroupsVM.listChat.value?.data?.count
+
         if section == 0 {
             return 1
         }else if section == 1 {
-            return myFriendsVM.friends.value?.data?.count ?? 0
+            if myFriendsCount != 0 {
+                return myFriendsVM.friends.value?.data?.count ?? 0
+            }else {
+                return 0
+            }
+        }else if section == 2 {
+            if myeventsCount != 0 {
+                return myEventsVM.events.value?.data?.count ?? 0
+            }else {
+                return 0
+            }
         }else {
-            return myEventsVM.events.value?.data?.count ?? 0
+            if myGroupsCount != 0 {
+                return myGroupsVM.listChat.value?.data?.count ?? 0
+            }else {
+                return 0
+            }
         }
     }
     
@@ -161,9 +201,17 @@ extension ShareVC:UITableViewDataSource {
             cell.titleLbl.font = UIFont(name: "Montserrat-Medium", size: 12)
             cell.containerView.backgroundColor = .clear
         }
-        else {
+        else if indexPath.section == 2 {
             let eventsModel = myEventsVM.events.value?.data?[indexPath.row]
             cell.titleLbl.text = eventsModel?.title
+            cell.sendBtn.isHidden = false
+            cell.bottomView.isHidden = false
+            cell.titleLbl.textColor = .darkGray
+            cell.titleLbl.font = UIFont(name: "Montserrat-Medium", size: 12)
+            cell.containerView.backgroundColor = .clear
+        }else {
+            let groupModel = myGroupsVM.listChat.value?.data?[indexPath.row]
+            cell.titleLbl.text = groupModel?.chatName
             cell.sendBtn.isHidden = false
             cell.bottomView.isHidden = false
             cell.titleLbl.textColor = .darkGray
@@ -179,6 +227,10 @@ extension ShareVC:UITableViewDataSource {
         
         let headerCell = tableView.dequeueReusableCell(withIdentifier: cellID) as! ShareTableViewCell
         
+        let myFriendsCount = myFriendsVM.friends.value?.data?.count
+        let myeventsCount = myEventsVM.events.value?.data?.count
+        let myGroupsCount = myGroupsVM.listChat.value?.data?.count
+        
         if section == 1 {
             headerCell.titleLbl.text = "My Friends".localizedString
             headerCell.titleLbl.textColor = .black
@@ -187,7 +239,11 @@ extension ShareVC:UITableViewDataSource {
             headerCell.sendBtn.isHidden = true
             headerCell.containerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
             headerCell.containerView.cornerRadiusView(radius: 8)
-            return headerCell
+            if myFriendsCount != 0 {
+                return headerCell
+            }else {
+                return UIView()
+            }
         }
         else if section == 2 {
             headerCell.titleLbl.text = "My Events".localizedString
@@ -197,7 +253,28 @@ extension ShareVC:UITableViewDataSource {
             headerCell.sendBtn.isHidden = true
             headerCell.containerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
             headerCell.containerView.cornerRadiusView(radius: 8)
-            return headerCell
+            if myeventsCount != 0 {
+                return headerCell
+            }else {
+                return UIView()
+            }
+            
+        }
+        else if section == 3 {
+            headerCell.titleLbl.text = "My Groups".localizedString
+            headerCell.titleLbl.textColor = .black
+            headerCell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
+            headerCell.bottomView.isHidden = true
+            headerCell.sendBtn.isHidden = true
+            headerCell.containerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+            headerCell.containerView.cornerRadiusView(radius: 8)
+            
+            if myGroupsCount != 0 {
+                return headerCell
+            }else {
+                return UIView()
+            }
+            
         }
         else {
             return UIView()

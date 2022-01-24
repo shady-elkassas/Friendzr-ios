@@ -44,13 +44,7 @@ class AddEventViewModel {
         categoryEventViewModel.data = categoryId
         locationEventViewModel.data = "\(lat)"
         totlalNumberEventViewModel.data = totalnumbert
-        
-        //        if image !=  {
-        //            self.errorMsg = "Please upload image for your event"
-        //            completion(errorMsg, nil)
-        //            return
-        //        }
-        
+
         guard validateAddEventCredentials() else {
             completion(errorMsg, nil)
             return

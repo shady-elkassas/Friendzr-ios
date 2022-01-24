@@ -206,6 +206,8 @@ extension UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    
+    
     func initSkipBarButton() {
         let skipBtn = UIButton()
         skipBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 44)

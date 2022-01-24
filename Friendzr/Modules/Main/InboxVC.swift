@@ -10,7 +10,7 @@ import SwiftUI
 import ListPlaceholder
 import GoogleMobileAds
 
-class InboxVC: UIViewController {
+class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Outlets
     @IBOutlet weak var searchContainerView: UIView!
@@ -72,6 +72,9 @@ class InboxVC: UIViewController {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,6 +88,11 @@ class InboxVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     //MARK: - APIs

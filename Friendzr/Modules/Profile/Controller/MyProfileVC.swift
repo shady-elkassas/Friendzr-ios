@@ -62,7 +62,6 @@ class MyProfileVC: UIViewController {
         self.superView.showLoader()
         viewmodel.getProfileInfo()
         viewmodel.userModel.bind { [unowned self]value in
-            self.hideLoading()
             DispatchQueue.main.async {
                 self.setProfileData()
                 self.superView.hideLoader()

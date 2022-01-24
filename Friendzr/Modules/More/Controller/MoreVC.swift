@@ -9,7 +9,7 @@ import UIKit
 import MessageUI
 import AuthenticationServices
 
-class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
+class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRecognizerDelegate {
     
     //MARK:- Outlets
     @IBOutlet weak var profileImg: UIImageView!
@@ -41,11 +41,19 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate {
         }
         
         CancelRequest.currentTask = false
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     //MARK: - Helpers

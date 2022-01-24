@@ -2,7 +2,7 @@
 //  ReportModel.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 04/01/2022.
+//  Created by Muhammad Sabri Saad on 04/01/2022.
 //
 
 import Foundation

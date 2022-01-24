@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChangePasswordVC: UIViewController {
+class ChangePasswordVC: UIViewController  {
     
     //MARK:- Outlets
     @IBOutlet var views: [UIView]!

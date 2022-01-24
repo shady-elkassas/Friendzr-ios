@@ -55,7 +55,7 @@ class EventsLocation {
     }
 }
 
-class MapVC: UIViewController {
+class MapVC: UIViewController ,UIGestureRecognizerDelegate{
     
     //MARK:- Outlets
     @IBOutlet weak var mapView: GMSMapView!
@@ -113,6 +113,8 @@ class MapVC: UIViewController {
         setupViews()
         title = "Map".localizedString
         NotificationCenter.default.addObserver(self, selector: #selector(handleSubViewHide), name: Notification.Name("handleSubViewHide"), object: nil)
+        
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {

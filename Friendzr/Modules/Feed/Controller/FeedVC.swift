@@ -770,7 +770,7 @@ extension FeedVC:UITableViewDelegate {
             if viewmodel.feeds.value?.data?.count != 0 {
                 guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
                 vc.userID = viewmodel.feeds.value?.data?[indexPath.row].userId ?? ""
-                //                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+//                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
                 self.navigationController?.pushViewController(vc, animated: true)
             }else {
                 return

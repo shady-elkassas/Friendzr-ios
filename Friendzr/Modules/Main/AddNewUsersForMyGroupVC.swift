@@ -2,7 +2,7 @@
 //  AddNewUsersForMyGroupVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 18/01/2022.
+//  Created by Muhammad Sabri Saad on 18/01/2022.
 //
 
 import UIKit

@@ -2,7 +2,7 @@
 //  VerifyFaceRegistrationAlertView.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 22/01/2022.
+//  Created by Muhammad Sabri Saad on 22/01/2022.
 //
 
 import Foundation
@@ -25,6 +25,7 @@ class VerifyFaceRegistrationAlertView : UIView {
     
     @IBAction func okBtn(_ sender: Any) {
         HandleOkBtn?()
+        
         // handling code
         UIView.animate(withDuration: 0.3, animations: {
             self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
