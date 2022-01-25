@@ -223,6 +223,7 @@
 		43C64A0C2796C40800C35FA8 /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A0B2796C40800C35FA8 /* GroupModel.swift */; };
 		43C97DE6279D76A900D87CBE /* FaceRecognitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C97DE5279D76A900D87CBE /* FaceRecognitionViewModel.swift */; };
 		43C97DE8279D7DA100D87CBE /* FaceRecognitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C97DE7279D7DA100D87CBE /* FaceRecognitionModel.swift */; };
+		43C97DEA27A04CF300D87CBE /* MainTBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C97DE927A04CF300D87CBE /* MainTBC.swift */; };
 		43CCD4A5279424FE00C2E46D /* Splach.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43CCD4A7279424FE00C2E46D /* Splach.storyboard */; };
 		43CCD4AC279426DB00C2E46D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43CCD4AE279426DB00C2E46D /* Login.storyboard */; };
 		43CFB00C271C56EB000CB41E /* InterestsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CFB00A271C56EB000CB41E /* InterestsCollectionViewCell.swift */; };
@@ -566,6 +567,7 @@
 		43C64A0B2796C40800C35FA8 /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
 		43C97DE5279D76A900D87CBE /* FaceRecognitionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionViewModel.swift; sourceTree = "<group>"; };
 		43C97DE7279D7DA100D87CBE /* FaceRecognitionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionModel.swift; sourceTree = "<group>"; };
+		43C97DE927A04CF300D87CBE /* MainTBC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTBC.swift; sourceTree = "<group>"; };
 		43CCD4A6279424FE00C2E46D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Splach.storyboard; sourceTree = "<group>"; };
 		43CCD4A92794250200C2E46D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Splach.strings; sourceTree = "<group>"; };
 		43CCD4AB2794253200C2E46D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Splach.strings; sourceTree = "<group>"; };
@@ -1209,6 +1211,7 @@
 		436288A726C93AEF00B51E51 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				43C97DE927A04CF300D87CBE /* MainTBC.swift */,
 				4382AC1A26C27195005C1857 /* InboxVC.swift */,
 				4344110126CE63AF00F8233E /* NewConversationVC.swift */,
 				4314853A278C42930048EC01 /* AddGroupVC.swift */,
@@ -2034,6 +2037,7 @@
 				43D545BB26CBD8610064660A /* SKAction+Color.swift in Sources */,
 				43D545BD26CBD8730064660A /* SKMultilineLabelNode.swift in Sources */,
 				4397236D2709CE9E0062D684 /* ChatViewModel.swift in Sources */,
+				43C97DEA27A04CF300D87CBE /* MainTBC.swift in Sources */,
 				4333DA8626C405CC0029F2B0 /* LoginVC.swift in Sources */,
 				436460BA26E8EE2E007C3F27 /* LoginModel.swift in Sources */,
 				4371D4232737D054003B8AFD /* CustomMessagesFlowLayout.swift in Sources */,
@@ -2568,7 +2572,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.7.6;
+				CURRENT_PROJECT_VERSION = 2.8.2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2596,7 +2600,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.7.6;
+				CURRENT_PROJECT_VERSION = 2.8.2;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

@@ -105,7 +105,7 @@ class SettingsViewModel {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
         let headers = RequestComponent.headerComponent([.authorization,.type])
-        let parameters:[String : Any] = ["pushnotification": pushNotification]//"allowmylocation":allowMyLocation,"ghostmode":ghostMode,"allowmylocationtype":allowmylocationtype,"Manualdistancecontrol":12,"agefrom":10,"ageto":122,"Filteringaccordingtoage":true]
+        let parameters:[String : Any] = ["pushnotification":pushNotification]//"allowmylocation":allowMyLocation,"ghostmode":ghostMode,"allowmylocationtype":allowmylocationtype,"Manualdistancecontrol":12,"agefrom":10,"ageto":122,"Filteringaccordingtoage":true]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
@@ -162,7 +162,7 @@ class SettingsViewModel {
         let url = URLs.baseURLFirst + "Account/updatSetting"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
-        let parameters:[String : Any] = ["ghostmode":ghostMode,"MyAppearanceTypes[]":myAppearanceTypes]
+        let parameters:[String : Any] = ["ghostmode":ghostMode,"MyAppearanceTypes":myAppearanceTypes]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             

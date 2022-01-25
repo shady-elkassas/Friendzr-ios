@@ -85,7 +85,12 @@ class HideGhostModeView: UIView {
             if SelectedSingleTone.isSelected == true {
                 onTypesCallBackResponse?(["Every One"],[1])
             }else {
-                onTypesCallBackResponse?(typeStrings,typeIDs)
+                if typeIDs.count == 0 {
+                    self.parentVC.view.makeToast("Please select a ghost mode type".localizedString)
+                    return
+                }else {
+                    onTypesCallBackResponse?(typeStrings,typeIDs)
+                }
             }
             
             HandleSaveBtn?()

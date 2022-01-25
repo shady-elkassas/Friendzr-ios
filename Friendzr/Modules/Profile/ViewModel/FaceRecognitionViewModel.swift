@@ -28,6 +28,7 @@ class FaceRecognitionViewModel {
         
         guard let mediaImage1 = Media(withImage: image1, forKey: "image1") else { return }
         guard let mediaImage2 = Media(withImage: image2, forKey: "image2") else { return }
+        
         guard let urlRequest = URL(string: url) else { return }
         var request = URLRequest(url: urlRequest)
         request.httpMethod = "POST"
@@ -48,7 +49,10 @@ class FaceRecognitionViewModel {
 //            print(httpResponse!)
             print("statusCode: \(code ?? 0)")
             print("**MD** response: \(String(describing: response))")
-            
+            if code == 500 {
+                self.errorMsg = "clear photo"
+                completion(self.errorMsg,nil)
+            }
             if let data = data {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
@@ -59,10 +63,12 @@ class FaceRecognitionViewModel {
                     }
                     
                     if code == 200 || code == 201 {
-                        if let toAdd = userResponse.message {
+                        if let toAdd = userResponse.result {
                             completion(nil,toAdd)
                         }
-                    }else {
+                    }
+                   
+                    else {
                         if let error = userResponse.message {
                             print ("Error while fetching data \(error)")
                             self.errorMsg = error
@@ -125,6 +131,6 @@ class FaceRecognitionViewModel {
     }
     
     func generateBoundary() -> String {
-        return "Boundary-\(NSUUID().uuidString)"
+        return "Boundary-\(UUID().uuidString)"
     }
 }

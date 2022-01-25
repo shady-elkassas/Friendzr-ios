@@ -416,6 +416,7 @@ extension InboxVC:UITableViewDataSource {
                 return cell
             }else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+                cell.controlBtn.isHidden = true
                 return cell
             }
         }
@@ -463,20 +464,20 @@ extension InboxVC:UITableViewDelegate {
             let deleteTitle = model?.isChatGroup ?? true ? "Clear".localizedString : "Delete".localizedString
             
             if model?.leavevent == 0 {
-                self.leaveOrJoinTitle = "Leave".localizedString
+                self.leaveOrJoinTitle = "Exit".localizedString
             }else {
                 self.leaveOrJoinTitle = "Join".localizedString
             }
             
             if model?.isChatGroup == true {
                 if model?.leaveGroup == 0 {
-                    self.leaveOrJoinTitle = "Leave".localizedString
+                    self.leaveOrJoinTitle = "Exit".localizedString
                 }else {
                     self.leaveOrJoinTitle = "Join".localizedString
                 }
             }else {
                 if model?.leavevent == 0 {
-                    self.leaveOrJoinTitle = "Leave".localizedString
+                    self.leaveOrJoinTitle = "Exit".localizedString
                 }else {
                     self.leaveOrJoinTitle = "Join".localizedString
                 }
@@ -934,8 +935,8 @@ extension InboxVC:UITableViewDelegate {
                 }
             }
             
-            leaveAction.backgroundColor = UIColor.blue
-            muteAction.backgroundColor = UIColor.green
+            leaveAction.backgroundColor = UIColor.darkGray
+            muteAction.backgroundColor = UIColor.FriendzrColors.primary!
             
             if model?.isevent == true {
                 if model?.myevent == true {

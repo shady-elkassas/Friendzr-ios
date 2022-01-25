@@ -234,6 +234,16 @@ class Defaults {
         }
     }
     
+//    static var RequestsBadge: Int {
+//        set{
+//            UserDefaults.standard.set(newValue, forKey: "RequestsBadge")
+//            UserDefaults.standard.synchronize()
+//        }
+//        get{
+//            return UserDefaults.standard.integer(forKey: "RequestsBadge")
+//        }
+//    }
+    
     static var facebook: String {
         set{
             UserDefaults.standard.set(newValue, forKey: "facebook")
@@ -289,6 +299,16 @@ class Defaults {
         }
         get{
             return UserDefaults.standard.bool(forKey: "allowMyLocation")
+        }
+    }
+    
+    static var ghostModeEveryOne: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "ghostModeEveryOne")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "ghostModeEveryOne")
         }
     }
     
@@ -373,7 +393,8 @@ class Defaults {
         defaults.removeObject(forKey: "badgeNumber")
         defaults.removeObject(forKey: "OtherGenderName")
         defaults.removeObject(forKey: "myAppearanceTypes")
-        
+        defaults.removeObject(forKey: "ghostModeEveryOne")
+
         if let token = AccessToken.current,
            !token.isExpired {
             // User is logged in, do work such as go to next view controller.

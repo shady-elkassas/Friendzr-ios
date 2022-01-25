@@ -153,6 +153,7 @@ class AddEventViewModel {
                     }
                 }
             })
+            
             if CancelRequest.currentTask == true {
                 task.cancel()
             }else {
@@ -192,7 +193,7 @@ class AddEventViewModel {
     }
     
     func generateBoundary() -> String {
-        return "Boundary-\(NSUUID().uuidString)"
+        return "Boundary-\(UUID().uuidString)"
     }
 }
 
@@ -213,9 +214,9 @@ struct Media {
     init?(withImage image: UIImage, forKey key: String) {
         self.key = key
         self.mimeType = "image/jpeg"
-        self.filename = "image.jpeg"
-        
-        guard let data = image.jpegData(compressionQuality: 0.5) else { return nil }
+        self.filename = key+".jpeg"
+
+        guard let data = image.jpegData(compressionQuality: 1) else { return nil }
         self.data = data
     }
 }

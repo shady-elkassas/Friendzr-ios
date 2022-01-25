@@ -11,11 +11,13 @@ import ObjectMapper
 class FaceRecognitionModel: Mappable {
     
     var message: String?
-    
+    var result: String?
+
     required init?(map: Map) {
     }
     // Mappable
     func mapping(map: Map) {
-        message  <- map["result"]
+        result  <- map["result"]
+        message  <- map["message"]
     }
 }

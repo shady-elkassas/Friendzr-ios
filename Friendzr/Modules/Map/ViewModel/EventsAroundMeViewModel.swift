@@ -14,6 +14,7 @@ class EventsAroundMeViewModel {
     
     var locations : DynamicType<EventsAroundList> = DynamicType<EventsAroundList>()
     var events : DynamicType<EventsInLocations> = DynamicType<EventsInLocations>()
+    var eventsOnlyMe : DynamicType<EventsOnlyAroundList> = DynamicType<EventsOnlyAroundList>()
 
     // Fields that bind to our view's
     var isSuccess : Bool = false
@@ -38,6 +39,32 @@ class EventsAroundMeViewModel {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
                     self.locations.value = toAdd
+                }
+            }
+        }
+    }
+    
+    
+    func getAllEventsOnlyAroundMe(lat:Double,lng:Double,pageNumber:Int) {
+        CancelRequest.currentTask = false
+        let url = URLs.baseURLFirst + "Events/OnlyEventsAround"
+        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let params:[String:Any] = ["lat":lat,"lang":lng,"PageSize":100,"PageNumber":pageNumber]
+
+        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: params, andHeaders: headers) { (data,error) in
+            
+            guard let userResponse = Mapper<EventsOnlyAroundMeResponse>().map(JSON: data!) else {
+                self.error.value = error
+                return
+            }
+            if let error = error {
+                print ("Error while fetching data \(error)")
+                self.error.value = error
+            }
+            else {
+                // When set the listener (if any) will be notified
+                if let toAdd = userResponse.data {
+                    self.eventsOnlyMe.value = toAdd
                 }
             }
         }

@@ -131,14 +131,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }else{
             UIView.appearance().semanticContentAttribute = .forceLeftToRight
         }
-
+        
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+        }
+        
         return true
     }
-    
-    
-    //    @objc func newLocationAdded(_ notification: Notification) {
-    //
-    //    }
     
     // MARK: UISceneSession Lifecycle
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -315,6 +314,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            let messageType = userInfo["Messagetype"] as? Int
             
             if action == "Friend_Request" {
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                }
+                
                 if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -336,9 +339,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             else if action == "user_chatGroup" {
                 Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: true, isChatGroup: true, groupId: actionId ?? "", leaveGroup: 0)
-            }else if action == "Join Chat Group" {
+            }
+            else if action == "Joined_ChatGroup" {
                 Router().toHome()
-            }else if action == "Kickedout From Chat Group" {
+            }
+            else if action == "Kickedout_ChatGroup" {
                 Router().toHome()
             }
             else if action == "event_Updated"{
@@ -349,35 +354,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     //                    tabBarController.selectedIndex = 4
                     navController.pushViewController(vc, animated: true)
                 }
-            }else if action == "update_Event_Data"{
+            }
+            else if action == "update_Event_Data"{
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
                     navController.pushViewController(vc, animated: true)
                 }
-            }else if action == "event_attend"{
+            }
+            else if action == "event_attend"{
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
                     navController.pushViewController(vc, animated: true)
                 }
-            }else if action == "Event_reminder" {
+            }
+            else if action == "Event_reminder" {
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
                     navController.pushViewController(vc, animated: true)
                 }
-            }else if action == "Check_events_near_you" {
+            }
+            else if action == "Check_events_near_you" {
                 if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     tabBarController.selectedIndex = 1
                     navController.pushViewController(vc, animated: true)
                 }
-            }else {
+            }
+            else {
                 print("fail")
             }
         }
@@ -466,6 +476,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             completionHandler([[]])
         }
         
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+        }
+        
+        
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         
         if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
@@ -501,6 +516,10 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         else {
             completionHandler([[]])
+        }
+        
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
         }
         
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)

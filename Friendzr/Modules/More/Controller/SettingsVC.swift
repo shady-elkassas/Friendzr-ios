@@ -53,7 +53,8 @@ class SettingsVC: UIViewController {
     
     let settingCellID = "SettingsTableViewCell"
     let deleteCllID = "DeleteAccountTableViewCell"
-    
+    var ghostmode:String = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -113,6 +114,18 @@ class SettingsVC: UIViewController {
         ageFrom = model?.agefrom ?? 14
         ageTo = model?.ageto ?? 85
         manualdistancecontrol = (model?.manualdistancecontrol ?? 0.2)
+        
+        DispatchQueue.main.async { [self] in
+            if self.model?.ghostmode == true {
+                if self.model?.myAppearanceTypes == [1] {
+                    Defaults.ghostModeEveryOne = true
+                }else {
+                    Defaults.ghostModeEveryOne = false
+                }
+            }else {
+                Defaults.ghostModeEveryOne = false
+            }
+        }
         
         NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
     }
@@ -334,7 +347,7 @@ class SettingsVC: UIViewController {
     
     //save actions btns
     @IBAction func ageSaveBtn(_ sender: Any) {
-        self.showLoading()
+//        self.showLoading()
         self.viewmodel.filteringAccordingToAge(filteringaccordingtoage: true, agefrom: ageFrom, ageto: ageTo) { error, data in
             self.hideLoading()
             if let error = error {
@@ -357,7 +370,7 @@ class SettingsVC: UIViewController {
     }
     
     @IBAction func distanceSaveBtn(_ sender: Any) {
-        self.showLoading()
+//        self.showLoading()
         self.viewmodel.updateManualdistanceControl(manualdistancecontrol: manualdistancecontrol, distanceFilter: true) { error, data in
             self.hideLoading()
             if let error = error {
@@ -443,6 +456,15 @@ extension SettingsVC :CLLocationManagerDelegate {
             }
             
             self.model = data
+            
+            DispatchQueue.main.async {
+                if data?.ghostmode == true && data?.myAppearanceTypes == [1] {
+                    Defaults.ghostModeEveryOne = true
+                }else {
+                    Defaults.ghostModeEveryOne = false
+                }
+            }
+            
             DispatchQueue.main.async {
                 self.setupData()
             }
@@ -960,7 +982,7 @@ extension SettingsVC: UITableViewDelegate {
             deleteAlertView?.HandleConfirmBtn = {
                 self.updateUserInterfaceForBtns()
                 if self.internetConect {
-                    self.showLoading()
+//                    self.showLoading()
                     self.viewmodel.deleteAccount { error, data in
                         self.hideLoading()
                         

@@ -8,6 +8,11 @@
 import UIKit
 import ListPlaceholder
 
+
+class BadgeRequestsCount {
+    static var count: Int = 0
+}
+
 class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK:- Outlets
@@ -39,13 +44,15 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         
         setup()
         pullToRefresh()
-        self.title = "Request".localizedString
+        self.title = "Requests".localizedString
         
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateResquests), name: Notification.Name("updateResquests"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,6 +68,11 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //MARK:- APIs
+    
+    @objc func updateResquests() {
+        getAllUserRequests(pageNumber: 1)
+    }
+    
     func loadMoreItemsForList(){
         currentPage += 1
         getAllUserRequests(pageNumber: currentPage)
@@ -79,6 +91,9 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
+                
+                BadgeRequestsCount.count = value.data?.count ?? 0
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
             }
         }
         
@@ -120,6 +135,9 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
+                BadgeRequestsCount.count = value.data?.count ?? 0
+                
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
             }
         }
         
@@ -225,7 +243,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        currentPage = 0
+        currentPage = 1
         getAllUserRequests(pageNumber: 1)
         self.refreshControl.endRefreshing()
     }
@@ -246,17 +264,14 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
 //MARK: - Extensions Table View Data Source
 extension RequestVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if viewmodel.requests.value?.data?.count == 0 {
-            return 1
-        }else {
+        if viewmodel.requests.value?.data?.count != 0 {
             return viewmodel.requests.value?.data?.count ?? 0
+        }else {
+            return 1
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if viewmodel.requests.value?.data?.count == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
-            return cell
-        }else {
+        if viewmodel.requests.value?.data?.count != 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? RequestsTableViewCell else {return UITableViewCell()}
             cell.setNeedsLayout()
             cell.setNeedsDisplay()
@@ -288,12 +303,15 @@ extension RequestVC:UITableViewDataSource {
                             self.view.makeToast(message)
                         }
                         
+                        DispatchQueue.main.async {
+                            self.getAllUserRequests(pageNumber: 1)
+                        }
+                        
                         cell.stackViewBtns.isHidden = true
                         cell.messageBtn.isHidden = false
                         cell.requestRemovedLbl.isHidden = true
+                        
                     }
-                }else {
-                    return
                 }
             }
             
@@ -316,12 +334,14 @@ extension RequestVC:UITableViewDataSource {
                             self.view.makeToast(message)
                         }
                         
+                        DispatchQueue.main.async {
+                            self.getAllUserRequests(pageNumber: 1)
+                        }
+                        
                         cell.stackViewBtns.isHidden = true
                         cell.messageBtn.isHidden = true
                         cell.requestRemovedLbl.isHidden = false
                     }
-                }else {
-                    return
                 }
             }
             
@@ -329,12 +349,18 @@ extension RequestVC:UITableViewDataSource {
                 self.cellSelected = true
                 self.updateNetworkForBtns()
                 if self.internetConnect {
-                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)                    
+                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
                 }else {
                     return
                 }
             }
             
+            return cell
+            
+        }
+        else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+            cell.controlBtn.isHidden = true
             return cell
             
         }

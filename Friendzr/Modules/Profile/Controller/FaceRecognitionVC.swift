@@ -35,26 +35,24 @@ class FaceRecognitionVC: UIViewController {
     }
     
     @IBAction func verifyBtn(_ sender: Any) {
-//        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
-//            let imagePicker = UIImagePickerController()
-//            imagePicker.delegate = self
-//            imagePicker.sourceType = .camera
-//            imagePicker.allowsEditing = false
-//            imagePicker.cameraCaptureMode = .photo
-//            imagePicker.cameraDevice = .front
-//            self.present(imagePicker, animated: true, completion: nil)
-        
-            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-                imagePicker.delegate = self
-                imagePicker.sourceType = .photoLibrary
-                imagePicker.allowsEditing = true
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-        
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+            imagePicker.allowsEditing = false
+            imagePicker.cameraCaptureMode = .photo
+            imagePicker.cameraDevice = .front
+            self.present(imagePicker, animated: true, completion: nil)
         }
+//        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+//            imagePicker.delegate = self
+//            imagePicker.sourceType = .photoLibrary
+//            imagePicker.allowsEditing = true
+//            self.present(imagePicker, animated: true, completion: nil)
+//        }
         
-        
-    
+    }
+
     @IBAction func contactBtn(_ sender: Any) {
     }
     
@@ -63,7 +61,7 @@ class FaceRecognitionVC: UIViewController {
 extension FaceRecognitionVC : UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        let image = info[.originalImage] as! UIImage
         picker.dismiss(animated:true, completion: {
             self.faceImgTwo = image
             self.onFaceRegistrationCallBackResponse?(self.faceImgOne,self.faceImgTwo,true)

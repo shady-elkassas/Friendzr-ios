@@ -9,9 +9,18 @@ import UIKit
 
 class EmptyViewTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var controlBtn: UIButton!
+    @IBOutlet weak var emptyImg: UIImageView!
+    @IBOutlet weak var titleLbl: UILabel!
+    
+    var HandleControlBtn: (() -> ())?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        controlBtn.cornerRadiusForHeight()
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -20,4 +29,8 @@ class EmptyViewTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    
+    @IBAction func controlBtn(_ sender: Any) {
+        HandleControlBtn?()
+    }
 }

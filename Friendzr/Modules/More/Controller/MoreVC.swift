@@ -9,13 +9,14 @@ import UIKit
 import MessageUI
 import AuthenticationServices
 
-class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRecognizerDelegate {
+class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRecognizerDelegate,UIPopoverPresentationControllerDelegate {
     
     //MARK:- Outlets
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var showProfileImg: UIButton!
     
     //MARK: - Properties
     let cellID = "MoreTableViewCell"
@@ -54,6 +55,21 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+    
+    
+    @IBAction func showProfileImgBtn(_ sender: Any) {
+//        guard let imgURL = Defaults.Image else {return}
+        
+        guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.modalTransitionStyle = .crossDissolve
+        let pVC = popupVC.popoverPresentationController
+        pVC?.permittedArrowDirections = .any
+        pVC?.delegate = self
+        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+        popupVC.imgURL = Defaults.Image
+        present(popupVC, animated: true, completion: nil)
     }
     
     //MARK: - Helpers

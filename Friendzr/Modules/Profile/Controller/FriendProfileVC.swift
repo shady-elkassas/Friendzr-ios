@@ -183,6 +183,10 @@ class FriendProfileVC: UIViewController {
                     
                     guard let _ = message else {return}
                     self.getFriendProfileInformation()
+                    
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                    }
                 }
             }
             
@@ -215,6 +219,10 @@ class FriendProfileVC: UIViewController {
                 guard let _ = message else {return}
 
                 self.getFriendProfileInformation()
+                
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                }
             }
         }
     }
@@ -481,6 +489,10 @@ class FriendProfileVC: UIViewController {
             }
             
             myGroup.leave()
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+            }
         }
         
     }

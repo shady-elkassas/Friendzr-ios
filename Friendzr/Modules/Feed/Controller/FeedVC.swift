@@ -746,6 +746,20 @@ extension FeedVC:UITableViewDataSource {
         
         else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+            if Defaults.ghostModeEveryOne == true {
+                cell.controlBtn.isHidden = false
+                cell.titleLbl.text = "Turn off ghost mode to see friendzrs".localizedString
+                cell.emptyImg.image = UIImage(named: "ghostImg")
+
+                cell.HandleControlBtn = {
+                    guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC else {return}
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }else {
+                cell.controlBtn.isHidden = true
+                cell.titleLbl.text = "You haven't any data yet".localizedString
+                cell.emptyImg.image = UIImage(named: "emptyImage")
+            }
             return cell
         }
     }

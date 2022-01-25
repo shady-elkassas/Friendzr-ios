@@ -55,13 +55,12 @@ class EventsLocation {
     }
 }
 
-class MapVC: UIViewController ,UIGestureRecognizerDelegate{
+class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK:- Outlets
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addEventBtn: UIButton!
     @IBOutlet weak var goAddEventBtn: UIButton!
-    
     @IBOutlet weak var subView: UIView!
     @IBOutlet weak var subViewHeight: NSLayoutConstraint!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -69,16 +68,14 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate{
     @IBOutlet weak var radiusMLbl: UILabel!
     @IBOutlet weak var radiusKMLbl: UILabel!
     @IBOutlet weak var zoomingStatisticsView: UIView!
-    
     @IBOutlet weak var sataliteBtn: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var topContainerView: UIView!
     @IBOutlet weak var currentLocationBtn: UIButton!
     @IBOutlet weak var markerImg: UIImageView!
-    
     @IBOutlet var bannerView: GADBannerView!
-
+    
     //MARK: - Properties
     var locations:[EventsLocation] = [EventsLocation]()
     var location: CLLocationCoordinate2D? = nil
@@ -132,18 +129,17 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate{
         goAddEventBtn.isHidden = true
         addEventBtn.isHidden = false
         CancelRequest.currentTask = false
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.updateUserInterface()
         }
         
-//        hideNavigationBar(NavigationBar: true, BackButton: true)
+        //        hideNavigationBar(NavigationBar: true, BackButton: true)
         initProfileBarButton()
-//        setupNavBar()
-
+        //        setupNavBar()
+        
         seyupAds()
     }
-    
     
     func seyupAds() {
         bannerView.adUnitID = adUnitID
@@ -156,19 +152,18 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate{
     }
     
     //MARK: - APIs
-
-    func bindToModel() {
+    func getEventsOnlyAroundMe() {
         collectionViewHeight.constant = 0
-        viewmodel.getAllEventsAroundMe()
-        viewmodel.locations.bind { [unowned self] value in
+        viewmodel.getAllEventsOnlyAroundMe(lat: location?.latitude ?? 0.0, lng: location?.longitude ?? 0.0, pageNumber: 1)
+        viewmodel.eventsOnlyMe.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.hideLoading()
                 self.collectionView.dataSource = self
                 self.collectionView.delegate = self
                 self.collectionView.reloadData()
-
+                
                 self.subView.isHidden = false
-
+                
                 if isViewUp == true {
                     collectionViewHeight.constant = 140
                     subViewHeight.constant = 190
@@ -176,7 +171,25 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate{
                     collectionViewHeight.constant = 0
                     subViewHeight.constant = 50
                 }
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
                 
+            }
+        }
+    }
+    
+    func bindToModel() {
+        viewmodel.getAllEventsAroundMe()
+        viewmodel.locations.bind { [unowned self] value in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.setupMarkers()
             }
         }
@@ -229,9 +242,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate{
         case .wwan:
             internetConect = true
             bindToModel()
+            getEventsOnlyAroundMe()
         case .wifi:
             internetConect = true
             bindToModel()
+            getEventsOnlyAroundMe()
         }
         
         print("Reachability Summary")
@@ -267,7 +282,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate{
     
     @objc func handleSubViewHide() {
         print("handleSubViewHide")
-
+        
         subView.isHidden = true
         isViewUp = false
         collectionViewHeight.constant = 0
@@ -301,7 +316,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate{
         marker.snippet = typelocation
         marker.title = markerID
         marker.opacity = Float(eventsCount)
-
+        
         if LocationZooming.locationLat == position.latitude {
             marker.appearAnimation = .pop
         }
@@ -324,32 +339,26 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate{
         
         
         labl.translatesAutoresizingMaskIntoConstraints = false
-
+        
         let horizontalConstraint = labl.centerXAnchor.constraint(equalTo: xview.centerXAnchor)
         let verticalConstraint = labl.centerYAnchor.constraint(equalTo: xview.centerYAnchor, constant: -5)
         let widthConstraint = labl.widthAnchor.constraint(equalToConstant: xview.bounds.width)
         let heightConstraint = labl.heightAnchor.constraint(equalToConstant: xview.bounds.height)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-
-
+        
+        
         
         if isEvent {
-//            marker.icon = UIImage(named: markerIcon!)
+            //            marker.icon = UIImage(named: markerIcon!)
             marker.iconView = xview
         }else {
-//            marker.iconView = xview
-//            marker.icon = nil
+            //            marker.iconView = xview
+            //            marker.icon = nil
             marker.icon = UIImage(named: markerIcon!)
         }
         
         marker.map = mapView
     }
-    
-    func setupViewForMarker() {
-        
-
-    }
-    
     
     func setupViews() {
         //setup search bar
@@ -541,14 +550,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate{
         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
         self.navigationController?.pushViewController(vc, animated: true)
         
-//        addBottomSheetView()
+        //        addBottomSheetView()
     }
     
-//    @IBAction func upDownViewBtn(_ sender: Any) {
-//        isViewUp = !isViewUp
-//        customSubViewHeight()
-//    }
-
     @IBAction func convertMapStyleBtn(_ sender: Any) {
         MapAppType.type = !MapAppType.type
         if MapAppType.type {
@@ -557,7 +561,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate{
             mapView.mapType = .satellite
         }
     }
-    
     
     @IBAction func currentLocationBtn(_ sender: Any) {
         self.updateUserInterfaceBtns()
@@ -568,9 +571,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate{
         searchBar.text = ""
     }
     
-    
-    func angleFromCoordinate(firstCoordinate: CLLocationCoordinate2D,
-                             secondCoordinate: CLLocationCoordinate2D) -> Double {
+    func angleFromCoordinate(firstCoordinate: CLLocationCoordinate2D,secondCoordinate: CLLocationCoordinate2D) -> Double {
         
         let deltaLongitude: Double = secondCoordinate.longitude - firstCoordinate.longitude
         let deltaLatitude: Double = secondCoordinate.latitude - firstCoordinate.latitude
@@ -616,7 +617,7 @@ extension MapVC : GMSMapViewDelegate {
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         updateUserInterfaceBtns()
-
+        
         if internetConect {
             var pos: CLLocationCoordinate2D? = nil
             pos = marker.position
@@ -638,11 +639,11 @@ extension MapVC : GMSMapViewDelegate {
             }else if marker.snippet == "NewEvent" {
                 print("NEW EVENT")
             }else {
-//                if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "GenderDistributionNC") as? UINavigationController, let vc = controller.viewControllers.first as? GenderDistributionVC {
-//                    vc.lat = pos?.latitude ?? 0.0
-//                    vc.lng = pos?.longitude ?? 0.0
-//                    self.present(controller, animated: true)
-//                }
+                //                if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "GenderDistributionNC") as? UINavigationController, let vc = controller.viewControllers.first as? GenderDistributionVC {
+                //                    vc.lat = pos?.latitude ?? 0.0
+                //                    vc.lng = pos?.longitude ?? 0.0
+                //                    self.present(controller, animated: true)
+                //                }
             }
         }
         
@@ -691,7 +692,7 @@ extension MapVC : CLLocationManagerDelegate {
                     print("Access")
                     settingVM.toggleAllowMyLocation(allowMyLocation: true) { error, data in
                         if let error = error {
-//                            self.showAlert(withMessage: error)
+                            //                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }
@@ -856,28 +857,23 @@ extension MapVC:UITableViewDelegate {
 //MARK: - events nearby collection view data source and delegate
 extension MapVC:UICollectionViewDataSource {
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return viewmodel.locations.value?.eventlocationDataMV?.count ?? 0
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewmodel.locations.value?.eventlocationDataMV?[section].eventData?.count ?? 0
+        return viewmodel.eventsOnlyMe.value?.data?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nearbyEventCellId, for: indexPath) as? NearbyEventsCollectionViewCell else {return UICollectionViewCell()}
-        let model = viewmodel.locations.value?.eventlocationDataMV?[indexPath.section].eventData?[indexPath.row]
+        let model = viewmodel.eventsOnlyMe.value?.data?[indexPath.row]
         
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
+        
         cell.eventDateLbl.textColor = UIColor.color("#0BBEA1")
-//        UIColor.color(model?.color ?? "")
         
         cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
-        cell.eventColorView.backgroundColor = UIColor.color("#0BBEA1")
-//        UIColor.color(model?.color ?? "")
+//        cell.eventColorView.backgroundColor = UIColor.color("#0BBEA1")
         
         cell.HandledetailsBtn = {
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
@@ -908,7 +904,7 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let model = viewmodel.locations.value?.eventlocationDataMV?[indexPath.section].eventData
+        let model = viewmodel.eventsOnlyMe.value?.data
         
         for (index,item) in model!.enumerated() {
             let locitm = CLLocationCoordinate2DMake(Double(item.lat!)!, Double(item.lang!)!)
@@ -948,23 +944,23 @@ extension MapVC {
         }
     }
     func animationZoomingMap(zoomIN:Float,zoomOUT:Float,lat:Double,lng:Double) {
-//        delay(seconds: 0.5) { () -> () in
-//            let zoomOut = GMSCameraUpdate.zoom(to: zoomOUT)
-//            self.mapView.animate(with: zoomOut)
-//
-//            self.delay(seconds: 0.5, closure: { () -> () in
-//
-//                let updatePos = CLLocationCoordinate2DMake(lat,lng)
-//                let updateCam = GMSCameraUpdate.setTarget(updatePos)
-//                self.mapView.animate(with: updateCam)
-//
-//                self.delay(seconds: 0.5, closure: { () -> () in
-//                    let zoomIn = GMSCameraUpdate.zoom(to: zoomIN)
-//                    self.mapView.animate(with: zoomIn)
-//                })
-//            })
-//        }
-
+        //        delay(seconds: 0.5) { () -> () in
+        //            let zoomOut = GMSCameraUpdate.zoom(to: zoomOUT)
+        //            self.mapView.animate(with: zoomOut)
+        //
+        //            self.delay(seconds: 0.5, closure: { () -> () in
+        //
+        //                let updatePos = CLLocationCoordinate2DMake(lat,lng)
+        //                let updateCam = GMSCameraUpdate.setTarget(updatePos)
+        //                self.mapView.animate(with: updateCam)
+        //
+        //                self.delay(seconds: 0.5, closure: { () -> () in
+        //                    let zoomIn = GMSCameraUpdate.zoom(to: zoomIN)
+        //                    self.mapView.animate(with: zoomIn)
+        //                })
+        //            })
+        //        }
+        
         let point = mapView.projection.point(for: CLLocationCoordinate2D(latitude: lat, longitude: lng))
         let camera = mapView.projection.coordinate(for: point)
         let position = GMSCameraUpdate.setTarget(camera)
@@ -1031,7 +1027,7 @@ extension MapVC {
         self.addChild(bottomSheetVC)
         self.view.addSubview(bottomSheetVC.view)
         bottomSheetVC.didMove(toParent: self)
-
+        
         let height = view.frame.height
         let width  = view.frame.width
         bottomSheetVC.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
@@ -1069,7 +1065,7 @@ extension MapVC {
     }
     
     // MARK: - Helper Methods
-
+    
     private func createSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
         // Initialize Swipe Gesture Recognizer
         let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
@@ -1081,30 +1077,29 @@ extension MapVC {
     }
 }
 
-
 extension MapVC:GADBannerViewDelegate {
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print(error)
     }
-
+    
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
         print("Receive Ad")
     }
     
     func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-      print("bannerViewDidRecordImpression")
+        print("bannerViewDidRecordImpression")
     }
-
+    
     func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-      print("bannerViewWillPresentScreen")
+        print("bannerViewWillPresentScreen")
         bannerView.load(GADRequest())
     }
-
+    
     func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-      print("bannerViewWillDIsmissScreen")
+        print("bannerViewWillDIsmissScreen")
     }
-
+    
     func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-      print("bannerViewDidDismissScreen")
+        print("bannerViewDidDismissScreen")
     }
 }

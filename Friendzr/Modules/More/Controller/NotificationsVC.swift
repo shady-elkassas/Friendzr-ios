@@ -231,6 +231,7 @@ extension NotificationsVC: UITableViewDataSource {
             return cell
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+            cell.controlBtn.isHidden = true
             return cell
         }
     }
@@ -240,7 +241,7 @@ extension NotificationsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if viewmodel.notifications.value?.data?.count != 0 {
-            return 100
+            return 75
         }else {
             return 350
         }

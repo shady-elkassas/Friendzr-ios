@@ -9,6 +9,7 @@ import Foundation
 import ObjectMapper
 
 typealias EventsAroundList = EventsAroundMeDataModel
+typealias EventsOnlyAroundList = EventsOnlyAroundMeModel
 
 class EventsAroundMeModel: Mappable {
     
@@ -23,6 +24,47 @@ class EventsAroundMeModel: Mappable {
         data    <- map["model"]
         isSuccessful   <- map["isSuccessful"]
         message  <- map["message"]
+    }
+}
+
+class EventsOnlyAroundMeResponse: Mappable {
+    
+    var isSuccessful: Bool?
+    var message: String?
+    var data: EventsOnlyAroundMeModel? = nil
+    
+    required init?(map: Map) {
+    }
+    // Mappable
+    func mapping(map: Map) {
+        data    <- map["model"]
+        isSuccessful   <- map["isSuccessful"]
+        message  <- map["message"]
+    }
+}
+
+
+class EventsOnlyAroundMeModel: Mappable {
+    
+    var pageSize: Int?
+    var totalRecords: Int?
+    var totalPages: Int?
+    var pageNumber: Int?
+    var data: [EventObj]? = []
+    
+    required init?(map: Map) {
+    }
+    
+    init() {
+    }
+    
+    // Mappable
+    func mapping(map: Map) {
+        data    <- map["data"]
+        pageNumber   <- map["pageNumber"]
+        pageSize  <- map["pageSize"]
+        totalRecords  <- map["totalRecords"]
+        totalPages  <- map["totalPages"]
     }
 }
 

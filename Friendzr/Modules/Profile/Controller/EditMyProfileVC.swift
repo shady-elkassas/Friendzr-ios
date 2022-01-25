@@ -550,14 +550,19 @@ class EditMyProfileVC: UIViewController {
     func onFaceRegistrationCallBack(_ faceImgOne:UIImage, _ faceImgTwo:UIImage,_ verify:Bool) -> () {
         self.faceImgOne = faceImgOne
         self.faceImgTwo = faceImgTwo
+        print("1:\(faceImgOne),2:\(faceImgTwo)")
         
-//        self.showLoading()
         self.ProcessingLbl.isHidden = false
-        faceRecognitionVM.compare(withImage1: faceImgOne, AndImage2: faceImgTwo) { error, data in
+        faceRecognitionVM.compare(withImage1: self.faceImgOne, AndImage2: self.faceImgTwo) { error, data in
             
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
+            if error != nil {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.ProcessingLbl.text = "Failed".localizedString
+                    self.ProcessingLbl.textColor = .red
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.showFailAlert()
+                    }
                 }
                 return
             }
@@ -580,12 +585,15 @@ class EditMyProfileVC: UIViewController {
                     self.profileImg.image = faceImgOne
                 }
             } else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.ProcessingLbl.text = "Failed".localizedString
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.ProcessingLbl.text = data
                     self.ProcessingLbl.textColor = .red
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self.showFailAlert()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                        self.showFailAlert()
+                        self.ProcessingLbl.isHidden = true
+                        self.ProcessingLbl.text = "Processing...".localizedString
+                        self.ProcessingLbl.textColor = .blue
                     }
                 }
             }
@@ -618,16 +626,17 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         picker.dismiss(animated:true, completion: {
-//            let size = CGSize(width: screenW, height: screenW)
-//            let img = image.crop(to: size)
-//            self.profileImg.image = img
-//            self.attachedImg = true
-            self.faceImgOne = image
+            let size = CGSize(width: screenW, height: screenW)
+            let img = image.crop(to: size)
+            self.profileImg.image = img
+            self.attachedImg = true
             
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FaceRecognitionVC") as? FaceRecognitionVC else {return}
-            vc.faceImgOne = self.faceImgOne
-            vc.onFaceRegistrationCallBackResponse = self.onFaceRegistrationCallBack
-            self.navigationController?.pushViewController(vc, animated: true)
+//            self.faceImgOne = image
+//
+//            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FaceRecognitionVC") as? FaceRecognitionVC else {return}
+//            vc.faceImgOne = self.faceImgOne
+//            vc.onFaceRegistrationCallBackResponse = self.onFaceRegistrationCallBack
+//            self.navigationController?.pushViewController(vc, animated: true)
         })
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

@@ -30,25 +30,26 @@
                         <rect key="frame" x="20" y="5" width="286" height="94"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="HOr-YS-ywA">
-                                <rect key="frame" x="10" y="9.5" width="75" height="75"/>
+                                <rect key="frame" x="10" y="22" width="50" height="50"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="TCb-QH-AtW"/>
                                     <constraint firstAttribute="width" secondItem="HOr-YS-ywA" secondAttribute="height" multiplier="1:1" id="lYQ-r3-2aq"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qxy-8U-RJN">
-                                <rect key="frame" x="90" y="9.5" width="39" height="17.5"/>
+                                <rect key="frame" x="65" y="22" width="39" height="17.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                 <color key="textColor" name="ColorLbl3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NTH-Hf-Zd2">
-                                <rect key="frame" x="243" y="10.5" width="33" height="15"/>
+                                <rect key="frame" x="243" y="23.5" width="33" height="15"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                 <color key="textColor" name="ColorLbl4"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gUe-Nt-m3Y">
-                                <rect key="frame" x="90" y="35" width="186" height="15"/>
+                                <rect key="frame" x="65" y="47.5" width="211" height="15"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
                                 <color key="textColor" name="ColorLbl1"/>
                                 <nil key="highlightedColor"/>
@@ -59,7 +60,6 @@
                             <constraint firstItem="gUe-Nt-m3Y" firstAttribute="leading" secondItem="Qxy-8U-RJN" secondAttribute="leading" id="6Yi-iL-5yg"/>
                             <constraint firstItem="gUe-Nt-m3Y" firstAttribute="trailing" secondItem="NTH-Hf-Zd2" secondAttribute="trailing" id="7c5-3h-L9v"/>
                             <constraint firstItem="NTH-Hf-Zd2" firstAttribute="centerY" secondItem="Qxy-8U-RJN" secondAttribute="centerY" id="Dfd-nI-co4"/>
-                            <constraint firstItem="HOr-YS-ywA" firstAttribute="height" secondItem="S0s-KA-YbI" secondAttribute="height" multiplier="0.8" id="I4l-s4-FRx"/>
                             <constraint firstItem="HOr-YS-ywA" firstAttribute="leading" secondItem="S0s-KA-YbI" secondAttribute="leading" constant="10" id="NkE-Pg-9gl"/>
                             <constraint firstItem="Qxy-8U-RJN" firstAttribute="top" secondItem="HOr-YS-ywA" secondAttribute="top" id="RBd-dW-Cgc"/>
                             <constraint firstItem="Qxy-8U-RJN" firstAttribute="leading" secondItem="HOr-YS-ywA" secondAttribute="trailing" constant="5" id="bv3-eM-OiT"/>
@@ -96,13 +96,13 @@
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl1">
-            <color red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl3">
-            <color red="0.14117647058823529" green="0.074509803921568626" blue="0.19607843137254902" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl4">
-            <color red="0.76862745098039209" green="0.76862745098039209" blue="0.76862745098039209" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.76899999380111694" green="0.76899999380111694" blue="0.76899999380111694" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

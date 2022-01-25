@@ -244,6 +244,7 @@ extension EventsVC: UITableViewDataSource {
             return cell
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+            cell.controlBtn.isHidden = true
             return cell
         }
     }

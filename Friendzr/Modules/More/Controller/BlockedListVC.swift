@@ -326,6 +326,7 @@ extension BlockedListVC: UITableViewDataSource {
             return cell
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+            cell.controlBtn.isHidden = true
             return cell
         }
     }
@@ -334,7 +335,7 @@ extension BlockedListVC: UITableViewDataSource {
 extension BlockedListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if viewmodel.blocklist.value?.data?.count != 0 {
-            return 60
+            return 75
         }else {
             return 350
         }

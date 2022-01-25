@@ -890,6 +890,6 @@ extension ChatViewModel {
     }
 
     func generateBoundary() -> String {
-        return "Boundary-\(NSUUID().uuidString)"
+        return "Boundary-\(UUID().uuidString)"
     }
 }

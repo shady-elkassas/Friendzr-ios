@@ -133,11 +133,11 @@
             </objects>
             <point key="canvasLocation" x="1010.144927536232" y="73.660714285714278"/>
         </scene>
-        <!--Request-->
+        <!--Requests-->
         <scene sceneID="4wq-AB-mfz">
             <objects>
                 <navigationController storyboardIdentifier="RequestNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="un6-eD-9hn" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Request" image="request_unselected_ic" selectedImage="request_selected_ic" id="GNJ-PD-aW6"/>
+                    <tabBarItem key="tabBarItem" title="Requests" image="request_unselected_ic" selectedImage="request_selected_ic" id="GNJ-PD-aW6"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ver-Lg-rhG">

@@ -30,7 +30,7 @@ class SettingsObj: Mappable {
     var ghostmode: Bool? = false
     var pushnotification: Bool? = false
     var allowmylocation: Bool? = false
-    var myAppearanceTypes: [Int]? = []
+    var myAppearanceTypes: [Int]? = [Int]()
     var agefrom: Int? = 0
     var ageto: Int? = 0
     var filteringaccordingtoage:Bool? = false
