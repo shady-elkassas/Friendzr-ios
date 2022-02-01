@@ -27,6 +27,7 @@ class RequestTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        friendRequestImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 0.5)
         friendRequestImg.cornerRadiusForHeight()
         messageBtn.cornerRadiusView(radius: 6)
     }

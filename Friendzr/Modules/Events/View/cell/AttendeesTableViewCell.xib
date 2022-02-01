@@ -58,6 +58,12 @@
                             </label>
                         </subviews>
                     </stackView>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Admin" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iBi-Da-iO2">
+                        <rect key="frame" x="233.5" y="28.5" width="41.5" height="15"/>
+                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                        <color key="textColor" name="primaryColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNB-2t-XI1">
                         <rect key="frame" x="20" y="66" width="300" height="1"/>
                         <color key="backgroundColor" white="0.67000000000000004" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -67,13 +73,15 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="U9x-Ul-exK" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="v4L-Jr-2nk" secondAttribute="trailing" constant="5" id="4gI-1Q-g7Z"/>
+                    <constraint firstItem="iBi-Da-iO2" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="0I4-7S-jH6"/>
+                    <constraint firstItem="iBi-Da-iO2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="v4L-Jr-2nk" secondAttribute="trailing" constant="5" id="Dnk-Cl-ZlN"/>
                     <constraint firstItem="U9x-Ul-exK" firstAttribute="centerY" secondItem="v4L-Jr-2nk" secondAttribute="centerY" id="Eye-pL-siX"/>
                     <constraint firstAttribute="bottom" secondItem="fNB-2t-XI1" secondAttribute="bottom" constant="5" id="FS9-7e-5pB"/>
                     <constraint firstAttribute="trailing" secondItem="fNB-2t-XI1" secondAttribute="trailing" id="L5k-n1-PFZ"/>
                     <constraint firstItem="dJ8-yQ-mMx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="bHc-e0-OeP"/>
                     <constraint firstItem="v4L-Jr-2nk" firstAttribute="centerY" secondItem="dJ8-yQ-mMx" secondAttribute="centerY" id="ks2-51-GLa"/>
                     <constraint firstItem="dJ8-yQ-mMx" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="lTS-Vf-B7h"/>
+                    <constraint firstItem="U9x-Ul-exK" firstAttribute="leading" secondItem="iBi-Da-iO2" secondAttribute="trailing" constant="5" id="pZe-WF-wMX"/>
                     <constraint firstItem="fNB-2t-XI1" firstAttribute="leading" secondItem="dJ8-yQ-mMx" secondAttribute="leading" id="piO-Rg-qlC"/>
                     <constraint firstItem="v4L-Jr-2nk" firstAttribute="leading" secondItem="dJ8-yQ-mMx" secondAttribute="trailing" constant="10" id="qVV-Wf-9fy"/>
                     <constraint firstAttribute="trailing" secondItem="U9x-Ul-exK" secondAttribute="trailing" constant="20" id="rLh-vH-nrC"/>
@@ -82,6 +90,8 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="adminLbl" destination="iBi-Da-iO2" id="eWa-sy-9ng"/>
+                <outlet property="btnWidth" destination="yht-Ks-ZMS" id="GWQ-Xj-q06"/>
                 <outlet property="dropDownBtn" destination="U9x-Ul-exK" id="PJa-95-XSy"/>
                 <outlet property="friendImg" destination="dJ8-yQ-mMx" id="iK2-h5-162"/>
                 <outlet property="friendNameLbl" destination="bsG-dJ-lRz" id="fho-UK-vBW"/>
@@ -96,6 +106,9 @@
         <image name="placeholder" width="1000" height="1000"/>
         <namedColor name="ColorLbl1">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="primaryColor">
+            <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

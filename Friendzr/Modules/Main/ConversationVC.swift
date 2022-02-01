@@ -18,6 +18,81 @@ import FirebaseDatabase
 import FirebaseFirestore
 import ListPlaceholder
 
+extension ConversationVC {
+    func buildFormatter(locale: Locale, hasRelativeDate: Bool = false, dateFormat: String? = nil) -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .none
+        formatter.dateStyle = .medium
+        if let dateFormat = dateFormat { formatter.dateFormat = dateFormat }
+        formatter.doesRelativeDateFormatting = hasRelativeDate
+        formatter.locale = locale
+        return formatter
+    }
+    
+    func dateFormatterToString(_ formatter: DateFormatter, _ date: Date) -> String {
+        return formatter.string(from: date)
+    }
+    
+    func messageDateTime(date:String,time:String) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.autoupdatingCurrent
+        formatter.dateStyle = .full
+        formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
+        let dateStr = "\(date)T\(time)Z"
+        let date = formatter.date(from: dateStr)
+        
+        let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
+        let relativeDateString = dateFormatterToString(relativeFormatter, date!)
+        // "Jan 18, 2018"
+
+        let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
+        let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
+        // "Jan 18, 2018"
+
+        let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
+        let customDateString = dateFormatterToString(customFormatter, date!)
+        // "18 January"
+
+        if relativeDateString == normalDateString {
+            print("Use custom date \(customDateString)") // Jan 18
+            return  customDateString
+        } else {
+            print("Use relative date \(relativeDateString)") // Today, Yesterday
+            return "\(relativeDateString) \(time)"
+        }
+    }
+    
+    func messageDateTimeNow(date:String,time:String) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.autoupdatingCurrent
+        formatter.dateStyle = .full
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZ"
+
+        let dateStr = "\(date)T\(time)Z"
+        let date = formatter.date(from: dateStr)
+        
+        let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
+        let relativeDateString = dateFormatterToString(relativeFormatter, date!)
+        // "Jan 18, 2018"
+
+        let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
+        let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
+        // "Jan 18, 2018"
+
+        let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
+        let customDateString = dateFormatterToString(customFormatter, date!)
+        // "18 January"
+
+        if relativeDateString == normalDateString {
+            print("Use custom date \(customDateString)") // Jan 18
+            return  customDateString
+        } else {
+            print("Use relative date \(relativeDateString)") // Today, Yesterday
+            return "\(relativeDateString) \(time)"
+        }
+    }
+}
+
 class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
     
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
@@ -170,14 +245,18 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     @objc func listenToMessages() {
         getUserChatMessages(pageNumber: 1)
+        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
     }
     
     @objc func listenToMessagesForEvent() {
         getEventChatMessages(pageNumber: 1)
+        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
     }
     
     @objc func listenToMessagesForGroup() {
         getGroupChatMessages(pageNumber: 1)
+        
+        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
     }
     
     func insertMessage(_ message: UserMessage) {
@@ -314,7 +393,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         let messageDate = formatterDate.string(from: Date())
         let messageTime = formatterTime.string(from: Date())
         
-        self.insertMessage(UserMessage(location: CLLocation(latitude: lat, longitude: lng), user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 4))
+        self.insertMessage(UserMessage(location: CLLocation(latitude: lat, longitude: lng), user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTime(date: messageDate, time: messageTime), messageType: 4))
         
         self.messagesCollectionView.reloadData()
     }
@@ -344,29 +423,29 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                 for itm in value.data ?? [] {
                     if itm.currentuserMessage! {
                         if itm.messagetype == 1 { //text
-                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                         }else if itm.messagetype == 2 { //image
                             if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
-                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }else if itm.messagetype == 3 { //file
                             if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
-                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }
                         
                     }else {
                         if itm.messagetype == 1 { //text
-                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                         }
                         else if itm.messagetype == 2 { //image
                             if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
-                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }
                         else if itm.messagetype == 3 { //file
                             if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
-                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }
                         
@@ -421,30 +500,30 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                 for itm in value.pagedModel?.data ?? [] {
                     if itm.currentuserMessage! {
                         if itm.messagetype == 1 { //text
-                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                         }else if itm.messagetype == 2 { //image
                             if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }else {
-                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }else if itm.messagetype == 3 { //file
                             if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime:messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }else {
-                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }
                     }else {
                         if itm.messagetype == 1 { //text
-                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                         }else if itm.messagetype == 2 { //image
                             if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }else if itm.messagetype == 3 { //file
                             if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }
                         
@@ -498,30 +577,30 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                 for itm in value.pagedModel?.data ?? [] {
                     if itm.currentuserMessage! {
                         if itm.messagetype == 1 { //text
-                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                         }else if itm.messagetype == 2 { //image
                             if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }else {
-                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }else if itm.messagetype == 3 { //file
                             if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }else {
-                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }
                     }else {
                         if itm.messagetype == 1 { //text
-                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                         }else if itm.messagetype == 2 { //image
                             if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }else if itm.messagetype == 3 { //file
                             if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: "\(itm.messagesdate ?? "") \(itm.messagestime ?? "")", messageType: itm.messagetype ?? 0), at: 0)
+                                messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0), at: 0)
                             }
                         }
                         
@@ -858,22 +937,22 @@ extension ConversationVC {
 extension ConversationVC {
     func updateTitleView(image: String, subtitle: String?,titleId:String,isEvent:Bool) {
         
-        let imageUser = UIImageView(frame: CGRect(x: 0, y: -5, width: 25, height: 25))
+        let imageUser = UIImageView(frame: CGRect(x: 0, y: -5, width: 36, height: 36))
         imageUser.backgroundColor = UIColor.clear
         imageUser.image = UIImage(named: image)
         imageUser.contentMode = .scaleToFill
-        imageUser.cornerRadiusView(radius: 12.5)
+        imageUser.cornerRadiusForHeight()
         imageUser.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder"))
         
-        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 20, width: 0, height: 0))
+        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 31, width: 0, height: 0))
         subtitleLabel.textColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
-        subtitleLabel.font = UIFont.init(name: "Montserrat-Medium", size: 12)
+        subtitleLabel.font = UIFont.init(name: "Montserrat-Medium", size: 10)
         subtitleLabel.text = subtitle
         subtitleLabel.textAlignment = .center
         subtitleLabel.adjustsFontSizeToFitWidth = true
         subtitleLabel.sizeToFit()
         
-        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(imageUser.frame.size.width, subtitleLabel.frame.size.width), height: 30))
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(imageUser.frame.size.width, subtitleLabel.frame.size.width), height: 45))
         titleView.addSubview(imageUser)
         if subtitle != nil {
             titleView.addSubview(subtitleLabel)

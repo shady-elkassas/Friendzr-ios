@@ -14,19 +14,35 @@ class MainTBC: UITabBarController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(updatebadgeRequests), name: Notification.Name("updatebadgeRequests"), object: nil)
         
-        if BadgeRequestsCount.count != 0 {
-            self.tabBar.items![3].badgeValue = "\(BadgeRequestsCount.count)"
+        if Defaults.frindRequestNumber != 0 {
+            self.tabBar.items![3].badgeValue = "\(Defaults.frindRequestNumber)"
+
         }else {
             self.tabBar.items![3].badgeValue = nil
+        }
+        
+        if Defaults.messagesInboxCountBadge != 0 {
+            self.tabBar.items![0].badgeValue = "\(Defaults.frindRequestNumber)"
+        }else {
+            self.tabBar.items![0].badgeValue = "2"
         }
     }
     
     @objc func updatebadgeRequests() {
         
-        if BadgeRequestsCount.count != 0 {
-            self.tabBar.items![3].badgeValue = "\(BadgeRequestsCount.count)"
+        if Defaults.frindRequestNumber != 0 {
+            self.tabBar.items![3].badgeValue = "\(Defaults.frindRequestNumber)"
         }else {
             self.tabBar.items![3].badgeValue = nil
+        }
+    }
+    
+    @objc func updatebadgeInbox() {
+        
+        if Defaults.frindRequestNumber != 0 {
+            self.tabBar.items![0].badgeValue = "\(Defaults.frindRequestNumber)"
+        }else {
+            self.tabBar.items![0].badgeValue = nil
         }
     }
 }

@@ -32,7 +32,7 @@ class FeedsTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        friendRequestImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 0.5)
         cancelRequestBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1)
         sendRequestBtn.cornerRadiusView(radius: 6)
         cancelRequestBtn.cornerRadiusView(radius: 6)

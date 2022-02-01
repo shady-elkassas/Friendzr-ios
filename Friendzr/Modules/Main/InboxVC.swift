@@ -108,7 +108,8 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @objc func reloadChatList() {
         DispatchQueue.main.async {
-            self.updateUserInterface()
+//            self.updateUserInterface()
+            self.getAllChatList(pageNumber: 1)
         }
     }
     
@@ -193,7 +194,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         searchVM.SearshUsersinChat(ByUserName: text)
         searchVM.usersinChat.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -338,7 +338,6 @@ extension InboxVC:UITableViewDataSource {
                 let model = searchVM.usersinChat.value?.data?[indexPath.row]
                 cell.nameLbl.text = model?.chatName
                 cell.lastMessageLbl.text = model?.messages
-                cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
                 
                 cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
                 
@@ -348,6 +347,34 @@ extension InboxVC:UITableViewDataSource {
                     }else {
                         cell.downView.isHidden = false
                     }
+                }
+                
+                
+                let formatter = DateFormatter()
+                formatter.locale = Locale.autoupdatingCurrent
+                formatter.dateStyle = .full
+                formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
+                let dateStr = "\(model?.latestdate ?? "")T\(model?.latesttime ?? "")Z"
+                let date = formatter.date(from: dateStr)
+                
+                let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
+                let relativeDateString = dateFormatterToString(relativeFormatter, date!)
+                // "Jan 18, 2018"
+
+                let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
+                let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
+                // "Jan 18, 2018"
+
+                let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
+                let customDateString = dateFormatterToString(customFormatter, date!)
+                // "18 January"
+
+                if relativeDateString == normalDateString {
+//                    print("Use custom date \(customDateString)") // Jan 18
+                    cell.lastMessageDateLbl.text = customDateString
+                } else {
+//                    print("Use relative date \(relativeDateString)") // Today, Yesterday
+                    cell.lastMessageDateLbl.text = "\(relativeDateString) \(model?.latesttime ?? "")"
                 }
                 
                 //handle type message
@@ -381,6 +408,34 @@ extension InboxVC:UITableViewDataSource {
                     }else {
                         cell.downView.isHidden = false
                     }
+                }
+                
+                
+                let formatter = DateFormatter()
+                formatter.locale = Locale.autoupdatingCurrent
+                formatter.dateStyle = .full
+                formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
+                let dateStr = "\(model?.latestdate ?? "")T\(model?.latesttime ?? "")Z"
+                let date = formatter.date(from: dateStr)
+                
+                let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
+                let relativeDateString = dateFormatterToString(relativeFormatter, date!)
+                // "Jan 18, 2018"
+
+                let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
+                let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
+                // "Jan 18, 2018"
+
+                let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
+                let customDateString = dateFormatterToString(customFormatter, date!)
+                // "18 January"
+
+                if relativeDateString == normalDateString {
+                    print("Use custom date \(customDateString)") // Jan 18
+                    cell.lastMessageDateLbl.text = customDateString
+                } else {
+                    print("Use relative date \(relativeDateString)") // Today, Yesterday
+                    cell.lastMessageDateLbl.text = "\(relativeDateString) \(model?.latesttime ?? "")"
                 }
                 
                 //handle type message
@@ -442,15 +497,16 @@ extension InboxVC:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if searchVM.usersinChat.value?.data?.count != 0 || viewmodel.listChat.value?.data?.count != 0  {
-            
+//
             var model = viewmodel.listChat.value?.data?[indexPath.row]
-            
+//
             if isSearch {
                 model = searchVM.usersinChat.value?.data?[indexPath.row]
             }
-            
+
             Router().toConversationVC(isEvent: model?.isevent ?? false, eventChatID: model?.id ?? "", leavevent: model?.leavevent ?? 0, chatuserID: model?.id ?? "", isFriend: model?.isfrind ?? false, titleChatImage: model?.image ?? "", titleChatName: model?.chatName ?? "", isChatGroupAdmin: model?.isChatGroupAdmin ?? false, isChatGroup: model?.isChatGroup ?? false, groupId: model?.id ?? "",leaveGroup: model?.leaveGroup ?? 0)
         }
+      
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -1050,5 +1106,21 @@ extension InboxVC : GADBannerViewDelegate {
     
     func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
         print("bannerViewDidDismissScreen")
+    }
+}
+
+extension InboxVC {
+    func buildFormatter(locale: Locale, hasRelativeDate: Bool = false, dateFormat: String? = nil) -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .none
+        formatter.dateStyle = .medium
+        if let dateFormat = dateFormat { formatter.dateFormat = dateFormat }
+        formatter.doesRelativeDateFormatting = hasRelativeDate
+        formatter.locale = locale
+        return formatter
+    }
+    
+    func dateFormatterToString(_ formatter: DateFormatter, _ date: Date) -> String {
+        return formatter.string(from: date)
     }
 }

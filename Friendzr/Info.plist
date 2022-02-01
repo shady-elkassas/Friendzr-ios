@@ -40,16 +40,6 @@
 				<string>fb546251653295074</string>
 			</array>
 		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string></string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.FriendzSocialMediaLimited.Friendzr-ios</string>
-			</array>
-		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -294,6 +284,8 @@
 	</array>
 	<key>TikTokAppID</key>
 	<string>awq4czdodvu3iy4y</string>
+	<key>NS</key>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Black.ttf</string>

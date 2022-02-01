@@ -16,6 +16,8 @@ class AttendeesTableViewCell: UITableViewCell {
     @IBOutlet weak var joinDateLbl: UILabel!
     @IBOutlet weak var underView: UIView!
     
+    @IBOutlet weak var btnWidth: NSLayoutConstraint!
+    @IBOutlet weak var adminLbl: UILabel!
     var HandleDropDownBtn: (() -> ())?
 
     override func awakeFromNib() {

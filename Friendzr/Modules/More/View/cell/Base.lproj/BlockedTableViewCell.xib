@@ -75,7 +75,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="GHh-qE-pSj"/>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="nameLbl" destination="1ex-mC-zzE" id="Jyp-P4-VMq"/>
                 <outlet property="profileImg" destination="74u-cT-VKG" id="ee9-s0-c1V"/>

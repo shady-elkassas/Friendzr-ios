@@ -68,6 +68,7 @@ class FriendProfileVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
+        superView.hideLoader()
     }
     
     //MARK:- APIs
@@ -147,7 +148,7 @@ class FriendProfileVC: UIViewController {
     @IBAction func cancelRequestBtn(_ sender: Any) {
         self.updateUserInterfaceBtns()
         if self.internetConect == true {
-            self.changeTitleBtns(btn: self.cancelRequestBtn, title: "Sending...".localizedString)
+            self.changeTitleBtns(btn: self.cancelRequestBtn, title: "Canceling...".localizedString)
             self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6) { error, message in
                 self.hideLoading()
                 if let error = error {

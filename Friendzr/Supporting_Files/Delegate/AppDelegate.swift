@@ -23,6 +23,8 @@ import UserNotifications
 //import TikTokOpenSDK
 //import SFaceCompare
 import GoogleMobileAds
+import IQKeyboardManager
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -38,6 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        
+        IQKeyboardManager.shared().isEnabled = true
+        IQKeyboardManager.shared().toolbarTintColor = UIColor.red
+        IQKeyboardManager.shared().isEnableAutoToolbar = true
+
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!], for: .selected)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .normal)
@@ -119,8 +126,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.overrideUserInterfaceStyle = .light
         }
         
-//        SFaceCompare.prepareData()
-
         if Defaults.isFirstLaunch == false {
             Defaults.allowMyLocation = true
         }
@@ -460,6 +465,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             NotificationCenter.default.post(name: Notification.Name("listenToMessagesForGroup"), object: nil, userInfo: nil)
         }
         
+        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
         
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
@@ -480,7 +486,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
         }
         
-        
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         
         if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
@@ -494,6 +499,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = response.notification.request.content.userInfo
+
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")

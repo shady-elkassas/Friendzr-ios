@@ -17,6 +17,7 @@ class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLbl: UILabel!
     @IBOutlet weak var attendeesLbl: UILabel!
     @IBOutlet weak var bgView: UIView!
+    @IBOutlet weak var editBtn: UIButton!
     
     
     override func awakeFromNib() {
@@ -30,5 +31,9 @@ class EventTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    
+    @IBAction func editBtn(_ sender: Any) {
     }
 }

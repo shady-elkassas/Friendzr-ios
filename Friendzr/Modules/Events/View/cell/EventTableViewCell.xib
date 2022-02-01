@@ -78,10 +78,24 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mAu-0K-KnC">
+                                <rect key="frame" x="290" y="10" width="30" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="MUm-wd-t03"/>
+                                    <constraint firstAttribute="height" constant="30" id="lcU-3k-3gJ"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="edit-event_ic" title=" "/>
+                                <connections>
+                                    <action selector="editBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="kK3-AR-gku"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="q9y-9f-959" secondAttribute="trailing" id="0Rz-44-QxI"/>
+                            <constraint firstAttribute="trailing" secondItem="mAu-0K-KnC" secondAttribute="trailing" constant="10" id="3US-BB-Gf6"/>
                             <constraint firstItem="p6U-Ed-4ym" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" id="8T1-v0-k1b"/>
                             <constraint firstItem="q9y-9f-959" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" id="Ktp-Ub-oO8"/>
                             <constraint firstAttribute="trailing" secondItem="xTA-gR-aaQ" secondAttribute="trailing" constant="20" id="cMK-yI-gJY"/>
@@ -90,6 +104,7 @@
                             <constraint firstItem="1Iy-dx-cQb" firstAttribute="bottom" secondItem="q9y-9f-959" secondAttribute="bottom" constant="-10" id="lUC-sh-OPC"/>
                             <constraint firstAttribute="trailing" secondItem="p6U-Ed-4ym" secondAttribute="trailing" id="pV6-ss-eCn"/>
                             <constraint firstAttribute="bottom" secondItem="q9y-9f-959" secondAttribute="bottom" id="qRp-se-JUg"/>
+                            <constraint firstItem="mAu-0K-KnC" firstAttribute="top" secondItem="49f-aS-wFT" secondAttribute="top" constant="10" id="sWH-I2-fJA"/>
                             <constraint firstAttribute="bottom" secondItem="p6U-Ed-4ym" secondAttribute="bottom" id="tzP-DQ-X0R"/>
                             <constraint firstItem="1Iy-dx-cQb" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" constant="20" id="y1j-KA-GKp"/>
                             <constraint firstItem="xTA-gR-aaQ" firstAttribute="centerY" secondItem="1Iy-dx-cQb" secondAttribute="centerY" id="y5V-62-K3i"/>
@@ -111,6 +126,7 @@
                 <outlet property="categoryLbl" destination="CIA-bx-Mwj" id="uKl-Op-BUt"/>
                 <outlet property="containerView" destination="49f-aS-wFT" id="B8S-R1-svc"/>
                 <outlet property="dateLbl" destination="aCf-Qy-pcA" id="OX4-Et-lCy"/>
+                <outlet property="editBtn" destination="mAu-0K-KnC" id="oOT-h9-J6W"/>
                 <outlet property="eventImg" destination="p6U-Ed-4ym" id="WJP-9x-WGr"/>
                 <outlet property="eventTitleLbl" destination="o8l-NP-JFX" id="XZY-ao-dWR"/>
             </connections>
@@ -118,6 +134,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="edit-event_ic" width="25" height="25"/>
         <image name="placeholder" width="1000" height="1000"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -9,24 +9,25 @@ import UIKit
 import ListPlaceholder
 
 
-class BadgeRequestsCount {
-    static var count: Int = 0
-}
+//class BadgeRequestsCount {
+//    static var count: Int = 0
+//}
 
 class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK:- Outlets
-    @IBOutlet weak var totalRequestLbl: UILabel!
+//    @IBOutlet weak var totalRequestLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
+    @IBOutlet weak var segmentControl: UISegmentedControl!
     
     //MARK: - Properties
     let cellID = "RequestsTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
-    
+
     var viewmodel:RequestsViewModel = RequestsViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var refreshControl = UIRefreshControl()
@@ -70,7 +71,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     //MARK:- APIs
     
     @objc func updateResquests() {
-        getAllUserRequests(pageNumber: 1)
+        updateUserInterface()
     }
     
     func loadMoreItemsForList(){
@@ -79,21 +80,24 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func getAllUserRequests(pageNumber:Int) {
+        tableView.hideLoader()
         viewmodel.getAllRequests(pageNumber: pageNumber)
         viewmodel.requests.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.tableView.hideLoader()
+                tableView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
                 
-                totalRequestLbl.text = ": \(value.data?.count ?? 0)"
+//                totalRequestLbl.text = ": \(value.data?.count ?? 0)"
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                BadgeRequestsCount.count = value.data?.count ?? 0
-                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    Defaults.frindRequestNumber = value.data?.count ?? 0
+                    NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                }
             }
         }
         
@@ -118,6 +122,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.getAllRequests(pageNumber: pageNumber)
         viewmodel.requests.bind { [unowned self] value in
             DispatchQueue.main.async {
+                tableView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -130,14 +135,15 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                     }
                 }
                 
-                totalRequestLbl.text = ": \(value.data?.count ?? 0)"
+//                totalRequestLbl.text = ": \(value.data?.count ?? 0)"
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                BadgeRequestsCount.count = value.data?.count ?? 0
-                
-                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    Defaults.frindRequestNumber = value.data?.count ?? 0
+                    NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                }
             }
         }
         
@@ -253,12 +259,31 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         tableView.register(UINib(nibName:cellID, bundle: nil), forCellReuseIdentifier: cellID)
         tableView.register(UINib(nibName:emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
+        
+        segmentControl.setTitleColor(UIColor.black, state: .normal)
+        segmentControl.setTitleColor(UIColor.white, state: .selected)
+        segmentControl.setTitleFont(UIFont(name: "Montserrat-Bold", size: 12)!)
     }
     
     //MARK:- Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         updateUserInterface()
     }
+    
+    @IBAction func segmentedControl(_ sender: UISegmentedControl) {
+        switch segmentControl.selectedSegmentIndex
+        {
+        case 0:
+            NSLog("Popular selected")
+            //show popular view
+        case 1:
+            NSLog("History selected")
+            //show history view
+        default:
+            break;
+        }
+    }
+    
 }
 
 //MARK: - Extensions Table View Data Source
@@ -283,11 +308,16 @@ extension RequestVC:UITableViewDataSource {
             cell.friendRequestDateLbl.text = model?.regestdata
             cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
             
+            if indexPath.row == (viewmodel.requests.value?.data?.count ?? 0) - 1 {
+                cell.bottomView.isHidden = true
+            }else {
+                cell.bottomView.isHidden = false
+            }
+            
             cell.HandleAcceptBtn = {
                 self.cellSelected = true
                 self.updateNetworkForBtns()
                 if self.internetConnect {
-                    
                     self.showLoading()
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
                         self.hideLoading()
@@ -304,7 +334,7 @@ extension RequestVC:UITableViewDataSource {
                         }
                         
                         DispatchQueue.main.async {
-                            self.getAllUserRequests(pageNumber: 1)
+                            self.updateUserInterface()
                         }
                         
                         cell.stackViewBtns.isHidden = true
@@ -335,7 +365,7 @@ extension RequestVC:UITableViewDataSource {
                         }
                         
                         DispatchQueue.main.async {
-                            self.getAllUserRequests(pageNumber: 1)
+                            self.updateUserInterface()
                         }
                         
                         cell.stackViewBtns.isHidden = true
@@ -410,4 +440,20 @@ extension RequestVC:UITableViewDelegate {
             }
         }
     }
+}
+
+extension UISegmentedControl {
+    
+    func setTitleColor(_ color: UIColor, state: UIControl.State = .normal) {
+        var attributes = self.titleTextAttributes(for: state) ?? [:]
+        attributes[.foregroundColor] = color
+        self.setTitleTextAttributes(attributes, for: state)
+    }
+    
+    func setTitleFont(_ font: UIFont, state: UIControl.State = .normal) {
+        var attributes = self.titleTextAttributes(for: state) ?? [:]
+        attributes[.font] = font
+        self.setTitleTextAttributes(attributes, for: state)
+    }
+    
 }

@@ -75,6 +75,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var currentLocationBtn: UIButton!
     @IBOutlet weak var markerImg: UIImageView!
     @IBOutlet var bannerView: GADBannerView!
+    @IBOutlet weak var upDownViewBtn: UIButton!
+    @IBOutlet weak var arrowUpDownImg: UIImageView!
     
     //MARK: - Properties
     var locations:[EventsLocation] = [EventsLocation]()
@@ -163,6 +165,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.collectionView.reloadData()
                 
                 self.subView.isHidden = false
+                self.upDownViewBtn.isHidden = false
                 
                 if isViewUp == true {
                     collectionViewHeight.constant = 140
@@ -238,6 +241,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             internetConect = false
             collectionViewHeight.constant = 0
             subView.isHidden = true
+            upDownViewBtn.isHidden = true
             HandleInternetConnection()
         case .wwan:
             internetConect = true
@@ -284,6 +288,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         print("handleSubViewHide")
         
         subView.isHidden = true
+        upDownViewBtn.isHidden = true
         isViewUp = false
         collectionViewHeight.constant = 0
         subViewHeight.constant = 50
@@ -404,6 +409,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
         subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
         subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
+        
+        upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
+        upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
+        upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
+        upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
     }
     
     //create marker for location selected
@@ -570,6 +580,28 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         searchBar.text = ""
     }
+    
+    @IBAction func upDownBtn(_ sender: Any) {
+//        upDownViewBtn.isSelected = !upDownViewBtn.isSelected
+        isViewUp.toggle()
+        
+        if isViewUp {
+            print("Up")
+            collectionViewHeight.constant = 140
+            subViewHeight.constant = 190
+            subView.isHidden = false
+            isViewUp = true
+            arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
+        }else {
+            print("Down")
+            collectionViewHeight.constant = 0
+            subViewHeight.constant = 50
+            subView.isHidden = false
+            isViewUp = false
+            arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+        }
+    }
+    
     
     func angleFromCoordinate(firstCoordinate: CLLocationCoordinate2D,secondCoordinate: CLLocationCoordinate2D) -> Double {
         
@@ -1045,12 +1077,14 @@ extension MapVC {
             subViewHeight.constant = 190
             subView.isHidden = false
             isViewUp = true
+            arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
         case .down:
             print("Down")
             collectionViewHeight.constant = 0
             subViewHeight.constant = 50
             subView.isHidden = false
             isViewUp = false
+            arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
         case .left: break
         case .right: break
         default:

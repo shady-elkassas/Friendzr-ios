@@ -69,6 +69,7 @@ class BlockedListVC: UIViewController {
     }
     
     func getAllBlockedList(pageNumber:Int,search:String) {
+        tableView.hideLoader()
         viewmodel.getAllBlockedList(pageNumber: pageNumber,search: search)
         viewmodel.blocklist.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -101,9 +102,11 @@ class BlockedListVC: UIViewController {
     }
     
     func LoadBlockedList(pageNumber:Int,search:String) {
+        self.tableView.hideLoader()
         viewmodel.getAllBlockedList(pageNumber: pageNumber,search:search)
         viewmodel.blocklist.bind { [unowned self] value in
             DispatchQueue.main.async {
+                tableView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -285,8 +288,6 @@ extension BlockedListVC: UITableViewDataSource {
                 self.alertView?.HandleConfirmBtn = {
                     // handling code
                     self.btnsSelect = true
-                    self.updateUserInterface()
-                    
                     if self.internetConect {
                         self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
                             self.hideLoading()
@@ -303,7 +304,7 @@ extension BlockedListVC: UITableViewDataSource {
                             }
                             
                             DispatchQueue.main.async {
-                                self.getAllBlockedList(pageNumber: 1,search: self.searchbar.text ?? "")
+                                self.updateUserInterface()
                             }
                         }
                     }else {

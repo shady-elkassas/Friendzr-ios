@@ -244,6 +244,10 @@ class AddNewUsersForMyGroupVC: UIViewController {
                 guard let _ = data else {return}
                 
                 DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name("updateGroupDetails"), object: nil, userInfo: nil)
+                }
+                
+                DispatchQueue.main.async {
                     self.view.makeToast("New friends have been added to the group successfully".localizedString)
                 }
                 

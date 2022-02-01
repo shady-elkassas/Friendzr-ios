@@ -52,8 +52,8 @@
                         <color key="textColor" name="ColorLbl2"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11:23 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5y3-Dl-xhs">
-                        <rect key="frame" x="260" y="42.5" width="40" height="12.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11:23 AM" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5y3-Dl-xhs">
+                        <rect key="frame" x="220" y="42.5" width="80" height="12.5"/>
                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="10"/>
                         <color key="textColor" name="ColorLbl3"/>
                         <nil key="highlightedColor"/>
@@ -83,13 +83,14 @@
                     <constraint firstItem="v3B-hz-WlP" firstAttribute="leading" secondItem="8ph-kw-rIW" secondAttribute="trailing" constant="4" id="SZ1-Ot-3nr"/>
                     <constraint firstItem="v3B-hz-WlP" firstAttribute="centerY" secondItem="8ph-kw-rIW" secondAttribute="centerY" constant="2" id="W2x-gy-SEm"/>
                     <constraint firstItem="Vca-hl-6gq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="WdM-FR-9e3"/>
-                    <constraint firstItem="5y3-Dl-xhs" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1CV-2V-m8i" secondAttribute="trailing" constant="5" id="Xr4-z2-Pkv"/>
                     <constraint firstItem="5y3-Dl-xhs" firstAttribute="centerY" secondItem="1CV-2V-m8i" secondAttribute="centerY" id="Y7t-89-ZOc"/>
-                    <constraint firstItem="5y3-Dl-xhs" firstAttribute="trailing" secondItem="RTh-pQ-CMi" secondAttribute="trailing" id="cdV-ch-Gza"/>
+                    <constraint firstAttribute="trailing" secondItem="5y3-Dl-xhs" secondAttribute="trailing" constant="20" id="Zm5-b7-49g"/>
                     <constraint firstItem="Vca-hl-6gq" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fRU-K4-Drh"/>
                     <constraint firstItem="RTh-pQ-CMi" firstAttribute="leading" secondItem="Vca-hl-6gq" secondAttribute="trailing" constant="10" id="hBl-NT-KpR"/>
+                    <constraint firstItem="5y3-Dl-xhs" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1CV-2V-m8i" secondAttribute="trailing" constant="10" id="nSx-wG-XSt"/>
                     <constraint firstAttribute="bottom" secondItem="LKO-jZ-n28" secondAttribute="bottom" id="oUj-NJ-qHA"/>
                     <constraint firstItem="8ph-kw-rIW" firstAttribute="leading" secondItem="1CV-2V-m8i" secondAttribute="leading" id="t7v-yh-LQh"/>
+                    <constraint firstItem="5y3-Dl-xhs" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.25" id="uek-d5-iW6"/>
                     <constraint firstAttribute="trailing" secondItem="RTh-pQ-CMi" secondAttribute="trailing" constant="20" id="vfR-gn-s5x"/>
                 </constraints>
             </tableViewCellContentView>

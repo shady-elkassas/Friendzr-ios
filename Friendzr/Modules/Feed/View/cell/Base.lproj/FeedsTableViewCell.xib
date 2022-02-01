@@ -32,8 +32,8 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="JYV-M0-z7e">
                                 <rect key="frame" x="25" y="30" width="50" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="05X-ni-lwf"/>
                                     <constraint firstAttribute="width" constant="50" id="MP6-hW-yBt"/>
+                                    <constraint firstAttribute="width" secondItem="JYV-M0-z7e" secondAttribute="height" multiplier="1:1" id="f2G-RU-jDE"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="isSkeletonable" value="YES"/>

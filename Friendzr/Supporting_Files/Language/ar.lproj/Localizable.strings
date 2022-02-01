@@ -148,7 +148,7 @@
 "Notifications" = "الاشعارات";
 "Share" = "مشاركة";
 "Settings" = "الإعدادات";
-"Tips & Guides" = "تلميحات وإرشادات";
+"Tips & Guidances" = "تلميحات وإرشادات";
 "About Us" = "نبذة عنا";
 "Terms & Conditions" = "الشروط والأحكام";
 "Privacy Policy" = "الخصوصية";
@@ -157,7 +157,7 @@
 "Password changed successfully" = "تم تغيير كلمة المرور بنجاح";
 "Blocked List" = "القائمة المحظورة";
 "Distance Filter" = "التصفية بحسب المسافة";
-"Every One" = "كل واحد";
+"Everyone" = "الجميع";
 "Men" = "رجال";
 "Women" = "سيدات";
 "Other Gender" = "جنس آخر";

@@ -307,7 +307,7 @@ extension LoginVC {
                     
                     self.UserFBID = userInfo["id"] as! String
                     self.UserFBMobile = userInfo["phone"] as? String ?? ""
-                    self.UserFBUserName = userInfo["name"] as! String
+                    self.UserFBUserName = userInfo["name"] as? String ?? ""
                     self.UserFBEmail = userInfo["email"] as? String ?? ""
                     self.userFace_BookAccessToken = AccessToken.current!.tokenString
                     let img = userInfo["picture"] as! [String:AnyObject]

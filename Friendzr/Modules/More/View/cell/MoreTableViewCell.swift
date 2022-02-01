@@ -19,7 +19,7 @@ class MoreTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        badgeView.cornerRadiusView(radius: 15)
+        badgeView.cornerRadiusForHeight()
         
     }
 

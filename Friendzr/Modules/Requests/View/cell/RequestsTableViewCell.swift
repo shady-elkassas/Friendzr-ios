@@ -19,6 +19,7 @@ class RequestsTableViewCell: UITableViewCell {
     @IBOutlet weak var stackViewBtns: UIStackView!
     @IBOutlet weak var messageBtn: UIButton!
     @IBOutlet weak var requestRemovedLbl: UILabel!
+    @IBOutlet weak var bottomView: UIView!
     
     var HandleDeleteBtn: (() -> ())?
     var HandleAcceptBtn: (() -> ())?
@@ -29,6 +30,7 @@ class RequestsTableViewCell: UITableViewCell {
         
         friendRequestImg.cornerRadiusForHeight()
         messageBtn.cornerRadiusView(radius: 6)
+        friendRequestImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 0.5)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

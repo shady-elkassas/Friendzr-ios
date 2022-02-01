@@ -20,6 +20,7 @@ class NotificationTableViewCell: UITableViewCell {
         // Initialization code
         
         notificationImg.cornerRadiusView(radius: 8)
+        notificationImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 0.5)
         containerView.cornerRadiusView(radius: 8)
         containerView.setBorder()
     }

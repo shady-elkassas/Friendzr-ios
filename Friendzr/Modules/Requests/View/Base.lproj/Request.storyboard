@@ -12,9 +12,6 @@
         <array key="Montserrat-Medium.ttf">
             <string>Montserrat-Medium</string>
         </array>
-        <array key="Montserrat-SemiBold.ttf">
-            <string>Montserrat-SemiBold</string>
-        </array>
     </customFonts>
     <scenes>
         <!--RequestVC-->
@@ -26,32 +23,38 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5iQ-Kg-e3E">
-                                <rect key="frame" x="0.0" y="88" width="414" height="55"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="50"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Requests" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCa-hH-fEw">
-                                        <rect key="frame" x="25" y="17.5" width="121.5" height="20"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="16"/>
-                                        <color key="textColor" name="ColorLbl1"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3UA-gv-YKq">
-                                        <rect key="frame" x="151.5" y="17.5" width="11" height="20"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="16"/>
-                                        <color key="textColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kCe-vf-9l4">
+                                        <rect key="frame" x="20" y="5" width="374" height="41"/>
+                                        <segments>
+                                            <segment title="Requests"/>
+                                            <segment title="Requests Sent"/>
+                                        </segments>
+                                        <color key="selectedSegmentTintColor" name="primaryColor"/>
+                                        <connections>
+                                            <action selector="segmentedControl:" destination="Y6W-OH-hqX" eventType="valueChanged" id="dgA-xy-fCf"/>
+                                        </connections>
+                                    </segmentedControl>
                                 </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="kCe-vf-9l4" secondAttribute="trailing" constant="20" id="8My-f5-jom"/>
+                                    <constraint firstAttribute="height" constant="50" id="Hi0-6r-8FJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="kCe-vf-9l4" secondAttribute="bottom" constant="5" id="IC4-iA-Xjn"/>
+                                    <constraint firstItem="kCe-vf-9l4" firstAttribute="leading" secondItem="5iQ-Kg-e3E" secondAttribute="leading" constant="20" id="cRg-8C-W4H"/>
+                                    <constraint firstItem="kCe-vf-9l4" firstAttribute="top" secondItem="5iQ-Kg-e3E" secondAttribute="top" constant="5" id="woC-7j-cjl"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fw8-zm-ilE">
+                                <rect key="frame" x="0.0" y="138" width="414" height="3"/>
                                 <color key="backgroundColor" name="BGColor"/>
                                 <constraints>
-                                    <constraint firstItem="3UA-gv-YKq" firstAttribute="leading" secondItem="KCa-hH-fEw" secondAttribute="trailing" constant="5" id="00J-1U-FbX"/>
-                                    <constraint firstItem="3UA-gv-YKq" firstAttribute="centerY" secondItem="KCa-hH-fEw" secondAttribute="centerY" id="Hbh-SO-O2A"/>
-                                    <constraint firstAttribute="height" constant="55" id="Hi0-6r-8FJ"/>
-                                    <constraint firstItem="KCa-hH-fEw" firstAttribute="centerY" secondItem="5iQ-Kg-e3E" secondAttribute="centerY" id="IIP-tK-dpg"/>
-                                    <constraint firstItem="KCa-hH-fEw" firstAttribute="leading" secondItem="5iQ-Kg-e3E" secondAttribute="leading" constant="25" id="jeY-qP-a2a"/>
+                                    <constraint firstAttribute="height" constant="3" id="2fG-dP-zZY"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="3Ys-WA-6bE">
-                                <rect key="frame" x="0.0" y="143" width="414" height="670"/>
+                                <rect key="frame" x="0.0" y="141" width="414" height="672"/>
                                 <color key="backgroundColor" name="BGColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Y6W-OH-hqX" id="DgO-To-7V8"/>
@@ -108,12 +111,15 @@
                         <constraints>
                             <constraint firstItem="UPK-Qx-c71" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="4jB-NM-O0e"/>
                             <constraint firstItem="5iQ-Kg-e3E" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="DnI-VV-wdb"/>
-                            <constraint firstItem="3Ys-WA-6bE" firstAttribute="top" secondItem="5iQ-Kg-e3E" secondAttribute="bottom" id="FDn-7i-tuA"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="3Ys-WA-6bE" secondAttribute="bottom" id="IcI-ux-9RV"/>
                             <constraint firstItem="3Ys-WA-6bE" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="LzT-vF-0GD"/>
+                            <constraint firstItem="fw8-zm-ilE" firstAttribute="top" secondItem="5iQ-Kg-e3E" secondAttribute="bottom" id="Tfn-Tv-Xbr"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="5iQ-Kg-e3E" secondAttribute="trailing" id="ThE-sk-tUR"/>
                             <constraint firstItem="UPK-Qx-c71" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="UdN-7X-l99"/>
                             <constraint firstItem="UPK-Qx-c71" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="Uyw-Jz-6mX"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="fw8-zm-ilE" secondAttribute="trailing" id="ZbB-dg-xNH"/>
+                            <constraint firstItem="fw8-zm-ilE" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="kKY-gZ-jfV"/>
+                            <constraint firstItem="3Ys-WA-6bE" firstAttribute="top" secondItem="fw8-zm-ilE" secondAttribute="bottom" id="l8O-6b-1ZU"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="3Ys-WA-6bE" secondAttribute="trailing" id="mvf-wd-qNR"/>
                             <constraint firstItem="5iQ-Kg-e3E" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="tPn-pN-Jph"/>
                             <constraint firstItem="UPK-Qx-c71" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="wCH-mn-QDx"/>
@@ -124,8 +130,8 @@
                         <outlet property="emptyImg" destination="hCg-KS-VYB" id="LOv-th-4s7"/>
                         <outlet property="emptyLbl" destination="HZp-Ep-hpc" id="W9h-Cq-gbt"/>
                         <outlet property="emptyView" destination="UPK-Qx-c71" id="rwQ-bQ-a0U"/>
+                        <outlet property="segmentControl" destination="kCe-vf-9l4" id="zar-JS-t2u"/>
                         <outlet property="tableView" destination="3Ys-WA-6bE" id="Qq4-Ha-fda"/>
-                        <outlet property="totalRequestLbl" destination="3UA-gv-YKq" id="8MM-3p-i7e"/>
                         <outlet property="tryAgainBtn" destination="m2d-vI-ucG" id="MCq-Nd-cyr"/>
                     </connections>
                 </viewController>
@@ -155,7 +161,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="emptyImage" width="512" height="512"/>
+        <image name="emptyImage" width="256" height="256"/>
         <image name="request_selected_ic" width="27" height="27"/>
         <image name="request_unselected_ic" width="19" height="16"/>
         <namedColor name="BGColor">
@@ -166,6 +172,9 @@
         </namedColor>
         <namedColor name="ColorLbl1">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="primaryColor">
+            <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

@@ -64,15 +64,15 @@ class EventsVC: UIViewController {
     
     //MARK:- APIs
     func getAllEvents(pageNumber:Int) {
+        tableView.hideLoader()
         viewmodel.getMyEvents(pageNumber: pageNumber)
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
+                tableView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
                 initAddNewEventBarButton(total: value.totalRecords ?? 0)
-                self.tableView.hideLoader()
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
             }
@@ -241,6 +241,12 @@ extension EventsVC: UITableViewDataSource {
             cell.categoryLbl.text = model?.categorie
             cell.dateLbl.text = model?.eventdate
             cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            
+            if model?.key == 1 {
+                cell.editBtn.isHidden = false
+            }else {
+                cell.editBtn.isHidden = true
+            }
             return cell
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}

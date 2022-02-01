@@ -30,7 +30,7 @@
                         <rect key="frame" x="25" y="17.5" width="50" height="50"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="H4u-gf-rVq"/>
-                            <constraint firstAttribute="height" constant="50" id="jRC-l1-5zR"/>
+                            <constraint firstAttribute="width" secondItem="2tY-Ly-Wvx" secondAttribute="height" multiplier="1:1" id="PwF-j4-oZq"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="boolean" keyPath="withShimmer" value="YES"/>
@@ -132,6 +132,13 @@
                             </button>
                         </subviews>
                     </stackView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yJT-ON-Avd">
+                        <rect key="frame" x="0.0" y="79" width="320" height="1"/>
+                        <color key="backgroundColor" name="BGColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="ft1-sW-86i"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
@@ -142,15 +149,19 @@
                     <constraint firstItem="h8i-3t-HR3" firstAttribute="centerY" secondItem="Mif-3S-Pj8" secondAttribute="centerY" id="6nS-ja-AOA"/>
                     <constraint firstItem="h8i-3t-HR3" firstAttribute="trailing" secondItem="Qob-NU-vjv" secondAttribute="trailing" id="AVB-La-hCo"/>
                     <constraint firstItem="2tY-Ly-Wvx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="25" id="IGe-wN-hNz"/>
+                    <constraint firstAttribute="trailing" secondItem="yJT-ON-Avd" secondAttribute="trailing" id="Ny7-Wl-Qrj"/>
+                    <constraint firstItem="yJT-ON-Avd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="SqB-g8-O39"/>
                     <constraint firstItem="Mif-3S-Pj8" firstAttribute="centerY" secondItem="2tY-Ly-Wvx" secondAttribute="centerY" id="aQs-hR-xcH"/>
+                    <constraint firstAttribute="bottom" secondItem="yJT-ON-Avd" secondAttribute="bottom" constant="5" id="dLo-nu-fYF"/>
                     <constraint firstItem="2tY-Ly-Wvx" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="eV4-u7-q31"/>
                     <constraint firstItem="Qob-NU-vjv" firstAttribute="centerY" secondItem="Mif-3S-Pj8" secondAttribute="centerY" id="hm7-Tf-NCK"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="acceptBtn" destination="lmC-QV-4US" id="jVq-1K-cXD"/>
+                <outlet property="bottomView" destination="yJT-ON-Avd" id="mAc-FX-tSS"/>
                 <outlet property="deleteRequestBtn" destination="uCM-ep-qgS" id="0XQ-ua-xlb"/>
                 <outlet property="friendRequestDateLbl" destination="HZu-yp-Hr0" id="nXt-4O-l6f"/>
                 <outlet property="friendRequestImg" destination="2tY-Ly-Wvx" id="dLR-6U-HQK"/>
@@ -167,6 +178,9 @@
         <image name="acceptRequest_ic" width="52" height="52"/>
         <image name="deleteRequest_ic" width="52" height="52"/>
         <image name="placeholder" width="1000" height="1000"/>
+        <namedColor name="BGColor">
+            <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="ColorLbl1">
             <color red="0.10199999809265137" green="0.10199999809265137" blue="0.10199999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

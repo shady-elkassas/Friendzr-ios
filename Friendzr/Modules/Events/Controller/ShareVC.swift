@@ -167,14 +167,14 @@ extension ShareVC:UITableViewDataSource {
                 return 0
             }
         }else if section == 2 {
-            if myeventsCount != 0 {
-                return myEventsVM.events.value?.data?.count ?? 0
+            if myGroupsCount != 0 {
+                return myGroupsVM.listChat.value?.data?.count ?? 0
             }else {
                 return 0
             }
         }else {
-            if myGroupsCount != 0 {
-                return myGroupsVM.listChat.value?.data?.count ?? 0
+            if myeventsCount != 0 {
+                return myEventsVM.events.value?.data?.count ?? 0
             }else {
                 return 0
             }
@@ -202,16 +202,16 @@ extension ShareVC:UITableViewDataSource {
             cell.containerView.backgroundColor = .clear
         }
         else if indexPath.section == 2 {
-            let eventsModel = myEventsVM.events.value?.data?[indexPath.row]
-            cell.titleLbl.text = eventsModel?.title
+            let groupModel = myGroupsVM.listChat.value?.data?[indexPath.row]
+            cell.titleLbl.text = groupModel?.chatName
             cell.sendBtn.isHidden = false
             cell.bottomView.isHidden = false
             cell.titleLbl.textColor = .darkGray
             cell.titleLbl.font = UIFont(name: "Montserrat-Medium", size: 12)
             cell.containerView.backgroundColor = .clear
         }else {
-            let groupModel = myGroupsVM.listChat.value?.data?[indexPath.row]
-            cell.titleLbl.text = groupModel?.chatName
+            let eventsModel = myEventsVM.events.value?.data?[indexPath.row]
+            cell.titleLbl.text = eventsModel?.title
             cell.sendBtn.isHidden = false
             cell.bottomView.isHidden = false
             cell.titleLbl.textColor = .darkGray
@@ -233,11 +233,11 @@ extension ShareVC:UITableViewDataSource {
         
         if section == 1 {
             headerCell.titleLbl.text = "My Friends".localizedString
-            headerCell.titleLbl.textColor = .black
+            headerCell.titleLbl.textColor = .white
             headerCell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
             headerCell.bottomView.isHidden = true
             headerCell.sendBtn.isHidden = true
-            headerCell.containerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+            headerCell.containerView.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
             headerCell.containerView.cornerRadiusView(radius: 8)
             if myFriendsCount != 0 {
                 return headerCell
@@ -246,27 +246,12 @@ extension ShareVC:UITableViewDataSource {
             }
         }
         else if section == 2 {
-            headerCell.titleLbl.text = "My Events".localizedString
-            headerCell.titleLbl.textColor = .black
-            headerCell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
-            headerCell.bottomView.isHidden = true
-            headerCell.sendBtn.isHidden = true
-            headerCell.containerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
-            headerCell.containerView.cornerRadiusView(radius: 8)
-            if myeventsCount != 0 {
-                return headerCell
-            }else {
-                return UIView()
-            }
-            
-        }
-        else if section == 3 {
             headerCell.titleLbl.text = "My Groups".localizedString
-            headerCell.titleLbl.textColor = .black
+            headerCell.titleLbl.textColor = .white
             headerCell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
             headerCell.bottomView.isHidden = true
             headerCell.sendBtn.isHidden = true
-            headerCell.containerView.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+            headerCell.containerView.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
             headerCell.containerView.cornerRadiusView(radius: 8)
             
             if myGroupsCount != 0 {
@@ -276,6 +261,22 @@ extension ShareVC:UITableViewDataSource {
             }
             
         }
+        else if section == 3 {
+            headerCell.titleLbl.text = "My Events".localizedString
+            headerCell.titleLbl.textColor = .white
+            headerCell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
+            headerCell.bottomView.isHidden = true
+            headerCell.sendBtn.isHidden = true
+            headerCell.containerView.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
+            headerCell.containerView.cornerRadiusView(radius: 8)
+            if myeventsCount != 0 {
+                return headerCell
+            }else {
+                return UIView()
+            }
+            
+        }
+      
         else {
             return UIView()
         }

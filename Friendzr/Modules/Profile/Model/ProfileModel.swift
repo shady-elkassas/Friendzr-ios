@@ -54,6 +54,11 @@ class ProfileObj: Mappable {
         age <- map["age"]
         needUpdate <- map["needUpdate"]
         otherGenderName <- map["otherGenderName"]
+        frindRequestNumber <- map["frindRequestNumber"]
+        allowmylocation <- map["allowmylocation"]
+        myAppearanceTypes <- map["myAppearanceTypes"]
+        ghostmode <- map["ghostmode"]
+        pushnotification <- map["pushnotification"]
     }
     
     
@@ -79,4 +84,10 @@ class ProfileObj: Mappable {
     var age = 0
     var needUpdate = 0
     var otherGenderName: String = ""
+    
+    var frindRequestNumber:Int = 0
+    var allowmylocation:Bool = false
+    var myAppearanceTypes:[Int] = []
+    var ghostmode:Bool = false
+    var pushnotification:Bool = false
 }

@@ -14,6 +14,8 @@ class ShareTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var bottomView: UIView!
     
+    var HandleSendBtn: (() -> ())?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -25,5 +27,6 @@ class ShareTableViewCell: UITableViewCell {
     }
     
     @IBAction func sendBtn(_ sender: Any) {
+        HandleSendBtn?()
     }
 }

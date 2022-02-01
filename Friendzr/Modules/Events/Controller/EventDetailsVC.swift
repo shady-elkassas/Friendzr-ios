@@ -12,6 +12,7 @@ import GoogleMaps
 import Alamofire
 import ListPlaceholder
 import GoogleMobileAds
+import MapKit
 
 class EventDetailsVC: UIViewController {
     
@@ -42,6 +43,11 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var backBtn: UIButton!
     @IBOutlet var bannerView: GADBannerView!
     
+    
+    
+    lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
+
+    
     //MARK: - Properties
     var numbers:[Double] = [1,2,3]
     var genders:[String] = ["Men","Women","Other Gender"]
@@ -53,12 +59,15 @@ class EventDetailsVC: UIViewController {
     var joinVM:JoinEventViewModel = JoinEventViewModel()
     var leaveVM:LeaveEventViewModel = LeaveEventViewModel()
     var joinCahtEventVM:ChatViewModel = ChatViewModel()
+    var attendeesVM:AttendeesViewModel = AttendeesViewModel()
+
+    
     var locationTitle = ""
     var internetConect:Bool = false
     
     var visibleIndexPath:Int = 0
     var encryptedID:String = ""
-
+    
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -84,9 +93,9 @@ class EventDetailsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        initBackColorButton()
+//                initBackColorButton()
         setupViews()
-//        initOptionsEventButton()
+        //        initOptionsEventButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -369,7 +378,6 @@ class EventDetailsVC: UIViewController {
         let Jointime = self.formatterTime.string(from: Date())
         
         if internetConect == true {
-//            self.showLoading()
             joinBtn.isUserInteractionEnabled = false
             joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? "",JoinDate:JoinDate ,Jointime:Jointime) { error, data in
                 if let error = error {
@@ -456,8 +464,18 @@ class EventDetailsVC: UIViewController {
         if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
             UIApplication.shared.open(URL(string: "comgooglemaps://?saddr=&daddr=\(model?.lat ?? ""),\(model?.lang ?? "")&directionsmode=driving")!)
         }else {
-            print("")
+            let lat = Double("\(model?.lat ?? "")")
+            let lng = Double("\(model?.lang ?? "")")
+            
+            let source = MKMapItem(coordinate: .init(latitude: lat ?? 0.0, longitude: lng ?? 0.0), name: "Source")
+            let destination = MKMapItem(coordinate: .init(latitude: lat ?? 0.0, longitude: lng ?? 0.0), name: model?.title ?? "")
+            
+            MKMapItem.openMaps(
+                with: [source, destination],
+                launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+            )
         }
+        
     }
     
     @IBAction func backBtn(_ sender: Any) {
@@ -521,7 +539,7 @@ extension EventDetailsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: attendeesCellID, for: indexPath) as? AttendeesTableViewCell else {return UITableViewCell()}
         let model = viewmodel.event.value?.attendees?[indexPath.row]
-        cell.dropDownBtn.isHidden = true
+        
         cell.joinDateLbl.isHidden = true
         cell.friendNameLbl.text = model?.userName
         cell.friendImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
@@ -530,6 +548,44 @@ extension EventDetailsVC: UITableViewDataSource {
             cell.underView.isHidden = true
         }else {
             cell.underView.isHidden = false
+        }
+        
+        if model?.myEventO == true {
+            cell.adminLbl.isHidden = false
+            cell.dropDownBtn.isHidden = true
+            cell.btnWidth.constant = 0
+        }else {
+            cell.adminLbl.isHidden = true
+            cell.dropDownBtn.isHidden = false
+            cell.btnWidth.constant = 20
+        }
+        
+        cell.HandleDropDownBtn = {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+                
+                settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    self.showAlertView(messageString: "delete", eventID: self.viewmodel.event.value?.id ?? "", UserattendId: model?.userId ?? "", Stutus: 1)
+                }))
+                settingsActionSheet.addAction(UIAlertAction(title:"Block".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    self.showAlertView(messageString: "block".localizedString, eventID: self.viewmodel.event.value?.id ?? "", UserattendId: model?.userId ?? "", Stutus: 2)
+                }))
+                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString.localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                
+                self.present(settingsActionSheet, animated:true, completion:nil)
+            }else {
+                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                
+                settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    self.showAlertView(messageString: "delete".localizedString, eventID: self.viewmodel.event.value?.id ?? "", UserattendId: model?.userId ?? "", Stutus: 1)
+                }))
+                settingsActionSheet.addAction(UIAlertAction(title:"Block".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    self.showAlertView(messageString: "block".localizedString, eventID: self.viewmodel.event.value?.id ?? "", UserattendId: model?.userId ?? "", Stutus: 2)
+                }))
+                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                
+                self.present(settingsActionSheet, animated:true, completion:nil)
+            }
         }
         
         return cell
@@ -697,7 +753,7 @@ extension EventDetailsVC {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-//                self.shareEvent()
+                //                self.shareEvent()
             }))
             actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
@@ -715,7 +771,7 @@ extension EventDetailsVC {
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-//                self.shareEvent()
+                //                self.shareEvent()
             }))
             actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
@@ -775,5 +831,54 @@ extension EventDetailsVC {
         
         activityViewController.isModalInPresentation = true
         self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    
+    
+    func showAlertView(messageString:String,eventID:String,UserattendId:String,Stutus :Int) {
+        self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        self.alertView?.titleLbl.text = "Confirm?".localizedString
+        self.alertView?.detailsLbl.text = "Are you sure you want to ".localizedString + "\(messageString)" + " this account?".localizedString
+        
+        let ActionDate = self.formatterDate.string(from: Date())
+        let Actiontime = self.formatterTime.string(from: Date())
+        
+        self.alertView?.HandleConfirmBtn = {
+            // handling code
+            
+            self.showLoading()
+            self.attendeesVM.editAttendees(ByUserAttendId: UserattendId, AndEventid: eventID, AndStutus: Stutus,Actiontime: Actiontime ,ActionDate: ActionDate) { [self] error, data in
+                self.hideLoading()
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    
+                    return
+                }
+                
+                guard let _ = data else {return}
+                
+                DispatchQueue.main.async {
+                    self.view.makeToast("Successfully" )
+                }
+                
+                DispatchQueue.main.async {
+                    self.getEventDetails()
+                }
+            }
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alertView?.alpha = 0
+            }) { (success: Bool) in
+                self.alertView?.removeFromSuperview()
+                self.alertView?.alpha = 1
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((self.alertView)!)
     }
 }

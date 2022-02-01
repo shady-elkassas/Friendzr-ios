@@ -82,7 +82,7 @@
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9L-me-A7i">
                                                 <rect key="frame" x="251" y="353.5" width="138" height="30"/>
-                                                <color key="backgroundColor" red="0.14901960780000001" green="0.46274509800000002" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" name="primaryColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="Her-Xg-mgt"/>
                                                 </constraints>
@@ -381,7 +381,7 @@
                                                     </button>
                                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8mR-uf-HST">
                                                         <rect key="frame" x="0.0" y="0.0" width="165.5" height="30"/>
-                                                        <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                                        <color key="backgroundColor" name="primaryColor"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
                                                         <state key="normal" title="Accept">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -392,7 +392,7 @@
                                                     </button>
                                                     <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MER-YH-iZe">
                                                         <rect key="frame" x="0.0" y="0.0" width="165.5" height="30"/>
-                                                        <color key="backgroundColor" red="0.14901960784313725" green="0.46274509803921571" blue="0.88235294117647056" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="backgroundColor" name="primaryColor"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
                                                         <state key="normal" title="Send Request">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -417,7 +417,7 @@
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xlb-5p-HGm">
                                                                 <rect key="frame" x="8" y="0.0" width="0.0" height="30"/>
-                                                                <color key="backgroundColor" red="0.14901960780000001" green="0.46274509800000002" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <color key="backgroundColor" name="primaryColor"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
                                                                 <state key="normal" title="Unfriend">
                                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1438,7 +1438,7 @@ yourself with a one-time selfie</string>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FMt-F9-TTz">
                                                         <rect key="frame" x="0.0" y="0.0" width="166" height="42"/>
-                                                        <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                                        <color key="backgroundColor" name="primaryColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="42" id="J3l-ek-131"/>
                                                         </constraints>
@@ -1536,7 +1536,7 @@ yourself with a one-time selfie</string>
         <image name="Group19286" width="20" height="19.5"/>
         <image name="arrow_left" width="6.5" height="11"/>
         <image name="camera_ic" width="60" height="60"/>
-        <image name="emptyImage" width="512" height="512"/>
+        <image name="emptyImage" width="256" height="256"/>
         <image name="placeholder" width="1000" height="1000"/>
         <image name="select_ic" width="24" height="24"/>
         <image name="unSelect_ic" width="24" height="24"/>

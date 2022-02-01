@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension Date {
     var startOfDay: Date {
@@ -40,3 +41,51 @@ extension Date {
         return components.weekday == 2
     }
 }
+
+extension Date {
+    
+    static func - (lhs: Date, rhs: Date) -> TimeInterval {
+        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+    }
+    
+    
+    func computeNewDate(from fromDate: Date, to toDate: Date) -> Date {
+        let delta = toDate - fromDate // `Date` - `Date` = `TimeInterval`
+        let today = Date()
+        if delta < 0 {
+            return today
+        } else {
+            return today + delta // `Date` + `TimeInterval` = `Date`
+        }
+    }
+}
+
+extension String {
+
+    func toDate(withFormat format: String = "yyyy-MM-dd HH:mm:ss")-> Date?{
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        dateFormatter.dateStyle = .full
+        dateFormatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
+        dateFormatter.dateFormat = format
+        let date = dateFormatter.date(from: self)
+        return date
+    }
+}
+
+extension Date {
+
+    func toString(withFormat format: String = "EEEE ، d MMMM yyyy") -> String {
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        dateFormatter.dateStyle = .full
+        dateFormatter.calendar = Calendar(identifier: .persian)
+        dateFormatter.dateFormat = format
+        let str = dateFormatter.string(from: self)
+
+        return str
+    }
+}
+

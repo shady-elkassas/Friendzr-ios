@@ -292,6 +292,26 @@ class Defaults {
         }
     }
     
+    static var frindRequestNumber: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "frindRequestNumber")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "frindRequestNumber")
+        }
+    }
+    
+    static var messagesInboxCountBadge: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "messagesInboxCountBadge")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "messagesInboxCountBadge")
+        }
+    }
+    
     static var allowMyLocation: Bool {
         set{
             UserDefaults.standard.set(newValue, forKey: "allowMyLocation")
@@ -309,6 +329,16 @@ class Defaults {
         }
         get{
             return UserDefaults.standard.bool(forKey: "ghostModeEveryOne")
+        }
+    }
+    
+    static var ghostMode: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "ghostMode")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "ghostMode")
         }
     }
     
@@ -357,14 +387,14 @@ class Defaults {
         Defaults.snapchat = user.snapchat
         Defaults.tiktok = user.tiktok
         Defaults.key = user.key
-//        Defaults.LocationLng = user.lang
-//        Defaults.LocationLat = user.lat
         Defaults.OtherGenderName = user.OtherGenderName
         Defaults.age = user.age
         Defaults.userId = user.userid
         Defaults.needUpdate = user.needUpdate
         Defaults.allowMyLocation = user.allowmylocation
+        Defaults.ghostMode = user.ghostmode
         Defaults.myAppearanceTypes = user.myAppearanceTypes
+        Defaults.frindRequestNumber = user.frindRequestNumber
     }
     
     static func deleteUserData(){
@@ -394,6 +424,7 @@ class Defaults {
         defaults.removeObject(forKey: "OtherGenderName")
         defaults.removeObject(forKey: "myAppearanceTypes")
         defaults.removeObject(forKey: "ghostModeEveryOne")
+        defaults.removeObject(forKey: "ghostMode")
 
         if let token = AccessToken.current,
            !token.isExpired {

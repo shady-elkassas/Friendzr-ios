@@ -109,7 +109,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         moreList.append(("Notifications".localizedString, UIImage(named: "notificationList_ic")!))
         moreList.append(("Share".localizedString, UIImage(named: "Share_ic")!))
         moreList.append(("Settings".localizedString, UIImage(named: "Settings_ic")!))
-        moreList.append(("Tips & Guides".localizedString, UIImage(named: "Settings_ic")!))
+        moreList.append(("Tips & Guidances".localizedString, UIImage(named: "Settings_ic")!))
         moreList.append(("About Us".localizedString, UIImage(named: "information_ic")!))
         moreList.append(("Terms & Conditions".localizedString, UIImage(named: "Terms_ic")!))
         moreList.append(("Privacy Policy".localizedString, UIImage(named: "privacy_ic")!))
@@ -148,7 +148,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         let firstActivityItem = ""
         
         // Setting url
-        let secondActivityItem : NSURL = NSURL(string: "https://friendzr.com/about-us/")!
+        let secondActivityItem : NSURL = NSURL(string: "https://friendzr.com/")!
         
         // If you want to use an image
         let image : UIImage = UIImage(named: "Share_ic")!
@@ -247,16 +247,16 @@ extension MoreVC : UITableViewDataSource {
         cell.titleLbl.text = moreList[indexPath.row].0
         cell.imgView.image?.withTintColor(UIColor.setColor(lightColor: .black, darkColor: .white))
         
-        if  Defaults.badgeNumber == 0 {
-            cell.badgeView.isHidden = true
-        }else {
+//        if  Defaults.badgeNumber == 0 {
+//            cell.badgeView.isHidden = true
+//        }else {
             if indexPath.row == 2 {
                 cell.badgeLbl.text = "\(Defaults.badgeNumber)"
                 cell.badgeView.isHidden = false
             }else {
                 cell.badgeView.isHidden = true
             }
-        }
+//        }
         
         return cell
     }

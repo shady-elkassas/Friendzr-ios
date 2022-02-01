@@ -311,7 +311,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
         let messageTime = formatterTime.string(from: Date())
         let url:URL? = URL(string: "https://www.apple.com/eg/")
         
-        self.insertMessage(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 1))
+        self.insertMessage(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 1))
         
         DispatchQueue.main.async {
             inputBar.inputTextView.text = ""
@@ -452,25 +452,25 @@ extension ConversationVC: MessagesDisplayDelegate {
     func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         switch message.kind {
         case .contact(_):
-            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .emoji((_)):
-            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .text(_):
-            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .photo(_):
             return isFromCurrentSender(message: message) ? UIColor.clear : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .audio(_):
-            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .location(_):
-            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .video(_):
             return isFromCurrentSender(message: message) ? UIColor.clear : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .linkPreview(_):
             return isFromCurrentSender(message: message) ? UIColor.red : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .attributedText(_):
-            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         default:
-            return isFromCurrentSender(message: message) ? UIColor.blue : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         }
     }
     
@@ -951,7 +951,7 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
         }else {
             let image = info[.originalImage] as! UIImage
             
-            self.insertMessage(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 2))
+            self.insertMessage(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 2))
             self.sendingImageView = image
             
             if isEvent {
@@ -1188,7 +1188,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
 
             if isEvent {
                 let imgView:UIImageView = UIImageView()
-                self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
+                self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3))
                 
                 imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
                 self.sendingImageView  = imgView.image
@@ -1214,7 +1214,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
             }else {
                 if isChatGroup {
                     let imgView:UIImageView = UIImageView()
-                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
+                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime:messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3))
                     imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
                     self.sendingImageView  = imgView.image
 
@@ -1239,7 +1239,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
                     }
                 }else {
                     let imgView:UIImageView = UIImageView()
-                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "\(messageDate) \(messageTime)", messageType: 3))
+                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3))
                     imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
                     self.sendingImageView  = imgView.image
                     

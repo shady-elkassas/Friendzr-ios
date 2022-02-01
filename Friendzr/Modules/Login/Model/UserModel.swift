@@ -41,6 +41,8 @@ class UserObj: Mappable {
         ghostmode <- map["ghostmode"]
         pushnotification <- map["pushnotification"]
         OtherGenderName <- map["OtherGenderName"]
+        frindRequestNumber <- map["frindRequestNumber"]
+
     }
     
     
@@ -66,6 +68,7 @@ class UserObj: Mappable {
     var lang = ""
     var lat = ""
     var needUpdate:Int = 0
+    var frindRequestNumber:Int = 0
     var age:Int = 0
     var allowmylocation:Bool = false
     var myAppearanceTypes:[Int] = []

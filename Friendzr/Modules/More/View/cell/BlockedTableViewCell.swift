@@ -21,6 +21,7 @@ class BlockedTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         profileImg.cornerRadiusForHeight()
+        profileImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 0.5)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

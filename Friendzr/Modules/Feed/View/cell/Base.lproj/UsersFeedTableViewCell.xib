@@ -33,11 +33,11 @@
                             <constraint firstAttribute="height" constant="1" id="zN7-OW-385"/>
                         </constraints>
                     </view>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="j3q-OK-73z">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="j3q-OK-73z">
                         <rect key="frame" x="20" y="27" width="50" height="50"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="P9S-ye-uXB"/>
-                            <constraint firstAttribute="height" constant="50" id="dEx-cc-sfH"/>
+                            <constraint firstAttribute="width" secondItem="j3q-OK-73z" secondAttribute="height" multiplier="1:1" id="Xr9-xk-XjL"/>
                         </constraints>
                     </imageView>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="gU2-4c-CCD">

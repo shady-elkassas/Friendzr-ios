@@ -22,6 +22,7 @@ class EventsInLocationTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         eventImg.cornerRadiusView(radius: 10)
+        eventImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 0.5)
     }
     
     

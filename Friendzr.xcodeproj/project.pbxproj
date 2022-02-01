@@ -54,6 +54,9 @@
 		431505782705F90E002387A1 /* DegreeScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431505772705F90E002387A1 /* DegreeScaleView.swift */; };
 		4315DB41278DBB12005AB950 /* GenderDistributionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4315DB3F278DBB12005AB950 /* GenderDistributionTableViewCell.swift */; };
 		4315DB42278DBB12005AB950 /* GenderDistributionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4315DB40278DBB12005AB950 /* GenderDistributionTableViewCell.xib */; };
+		4319612827A7E1940057FDC2 /* ExtensionMapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4319612727A7E1940057FDC2 /* ExtensionMapKit.swift */; };
+		4319612B27A811530057FDC2 /* TabsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4319612927A811530057FDC2 /* TabsCollectionViewCell.swift */; };
+		4319612C27A811530057FDC2 /* TabsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4319612A27A811530057FDC2 /* TabsCollectionViewCell.xib */; };
 		431D93E627577A3200A1F780 /* Extensions + ConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D93E527577A3200A1F780 /* Extensions + ConversationVC.swift */; };
 		431FF241270C8DEA002A15E0 /* GenderDistributionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */; };
 		432098D427956E5F005B83A8 /* More.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 432098D627956E5F005B83A8 /* More.storyboard */; };
@@ -365,6 +368,9 @@
 		431505772705F90E002387A1 /* DegreeScaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeScaleView.swift; sourceTree = "<group>"; };
 		4315DB3F278DBB12005AB950 /* GenderDistributionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderDistributionTableViewCell.swift; sourceTree = "<group>"; };
 		4315DB40278DBB12005AB950 /* GenderDistributionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenderDistributionTableViewCell.xib; sourceTree = "<group>"; };
+		4319612727A7E1940057FDC2 /* ExtensionMapKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionMapKit.swift; sourceTree = "<group>"; };
+		4319612927A811530057FDC2 /* TabsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsCollectionViewCell.swift; sourceTree = "<group>"; };
+		4319612A27A811530057FDC2 /* TabsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabsCollectionViewCell.xib; sourceTree = "<group>"; };
 		431D93E527577A3200A1F780 /* Extensions + ConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions + ConversationVC.swift"; sourceTree = "<group>"; };
 		431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderDistributionVC.swift; sourceTree = "<group>"; };
 		432098D527956E5F005B83A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/More.storyboard; sourceTree = "<group>"; };
@@ -1191,6 +1197,8 @@
 				43D008F127943A1500370E2C /* RequestTableViewCell.xib */,
 				4337B47427870F000077B794 /* RequestsTableViewCell.swift */,
 				43D008F827943A4200370E2C /* RequestsTableViewCell.xib */,
+				4319612927A811530057FDC2 /* TabsCollectionViewCell.swift */,
+				4319612A27A811530057FDC2 /* TabsCollectionViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1365,6 +1373,7 @@
 				4382AC6426C27CDF005C1857 /* UILabelExtension.swift */,
 				4382AC6626C27D33005C1857 /* UIFontExtension.swift */,
 				434428E827171AE800269444 /* ExtensionDate.swift */,
+				4319612727A7E1940057FDC2 /* ExtensionMapKit.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1696,6 +1705,7 @@
 				432098D427956E5F005B83A8 /* More.storyboard in Resources */,
 				4382AC9A26C27FF2005C1857 /* Montserrat-Light.ttf in Resources */,
 				43FC3C9E2726F7BA00D94ABB /* LoadingView.xib in Resources */,
+				4319612C27A811530057FDC2 /* TabsCollectionViewCell.xib in Resources */,
 				436288A626C9334900B51E51 /* ChatListTableViewCell.xib in Resources */,
 				4382AC2626C27195005C1857 /* LaunchScreen.storyboard in Resources */,
 				43967D9927944D69005B1F5D /* CategoriesView.xib in Resources */,
@@ -1993,6 +2003,7 @@
 				4397236F2709D8870062D684 /* ChatModel.swift in Sources */,
 				4382AC2126C27195005C1857 /* Friendzr.xcdatamodeld in Sources */,
 				43FC3CA22727EC5D00D94ABB /* LocationsStorage.swift in Sources */,
+				4319612827A7E1940057FDC2 /* ExtensionMapKit.swift in Sources */,
 				43D545A426CB9DDD0064660A /* AddEventVC.swift in Sources */,
 				4382AC4C26C2748B005C1857 /* UIColorExtension.swift in Sources */,
 				4336D13926DB95D20093C7A6 /* ChangePasswordViewModel.swift in Sources */,
@@ -2009,6 +2020,7 @@
 				43FBA22C26D5330F005F4FBF /* SendLocationChatVC.swift in Sources */,
 				4388685E278344F1004D36B2 /* ReportTitleTableViewCell.swift in Sources */,
 				4320A64F26F21180003604EE /* BlockedTableViewCell.swift in Sources */,
+				4319612B27A811530057FDC2 /* TabsCollectionViewCell.swift in Sources */,
 				43D545B526CBD81E0064660A /* Magnetic.swift in Sources */,
 				43375F5A27130D9E009EBED6 /* NotificationsViewModel.swift in Sources */,
 				4382AC1926C27195005C1857 /* SceneDelegate.swift in Sources */,

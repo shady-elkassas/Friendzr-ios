@@ -25,13 +25,6 @@ class RequestManager  {
             return
         }
         
-        //        let domain = url.host
-        //        if domain?.isValidURL == true {
-        //            UIApplication.shared.canOpenURL(url)
-        //        }else {
-        //            UIApplication.shared.canOpenURL(url)
-        //        }
-        
         var urlRequest = URLRequest(url: url)
         
         //        urlRequest.allowsConstrainedNetworkAccess = true
@@ -61,13 +54,11 @@ class RequestManager  {
         session.configuration.timeoutIntervalForResource = 10 // seconds
         
         // make the request
-        let task = session.dataTask(with: urlRequest, completionHandler: {
-            (data, response, error) in
-            
+        let task = session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
             if (error != nil) {
                 print(error!)
-                
-            } else {
+            }
+            else {
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
                 print(httpResponse!)
@@ -83,7 +74,8 @@ class RequestManager  {
                     } catch {
                         print(error)
                     }
-                }else if code == 400 {
+                }
+                else if code == 400 {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
                         print(json)

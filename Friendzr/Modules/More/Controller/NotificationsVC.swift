@@ -60,6 +60,7 @@ class NotificationsVC: UIViewController {
     }
     
     func getNotificationsList(pageNumber:Int) {
+        tableView.hideLoader()
         viewmodel.getNotifications(pageNumber: pageNumber)
         viewmodel.notifications.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -92,9 +93,11 @@ class NotificationsVC: UIViewController {
     }
     
     func LoadAllNotifications(pageNumber:Int) {
+        tableView.hideLoader()
         viewmodel.getNotifications(pageNumber: pageNumber)
         viewmodel.notifications.bind { [unowned self] value in
             DispatchQueue.main.async {
+                tableView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()

@@ -110,6 +110,8 @@ class SettingsVC: UIViewController {
         tableView.reloadData()
         
         settingsViewHeight.constant = CGFloat(7 * 60)
+        Defaults.myAppearanceTypes = model?.myAppearanceTypes ?? []
+        Defaults.ghostMode = model?.ghostmode ?? false
         
         ageFrom = model?.agefrom ?? 14
         ageTo = model?.ageto ?? 85
@@ -347,7 +349,6 @@ class SettingsVC: UIViewController {
     
     //save actions btns
     @IBAction func ageSaveBtn(_ sender: Any) {
-//        self.showLoading()
         self.viewmodel.filteringAccordingToAge(filteringaccordingtoage: true, agefrom: ageFrom, ageto: ageTo) { error, data in
             self.hideLoading()
             if let error = error {
@@ -370,7 +371,6 @@ class SettingsVC: UIViewController {
     }
     
     @IBAction func distanceSaveBtn(_ sender: Any) {
-//        self.showLoading()
         self.viewmodel.updateManualdistanceControl(manualdistancecontrol: manualdistancecontrol, distanceFilter: true) { error, data in
             self.hideLoading()
             if let error = error {
@@ -457,13 +457,22 @@ extension SettingsVC :CLLocationManagerDelegate {
             
             self.model = data
             
+            Defaults.myAppearanceTypes = data?.myAppearanceTypes ?? []
+            Defaults.ghostMode = data?.ghostmode ?? false
+
             DispatchQueue.main.async {
-                if data?.ghostmode == true && data?.myAppearanceTypes == [1] {
-                    Defaults.ghostModeEveryOne = true
+                if data?.ghostmode == true {
+                    if data?.myAppearanceTypes == [1] {
+                        Defaults.ghostModeEveryOne = true
+                    }else {
+                        Defaults.ghostModeEveryOne = false
+                    }
+                    
                 }else {
                     Defaults.ghostModeEveryOne = false
                 }
             }
+            
             
             DispatchQueue.main.async {
                 self.setupData()
@@ -618,7 +627,7 @@ extension SettingsVC: UITableViewDataSource {
                 }
                 
                 if mtypsInt.contains(where: {$0 == 1}) {
-                    cell.ghostModeTypeLbl.text = "Every One".localizedString
+                    cell.ghostModeTypeLbl.text = "Everyone".localizedString
                 }else {
                     if mtypsInt == [2] {
                         cell.ghostModeTypeLbl.text = "Men".localizedString

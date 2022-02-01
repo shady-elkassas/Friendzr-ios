@@ -325,8 +325,12 @@ extension AttendeesVC:UITableViewDataSource {
         
         if model?.myEventO == true {
             cell.dropDownBtn.isHidden = true
+            cell.adminLbl.isHidden = false
+            cell.btnWidth.constant = 0
         }else {
             cell.dropDownBtn.isHidden = false
+            cell.adminLbl.isHidden = true
+            cell.btnWidth.constant = 20
         }
         
         cell.friendNameLbl.text = model?.userName
