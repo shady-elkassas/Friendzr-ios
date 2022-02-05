@@ -17,6 +17,11 @@ class EventsVC: UIViewController {
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
+    @IBOutlet weak var hideView: UIView!
+    
+    @IBOutlet var hideImgs: [UIImageView]!
+    @IBOutlet var subhideImgs: [UIImageView]!
+
     
     //MARK: - Properties
     let cellID = "EventTableViewCell"
@@ -50,6 +55,8 @@ class EventsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
         CancelRequest.currentTask = false
+        
+        setupHideView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -64,11 +71,11 @@ class EventsVC: UIViewController {
     
     //MARK:- APIs
     func getAllEvents(pageNumber:Int) {
-        tableView.hideLoader()
+        hideView.hideLoader()
         viewmodel.getMyEvents(pageNumber: pageNumber)
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.hideLoader()
+                hideView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -98,11 +105,15 @@ class EventsVC: UIViewController {
     
     
     func LoadAllEvents(pageNumber:Int) {
-        self.view.makeToast("Please wait for the data to load...")
+//        self.view.makeToast("Please wait for the data to load...")
+        hideView.showLoader()
         viewmodel.getMyEvents(pageNumber: pageNumber)
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
+
+                hideView.hideLoader()
+                hideView.isHidden = true
+                
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -110,14 +121,7 @@ class EventsVC: UIViewController {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
-                
-                self.view.hideToast()
-                if value.data?.count != 0 {
-                    tableView.showLoader()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self.tableView.hideLoader()
-                    }
-                }
+
             }
         }
         
@@ -215,6 +219,17 @@ class EventsVC: UIViewController {
         indicatorView.startAnimating()
         return footerview
     }
+    
+    func setupHideView() {
+        for itm in hideImgs {
+            itm.cornerRadiusView(radius: 10)
+        }
+        
+        for item in subhideImgs {
+            item.cornerRadiusView(radius: 5)
+        }
+    }
+    
     
     //MARK:- Actions
     @IBAction func tryAgainBtn(_ sender: Any) {

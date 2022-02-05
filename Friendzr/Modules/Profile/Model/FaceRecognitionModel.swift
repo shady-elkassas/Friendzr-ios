@@ -2,7 +2,7 @@
 //  FaceRecognitionModel.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 23/01/2022.
+//  Created by Muhammad Sabri Saad on 23/01/2022.
 //
 
 import Foundation

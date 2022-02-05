@@ -112,7 +112,6 @@ class ReportVC: UIViewController {
     
     
     func getAllProblems() {
-//        self.showLoading()
         viewmodel.getAllProblems()
         viewmodel.model.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -184,7 +183,11 @@ extension ReportVC: UITableViewDataSource {
                 self.updateNetworkForBtns()
                 if self.id != "" {
                     if self.internetConnect {
+                        cell.confirmBtn.setTitle("Submitting...", for: .normal)
+                        cell.confirmBtn.isUserInteractionEnabled = false
                         self.viewmodel.sendReport(withID: self.id, reportType: self.reportType, message: self.message, reportReasonID: self.problemID) { error, data in
+                            cell.confirmBtn.isUserInteractionEnabled = true
+                            cell.confirmBtn.setTitle("Submit", for: .normal)
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)

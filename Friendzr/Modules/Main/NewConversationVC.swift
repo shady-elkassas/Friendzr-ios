@@ -19,6 +19,10 @@ class NewConversationVC: UIViewController {
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
     
+    @IBOutlet weak var hideView: UIView!
+    @IBOutlet var prosImg: [UIImageView]!
+    @IBOutlet var hidesImg: [UIImageView]!
+
     //MARK: - Properties
     let cellID = "ContactsTableViewCell"
     var viewmodel:AllFriendesViewModel = AllFriendesViewModel()
@@ -48,6 +52,7 @@ class NewConversationVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         CancelRequest.currentTask = false
+        setupHideView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -159,7 +164,7 @@ class NewConversationVC: UIViewController {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.hideLoader()
+                hideView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -188,27 +193,21 @@ class NewConversationVC: UIViewController {
     }
     
     func LaodAllFriends(pageNumber:Int,search:String) {
-        
+        hideView.showLoader()
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
+                hideView.hideLoader()
+                hideView.isHidden = true
+                
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
-                
-                
-                if value.data?.count != 0 {
-                    tableView.showLoader()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.tableView.hideLoader()
-                    }
-                }
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
                 showEmptyView()
-                
             }
         }
         
@@ -237,6 +236,15 @@ class NewConversationVC: UIViewController {
         return footerview
     }
     
+    func setupHideView() {
+        for item in prosImg {
+            item.cornerRadiusForHeight()
+        }
+        
+        for itm in hidesImg {
+            itm.cornerRadiusView(radius: 6)
+        }
+    }
     //MARK:- Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         updateUserInterface()

@@ -80,9 +80,9 @@ class TagsVC: UIViewController {
     //MARK: - APIs
     
     func getAllTags() {
-        self.showLoading()
+//        self.showLoading()
         vm.getAllInterests(completion: { (error, cats) in
-            self.hideLoading()
+//            self.hideLoading()
             
             if let error = error {
                 DispatchQueue.main.async {

@@ -45,11 +45,12 @@ class ForgetPasswordVC: UIViewController {
     @IBAction func resetBtn(_ sender: Any) {
         updateUserInterface()
         if internetConect {
-            self.showLoading()
+            self.resetBtn.setTitle("Sending...", for: .normal)
+            self.resetBtn.isUserInteractionEnabled = false
             viewmodel.ResetPassword(withEmail: emailTxt.text!) { error, data in
-                self.hideLoading()
+                self.resetBtn.setTitle("Reset", for: .normal)
+                self.resetBtn.isUserInteractionEnabled = false
                 if let error = error {
-                    //                    self.showAlert(withMessage: error)
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }

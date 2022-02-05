@@ -21,7 +21,6 @@ import CoreLocation
 import UserNotifications
 //import SCSDKLoginKit
 //import TikTokOpenSDK
-//import SFaceCompare
 import GoogleMobileAds
 import IQKeyboardManager
 
@@ -466,6 +465,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         
         NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+       
+        if action == "Friend_Request" {
+            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
+        }
         
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
@@ -481,13 +485,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         else {
             completionHandler([[]])
         }
-        
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-        }
-        
-        NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
-        
+
         if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
             print("user_chat OR event_chat OR user_chatGroup")
         }else {
@@ -524,12 +522,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             completionHandler([[]])
         }
         
-        DispatchQueue.main.async {
+        if action == "Friend_Request" {
             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         }
-        
-        NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
-        
+
         if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
             print("user_chat Or event_chat")
         }else {

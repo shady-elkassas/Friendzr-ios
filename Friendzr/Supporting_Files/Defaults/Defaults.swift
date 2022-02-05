@@ -425,7 +425,8 @@ class Defaults {
         defaults.removeObject(forKey: "myAppearanceTypes")
         defaults.removeObject(forKey: "ghostModeEveryOne")
         defaults.removeObject(forKey: "ghostMode")
-
+        defaults.removeObject(forKey: "frindRequestNumber")
+        
         if let token = AccessToken.current,
            !token.isExpired {
             // User is logged in, do work such as go to next view controller.

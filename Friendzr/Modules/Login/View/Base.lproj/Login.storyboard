@@ -35,7 +35,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="878"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UZg-7K-EqS">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="551"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log In" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EHD-G1-Axg">
                                                 <rect key="frame" x="25" y="16" width="230" height="37"/>
@@ -308,6 +308,7 @@
                                             <constraint firstItem="ZUq-R6-PGK" firstAttribute="centerY" secondItem="6bv-sa-MeT" secondAttribute="centerY" id="nbO-YV-EkM"/>
                                             <constraint firstItem="ZUq-R6-PGK" firstAttribute="width" secondItem="6bv-sa-MeT" secondAttribute="width" id="nbu-Cd-iiI"/>
                                             <constraint firstItem="2Vz-k0-TDN" firstAttribute="leading" secondItem="A2w-26-PDm" secondAttribute="leading" id="otZ-MW-2ca"/>
+                                            <constraint firstAttribute="bottom" secondItem="Yhm-6Y-sef" secondAttribute="bottom" constant="20" id="qAY-ZI-VBB"/>
                                             <constraint firstItem="1ZM-x0-CaL" firstAttribute="leading" secondItem="cn5-m6-Guc" secondAttribute="trailing" constant="8" id="qZM-Nq-dvB"/>
                                             <constraint firstItem="Yhm-6Y-sef" firstAttribute="trailing" secondItem="A2w-26-PDm" secondAttribute="trailing" id="r5P-KA-Jtz"/>
                                             <constraint firstItem="mWA-x1-MY0" firstAttribute="width" secondItem="zoS-L6-ddk" secondAttribute="width" id="u4C-1K-Oov"/>
@@ -343,11 +344,11 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="YrX-wp-02e" firstAttribute="top" relation="greaterThanOrEqual" secondItem="UZg-7K-EqS" secondAttribute="bottom" constant="20" id="0JO-KB-FYy"/>
                                     <constraint firstItem="jdT-cD-Vr7" firstAttribute="bottom" secondItem="YrX-wp-02e" secondAttribute="bottom" constant="20" id="EW9-ce-0sd"/>
                                     <constraint firstAttribute="trailing" secondItem="UZg-7K-EqS" secondAttribute="trailing" id="Lwf-Rz-anw"/>
                                     <constraint firstItem="YrX-wp-02e" firstAttribute="centerX" secondItem="UtY-FO-ois" secondAttribute="centerX" id="NZ3-Lk-mB7"/>
                                     <constraint firstItem="UZg-7K-EqS" firstAttribute="top" secondItem="UtY-FO-ois" secondAttribute="top" id="RzO-mB-ov2"/>
-                                    <constraint firstItem="YrX-wp-02e" firstAttribute="top" secondItem="UZg-7K-EqS" secondAttribute="bottom" constant="20" id="ZVT-DC-JvV"/>
                                     <constraint firstAttribute="bottom" secondItem="UZg-7K-EqS" secondAttribute="bottom" id="qCy-GQ-HZP"/>
                                     <constraint firstItem="UZg-7K-EqS" firstAttribute="leading" secondItem="UtY-FO-ois" secondAttribute="leading" id="wc8-9W-bVd"/>
                                     <constraint firstItem="UZg-7K-EqS" firstAttribute="width" secondItem="UtY-FO-ois" secondAttribute="width" id="wqw-EL-LNn"/>

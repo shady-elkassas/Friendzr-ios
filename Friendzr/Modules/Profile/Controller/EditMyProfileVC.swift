@@ -520,10 +520,14 @@ class EditMyProfileVC: UIViewController {
                 return
             }else {
                 if internetConect {
-                    self.showLoading()
+                    self.saveBtn.setTitle("Sending...", for: .normal)
+                    self.saveBtn.isUserInteractionEnabled = false
+                    
                     viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in
                         
-                        self.hideLoading()
+                        self.saveBtn.setTitle("Save", for: .normal)
+                        self.saveBtn.isUserInteractionEnabled = true
+
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)

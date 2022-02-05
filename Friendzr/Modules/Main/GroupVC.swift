@@ -55,7 +55,7 @@ class GroupVC: UIViewController {
         setupViews()
         title = "Group Details"
         
-        getGroupDetails()
+        getGroupDetails(search: "")
         setupSearchBar()
         initBackChatButton()
         
@@ -64,12 +64,12 @@ class GroupVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        setupNavBar()
     }
     
     @objc func updateGroupDetails() {
-        getGroupDetails()
+        getGroupDetails(search: "")
     }
+    
     func setupViews() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         
@@ -107,10 +107,9 @@ class GroupVC: UIViewController {
     }
     
     
-    func getGroupDetails() {
-//        self.showLoading()
+    func getGroupDetails(search:String) {
         self.superView.showLoader()
-        viewmodel.getGroupDetails(id: groupId)
+        viewmodel.getGroupDetails(id: groupId, search: search)
         viewmodel.groupMembers.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.hideLoading()
@@ -271,9 +270,7 @@ extension GroupVC {
     }
     
     @objc func handleSaveBtn() {
-        self.showLoading()
         self.viewmodel.updateGroup(ByID: self.groupId, AndName: nameTxt.text!, attachedImg: true, AndImage: groupImg.image ?? UIImage()) { error, data in
-            self.hideLoading()
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
@@ -290,7 +287,6 @@ extension GroupVC {
             DispatchQueue.main.async {
                 self.nameTxt.isUserInteractionEnabled = false
                 self.cameraBtn.isHidden = true
-                
                 self.initEditAndOptionButton()
             }
         }
@@ -397,7 +393,7 @@ extension GroupVC {
     }
 
     func deleteGroup() {
-        self.showLoading()
+//        self.showLoading()
         self.viewmodel.deleteGroup(withGroupId: groupId) { error, data in
             self.hideLoading()
             if let error = error {
@@ -426,7 +422,7 @@ extension GroupVC {
         let actionTime = formatterTime.string(from: Date())
         
         
-        self.showLoading()
+//        self.showLoading()
         self.viewmodel.leaveGroupChat(ByID: groupId, registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
             self.hideLoading()
             if let error = error {
@@ -632,8 +628,7 @@ extension GroupVC : UISearchBarDelegate {
     @objc func updateSearchResult() {
         guard let text = searchbar.text else {return}
         print(text)
-        
-//        getAllFriends(pageNumber: 1, search: text)
+        self.getGroupDetails(search: text)
     }
 }
 
@@ -650,9 +645,9 @@ extension GroupVC {
         self.alertView?.HandleConfirmBtn = {
             // handling code
             
-            self.showLoading()
+//            self.showLoading()
             self.viewmodel.deleteUsersGroup(withGroupId: self.groupId, AndListOfUserIDs: [userID], AndRegistrationDateTime: "\(ActionDate) \(Actiontime)") { error, data in
-                self.hideLoading()
+//                self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -665,7 +660,7 @@ extension GroupVC {
                 }
                 
                 DispatchQueue.main.async {
-                    self.getGroupDetails()
+                    self.getGroupDetails(search: self.searchbar.text ?? "")
                 }
             }
             

@@ -438,11 +438,11 @@ class GroupViewModel {
     }
     
     //MARK :- group details
-    func getGroupDetails(id:String) {
+    func getGroupDetails(id:String,search:String) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "ChatGroup/GetChatGroup"
         let headers = RequestComponent.headerComponent([.authorization,.type])
-        let parameters:[String : Any] = ["ID": id]
+        let parameters:[String : Any] = ["ID": id,"search":search]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             

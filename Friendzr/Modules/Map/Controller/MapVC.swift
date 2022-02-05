@@ -115,7 +115,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
-    
+        
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         mapView.clear()
@@ -123,6 +123,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         self.hideLoading()
         CancelRequest.currentTask = true
         
+      
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
+
         NotificationCenter.default.post(name: Notification.Name("handleSubViewHide"), object: nil, userInfo: nil)
     }
     
@@ -143,6 +147,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         seyupAds()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+//        NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
+    }
+    
     func seyupAds() {
         bannerView.adUnitID = adUnitID
         //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
@@ -153,8 +163,15 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         bannerView.cornerRadiusView(radius: 10)
     }
     
+    @objc func updateMapVC() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.updateUserInterface()
+        }
+    }
     //MARK: - APIs
     func getEventsOnlyAroundMe() {
+        self.subView.isHidden = false
+        self.upDownViewBtn.isHidden = false
         collectionViewHeight.constant = 0
         viewmodel.getAllEventsOnlyAroundMe(lat: location?.latitude ?? 0.0, lng: location?.longitude ?? 0.0, pageNumber: 1)
         viewmodel.eventsOnlyMe.bind { [unowned self] value in
@@ -163,9 +180,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.collectionView.dataSource = self
                 self.collectionView.delegate = self
                 self.collectionView.reloadData()
-                
-                self.subView.isHidden = false
-                self.upDownViewBtn.isHidden = false
                 
                 if isViewUp == true {
                     collectionViewHeight.constant = 140
@@ -240,7 +254,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         case .unreachable:
             internetConect = false
             collectionViewHeight.constant = 0
-            subView.isHidden = true
+            subView.isHidden = false
             upDownViewBtn.isHidden = true
             HandleInternetConnection()
         case .wwan:
@@ -287,8 +301,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @objc func handleSubViewHide() {
         print("handleSubViewHide")
         
-        subView.isHidden = true
-        upDownViewBtn.isHidden = true
+        subView.isHidden = false
+        upDownViewBtn.isHidden = false
         isViewUp = false
         collectionViewHeight.constant = 0
         subViewHeight.constant = 50

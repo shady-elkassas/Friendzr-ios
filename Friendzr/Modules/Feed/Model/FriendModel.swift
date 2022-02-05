@@ -46,6 +46,7 @@ class FriendObj: NSObject,Mappable {
     var listoftagsmodel:[TagsModel]?
     var regestdata:String? = ""
     var otherGenderName:String? = ""
+    var isSentRequest:Int = 0
     
     required init?(map: Map) {
     }
@@ -76,5 +77,6 @@ class FriendObj: NSObject,Mappable {
         listoftagsmodel    <- map["listoftagsmodel"]
         regestdata    <- map["regestdata"]
         otherGenderName    <- map["otherGenderName"]
+        isSentRequest    <- map["isSentRequest"]
     }
 }

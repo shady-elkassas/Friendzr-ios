@@ -35,7 +35,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="912"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HFB-ys-BMU">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="486.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign up now" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xtD-bB-CgL">
                                                 <rect key="frame" x="24" y="60" width="230" height="34.5"/>
@@ -218,6 +218,7 @@
                                             <constraint firstItem="nKm-Wf-tt3" firstAttribute="centerX" secondItem="5S2-xb-U52" secondAttribute="centerX" id="EaZ-7z-hKI"/>
                                             <constraint firstAttribute="trailing" secondItem="b04-az-Cwo" secondAttribute="trailing" constant="25" id="Epa-X3-res"/>
                                             <constraint firstItem="nKm-Wf-tt3" firstAttribute="height" secondItem="5S2-xb-U52" secondAttribute="height" id="H5t-Lm-hQO"/>
+                                            <constraint firstAttribute="bottom" secondItem="5S2-xb-U52" secondAttribute="bottom" constant="10" id="IoS-KD-W8n"/>
                                             <constraint firstItem="Uwg-36-ZfI" firstAttribute="top" secondItem="wnm-cP-aUm" secondAttribute="bottom" constant="16" id="Isj-Bm-bpP"/>
                                             <constraint firstItem="xtD-bB-CgL" firstAttribute="width" secondItem="HFB-ys-BMU" secondAttribute="width" multiplier="1:1.8" id="JiS-89-Nd0"/>
                                             <constraint firstItem="mdA-Op-JW8" firstAttribute="centerX" secondItem="ihk-mN-PIQ" secondAttribute="centerX" id="QlF-ew-dxI"/>
@@ -267,8 +268,8 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="HFB-ys-BMU" firstAttribute="top" secondItem="x8S-bj-7vV" secondAttribute="top" id="UNk-gy-0wL"/>
-                                    <constraint firstItem="8bV-ia-ddo" firstAttribute="top" secondItem="HFB-ys-BMU" secondAttribute="bottom" constant="47" id="Ynn-FQ-SGk"/>
                                     <constraint firstItem="HFB-ys-BMU" firstAttribute="width" secondItem="x8S-bj-7vV" secondAttribute="width" id="cmD-Mq-2uG"/>
+                                    <constraint firstItem="8bV-ia-ddo" firstAttribute="top" relation="greaterThanOrEqual" secondItem="HFB-ys-BMU" secondAttribute="bottom" constant="20" id="fLp-Wx-q10"/>
                                     <constraint firstAttribute="bottom" secondItem="HFB-ys-BMU" secondAttribute="bottom" constant="104" id="hkL-f2-gwI"/>
                                     <constraint firstItem="8bV-ia-ddo" firstAttribute="centerX" secondItem="x8S-bj-7vV" secondAttribute="centerX" id="iow-om-1TT"/>
                                     <constraint firstItem="HFB-ys-BMU" firstAttribute="leading" secondItem="x8S-bj-7vV" secondAttribute="leading" id="jPx-dT-JkE"/>

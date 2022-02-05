@@ -284,8 +284,6 @@
 	</array>
 	<key>TikTokAppID</key>
 	<string>awq4czdodvu3iy4y</string>
-	<key>NS</key>
-	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Black.ttf</string>

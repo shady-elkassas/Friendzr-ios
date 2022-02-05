@@ -40,6 +40,11 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var bannerView: GADBannerView!
     @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
     
+    @IBOutlet weak var hideView: UIView!
+    @IBOutlet var hidesImgs: [UIImageView]!
+    @IBOutlet var proImgs: [UIImageView]!
+    
+    
     //MARK: - Properties
     private lazy var currLocation: CLLocation = CLLocation()
     private lazy var locationManager : CLLocationManager = CLLocationManager()
@@ -129,6 +134,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         filterDir = switchCompassBarButton.isOn
         CancelRequest.currentTask = false
         initGhostModeSwitchButton()
+        setupHideView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -184,11 +190,11 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func getAllFeeds(pageNumber:Int) {
-        tableView.hideLoader()
+        hideView.hideLoader()
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                tableView.hideLoader()
+                hideView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -207,23 +213,20 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func LoadAllFeeds(pageNumber:Int) {
-        self.tableView.hideLoader()
-        self.view.makeToast("Please wait for the data to load...".localizedString)
+        //        self.tableView.hideLoader()
+        //        self.view.makeToast("Please wait for the data to load...".localizedString)
+        hideView.showLoader()
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+                hideView.hideLoader()
+                hideView.isHidden = true
+                
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
-                self.view.hideToast()
-                if value.data?.count != 0 {
-                    tableView.showLoader()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        self.tableView.hideLoader()
-                    }
-                }
             })
         }
         
@@ -275,6 +278,16 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     //MARK: - Helper
+    func setupHideView() {
+        for itm in hidesImgs {
+            itm.cornerRadiusView(radius: 6)
+        }
+        
+        for item in proImgs {
+            item.cornerRadiusForHeight()
+        }
+        
+    }
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -1252,7 +1265,7 @@ extension FeedVC {
             
             Defaults.ghostMode = data?.ghostmode ?? true
             Defaults.myAppearanceTypes = data?.myAppearanceTypes ?? [1]
-
+            
             DispatchQueue.main.async {
                 if data?.ghostmode == true {
                     if data?.myAppearanceTypes == [1] {
@@ -1291,7 +1304,7 @@ extension FeedVC {
         }else {
             switchGhostModeBarButton.setImage(UIImage(named: imageOff), for: .normal)
         }
-      
+        
         switchGhostModeBarButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         switchGhostModeBarButton.addTarget(self, action:  #selector(handleGhostModeSwitchBtn), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: switchGhostModeBarButton)

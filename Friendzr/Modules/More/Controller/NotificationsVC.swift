@@ -17,6 +17,10 @@ class NotificationsVC: UIViewController {
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
     
+    @IBOutlet weak var hideView: UIView!
+    @IBOutlet var prosImg: [UIImageView]!
+    @IBOutlet var hidesImg: [UIImageView]!
+
     //MARK: - Properties
     var viewmodel:NotificationsViewModel = NotificationsViewModel()
     let cellID = "NotificationTableViewCell"
@@ -46,6 +50,7 @@ class NotificationsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         CancelRequest.currentTask = false
+        setupHideView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -60,11 +65,11 @@ class NotificationsVC: UIViewController {
     }
     
     func getNotificationsList(pageNumber:Int) {
-        tableView.hideLoader()
+        hideView.hideLoader()
         viewmodel.getNotifications(pageNumber: pageNumber)
         viewmodel.notifications.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.hideLoader()
+                hideView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -93,21 +98,16 @@ class NotificationsVC: UIViewController {
     }
     
     func LoadAllNotifications(pageNumber:Int) {
-        tableView.hideLoader()
+        hideView.showLoader()
         viewmodel.getNotifications(pageNumber: pageNumber)
         viewmodel.notifications.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.hideLoader()
+                hideView.hideLoader()
+                hideView.isHidden = true
+                
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
-                
-                if value.data?.count != 0 {
-                    tableView.showLoader()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        self.tableView.hideLoader()
-                    }
-                }
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
@@ -133,6 +133,16 @@ class NotificationsVC: UIViewController {
     }
     
     //MARK: - Helper
+    
+    func setupHideView() {
+        for itm in prosImg {
+            itm.cornerRadiusView(radius: 6)
+        }
+        
+        for item in hidesImg {
+            item.cornerRadiusView(radius: 6)
+        }
+    }
     func updateUserInterface() {
         appDelegate.networkReachability()
         

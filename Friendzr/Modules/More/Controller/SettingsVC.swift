@@ -84,11 +84,9 @@ class SettingsVC: UIViewController {
     
     //MARK:- APIs
     func getUserSettings() {
-        //        self.showLoading()
         viewmodel.getUserSetting()
         viewmodel.userSettings.bind { [unowned self]value in
             DispatchQueue.main.async {
-                self.hideLoading()
                 self.hideView.isHidden = true
                 self.model = value
                 self.setupData()
@@ -991,10 +989,7 @@ extension SettingsVC: UITableViewDelegate {
             deleteAlertView?.HandleConfirmBtn = {
                 self.updateUserInterfaceForBtns()
                 if self.internetConect {
-//                    self.showLoading()
                     self.viewmodel.deleteAccount { error, data in
-                        self.hideLoading()
-                        
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)

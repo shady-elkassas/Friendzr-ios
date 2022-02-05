@@ -140,7 +140,7 @@
                                     <constraint firstAttribute="trailing" secondItem="u3m-tk-o2w" secondAttribute="trailing" constant="5" id="ilr-Ch-ApJ"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wUG-6d-BKB">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wUG-6d-BKB">
                                 <rect key="frame" x="0.0" y="763" width="414" height="50"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow-white-up_ic" translatesAutoresizingMaskIntoConstraints="NO" id="HWv-wk-juQ">

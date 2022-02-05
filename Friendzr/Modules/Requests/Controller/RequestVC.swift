@@ -8,15 +8,14 @@
 import UIKit
 import ListPlaceholder
 
-
-//class BadgeRequestsCount {
-//    static var count: Int = 0
-//}
+class RequestesType {
+    static var type: Int = 2
+}
 
 class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK:- Outlets
-//    @IBOutlet weak var totalRequestLbl: UILabel!
+    //    @IBOutlet weak var totalRequestLbl: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tryAgainBtn: UIButton!
@@ -24,10 +23,14 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var emptyImg: UIImageView!
     @IBOutlet weak var segmentControl: UISegmentedControl!
     
+    @IBOutlet weak var hideView: UIView!
+    @IBOutlet var hidesImgs: [UIImageView]!
+    @IBOutlet var proImgs: [UIImageView]!
+    
     //MARK: - Properties
     let cellID = "RequestsTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
-
+    
     var viewmodel:RequestsViewModel = RequestsViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var refreshControl = UIRefreshControl()
@@ -37,7 +40,6 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     
     var currentPage : Int = 0
     var isLoadingList : Bool = false
-    
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -54,6 +56,9 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateResquests), name: Notification.Name("updateResquests"), object: nil)
+        
+        segmentControl.selectedSegmentIndex = 0
+        RequestesType.type = 2
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,6 +66,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         initProfileBarButton()
         
         CancelRequest.currentTask = false
+        setupHideView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -80,22 +86,23 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func getAllUserRequests(pageNumber:Int) {
-        tableView.hideLoader()
-        viewmodel.getAllRequests(pageNumber: pageNumber)
+        hideView.hideLoader()
+        viewmodel.getAllRequests(requestesType: RequestesType.type, pageNumber: pageNumber)
         viewmodel.requests.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.hideLoader()
+                hideView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
                 
-//                totalRequestLbl.text = ": \(value.data?.count ?? 0)"
-                
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                if RequestesType.type == 2 {
                     Defaults.frindRequestNumber = value.data?.count ?? 0
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 }
             }
@@ -117,31 +124,35 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
+    let requestSend = 0
+    let receivedRequest = 0
+    
     func loadAllUserRequests(pageNumber:Int) {
-        self.view.makeToast("Please wait for the data to load...".localizedString)
-        viewmodel.getAllRequests(pageNumber: pageNumber)
+        hideView.showLoader()
+        viewmodel.getAllRequests(requestesType: RequestesType.type, pageNumber: pageNumber)
         viewmodel.requests.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.hideLoader()
+                
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
                 
-                self.view.hideToast()
-                if value.data?.count != 0 {
-                    tableView.showLoader()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self.tableView.hideLoader()
-                    }
+                if RequestesType.type == 2 {
+                    Defaults.frindRequestNumber = value.data?.count ?? 0
+                }else {
+                    Defaults.frindRequestNumber = Defaults.frindRequestNumber
                 }
                 
-//                totalRequestLbl.text = ": \(value.data?.count ?? 0)"
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    hideView.hideLoader()
+                    hideView.isHidden = true
+                }
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    Defaults.frindRequestNumber = value.data?.count ?? 0
                     NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
                 }
             }
@@ -164,6 +175,17 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //MARK: - Helper
+    
+    func setupHideView() {
+        for itm in proImgs {
+            itm.cornerRadiusForHeight()
+        }
+        
+        for item in hidesImgs {
+            item.cornerRadiusView(radius: 6)
+        }
+    }
+    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -249,8 +271,8 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        currentPage = 1
-        getAllUserRequests(pageNumber: 1)
+        currentPage = 0
+        getAllUserRequests(pageNumber: 0)
         self.refreshControl.endRefreshing()
     }
     
@@ -274,11 +296,21 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         switch segmentControl.selectedSegmentIndex
         {
         case 0:
-            NSLog("Popular selected")
-            //show popular view
+            RequestesType.type = 2
+            hideView.isHidden = false
+            hideView.showLoader()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.updateUserInterface()
+            }
         case 1:
-            NSLog("History selected")
-            //show history view
+            RequestesType.type = 1
+            hideView.isHidden = false
+            hideView.showLoader()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.updateUserInterface()
+            }
         default:
             break;
         }
@@ -303,6 +335,12 @@ extension RequestVC:UITableViewDataSource {
             
             let model = viewmodel.requests.value?.data?[indexPath.row]
             
+            if RequestesType.type == 1 {
+                cell.acceptBtn.isHidden = true
+            }else {
+                cell.acceptBtn.isHidden = false
+            }
+            
             cell.friendRequestNameLbl.text = model?.userName
             cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
             cell.friendRequestDateLbl.text = model?.regestdata
@@ -318,9 +356,7 @@ extension RequestVC:UITableViewDataSource {
                 self.cellSelected = true
                 self.updateNetworkForBtns()
                 if self.internetConnect {
-                    self.showLoading()
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
-                        self.hideLoading()
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -349,9 +385,7 @@ extension RequestVC:UITableViewDataSource {
                 self.cellSelected = true
                 self.updateNetworkForBtns()
                 if self.internetConnect {
-                    self.showLoading()
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
-                        self.hideLoading()
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)

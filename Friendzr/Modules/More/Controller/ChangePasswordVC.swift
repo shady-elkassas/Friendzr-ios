@@ -87,11 +87,13 @@ class ChangePasswordVC: UIViewController  {
     @IBAction func saveBtn(_ sender: Any) {
         updateUserInterface()
         if internetConect {
-            self.showLoading()
+            self.saveBtn.setTitle("Sending...", for: .normal)
+            self.saveBtn.isUserInteractionEnabled = false
             viewmodel.changePasswordRequest(witholdPassword: oldPasswordTxt.text!, AndNewPassword: newPasswordTxt.text!, AndConfirmNewPassword: confirmNewPasswordTxt.text!) { error, data in
-                self.hideLoading()
+                self.saveBtn.setTitle("Save", for: .normal)
+                self.saveBtn.isUserInteractionEnabled = true
+                
                 if let error = error{
-//                    self.showAlert(withMessage: error)
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }

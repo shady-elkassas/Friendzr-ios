@@ -278,9 +278,12 @@ class AddGroupVC: UIViewController {
         if selectedIDs.count == 0 {
             self.view.makeToast("Please select a group of friends".localizedString)
         }else {
-            self.showLoading()
+//            self.showLoading()
+            self.doneBtn.setTitle("Sending...", for: .normal)
+            self.doneBtn.isUserInteractionEnabled = false
             addGroupChat.createGroup(withName: groupNameTxt.text!, AndListOfUserIDs: selectedIDs, AndRegistrationDateTime: "\(actionDate) \(actionTime)", attachedImg: self.attachedImg, AndImage: groupImg.image ?? UIImage()) { error, data in
-                self.hideLoading()
+                self.doneBtn.isUserInteractionEnabled = true
+                self.doneBtn.setTitle("Done", for: .normal)
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)

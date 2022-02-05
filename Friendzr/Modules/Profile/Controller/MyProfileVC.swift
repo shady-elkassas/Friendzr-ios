@@ -25,6 +25,9 @@ class MyProfileVC: UIViewController {
     @IBOutlet weak var tagsViewhHeight: NSLayoutConstraint!
     @IBOutlet weak var tagsTopConstrains: NSLayoutConstraint!
     @IBOutlet weak var tagsBotomConstrains: NSLayoutConstraint!
+    @IBOutlet weak var hideView: UIView!
+    @IBOutlet var hideImgs: [UIImageView]!
+    
     
     //MARK: - Properties
     var viewmodel: ProfileViewModel = ProfileViewModel()
@@ -50,6 +53,8 @@ class MyProfileVC: UIViewController {
         clearNavigationBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
+        setupHideView()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -59,12 +64,16 @@ class MyProfileVC: UIViewController {
     
     //MARK: - API
     func getProfileInformation() {
-        self.superView.showLoader()
+        self.hideView.showLoader()
         viewmodel.getProfileInfo()
         viewmodel.userModel.bind { [unowned self]value in
             DispatchQueue.main.async {
-                self.setProfileData()
-                self.superView.hideLoader()
+                self.hideView.hideLoader()
+                self.hideView.isHidden = true
+                
+                DispatchQueue.main.async {
+                    self.setProfileData()
+                }
             }
         }
         
@@ -117,6 +126,12 @@ class MyProfileVC: UIViewController {
         editBtn.cornerRadiusForHeight()
         tagListView.delegate = self
         tagListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
+    }
+    
+    func setupHideView() {
+        for itm in hideImgs {
+            itm.cornerRadiusView(radius: 10)
+        }
     }
     
     func setProfileData() {

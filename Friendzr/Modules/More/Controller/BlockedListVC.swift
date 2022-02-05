@@ -20,6 +20,11 @@ class BlockedListVC: UIViewController {
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
     
+    @IBOutlet weak var hideView: UIView!
+    @IBOutlet var hideImgs: [UIImageView]!
+    @IBOutlet var proImgs: [UIImageView]!
+
+    
     //MARK: - Properties
     let cellID = "BlockedTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
@@ -55,6 +60,7 @@ class BlockedListVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         CancelRequest.currentTask = false
+        setupHideView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -69,11 +75,11 @@ class BlockedListVC: UIViewController {
     }
     
     func getAllBlockedList(pageNumber:Int,search:String) {
-        tableView.hideLoader()
+        hideView.hideLoader()
         viewmodel.getAllBlockedList(pageNumber: pageNumber,search: search)
         viewmodel.blocklist.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.hideLoader()
+                hideView.hideLoader()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -102,21 +108,15 @@ class BlockedListVC: UIViewController {
     }
     
     func LoadBlockedList(pageNumber:Int,search:String) {
-        self.tableView.hideLoader()
+        self.hideView.showLoader()
         viewmodel.getAllBlockedList(pageNumber: pageNumber,search:search)
         viewmodel.blocklist.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.hideLoader()
+                hideView.hideLoader()
+                hideView.isHidden = true
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
-                
-                if value.data?.count != 0 {
-                    tableView.showLoader()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.tableView.hideLoader()
-                    }
-                }
              
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
@@ -142,6 +142,15 @@ class BlockedListVC: UIViewController {
     }
     
     //MARK: - Helper
+    func setupHideView() {
+        for itm in proImgs {
+            itm.cornerRadiusForHeight()
+        }
+        
+        for item in hideImgs {
+            item.cornerRadiusView(radius: 6)
+        }
+    }
     func setupSearchBar() {
         searchbar.delegate = self
         searchBarView.cornerRadiusView(radius: 6)

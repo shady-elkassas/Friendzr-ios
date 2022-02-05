@@ -149,7 +149,7 @@ class EditEventsVC: UIViewController {
             deleteAlertView?.detailsLbl.text = "Are you sure you want to delete your event?".localizedString
             
             deleteAlertView?.HandleConfirmBtn = {
-                self.showLoading()
+//                self.showLoading()
                 self.deleteEventVM.deleteEvent(ByEventid: self.eventModel?.id ?? "") { error, data in
                     self.hideLoading()
                     if let error = error {
@@ -237,12 +237,14 @@ class EditEventsVC: UIViewController {
     @IBAction func saveBtn(_ sender: Any) {
         updateUserInterface()
         if internetConect == true {
-            self.showLoading()
+//            self.showLoading()
+            self.saveBtn.setTitle("Sending...", for: .normal)
+            self.saveBtn.isUserInteractionEnabled = false
             viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
-                
-                self.hideLoading()
+                self.saveBtn.setTitle("Save", for: .normal)
+                self.saveBtn.isUserInteractionEnabled = true
+
                 if let error = error {
-                    //                    self.showAlert(withMessage: error)
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }

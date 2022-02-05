@@ -17,6 +17,7 @@ import MapKit
 class EventDetailsVC: UIViewController {
     
     //MARK:- Outlets
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var superView: UIView!
     @IBOutlet weak var eventImg: UIImageView!
     @IBOutlet weak var dateCreateLbl: UILabel!
@@ -46,7 +47,7 @@ class EventDetailsVC: UIViewController {
     
     
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
-
+    
     
     //MARK: - Properties
     var numbers:[Double] = [1,2,3]
@@ -60,13 +61,15 @@ class EventDetailsVC: UIViewController {
     var leaveVM:LeaveEventViewModel = LeaveEventViewModel()
     var joinCahtEventVM:ChatViewModel = ChatViewModel()
     var attendeesVM:AttendeesViewModel = AttendeesViewModel()
-
+    
     
     var locationTitle = ""
     var internetConect:Bool = false
     
     var visibleIndexPath:Int = 0
     var encryptedID:String = ""
+    var refreshControl = UIRefreshControl()
+    
     
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -93,9 +96,13 @@ class EventDetailsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//                initBackColorButton()
+        
         setupViews()
+        pullToRefresh()
+        
+        //        initBackColorButton()
         //        initOptionsEventButton()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -129,6 +136,18 @@ class EventDetailsVC: UIViewController {
     }
     
     //MARK: - Helper
+    func pullToRefresh() {
+        self.refreshControl.attributedTitle = NSAttributedString(string: "")
+        self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+        self.scrollView.addSubview(refreshControl)
+    }
+    
+    @objc func didPullToRefresh() {
+        print("Refersh")
+        updateUserInterface()
+        self.refreshControl.endRefreshing()
+    }
+    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -380,6 +399,7 @@ class EventDetailsVC: UIViewController {
         if internetConect == true {
             joinBtn.isUserInteractionEnabled = false
             joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? "",JoinDate:JoinDate ,Jointime:Jointime) { error, data in
+                self.joinBtn.isUserInteractionEnabled = true
                 if let error = error {
                     self.hideLoading()
                     DispatchQueue.main.async {
@@ -406,7 +426,7 @@ class EventDetailsVC: UIViewController {
         if internetConect == true {
             leaveBtn.isUserInteractionEnabled = false
             leaveVM.leaveEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in
-                self.hideLoading()
+                self.leaveBtn.isUserInteractionEnabled = true
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)

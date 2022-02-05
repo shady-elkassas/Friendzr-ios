@@ -2,7 +2,7 @@
 //  TabsCollectionViewCell.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 31/01/2022.
+//  Created by Muhammad Sabri Saad on 31/01/2022.
 //
 
 import UIKit

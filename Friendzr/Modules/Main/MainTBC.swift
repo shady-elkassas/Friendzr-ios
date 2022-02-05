@@ -2,7 +2,7 @@
 //  MainTBC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 25/01/2022.
+//  Created by Muhammad Sabri Saad on 25/01/2022.
 //
 
 import UIKit
@@ -16,20 +16,18 @@ class MainTBC: UITabBarController {
         
         if Defaults.frindRequestNumber != 0 {
             self.tabBar.items![3].badgeValue = "\(Defaults.frindRequestNumber)"
-
         }else {
             self.tabBar.items![3].badgeValue = nil
         }
         
         if Defaults.messagesInboxCountBadge != 0 {
-            self.tabBar.items![0].badgeValue = "\(Defaults.frindRequestNumber)"
+            self.tabBar.items![0].badgeValue = "\(Defaults.messagesInboxCountBadge)"
         }else {
-            self.tabBar.items![0].badgeValue = "2"
+            self.tabBar.items![0].badgeValue = "0"
         }
     }
     
     @objc func updatebadgeRequests() {
-        
         if Defaults.frindRequestNumber != 0 {
             self.tabBar.items![3].badgeValue = "\(Defaults.frindRequestNumber)"
         }else {
@@ -40,7 +38,7 @@ class MainTBC: UITabBarController {
     @objc func updatebadgeInbox() {
         
         if Defaults.frindRequestNumber != 0 {
-            self.tabBar.items![0].badgeValue = "\(Defaults.frindRequestNumber)"
+            self.tabBar.items![0].badgeValue = "\(Defaults.messagesInboxCountBadge)"
         }else {
             self.tabBar.items![0].badgeValue = nil
         }

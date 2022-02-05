@@ -103,7 +103,6 @@ class AddEventVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
     }
@@ -120,7 +119,6 @@ class AddEventVC: UIViewController {
     
     //MARK: - APIs
     func getCats() {
-//        self.showLoading()
         hideView.isHidden = false
         catsVM.getAllCategories()
         catsVM.cats.bind { [unowned self] value in
@@ -382,16 +380,15 @@ class AddEventVC: UIViewController {
         updateUserInterfaceBtns()
         if internetConect == true {
             if attachedImg == false {
-//                self.showAlert(withMessage: "Please add image of your event")
-                
                 DispatchQueue.main.async {
                     self.view.makeToast("Please add image of your event".localizedString)
                 }
             }else {
-                self.showLoading()
+                self.saveBtn.setTitle("Sending...", for: .normal)
+                self.saveBtn.isUserInteractionEnabled = false
                 viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
-                    self.hideLoading()
-                    
+                    self.saveBtn.isUserInteractionEnabled = true
+                    self.saveBtn.setTitle("Save", for: .normal)
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)

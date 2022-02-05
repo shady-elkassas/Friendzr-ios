@@ -32,6 +32,9 @@ class FriendProfileVC: UIViewController {
     @IBOutlet weak var tagsTopConstrains: NSLayoutConstraint!
     @IBOutlet weak var tagsBotomConstrains: NSLayoutConstraint!
     
+    @IBOutlet weak var hideView: UIView!
+    @IBOutlet var hideImgs: [UIImageView]!
+
     //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     var viewmodel:FriendViewModel = FriendViewModel()
@@ -63,17 +66,18 @@ class FriendProfileVC: UIViewController {
         initBackColorButton()
         clearNavigationBar()
         CancelRequest.currentTask = false
+        setupHideView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
-        superView.hideLoader()
+        hideView.hideLoader()
     }
     
     //MARK:- APIs
     func getFriendProfileInformation() {
-        self.superView.hideLoader()
+        self.hideView.hideLoader()
         viewmodel.getFriendDetails(ById: userID)
         viewmodel.model.bind { [unowned self]value in
             self.hideLoading()
@@ -101,12 +105,17 @@ class FriendProfileVC: UIViewController {
     
     
     func loadUserData() {
-        self.superView.showLoader()
+        self.hideView.showLoader()
         viewmodel.getFriendDetails(ById: userID)
         viewmodel.model.bind { [unowned self]value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
-                setupData()
-                self.superView.hideLoader()
+                self.hideView.hideLoader()
+                self.hideView.isHidden = true
+                
+                DispatchQueue.main.async {
+                    setupData()
+                }
+
             }
         }
         
@@ -351,6 +360,12 @@ class FriendProfileVC: UIViewController {
     }
     
     //MARK: - Helpers
+    
+    func setupHideView() {
+        for itm in hideImgs {
+            itm.cornerRadiusView(radius: 10)
+        }
+    }
     
     //change title for any btns
     func changeTitleBtns(btn:UIButton,title:String) {
@@ -608,7 +623,8 @@ extension FriendProfileVC {
             }))
             
             present(actionAlert, animated: true, completion: nil)
-        }else {
+        }
+        else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {

@@ -21,7 +21,13 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
     @IBOutlet var bannerView: GADBannerView!
-
+    
+    @IBOutlet weak var hideView: UIView!
+    @IBOutlet var prosImg: [UIImageView]!
+    @IBOutlet var hidesImg: [UIImageView]!
+    
+    
+    
     //MARK: - Properties
     let cellID = "InboxTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
@@ -40,7 +46,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     var isSearch:Bool = false
     var leaveOrJoinTitle:String = ""
-
+    
     
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -83,6 +89,8 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         hideNavigationBar(NavigationBar: false, BackButton: true)
         CancelRequest.currentTask = false
         seyupAds()
+        
+        setupHideView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -108,7 +116,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @objc func reloadChatList() {
         DispatchQueue.main.async {
-//            self.updateUserInterface()
+            //            self.updateUserInterface()
             self.getAllChatList(pageNumber: 1)
         }
     }
@@ -119,11 +127,13 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func getAllChatList(pageNumber:Int) {
-        tableView.hideLoader()
+        hideView.hideLoader()
         viewmodel.getChatList(pageNumber: pageNumber)
         viewmodel.listChat.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.hideLoader()
+                hideView.hideLoader()
+                hideView.isHidden = true
+                
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -152,10 +162,14 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func loadAllchatList(pageNumber:Int) {
-        self.view.makeToast("Please wait for the data to load...".localizedString)
+        //        self.view.makeToast("Please wait for the data to load...".localizedString)
+        hideView.showLoader()
         viewmodel.getChatList(pageNumber: pageNumber)
         viewmodel.listChat.bind { [unowned self] value in
             DispatchQueue.main.async {
+                self.hideView.hideLoader()
+                self.hideView.isHidden = true
+                
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -164,12 +178,13 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.tableView.tableFooterView = nil
                 
                 self.view.hideToast()
-                if value.data?.count != 0 {
-                    tableView.showLoader()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self.tableView.hideLoader()
-                    }
-                }
+                
+                //                if value.data?.count != 0 {
+                //                    tableView.showLoader()
+                //                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                //                        self.tableView.hideLoader()
+                //                    }
+                //                }
             }
         }
         
@@ -211,7 +226,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
-                    }                    
+                    }
                 }
             }
         }
@@ -264,6 +279,15 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //MARK: - Helper
+    func setupHideView() {
+        for itm in hidesImg {
+            itm.cornerRadiusView(radius: 6)
+        }
+        for item in prosImg {
+            item.cornerRadiusForHeight()
+        }
+        
+    }
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -360,20 +384,20 @@ extension InboxVC:UITableViewDataSource {
                 let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
                 let relativeDateString = dateFormatterToString(relativeFormatter, date!)
                 // "Jan 18, 2018"
-
+                
                 let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
                 let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
                 // "Jan 18, 2018"
-
+                
                 let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
                 let customDateString = dateFormatterToString(customFormatter, date!)
                 // "18 January"
-
+                
                 if relativeDateString == normalDateString {
-//                    print("Use custom date \(customDateString)") // Jan 18
+                    //                    print("Use custom date \(customDateString)") // Jan 18
                     cell.lastMessageDateLbl.text = customDateString
                 } else {
-//                    print("Use relative date \(relativeDateString)") // Today, Yesterday
+                    //                    print("Use relative date \(relativeDateString)") // Today, Yesterday
                     cell.lastMessageDateLbl.text = "\(relativeDateString) \(model?.latesttime ?? "")"
                 }
                 
@@ -421,15 +445,15 @@ extension InboxVC:UITableViewDataSource {
                 let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
                 let relativeDateString = dateFormatterToString(relativeFormatter, date!)
                 // "Jan 18, 2018"
-
+                
                 let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
                 let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
                 // "Jan 18, 2018"
-
+                
                 let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
                 let customDateString = dateFormatterToString(customFormatter, date!)
                 // "18 January"
-
+                
                 if relativeDateString == normalDateString {
                     print("Use custom date \(customDateString)") // Jan 18
                     cell.lastMessageDateLbl.text = customDateString
@@ -497,16 +521,16 @@ extension InboxVC:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if searchVM.usersinChat.value?.data?.count != 0 || viewmodel.listChat.value?.data?.count != 0  {
-//
+            //
             var model = viewmodel.listChat.value?.data?[indexPath.row]
-//
+            //
             if isSearch {
                 model = searchVM.usersinChat.value?.data?[indexPath.row]
             }
-
+            
             Router().toConversationVC(isEvent: model?.isevent ?? false, eventChatID: model?.id ?? "", leavevent: model?.leavevent ?? 0, chatuserID: model?.id ?? "", isFriend: model?.isfrind ?? false, titleChatImage: model?.image ?? "", titleChatName: model?.chatName ?? "", isChatGroupAdmin: model?.isChatGroupAdmin ?? false, isChatGroup: model?.isChatGroup ?? false, groupId: model?.id ?? "",leaveGroup: model?.leaveGroup ?? 0)
         }
-      
+        
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -711,7 +735,7 @@ extension InboxVC:UITableViewDelegate {
                         
                         self.present(settingsActionSheet, animated:true, completion:nil)
                     }
-
+                    
                 }else {
                     if UIDevice.current.userInterfaceIdiom == .pad {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
@@ -775,7 +799,7 @@ extension InboxVC:UITableViewDelegate {
                         
                         self.present(settingsActionSheet, animated:true, completion:nil)
                     }
-
+                    
                 }
             }
             
@@ -1006,14 +1030,10 @@ extension InboxVC:UITableViewDelegate {
                 }
             }
             else if model?.isChatGroup == true {
-                if model?.isChatGroupAdmin == true {
-                    return [deleteAction,muteAction]
+                if model?.leaveGroup == 0 {
+                    return [deleteAction,leaveAction,muteAction]
                 }else {
-                    if model?.leaveGroup == 0 {
-                        return [deleteAction,leaveAction,muteAction]
-                    }else {
-                        return [deleteAction]
-                    }
+                    return [deleteAction]
                 }
             }
             else {
