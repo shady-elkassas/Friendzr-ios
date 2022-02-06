@@ -735,9 +735,9 @@ extension ConversationVC {
                     Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
                 }else {
                     if self.isChatGroup == true {
-                        Router().toReportVC(id: self.eventChatID, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                        Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
                     }else {
-                        Router().toReportVC(id: self.eventChatID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                        Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
                     }
                 }
             }))
@@ -758,12 +758,11 @@ extension ConversationVC {
                     Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
                 }else {
                     if self.isChatGroup == true {
-                        Router().toReportVC(id: self.eventChatID, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                        Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
                     }else {
-                        Router().toReportVC(id: self.eventChatID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                        Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
                     }
                 }
-                
             }))
             
             actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in

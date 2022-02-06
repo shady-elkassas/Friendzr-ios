@@ -40,11 +40,9 @@ class CategoriesVC: UIViewController {
     
     //MARK:- APIs
     func getCats() {
-        self.showLoading()
         catsVM.getAllCategories()
         catsVM.cats.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
-                self.hideLoading()
                 collecetionView.dataSource = self
                 collecetionView.delegate = self
                 collecetionView.reloadData()
@@ -54,7 +52,6 @@ class CategoriesVC: UIViewController {
         // Set View Model Event Listener
         catsVM.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                 }

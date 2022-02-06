@@ -292,7 +292,7 @@ class FriendProfileVC: UIViewController {
             if self.internetConect == true {
                 self.changeTitleBtns(btn: self.blockBtn, title: "Sending...".localizedString)
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 3) { error, message in
-                    self.hideLoading()
+                    self.changeTitleBtns(btn: self.blockBtn, title: "Block".localizedString)
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -331,7 +331,7 @@ class FriendProfileVC: UIViewController {
                 
                 self.changeTitleBtns(btn: self.unblockBtn, title: "Sending...")
                 self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 4) { error, message in
-                    self.hideLoading()
+                    self.changeTitleBtns(btn: self.unblockBtn, title: "Unblock")
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)

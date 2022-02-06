@@ -68,7 +68,7 @@
 "Attendees : " = "الحضور : ";
 "Add Event" = "اضافة حدث";
 "Camera" = "كاميرا";
-"Photo Liberary" = "مكتبة الصور";
+"Photo Library" = "مكتبة الصور";
 "Please add image of your event" = "الرجاء إضافة صورة الحدث الخاص بك";
 "Your event added successfully" = "تم اضافة الحدث الخاص بك بنجاح";
 "Sun" = "الاحد";
@@ -164,7 +164,7 @@
 "Men, Women" = "رجال وسيدات";
 "Men, Other Gender" = "رجال وجنس آخر";
 "Women, Other Gender" = "سيدات وجنس اخر";
-"Are you sure you want to turn off ghost mode?" = "هل أنت متأكد أنك تريد إيقاف تشغيل وضع الشبح؟";
+"Are you sure you want to turn off private modes?" = "هل أنت متأكد أنك تريد إيقاف تشغيل الأوضاع الخاصة؟";
 "Age Filter" = "التصفية بحسب العمر";
 "Delete Account" = "حذف الحساب";
 "Language" = "اللغة";
@@ -194,7 +194,7 @@
 "Are you sure you will refuse this request?" = "هل أنت متأكد أنك سترفض هذا الطلب؟";
 "Tap compass to filter feed in chosen direction" = "اضغط على البوصلة لتصفية الاشخاص في الاتجاه المختار";
 "Filter" = "تصفية";
-
+"Turn off private modes to see friendzrs" = "قم بإيقاف تشغيل الأوضاع الخاصة لرؤية الأصدقاء";
 //Register && Login
 "Please enter a valid mobile number" = "الرجاء إدخال رقم جوال صحيح";
 "Please enter a valid user name should not be less than 2 character or more than 32 characters" = "الرجاء إدخال اسم مستخدم صالح يجب ألا يقل عن حرفين أو أكثر من 32 حرفًا";

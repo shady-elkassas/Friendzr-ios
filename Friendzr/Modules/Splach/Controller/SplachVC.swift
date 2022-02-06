@@ -76,7 +76,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     
     
     func getProfileInformation() {
-//        self.showLoading()
         profileVM.getProfileInfo()
         profileVM.userModel.bind { [unowned self]value in
             self.hideLoading()

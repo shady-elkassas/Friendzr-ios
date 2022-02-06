@@ -203,7 +203,10 @@ class EventsVC: UIViewController {
     @objc func didPullToRefresh() {
         print("Refersh")
         currentPage = 1
-        getAllEvents(pageNumber: currentPage)
+//        getAllEvents(pageNumber: currentPage)
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
         self.refreshControl.endRefreshing()
     }
     

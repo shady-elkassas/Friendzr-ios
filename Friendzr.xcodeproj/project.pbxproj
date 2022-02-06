@@ -70,6 +70,7 @@
 		4325E21026F0AF34008F73C4 /* DeleteEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E20F26F0AF34008F73C4 /* DeleteEventViewModel.swift */; };
 		4326A8F526F87AD400D471E0 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4326A8F426F87AD400D471E0 /* SettingsModel.swift */; };
 		4326A8F726F87AE000D471E0 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4326A8F626F87AE000D471E0 /* SettingsViewModel.swift */; };
+		4327C66A27AE932C0011963D /* ExtensionUIDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4327C66927AE932C0011963D /* ExtensionUIDevice.swift */; };
 		432940F926EE0EED0066BE87 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432940F826EE0EED0066BE87 /* FriendViewModel.swift */; };
 		432940FB26EE0FB60066BE87 /* FriendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432940FA26EE0FB60066BE87 /* FriendModel.swift */; };
 		432C6AD726F33BD60029FB89 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 432C6AD626F33BD60029FB89 /* TagView.swift */; };
@@ -385,6 +386,7 @@
 		4325E20F26F0AF34008F73C4 /* DeleteEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteEventViewModel.swift; sourceTree = "<group>"; };
 		4326A8F426F87AD400D471E0 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		4326A8F626F87AE000D471E0 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		4327C66927AE932C0011963D /* ExtensionUIDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIDevice.swift; sourceTree = "<group>"; };
 		432940F826EE0EED0066BE87 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		432940FA26EE0FB60066BE87 /* FriendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendModel.swift; sourceTree = "<group>"; };
 		432C6AD626F33BD60029FB89 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
@@ -1378,6 +1380,7 @@
 				4382AC6626C27D33005C1857 /* UIFontExtension.swift */,
 				434428E827171AE800269444 /* ExtensionDate.swift */,
 				4319612727A7E1940057FDC2 /* ExtensionMapKit.swift */,
+				4327C66927AE932C0011963D /* ExtensionUIDevice.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1889,6 +1892,7 @@
 				4309E73926EF813A001B227D /* SocialMediaLoginViewModel.swift in Sources */,
 				4382AC4E26C2778C005C1857 /* UIViewExtension.swift in Sources */,
 				431505782705F90E002387A1 /* DegreeScaleView.swift in Sources */,
+				4327C66A27AE932C0011963D /* ExtensionUIDevice.swift in Sources */,
 				4336D12926DB89370093C7A6 /* PasswordViewModel.swift in Sources */,
 				436288B126C95B1300B51E51 /* FriendProfileVC.swift in Sources */,
 				4337B47627870F000077B794 /* RequestsTableViewCell.swift in Sources */,
@@ -2589,7 +2593,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.3;
+				CURRENT_PROJECT_VERSION = 2.8.5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2618,7 +2622,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.3;
+				CURRENT_PROJECT_VERSION = 2.8.5;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

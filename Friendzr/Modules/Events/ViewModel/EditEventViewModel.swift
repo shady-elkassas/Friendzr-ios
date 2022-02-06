@@ -109,7 +109,8 @@ class EditEventViewModel {
                 task.resume()
             }
             
-        }else {
+        }
+        else {
             guard let urlRequest = URL(string: url) else { return }
             var request = URLRequest(url: urlRequest)
             request.httpMethod = "POST"

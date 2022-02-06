@@ -87,7 +87,7 @@ class ChangePasswordVC: UIViewController  {
     @IBAction func saveBtn(_ sender: Any) {
         updateUserInterface()
         if internetConect {
-            self.saveBtn.setTitle("Sending...", for: .normal)
+            self.saveBtn.setTitle("Saving...", for: .normal)
             self.saveBtn.isUserInteractionEnabled = false
             viewmodel.changePasswordRequest(witholdPassword: oldPasswordTxt.text!, AndNewPassword: newPasswordTxt.text!, AndConfirmNewPassword: confirmNewPasswordTxt.text!) { error, data in
                 self.saveBtn.setTitle("Save", for: .normal)

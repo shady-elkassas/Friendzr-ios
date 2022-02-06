@@ -184,10 +184,8 @@ class AttendeesVC: UIViewController {
         
         self.alertView?.HandleConfirmBtn = {
             // handling code
-            
-            self.showLoading()
+
             self.viewmodel.editAttendees(ByUserAttendId: UserattendId, AndEventid: eventID, AndStutus: Stutus,Actiontime: Actiontime ,ActionDate: ActionDate) { [self] error, data in
-                self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)

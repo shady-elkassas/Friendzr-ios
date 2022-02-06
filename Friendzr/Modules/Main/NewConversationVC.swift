@@ -56,7 +56,6 @@ class NewConversationVC: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.hideLoading()
         CancelRequest.currentTask = true
     }
     
@@ -179,7 +178,6 @@ class NewConversationVC: UIViewController {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else {
@@ -214,7 +212,6 @@ class NewConversationVC: UIViewController {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else {

@@ -123,7 +123,6 @@ class AddEventVC: UIViewController {
         catsVM.getAllCategories()
         catsVM.cats.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
-                self.hideLoading()
                 hideView.isHidden = true
                 collectionView.dataSource = self
                 collectionView.delegate = self
@@ -134,7 +133,6 @@ class AddEventVC: UIViewController {
         // Set View Model Event Listener
         catsVM.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                 }
@@ -151,7 +149,7 @@ class AddEventVC: UIViewController {
             settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openCamera()
             }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openLibrary()
             }))
             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -164,7 +162,7 @@ class AddEventVC: UIViewController {
             settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openCamera()
             }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openLibrary()
             }))
             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -384,7 +382,7 @@ class AddEventVC: UIViewController {
                     self.view.makeToast("Please add image of your event".localizedString)
                 }
             }else {
-                self.saveBtn.setTitle("Sending...", for: .normal)
+                self.saveBtn.setTitle("Saving...", for: .normal)
                 self.saveBtn.isUserInteractionEnabled = false
                 viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
                     self.saveBtn.isUserInteractionEnabled = true

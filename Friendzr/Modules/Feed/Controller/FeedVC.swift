@@ -89,8 +89,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     var refreshControl = UIRefreshControl()
     let switchCompassBarButton = Switch()
-    let switchGhostModeBarButton = UIButton()
-    
+    let switchGhostModeBarButton = Switch()
+//    let thumbLayer = CALayer()
+
     var btnsSelected:Bool = false
     var internetConnect:Bool = false
     
@@ -147,15 +148,28 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func addCompassView() {
-        let child = UIHostingController(rootView: CompassViewSwiftUI())
-        compassContanierView.addSubview(child.view)
-        
-        child.view.translatesAutoresizingMaskIntoConstraints = false
-        let horizontalConstraint = child.view.centerXAnchor.constraint(equalTo: compassContanierView.centerXAnchor)
-        let verticalConstraint = child.view.centerYAnchor.constraint(equalTo: compassContanierView.centerYAnchor)
-        let widthConstraint = child.view.widthAnchor.constraint(equalToConstant: 200)
-        let heightConstraint = child.view.heightAnchor.constraint(equalToConstant: 200)
-        compassContanierView.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        if Defaults.isIPhoneSmall {
+            let child = UIHostingController(rootView: CompassViewSwiftUIForIPhoneSmall())
+            compassContanierView.addSubview(child.view)
+            
+            child.view.translatesAutoresizingMaskIntoConstraints = false
+            let horizontalConstraint = child.view.centerXAnchor.constraint(equalTo: compassContanierView.centerXAnchor)
+            let verticalConstraint = child.view.centerYAnchor.constraint(equalTo: compassContanierView.centerYAnchor)
+            let widthConstraint = child.view.widthAnchor.constraint(equalToConstant: 200)
+            let heightConstraint = child.view.heightAnchor.constraint(equalToConstant: 200)
+            compassContanierView.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+
+        }else {
+            let child = UIHostingController(rootView: CompassViewSwiftUI())
+            compassContanierView.addSubview(child.view)
+            
+            child.view.translatesAutoresizingMaskIntoConstraints = false
+            let horizontalConstraint = child.view.centerXAnchor.constraint(equalTo: compassContanierView.centerXAnchor)
+            let verticalConstraint = child.view.centerYAnchor.constraint(equalTo: compassContanierView.centerYAnchor)
+            let widthConstraint = child.view.widthAnchor.constraint(equalToConstant: 200)
+            let heightConstraint = child.view.heightAnchor.constraint(equalToConstant: 200)
+            compassContanierView.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+        }
     }
     
     
@@ -213,8 +227,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func LoadAllFeeds(pageNumber:Int) {
-        //        self.tableView.hideLoader()
-        //        self.view.makeToast("Please wait for the data to load...".localizedString)
         hideView.showLoader()
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
@@ -294,6 +306,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         switch Network.reachability.status {
         case .unreachable:
             self.emptyView.isHidden = false
+            self.hideView.isHidden = true
             if Defaults.allowMyLocation == true {
                 self.allowLocView.isHidden = true
             }else {
@@ -303,6 +316,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             HandleInternetConnection()
         case .wwan:
             self.emptyView.isHidden = true
+            self.hideView.isHidden = false
             internetConnect = true
             LoadAllFeeds(pageNumber: 0)
             
@@ -317,6 +331,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             }
         case .wifi:
             self.emptyView.isHidden = true
+            self.hideView.isHidden = false
             if Defaults.allowMyLocation == true {
                 self.allowLocView.isHidden = true
             }else {
@@ -343,13 +358,16 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         switch Network.reachability.status {
         case .unreachable:
             self.emptyView.isHidden = false
+            self.hideView.isHidden = true
             internetConnect = false
             HandleInternetConnection()
         case .wwan:
             self.emptyView.isHidden = true
+            self.hideView.isHidden = true
             internetConnect = true
         case .wifi:
             self.emptyView.isHidden = true
+            self.hideView.isHidden = true
             internetConnect = true
         }
         
@@ -403,7 +421,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @objc func didPullToRefresh() {
         print("Refersh")
         currentPage = 1
-        getAllFeeds(pageNumber: 1)
+//        getAllFeeds(pageNumber: 1)
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
         self.refreshControl.endRefreshing()
     }
     
@@ -605,6 +626,7 @@ extension FeedVC:UITableViewDataSource {
                 if self.internetConnect {
                     self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1) { error, message in
+                        cell.sendRequestBtn.setTitle("Send Request", for: .normal)
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -613,10 +635,6 @@ extension FeedVC:UITableViewDataSource {
                         }
                         
                         guard let _ = message else {return}
-                        
-                        //                        DispatchQueue.main.async {
-                        //                            self.view.makeToast(message)
-                        //                        }
                         
                         DispatchQueue.main.async {
                             self.getAllFeeds(pageNumber: 0)
@@ -769,7 +787,7 @@ extension FeedVC:UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
             if Defaults.myAppearanceTypes == [1] {
                 cell.controlBtn.isHidden = false
-                cell.titleLbl.text = "Turn off ghost mode to see friendzrs".localizedString
+                cell.titleLbl.text = "Turn off private modes to see friendzrs".localizedString
                 cell.emptyImg.image = UIImage(named: "ghostImg")
                 
                 cell.HandleControlBtn = {
@@ -1099,7 +1117,12 @@ extension FeedVC {
                     filterDir = true
                     filterBtn.isHidden = false
                     compassContanierView.isHidden = false
-                    compassContainerViewHeight.constant = 320
+                    if Defaults.isIPhoneSmall {
+                        compassContainerViewHeight.constant = 200
+                    }else {
+                        compassContainerViewHeight.constant = 320
+                    }
+                    
                     compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
                 }
             }else {
@@ -1148,8 +1171,7 @@ extension FeedVC {
             
             //cancel view
             self.alertView?.HandlehideViewBtn = {
-                self.initGhostModeSwitchButton()
-                
+                self.switchCompassBarButton.isOn = false
                 DispatchQueue.main.async {
                     self.switchGhostModeBarButton.isUserInteractionEnabled = true
                     self.switchCompassBarButton.isUserInteractionEnabled = true
@@ -1157,7 +1179,7 @@ extension FeedVC {
             }
             
             self.alertView?.HandleSaveBtn = {
-                self.initGhostModeSwitchButton()
+                self.switchGhostModeBarButton.isOn = true
                 DispatchQueue.main.async {
                     self.switchGhostModeBarButton.isUserInteractionEnabled = true
                     self.switchCompassBarButton.isUserInteractionEnabled = true
@@ -1170,7 +1192,7 @@ extension FeedVC {
             self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-            self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off ghost mode?".localizedString
+            self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private modes?".localizedString
             
             self.showAlertView?.HandleConfirmBtn = {
                 self.updateNetworkForBtns()
@@ -1189,7 +1211,7 @@ extension FeedVC {
                         Defaults.ghostModeEveryOne = false
                         
                         DispatchQueue.main.async {
-                            self.initGhostModeSwitchButton()
+                            self.switchGhostModeBarButton.isOn = false
                         }
                         DispatchQueue.main.async {
                             self.getAllFeeds(pageNumber: 1)
@@ -1215,27 +1237,11 @@ extension FeedVC {
             }
             
             self.showAlertView?.HandleCancelBtn = {
-                DispatchQueue.main.async { [self] in
-                    if Defaults.ghostMode == true {
-                        if Defaults.myAppearanceTypes == [1] {
-                            Defaults.ghostModeEveryOne = true
-                        }else {
-                            Defaults.ghostModeEveryOne = false
-                        }
-                        
-                        Defaults.ghostMode = true
-                    }else {
-                        Defaults.ghostModeEveryOne = false
-                        Defaults.ghostMode = false
-                    }
-                }
-                
                 DispatchQueue.main.async {
-                    self.initGhostModeSwitchButton()
+                    self.switchGhostModeBarButton.isOn = true
                     self.switchGhostModeBarButton.isUserInteractionEnabled = true
                     self.switchCompassBarButton.isUserInteractionEnabled = true
                 }
-                
             }
             
             self.view.addSubview((self.showAlertView)!)
@@ -1281,7 +1287,7 @@ extension FeedVC {
             }
             
             DispatchQueue.main.async {
-                self.initGhostModeSwitchButton()
+                self.switchGhostModeBarButton.isOn = true
                 self.switchGhostModeBarButton.isUserInteractionEnabled = true
                 self.switchCompassBarButton.isUserInteractionEnabled = true
             }
@@ -1292,20 +1298,20 @@ extension FeedVC {
         }
     }
     
-    
-    
     func initGhostModeSwitchButton() {
         
-        let imageOn = "toggle-on-ic"
-        let imageOff = "toggle-off-ic"
+//        let imageOn = "toggle-on-ic"
+//        let imageOff = "toggle-off-ic"
+        switchGhostModeBarButton.onTintColor = UIColor.FriendzrColors.primary!
+        switchGhostModeBarButton.thumbTintColor = .white
+        switchGhostModeBarButton.thumbImage = UIImage(named: "ghostModeSwitch_ic")?.cgImage
         
         if Defaults.ghostMode == true {
-            switchGhostModeBarButton.setImage(UIImage(named: imageOn), for: .normal)
+            switchGhostModeBarButton.isOn = true
         }else {
-            switchGhostModeBarButton.setImage(UIImage(named: imageOff), for: .normal)
+            switchGhostModeBarButton.isOn = false
         }
         
-        switchGhostModeBarButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         switchGhostModeBarButton.addTarget(self, action:  #selector(handleGhostModeSwitchBtn), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: switchGhostModeBarButton)
         self.navigationItem.leftBarButtonItem = barButton

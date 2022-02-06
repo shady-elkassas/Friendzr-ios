@@ -61,8 +61,8 @@ class RequestManager  {
             else {
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
-                print(httpResponse!)
-                print("statusCode: \(code!)")
+//                print(httpResponse!)
+                print("statusCode: \(code ?? 0)")
                 print("**MD** response: \(String(describing: response))")
                 
                 if code == 200 || code == 201 {

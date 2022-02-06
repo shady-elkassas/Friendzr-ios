@@ -611,8 +611,8 @@ extension SettingsVC: UITableViewDataSource {
             
         case 1://ghostmode
             guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
-            cell.titleLbl.text = "Ghost Mode".localizedString
-            cell.settingIcon.image = UIImage(named: "ghostMode_ic")
+            cell.titleLbl.text = "Private Modes".localizedString
+            cell.settingIcon.image = UIImage(named: "ghostModeSwitch_ic")
             
             if model?.ghostmode == true {
                 cell.switchBtn.isOn = true
@@ -670,7 +670,7 @@ extension SettingsVC: UITableViewDataSource {
                     self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     
                     self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
-                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off ghost mode?".localizedString
+                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off private modes?".localizedString
                     
                     self.deleteAlertView?.HandleConfirmBtn = {
                         self.updateUserInterfaceForBtns()

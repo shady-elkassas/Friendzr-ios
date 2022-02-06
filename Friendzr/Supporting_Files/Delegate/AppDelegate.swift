@@ -140,6 +140,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
         }
         
+        if UIScreen.main.nativeBounds.height < 2500 {
+            Defaults.isIPhoneSmall = true
+        }else {
+            Defaults.isIPhoneSmall = false
+        }
+        
         return true
     }
     

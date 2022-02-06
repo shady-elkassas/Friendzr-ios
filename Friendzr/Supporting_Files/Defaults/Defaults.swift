@@ -373,6 +373,17 @@ class Defaults {
         }
     }
     
+    static var isIPhoneSmall: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "isIPhoneSmall")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "isIPhoneSmall")
+        }
+    }
+    
+    
     static func initUser(user:UserObj)  {
         Defaults.userName = user.userName
         Defaults.Email = user.email

@@ -123,11 +123,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         self.hideLoading()
         CancelRequest.currentTask = true
         
-      
-        
 //        NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
 
-        NotificationCenter.default.post(name: Notification.Name("handleSubViewHide"), object: nil, userInfo: nil)
+//        NotificationCenter.default.post(name: Notification.Name("handleSubViewHide"), object: nil, userInfo: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -176,7 +174,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.getAllEventsOnlyAroundMe(lat: location?.latitude ?? 0.0, lng: location?.longitude ?? 0.0, pageNumber: 1)
         viewmodel.eventsOnlyMe.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.hideLoading()
                 self.collectionView.dataSource = self
                 self.collectionView.delegate = self
                 self.collectionView.reloadData()

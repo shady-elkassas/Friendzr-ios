@@ -149,15 +149,18 @@ class NotificationsVC: UIViewController {
         switch Network.reachability.status {
         case .unreachable:
             self.emptyView.isHidden = false
+            self.hideView.isHidden = true
             internetConect = false
             HandleInternetConnection()
         case .wwan:
             internetConect = true
             self.emptyView.isHidden = true
+            self.hideView.isHidden = false
             LoadAllNotifications(pageNumber: 1)
         case .wifi:
             internetConect = true
             self.emptyView.isHidden = true
+            self.hideView.isHidden = false
             LoadAllNotifications(pageNumber: 1)
         }
         

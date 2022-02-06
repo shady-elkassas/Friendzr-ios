@@ -10,6 +10,8 @@ import UIKit
 class ReportVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var hideView: UIView!
+    
     
     let titleCellID = "ReportTitleTableViewCell"
     let problemCellID = "ProblemTableViewCell"
@@ -115,10 +117,13 @@ class ReportVC: UIViewController {
         viewmodel.getAllProblems()
         viewmodel.model.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
+                
+                DispatchQueue.main.async {
+                    self.hideView.isHidden = true
+                }
             }
         }
         
@@ -186,8 +191,6 @@ extension ReportVC: UITableViewDataSource {
                         cell.confirmBtn.setTitle("Submitting...", for: .normal)
                         cell.confirmBtn.isUserInteractionEnabled = false
                         self.viewmodel.sendReport(withID: self.id, reportType: self.reportType, message: self.message, reportReasonID: self.problemID) { error, data in
-                            cell.confirmBtn.isUserInteractionEnabled = true
-                            cell.confirmBtn.setTitle("Submit", for: .normal)
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
@@ -197,9 +200,10 @@ extension ReportVC: UITableViewDataSource {
                             
                             guard let _ = data else {return}
                             
-                            DispatchQueue.main.async {
-                                self.view.makeToast("The report has been sent successfully".localizedString)
-                            }
+//                            DispatchQueue.main.async {
+//                                cell.confirmBtn.isUserInteractionEnabled = true
+//                                cell.confirmBtn.setTitle("Submit", for: .normal)
+//                            }
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 if self.selectedVC == "Present" {

@@ -124,9 +124,6 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
-    let requestSend = 0
-    let receivedRequest = 0
-    
     func loadAllUserRequests(pageNumber:Int) {
         hideView.showLoader()
         viewmodel.getAllRequests(requestesType: RequestesType.type, pageNumber: pageNumber)
@@ -192,14 +189,17 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         switch Network.reachability.status {
         case .unreachable:
             self.emptyView.isHidden = false
+            self.hideView.isHidden = true
             internetConnect = false
             HandleInternetConnection()
         case .wwan:
             self.emptyView.isHidden = true
+            self.hideView.isHidden = false
             internetConnect = true
             loadAllUserRequests(pageNumber: 0)
         case .wifi:
             self.emptyView.isHidden = true
+            self.hideView.isHidden = false
             internetConnect = true
             loadAllUserRequests(pageNumber: 0)
         }
@@ -217,13 +217,16 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         switch Network.reachability.status {
         case .unreachable:
             self.emptyView.isHidden = false
+            self.hideView.isHidden = true
             internetConnect = false
             HandleInternetConnection()
         case .wwan:
             self.emptyView.isHidden = true
+            self.hideView.isHidden = true
             internetConnect = true
         case .wifi:
             self.emptyView.isHidden = true
+            self.hideView.isHidden = true
             internetConnect = true
         }
         
@@ -272,7 +275,10 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     @objc func didPullToRefresh() {
         print("Refersh")
         currentPage = 0
-        getAllUserRequests(pageNumber: 0)
+//        getAllUserRequests(pageNumber: 0)
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
         self.refreshControl.endRefreshing()
     }
     

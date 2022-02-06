@@ -155,7 +155,6 @@ class AddNewUsersForMyGroupVC: UIViewController {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else {
@@ -194,7 +193,6 @@ class AddNewUsersForMyGroupVC: UIViewController {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else {

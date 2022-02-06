@@ -80,10 +80,7 @@ class TagsVC: UIViewController {
     //MARK: - APIs
     
     func getAllTags() {
-//        self.showLoading()
         vm.getAllInterests(completion: { (error, cats) in
-//            self.hideLoading()
-            
             if let error = error {
                 DispatchQueue.main.async {
                     if error == "Internal Server Error" {
@@ -201,11 +198,8 @@ class TagsVC: UIViewController {
                     self.addTags(node: item)
                 }
             } else {
-                self.showLoading()
                 self.vm.getAllInterests(completion: { (error, cats) in
-                    self.hideLoading()
                     if let error = error {
-//                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }

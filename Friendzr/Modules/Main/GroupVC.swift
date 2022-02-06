@@ -112,7 +112,6 @@ class GroupVC: UIViewController {
         viewmodel.getGroupDetails(id: groupId, search: search)
         viewmodel.groupMembers.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -129,7 +128,6 @@ class GroupVC: UIViewController {
         // Set View Model Event Listener
         viewmodel.errorMsg.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                 }
@@ -145,7 +143,7 @@ class GroupVC: UIViewController {
             settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openCamera()
             }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openLibrary()
             }))
             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -158,7 +156,7 @@ class GroupVC: UIViewController {
             settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openCamera()
             }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openLibrary()
             }))
             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -393,9 +391,7 @@ extension GroupVC {
     }
 
     func deleteGroup() {
-//        self.showLoading()
         self.viewmodel.deleteGroup(withGroupId: groupId) { error, data in
-            self.hideLoading()
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
@@ -422,9 +418,7 @@ extension GroupVC {
         let actionTime = formatterTime.string(from: Date())
         
         
-//        self.showLoading()
         self.viewmodel.leaveGroupChat(ByID: groupId, registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
-            self.hideLoading()
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
@@ -556,7 +550,6 @@ extension GroupVC : UITableViewDelegate{
 //                    let settingsActionSheet: UIAlertController = UIAlertController(title:"Are you sure you want to delete this user from your group?".localizedString, message:nil, preferredStyle: .alert)
 //
 //                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                        self.showLoading()
 //                        self.viewmodel.deleteUsersGroup(withGroupId: self.groupId, AndListOfUserIDs: [model?.userID ?? ""], AndRegistrationDateTime:  "\(actionDate) \(actionTime)") { error, data in
 //                            self.hideLoading()
 //                            if let error = error {
@@ -583,7 +576,6 @@ extension GroupVC : UITableViewDelegate{
 //                    let settingsActionSheet: UIAlertController = UIAlertController(title:"Are you sure you want to delete this user from your group?".localizedString, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
 //
 //                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                        self.showLoading()
 //                        self.viewmodel.deleteUsersGroup(withGroupId: self.groupId, AndListOfUserIDs: [model?.userID ?? ""], AndRegistrationDateTime:  "\(actionDate) \(actionTime)") { error, data in
 //                            self.hideLoading()
 //                            if let error = error {
@@ -644,10 +636,8 @@ extension GroupVC {
         
         self.alertView?.HandleConfirmBtn = {
             // handling code
-            
-//            self.showLoading()
+
             self.viewmodel.deleteUsersGroup(withGroupId: self.groupId, AndListOfUserIDs: [userID], AndRegistrationDateTime: "\(ActionDate) \(Actiontime)") { error, data in
-//                self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)

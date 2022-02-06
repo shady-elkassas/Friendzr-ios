@@ -69,7 +69,6 @@ class AddGroupVC: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.hideLoading()
         CancelRequest.currentTask = true
     }
     
@@ -170,7 +169,6 @@ class AddGroupVC: UIViewController {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else {
@@ -210,7 +208,6 @@ class AddGroupVC: UIViewController {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else {
@@ -249,7 +246,7 @@ class AddGroupVC: UIViewController {
             settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openCamera()
             }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openLibrary()
             }))
             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -262,7 +259,7 @@ class AddGroupVC: UIViewController {
             settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openCamera()
             }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openLibrary()
             }))
             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -278,7 +275,6 @@ class AddGroupVC: UIViewController {
         if selectedIDs.count == 0 {
             self.view.makeToast("Please select a group of friends".localizedString)
         }else {
-//            self.showLoading()
             self.doneBtn.setTitle("Sending...", for: .normal)
             self.doneBtn.isUserInteractionEnabled = false
             addGroupChat.createGroup(withName: groupNameTxt.text!, AndListOfUserIDs: selectedIDs, AndRegistrationDateTime: "\(actionDate) \(actionTime)", attachedImg: self.attachedImg, AndImage: groupImg.image ?? UIImage()) { error, data in

@@ -20,11 +20,11 @@ class MainTBC: UITabBarController {
             self.tabBar.items![3].badgeValue = nil
         }
         
-        if Defaults.messagesInboxCountBadge != 0 {
-            self.tabBar.items![0].badgeValue = "\(Defaults.messagesInboxCountBadge)"
-        }else {
-            self.tabBar.items![0].badgeValue = "0"
-        }
+//        if Defaults.messagesInboxCountBadge != 0 {
+//            self.tabBar.items![0].badgeValue = "\(Defaults.messagesInboxCountBadge)"
+//        }else {
+//            self.tabBar.items![0].badgeValue = "0"
+//        }
     }
     
     @objc func updatebadgeRequests() {
@@ -35,12 +35,12 @@ class MainTBC: UITabBarController {
         }
     }
     
-    @objc func updatebadgeInbox() {
-        
-        if Defaults.frindRequestNumber != 0 {
-            self.tabBar.items![0].badgeValue = "\(Defaults.messagesInboxCountBadge)"
-        }else {
-            self.tabBar.items![0].badgeValue = nil
-        }
-    }
+//    @objc func updatebadgeInbox() {
+//        
+//        if Defaults.frindRequestNumber != 0 {
+//            self.tabBar.items![0].badgeValue = "\(Defaults.messagesInboxCountBadge)"
+//        }else {
+//            self.tabBar.items![0].badgeValue = nil
+//        }
+//    }
 }

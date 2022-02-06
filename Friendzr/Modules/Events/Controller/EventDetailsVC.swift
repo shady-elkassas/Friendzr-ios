@@ -866,8 +866,6 @@ extension EventDetailsVC {
         
         self.alertView?.HandleConfirmBtn = {
             // handling code
-            
-            self.showLoading()
             self.attendeesVM.editAttendees(ByUserAttendId: UserattendId, AndEventid: eventID, AndStutus: Stutus,Actiontime: Actiontime ,ActionDate: ActionDate) { [self] error, data in
                 self.hideLoading()
                 if let error = error {

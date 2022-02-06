@@ -18,6 +18,9 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var showProfileImg: UIButton!
     
+    @IBOutlet weak var profileImgH: NSLayoutConstraint!
+    @IBOutlet weak var profileImgW: NSLayoutConstraint!
+    
     //MARK: - Properties
     let cellID = "MoreTableViewCell"
     var moreList : [(String,UIImage)] = []
@@ -116,8 +119,17 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         moreList.append(("Contact Friendzr".localizedString, UIImage(named: "Contactus_ic")!))
         moreList.append(("Log Out".localizedString, UIImage(named: "logout_ic")!))
         
+        if Defaults.isIPhoneSmall {
+            profileImgH.constant = 200
+            profileImgW.constant = 200
+            profileImg.cornerRadiusView(radius: 100)
+        }else {
+            profileImgH.constant = 280
+            profileImgW.constant = 280
+            profileImg.cornerRadiusView(radius: 140)
+        }
+        
         profileImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 2)
-        profileImg.cornerRadiusForHeight()
     }
     
     func setupUserData() {
@@ -195,7 +207,6 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         alertView?.HandleConfirmBtn = {
             self.updateUserInterface()
             if self.internetConect {
-                self.showLoading()
                 self.logoutVM.logoutRequest { error, data in
                     self.hideLoading()
                     if let error = error {
@@ -277,14 +288,18 @@ extension MoreVC : UITableViewDelegate {
             }
             break
         case 1: //Events
-            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventsVC") as? EventsVC else {return}
-            self.navigationController?.pushViewController(vc, animated: true)
+            if internetConect {
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventsVC") as? EventsVC else {return}
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             break
         case 2://notificationList
-            guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "NotificationsVC") as? NotificationsVC else {return}
-            Defaults.badgeNumber = 0
-            self.tableView.reloadData()
-            self.navigationController?.pushViewController(vc, animated: true)
+            if internetConect {
+                guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "NotificationsVC") as? NotificationsVC else {return}
+                Defaults.badgeNumber = 0
+                self.tableView.reloadData()
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             break
         case 3: //share
             if internetConect {

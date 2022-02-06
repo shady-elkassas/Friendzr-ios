@@ -10,6 +10,37 @@ import SwiftUI
 import ListPlaceholder
 import GoogleMobileAds
 
+extension InboxVC {
+    func lastMessageDateTime(date:String,time:String) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.autoupdatingCurrent
+        formatter.dateStyle = .full
+        formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
+        let dateStr = "\(date)T\(time)Z"
+        let date = formatter.date(from: dateStr)
+        
+        let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
+        let relativeDateString = dateFormatterToString(relativeFormatter, date!)
+        // "Jan 18, 2018"
+
+        let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
+        let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
+        // "Jan 18, 2018"
+
+        let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
+        let customDateString = dateFormatterToString(customFormatter, date!)
+        // "18 January"
+
+        if relativeDateString == normalDateString {
+            print("Use custom date \(customDateString)") // Jan 18
+            return  customDateString
+        } else {
+            print("Use relative date \(relativeDateString)") // Today, Yesterday
+            return "\(relativeDateString) \(time)"
+        }
+    }
+}
+
 class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Outlets
@@ -116,7 +147,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @objc func reloadChatList() {
         DispatchQueue.main.async {
-            //            self.updateUserInterface()
             self.getAllChatList(pageNumber: 1)
         }
     }
@@ -146,7 +176,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else if error == "Bad Request" {
@@ -162,7 +191,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func loadAllchatList(pageNumber:Int) {
-        //        self.view.makeToast("Please wait for the data to load...".localizedString)
         hideView.showLoader()
         viewmodel.getChatList(pageNumber: pageNumber)
         viewmodel.listChat.bind { [unowned self] value in
@@ -178,13 +206,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.tableView.tableFooterView = nil
                 
                 self.view.hideToast()
-                
-                //                if value.data?.count != 0 {
-                //                    tableView.showLoader()
-                //                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                //                        self.tableView.hideLoader()
-                //                    }
-                //                }
             }
         }
         
@@ -218,7 +239,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         // Set View Model Event Listener
         searchVM.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else if error == "Bad Request" {
@@ -259,7 +279,11 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        getAllChatList(pageNumber: 1)
+
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
+        
         self.refreshControl.endRefreshing()
     }
     
@@ -294,15 +318,18 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         switch Network.reachability.status {
         case .unreachable:
             self.emptyView.isHidden = false
+            self.hideView.isHidden = true
             internetConect = false
             HandleInternetConnection()
         case .wwan:
             internetConect = true
             self.emptyView.isHidden = true
+            self.hideView.isHidden = false
             loadAllchatList(pageNumber: 1)
         case .wifi:
             internetConect = true
             self.emptyView.isHidden = true
+            self.hideView.isHidden = false
             loadAllchatList(pageNumber: 1)
         }
         
@@ -374,32 +401,7 @@ extension InboxVC:UITableViewDataSource {
                 }
                 
                 
-                let formatter = DateFormatter()
-                formatter.locale = Locale.autoupdatingCurrent
-                formatter.dateStyle = .full
-                formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
-                let dateStr = "\(model?.latestdate ?? "")T\(model?.latesttime ?? "")Z"
-                let date = formatter.date(from: dateStr)
-                
-                let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
-                let relativeDateString = dateFormatterToString(relativeFormatter, date!)
-                // "Jan 18, 2018"
-                
-                let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
-                let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
-                // "Jan 18, 2018"
-                
-                let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
-                let customDateString = dateFormatterToString(customFormatter, date!)
-                // "18 January"
-                
-                if relativeDateString == normalDateString {
-                    //                    print("Use custom date \(customDateString)") // Jan 18
-                    cell.lastMessageDateLbl.text = customDateString
-                } else {
-                    //                    print("Use relative date \(relativeDateString)") // Today, Yesterday
-                    cell.lastMessageDateLbl.text = "\(relativeDateString) \(model?.latesttime ?? "")"
-                }
+                cell.lastMessageDateLbl.text = lastMessageDateTime(date: model?.latestdate ?? "", time: model?.latesttime ?? "")
                 
                 //handle type message
                 if model?.messagestype == 1 {
@@ -435,32 +437,7 @@ extension InboxVC:UITableViewDataSource {
                 }
                 
                 
-                let formatter = DateFormatter()
-                formatter.locale = Locale.autoupdatingCurrent
-                formatter.dateStyle = .full
-                formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
-                let dateStr = "\(model?.latestdate ?? "")T\(model?.latesttime ?? "")Z"
-                let date = formatter.date(from: dateStr)
-                
-                let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
-                let relativeDateString = dateFormatterToString(relativeFormatter, date!)
-                // "Jan 18, 2018"
-                
-                let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
-                let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
-                // "Jan 18, 2018"
-                
-                let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
-                let customDateString = dateFormatterToString(customFormatter, date!)
-                // "18 January"
-                
-                if relativeDateString == normalDateString {
-                    print("Use custom date \(customDateString)") // Jan 18
-                    cell.lastMessageDateLbl.text = customDateString
-                } else {
-                    print("Use relative date \(relativeDateString)") // Today, Yesterday
-                    cell.lastMessageDateLbl.text = "\(relativeDateString) \(model?.latesttime ?? "")"
-                }
+                cell.lastMessageDateLbl.text = lastMessageDateTime(date: model?.latestdate ?? "", time: model?.latesttime ?? "")
                 
                 //handle type message
                 if model?.messagestype == 0 {
@@ -576,9 +553,7 @@ extension InboxVC:UITableViewDelegate {
                     
                     settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                         if model?.isChatGroup == true {
-                            self.showLoading()
                             self.groupVM.clearGroupChat(ByID: model?.id ?? "", registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
-                                self.hideLoading()
                                 if let error = error {
                                     DispatchQueue.main.async {
                                         self.view.makeToast(error)
@@ -595,9 +570,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                             }
                         }else {
-                            self.showLoading()
                             self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
-                                self.hideLoading()
                                 if let error = error {
                                     DispatchQueue.main.async {
                                         self.view.makeToast(error)
@@ -624,9 +597,7 @@ extension InboxVC:UITableViewDelegate {
                     
                     settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                         if model?.isChatGroup == true {
-                            self.showLoading()
                             self.groupVM.clearGroupChat(ByID: model?.id ?? "", registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
-                                self.hideLoading()
                                 if let error = error {
                                     DispatchQueue.main.async {
                                         self.view.makeToast(error)
@@ -643,9 +614,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                             }
                         }else {
-                            self.showLoading()
                             self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
-                                self.hideLoading()
                                 if let error = error {
                                     DispatchQueue.main.async {
                                         self.view.makeToast(error)
@@ -677,9 +646,7 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.showLoading()
                             self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                self.hideLoading()
                                 if let error = error {
                                     DispatchQueue.main.async {
                                         self.view.makeToast(error)
@@ -708,9 +675,7 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.showLoading()
                             self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                self.hideLoading()
                                 if let error = error {
                                     DispatchQueue.main.async {
                                         self.view.makeToast(error)
@@ -741,9 +706,7 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.showLoading()
                             self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                self.hideLoading()
                                 if let error = error {
                                     DispatchQueue.main.async {
                                         self.view.makeToast(error)
@@ -772,9 +735,7 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.showLoading()
                             self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                self.hideLoading()
                                 if let error = error {
                                     DispatchQueue.main.async {
                                         self.view.makeToast(error)
@@ -811,9 +772,7 @@ extension InboxVC:UITableViewDelegate {
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                             if model?.isChatGroup == true {
-                                self.showLoading()
                                 self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: false) { error, data in
-                                    self.hideLoading()
                                     if let error = error {
                                         DispatchQueue.main.async {
                                             self.view.makeToast(error)
@@ -832,9 +791,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                                 
                             }else {
-                                self.showLoading()
                                 self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
-                                    self.hideLoading()
                                     if let error = error {
                                         DispatchQueue.main.async {
                                             self.view.makeToast(error)
@@ -862,9 +819,7 @@ extension InboxVC:UITableViewDelegate {
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                             if model?.isChatGroup == true {
-                                self.showLoading()
                                 self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: false) { error, data in
-                                    self.hideLoading()
                                     if let error = error {
                                         DispatchQueue.main.async {
                                             self.view.makeToast(error)
@@ -883,9 +838,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                                 
                             }else {
-                                self.showLoading()
                                 self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
-                                    self.hideLoading()
                                     if let error = error {
                                         DispatchQueue.main.async {
                                             self.view.makeToast(error)
@@ -915,9 +868,7 @@ extension InboxVC:UITableViewDelegate {
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                             if model?.isChatGroup == true {
-                                self.showLoading()
                                 self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: true) { error, data in
-                                    self.hideLoading()
                                     if let error = error {
                                         DispatchQueue.main.async {
                                             self.view.makeToast(error)
@@ -936,9 +887,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                                 
                             }else {
-                                self.showLoading()
                                 self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
-                                    self.hideLoading()
                                     if let error = error {
                                         DispatchQueue.main.async {
                                             self.view.makeToast(error)
@@ -966,9 +915,7 @@ extension InboxVC:UITableViewDelegate {
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                             if model?.isChatGroup == true {
-                                self.showLoading()
                                 self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: true) { error, data in
-                                    self.hideLoading()
                                     if let error = error {
                                         DispatchQueue.main.async {
                                             self.view.makeToast(error)
@@ -987,9 +934,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                                 
                             }else {
-                                self.showLoading()
                                 self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
-                                    self.hideLoading()
                                     if let error = error {
                                         DispatchQueue.main.async {
                                             self.view.makeToast(error)

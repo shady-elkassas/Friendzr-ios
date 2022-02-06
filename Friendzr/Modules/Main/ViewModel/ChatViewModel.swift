@@ -101,8 +101,8 @@ class ChatViewModel {
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
-                    print(httpResponse!)
-                    print("statusCode: \(code!)")
+//                    print(httpResponse!)
+                    print("statusCode: \(code ?? 0)")
                     print("**MD** response: \(String(describing: response))")
                     
                     if let data = data {
@@ -156,8 +156,8 @@ class ChatViewModel {
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
-                    print(httpResponse!)
-                    print("statusCode: \(code!)")
+//                    print(httpResponse!)
+                    print("statusCode: \(code ?? 0)")
                     print("**MD** response: \(String(describing: response))")
                     
                     if let data = data {
@@ -211,7 +211,7 @@ class ChatViewModel {
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
                 //                print(httpResponse!)
-                print("statusCode: \(code!)")
+                print("statusCode: \(code ?? 0)")
                 print("**MD** response: \(String(describing: response))")
                 
                 if let data = data {
@@ -276,8 +276,8 @@ class ChatViewModel {
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
-                    print(httpResponse!)
-                    print("statusCode: \(code!)")
+//                    print(httpResponse!)
+                    print("statusCode: \(code ?? 0)")
                     print("**MD** response: \(String(describing: response))")
                     
                     if let data = data {
@@ -330,8 +330,8 @@ class ChatViewModel {
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
-                    print(httpResponse!)
-                    print("statusCode: \(code!)")
+//                    print(httpResponse!)
+                    print("statusCode: \(code ?? 0)")
                     print("**MD** response: \(String(describing: response))")
                     
                     if let data = data {
@@ -384,8 +384,8 @@ class ChatViewModel {
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
-                print(httpResponse!)
-                print("statusCode: \(code!)")
+//                print(httpResponse)
+                print("statusCode: \(code ?? 0)")
                 print("**MD** response: \(String(describing: response))")
                 
                 if let data = data {
@@ -523,8 +523,8 @@ class ChatViewModel {
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
-                    print(httpResponse!)
-                    print("statusCode: \(code!)")
+//                    print(httpResponse!)
+                    print("statusCode: \(code ?? 0)")
                     print("**MD** response: \(String(describing: response))")
                     
                     if let data = data {
@@ -578,8 +578,8 @@ class ChatViewModel {
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
-                    print(httpResponse!)
-                    print("statusCode: \(code!)")
+//                    print(httpResponse!)
+                    print("statusCode: \(code ?? 0)")
                     print("**MD** response: \(String(describing: response))")
                     
                     if let data = data {
@@ -633,8 +633,8 @@ class ChatViewModel {
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
-                print(httpResponse!)
-                print("statusCode: \(code!)")
+//                print(httpResponse!)
+                print("statusCode: \(code ?? 0)")
                 print("**MD** response: \(String(describing: response))")
                 
                 if let data = data {

@@ -346,7 +346,6 @@ class EditMyProfileVC: UIViewController {
         logoutAlertView?.HandleConfirmBtn = {
             self.updateUserInterface2()
             if self.internetConect {
-                self.showLoading()
                 self.logoutVM.logoutRequest { error, data in
                     self.hideLoading()
                     if let error = error {
@@ -405,7 +404,7 @@ class EditMyProfileVC: UIViewController {
             settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openCamera()
             }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openLibrary()
             }))
             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -418,7 +417,7 @@ class EditMyProfileVC: UIViewController {
             settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openCamera()
             }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openLibrary()
             }))
             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -520,7 +519,7 @@ class EditMyProfileVC: UIViewController {
                 return
             }else {
                 if internetConect {
-                    self.saveBtn.setTitle("Sending...", for: .normal)
+                    self.saveBtn.setTitle("Saving...", for: .normal)
                     self.saveBtn.isUserInteractionEnabled = false
                     
                     viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in

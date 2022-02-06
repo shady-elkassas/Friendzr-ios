@@ -299,7 +299,6 @@ extension BlockedListVC: UITableViewDataSource {
                     self.btnsSelect = true
                     if self.internetConect {
                         self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
-                            self.hideLoading()
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)

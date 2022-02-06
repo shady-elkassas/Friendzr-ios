@@ -149,11 +149,8 @@ class EditEventsVC: UIViewController {
             deleteAlertView?.detailsLbl.text = "Are you sure you want to delete your event?".localizedString
             
             deleteAlertView?.HandleConfirmBtn = {
-//                self.showLoading()
                 self.deleteEventVM.deleteEvent(ByEventid: self.eventModel?.id ?? "") { error, data in
-                    self.hideLoading()
                     if let error = error {
-                        //                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
@@ -237,13 +234,13 @@ class EditEventsVC: UIViewController {
     @IBAction func saveBtn(_ sender: Any) {
         updateUserInterface()
         if internetConect == true {
-//            self.showLoading()
-            self.saveBtn.setTitle("Sending...", for: .normal)
+            self.saveBtn.setTitle("Saving...", for: .normal)
             self.saveBtn.isUserInteractionEnabled = false
             viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
+                
                 self.saveBtn.setTitle("Save", for: .normal)
                 self.saveBtn.isUserInteractionEnabled = true
-
+                
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -252,7 +249,7 @@ class EditEventsVC: UIViewController {
                 }
                 
                 guard let _ = data else {return}
-                //                self.showAlert(withMessage: "Edit Save successfully")
+                
                 DispatchQueue.main.async {
                     self.view.makeToast("Edit Save successfully".localizedString)
                 }
@@ -273,7 +270,7 @@ class EditEventsVC: UIViewController {
             settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openCamera()
             }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openLibrary()
             }))
             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -286,7 +283,7 @@ class EditEventsVC: UIViewController {
             settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openCamera()
             }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Liberary".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 self.openLibrary()
             }))
             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
