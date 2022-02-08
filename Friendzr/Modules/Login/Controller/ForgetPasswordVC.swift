@@ -48,22 +48,24 @@ class ForgetPasswordVC: UIViewController {
             self.resetBtn.setTitle("Sending...", for: .normal)
             self.resetBtn.isUserInteractionEnabled = false
             viewmodel.ResetPassword(withEmail: emailTxt.text!) { error, data in
-                self.resetBtn.setTitle("Reset", for: .normal)
-                self.resetBtn.isUserInteractionEnabled = false
+                
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
                     return
                 }
+                
                 guard let _ = data else {return}
-                //                self.showAlert(withMessage: "Please check your email")
                 
                 DispatchQueue.main.async {
                     self.view.makeToast("Please check your email".localizedString)
+                    
+                    self.resetBtn.setTitle("Reset", for: .normal)
+                    self.resetBtn.isUserInteractionEnabled = true
                 }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                DispatchQueue.main.async {
                     self.onPopup()
                 }
             }

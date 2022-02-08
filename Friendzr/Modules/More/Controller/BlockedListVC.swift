@@ -307,9 +307,9 @@ extension BlockedListVC: UITableViewDataSource {
                             }
                             
                             guard let message = message else {return}
-                            DispatchQueue.main.async {
-                                self.view.makeToast(message)
-                            }
+//                            DispatchQueue.main.async {
+//                                self.view.makeToast(message)
+//                            }
                             
                             DispatchQueue.main.async {
                                 self.updateUserInterface()

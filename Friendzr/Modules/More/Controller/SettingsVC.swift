@@ -67,6 +67,9 @@ class SettingsVC: UIViewController {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         transparentView.addGestureRecognizer(tap)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateSettings), name: Notification.Name("updateSettings"), object: nil)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,6 +83,13 @@ class SettingsVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
+    }
+    
+    
+    @objc func updateSettings() {
+        DispatchQueue.main.async {
+            self.getUserSettings()
+        }
     }
     
     //MARK:- APIs
@@ -507,6 +517,7 @@ extension SettingsVC: UITableViewDataSource {
             }
             
             cell.ghostModeTypeLbl.isHidden = true
+            
             cell.HandleSwitchBtn = {
                 if self.model?.pushnotification == true {
                     self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)

@@ -28,7 +28,7 @@ class ForgetPasswordViewModel {
     
     // create a method for calling api which is return a Observable
     //MARK:- Reset Password Request
-    func ResetPassword(withEmail email:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
+    func ResetPassword(withEmail email:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         emailViewModel.data = email
         
@@ -53,7 +53,7 @@ class ForgetPasswordViewModel {
             }
             else {
                 // When set the listener (if any) will be notified
-                if let toAdd = userResponse.data {
+                if let toAdd = userResponse.message {
                     completion(nil,toAdd)
                 }
             }

@@ -411,7 +411,7 @@ class EventDetailsVC: UIViewController {
                 guard let _ = data else {return}
                 DispatchQueue.main.async {
                     self.joinBtn.isUserInteractionEnabled = true
-                    self.view.makeToast("You have successfully subscribed to event".localizedString)
+//                    self.view.makeToast("You have successfully subscribed to event".localizedString)
                 }
                 
                 self.getEventDetails()
@@ -438,7 +438,7 @@ class EventDetailsVC: UIViewController {
                 
                 DispatchQueue.main.async {
                     self.leaveBtn.isUserInteractionEnabled = true
-                    self.view.makeToast("You have successfully leave event".localizedString)
+//                    self.view.makeToast("You have successfully leave event".localizedString)
                 }
                 
                 self.getEventDetails()
@@ -466,9 +466,9 @@ class EventDetailsVC: UIViewController {
                 
                 guard let _ = data else {return}
                 
-                DispatchQueue.main.async {
-                    self.view.makeToast("You have now joined the chat event".localizedString)
-                }
+//                DispatchQueue.main.async {
+//                    self.view.makeToast("You have now joined the chat event".localizedString)
+//                }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     Router().toConversationVC(isEvent: true, eventChatID: self.eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: self.viewmodel.event.value?.image ?? "", titleChatName: self.viewmodel.event.value?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
@@ -867,7 +867,7 @@ extension EventDetailsVC {
         self.alertView?.HandleConfirmBtn = {
             // handling code
             self.attendeesVM.editAttendees(ByUserAttendId: UserattendId, AndEventid: eventID, AndStutus: Stutus,Actiontime: Actiontime ,ActionDate: ActionDate) { [self] error, data in
-                self.hideLoading()
+//                self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -878,9 +878,9 @@ extension EventDetailsVC {
                 
                 guard let _ = data else {return}
                 
-                DispatchQueue.main.async {
-                    self.view.makeToast("Successfully" )
-                }
+//                DispatchQueue.main.async {
+//                    self.view.makeToast("Successfully" )
+//                }
                 
                 DispatchQueue.main.async {
                     self.getEventDetails()

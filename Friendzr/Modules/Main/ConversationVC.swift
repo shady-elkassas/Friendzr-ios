@@ -330,8 +330,8 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.messageCellDelegate = self
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
-        maintainPositionOnKeyboardFrameChanged = true // default false
-        showMessageTimestampOnSwipeLeft = true // default false
+//        maintainPositionOnKeyboardFrameChanged = true // default false
+        showMessageTimestampOnSwipeLeft = false // default false
         
         messagesCollectionView.refreshControl = refreshControl
     }
@@ -831,9 +831,9 @@ extension ConversationVC {
                 guard let _ = data else {
                     return
                 }
-                DispatchQueue.main.async {
-                    self.view.makeToast("You have successfully left the chat".localizedString)
-                }
+//                DispatchQueue.main.async {
+//                    self.view.makeToast("You have successfully left the chat".localizedString)
+//                }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     Router().toHome()

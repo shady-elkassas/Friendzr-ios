@@ -90,7 +90,7 @@ class RegisterVC: UIViewController {
             }
             
             guard let _ = data else {return}
-            self.view.makeToast("Done successfully".localizedString)
+//            self.view.makeToast("Done successfully".localizedString)
         }
     }
     

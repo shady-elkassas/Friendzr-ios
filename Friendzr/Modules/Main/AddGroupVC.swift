@@ -289,9 +289,9 @@ class AddGroupVC: UIViewController {
                 
                 guard let _ = data else {return}
                 
-                DispatchQueue.main.async {
-                    self.view.makeToast("Your group added successfully".localizedString)
-                }
+//                DispatchQueue.main.async {
+//                    self.view.makeToast("Your group added successfully".localizedString)
+//                }
                 
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
                     Router().toHome()

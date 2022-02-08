@@ -53,7 +53,6 @@ class AddEventViewModel {
         let url = URLs.baseURLFirst + "Events/AddEventData"
         var parameters:[String : Any] = ["Title": title,"description":description,"status":status,"categoryid":categoryId,"lang":lang,"lat":lat,"totalnumbert": totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto,"CreatDate":creatDate,"Creattime":creattime]
         
-        
         if allday == true {
             parameters = ["Title": title,"description":description,"status":status,"categoryid":categoryId,"lang":lang,"lat":lat,"totalnumbert": totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"CreatDate":creatDate,"Creattime":creattime]
         }

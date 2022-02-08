@@ -245,9 +245,9 @@ class AddNewUsersForMyGroupVC: UIViewController {
                     NotificationCenter.default.post(name: Notification.Name("updateGroupDetails"), object: nil, userInfo: nil)
                 }
                 
-                DispatchQueue.main.async {
-                    self.view.makeToast("New friends have been added to the group successfully".localizedString)
-                }
+//                DispatchQueue.main.async {
+//                    self.view.makeToast("New friends have been added to the group successfully".localizedString)
+//                }
                 
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
                     self.onDismiss()

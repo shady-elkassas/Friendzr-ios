@@ -244,9 +244,9 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                     }
                     
                     
-                    DispatchQueue.main.async {
-                        self.view.makeToast("Added successfully".localizedString)
-                    }
+//                    DispatchQueue.main.async {
+//                        self.view.makeToast("Added successfully".localizedString)
+//                    }
                 }
             }
             
@@ -292,9 +292,9 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                                 self.getAllTags()
                             }
                             
-                            DispatchQueue.main.async {
-                                self.view.makeToast("Edit successfully".localizedString)
-                            }
+//                            DispatchQueue.main.async {
+//                                self.view.makeToast("Edit successfully".localizedString)
+//                            }
                         }
                     }
                     
@@ -330,9 +330,9 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                         self.getAllTags()
                     }
                     
-                    DispatchQueue.main.async {
-                        self.view.makeToast("Deleted successfully".localizedString)
-                    }
+//                    DispatchQueue.main.async {
+//                        self.view.makeToast("Deleted successfully".localizedString)
+//                    }
                 }
             }))
             actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
@@ -363,9 +363,9 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                                 self.getAllTags()
                             }
                             
-                            DispatchQueue.main.async {
-                                self.view.makeToast("Edit successfully".localizedString)
-                            }
+//                            DispatchQueue.main.async {
+//                                self.view.makeToast("Edit successfully".localizedString)
+//                            }
                         }
                     }
                     
@@ -400,9 +400,9 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                         self.getAllTags()
                     }
                     
-                    DispatchQueue.main.async {
-                        self.view.makeToast("Deleted successfully".localizedString)
-                    }
+//                    DispatchQueue.main.async {
+//                        self.view.makeToast("Deleted successfully".localizedString)
+//                    }
                 }
             }))
             actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in

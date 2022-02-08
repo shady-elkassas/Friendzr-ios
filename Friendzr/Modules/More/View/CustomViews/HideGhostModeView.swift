@@ -51,7 +51,6 @@ class HideGhostModeView: UIView {
         containerView.cornerRadiusView(radius: 12)
         saveBtn.cornerRadiusView(radius: 8)
         
-//        hideArray.append(GhostModeType(id: 1, name: "Everyone", color: UIColor.FriendzrColors.primary!, isSelected: false))
         hideArray.append(GhostModeType(id: 2, name: "Men", color: UIColor.blue, isSelected: false))
         hideArray.append(GhostModeType(id: 3, name: "Women", color: UIColor.red, isSelected: false))
         hideArray.append(GhostModeType(id: 4, name: "Other Gender", color: UIColor.darkGray, isSelected: false))

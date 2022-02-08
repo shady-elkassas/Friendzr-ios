@@ -278,9 +278,9 @@ extension GroupVC {
             
             guard let _ = data else {return}
             
-            DispatchQueue.main.async {
-                self.view.makeToast("Changed successfully".localizedString)
-            }
+//            DispatchQueue.main.async {
+//                self.view.makeToast("Changed successfully".localizedString)
+//            }
             
             DispatchQueue.main.async {
                 self.nameTxt.isUserInteractionEnabled = false
@@ -403,9 +403,9 @@ extension GroupVC {
                 return
             }
             
-            DispatchQueue.main.async {
-                self.view.makeToast("Your group has been successfully deleted".localizedString)
-            }
+//            DispatchQueue.main.async {
+//                self.view.makeToast("Your group has been successfully deleted".localizedString)
+//            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 Router().toHome()
@@ -430,9 +430,9 @@ extension GroupVC {
                 return
             }
             
-            DispatchQueue.main.async {
-                self.view.makeToast("You have exit the group successfully".localizedString)
-            }
+//            DispatchQueue.main.async {
+//                self.view.makeToast("You have exit the group successfully".localizedString)
+//            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 Router().toHome()

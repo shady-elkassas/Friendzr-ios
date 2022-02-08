@@ -658,9 +658,9 @@ extension InboxVC:UITableViewDelegate {
                                     return
                                 }
                                 
-                                DispatchQueue.main.async {
-                                    self.view.makeToast("You have successfully left the chat".localizedString)
-                                }
+//                                DispatchQueue.main.async {
+//                                    self.view.makeToast("You have successfully left the chat".localizedString)
+//                                }
                                 
                                 DispatchQueue.main.async {
                                     self.getAllChatList(pageNumber: 1)
@@ -687,9 +687,9 @@ extension InboxVC:UITableViewDelegate {
                                     return
                                 }
                                 
-                                DispatchQueue.main.async {
-                                    self.view.makeToast("You have successfully left the chat".localizedString)
-                                }
+//                                DispatchQueue.main.async {
+//                                    self.view.makeToast("You have successfully left the chat".localizedString)
+//                                }
                                 
                                 DispatchQueue.main.async {
                                     self.getAllChatList(pageNumber: 1)
@@ -718,9 +718,9 @@ extension InboxVC:UITableViewDelegate {
                                     return
                                 }
                                 
-                                DispatchQueue.main.async {
-                                    self.view.makeToast("You have successfully join the chat".localizedString)
-                                }
+//                                DispatchQueue.main.async {
+//                                    self.view.makeToast("You have successfully join the chat".localizedString)
+//                                }
                                 
                                 DispatchQueue.main.async {
                                     self.getAllChatList(pageNumber: 1)
@@ -747,9 +747,9 @@ extension InboxVC:UITableViewDelegate {
                                     return
                                 }
                                 
-                                DispatchQueue.main.async {
-                                    self.view.makeToast("You have successfully join the chat".localizedString)
-                                }
+//                                DispatchQueue.main.async {
+//                                    self.view.makeToast("You have successfully join the chat".localizedString)
+//                                }
                                 
                                 DispatchQueue.main.async {
                                     self.getAllChatList(pageNumber: 1)

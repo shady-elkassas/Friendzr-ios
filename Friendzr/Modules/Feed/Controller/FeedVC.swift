@@ -44,7 +44,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var hidesImgs: [UIImageView]!
     @IBOutlet var proImgs: [UIImageView]!
     
-    
     //MARK: - Properties
     private lazy var currLocation: CLLocation = CLLocation()
     private lazy var locationManager : CLLocationManager = CLLocationManager()
@@ -90,7 +89,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     var refreshControl = UIRefreshControl()
     let switchCompassBarButton = Switch()
     let switchGhostModeBarButton = Switch()
-//    let thumbLayer = CALayer()
 
     var btnsSelected:Bool = false
     var internetConnect:Bool = false
@@ -102,6 +100,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     var locationLat = 0.0
     var locationLng = 0.0
+    
+    var isCompassOpen:Bool = false
+    var isPrivateModesOpen:Bool = false
     
     
     //MARK: - Life Cycle
@@ -143,6 +144,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         CancelRequest.currentTask = true
     }
     
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
@@ -172,7 +174,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    
     func seyupAds() {
         bannerView.adUnitID = adUnitID
         //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
@@ -187,7 +188,11 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @objc func updateFeeds() {
         if Defaults.allowMyLocation == true {
             DispatchQueue.main.async {
-                self.getAllFeeds(pageNumber: 1)
+                if self.isCompassOpen {
+                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
+                }else {
+                    self.getAllFeeds(pageNumber: 1)
+                }
             }
             self.allowLocView.isHidden = true
         }else {
@@ -200,7 +205,11 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     func loadMoreItemsForList(){
         currentPage += 1
-        getAllFeeds(pageNumber: currentPage)
+        if self.isCompassOpen {
+            self.filterFeedsBy(degree: compassDegree, pageNumber: currentPage)
+        }else {
+            self.getAllFeeds(pageNumber: currentPage)
+        }
     }
     
     func getAllFeeds(pageNumber:Int) {
@@ -252,9 +261,17 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func filterFeedsBy(degree:Double,pageNumber:Int) {
+        self.hideView.isHidden = false
+        self.hideView.showLoader()
         viewmodel.filterFeeds(Bydegree: degree, pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                
+                DispatchQueue.main.async {
+                    self.hideView.isHidden = true
+                    self.hideView.hideLoader()
+                }
+                
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -298,8 +315,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         for item in proImgs {
             item.cornerRadiusForHeight()
         }
-        
     }
+    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -318,7 +335,12 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             self.emptyView.isHidden = true
             self.hideView.isHidden = false
             internetConnect = true
-            LoadAllFeeds(pageNumber: 0)
+            
+            if isCompassOpen {
+                filterFeedsBy(degree: compassDegree, pageNumber: 1)
+            }else {
+                LoadAllFeeds(pageNumber: 0)
+            }
             
             if Defaults.allowMyLocation == true {
                 self.allowLocView.isHidden = true
@@ -338,7 +360,12 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 self.allowLocView.isHidden = false
             }
             internetConnect = true
-            LoadAllFeeds(pageNumber: 0)
+            
+            if isCompassOpen {
+                filterFeedsBy(degree: compassDegree, pageNumber: 0)
+            }else {
+                LoadAllFeeds(pageNumber: 0)
+            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
                 self.updateMyLocation()
@@ -421,7 +448,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @objc func didPullToRefresh() {
         print("Refersh")
         currentPage = 1
-//        getAllFeeds(pageNumber: 1)
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
@@ -444,7 +470,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         allowBtn.cornerRadiusView(radius: 8)
         nextBtn.setBorder(color: UIColor.white.cgColor, width: 2)
         nextBtn.cornerRadiusForHeight()
-        
     }
     
     //change title for any btns
@@ -737,7 +762,7 @@ extension FeedVC:UITableViewDataSource {
                 
                 if self.internetConnect {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
-                        self.hideLoading()
+//                        self.hideLoading()
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -1105,6 +1130,7 @@ extension FeedVC {
         // Azimuth
         if Defaults.allowMyLocation == true {
             if switchCompassBarButton.isOn {
+                self.isCompassOpen = true
                 bannerViewHeight.constant = 50
                 if !Defaults.isFirstFilter {
                     filterHideView.isHidden = false
@@ -1126,6 +1152,7 @@ extension FeedVC {
                     compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
                 }
             }else {
+                self.isCompassOpen = false
                 filterHideView.isHidden = true
                 Defaults.isFirstFilter = true
                 bannerViewHeight.constant = 100
@@ -1150,6 +1177,7 @@ extension FeedVC {
                 }
             }
         }else {
+            self.isCompassOpen = false
             switchCompassBarButton.isOn = false
             self.showAlert(withMessage: "Please allow your location".localizedString)
             bannerViewHeight.constant = 100
@@ -1167,6 +1195,16 @@ extension FeedVC {
             }
             
             self.alertView?.parentVC = self
+            
+            self.alertView?.selectedHideType.removeAll()
+            self.alertView?.typeIDs.removeAll()
+            self.alertView?.typeStrings.removeAll()
+            
+            for item in self.alertView?.hideArray ?? [] {
+                item.isSelected = false
+                self.alertView?.tableView.reloadData()
+            }
+            
             self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
             
             //cancel view
@@ -1209,15 +1247,22 @@ extension FeedVC {
                         guard data != nil else {return}
                         Defaults.ghostMode = false
                         Defaults.ghostModeEveryOne = false
+                        Defaults.myAppearanceTypes = [0]
                         
                         DispatchQueue.main.async {
                             self.switchGhostModeBarButton.isOn = false
                         }
                         DispatchQueue.main.async {
-                            self.getAllFeeds(pageNumber: 1)
+                            if self.isCompassOpen {
+                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
+                            }else {
+                                self.getAllFeeds(pageNumber: 1)
+                            }
                         }
                         
-                        
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("updateSettings"), object: nil, userInfo: nil)
+                        }
                     })
                 }
                 // handling code
@@ -1279,7 +1324,6 @@ extension FeedVC {
                     }else {
                         Defaults.ghostModeEveryOne = false
                     }
-                    
                 }else {
                     Defaults.ghostModeEveryOne = false
                     Defaults.ghostMode = false
@@ -1293,7 +1337,15 @@ extension FeedVC {
             }
             
             DispatchQueue.main.async {
-                self.getAllFeeds(pageNumber: 1)
+                NotificationCenter.default.post(name: Notification.Name("updateSettings"), object: nil, userInfo: nil)
+            }
+            
+            DispatchQueue.main.async {
+                if self.isCompassOpen {
+                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
+                }else {
+                    self.getAllFeeds(pageNumber: 1)
+                }
             }
         }
     }

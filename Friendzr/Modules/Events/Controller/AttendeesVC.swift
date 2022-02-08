@@ -149,7 +149,7 @@ class AttendeesVC: UIViewController {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
+//                self.hideLoading()
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else if error == "Bad Request" {
@@ -196,9 +196,9 @@ class AttendeesVC: UIViewController {
                 
                 guard let _ = data else {return}
                 
-                DispatchQueue.main.async {
-                    self.view.makeToast("Successfully" )
-                }
+//                DispatchQueue.main.async {
+//                    self.view.makeToast("Successfully" )
+//                }
                 
                 DispatchQueue.main.async {
                     self.getAllAttendees(pageNumber: 0, search: searchBar.text ?? "")

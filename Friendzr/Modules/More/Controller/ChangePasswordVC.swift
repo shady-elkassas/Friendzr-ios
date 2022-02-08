@@ -100,9 +100,9 @@ class ChangePasswordVC: UIViewController  {
                     return
                 }
                 guard let _ = data else {return}
-                DispatchQueue.main.async {
-                    self.view.makeToast("Password changed successfully".localizedString)
-                }
+//                DispatchQueue.main.async {
+//                    self.view.makeToast("Password changed successfully".localizedString)
+//                }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1 , execute: {
                     self.onPopup()

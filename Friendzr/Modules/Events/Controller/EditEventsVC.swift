@@ -238,9 +238,6 @@ class EditEventsVC: UIViewController {
             self.saveBtn.isUserInteractionEnabled = false
             viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
                 
-                self.saveBtn.setTitle("Save", for: .normal)
-                self.saveBtn.isUserInteractionEnabled = true
-                
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -251,7 +248,9 @@ class EditEventsVC: UIViewController {
                 guard let _ = data else {return}
                 
                 DispatchQueue.main.async {
-                    self.view.makeToast("Edit Save successfully".localizedString)
+//                    self.view.makeToast("Edit Save successfully".localizedString)
+                    self.saveBtn.setTitle("Save", for: .normal)
+                    self.saveBtn.isUserInteractionEnabled = true
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {

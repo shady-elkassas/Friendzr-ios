@@ -36,7 +36,7 @@ class EditEventViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Edit event
-    func editEvent(withID eventid:String,AndTitle title:String,AndDescription description:String,AndStatus status: String,AndCategory categoryId:String,lang:String,lat:String,totalnumbert:String,allday:Bool,eventdateFrom:String,eventDateto:String,eventfrom:String,eventto:String,attachedImg:Bool,AndImage image:UIImage,completion: @escaping (_ error: String?, _ data: EventObj?) -> ()) {
+    func editEvent(withID eventid:String,AndTitle title:String,AndDescription description:String,AndStatus status: String,AndCategory categoryId:String,lang:String,lat:String,totalnumbert:String,allday:Bool,eventdateFrom:String,eventDateto:String,eventfrom:String,eventto:String,attachedImg:Bool,AndImage image:UIImage,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         
         CancelRequest.currentTask = false
         titleEventViewModel.data = title
@@ -88,7 +88,7 @@ class EditEventViewModel {
                         
                         if code == 200 || code == 201 {
                             // When set the listener (if any) will be notified
-                            if let toAdd = userResponse.data {
+                            if let toAdd = userResponse.message {
                                 completion(nil,toAdd)
                             }
                         }else {
@@ -139,7 +139,7 @@ class EditEventViewModel {
                         
                         if code == 200 || code == 201 {
                             // When set the listener (if any) will be notified
-                            if let toAdd = userResponse.data {
+                            if let toAdd = userResponse.message {
                                 completion(nil,toAdd)
                             }
                         }else {
