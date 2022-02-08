@@ -415,10 +415,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
             else if action == "Check_events_near_you" {
-                if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
+//                if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
+//                   let tabBarController = rootViewController as? UITabBarController,
+//                   let navController = tabBarController.selectedViewController as? UINavigationController {
+//                    tabBarController.selectedIndex = 1
+//                    navController.pushViewController(vc, animated: true)
+//                }
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
-                    tabBarController.selectedIndex = 1
+                    vc.eventId = actionId ?? ""
                     navController.pushViewController(vc, animated: true)
                 }
             }
