@@ -51,23 +51,29 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BJe-HM-eDJ">
-                    <rect key="frame" x="34.5" y="270.5" width="345" height="365"/>
+                    <rect key="frame" x="34.5" y="259.5" width="345" height="387.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hide from" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2q8-Iy-iYP">
-                            <rect key="frame" x="25" y="25" width="94.5" height="22"/>
+                            <rect key="frame" x="25" y="52" width="73.5" height="17.5"/>
+                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
+                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Private Modes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZWs-S2-RgQ">
+                            <rect key="frame" x="25" y="20" width="132" height="22"/>
                             <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="18"/>
                             <color key="textColor" name="ColorLbl3"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="uif-cb-4Gk">
-                            <rect key="frame" x="0.0" y="67" width="345" height="216"/>
+                            <rect key="frame" x="0.0" y="89.5" width="345" height="216"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="216" id="fiF-W9-3cE"/>
                             </constraints>
                         </tableView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QXo-hw-JPp">
-                            <rect key="frame" x="115" y="303" width="115" height="42"/>
+                            <rect key="frame" x="115" y="325.5" width="115" height="42"/>
                             <color key="backgroundColor" name="primaryColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="42" id="ghd-t0-QQ5"/>
@@ -85,13 +91,15 @@
                     <color key="backgroundColor" name="Color0"/>
                     <constraints>
                         <constraint firstItem="2q8-Iy-iYP" firstAttribute="leading" secondItem="BJe-HM-eDJ" secondAttribute="leading" constant="25" id="7O1-cI-0Ka"/>
+                        <constraint firstItem="ZWs-S2-RgQ" firstAttribute="top" secondItem="BJe-HM-eDJ" secondAttribute="top" constant="20" id="7uJ-oJ-4y3"/>
+                        <constraint firstItem="2q8-Iy-iYP" firstAttribute="top" secondItem="ZWs-S2-RgQ" secondAttribute="bottom" constant="10" id="C5t-q4-E7C"/>
                         <constraint firstItem="uif-cb-4Gk" firstAttribute="leading" secondItem="BJe-HM-eDJ" secondAttribute="leading" id="Cp8-QU-OTz"/>
                         <constraint firstItem="uif-cb-4Gk" firstAttribute="top" secondItem="2q8-Iy-iYP" secondAttribute="bottom" constant="20" id="Dmq-u6-vnO"/>
                         <constraint firstItem="QXo-hw-JPp" firstAttribute="centerX" secondItem="BJe-HM-eDJ" secondAttribute="centerX" id="F4O-V4-RLq"/>
                         <constraint firstItem="QXo-hw-JPp" firstAttribute="width" secondItem="BJe-HM-eDJ" secondAttribute="width" multiplier="1:3" id="JGO-9x-alp"/>
                         <constraint firstAttribute="trailing" secondItem="uif-cb-4Gk" secondAttribute="trailing" id="SVA-eq-U2V"/>
+                        <constraint firstItem="ZWs-S2-RgQ" firstAttribute="leading" secondItem="BJe-HM-eDJ" secondAttribute="leading" constant="25" id="aNF-gf-Xw9"/>
                         <constraint firstItem="QXo-hw-JPp" firstAttribute="top" secondItem="uif-cb-4Gk" secondAttribute="bottom" constant="20" id="arj-ee-ejp"/>
-                        <constraint firstItem="2q8-Iy-iYP" firstAttribute="top" secondItem="BJe-HM-eDJ" secondAttribute="top" constant="25" id="pbH-sK-RuK"/>
                         <constraint firstAttribute="bottom" secondItem="QXo-hw-JPp" secondAttribute="bottom" constant="20" id="uKy-Oc-s07"/>
                     </constraints>
                     <userDefinedRuntimeAttributes>

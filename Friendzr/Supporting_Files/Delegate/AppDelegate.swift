@@ -69,19 +69,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        UNUserNotificationCenter.current().delegate = self
         if #available(iOS 10.0, *) {
             // For iOS 10 display  notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = self
-            
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
                 completionHandler: { _, _ in }
             )
+            
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+                // Enable or disable features based on authorization.
+                print("granted \(granted)")
+                let content = UNMutableNotificationContent()
+                content.sound = UNNotificationSound.default
+            }
         } else {
             let settings: UIUserNotificationSettings =
             UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
+            
+            let center = UNUserNotificationCenter.current()
+            center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
+                // Enable or disable features based on authorization.
+                print("granted \(granted)")
+                let content = UNMutableNotificationContent()
+                content.sound = UNNotificationSound.default
+            }
         }
         
         Messaging.messaging().delegate = self
@@ -130,11 +145,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         Localizer.DoExchange()
-        if Language.currentLanguage() == "ar" {
-            UIView.appearance().semanticContentAttribute = .forceRightToLeft
-        }else{
+//        if Language.currentLanguage() == "ar" {
+//            UIView.appearance().semanticContentAttribute = .forceRightToLeft
+//        }else{
             UIView.appearance().semanticContentAttribute = .forceLeftToRight
-        }
+//        }
         
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
@@ -271,7 +286,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Print full message.
         print(userInfo)
         
+        let soundNoti: String = userInfo["sound"] as? String ?? ""
+        let content = UNMutableNotificationContent()
+        content.sound = UNNotificationSound.default
+
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
+
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -296,8 +317,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Print full message.
         print(userInfo)
-        
+        let soundNoti: String = userInfo["sound"] as? String ?? ""
+        let content = UNMutableNotificationContent()
+        content.sound = UNNotificationSound.default
+
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
         completionHandler(UIBackgroundFetchResult.newData)
     }
     
@@ -323,11 +348,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let chatTitleImage = userInfo["userimage"] as? String
 //            let messageType = userInfo["Messagetype"] as? Int
             
+            let soundNoti: String = userInfo["sound"] as? String ?? ""
+            let content = UNMutableNotificationContent()
+            content.sound = UNNotificationSound.default
+
             if action == "Friend_Request" {
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-                }
-                
                 if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -474,7 +499,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
        
         if action == "Friend_Request" {
             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+            
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
         }
         
         // Change this to your preferred presentation option
@@ -497,6 +524,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }else {
             Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
         }
+        
+        let soundNoti: String = userInfo["sound"] as? String ?? ""
+        let content = UNMutableNotificationContent()
+        content.sound = UNNotificationSound.default
+
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
@@ -511,7 +543,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // Print full message.
         print(userInfo)
-        
+
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
         let action = userInfo["Action"] as? String //action transaction
@@ -531,6 +563,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         if action == "Friend_Request" {
             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
         }
 
         if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
@@ -538,6 +571,10 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }else {
             Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
         }
+        
+        let soundNoti: String = userInfo["sound"] as? String ?? ""
+        let content = UNMutableNotificationContent()
+        content.sound = UNNotificationSound.default
     }
 }
 

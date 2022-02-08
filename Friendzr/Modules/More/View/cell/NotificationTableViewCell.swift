@@ -19,7 +19,7 @@ class NotificationTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        notificationImg.cornerRadiusView(radius: 8)
+        notificationImg.cornerRadiusForHeight()
         notificationImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 0.5)
         containerView.cornerRadiusView(radius: 8)
         containerView.setBorder()
@@ -30,5 +30,4 @@ class NotificationTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
 }

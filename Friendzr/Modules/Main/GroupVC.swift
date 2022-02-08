@@ -270,9 +270,9 @@ extension GroupVC {
     @objc func handleSaveBtn() {
         self.viewmodel.updateGroup(ByID: self.groupId, AndName: nameTxt.text!, attachedImg: true, AndImage: groupImg.image ?? UIImage()) { error, data in
             if let error = error {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
+//                DispatchQueue.main.async {
+//                    self.view.makeToast(error)
+//                }
                 return
             }
             

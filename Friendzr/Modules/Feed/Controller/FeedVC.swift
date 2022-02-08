@@ -189,9 +189,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         if Defaults.allowMyLocation == true {
             DispatchQueue.main.async {
                 if self.isCompassOpen {
-                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
+                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
                 }else {
-                    self.getAllFeeds(pageNumber: 1)
+                    self.getAllFeeds(pageNumber: 0)
                 }
             }
             self.allowLocView.isHidden = true
@@ -651,7 +651,9 @@ extension FeedVC:UITableViewDataSource {
                 if self.internetConnect {
                     self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1) { error, message in
-                        cell.sendRequestBtn.setTitle("Send Request", for: .normal)
+                        
+                        
+                        
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -662,7 +664,17 @@ extension FeedVC:UITableViewDataSource {
                         guard let _ = message else {return}
                         
                         DispatchQueue.main.async {
-                            self.getAllFeeds(pageNumber: 0)
+                            cell.sendRequestBtn.setTitle("Send Request", for: .normal)
+                            
+                            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                        }
+                        
+                        DispatchQueue.main.async {
+                            if self.isCompassOpen {
+                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
+                            }else {
+                                self.getAllFeeds(pageNumber: 1)
+                            }
                         }
                     }
                 }
@@ -688,8 +700,17 @@ extension FeedVC:UITableViewDataSource {
                             }
                             
                             guard let _ = message else {return}
+                            
                             DispatchQueue.main.async {
-                                self.getAllFeeds(pageNumber: 0)
+                                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                            }
+                            
+                            DispatchQueue.main.async {
+                                if self.isCompassOpen {
+                                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                                }else {
+                                    self.getAllFeeds(pageNumber: 0)
+                                }
                             }
                         }
                     }
@@ -726,8 +747,18 @@ extension FeedVC:UITableViewDataSource {
                             }
                             
                             guard let _ = message else {return}
+                            
                             DispatchQueue.main.async {
-                                self.getAllFeeds(pageNumber: 0)
+                                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                            }
+                            
+                            DispatchQueue.main.async {
+                                if self.isCompassOpen {
+                                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                                }else {
+                                    self.getAllFeeds(pageNumber: 0)
+                                }
+                                
                             }
                         }
                     }
@@ -762,7 +793,6 @@ extension FeedVC:UITableViewDataSource {
                 
                 if self.internetConnect {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
-//                        self.hideLoading()
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -772,7 +802,12 @@ extension FeedVC:UITableViewDataSource {
                         
                         guard let _ = message else {return}
                         DispatchQueue.main.async {
-                            self.getAllFeeds(pageNumber: 0)
+                            if self.isCompassOpen {
+                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                            }else {
+                                self.getAllFeeds(pageNumber: 0)
+                            }
+                            
                         }
                     }
                 }else {
@@ -797,15 +832,24 @@ extension FeedVC:UITableViewDataSource {
                         }
                         
                         guard let _ = message else {return}
+                        
                         DispatchQueue.main.async {
-                            self.getAllFeeds(pageNumber: 0)
+                            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                        }
+                        
+                        DispatchQueue.main.async {
+                            if self.isCompassOpen {
+                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                            }else {
+                                self.getAllFeeds(pageNumber: 0)
+                            }
+                            
                         }
                     }
                 }
             }
             
             return cell
-            
         }
         
         else {
@@ -1168,7 +1212,12 @@ extension FeedVC {
                 
                 if Defaults.allowMyLocation == true {
                     DispatchQueue.main.async {
-                        self.getAllFeeds(pageNumber: 1)
+                        if self.isCompassOpen {
+                            self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                        }else {
+                            self.getAllFeeds(pageNumber: 0)
+                        }
+                        
                     }
                     self.allowLocView.isHidden = true
                 }else {
@@ -1185,7 +1234,10 @@ extension FeedVC {
     }
     
     @objc func handleGhostModeSwitchBtn() {
-        
+        let btnOffX = switchGhostModeBarButton.trackLayer.position.x / 1.8
+        let btnOffY = switchGhostModeBarButton.trackLayer.position.y
+        let btnOnX = switchGhostModeBarButton.trackLayer.position.x * 1.4
+
         if Defaults.ghostMode == false {
             self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
@@ -1209,7 +1261,9 @@ extension FeedVC {
             
             //cancel view
             self.alertView?.HandlehideViewBtn = {
-                self.switchCompassBarButton.isOn = false
+                self.switchGhostModeBarButton.isOn = false
+                self.switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOffX, y: btnOffY)
+
                 DispatchQueue.main.async {
                     self.switchGhostModeBarButton.isUserInteractionEnabled = true
                     self.switchCompassBarButton.isUserInteractionEnabled = true
@@ -1218,6 +1272,8 @@ extension FeedVC {
             
             self.alertView?.HandleSaveBtn = {
                 self.switchGhostModeBarButton.isOn = true
+                self.switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOnX, y: btnOffY)
+
                 DispatchQueue.main.async {
                     self.switchGhostModeBarButton.isUserInteractionEnabled = true
                     self.switchCompassBarButton.isUserInteractionEnabled = true
@@ -1251,12 +1307,14 @@ extension FeedVC {
                         
                         DispatchQueue.main.async {
                             self.switchGhostModeBarButton.isOn = false
+                            self.switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOffX, y: btnOffY)
                         }
+                        
                         DispatchQueue.main.async {
                             if self.isCompassOpen {
-                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
+                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
                             }else {
-                                self.getAllFeeds(pageNumber: 1)
+                                self.getAllFeeds(pageNumber: 0)
                             }
                         }
                         
@@ -1284,6 +1342,8 @@ extension FeedVC {
             self.showAlertView?.HandleCancelBtn = {
                 DispatchQueue.main.async {
                     self.switchGhostModeBarButton.isOn = true
+                    self.switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOnX, y: btnOffY)
+
                     self.switchGhostModeBarButton.isUserInteractionEnabled = true
                     self.switchCompassBarButton.isUserInteractionEnabled = true
                 }
@@ -1330,8 +1390,13 @@ extension FeedVC {
                 }
             }
             
+            let btnOffY = self.switchGhostModeBarButton.trackLayer.position.y
+            let btnOnX = self.switchGhostModeBarButton.trackLayer.position.x * 1.4
+
             DispatchQueue.main.async {
                 self.switchGhostModeBarButton.isOn = true
+                self.switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOnX, y: btnOffY)
+
                 self.switchGhostModeBarButton.isUserInteractionEnabled = true
                 self.switchCompassBarButton.isUserInteractionEnabled = true
             }
@@ -1342,9 +1407,9 @@ extension FeedVC {
             
             DispatchQueue.main.async {
                 if self.isCompassOpen {
-                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
+                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
                 }else {
-                    self.getAllFeeds(pageNumber: 1)
+                    self.getAllFeeds(pageNumber: 0)
                 }
             }
         }
@@ -1357,11 +1422,18 @@ extension FeedVC {
         switchGhostModeBarButton.onTintColor = UIColor.FriendzrColors.primary!
         switchGhostModeBarButton.thumbTintColor = .white
         switchGhostModeBarButton.thumbImage = UIImage(named: "ghostModeSwitch_ic")?.cgImage
+        switchGhostModeBarButton.trackLayer.backgroundColor = switchGhostModeBarButton.getBackgroundColor()
         
+        let btnOffX = switchGhostModeBarButton.trackLayer.position.x / 1.8
+        let btnOffY = switchGhostModeBarButton.trackLayer.position.y
+        let btnOnX = switchGhostModeBarButton.trackLayer.position.x * 1.4
+
         if Defaults.ghostMode == true {
             switchGhostModeBarButton.isOn = true
+            switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOnX, y: btnOffY)
         }else {
             switchGhostModeBarButton.isOn = false
+            switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOffX, y: btnOffY)
         }
         
         switchGhostModeBarButton.addTarget(self, action:  #selector(handleGhostModeSwitchBtn), for: .touchUpInside)

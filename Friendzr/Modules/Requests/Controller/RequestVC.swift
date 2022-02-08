@@ -7,6 +7,7 @@
 
 import UIKit
 import ListPlaceholder
+import GoogleMobileAds
 
 class RequestesType {
     static var type: Int = 2
@@ -22,7 +23,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
     @IBOutlet weak var segmentControl: UISegmentedControl!
-    
+    @IBOutlet var bannerView: GADBannerView!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var hidesImgs: [UIImageView]!
     @IBOutlet var proImgs: [UIImageView]!
@@ -53,6 +54,8 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
             self.updateUserInterface()
         }
         
+        seyupAds()
+
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateResquests), name: Notification.Name("updateResquests"), object: nil)
@@ -172,6 +175,15 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //MARK: - Helper
+    func seyupAds() {
+        bannerView.adUnitID = adUnitID
+        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        //        addBannerViewToView(bannerView)
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
+        bannerView.delegate = self
+        bannerView.setCornerforTop()
+    }
     
     func setupHideView() {
         for itm in proImgs {
@@ -248,7 +260,8 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         if cellSelected {
             emptyView.isHidden = true
             self.view.makeToast("No avaliable network ,Please try again!".localizedString)
-        }else {
+        }
+        else {
             emptyView.isHidden = false
             emptyImg.image = UIImage.init(named: "nointernet")
             emptyLbl.text = "No avaliable network ,Please try again!".localizedString
@@ -275,7 +288,6 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     @objc func didPullToRefresh() {
         print("Refersh")
         currentPage = 0
-//        getAllUserRequests(pageNumber: 0)
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
@@ -343,8 +355,18 @@ extension RequestVC:UITableViewDataSource {
             
             if RequestesType.type == 1 {
                 cell.acceptBtn.isHidden = true
+                if model?.key == 1 {
+                    cell.stackViewBtns.isHidden = false
+                    cell.messageBtn.isHidden = true
+                    cell.requestRemovedLbl.isHidden = true
+                }
             }else {
                 cell.acceptBtn.isHidden = false
+                if model?.key == 2 {
+                    cell.stackViewBtns.isHidden = false
+                    cell.messageBtn.isHidden = true
+                    cell.requestRemovedLbl.isHidden = true
+                }
             }
             
             cell.friendRequestNameLbl.text = model?.userName
@@ -379,10 +401,12 @@ extension RequestVC:UITableViewDataSource {
                             self.updateUserInterface()
                         }
                         
-                        cell.stackViewBtns.isHidden = true
-                        cell.messageBtn.isHidden = false
-                        cell.requestRemovedLbl.isHidden = true
-                        
+                        DispatchQueue.main.async {
+                            cell.stackViewBtns.isHidden = true
+                            cell.messageBtn.isHidden = false
+                            cell.requestRemovedLbl.isHidden = true
+                        }
+                    
                     }
                 }
             }
@@ -408,9 +432,11 @@ extension RequestVC:UITableViewDataSource {
                             self.updateUserInterface()
                         }
                         
-                        cell.stackViewBtns.isHidden = true
-                        cell.messageBtn.isHidden = true
-                        cell.requestRemovedLbl.isHidden = false
+                        DispatchQueue.main.async {
+                            cell.stackViewBtns.isHidden = true
+                            cell.messageBtn.isHidden = true
+                            cell.requestRemovedLbl.isHidden = false
+                        }
                     }
                 }
             }
@@ -496,4 +522,31 @@ extension UISegmentedControl {
         self.setTitleTextAttributes(attributes, for: state)
     }
     
+}
+
+extension RequestVC:GADBannerViewDelegate {
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print(error)
+    }
+    
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("Receive Ad")
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+        print("bannerViewDidRecordImpression")
+    }
+    
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillPresentScreen")
+        bannerView.load(GADRequest())
+    }
+    
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillDIsmissScreen")
+    }
+    
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewDidDismissScreen")
+    }
 }

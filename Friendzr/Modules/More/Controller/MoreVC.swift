@@ -47,6 +47,9 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         CancelRequest.currentTask = false
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMoreTableView), name: Notification.Name("updateMoreTableView"), object: nil)
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -55,7 +58,10 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
-    
+    @objc func updateMoreTableView() {
+        tableView.reloadData()
+    }
+
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
@@ -252,23 +258,19 @@ extension MoreVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return moreList.count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? MoreTableViewCell else {return UITableViewCell()}
         cell.imgView.image = moreList[indexPath.row].1
         cell.titleLbl.text = moreList[indexPath.row].0
         cell.imgView.image?.withTintColor(UIColor.setColor(lightColor: .black, darkColor: .white))
         
-//        if  Defaults.badgeNumber == 0 {
-//            cell.badgeView.isHidden = true
-//        }else {
-            if indexPath.row == 2 {
-                cell.badgeLbl.text = "\(Defaults.badgeNumber)"
-                cell.badgeView.isHidden = false
-            }else {
-                cell.badgeView.isHidden = true
-            }
-//        }
-        
+        if indexPath.row == 2 {
+            cell.badgeLbl.text = "\(Defaults.badgeNumber)"
+            cell.badgeView.isHidden = false
+        }else {
+            cell.badgeView.isHidden = true
+        }
         return cell
     }
 }

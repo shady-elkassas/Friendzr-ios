@@ -33,7 +33,7 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var tagsListView: TagListView!
     @IBOutlet weak var selectTagsLbl: UILabel!
     @IBOutlet weak var logoutBtn: UIButton!
-
+    
     @IBOutlet weak var tagsBottomSpaceLayout: NSLayoutConstraint!
     @IBOutlet weak var tagsTopSpaceLayout: NSLayoutConstraint!
     
@@ -42,13 +42,13 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var otherGenderTxt: UITextField!
     
     @IBOutlet weak var ProcessingLbl: UILabel!
-
+    
     //MARK: - Properties
     
     lazy var logoutAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     lazy var calendarView = Bundle.main.loadNibNamed("CalendarView", owner: self, options: nil)?.first as? CalendarView
     lazy var verifyFaceView = Bundle.main.loadNibNamed("VerifyFaceRegistrationAlertView", owner: self, options: nil)?.first as? VerifyFaceRegistrationAlertView
-
+    
     
     var genderString = ""
     let imagePicker = UIImagePickerController()
@@ -81,7 +81,7 @@ class EditMyProfileVC: UIViewController {
     
     var faceImgOne: UIImage = UIImage()
     var faceImgTwo: UIImage = UIImage()
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -274,7 +274,7 @@ class EditMyProfileVC: UIViewController {
             otherImg.image = UIImage(named: "unSelect_ic")
             otherGenderView.isHidden = true
             otherGenderTxt.text = ""
-
+            
             genderString = "male"
         }else if model?.gender == "female" {
             femaleImg.image = UIImage(named: "select_ic")
@@ -282,7 +282,7 @@ class EditMyProfileVC: UIViewController {
             otherImg.image = UIImage(named: "unSelect_ic")
             otherGenderView.isHidden = true
             otherGenderTxt.text = ""
-
+            
             genderString = "female"
         }else {
             otherImg.image = UIImage(named: "select_ic")
@@ -467,7 +467,7 @@ class EditMyProfileVC: UIViewController {
         otherImg.image = UIImage(named: "unSelect_ic")
         otherGenderView.isHidden = true
         otherGenderTxt.text = ""
-
+        
         genderString = "male"
     }
     
@@ -477,7 +477,7 @@ class EditMyProfileVC: UIViewController {
         otherImg.image = UIImage(named: "unSelect_ic")
         otherGenderView.isHidden = true
         otherGenderTxt.text = ""
-
+        
         genderString = "female"
     }
     
@@ -487,7 +487,7 @@ class EditMyProfileVC: UIViewController {
         femaleImg.image = UIImage(named: "unSelect_ic")
         otherGenderView.isHidden = false
         otherGenderTxt.text = Defaults.OtherGenderName
-
+        
         genderString = "other"
     }
     
@@ -526,7 +526,7 @@ class EditMyProfileVC: UIViewController {
                         
                         self.saveBtn.setTitle("Save", for: .normal)
                         self.saveBtn.isUserInteractionEnabled = true
-
+                        
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -583,7 +583,7 @@ class EditMyProfileVC: UIViewController {
                     self.ProcessingLbl.text = "Processing...".localizedString
                     self.ProcessingLbl.textColor = .blue
                 }
-
+                
                 DispatchQueue.main.async {
                     self.profileImg.image = faceImgOne
                 }
@@ -593,7 +593,7 @@ class EditMyProfileVC: UIViewController {
                     self.ProcessingLbl.textColor = .red
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                        self.showFailAlert()
+                        //                        self.showFailAlert()
                         self.ProcessingLbl.isHidden = true
                         self.ProcessingLbl.text = "Processing...".localizedString
                         self.ProcessingLbl.textColor = .blue
@@ -634,12 +634,12 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
             self.profileImg.image = img
             self.attachedImg = true
             
-//            self.faceImgOne = image
-//
-//            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FaceRecognitionVC") as? FaceRecognitionVC else {return}
-//            vc.faceImgOne = self.faceImgOne
-//            vc.onFaceRegistrationCallBackResponse = self.onFaceRegistrationCallBack
-//            self.navigationController?.pushViewController(vc, animated: true)
+            //            self.faceImgOne = image
+            //
+            //            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FaceRecognitionVC") as? FaceRecognitionVC else {return}
+            //            vc.faceImgOne = self.faceImgOne
+            //            vc.onFaceRegistrationCallBackResponse = self.onFaceRegistrationCallBack
+            //            self.navigationController?.pushViewController(vc, animated: true)
         })
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

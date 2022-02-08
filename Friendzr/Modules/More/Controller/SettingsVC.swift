@@ -499,7 +499,7 @@ extension SettingsVC :CLLocationManagerDelegate {
 extension SettingsVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        return 8
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -944,12 +944,31 @@ extension SettingsVC: UITableViewDataSource {
             
             cell.ghostModeTypeLbl.isHidden = true
             return cell
-        case 4://change password
+            
+        case 4://Personal Space
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
+            
+            if model?.filteringaccordingtoage == true {
+                cell.switchBtn.isOn = true
+            }else {
+                cell.switchBtn.isOn = false
+            }
+            
+            cell.titleLbl.text = "Personal Space".localizedString
+            cell.settingIcon.image = UIImage(named: "filterAccourdingAge_ic")
+            
+            cell.HandleSwitchBtn = {
+            }
+            
+            cell.ghostModeTypeLbl.isHidden = true
+            return cell
+            
+        case 5://change password
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Change Password".localizedString
             cell.iconImg.image = UIImage(named: "changePassword_ic")
             return cell
-        case 5://block list
+        case 6://block list
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Block List".localizedString
             cell.iconImg.image = UIImage(named: "blocked_ic")
@@ -960,7 +979,7 @@ extension SettingsVC: UITableViewDataSource {
 //            cell.iconImg.image = UIImage(named: "blocked_ic")
 //            cell.langLbl.text = Language.currentLanguage()
 //            return cell
-        case 6://delete account
+        case 7://delete account
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Delete Account".localizedString
             cell.iconImg.image = UIImage(named: "delete_ic")
@@ -977,12 +996,12 @@ extension SettingsVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 4 { //change password
+        if indexPath.row == 5 { //change password
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "ChangePasswordVC") as? ChangePasswordVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }
         
-        else if indexPath.row == 5 { //block list
+        else if indexPath.row == 6 { //block list
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "BlockedListVC") as? BlockedListVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }
@@ -991,7 +1010,7 @@ extension SettingsVC: UITableViewDelegate {
 //            self.changeLanguage()
 //        }
         
-        else if indexPath.row == 6 { //delete account
+        else if indexPath.row == 7 { //delete account
             deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             deleteAlertView?.titleLbl.text = "Confirm?".localizedString

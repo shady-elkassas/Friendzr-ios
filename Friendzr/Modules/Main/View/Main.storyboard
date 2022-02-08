@@ -754,7 +754,7 @@
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Group Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AZO-Vo-PiM">
                                         <rect key="frame" x="5" y="5" width="364" height="45"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                 </subviews>
@@ -1256,7 +1256,7 @@
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Group Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0gA-gJ-x8e">
                                                         <rect key="frame" x="5" y="5" width="364" height="45"/>
-                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                 </subviews>
@@ -1281,7 +1281,7 @@
                                                 </connections>
                                             </tableView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aMh-XM-gZq">
-                                                <rect key="frame" x="290.5" y="353.5" width="103.5" height="32"/>
+                                                <rect key="frame" x="305.5" y="353.5" width="88.5" height="32"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="32" id="Ao5-ua-fCt"/>
@@ -1311,7 +1311,6 @@
                                             <constraint firstItem="bdW-xL-UIS" firstAttribute="top" secondItem="F18-eY-Pc4" secondAttribute="bottom" constant="20" id="Oh2-Rc-6KR"/>
                                             <constraint firstItem="bdW-xL-UIS" firstAttribute="leading" secondItem="GlK-S8-1Hr" secondAttribute="leading" id="RQD-J6-mbN"/>
                                             <constraint firstItem="sNT-ym-xB9" firstAttribute="top" secondItem="6mw-Jh-fDW" secondAttribute="bottom" constant="20" id="SQt-E5-dBi"/>
-                                            <constraint firstItem="aMh-XM-gZq" firstAttribute="width" secondItem="GlK-S8-1Hr" secondAttribute="width" multiplier="0.25" id="T0R-2H-0Gr"/>
                                             <constraint firstAttribute="trailing" secondItem="6mw-Jh-fDW" secondAttribute="trailing" id="UI3-NZ-7Ov"/>
                                             <constraint firstItem="6mw-Jh-fDW" firstAttribute="top" secondItem="GlK-S8-1Hr" secondAttribute="top" constant="10" id="Vrv-JE-Mia"/>
                                             <constraint firstItem="sNT-ym-xB9" firstAttribute="centerX" secondItem="GlK-S8-1Hr" secondAttribute="centerX" id="aqG-jn-pDh"/>

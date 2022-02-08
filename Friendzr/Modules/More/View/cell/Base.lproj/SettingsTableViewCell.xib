@@ -49,7 +49,7 @@
                                     <action selector="switchBtn:" destination="KGk-i7-Jjw" eventType="valueChanged" id="ByY-EP-pN2"/>
                                 </connections>
                             </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Male" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0gF-fa-I2R">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Male" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0gF-fa-I2R">
                                 <rect key="frame" x="303.5" y="22.5" width="29.5" height="15"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                 <color key="textColor" name="avatarViewBackground"/>
@@ -58,6 +58,7 @@
                         </subviews>
                         <color key="backgroundColor" name="Color0"/>
                         <constraints>
+                            <constraint firstItem="0gF-fa-I2R" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1uh-pE-89J" secondAttribute="trailing" constant="10" id="0SH-KE-99i"/>
                             <constraint firstItem="1uh-pE-89J" firstAttribute="centerY" secondItem="CNI-dy-GSd" secondAttribute="centerY" id="5C6-5h-pyO"/>
                             <constraint firstItem="QmT-8h-klM" firstAttribute="centerY" secondItem="M1M-NR-ZIT" secondAttribute="centerY" id="7Rx-ti-Qg8"/>
                             <constraint firstItem="QmT-8h-klM" firstAttribute="leading" secondItem="0gF-fa-I2R" secondAttribute="trailing" constant="5" id="Dm8-jU-4qm"/>

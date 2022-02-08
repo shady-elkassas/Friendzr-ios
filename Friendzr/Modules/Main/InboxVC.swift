@@ -195,8 +195,10 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.getChatList(pageNumber: pageNumber)
         viewmodel.listChat.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideView.hideLoader()
-                self.hideView.isHidden = true
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
                 
                 tableView.delegate = self
                 tableView.dataSource = self
@@ -204,8 +206,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
-                
-                self.view.hideToast()
             }
         }
         

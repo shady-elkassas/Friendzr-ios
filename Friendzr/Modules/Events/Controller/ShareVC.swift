@@ -11,7 +11,6 @@ class ShareVC: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    
     var cellID = "ShareTableViewCell"
     
     var myFriendsVM:AllFriendesViewModel = AllFriendesViewModel()
@@ -185,7 +184,7 @@ extension ShareVC:UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
 
         if indexPath.section == 0 {
-            cell.titleLbl.text = "Share in any application".localizedString
+            cell.titleLbl.text = "Share Outside Friendzr".localizedString
             cell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
             cell.sendBtn.isHidden = true
             cell.bottomView.isHidden = true

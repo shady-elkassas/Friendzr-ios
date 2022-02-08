@@ -310,7 +310,10 @@ extension NotificationsVC: UITableViewDelegate {
                     vc.eventId = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else if model?.action == "Check_events_near_you" {
-                    Router().toMap()
+//                    Router().toMap()
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else { return}
+                    vc.eventId = model?.action_code ?? ""
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
         }

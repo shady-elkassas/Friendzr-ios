@@ -385,8 +385,12 @@ class AddEventVC: UIViewController {
                 self.saveBtn.setTitle("Saving...", for: .normal)
                 self.saveBtn.isUserInteractionEnabled = false
                 viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
-                    self.saveBtn.isUserInteractionEnabled = true
-                    self.saveBtn.setTitle("Save", for: .normal)
+                    
+                    DispatchQueue.main.async {
+                        self.saveBtn.isUserInteractionEnabled = true
+                        self.saveBtn.setTitle("Save", for: .normal)
+                    }
+                    
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -395,9 +399,9 @@ class AddEventVC: UIViewController {
                     }
                     
                     guard let _ = data else {return}
-                    DispatchQueue.main.async {
-                        self.view.makeToast("Your event added successfully".localizedString)
-                    }
+//                    DispatchQueue.main.async {
+//                        self.view.makeToast("Your event added successfully".localizedString)
+//                    }
                     
                     DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
                         Router().toMap()

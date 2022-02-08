@@ -85,7 +85,7 @@ class HideGhostModeView: UIView {
                 onTypesCallBackResponse?(["Everyone"],[1])
             }else {
                 if typeIDs.count == 0 {
-                    self.parentVC.view.makeToast("Please select a ghost mode type".localizedString)
+                    self.parentVC.view.makeToast("Please select a private modes type".localizedString)
                     return
                 }else {
                     onTypesCallBackResponse?(typeStrings,typeIDs)

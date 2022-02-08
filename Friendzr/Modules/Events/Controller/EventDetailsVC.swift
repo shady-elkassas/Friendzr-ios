@@ -14,7 +14,7 @@ import ListPlaceholder
 import GoogleMobileAds
 import MapKit
 
-class EventDetailsVC: UIViewController {
+class EventDetailsVC: UIViewController,UIScrollViewDelegate {
     
     //MARK:- Outlets
     @IBOutlet weak var scrollView: UIScrollView!
@@ -40,8 +40,8 @@ class EventDetailsVC: UIViewController {
     @IBOutlet weak var mapContainerView: UIView!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var gradientView: UIView!
-    @IBOutlet weak var menuBtn: UIButton!
-    @IBOutlet weak var backBtn: UIButton!
+    //    @IBOutlet weak var menuBtn: UIButton!
+    //    @IBOutlet weak var backBtn: UIButton!
     @IBOutlet var bannerView: GADBannerView!
     
     
@@ -68,7 +68,6 @@ class EventDetailsVC: UIViewController {
     
     var visibleIndexPath:Int = 0
     var encryptedID:String = ""
-    var refreshControl = UIRefreshControl()
     
     
     private let formatterDate: DateFormatter = {
@@ -92,17 +91,19 @@ class EventDetailsVC: UIViewController {
         return viewX
     }()
     
+    lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        control.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+        return control
+    }()
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         setupViews()
-        pullToRefresh()
-        
-        //        initBackColorButton()
-        //        initOptionsEventButton()
-        
+        initOptionsEventButton()
+        initBackButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -114,10 +115,16 @@ class EventDetailsVC: UIViewController {
             self.updateUserInterface()
         }
         
-        hideNavigationBar(NavigationBar: false, BackButton: true)
+        hideNavigationBar(NavigationBar: false, BackButton: false)
         
         CancelRequest.currentTask = false
         seyupAds()
+        
+        setupNavBar()
+        
+        scrollView.delegate = self
+        scrollView.refreshControl = refreshControl
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -139,6 +146,8 @@ class EventDetailsVC: UIViewController {
     func pullToRefresh() {
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
+        //        self.scrollView.isScrollEnabled = true
+        //        self.scrollView.alwaysBounceVertical = true
         self.scrollView.addSubview(refreshControl)
     }
     
@@ -180,8 +189,8 @@ class EventDetailsVC: UIViewController {
         leaveBtn.cornerRadiusView(radius: 8)
         detailsView.cornerRadiusView(radius: 21)
         interestsStatisticsView.cornerRadiusView(radius: 21)
-        backBtn.cornerRadiusForHeight()
-        menuBtn.cornerRadiusForHeight()
+        //        backBtn.cornerRadiusForHeight()
+        //        menuBtn.cornerRadiusForHeight()
         
         attendeesTableView.register(UINib(nibName: attendeesCellID, bundle: nil), forCellReuseIdentifier: attendeesCellID)
         attendeesTableView.register(UINib(nibName: footerCellID, bundle: nil), forHeaderFooterViewReuseIdentifier: footerCellID)
@@ -216,6 +225,7 @@ class EventDetailsVC: UIViewController {
         eventTitleLbl.text = model?.title
         dateCreateLbl.text = model?.datetext
         
+        self.title = model?.title
         if model?.timefrom != "" && model?.allday == false {
             timeCreateLbl.text = model?.timetext
         }else {
@@ -399,7 +409,9 @@ class EventDetailsVC: UIViewController {
         if internetConect == true {
             joinBtn.isUserInteractionEnabled = false
             joinVM.joinEvent(ByEventid: viewmodel.event.value?.id ?? "",JoinDate:JoinDate ,Jointime:Jointime) { error, data in
-                self.joinBtn.isUserInteractionEnabled = true
+                DispatchQueue.main.async {
+                    self.joinBtn.isUserInteractionEnabled = true
+                }
                 if let error = error {
                     self.hideLoading()
                     DispatchQueue.main.async {
@@ -411,7 +423,7 @@ class EventDetailsVC: UIViewController {
                 guard let _ = data else {return}
                 DispatchQueue.main.async {
                     self.joinBtn.isUserInteractionEnabled = true
-//                    self.view.makeToast("You have successfully subscribed to event".localizedString)
+                    //                    self.view.makeToast("You have successfully subscribed to event".localizedString)
                 }
                 
                 self.getEventDetails()
@@ -426,7 +438,10 @@ class EventDetailsVC: UIViewController {
         if internetConect == true {
             leaveBtn.isUserInteractionEnabled = false
             leaveVM.leaveEvent(ByEventid: viewmodel.event.value?.id ?? "") { error, data in
-                self.leaveBtn.isUserInteractionEnabled = true
+                DispatchQueue.main.async {
+                    self.leaveBtn.isUserInteractionEnabled = true
+                }
+                
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -438,7 +453,7 @@ class EventDetailsVC: UIViewController {
                 
                 DispatchQueue.main.async {
                     self.leaveBtn.isUserInteractionEnabled = true
-//                    self.view.makeToast("You have successfully leave event".localizedString)
+                    //                    self.view.makeToast("You have successfully leave event".localizedString)
                 }
                 
                 self.getEventDetails()
@@ -466,9 +481,9 @@ class EventDetailsVC: UIViewController {
                 
                 guard let _ = data else {return}
                 
-//                DispatchQueue.main.async {
-//                    self.view.makeToast("You have now joined the chat event".localizedString)
-//                }
+                //                DispatchQueue.main.async {
+                //                    self.view.makeToast("You have now joined the chat event".localizedString)
+                //                }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     Router().toConversationVC(isEvent: true, eventChatID: self.eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: self.viewmodel.event.value?.image ?? "", titleChatName: self.viewmodel.event.value?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
@@ -756,12 +771,12 @@ extension EventDetailsVC:GADBannerViewDelegate {
 
 extension EventDetailsVC {
     func initOptionsEventButton() {
-        let imageName = "menu_WH_ic"
+        let imageName = "menu_H_ic"
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        button.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
-        button.cornerRadiusForHeight()
+        //        button.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
+        //        button.cornerRadiusForHeight()
         button.setImage(image, for: .normal)
         image?.withTintColor(UIColor.blue)
         button.addTarget(self, action:  #selector(handleEventOptionsBtn), for: .touchUpInside)
@@ -773,7 +788,10 @@ extension EventDetailsVC {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                //                self.shareEvent()
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareVC {
+                    vc.encryptedID = self.encryptedID
+                    self.present(controller, animated: true)
+                }
             }))
             actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
@@ -791,7 +809,10 @@ extension EventDetailsVC {
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                //                self.shareEvent()
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareVC {
+                    vc.encryptedID = self.encryptedID
+                    self.present(controller, animated: true)
+                }
             }))
             actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
@@ -867,7 +888,7 @@ extension EventDetailsVC {
         self.alertView?.HandleConfirmBtn = {
             // handling code
             self.attendeesVM.editAttendees(ByUserAttendId: UserattendId, AndEventid: eventID, AndStutus: Stutus,Actiontime: Actiontime ,ActionDate: ActionDate) { [self] error, data in
-//                self.hideLoading()
+                //                self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -878,9 +899,9 @@ extension EventDetailsVC {
                 
                 guard let _ = data else {return}
                 
-//                DispatchQueue.main.async {
-//                    self.view.makeToast("Successfully" )
-//                }
+                //                DispatchQueue.main.async {
+                //                    self.view.makeToast("Successfully" )
+                //                }
                 
                 DispatchQueue.main.async {
                     self.getEventDetails()

@@ -39,6 +39,7 @@ class FriendProfileVC: UIViewController {
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     var viewmodel:FriendViewModel = FriendViewModel()
     var userID:String = ""
+    var userName:String = ""
     
     var strWidth:CGFloat = 0
     var strheight:CGFloat = 0
@@ -59,11 +60,11 @@ class FriendProfileVC: UIViewController {
         }
         
         initOptionsUserButton()
-        
+        setupNavBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        initBackColorButton()
+        initBackButton()
         clearNavigationBar()
         CancelRequest.currentTask = false
         setupHideView()
@@ -149,7 +150,14 @@ class FriendProfileVC: UIViewController {
                 }
                 
                 guard let _ = message else {return}
-                self.getFriendProfileInformation()
+                
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                }
+                
+                DispatchQueue.main.async {
+                    self.getFriendProfileInformation()
+                }
             }
         }
     }
@@ -168,7 +176,14 @@ class FriendProfileVC: UIViewController {
                 }
                 
                 guard let _ = message else {return}
-                self.getFriendProfileInformation()
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                }
+                
+                DispatchQueue.main.async {
+                    self.getFriendProfileInformation()
+                }
+                
             }
         }
     }
@@ -192,11 +207,14 @@ class FriendProfileVC: UIViewController {
                     }
                     
                     guard let _ = message else {return}
-                    self.getFriendProfileInformation()
-                    
                     DispatchQueue.main.async {
                         NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
                     }
+                    
+                    DispatchQueue.main.async {
+                        self.getFriendProfileInformation()
+                    }
+                    
                 }
             }
             
@@ -228,10 +246,12 @@ class FriendProfileVC: UIViewController {
                 
                 guard let _ = message else {return}
 
-                self.getFriendProfileInformation()
-                
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                }
+                
+                DispatchQueue.main.async {
+                    self.getFriendProfileInformation()
                 }
             }
         }
@@ -485,7 +505,7 @@ class FriendProfileVC: UIViewController {
                 self.userNameLbl.text = "@\(model?.displayedUserName ?? "")"
                 self.nameLbl.text = model?.userName
                 self.ageLbl.text = "\(model?.age ?? 0)"
-                
+                self.title = model?.userName
                 if model?.gender == "other" {
                     genderLbl.text = "other(".localizedString + "\(model?.otherGenderName ?? ""))"
                 }else {
@@ -594,12 +614,12 @@ extension FriendProfileVC : TagListViewDelegate {
 
 extension FriendProfileVC {
     func initOptionsUserButton() {
-        let imageName = "menu_WH_ic"
+        let imageName = "menu_H_ic"
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        button.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
-        button.cornerRadiusForHeight()
+//        button.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
+//        button.cornerRadiusForHeight()
         button.setImage(image, for: .normal)
         image?.withTintColor(UIColor.blue)
         button.addTarget(self, action:  #selector(handleUserOptionsBtn), for: .touchUpInside)

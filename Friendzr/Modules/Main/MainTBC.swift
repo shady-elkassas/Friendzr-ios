@@ -33,6 +33,8 @@ class MainTBC: UITabBarController {
         }else {
             self.tabBar.items![3].badgeValue = nil
         }
+        
+        NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
     }
     
 //    @objc func updatebadgeInbox() {
