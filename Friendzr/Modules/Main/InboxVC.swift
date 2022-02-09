@@ -400,7 +400,6 @@ extension InboxVC:UITableViewDataSource {
                     }
                 }
                 
-                
                 cell.lastMessageDateLbl.text = lastMessageDateTime(date: model?.latestdate ?? "", time: model?.latesttime ?? "")
                 
                 //handle type message

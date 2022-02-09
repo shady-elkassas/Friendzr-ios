@@ -265,6 +265,9 @@ class EditMyProfileVC: UIViewController {
         }else if tagsListView.rows == 3 {
             tagsTopSpaceLayout.constant = 10
             tagsBottomSpaceLayout.constant = 5
+        }else if tagsListView.rows == 4 {
+            tagsTopSpaceLayout.constant = 10
+            tagsBottomSpaceLayout.constant = 17
         }
         
         
@@ -334,7 +337,11 @@ class EditMyProfileVC: UIViewController {
         }else if tagsListView.rows == 3 {
             tagsTopSpaceLayout.constant = 10
             tagsBottomSpaceLayout.constant = 5
+        }else if tagsListView.rows == 4 {
+            tagsTopSpaceLayout.constant = 10
+            tagsBottomSpaceLayout.constant = 17
         }
+        
     }
     
     func logout() {

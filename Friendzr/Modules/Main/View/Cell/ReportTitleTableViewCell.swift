@@ -11,7 +11,7 @@ class ReportTitleTableViewCell: UITableViewCell {
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var titleLbl: UILabel!
-    @IBOutlet weak var bottomView: UIView!
+//    @IBOutlet weak var bottomView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

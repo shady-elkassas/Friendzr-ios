@@ -136,6 +136,7 @@ class Router {
                 vc.isChatGroupAdmin = false
                 vc.isChatGroup = false
                 vc.groupId = ""
+//                vc.isEventAdmin = isEventAdmin
             }else {
                 if isChatGroup == true {
                     vc.isEvent = false
@@ -149,6 +150,7 @@ class Router {
                     vc.isChatGroupAdmin = isChatGroupAdmin
                     vc.isChatGroup = isChatGroup
                     vc.groupId = groupId
+                    vc.isEventAdmin = false
                 }else {
                     vc.isEvent = false
                     vc.eventChatID = ""
@@ -161,6 +163,7 @@ class Router {
                     vc.isChatGroupAdmin = false
                     vc.isChatGroup = false
                     vc.groupId = ""
+                    vc.isEventAdmin = false
                 }
             }
             

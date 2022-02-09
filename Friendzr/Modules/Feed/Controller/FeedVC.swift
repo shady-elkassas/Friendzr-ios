@@ -217,10 +217,14 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                hideView.hideLoader()
+                DispatchQueue.main.async {
+                    hideView.hideLoader()
+                }
+                
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
+                
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
             })
@@ -240,8 +244,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                hideView.hideLoader()
-                hideView.isHidden = true
+                DispatchQueue.main.async {
+                    hideView.hideLoader()
+                    hideView.isHidden = true
+                }
                 
                 tableView.delegate = self
                 tableView.dataSource = self
@@ -651,8 +657,6 @@ extension FeedVC:UITableViewDataSource {
                 if self.internetConnect {
                     self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1) { error, message in
-                        
-                        
                         
                         if let error = error {
                             DispatchQueue.main.async {

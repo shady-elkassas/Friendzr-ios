@@ -137,6 +137,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     var isEvent:Bool = false
     var eventChatID:String = ""
     var leavevent:Int = 0 //0 is in event,1 leave event,2 leave chat event
+    var isEventAdmin:Bool = false
     
     var receiveName:String = ""
     var receiveimg = ""

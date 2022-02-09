@@ -46,6 +46,8 @@ class MyProfileVC: UIViewController {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        self.title = "My Profile".localizedString
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -146,7 +148,6 @@ class MyProfileVC: UIViewController {
             genderLbl.text = model?.gender
         }
         
-        self.title = model?.userName
         profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
         tagListView.removeAllTags()

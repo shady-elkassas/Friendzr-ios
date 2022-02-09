@@ -143,6 +143,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         //        setupNavBar()
         
         seyupAds()
+        clearNavigationBar()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -862,13 +864,21 @@ extension MapVC:UITableViewDataSource {
         cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
         cell.HandleDirectionBtn = {
-            print("\(model?.lat ?? ""):\(model?.lang ?? "")")
+            let lat = Double("\(model?.lat ?? "")")
+            let lng = Double("\(model?.lang ?? "")")
             
             if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
                 UIApplication.shared.open(URL(string: "comgooglemaps://?saddr=&daddr=\(model?.lat ?? ""),\(model?.lang ?? "")&directionsmode=driving")!)
             }else {
-                print("")
+                let source = MKMapItem(coordinate: .init(latitude: lat ?? 0.0, longitude: lng ?? 0.0), name: "Source")
+                let destination = MKMapItem(coordinate: .init(latitude: lat ?? 0.0, longitude: lng ?? 0.0), name: model?.title ?? "")
+                
+                MKMapItem.openMaps(
+                    with: [source, destination],
+                    launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+                )
             }
+            
         }
         
         return cell

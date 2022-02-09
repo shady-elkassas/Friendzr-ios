@@ -165,8 +165,7 @@ extension ReportVC: UITableViewDataSource {
                 cell.titleLbl.font = UIFont.init(name: "Montserrat-Medium", size: 12)
                 cell.titleLbl.textColor = .gray
             }
-            
-            cell.bottomView.isHidden = true
+
             return cell
         }
         else if indexPath.section == 1 {

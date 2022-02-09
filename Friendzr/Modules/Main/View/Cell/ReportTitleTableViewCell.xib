@@ -5,7 +5,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -24,10 +23,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="apE-Xj-RXX">
-                        <rect key="frame" x="20" y="5" width="280" height="34"/>
+                        <rect key="frame" x="20" y="5" width="280" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="czT-fB-iOC">
-                                <rect key="frame" x="5" y="5" width="270" height="24"/>
+                                <rect key="frame" x="5" y="5" width="270" height="30"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -41,37 +40,21 @@
                             <constraint firstAttribute="trailing" secondItem="czT-fB-iOC" secondAttribute="trailing" constant="5" id="cxc-bO-xj8"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V5m-KY-jrH">
-                        <rect key="frame" x="20" y="44" width="280" height="1"/>
-                        <color key="backgroundColor" systemColor="systemGray5Color"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="1" id="hwP-4F-Es9"/>
-                        </constraints>
-                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="V5m-KY-jrH" firstAttribute="top" secondItem="apE-Xj-RXX" secondAttribute="bottom" constant="5" id="6PA-23-iFJ"/>
-                    <constraint firstItem="V5m-KY-jrH" firstAttribute="leading" secondItem="jkH-SE-l7E" secondAttribute="leading" constant="20" id="BZe-RU-qk7"/>
-                    <constraint firstAttribute="trailing" secondItem="V5m-KY-jrH" secondAttribute="trailing" constant="20" id="IRB-uA-Sz9"/>
+                    <constraint firstAttribute="bottom" secondItem="apE-Xj-RXX" secondAttribute="bottom" constant="5" id="8Al-04-xfi"/>
                     <constraint firstItem="apE-Xj-RXX" firstAttribute="top" secondItem="jkH-SE-l7E" secondAttribute="top" constant="5" id="UGG-U0-EBa"/>
                     <constraint firstAttribute="trailing" secondItem="apE-Xj-RXX" secondAttribute="trailing" constant="20" id="gMw-1V-aJT"/>
                     <constraint firstItem="apE-Xj-RXX" firstAttribute="leading" secondItem="jkH-SE-l7E" secondAttribute="leading" constant="20" id="v23-MG-55G"/>
-                    <constraint firstAttribute="bottom" secondItem="V5m-KY-jrH" secondAttribute="bottom" constant="5" id="vf0-mf-Zmn"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="6tY-WC-JcZ"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="bottomView" destination="V5m-KY-jrH" id="ycl-HP-iit"/>
                 <outlet property="containerView" destination="apE-Xj-RXX" id="OQt-hC-QlV"/>
                 <outlet property="titleLbl" destination="czT-fB-iOC" id="xpg-05-pKI"/>
             </connections>
             <point key="canvasLocation" x="234.78260869565219" y="70.3125"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-    </resources>
 </document>
