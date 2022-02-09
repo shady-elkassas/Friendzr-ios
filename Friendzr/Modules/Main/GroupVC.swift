@@ -194,10 +194,6 @@ extension GroupVC {
     }
     
     @objc func backToConversationVC() {
-//        let model = viewmodel.groupMembers.value
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-//            Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: model?.image ?? "", titleChatName: model?.name ?? "", isChatGroupAdmin: self.isGroupAdmin, isChatGroup: true, groupId: self.groupId,leaveGroup: model?.leaveGroup ?? 0)
-//        })
         Router().toHome()
     }
     

@@ -670,7 +670,7 @@ extension MapVC : GMSMapViewDelegate {
                 //Events by location
                 if marker.title != "" {
                     DispatchQueue.main.async {
-                        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
+                        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
                         vc.eventId = marker.title!
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
@@ -890,7 +890,7 @@ extension MapVC:UITableViewDelegate {
             }
             
             let model = viewmodel.events.value?[indexPath.row]
-            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
+            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
             vc.eventId = model?.id ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
         }
@@ -919,7 +919,7 @@ extension MapVC:UICollectionViewDataSource {
 //        cell.eventColorView.backgroundColor = UIColor.color("#0BBEA1")
         
         cell.HandledetailsBtn = {
-            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
+            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
             vc.eventId = model?.id ?? ""
             self.navigationController?.pushViewController(vc, animated: true)
         }

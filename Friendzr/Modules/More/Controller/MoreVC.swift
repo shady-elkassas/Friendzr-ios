@@ -166,7 +166,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         let firstActivityItem = ""
         
         // Setting url
-        let secondActivityItem : NSURL = NSURL(string: "https://friendzr.com/")!
+        let secondActivityItem : NSURL = NSURL(string: "https://friendzr.com/about-us/")!
         
         // If you want to use an image
         let image : UIImage = UIImage(named: "Share_ic")!

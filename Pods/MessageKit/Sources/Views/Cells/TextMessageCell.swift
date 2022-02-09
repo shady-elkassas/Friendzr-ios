@@ -82,9 +82,9 @@ open class TextMessageCell: MessageContentCell {
                 let textColor = displayDelegate.textColor(for: message, at: indexPath, in: messagesCollectionView)
                 messageLabel.text = text
                 messageLabel.textColor = textColor
-                if let font = messageLabel.messageLabelFont {
-                    messageLabel.font = font
-                }
+//                if let font = messageLabel.messageLabelFont {
+                    messageLabel.font = UIFont(name: "Montserrat-Medium", size: 14)
+//                }
             case .attributedText(let text):
                 messageLabel.attributedText = text
             default:

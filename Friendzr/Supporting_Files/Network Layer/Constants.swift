@@ -8,7 +8,7 @@
 import Foundation
 
 class URLs {
-    static let baseURLFirst = "http://saeedmohamed94-001-site1.gtempurl.com/api/" //"https://backend.friendzr.com/api/"
+    static let baseURLFirst = "http://saeedmohamed94-001-site1.gtempurl.com/api/" //"http://frindzr-001-site1.itempurl.com/api/" //"https://backend.friendzr.com/api/"
     static let baseURLSecond = ""
     static let baseURLThird = ""
 }

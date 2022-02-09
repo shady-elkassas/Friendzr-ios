@@ -775,6 +775,14 @@ extension ConversationVC {
     @objc func handleEventOptionsBtn() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+            actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
+                if self.isEvent == true {
+                    Router().toEventDetailsVC(eventId: self.titleID ?? "", isConv: true)
+                }else {
+                    Router().toGroupVC(groupId: self.groupId, isGroupAdmin: self.isChatGroupAdmin)
+                }
+            }))
+
             actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
                     Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
@@ -792,6 +800,13 @@ extension ConversationVC {
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
+                if self.isEvent == true {
+                    Router().toEventDetailsVC(eventId: self.titleID ?? "", isConv: true)
+                }else {
+                    Router().toGroupVC(groupId: self.groupId, isGroupAdmin: self.isChatGroupAdmin)
+                }
+            }))
             actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
                     Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
@@ -993,13 +1008,13 @@ extension ConversationVC {
     
     @objc func goToUserProfileVC() {
         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
-        vc.userID = self.titleID!
+        vc.userID = self.titleID ?? ""
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func goToEventDetailsVC() {
-        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
-        vc.eventId = self.titleID!
+        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+        vc.eventId = self.titleID ?? ""
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

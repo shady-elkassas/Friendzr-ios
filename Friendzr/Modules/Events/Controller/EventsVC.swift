@@ -288,7 +288,7 @@ extension EventsVC: UITableViewDelegate {
         updateUserInterface()
         if internetConect == true {
             if viewmodel.events.value?.data?.count != 0 {
-                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC else {return}
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
                 vc.eventId = viewmodel.events.value?.data?[indexPath.row].id ?? ""
                 self.navigationController?.pushViewController(vc, animated: true)
             }

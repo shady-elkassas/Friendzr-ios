@@ -254,7 +254,6 @@ class EventDetailsVC: UIViewController,UIScrollViewDelegate {
             joinBtn.isHidden = true
             leaveBtn.isHidden = false
             attendeesViewHeight.constant = 0
-            
         }
         
         attendeesView.cornerRadiusView(radius: 21)

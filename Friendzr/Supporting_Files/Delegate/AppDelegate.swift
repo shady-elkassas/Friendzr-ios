@@ -144,11 +144,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Defaults.allowMyLocation = true
         }
         
-        Localizer.DoExchange()
+//        Localizer.DoExchange()
 //        if Language.currentLanguage() == "ar" {
 //            UIView.appearance().semanticContentAttribute = .forceRightToLeft
 //        }else{
-            UIView.appearance().semanticContentAttribute = .forceLeftToRight
+//            UIView.appearance().semanticContentAttribute = .forceLeftToRight
 //        }
         
         DispatchQueue.main.async {
@@ -382,7 +382,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Router().toHome()
             }
             else if action == "event_Updated"{
-                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
@@ -391,7 +391,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
             else if action == "update_Event_Data"{
-                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
@@ -399,7 +399,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
             else if action == "event_attend"{
-                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
@@ -407,7 +407,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
             else if action == "Event_reminder" {
-                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
@@ -421,7 +421,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //                    tabBarController.selectedIndex = 1
 //                    navController.pushViewController(vc, animated: true)
 //                }
-                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsVC") as? EventDetailsVC,
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
