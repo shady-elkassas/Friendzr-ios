@@ -27,13 +27,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="273"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emptyImage" translatesAutoresizingMaskIntoConstraints="NO" id="JX1-FN-h8X">
-                                <rect key="frame" x="96" y="30" width="128" height="128"/>
+                                <rect key="frame" x="80" y="30" width="160" height="160"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="JX1-FN-h8X" secondAttribute="height" multiplier="1:1" id="pcr-4S-ceT"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You haven't any data yet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="62w-A7-uBx">
-                                <rect key="frame" x="32" y="178" width="256" height="33"/>
+                                <rect key="frame" x="32" y="210" width="256" height="1"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                 <color key="textColor" name="ColorDark0"/>
                                 <nil key="highlightedColor"/>
@@ -59,7 +59,7 @@
                             <constraint firstItem="tGs-Bf-4pt" firstAttribute="centerX" secondItem="AGX-Uk-mKP" secondAttribute="centerX" id="0nz-vY-ifO"/>
                             <constraint firstItem="tGs-Bf-4pt" firstAttribute="width" secondItem="AGX-Uk-mKP" secondAttribute="width" multiplier="1:3" id="BLN-jN-tQA"/>
                             <constraint firstItem="tGs-Bf-4pt" firstAttribute="top" secondItem="62w-A7-uBx" secondAttribute="bottom" constant="10" id="IYL-2e-7nS"/>
-                            <constraint firstItem="JX1-FN-h8X" firstAttribute="width" secondItem="AGX-Uk-mKP" secondAttribute="width" multiplier="1:2.5" id="QNC-f1-9aO"/>
+                            <constraint firstItem="JX1-FN-h8X" firstAttribute="width" secondItem="AGX-Uk-mKP" secondAttribute="width" multiplier="1:2" id="QNC-f1-9aO"/>
                             <constraint firstItem="JX1-FN-h8X" firstAttribute="top" secondItem="AGX-Uk-mKP" secondAttribute="top" constant="30" id="Tpu-8A-XMg"/>
                             <constraint firstAttribute="bottom" secondItem="tGs-Bf-4pt" secondAttribute="bottom" constant="10" id="Xpw-ZI-5pP"/>
                             <constraint firstItem="62w-A7-uBx" firstAttribute="width" secondItem="AGX-Uk-mKP" secondAttribute="width" multiplier="0.8" id="adP-Ni-udW"/>

@@ -8,10 +8,14 @@
 import UIKit
 
 class ShareVC: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     var cellID = "ShareTableViewCell"
+    
+    var myGroupCellId = "GroupsShareTableViewCell"
+    var myEventsCellId = "EventsShareTableViewCell"
+    var myFriendsCellId = "FriendsShareTableViewCell"
     
     var myFriendsVM:AllFriendesViewModel = AllFriendesViewModel()
     var myEventsVM:EventsViewModel = EventsViewModel()
@@ -21,7 +25,7 @@ class ShareVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = "Share".localizedString
         setupViews()
         getAllMyEvents(pageNumber: 1)
@@ -32,8 +36,10 @@ class ShareVC: UIViewController {
     }
     
     func setupViews() {
+        tableView.register(UINib(nibName: myGroupCellId, bundle: nil), forCellReuseIdentifier: myGroupCellId)
+        tableView.register(UINib(nibName: myEventsCellId, bundle: nil), forCellReuseIdentifier: myEventsCellId)
+        tableView.register(UINib(nibName: myFriendsCellId, bundle: nil), forCellReuseIdentifier: myFriendsCellId)
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
-        tableView.register(UINib(nibName: cellID, bundle: nil), forHeaderFooterViewReuseIdentifier: cellID)
     }
     
     //MARK:- APIs
@@ -110,7 +116,7 @@ class ShareVC: UIViewController {
         
         // Setting url
         let secondActivityItem : NSURL = NSURL(string: "friendzr://\(encryptedID)")!
-
+        
         // If you want to use an image
         let image : UIImage = UIImage(named: "Share_ic")!
         
@@ -145,139 +151,111 @@ class ShareVC: UIViewController {
         activityViewController.isModalInPresentation = true
         self.present(activityViewController, animated: true, completion: nil)
     }
+    
+    func OnFriendsSearchCallBack(_ data: String, _ value: Bool) -> () {
+        print(data, value)
+        
+        if value == true {
+            getAllMyFriends(pageNumber: 1, search: data)
+        }else {
+            getAllMyFriends(pageNumber: 1, search: "")
+        }
+    }
+    
+    func OnEventsSearchCallBack(_ data: String, _ value: Bool) -> () {
+        print(data, value)
+        
+        if value == true {
+//            getAllMyEvents(pageNumber: 1)
+        }else {
+            //            getAllMyEvents(pageNumber: 1)
+        }
+    }
+    
+    func OnGroupsSearchCallBack(_ data: String, _ value: Bool) -> () {
+        print(data, value)
+        
+        if value == true {
+            getAllMyGroups(pageNumber: 1, search: data)
+        }else {
+            getAllMyGroups(pageNumber: 1, search: "")
+        }
+    }
 }
 
 extension ShareVC:UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let myFriendsCount = myFriendsVM.friends.value?.data?.count
-        let myeventsCount = myEventsVM.events.value?.data?.count
-        let myGroupsCount = myGroupsVM.listChat.value?.data?.count
-
-        if section == 0 {
-            return 1
-        }else if section == 1 {
-            if myFriendsCount != 0 {
-                return myFriendsVM.friends.value?.data?.count ?? 0
-            }else {
-                return 0
-            }
-        }else if section == 2 {
-            if myGroupsCount != 0 {
-                return myGroupsVM.listChat.value?.data?.count ?? 0
-            }else {
-                return 0
-            }
-        }else {
-            if myeventsCount != 0 {
-                return myEventsVM.events.value?.data?.count ?? 0
-            }else {
-                return 0
-            }
-        }
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
+        
+        //        if indexPath.row == 0 {
+        //            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
+        //            cell.titleLbl.text = "Share Outside Friendzr".localizedString
+        //            cell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
+        //            cell.sendBtn.isHidden = true
+        //            cell.bottomView.isHidden = true
+        //            cell.titleLbl.textColor = UIColor.FriendzrColors.primary!
+        //            cell.containerView.backgroundColor = .clear
+        //            return cell
+        //        }
+        if indexPath.row == 0 {//friends
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: myFriendsCellId, for: indexPath) as? FriendsShareTableViewCell else {return UITableViewCell()}
+            cell.myFriendsModel = myFriendsVM.friends.value?.data
+            
+            if myFriendsVM.friends.value?.data?.count == 0 {
+                cell.emptyView.isHidden = false
+                cell.searchContainerView.isHidden = true
+            }else {
+                cell.emptyView.isHidden = true
+                cell.searchContainerView.isHidden = false
+            }
+            cell.parentVC = self
+            cell.tableView.reloadData()
 
-        if indexPath.section == 0 {
-            cell.titleLbl.text = "Share Outside Friendzr".localizedString
-            cell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
-            cell.sendBtn.isHidden = true
-            cell.bottomView.isHidden = true
-            cell.titleLbl.textColor = UIColor.FriendzrColors.primary!
-            cell.containerView.backgroundColor = .clear
-        }
-        else if indexPath.section == 1 {
-            let friendsModel = myFriendsVM.friends.value?.data?[indexPath.row]
-            cell.titleLbl.text = friendsModel?.userName
-            cell.sendBtn.isHidden = false
-            cell.bottomView.isHidden = false
-            cell.titleLbl.textColor = .darkGray
-            cell.titleLbl.font = UIFont(name: "Montserrat-Medium", size: 12)
-            cell.containerView.backgroundColor = .clear
-        }
-        else if indexPath.section == 2 {
-            let groupModel = myGroupsVM.listChat.value?.data?[indexPath.row]
-            cell.titleLbl.text = groupModel?.chatName
-            cell.sendBtn.isHidden = false
-            cell.bottomView.isHidden = false
-            cell.titleLbl.textColor = .darkGray
-            cell.titleLbl.font = UIFont(name: "Montserrat-Medium", size: 12)
-            cell.containerView.backgroundColor = .clear
-        }else {
-            let eventsModel = myEventsVM.events.value?.data?[indexPath.row]
-            cell.titleLbl.text = eventsModel?.title
-            cell.sendBtn.isHidden = false
-            cell.bottomView.isHidden = false
-            cell.titleLbl.textColor = .darkGray
-            cell.titleLbl.font = UIFont(name: "Montserrat-Medium", size: 12)
-            cell.containerView.backgroundColor = .clear
-        }
-        
-        return cell
-    }
-    
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
-        let headerCell = tableView.dequeueReusableCell(withIdentifier: cellID) as! ShareTableViewCell
-        
-        let myFriendsCount = myFriendsVM.friends.value?.data?.count
-        let myeventsCount = myEventsVM.events.value?.data?.count
-        let myGroupsCount = myGroupsVM.listChat.value?.data?.count
-        
-        if section == 1 {
-            headerCell.titleLbl.text = "My Friends".localizedString
-            headerCell.titleLbl.textColor = .white
-            headerCell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
-            headerCell.bottomView.isHidden = true
-            headerCell.sendBtn.isHidden = true
-            headerCell.containerView.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
-            headerCell.containerView.cornerRadiusView(radius: 8)
-            if myFriendsCount != 0 {
-                return headerCell
-            }else {
-                return UIView()
-            }
-        }
-        else if section == 2 {
-            headerCell.titleLbl.text = "My Groups".localizedString
-            headerCell.titleLbl.textColor = .white
-            headerCell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
-            headerCell.bottomView.isHidden = true
-            headerCell.sendBtn.isHidden = true
-            headerCell.containerView.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
-            headerCell.containerView.cornerRadiusView(radius: 8)
-            
-            if myGroupsCount != 0 {
-                return headerCell
-            }else {
-                return UIView()
+            cell.onSearchFriendsCallBackResponse = self.OnFriendsSearchCallBack
+
+            cell.HandleSearchBtn = {
+                cell.searchContainerView.isHidden = false
             }
             
+            return cell
         }
-        else if section == 3 {
-            headerCell.titleLbl.text = "My Events".localizedString
-            headerCell.titleLbl.textColor = .white
-            headerCell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
-            headerCell.bottomView.isHidden = true
-            headerCell.sendBtn.isHidden = true
-            headerCell.containerView.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
-            headerCell.containerView.cornerRadiusView(radius: 8)
-            if myeventsCount != 0 {
-                return headerCell
+        else if indexPath.row == 1 {//groups
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: myGroupCellId, for: indexPath) as? GroupsShareTableViewCell else {return UITableViewCell()}
+            cell.myGroupsModel = myGroupsVM.listChat.value?.data
+            
+            if myGroupsVM.listChat.value?.data?.count == 0 {
+                cell.emptyView.isHidden = false
+                cell.searchContainerView.isHidden = true
             }else {
-                return UIView()
+                cell.emptyView.isHidden = true
+                cell.searchContainerView.isHidden = false
             }
             
-        }
-      
-        else {
-            return UIView()
+            cell.onSearchGroupsCallBackResponse = self.OnGroupsSearchCallBack
+
+            cell.parentVC = self
+            cell.tableView.reloadData()
+            
+            return cell
+        }else {//events
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: myEventsCellId, for: indexPath) as? EventsShareTableViewCell else {return UITableViewCell()}
+            cell.myEventsModel = myEventsVM.events.value?.data
+            if myEventsVM.events.value?.data?.count == 0 {
+                cell.emptyView.isHidden = false
+                cell.searchContainerView.isHidden = true
+            }else {
+                cell.emptyView.isHidden = true
+                cell.searchContainerView.isHidden = false
+            }
+            
+            cell.onSearchEventsCallBackResponse = self.OnEventsSearchCallBack
+            cell.parentVC = self
+            cell.tableView.reloadData()
+            return cell
         }
     }
 }
@@ -285,22 +263,40 @@ extension ShareVC:UITableViewDataSource {
 
 extension ShareVC :UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 45
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section != 0 {
-            return 55
+        let height = tableView.frame.height
+        
+        //            return 45
+        if indexPath.row == 0 {
+            if myFriendsVM.friends.value?.data?.count == 0 {
+                return height/3.2
+            }else {
+                return height/2.5
+            }
+            
+        }
+        else if indexPath.row == 1 {
+            if myGroupsVM.listChat.value?.data?.count == 0 {
+                return height/3.2
+            }else {
+                return height/2.5
+            }
+        }
+        else if indexPath.row == 2 {
+            if myEventsVM.events.value?.data?.count == 0 {
+                return height/3.2
+            }else {
+                return height/2.5
+            }
         }else {
-            return 0
+            return 10
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 0 {
-            shareEvent()
-        }else {
-            return
-        }
-    }
+    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //        if indexPath.section == 0 {
+    //            shareEvent()
+    //        }else {
+    //            return
+    //        }
+    //    }
 }

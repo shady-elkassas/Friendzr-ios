@@ -46,6 +46,8 @@ class EventDetailsViewController: UIViewController {
     lazy var refreshControl: UIRefreshControl = UIRefreshControl()
     var isConv:Bool = false
     
+    var isEventAdmin: Bool = false
+    
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -198,8 +200,10 @@ class EventDetailsViewController: UIViewController {
                 
                 self.title = value.title
                 
-                self.hideView.hideLoader()
-                self.hideView.isHidden = true
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
             }
         }
         
@@ -259,16 +263,19 @@ extension EventDetailsViewController: UITableViewDataSource {
                 cell.chatBtn.isHidden = false
                 cell.joinBtn.isHidden = true
                 cell.leaveBtn.isHidden = true
+                self.isEventAdmin = true
             }else if model?.key == 2 { // not join
                 cell.editBtn.isHidden = true
                 cell.chatBtn.isHidden = true
                 cell.joinBtn.isHidden = false
                 cell.leaveBtn.isHidden = true
+                self.isEventAdmin = false
             }else { // join
                 cell.editBtn.isHidden = true
                 cell.chatBtn.isHidden = false
                 cell.joinBtn.isHidden = true
                 cell.leaveBtn.isHidden = false
+                self.isEventAdmin = false
             }
             
             cell.HandleChatBtn = {
@@ -276,7 +283,7 @@ extension EventDetailsViewController: UITableViewDataSource {
                 let Jointime = self.formatterTime.string(from: Date())
                 
                 if model?.leveevent == 1 {
-                    Router().toConversationVC(isEvent: true, eventChatID: self.eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: model?.image ?? "", titleChatName: model?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
+                    Router().toConversationVC(isEvent: true, eventChatID: self.eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: model?.image ?? "", titleChatName: model?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: self.isEventAdmin)
                 }else {
                     self.view.makeToast("Wait, I'll join you in the event chat...".localizedString)
                     self.joinCahtEventVM.joinChat(ByID: self.eventId, ActionDate: JoinDate, Actiontime: Jointime) { error, data in
@@ -289,7 +296,7 @@ extension EventDetailsViewController: UITableViewDataSource {
                         
                         guard let _ = data else {return}
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            Router().toConversationVC(isEvent: true, eventChatID: self.eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: self.viewmodel.event.value?.image ?? "", titleChatName: self.viewmodel.event.value?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
+                            Router().toConversationVC(isEvent: true, eventChatID: self.eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: self.viewmodel.event.value?.image ?? "", titleChatName: self.viewmodel.event.value?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: self.isEventAdmin)
                         }
                     }
                 }

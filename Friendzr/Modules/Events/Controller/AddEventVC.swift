@@ -32,7 +32,7 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var startTimeBtn: UIButton!
     @IBOutlet weak var endTimeBtn: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
-    @IBOutlet weak var timeStack: UIStackView!
+    @IBOutlet weak var timeView: UIView!
     @IBOutlet weak var categoriesSuperView: UIView!
     @IBOutlet weak var categoriesView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -43,6 +43,8 @@ class AddEventVC: UIViewController {
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
     lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
     
+    private var layout: UICollectionViewFlowLayout!
+
     var dayname = ""
     var monthname = ""
     var nday = ""
@@ -127,6 +129,8 @@ class AddEventVC: UIViewController {
                 collectionView.dataSource = self
                 collectionView.delegate = self
                 collectionView.reloadData()
+                
+                layout = TagsLayout()
             }
         }
         
@@ -185,11 +189,11 @@ class AddEventVC: UIViewController {
     
     @IBAction func switchAllDaysBtn(_ sender: Any) {
         if switchAllDays.isOn == true {
-            timeStack.isHidden = true
+            timeView.isHidden = true
             startTimeBtn.isHidden = true
             endTimeBtn.isHidden = true
         }else {
-            timeStack.isHidden = false
+            timeView.isHidden = false
             startTimeBtn.isHidden = false
             endTimeBtn.isHidden = false
         }
@@ -630,6 +634,7 @@ extension AddEventVC : UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? CategoryCollectionViewCell else {return UICollectionViewCell()}
         let model = catsVM.cats.value?[indexPath.row]
         cell.tagNameLbl.text = model?.name
+        cell.layoutSubviews()
         return cell
     }
 }
@@ -645,7 +650,7 @@ extension AddEventVC: UICollectionViewDelegate,UICollectionViewDelegateFlowLayou
         let model = catsVM.cats.value?[indexPath.row]
         let width = model?.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
         
-        return CGSize(width: width! + 50, height: 45)
+        return CGSize(width: width! + 40, height: 45)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

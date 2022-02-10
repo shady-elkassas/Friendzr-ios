@@ -69,7 +69,10 @@ class NotificationsVC: UIViewController {
         viewmodel.getNotifications(pageNumber: pageNumber)
         viewmodel.notifications.bind { [unowned self] value in
             DispatchQueue.main.async {
-                hideView.hideLoader()
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -102,9 +105,11 @@ class NotificationsVC: UIViewController {
         viewmodel.getNotifications(pageNumber: pageNumber)
         viewmodel.notifications.bind { [unowned self] value in
             DispatchQueue.main.async {
-                hideView.hideLoader()
-                hideView.isHidden = true
-                
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
+
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -280,9 +285,9 @@ extension NotificationsVC: UITableViewDelegate {
                     vc.userID = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else if model?.action == "event_chat" {
-                    Router().toConversationVC(isEvent: true, eventChatID: model?.action_code ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: "", titleChatName: "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
+                    Router().toConversationVC(isEvent: true, eventChatID: model?.action_code ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: "", titleChatName: "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: false)
                 }else if model?.action == "user_chat" {
-                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.action_code ?? "", isFriend: true, titleChatImage: model?.imageUrl ?? "", titleChatName: model?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
+                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.action_code ?? "", isFriend: true, titleChatImage: model?.imageUrl ?? "", titleChatName: model?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: false)
                 }
 //                else if model?.action == "user_chatGroup" { //isChatGroupAdmin ??
 //                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 1, chatuserID: "", isFriend: false, titleChatImage: "", titleChatName: "", isChatGroupAdmin: model?.isChatGroupAdmin ?? false, isChatGroup: true, groupId: model?.action_code ?? "",leaveGroup: 0)

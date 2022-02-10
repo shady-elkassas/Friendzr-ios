@@ -240,6 +240,12 @@
 		43B2241A274D16B5004C6912 /* CategoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B22418274D16B5004C6912 /* CategoryCollectionViewCell.xib */; };
 		43B22436274E82B6004C6912 /* TagsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22435274E82B6004C6912 /* TagsLayout.swift */; };
 		43BA37992700A121003F28FA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BA37982700A121003F28FA /* Reachability.swift */; };
+		43BDFADD27B5454E005302CD /* FriendsShareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDFADB27B5454E005302CD /* FriendsShareTableViewCell.swift */; };
+		43BDFADE27B5454E005302CD /* FriendsShareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BDFADC27B5454E005302CD /* FriendsShareTableViewCell.xib */; };
+		43BDFAE127B546A5005302CD /* EventsShareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDFADF27B546A5005302CD /* EventsShareTableViewCell.swift */; };
+		43BDFAE227B546A5005302CD /* EventsShareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BDFAE027B546A5005302CD /* EventsShareTableViewCell.xib */; };
+		43BDFAE527B5473C005302CD /* GroupsShareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDFAE327B5473C005302CD /* GroupsShareTableViewCell.swift */; };
+		43BDFAE627B5473C005302CD /* GroupsShareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BDFAE427B5473C005302CD /* GroupsShareTableViewCell.xib */; };
 		43C64A0227957DFE00C35FA8 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A0127957DFE00C35FA8 /* GroupViewModel.swift */; };
 		43C64A042795806400C35FA8 /* TitleGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A032795806400C35FA8 /* TitleGroupViewModel.swift */; };
 		43C64A0C2796C40800C35FA8 /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A0B2796C40800C35FA8 /* GroupModel.swift */; };
@@ -604,6 +610,12 @@
 		43B22418274D16B5004C6912 /* CategoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCollectionViewCell.xib; sourceTree = "<group>"; };
 		43B22435274E82B6004C6912 /* TagsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsLayout.swift; sourceTree = "<group>"; };
 		43BA37982700A121003F28FA /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		43BDFADB27B5454E005302CD /* FriendsShareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsShareTableViewCell.swift; sourceTree = "<group>"; };
+		43BDFADC27B5454E005302CD /* FriendsShareTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsShareTableViewCell.xib; sourceTree = "<group>"; };
+		43BDFADF27B546A5005302CD /* EventsShareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsShareTableViewCell.swift; sourceTree = "<group>"; };
+		43BDFAE027B546A5005302CD /* EventsShareTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventsShareTableViewCell.xib; sourceTree = "<group>"; };
+		43BDFAE327B5473C005302CD /* GroupsShareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsShareTableViewCell.swift; sourceTree = "<group>"; };
+		43BDFAE427B5473C005302CD /* GroupsShareTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupsShareTableViewCell.xib; sourceTree = "<group>"; };
 		43C649FE27956F6600C35FA8 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/More.strings; sourceTree = "<group>"; };
 		43C64A0027956FD500C35FA8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/More.strings; sourceTree = "<group>"; };
 		43C64A0127957DFE00C35FA8 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
@@ -870,6 +882,7 @@
 		430A351B26CAB00500477A94 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				43BDFADA27B54529005302CD /* ShareCells */,
 				43967D8627944442005B1F5D /* Events.storyboard */,
 				43ACFEBC27B3B0CB001CD340 /* EventDetailsCell */,
 				43D545A526CBB01B0064660A /* CustomViews */,
@@ -1584,6 +1597,19 @@
 			path = TagsSource;
 			sourceTree = "<group>";
 		};
+		43BDFADA27B54529005302CD /* ShareCells */ = {
+			isa = PBXGroup;
+			children = (
+				43BDFADB27B5454E005302CD /* FriendsShareTableViewCell.swift */,
+				43BDFADC27B5454E005302CD /* FriendsShareTableViewCell.xib */,
+				43BDFADF27B546A5005302CD /* EventsShareTableViewCell.swift */,
+				43BDFAE027B546A5005302CD /* EventsShareTableViewCell.xib */,
+				43BDFAE327B5473C005302CD /* GroupsShareTableViewCell.swift */,
+				43BDFAE427B5473C005302CD /* GroupsShareTableViewCell.xib */,
+			);
+			path = ShareCells;
+			sourceTree = "<group>";
+		};
 		43D545A526CBB01B0064660A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -1770,6 +1796,7 @@
 				43886864278344F1004D36B2 /* ProblemTableViewCell.xib in Resources */,
 				432098D427956E5F005B83A8 /* More.storyboard in Resources */,
 				4382AC9A26C27FF2005C1857 /* Montserrat-Light.ttf in Resources */,
+				43BDFADE27B5454E005302CD /* FriendsShareTableViewCell.xib in Resources */,
 				43FC3C9E2726F7BA00D94ABB /* LoadingView.xib in Resources */,
 				43ACFEC027B3B0EB001CD340 /* EventImageTableViewCell.xib in Resources */,
 				4319612C27A811530057FDC2 /* TabsCollectionViewCell.xib in Resources */,
@@ -1781,10 +1808,12 @@
 				43886860278344F1004D36B2 /* ReportTitleTableViewCell.xib in Resources */,
 				43D008E12794388300370E2C /* UsersFeedTableViewCell.xib in Resources */,
 				4337B47F278718880077B794 /* InboxTableViewCell.xib in Resources */,
+				43BDFAE627B5473C005302CD /* GroupsShareTableViewCell.xib in Resources */,
 				43B2241A274D16B5004C6912 /* CategoryCollectionViewCell.xib in Resources */,
 				43D009192794412900370E2C /* BlockedTableViewCell.xib in Resources */,
 				43D009202794413E00370E2C /* SettingsTableViewCell.xib in Resources */,
 				43D008FD27943A6700370E2C /* Map.storyboard in Resources */,
+				43BDFAE227B546A5005302CD /* EventsShareTableViewCell.xib in Resources */,
 				4382AC9D26C27FF2005C1857 /* Montserrat-Regular.ttf in Resources */,
 				430D425A26D3854200188E42 /* InterestsTableViewCell.xib in Resources */,
 				43967DAF27944DFA005B1F5D /* GenderCollectionViewCell.xib in Resources */,
@@ -1942,6 +1971,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43BDFAE127B546A5005302CD /* EventsShareTableViewCell.swift in Sources */,
 				43ACFEBB27B3B065001CD340 /* EventDetailsViewController.swift in Sources */,
 				4362888D26C8FF6500B51E51 /* RequestVC.swift in Sources */,
 				43C64A0C2796C40800C35FA8 /* GroupModel.swift in Sources */,
@@ -2071,6 +2101,7 @@
 				43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */,
 				432C6AD726F33BD60029FB89 /* TagView.swift in Sources */,
 				439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */,
+				43BDFADD27B5454E005302CD /* FriendsShareTableViewCell.swift in Sources */,
 				430A350F26CA7A2200477A94 /* MoreTableViewCell.swift in Sources */,
 				4382AC5526C27911005C1857 /* Language.swift in Sources */,
 				4336D13B26DB96C20093C7A6 /* ProfileViewModel.swift in Sources */,
@@ -2115,6 +2146,7 @@
 				4382ACBC26C2AFE9005C1857 /* SplachThreeVC.swift in Sources */,
 				4368509A274500DD00A62287 /* structAPI.swift in Sources */,
 				43FC3CA727280BD500D94ABB /* SettingsTableViewCell.swift in Sources */,
+				43BDFAE527B5473C005302CD /* GroupsShareTableViewCell.swift in Sources */,
 				43119D6C26E4C1BF00AD2260 /* BirthdateViewModel.swift in Sources */,
 				43ACFEC327B3B2DE001CD340 /* EventButtonsTableViewCell.swift in Sources */,
 				43FC3CA427280B9800D94ABB /* SettingsVC.swift in Sources */,

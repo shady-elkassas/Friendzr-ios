@@ -161,9 +161,12 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.getChatList(pageNumber: pageNumber)
         viewmodel.listChat.bind { [unowned self] value in
             DispatchQueue.main.async {
-                hideView.hideLoader()
-                hideView.isHidden = true
                 
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
+
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -424,7 +427,6 @@ extension InboxVC:UITableViewDataSource {
                 let model = viewmodel.listChat.value?.data?[indexPath.row]
                 cell.nameLbl.text = model?.chatName
                 cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
-                
                 cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
                 
                 if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
@@ -504,7 +506,7 @@ extension InboxVC:UITableViewDelegate {
                 model = searchVM.usersinChat.value?.data?[indexPath.row]
             }
             
-            Router().toConversationVC(isEvent: model?.isevent ?? false, eventChatID: model?.id ?? "", leavevent: model?.leavevent ?? 0, chatuserID: model?.id ?? "", isFriend: model?.isfrind ?? false, titleChatImage: model?.image ?? "", titleChatName: model?.chatName ?? "", isChatGroupAdmin: model?.isChatGroupAdmin ?? false, isChatGroup: model?.isChatGroup ?? false, groupId: model?.id ?? "",leaveGroup: model?.leaveGroup ?? 0)
+            Router().toConversationVC(isEvent: model?.isevent ?? false, eventChatID: model?.id ?? "", leavevent: model?.leavevent ?? 0, chatuserID: model?.id ?? "", isFriend: model?.isfrind ?? false, titleChatImage: model?.image ?? "", titleChatName: model?.chatName ?? "", isChatGroupAdmin: model?.isChatGroupAdmin ?? false, isChatGroup: model?.isChatGroup ?? false, groupId: model?.id ?? "",leaveGroup: model?.leaveGroup ?? 0, isEventAdmin: model?.myevent ?? false)
         }
         
     }

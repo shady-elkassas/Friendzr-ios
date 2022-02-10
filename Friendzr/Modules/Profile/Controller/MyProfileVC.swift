@@ -69,9 +69,12 @@ class MyProfileVC: UIViewController {
         viewmodel.getProfileInfo()
         viewmodel.userModel.bind { [unowned self]value in
             DispatchQueue.main.async {
-                self.hideView.hideLoader()
-                self.hideView.isHidden = true
                 
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
+
                 DispatchQueue.main.async {
                     self.setProfileData()
                 }

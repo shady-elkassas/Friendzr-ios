@@ -93,7 +93,10 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.getAllRequests(requestesType: RequestesType.type, pageNumber: pageNumber)
         viewmodel.requests.bind { [unowned self] value in
             DispatchQueue.main.async {
-                hideView.hideLoader()
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -143,7 +146,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                     Defaults.frindRequestNumber = Defaults.frindRequestNumber
                 }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     hideView.hideLoader()
                     hideView.isHidden = true
                 }
@@ -445,7 +448,7 @@ extension RequestVC:UITableViewDataSource {
                 self.cellSelected = true
                 self.updateNetworkForBtns()
                 if self.internetConnect {
-                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
+                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: false)
                 }else {
                     return
                 }

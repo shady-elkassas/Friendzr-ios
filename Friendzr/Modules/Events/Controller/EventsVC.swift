@@ -75,7 +75,11 @@ class EventsVC: UIViewController {
         viewmodel.getMyEvents(pageNumber: pageNumber)
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
-                hideView.hideLoader()
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
+
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -111,9 +115,11 @@ class EventsVC: UIViewController {
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
 
-                hideView.hideLoader()
-                hideView.isHidden = true
-                
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
+
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()

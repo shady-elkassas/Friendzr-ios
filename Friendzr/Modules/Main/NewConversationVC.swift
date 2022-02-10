@@ -163,7 +163,12 @@ class NewConversationVC: UIViewController {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
-                hideView.hideLoader()
+                
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
+
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -195,8 +200,11 @@ class NewConversationVC: UIViewController {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
-                hideView.hideLoader()
-                hideView.isHidden = true
+                
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
                 
                 tableView.delegate = self
                 tableView.dataSource = self
@@ -288,7 +296,7 @@ extension NewConversationVC: UITableViewDelegate {
         
         if internetConnect {
             let model = viewmodel.friends.value?.data?[indexPath.row]
-            Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
+            Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: false)
         }else {
             return
         }

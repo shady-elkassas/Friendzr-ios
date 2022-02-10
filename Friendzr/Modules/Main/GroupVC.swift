@@ -23,7 +23,7 @@ class GroupVC: UIViewController {
     
     
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
-
+    
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -40,7 +40,7 @@ class GroupVC: UIViewController {
     
     let cellID = "AttendeesTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
-
+    
     var groupId:String = ""
     var isGroupAdmin:Bool = false
     
@@ -60,7 +60,7 @@ class GroupVC: UIViewController {
         initBackChatButton()
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateGroupDetails), name: Notification.Name("updateGroupDetails"), object: nil)
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -206,7 +206,7 @@ extension GroupVC {
         btn1.setTitleColor(.red, for: .normal)
         if isGroupAdmin {
             btn1.addTarget(self, action:  #selector(handleAdminOptionBtn), for: .touchUpInside)
-
+            
         }else {
             btn1.addTarget(self, action:  #selector(handleUserOptionBtn), for: .touchUpInside)
         }
@@ -235,7 +235,7 @@ extension GroupVC {
         btn1.setTitleColor(.red, for: .normal)
         if isGroupAdmin {
             btn1.addTarget(self, action:  #selector(handleAdminOptionBtn), for: .touchUpInside)
-
+            
         }else {
             btn1.addTarget(self, action:  #selector(handleUserOptionBtn), for: .touchUpInside)
         }
@@ -265,18 +265,15 @@ extension GroupVC {
     
     @objc func handleSaveBtn() {
         self.viewmodel.updateGroup(ByID: self.groupId, AndName: nameTxt.text!, attachedImg: true, AndImage: groupImg.image ?? UIImage()) { error, data in
+            
             if let error = error {
-//                DispatchQueue.main.async {
-//                    self.view.makeToast(error)
-//                }
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
                 return
             }
             
             guard let _ = data else {return}
-            
-//            DispatchQueue.main.async {
-//                self.view.makeToast("Changed successfully".localizedString)
-//            }
             
             DispatchQueue.main.async {
                 self.nameTxt.isUserInteractionEnabled = false
@@ -314,7 +311,7 @@ extension GroupVC {
             present(actionSheet, animated: true, completion: nil)
         }
     }
-
+    
     @objc func handleUserOptionBtn() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
@@ -385,7 +382,7 @@ extension GroupVC {
         }
         
     }
-
+    
     func deleteGroup() {
         self.viewmodel.deleteGroup(withGroupId: groupId) { error, data in
             if let error = error {
@@ -399,9 +396,9 @@ extension GroupVC {
                 return
             }
             
-//            DispatchQueue.main.async {
-//                self.view.makeToast("Your group has been successfully deleted".localizedString)
-//            }
+            //            DispatchQueue.main.async {
+            //                self.view.makeToast("Your group has been successfully deleted".localizedString)
+            //            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 Router().toHome()
@@ -426,16 +423,16 @@ extension GroupVC {
                 return
             }
             
-//            DispatchQueue.main.async {
-//                self.view.makeToast("You have exit the group successfully".localizedString)
-//            }
+            //            DispatchQueue.main.async {
+            //                self.view.makeToast("You have exit the group successfully".localizedString)
+            //            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 Router().toHome()
             }
         }
     }
-
+    
 }
 
 extension GroupVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
@@ -494,7 +491,7 @@ extension GroupVC : UITableViewDataSource {
         cell.friendNameLbl.text = model?.userName
         cell.friendImg.sd_setImage(with: URL(string: model?.userImage ?? ""), placeholderImage: UIImage(named: "placeholder"))
         
-//        cell.joinDateLbl.text = "join date: ".localizedString + "\(model?.joinDateTime ?? "")"
+        //        cell.joinDateLbl.text = "join date: ".localizedString + "\(model?.joinDateTime ?? "")"
         cell.joinDateLbl.isHidden = true
         
         cell.HandleDropDownBtn = {
@@ -505,7 +502,7 @@ extension GroupVC : UITableViewDataSource {
                     self.showAlertView(messageString: "delete", userID: model?.userID ?? "", Stutus: 1)
                 }))
                 settingsActionSheet.addAction(UIAlertAction(title:"Make coordinator".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                    self.showAlertView(messageString: "Make coordinator".localizedString, userID: model?.userID ?? "", Stutus: 2)
+                    //                    self.showAlertView(messageString: "Make coordinator".localizedString, userID: model?.userID ?? "", Stutus: 2)
                 }))
                 settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString.localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                 
@@ -517,7 +514,7 @@ extension GroupVC : UITableViewDataSource {
                     self.showAlertView(messageString: "delete".localizedString, userID: model?.userID ?? "", Stutus: 1)
                 }))
                 settingsActionSheet.addAction(UIAlertAction(title:"Make coordinator".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                    self.showAlertView(messageString: "Make coordinator".localizedString, userID: model?.userID ?? "", Stutus: 2)
+                    //                    self.showAlertView(messageString: "Make coordinator".localizedString, userID: model?.userID ?? "", Stutus: 2)
                 }))
                 settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                 
@@ -532,80 +529,80 @@ extension GroupVC : UITableViewDataSource {
 
 extension GroupVC : UITableViewDelegate{
     
-//    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-//        let model = viewmodel.groupMembers.value?.chatGroupSubscribers?[indexPath.row]
-//
-//        let actionDate = formatterDate.string(from: Date())
-//        let actionTime = formatterTime.string(from: Date())
-//
-//        if isGroupAdmin == true {
-//            let deleteAction = UITableViewRowAction(style: .default, title: "Delete".localizedString) { action, indexPath in
-//                print("deleteAction")
-//
-//                if UIDevice.current.userInterfaceIdiom == .pad {
-//                    let settingsActionSheet: UIAlertController = UIAlertController(title:"Are you sure you want to delete this user from your group?".localizedString, message:nil, preferredStyle: .alert)
-//
-//                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                        self.viewmodel.deleteUsersGroup(withGroupId: self.groupId, AndListOfUserIDs: [model?.userID ?? ""], AndRegistrationDateTime:  "\(actionDate) \(actionTime)") { error, data in
-//                            self.hideLoading()
-//                            if let error = error {
-//                                DispatchQueue.main.async {
-//                                    self.view.makeToast(error)
-//                                }
-//                                return
-//                            }
-//
-//                            guard let _ = data else {
-//                                return
-//                            }
-//
-//                            DispatchQueue.main.async {
-//                                self.tableView.reloadData()
-//                            }
-//                        }
-//                    }))
-//                    settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-//
-//                    self.present(settingsActionSheet, animated:true, completion:nil)
-//                }
-//                else {
-//                    let settingsActionSheet: UIAlertController = UIAlertController(title:"Are you sure you want to delete this user from your group?".localizedString, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-//
-//                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                        self.viewmodel.deleteUsersGroup(withGroupId: self.groupId, AndListOfUserIDs: [model?.userID ?? ""], AndRegistrationDateTime:  "\(actionDate) \(actionTime)") { error, data in
-//                            self.hideLoading()
-//                            if let error = error {
-//                                DispatchQueue.main.async {
-//                                    self.view.makeToast(error)
-//                                }
-//                                return
-//                            }
-//
-//                            guard let _ = data else {
-//                                return
-//                            }
-//
-//                            DispatchQueue.main.async {
-//                                self.tableView.reloadData()
-//                            }
-//                        }
-//                    }))
-//                    settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-//
-//                    self.present(settingsActionSheet, animated:true, completion:nil)
-//                }
-//            }
-//
-//            if model?.isAdminGroup == false {
-//                return [deleteAction]
-//            }else {
-//                return []
-//            }
-//
-//        }else {
-//            return []
-//        }
-//    }
+    //    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    //        let model = viewmodel.groupMembers.value?.chatGroupSubscribers?[indexPath.row]
+    //
+    //        let actionDate = formatterDate.string(from: Date())
+    //        let actionTime = formatterTime.string(from: Date())
+    //
+    //        if isGroupAdmin == true {
+    //            let deleteAction = UITableViewRowAction(style: .default, title: "Delete".localizedString) { action, indexPath in
+    //                print("deleteAction")
+    //
+    //                if UIDevice.current.userInterfaceIdiom == .pad {
+    //                    let settingsActionSheet: UIAlertController = UIAlertController(title:"Are you sure you want to delete this user from your group?".localizedString, message:nil, preferredStyle: .alert)
+    //
+    //                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+    //                        self.viewmodel.deleteUsersGroup(withGroupId: self.groupId, AndListOfUserIDs: [model?.userID ?? ""], AndRegistrationDateTime:  "\(actionDate) \(actionTime)") { error, data in
+    //                            self.hideLoading()
+    //                            if let error = error {
+    //                                DispatchQueue.main.async {
+    //                                    self.view.makeToast(error)
+    //                                }
+    //                                return
+    //                            }
+    //
+    //                            guard let _ = data else {
+    //                                return
+    //                            }
+    //
+    //                            DispatchQueue.main.async {
+    //                                self.tableView.reloadData()
+    //                            }
+    //                        }
+    //                    }))
+    //                    settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+    //
+    //                    self.present(settingsActionSheet, animated:true, completion:nil)
+    //                }
+    //                else {
+    //                    let settingsActionSheet: UIAlertController = UIAlertController(title:"Are you sure you want to delete this user from your group?".localizedString, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+    //
+    //                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+    //                        self.viewmodel.deleteUsersGroup(withGroupId: self.groupId, AndListOfUserIDs: [model?.userID ?? ""], AndRegistrationDateTime:  "\(actionDate) \(actionTime)") { error, data in
+    //                            self.hideLoading()
+    //                            if let error = error {
+    //                                DispatchQueue.main.async {
+    //                                    self.view.makeToast(error)
+    //                                }
+    //                                return
+    //                            }
+    //
+    //                            guard let _ = data else {
+    //                                return
+    //                            }
+    //
+    //                            DispatchQueue.main.async {
+    //                                self.tableView.reloadData()
+    //                            }
+    //                        }
+    //                    }))
+    //                    settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+    //
+    //                    self.present(settingsActionSheet, animated:true, completion:nil)
+    //                }
+    //            }
+    //
+    //            if model?.isAdminGroup == false {
+    //                return [deleteAction]
+    //            }else {
+    //                return []
+    //            }
+    //
+    //        }else {
+    //            return []
+    //        }
+    //    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
@@ -632,7 +629,7 @@ extension GroupVC {
         
         self.alertView?.HandleConfirmBtn = {
             // handling code
-
+            
             self.viewmodel.deleteUsersGroup(withGroupId: self.groupId, AndListOfUserIDs: [userID], AndRegistrationDateTime: "\(ActionDate) \(Actiontime)") { error, data in
                 if let error = error {
                     DispatchQueue.main.async {

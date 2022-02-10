@@ -784,17 +784,36 @@ extension ConversationVC {
                 }
             }))
 
-            actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                if self.isEvent == true {
-                    Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
-                }else {
-                    if self.isChatGroup == true {
-                        Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
-                    }else {
-                        Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
-                    }
+            if self.isEvent {
+                if !self.isEventAdmin {
+                    actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
+                        if self.isEvent == true {
+                            Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                        }else {
+                            if self.isChatGroup == true {
+                                Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                            }else {
+                                Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                            }
+                        }
+                    }))
                 }
-            }))
+            }else {
+                if !self.isChatGroupAdmin {
+                    actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
+                        if self.isEvent == true {
+                            Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                        }else {
+                            if self.isChatGroup == true {
+                                Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                            }else {
+                                Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                            }
+                        }
+                    }))
+                }
+            }
+            
             actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
@@ -808,17 +827,36 @@ extension ConversationVC {
                     Router().toGroupVC(groupId: self.groupId, isGroupAdmin: self.isChatGroupAdmin)
                 }
             }))
-            actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                if self.isEvent == true {
-                    Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
-                }else {
-                    if self.isChatGroup == true {
-                        Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
-                    }else {
-                        Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
-                    }
+            if self.isEvent {
+                if !self.isEventAdmin {
+                    actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
+                        if self.isEvent == true {
+                            Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                        }else {
+                            if self.isChatGroup == true {
+                                Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                            }else {
+                                Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                            }
+                        }
+                    }))
                 }
-            }))
+            }else {
+                if !self.isChatGroupAdmin {
+                    actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
+                        if self.isEvent == true {
+                            Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                        }else {
+                            if self.isChatGroup == true {
+                                Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                            }else {
+                                Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                            }
+                        }
+                    }))
+                }
+            }
+
             actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             present(actionSheet, animated: true, completion: nil)

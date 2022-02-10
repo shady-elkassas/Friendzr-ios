@@ -30,7 +30,9 @@ class EditEventsVC: UIViewController {
     @IBOutlet weak var endTimeBtn: UIButton!
     @IBOutlet weak var categoryNameLbl: UILabel!
     @IBOutlet weak var saveBtn: UIButton!
-    @IBOutlet weak var timeStack: UIStackView!
+//    @IBOutlet weak var timeStack: UIStackView!
+    
+    @IBOutlet weak var timesview: UIView!
     @IBOutlet weak var attendeesView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var attendeesViewHeight: NSLayoutConstraint!
@@ -188,12 +190,12 @@ class EditEventsVC: UIViewController {
         
         if eventModel?.allday == false {
             switchAllDays.isOn = false
-            timeStack.isHidden = false
+            timesview.isHidden = false
             startTimeBtn.isHidden = false
             endTimeBtn.isHidden = false
         }else {
             switchAllDays.isOn = true
-            timeStack.isHidden = true
+            timesview.isHidden = true
             startTimeBtn.isHidden = true
             endTimeBtn.isHidden = true
         }
@@ -294,7 +296,7 @@ class EditEventsVC: UIViewController {
     @IBAction func switchBtn(_ sender: UISwitch) {
         
         if switchAllDays.isOn == false {
-            timeStack.isHidden = false
+            timesview.isHidden = false
             startTimeBtn.isHidden = false
             endTimeBtn.isHidden = false
             
@@ -308,7 +310,7 @@ class EditEventsVC: UIViewController {
             self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
             self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
         }else {
-            timeStack.isHidden = true
+            timesview.isHidden = true
             startTimeBtn.isHidden = true
             endTimeBtn.isHidden = true
         }

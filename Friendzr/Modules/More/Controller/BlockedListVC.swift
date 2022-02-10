@@ -79,7 +79,10 @@ class BlockedListVC: UIViewController {
         viewmodel.getAllBlockedList(pageNumber: pageNumber,search: search)
         viewmodel.blocklist.bind { [unowned self] value in
             DispatchQueue.main.async {
-                hideView.hideLoader()
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -112,8 +115,12 @@ class BlockedListVC: UIViewController {
         viewmodel.getAllBlockedList(pageNumber: pageNumber,search:search)
         viewmodel.blocklist.bind { [unowned self] value in
             DispatchQueue.main.async {
-                hideView.hideLoader()
-                hideView.isHidden = true
+                
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
+
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()

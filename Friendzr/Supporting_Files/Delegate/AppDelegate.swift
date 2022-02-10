@@ -341,13 +341,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let userInfo = response.notification.request.content.userInfo
             
-            _ = userInfo["aps"] as? [String:Any] //?[""]
+            let aps = userInfo["aps"] as? [String:Any] //?[""]
             let action = userInfo["Action"] as? String //action transaction
             let actionId = userInfo["Action_code"] as? String //userid
             let chatTitle = userInfo["name"] as? String
-            let chatTitleImage = userInfo["userimage"] as? String
-//            let messageType = userInfo["Messagetype"] as? Int
+            let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
+            let imageNotifications = chatTitleImage?["image"] as? String
             
+//            let isAdminEvent = userInfo["fcm_options"] as? [String:Any]
             let soundNoti: String = userInfo["sound"] as? String ?? ""
             let content = UNMutableNotificationContent()
             content.sound = UNNotificationSound.default
@@ -359,21 +360,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     vc.userID = actionId!
                     navController.pushViewController(vc, animated: true)
                 }
-            }else if action == "Accept_Friend_Request" {
+            }
+            else if action == "Accept_Friend_Request" {
                 if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.userID = actionId ?? ""
                     navController.pushViewController(vc, animated: true)
                 }
-            }else if action == "event_chat"{
-                Router().toConversationVC(isEvent: true, eventChatID: actionId ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
-            }else if action == "user_chat"{
-                Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: actionId ?? "", isFriend: true, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
-                
+            }
+            else if action == "event_chat"{
+                Router().toConversationVC(isEvent: true, eventChatID: actionId ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: imageNotifications ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: false)
+            }
+            else if action == "user_chat"{
+                Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: actionId ?? "", isFriend: true, titleChatImage: imageNotifications ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: false)
             }
             else if action == "user_chatGroup" {
-                Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: chatTitleImage ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: true, isChatGroup: true, groupId: actionId ?? "", leaveGroup: 0)
+                Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: imageNotifications ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: true, isChatGroup: true, groupId: actionId ?? "", leaveGroup: 0, isEventAdmin: false)
             }
             else if action == "Joined_ChatGroup" {
                 Router().toHome()
@@ -415,12 +418,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
             else if action == "Check_events_near_you" {
-//                if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
-//                   let tabBarController = rootViewController as? UITabBarController,
-//                   let navController = tabBarController.selectedViewController as? UINavigationController {
-//                    tabBarController.selectedIndex = 1
-//                    navController.pushViewController(vc, animated: true)
-//                }
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -503,11 +500,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
        
-        if action == "Friend_Request" {
+        if action == "Friend_Request" || action == "Accept_Friend_Request"{
             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-            
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
             NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
         }
         
         // Change this to your preferred presentation option
@@ -566,10 +563,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             completionHandler([[]])
         }
         
-        if action == "Friend_Request" {
+        if action == "Friend_Request" || action == "Accept_Friend_Request"{
             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
             NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
         }
 
         if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {

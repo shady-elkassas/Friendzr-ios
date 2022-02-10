@@ -34,7 +34,7 @@ class FriendProfileVC: UIViewController {
     
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var hideImgs: [UIImageView]!
-
+    
     //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     var viewmodel:FriendViewModel = FriendViewModel()
@@ -46,7 +46,7 @@ class FriendProfileVC: UIViewController {
     
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var internetConect:Bool = false
-        
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,13 +110,16 @@ class FriendProfileVC: UIViewController {
         viewmodel.getFriendDetails(ById: userID)
         viewmodel.model.bind { [unowned self]value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
-                self.hideView.hideLoader()
-                self.hideView.isHidden = true
+                
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
+                }
                 
                 DispatchQueue.main.async {
                     setupData()
                 }
-
+                
             }
         }
         
@@ -245,7 +248,7 @@ class FriendProfileVC: UIViewController {
                 }
                 
                 guard let _ = message else {return}
-
+                
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
                 }
@@ -391,7 +394,7 @@ class FriendProfileVC: UIViewController {
     func changeTitleBtns(btn:UIButton,title:String) {
         btn.setTitle(title, for: .normal)
     }
-
+    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -470,7 +473,7 @@ class FriendProfileVC: UIViewController {
     }
     
     let myGroup = DispatchGroup()
-
+    
     func setupData() {
         let model = viewmodel.model.value
         myGroup.notify(queue: .main) { [self] in
@@ -618,8 +621,8 @@ extension FriendProfileVC {
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-//        button.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
-//        button.cornerRadiusForHeight()
+        //        button.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
+        //        button.cornerRadiusForHeight()
         button.setImage(image, for: .normal)
         image?.withTintColor(UIColor.blue)
         button.addTarget(self, action:  #selector(handleUserOptionsBtn), for: .touchUpInside)
