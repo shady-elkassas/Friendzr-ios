@@ -24,6 +24,23 @@ import UserNotifications
 import GoogleMobileAds
 import IQKeyboardManager
 
+//let notificationManager = NotificationManager.shared
+//        NotificationCenter.default.addObserver(
+//            self,
+//            selector: #selector(newLocationAdded(_:)),
+//            name: .newLocationSaved,
+//            object: nil)
+
+//        if Defaults.darkMode == true {
+//            UIApplication.shared.windows.forEach { window in
+//                window.overrideUserInterfaceStyle = .dark
+//            }
+//        }else {
+//            UIApplication.shared.windows.forEach { window in
+//                window.overrideUserInterfaceStyle = .light
+//            }
+//        }
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -35,7 +52,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let center = UNUserNotificationCenter.current()
     let locationManager = CLLocationManager()
     var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
-    
+    let content = UNMutableNotificationContent()
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -71,37 +89,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UNUserNotificationCenter.current().delegate = self
         if #available(iOS 10.0, *) {
-            // For iOS 10 display  notification (sent via APNS)
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
-                completionHandler: { _, _ in }
-            )
-            
-            let center = UNUserNotificationCenter.current()
-            center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
-                // Enable or disable features based on authorization.
-                print("granted \(granted)")
-                let content = UNMutableNotificationContent()
-                content.sound = UNNotificationSound.default
-            }
+                completionHandler: {_, _ in })
+
+            // For iOS 10 display notification (sent via APNS)
+            UNUserNotificationCenter.current().delegate = self
+
         } else {
             let settings: UIUserNotificationSettings =
-            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
-            
-            let center = UNUserNotificationCenter.current()
-            center.requestAuthorization(options: [.alert, .sound]) { (granted, error) in
-                // Enable or disable features based on authorization.
-                print("granted \(granted)")
-                let content = UNMutableNotificationContent()
-                content.sound = UNNotificationSound.default
-            }
         }
-        
+
         Messaging.messaging().delegate = self
         application.registerForRemoteNotifications()
         
+        content.sound = UNNotificationSound.default
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
+
+        center.add(request, withCompletionHandler: nil)
+
         networkReachability()
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateBadgeApp), name: Notification.Name("updateBadgeApp"), object: nil)
@@ -119,22 +129,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.distanceFilter = 500 // meter
         locationManager.allowsBackgroundLocationUpdates = true // 1
         locationManager.startUpdatingLocation()  // 2
-        
-        //        NotificationCenter.default.addObserver(
-        //            self,
-        //            selector: #selector(newLocationAdded(_:)),
-        //            name: .newLocationSaved,
-        //            object: nil)
-        
-//        if Defaults.darkMode == true {
-//            UIApplication.shared.windows.forEach { window in
-//                window.overrideUserInterfaceStyle = .dark
-//            }
-//        }else {
-//            UIApplication.shared.windows.forEach { window in
-//                window.overrideUserInterfaceStyle = .light
-//            }
-//        }
         
         UIApplication.shared.windows.forEach { window in
             window.overrideUserInterfaceStyle = .light
@@ -287,8 +281,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(userInfo)
         
         let soundNoti: String = userInfo["sound"] as? String ?? ""
-        let content = UNMutableNotificationContent()
         content.sound = UNNotificationSound.default
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
+
+        center.add(request, withCompletionHandler: nil)
 
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
@@ -296,9 +293,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        
     }
     
+    
+
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult)
@@ -317,9 +315,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Print full message.
         print(userInfo)
+        let aps = userInfo["aps"] as? [String:Any] //?[""]
+        let action = userInfo["Action"] as? String //action transaction
+        let actionId = userInfo["Action_code"] as? String //userid
+        let chatTitle = userInfo["name"] as? String
+        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
+        let imageNotifications = chatTitleImage?["image"] as? String
+
         let soundNoti: String = userInfo["sound"] as? String ?? ""
-        let content = UNMutableNotificationContent()
         content.sound = UNNotificationSound.default
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
+
+        center.add(request, withCompletionHandler: nil)
 
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
@@ -350,8 +358,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
 //            let isAdminEvent = userInfo["fcm_options"] as? [String:Any]
             let soundNoti: String = userInfo["sound"] as? String ?? ""
-            let content = UNMutableNotificationContent()
-            content.sound = UNNotificationSound.default
+            self.content.sound = UNNotificationSound.default
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
+    
+            center.add(request, withCompletionHandler: nil)
 
             if action == "Friend_Request" {
                 if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC,
@@ -441,13 +452,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .inactive:
             print("Inactive")
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            content.sound = UNNotificationSound.default
         case .background:
             print("Background")
             // update badge count here
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            content.sound = UNNotificationSound.default
         case .active:
             print("Active")
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            content.sound = UNNotificationSound.default
         default:
             break
         }
@@ -507,6 +521,20 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
         }
         
+        
+        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
+            print("user_chat OR event_chat OR user_chatGroup")
+        }else {
+            Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
+        }
+        
+        let soundNoti: String = userInfo["sound"] as? String ?? ""
+        content.sound = UNNotificationSound.default
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
+
+        center.add(request, withCompletionHandler: nil)
+
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
         
@@ -521,17 +549,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         else {
             completionHandler([[]])
         }
-
-        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
-            print("user_chat OR event_chat OR user_chatGroup")
-        }else {
-            Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
-        }
-        
-        let soundNoti: String = userInfo["sound"] as? String ?? ""
-        let content = UNMutableNotificationContent()
-        content.sound = UNNotificationSound.default
-
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
@@ -546,23 +563,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // Print full message.
         print(userInfo)
-
+        
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
         let action = userInfo["Action"] as? String //action transaction
 
-        if isMute == "False" {
-            if #available(iOS 14.0, *) {
-                completionHandler([[.alert, .badge, .sound,.banner,.list]])
-            } else {
-                // Fallback on earlier versions
-                completionHandler([[.alert, .badge, .sound]])
-            }
-        }
-        else {
-            completionHandler([[]])
-        }
-        
         if action == "Friend_Request" || action == "Accept_Friend_Request"{
             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
@@ -576,10 +581,26 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
         }
         
-        let soundNoti: String = userInfo["sound"] as? String ?? ""
-        let content = UNMutableNotificationContent()
         content.sound = UNNotificationSound.default
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
+
+        center.add(request, withCompletionHandler: nil)
+
+        if isMute == "False" {
+            if #available(iOS 14.0, *) {
+                completionHandler([[.alert, .badge, .sound,.banner,.list]])
+            } else {
+                // Fallback on earlier versions
+                completionHandler([[.alert, .badge, .sound]])
+            }
+        }
+        else {
+            completionHandler([[]])
+        }
     }
+
+
 }
 
 extension AppDelegate: CLLocationManagerDelegate {
@@ -600,15 +621,14 @@ extension AppDelegate: CLLocationManagerDelegate {
         let location = Location(visit: visit, descriptionString: description)
         LocationsStorage.shared.saveLocationOnDisk(location)
         
-        //        let content = UNMutableNotificationContent()
-        //        content.title = "New Location Entry 📌"
-        //        content.body = location.description
-        //        content.sound = UNNotificationSound.default
-        //
-        //        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        //        let request = UNNotificationRequest(identifier: location.dateString, content: content, trigger: trigger)
-        //
-        //        center.add(request, withCompletionHandler: nil)
+//                let content = UNMutableNotificationContent()
+//                content.title = "New Location Entry 📌"
+//                content.body = location.description
+//                content.sound = UNNotificationSound.default
+//
+//                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+//                let request = UNNotificationRequest(identifier: location.dateString, content: content, trigger: trigger)
+//                center.add(request, withCompletionHandler: nil)
         
         //update location server
         self.updateLocationVM.updatelocation(ByLat: "\(location.latitude)", AndLng: "\(location.longitude)") { error, data in

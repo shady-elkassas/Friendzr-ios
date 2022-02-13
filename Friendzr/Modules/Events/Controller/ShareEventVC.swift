@@ -1,0 +1,324 @@
+//
+//  ShareEventVC.swift
+//  Friendzr
+//
+//  Created by Shady Elkassas on 13/02/2022.
+//
+
+import UIKit
+
+class ShareEventVC: UIViewController {
+
+    @IBOutlet weak var friendsSearchBar: UISearchBar!
+    @IBOutlet weak var friendsEmptyView: UIView!
+    @IBOutlet weak var emptyFriendslbl: UILabel!
+    @IBOutlet weak var friendsTV: UITableView!
+    
+    @IBOutlet weak var groupsSearchBar: UISearchBar!
+    @IBOutlet weak var groupsEmptyView: UIView!
+    @IBOutlet weak var emptygroupslbl: UILabel!
+    @IBOutlet weak var groupsTV: UITableView!
+
+    @IBOutlet weak var eventsSearchBar: UISearchBar!
+    @IBOutlet weak var eventsEmptyView: UIView!
+    @IBOutlet weak var emptyeventslbl: UILabel!
+    @IBOutlet weak var eventsTV: UITableView!
+
+    @IBOutlet weak var eventsSearchView: UIView!
+    @IBOutlet weak var groupsSearchView: UIView!
+    @IBOutlet weak var friendsSearchView: UIView!
+    
+    
+    var cellID = "ShareTableViewCell"
+    
+    var myFriendsVM:AllFriendesViewModel = AllFriendesViewModel()
+    var myEventsVM:EventsViewModel = EventsViewModel()
+    var myGroupsVM:GroupViewModel = GroupViewModel()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        title = "Share".localizedString
+        setupViews()
+        getAllMyEvents(pageNumber: 1)
+        getAllMyGroups(pageNumber: 1, search: "")
+        getAllMyFriends(pageNumber: 1, search: "")
+        initCloseBarButton()
+        setupNavBar()
+    }
+    
+    
+    //MARK:- APIs
+    func getAllMyEvents(pageNumber:Int) {
+        myEventsVM.getMyEvents(pageNumber: pageNumber)
+        myEventsVM.events.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                self.eventsTV.delegate = self
+                self.eventsTV.dataSource = self
+                self.eventsTV.reloadData()
+                
+                if value.data?.count == 0 {
+                    eventsEmptyView.isHidden = false
+                    emptyeventslbl.text = "No events match your search"
+//                    eventsSearchView.isHidden = true
+                }else {
+                    eventsEmptyView.isHidden = true
+                }
+            }
+        }
+        
+        // Set View Model Event Listener
+        myEventsVM.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+            }
+        }
+    }
+    func getAllMyGroups(pageNumber:Int,search:String) {
+        myGroupsVM.getAllGroupChat(pageNumber: pageNumber, search: search)
+        myGroupsVM.listChat.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                groupsTV.delegate = self
+                groupsTV.dataSource = self
+                groupsTV.reloadData()
+                
+                if value.data?.count == 0 {
+                    groupsEmptyView.isHidden = false
+                    emptygroupslbl.text = "No groups match your search"
+                }else {
+                    groupsEmptyView.isHidden = true
+                }
+            }
+        }
+        
+        // Set View Model Event Listener
+        myGroupsVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+            }
+        }
+    }
+    func getAllMyFriends(pageNumber:Int,search:String) {
+        myFriendsVM.getAllFriendes(pageNumber: pageNumber, search: search)
+        myFriendsVM.friends.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                friendsTV.delegate = self
+                friendsTV.dataSource = self
+                friendsTV.reloadData()
+                
+                if value.data?.count == 0 {
+                    friendsEmptyView.isHidden = false
+                    emptyFriendslbl.text = "No friends match your search"
+                }else {
+                    friendsEmptyView.isHidden = true
+                }
+            }
+        }
+        
+        // Set View Model Event Listener
+        myFriendsVM.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+            }
+        }
+    }
+    
+    func shareEvent() {
+        // Setting description
+        let firstActivityItem = "https://friendzr.com/about-us/"
+        
+        // Setting url
+        let secondActivityItem : NSURL = NSURL(string: firstActivityItem)!
+        
+        // If you want to use an image
+        let image : UIImage = UIImage(named: "Share_ic")!
+        
+        let activityViewController : UIActivityViewController = UIActivityViewController(
+            activityItems: [firstActivityItem, secondActivityItem, image], applicationActivities: nil)
+        
+        // This lines is for the popover you need to show in iPad
+        activityViewController.popoverPresentationController?.sourceView = activityViewController.view
+        
+        // This line remove the arrow of the popover to show in iPad
+        activityViewController.popoverPresentationController?.permittedArrowDirections =  UIPopoverArrowDirection.down
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+        
+        // Pre-configuring activity items
+        activityViewController.activityItemsConfiguration = [
+            UIActivity.ActivityType.message
+        ] as? UIActivityItemsConfigurationReading
+        
+        // Anything you want to exclude
+        activityViewController.excludedActivityTypes = [
+            UIActivity.ActivityType.postToWeibo,
+            UIActivity.ActivityType.print,
+            UIActivity.ActivityType.assignToContact,
+            UIActivity.ActivityType.saveToCameraRoll,
+            UIActivity.ActivityType.addToReadingList,
+            UIActivity.ActivityType.postToFlickr,
+            UIActivity.ActivityType.postToVimeo,
+            UIActivity.ActivityType.postToTencentWeibo,
+            UIActivity.ActivityType.postToFacebook
+        ]
+        
+        activityViewController.isModalInPresentation = true
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    func setupViews() {
+        friendsTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        groupsTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        eventsTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        setupSearchBar()
+    }
+    
+    
+    func setupSearchBar() {
+        var placeHolder = NSMutableAttributedString()
+        let textHolder  = "Search...".localizedString
+        let font = UIFont(name: "Montserrat-Medium", size: 12) ?? UIFont.systemFont(ofSize: 12)
+        placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
+        
+        friendsSearchBar.delegate = self
+        friendsSearchView.cornerRadiusView(radius: 6)
+        friendsSearchView.setBorder()
+        friendsSearchBar.backgroundImage = UIImage()
+        friendsSearchBar.searchTextField.textColor = .black
+        friendsSearchBar.searchTextField.backgroundColor = .clear
+        friendsSearchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 12)
+        friendsSearchBar.searchTextField.attributedPlaceholder = placeHolder
+        friendsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchFriendsResult), for: .editingChanged)
+
+        
+        groupsSearchBar.delegate = self
+        groupsSearchView.cornerRadiusView(radius: 6)
+        groupsSearchView.setBorder()
+        groupsSearchBar.backgroundImage = UIImage()
+        groupsSearchBar.searchTextField.textColor = .black
+        groupsSearchBar.searchTextField.backgroundColor = .clear
+        groupsSearchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 12)
+        groupsSearchBar.searchTextField.attributedPlaceholder = placeHolder
+        groupsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchFriendsResult), for: .editingChanged)
+
+        
+        eventsSearchBar.delegate = self
+        eventsSearchView.cornerRadiusView(radius: 6)
+        eventsSearchView.setBorder()
+        eventsSearchBar.backgroundImage = UIImage()
+        eventsSearchBar.searchTextField.textColor = .black
+        eventsSearchBar.searchTextField.backgroundColor = .clear
+        eventsSearchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 12)
+        eventsSearchBar.searchTextField.attributedPlaceholder = placeHolder
+        eventsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchFriendsResult), for: .editingChanged)
+    }
+    
+    @IBAction func shareOutSideFriendzrBtn(_ sender: Any) {
+        shareEvent()
+    }
+    
+}
+
+extension ShareEventVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView == friendsTV {
+            if myFriendsVM.friends.value?.data?.count == 0 {
+                return 0
+            }else {
+                return myFriendsVM.friends.value?.data?.count ?? 0
+            }
+        }
+        else if tableView == groupsTV {
+            if myGroupsVM.listChat.value?.data?.count == 0 {
+                return 0
+            }else {
+                return myGroupsVM.listChat.value?.data?.count ?? 0
+            }
+        }
+        
+        else {
+            if myEventsVM.events.value?.data?.count == 0 {
+                return 0
+            }else {
+                return myEventsVM.events.value?.data?.count ?? 0
+            }
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
+        
+        if tableView == friendsTV {
+            let model = myFriendsVM.friends.value?.data?[indexPath.row]
+            cell.titleLbl.text = model?.userName
+            
+            cell.HandleSendBtn = {
+                
+            }
+        }
+        else if tableView == groupsTV {
+            let model = myGroupsVM.listChat.value?.data?[indexPath.row]
+            cell.titleLbl.text = model?.chatName
+            
+            cell.HandleSendBtn = {
+                
+            }
+            
+        }
+        else {
+            let model = myEventsVM.events.value?.data?[indexPath.row]
+            cell.titleLbl.text = model?.title
+            cell.HandleSendBtn = {
+                
+            }
+        }
+        
+        return cell
+    }
+}
+
+extension ShareEventVC:UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 45
+    }
+}
+
+
+extension ShareEventVC: UISearchBarDelegate{
+    @objc func updateSearchFriendsResult() {
+        guard let text1 = friendsSearchBar.text else {return}
+        guard let text2 = groupsSearchBar.text else {return}
+        guard let text3 = eventsSearchBar.text else {return}
+        print(text1,text2,text3)
+        
+        if text1 != "" {
+            getAllMyFriends(pageNumber: 1, search: text1)
+        }else {
+            getAllMyFriends(pageNumber: 1, search: "")
+
+        }
+        
+        if text2 != "" {
+            getAllMyGroups(pageNumber: 1, search: text2)
+        }else {
+            getAllMyGroups(pageNumber: 1, search: "")
+        }
+        
+        if text3 != "" {
+//            getAllMyEvents(pageNumber: 1)
+        }else {
+//            getAllMyEvents(pageNumber: 1)
+        }
+    }
+}

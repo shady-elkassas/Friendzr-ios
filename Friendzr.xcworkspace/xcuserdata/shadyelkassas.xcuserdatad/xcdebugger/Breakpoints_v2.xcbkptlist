@@ -190,8 +190,8 @@
             filePath = "Friendzr/Modules/Profile/Controller/EditMyProfileVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "565"
-            endingLineNumber = "565"
+            startingLineNumber = "567"
+            endingLineNumber = "567"
             landmarkName = "onFaceRegistrationCallBack(_:_:_:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -38,7 +38,7 @@
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sBh-up-VOZ">
                         <rect key="frame" x="20" y="59" width="300" height="1"/>
-                        <color key="backgroundColor" name="ColorLbl5"/>
+                        <color key="backgroundColor" name="BGColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="wdd-sw-rkq"/>
                         </constraints>
@@ -68,14 +68,14 @@
     </objects>
     <resources>
         <image name="placeholder" width="1000" height="1000"/>
+        <namedColor name="BGColor">
+            <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="Color0">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl3">
             <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="ColorLbl5">
-            <color red="0.94099998474121094" green="0.95300000905990601" blue="0.9570000171661377" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

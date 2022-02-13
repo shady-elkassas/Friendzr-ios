@@ -262,12 +262,12 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     func HandleInternetConnection() {
         if cellSelected {
             emptyView.isHidden = true
-            self.view.makeToast("No avaliable network ,Please try again!".localizedString)
+            self.view.makeToast("No available network, please try again!".localizedString)
         }
         else {
             emptyView.isHidden = false
             emptyImg.image = UIImage.init(named: "nointernet")
-            emptyLbl.text = "No avaliable network ,Please try again!".localizedString
+            emptyLbl.text = "No available network, please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }
     }
@@ -396,9 +396,6 @@ extension RequestVC:UITableViewDataSource {
                         }
                         
                         guard let message = message else {return}
-//                        DispatchQueue.main.async {
-//                            self.view.makeToast(message)
-//                        }
                         
                         DispatchQueue.main.async {
                             self.updateUserInterface()
@@ -410,6 +407,9 @@ extension RequestVC:UITableViewDataSource {
                             cell.requestRemovedLbl.isHidden = true
                         }
                     
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+                        }
                     }
                 }
             }
@@ -427,9 +427,6 @@ extension RequestVC:UITableViewDataSource {
                         }
                         
                         guard let message = message else {return}
-//                        DispatchQueue.main.async {
-//                            self.view.makeToast(message)
-//                        }
                         
                         DispatchQueue.main.async {
                             self.updateUserInterface()
@@ -439,6 +436,10 @@ extension RequestVC:UITableViewDataSource {
                             cell.stackViewBtns.isHidden = true
                             cell.messageBtn.isHidden = true
                             cell.requestRemovedLbl.isHidden = false
+                        }
+                        
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                         }
                     }
                 }

@@ -102,6 +102,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="emptyLbl" destination="tUN-ih-Gqc" id="j5G-8M-U1H"/>
                 <outlet property="emptyView" destination="zZR-v4-0PZ" id="X0t-wz-LHa"/>
                 <outlet property="searchBar" destination="ByX-AS-Pl0" id="Pyz-M4-PzK"/>
                 <outlet property="searchContainerView" destination="epD-ru-cdb" id="HKd-nd-CSN"/>

@@ -14,7 +14,8 @@ class EventsShareTableViewCell: UITableViewCell {
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
-
+    @IBOutlet weak var emptyLbl: UILabel!
+    
     var cellID = "ShareTableViewCell"
     var parentVC = UIViewController()
     var myEventsModel:[EventObj]? = nil

@@ -253,7 +253,7 @@ class LoginVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
+        self.view.makeToast("No available network, please try again!".localizedString)
     }
     
     func setup() {

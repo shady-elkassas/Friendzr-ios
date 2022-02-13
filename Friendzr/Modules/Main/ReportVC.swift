@@ -73,7 +73,7 @@ class ReportVC: UIViewController {
         case .unreachable:
             internetConnect = false
             DispatchQueue.main.async {
-                self.view.makeToast("No avaliable network ,Please try again!".localizedString)
+                self.view.makeToast("No available network, please try again!".localizedString)
             }
         case .wwan:
             internetConnect = true
@@ -97,7 +97,7 @@ class ReportVC: UIViewController {
         case .unreachable:
             internetConnect = false
             DispatchQueue.main.async {
-                self.view.makeToast("No avaliable network ,Please try again!".localizedString)
+                self.view.makeToast("No available network, please try again!".localizedString)
             }
         case .wwan:
             internetConnect = true

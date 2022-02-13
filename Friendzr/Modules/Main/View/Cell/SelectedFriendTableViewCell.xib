@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,7 +31,7 @@
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N19-Kr-cmP">
                         <rect key="frame" x="80" y="66" width="240" height="1"/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" name="BGColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="Zqv-nl-rdZ"/>
                         </constraints>
@@ -76,5 +77,8 @@
     <resources>
         <image name="placeholder" width="1000" height="1000"/>
         <image name="unSelected_ic" width="25" height="25"/>
+        <namedColor name="BGColor">
+            <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

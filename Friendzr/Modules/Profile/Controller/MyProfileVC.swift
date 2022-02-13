@@ -123,7 +123,7 @@ class MyProfileVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable newtwok ,Please try again!".localizedString)
+        self.view.makeToast("No available network, please try again!".localizedString)
     }
     
     func setupView() {

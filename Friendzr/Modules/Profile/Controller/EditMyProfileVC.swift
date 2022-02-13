@@ -157,7 +157,7 @@ class EditMyProfileVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
+        self.view.makeToast("No available network, please try again!".localizedString)
     }
     
     func setup() {
@@ -531,8 +531,10 @@ class EditMyProfileVC: UIViewController {
                     
                     viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in
                         
-                        self.saveBtn.setTitle("Save", for: .normal)
-                        self.saveBtn.isUserInteractionEnabled = true
+                        DispatchQueue.main.async {
+                            self.saveBtn.setTitle("Save", for: .normal)
+                            self.saveBtn.isUserInteractionEnabled = true
+                        }
                         
                         if let error = error {
                             DispatchQueue.main.async {

@@ -14,7 +14,8 @@ import CoreLocation
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    
+    let content = UNMutableNotificationContent()
+
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!], for: .normal)
@@ -41,6 +42,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        }else{
 //            UIView.appearance().semanticContentAttribute = .forceLeftToRight
 //        }
+        
+        self.content.sound = UNNotificationSound.default
         
         guard let _ = (scene as? UIWindowScene) else { return }
         Router().toSplach()

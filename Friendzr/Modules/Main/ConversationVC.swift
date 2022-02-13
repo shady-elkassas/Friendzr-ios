@@ -44,15 +44,15 @@ extension ConversationVC {
         let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
         let relativeDateString = dateFormatterToString(relativeFormatter, date!)
         // "Jan 18, 2018"
-
+        
         let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
         let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
         // "Jan 18, 2018"
-
+        
         let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
         let customDateString = dateFormatterToString(customFormatter, date!)
         // "18 January"
-
+        
         if relativeDateString == normalDateString {
             print("Use custom date \(customDateString)") // Jan 18
             return  customDateString
@@ -67,22 +67,22 @@ extension ConversationVC {
         formatter.locale = Locale.autoupdatingCurrent
         formatter.dateStyle = .full
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZ"
-
+        
         let dateStr = "\(date)T\(time)Z"
         let date = formatter.date(from: dateStr)
         
         let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
         let relativeDateString = dateFormatterToString(relativeFormatter, date!)
         // "Jan 18, 2018"
-
+        
         let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
         let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
         // "Jan 18, 2018"
-
+        
         let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
         let customDateString = dateFormatterToString(customFormatter, date!)
         // "18 January"
-
+        
         if relativeDateString == normalDateString {
             print("Use custom date \(customDateString)") // Jan 18
             return  customDateString
@@ -192,7 +192,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         setupMessages()
         
         configureMessageInputBar()
-        setupLeftInputButton(tapMessage: false, Recorder: "play")
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessages), name: Notification.Name("listenToMessages"), object: nil)
         
@@ -237,6 +236,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationbar()
+        setupLeftInputButton(tapMessage: false, Recorder: "play")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -256,7 +256,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     @objc func listenToMessagesForGroup() {
         getGroupChatMessages(pageNumber: 1)
-        
         NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
     }
     
@@ -275,6 +274,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         }, completion: { [weak self] _ in
             if self?.isLastSectionVisible() == true {
                 self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                self?.reloadLastIndexInCollectionView()
             }
         })
     }
@@ -286,6 +286,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         messagesCollectionView.layoutIfNeeded()
         messagesCollectionView.setContentOffset(contentOffset, animated: false)
         messagesCollectionView.scrollToItem(at: lastIndexPath, at: .bottom, animated: false)
+        messagesCollectionView.reloadDataAndKeepOffset()
     }
     
     @objc func updateMessagesChat() {
@@ -331,10 +332,13 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.messageCellDelegate = self
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
-//        maintainPositionOnKeyboardFrameChanged = true // default false
+        maintainPositionOnKeyboardFrameChanged = true // default false
         showMessageTimestampOnSwipeLeft = false // default false
-        
+        scrollsToBottomOnKeyboardBeginsEditing = true
         messagesCollectionView.refreshControl = refreshControl
+        
+        NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
     }
     
     func configureMessageInputBar() {
@@ -652,7 +656,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     func HandleInternetConnection() {
         DispatchQueue.main.async {
-            self.view.makeToast("No avaliable network ,Please try again!".localizedString)
+            self.view.makeToast("No available network, please try again!".localizedString)
         }
     }
     
@@ -783,7 +787,7 @@ extension ConversationVC {
                     Router().toGroupVC(groupId: self.groupId, isGroupAdmin: self.isChatGroupAdmin)
                 }
             }))
-
+            
             if self.isEvent {
                 if !self.isEventAdmin {
                     actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
@@ -856,7 +860,7 @@ extension ConversationVC {
                     }))
                 }
             }
-
+            
             actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             present(actionSheet, animated: true, completion: nil)
@@ -885,10 +889,6 @@ extension ConversationVC {
                 guard let _ = data else {
                     return
                 }
-//                DispatchQueue.main.async {
-//                    self.view.makeToast("You have successfully left the chat".localizedString)
-//                }
-                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     Router().toHome()
                 }

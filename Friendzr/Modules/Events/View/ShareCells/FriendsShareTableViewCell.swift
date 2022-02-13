@@ -13,16 +13,16 @@ class FriendsShareTableViewCell: UITableViewCell {
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var emptyLbl: UILabel!
     
-    @IBOutlet weak var searchBtn: UIButton!
     var cellID = "ShareTableViewCell"
     var parentVC = UIViewController()
     var myFriendsModel:[UserConversationModel]? = nil
     var isSearch:Bool = false
     var HandleSearchBtn: (() -> ())?
-
+    
     var onSearchFriendsCallBackResponse: ((_ data: String, _ value: Bool) -> ())?
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -34,15 +34,10 @@ class FriendsShareTableViewCell: UITableViewCell {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         setupSearchBar()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
-    @IBAction func searchBtn(_ sender: Any) {
-        HandleSearchBtn?()
-    }
-    
     
     func setupSearchBar() {
         searchBar.delegate = self
@@ -58,7 +53,7 @@ class FriendsShareTableViewCell: UITableViewCell {
         placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
         searchBar.searchTextField.attributedPlaceholder = placeHolder
         searchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchFriendsResult), for: .editingChanged)
-
+        
     }
 }
 
@@ -93,9 +88,10 @@ extension FriendsShareTableViewCell: UISearchBarDelegate{
         print(text)
         if text != "" {
             onSearchFriendsCallBackResponse?(text,true)
+            self.parentVC.view.endEditing(false)
         }else {
-            isSearch = false
             onSearchFriendsCallBackResponse?(text,false)
+            self.parentVC.view.endEditing(true)
         }
     }
 }

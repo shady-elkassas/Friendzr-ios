@@ -117,7 +117,7 @@ class SettingsVC: UIViewController {
         tableView.delegate = self
         tableView.reloadData()
         
-        settingsViewHeight.constant = CGFloat(7 * 60)
+        settingsViewHeight.constant = CGFloat(8 * 60)
         Defaults.myAppearanceTypes = model?.myAppearanceTypes ?? []
         Defaults.ghostMode = model?.ghostmode ?? false
         
@@ -183,7 +183,7 @@ class SettingsVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
+        self.view.makeToast("No available network, please try again!".localizedString)
     }
     
     func updateMyLocation() {

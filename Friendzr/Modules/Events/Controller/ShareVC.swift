@@ -22,6 +22,7 @@ class ShareVC: UIViewController {
     var myGroupsVM:GroupViewModel = GroupViewModel()
     
     var encryptedID:String = ""
+    var isSearch:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,10 +48,9 @@ class ShareVC: UIViewController {
         myEventsVM.getMyEvents(pageNumber: pageNumber)
         myEventsVM.events.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
             }
         }
         
@@ -112,10 +112,10 @@ class ShareVC: UIViewController {
     
     func shareEvent() {
         // Setting description
-        let firstActivityItem = "https://friendzr.com/"
+        let firstActivityItem = "https://friendzr.com/about-us/"
         
         // Setting url
-        let secondActivityItem : NSURL = NSURL(string: "friendzr://\(encryptedID)")!
+        let secondActivityItem : NSURL = NSURL(string: firstActivityItem)!
         
         // If you want to use an image
         let image : UIImage = UIImage(named: "Share_ic")!
@@ -154,6 +154,7 @@ class ShareVC: UIViewController {
     
     func OnFriendsSearchCallBack(_ data: String, _ value: Bool) -> () {
         print(data, value)
+        isSearch = value
         
         if value == true {
             getAllMyFriends(pageNumber: 1, search: data)
@@ -164,9 +165,10 @@ class ShareVC: UIViewController {
     
     func OnEventsSearchCallBack(_ data: String, _ value: Bool) -> () {
         print(data, value)
-        
+        isSearch = value
+
         if value == true {
-//            getAllMyEvents(pageNumber: 1)
+            //            getAllMyEvents(pageNumber: 1)
         }else {
             //            getAllMyEvents(pageNumber: 1)
         }
@@ -174,7 +176,7 @@ class ShareVC: UIViewController {
     
     func OnGroupsSearchCallBack(_ data: String, _ value: Bool) -> () {
         print(data, value)
-        
+        isSearch = value
         if value == true {
             getAllMyGroups(pageNumber: 1, search: data)
         }else {
@@ -186,77 +188,144 @@ class ShareVC: UIViewController {
 extension ShareVC:UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if isSearch {
+            if indexPath.row == 0 {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
+                cell.titleLbl.text = "Share Outside Friendzr".localizedString
+                cell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
+                cell.sendBtn.isHidden = true
+                cell.bottomView.isHidden = true
+                cell.titleLbl.textColor = UIColor.FriendzrColors.primary!
+                cell.containerView.backgroundColor = .clear
+                return cell
+            }
+            else if indexPath.row == 1 {//friends
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: myFriendsCellId, for: indexPath) as? FriendsShareTableViewCell else {return UITableViewCell()}
+                cell.myFriendsModel = myFriendsVM.friends.value?.data
+                
+                cell.parentVC = self
+                cell.tableView.reloadData()
+                
+                cell.onSearchFriendsCallBackResponse = self.OnFriendsSearchCallBack
+                
+                if myFriendsVM.friends.value?.data?.count == 0 {
+                    cell.emptyView.isHidden = false
+                    cell.emptyLbl.text = "No friends match your search"
+                }else {
+                    cell.emptyView.isHidden = true
+                }
+                
+                cell.HandleSearchBtn = {
+                    cell.searchContainerView.isHidden = false
+                }
+                
+                return cell
+            }
+            else if indexPath.row == 2 {//groups
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: myGroupCellId, for: indexPath) as? GroupsShareTableViewCell else {return UITableViewCell()}
+                cell.myGroupsModel = myGroupsVM.listChat.value?.data
+                
+                cell.onSearchGroupsCallBackResponse = self.OnGroupsSearchCallBack
+                if myGroupsVM.listChat.value?.data?.count == 0 {
+                    cell.emptyView.isHidden = false
+                    cell.emptyLbl.text = "No groups match your search"
+                }else {
+                    cell.emptyView.isHidden = true
+                }
+                cell.parentVC = self
+                cell.tableView.reloadData()
+                
+                return cell
+            }else {//events
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: myEventsCellId, for: indexPath) as? EventsShareTableViewCell else {return UITableViewCell()}
+                cell.myEventsModel = myEventsVM.events.value?.data
+                cell.onSearchEventsCallBackResponse = self.OnEventsSearchCallBack
+                if myEventsVM.events.value?.data?.count == 0 {
+                    cell.emptyView.isHidden = false
+                    cell.emptyLbl.text = "No Events match your search"
+                }else {
+                    cell.emptyView.isHidden = true
+                }
+                cell.parentVC = self
+                cell.tableView.reloadData()
+                return cell
+            }
+        }
         
-        //        if indexPath.row == 0 {
-        //            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
-        //            cell.titleLbl.text = "Share Outside Friendzr".localizedString
-        //            cell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
-        //            cell.sendBtn.isHidden = true
-        //            cell.bottomView.isHidden = true
-        //            cell.titleLbl.textColor = UIColor.FriendzrColors.primary!
-        //            cell.containerView.backgroundColor = .clear
-        //            return cell
-        //        }
-        if indexPath.row == 0 {//friends
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: myFriendsCellId, for: indexPath) as? FriendsShareTableViewCell else {return UITableViewCell()}
-            cell.myFriendsModel = myFriendsVM.friends.value?.data
-            
-            if myFriendsVM.friends.value?.data?.count == 0 {
-                cell.emptyView.isHidden = false
-                cell.searchContainerView.isHidden = true
-            }else {
-                cell.emptyView.isHidden = true
-                cell.searchContainerView.isHidden = false
+        else {
+            if indexPath.row == 0 {
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
+                cell.titleLbl.text = "Share Outside Friendzr".localizedString
+                cell.titleLbl.font = UIFont(name: "Montserrat-Bold", size: 15)
+                cell.sendBtn.isHidden = true
+                cell.bottomView.isHidden = true
+                cell.titleLbl.textColor = UIColor.FriendzrColors.primary!
+                cell.containerView.backgroundColor = .clear
+                return cell
             }
-            cell.parentVC = self
-            cell.tableView.reloadData()
-
-            cell.onSearchFriendsCallBackResponse = self.OnFriendsSearchCallBack
-
-            cell.HandleSearchBtn = {
-                cell.searchContainerView.isHidden = false
+            else if indexPath.row == 1 {//friends
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: myFriendsCellId, for: indexPath) as? FriendsShareTableViewCell else {return UITableViewCell()}
+                cell.myFriendsModel = myFriendsVM.friends.value?.data
+                
+                if myFriendsVM.friends.value?.data?.count == 0 {
+                    cell.emptyView.isHidden = false
+                    cell.searchContainerView.isHidden = true
+                }else {
+                    cell.emptyView.isHidden = true
+                    cell.searchContainerView.isHidden = false
+                }
+                
+                cell.parentVC = self
+                cell.tableView.reloadData()
+                
+                cell.onSearchFriendsCallBackResponse = self.OnFriendsSearchCallBack
+                
+                cell.HandleSearchBtn = {
+                    cell.searchContainerView.isHidden = false
+                }
+                
+                return cell
             }
-            
-            return cell
+            else if indexPath.row == 2 {//groups
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: myGroupCellId, for: indexPath) as? GroupsShareTableViewCell else {return UITableViewCell()}
+                cell.myGroupsModel = myGroupsVM.listChat.value?.data
+                
+                if myGroupsVM.listChat.value?.data?.count == 0 {
+                    cell.emptyView.isHidden = false
+                    cell.searchContainerView.isHidden = true
+                }else {
+                    cell.emptyView.isHidden = true
+                    cell.searchContainerView.isHidden = false
+                }
+                
+                cell.onSearchGroupsCallBackResponse = self.OnGroupsSearchCallBack
+                
+                cell.parentVC = self
+                cell.tableView.reloadData()
+                
+                return cell
+            }else {//events
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: myEventsCellId, for: indexPath) as? EventsShareTableViewCell else {return UITableViewCell()}
+                cell.myEventsModel = myEventsVM.events.value?.data
+                if myEventsVM.events.value?.data?.count == 0 {
+                    cell.emptyView.isHidden = false
+                    cell.searchContainerView.isHidden = true
+                }else {
+                    cell.emptyView.isHidden = true
+                    cell.searchContainerView.isHidden = false
+                }
+                
+                cell.onSearchEventsCallBackResponse = self.OnEventsSearchCallBack
+                cell.parentVC = self
+                cell.tableView.reloadData()
+                return cell
+            }
         }
-        else if indexPath.row == 1 {//groups
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: myGroupCellId, for: indexPath) as? GroupsShareTableViewCell else {return UITableViewCell()}
-            cell.myGroupsModel = myGroupsVM.listChat.value?.data
-            
-            if myGroupsVM.listChat.value?.data?.count == 0 {
-                cell.emptyView.isHidden = false
-                cell.searchContainerView.isHidden = true
-            }else {
-                cell.emptyView.isHidden = true
-                cell.searchContainerView.isHidden = false
-            }
-            
-            cell.onSearchGroupsCallBackResponse = self.OnGroupsSearchCallBack
 
-            cell.parentVC = self
-            cell.tableView.reloadData()
-            
-            return cell
-        }else {//events
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: myEventsCellId, for: indexPath) as? EventsShareTableViewCell else {return UITableViewCell()}
-            cell.myEventsModel = myEventsVM.events.value?.data
-            if myEventsVM.events.value?.data?.count == 0 {
-                cell.emptyView.isHidden = false
-                cell.searchContainerView.isHidden = true
-            }else {
-                cell.emptyView.isHidden = true
-                cell.searchContainerView.isHidden = false
-            }
-            
-            cell.onSearchEventsCallBackResponse = self.OnEventsSearchCallBack
-            cell.parentVC = self
-            cell.tableView.reloadData()
-            return cell
-        }
     }
 }
 
@@ -264,9 +333,10 @@ extension ShareVC:UITableViewDataSource {
 extension ShareVC :UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let height = tableView.frame.height
-        
-        //            return 45
         if indexPath.row == 0 {
+            return 45
+        }
+        else if indexPath.row == 1 {
             if myFriendsVM.friends.value?.data?.count == 0 {
                 return height/3.2
             }else {
@@ -274,29 +344,27 @@ extension ShareVC :UITableViewDelegate {
             }
             
         }
-        else if indexPath.row == 1 {
+        else if indexPath.row == 2 {
             if myGroupsVM.listChat.value?.data?.count == 0 {
                 return height/3.2
             }else {
                 return height/2.5
             }
         }
-        else if indexPath.row == 2 {
+        else {
             if myEventsVM.events.value?.data?.count == 0 {
                 return height/3.2
             }else {
                 return height/2.5
             }
-        }else {
-            return 10
         }
     }
     
-    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //        if indexPath.section == 0 {
-    //            shareEvent()
-    //        }else {
-    //            return
-    //        }
-    //    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            shareEvent()
+        }else {
+            return
+        }
+    }
 }

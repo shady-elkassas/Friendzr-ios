@@ -137,7 +137,7 @@ class EventDetailsViewController: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No avaliable network ,Please try again!".localizedString)
+        self.view.makeToast("No available network, please try again!".localizedString)
     }
     
     func showNewtworkConnected() {
@@ -525,8 +525,8 @@ extension EventDetailsViewController {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareVC {
-                    vc.encryptedID = self.encryptedID
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
+//                    vc.encryptedID = self.encryptedID
                     self.present(controller, animated: true)
                 }
             }))
@@ -547,8 +547,8 @@ extension EventDetailsViewController {
         else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareVC {
-                    vc.encryptedID = self.encryptedID
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
+//                    vc.encryptedID = self.encryptedID
                     self.present(controller, animated: true)
                 }
             }))

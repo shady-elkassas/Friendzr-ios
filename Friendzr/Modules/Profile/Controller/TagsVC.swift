@@ -151,7 +151,7 @@ class TagsVC: UIViewController {
     func HandleInternetConnection() {
         emptyView.isHidden = false
         emptyImg.image = UIImage.init(named: "nointernet")
-        emptyLbl.text = "No avaliable newtwok ,Please try again!".localizedString
+        emptyLbl.text = "No available network, please try again!".localizedString
         tryAgainBtn.alpha = 1.0
     }
 

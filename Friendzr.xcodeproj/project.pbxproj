@@ -234,6 +234,7 @@
 		43ACFED827B3B7F0001CD340 /* EventDetailsAttendeesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43ACFED627B3B7F0001CD340 /* EventDetailsAttendeesTableViewCell.xib */; };
 		43ACFEDB27B3BBA1001CD340 /* AdsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ACFED927B3BBA1001CD340 /* AdsTableViewCell.swift */; };
 		43ACFEDC27B3BBA1001CD340 /* AdsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43ACFEDA27B3BBA1001CD340 /* AdsTableViewCell.xib */; };
+		43B05A4527B9056200D9099A /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B05A4427B9056200D9099A /* NotificationManager.swift */; };
 		43B22412274B89D7004C6912 /* SelectedTagsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22411274B89D7004C6912 /* SelectedTagsVC.swift */; };
 		43B22416274D132C004C6912 /* CategoriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22415274D132C004C6912 /* CategoriesVC.swift */; };
 		43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */; };
@@ -288,6 +289,7 @@
 		43D545C926CCFBA10064660A /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545C826CCFBA10064660A /* CircleView.swift */; };
 		43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545CC26CD49F40064660A /* CategoryTableViewCell.swift */; };
 		43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D545CD26CD49F40064660A /* CategoryTableViewCell.xib */; };
+		43DF596827B942FB000D9F69 /* ShareEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF596727B942FB000D9F69 /* ShareEventVC.swift */; };
 		43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E692BF2765FF9D0075671D /* Ex+Switch.swift */; };
 		43E7EC43279C341900631AA0 /* FaceRecognitionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */; };
 		43E7EC45279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E7EC44279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib */; };
@@ -604,6 +606,7 @@
 		43ACFED627B3B7F0001CD340 /* EventDetailsAttendeesTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventDetailsAttendeesTableViewCell.xib; sourceTree = "<group>"; };
 		43ACFED927B3BBA1001CD340 /* AdsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsTableViewCell.swift; sourceTree = "<group>"; };
 		43ACFEDA27B3BBA1001CD340 /* AdsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdsTableViewCell.xib; sourceTree = "<group>"; };
+		43B05A4427B9056200D9099A /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		43B22411274B89D7004C6912 /* SelectedTagsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedTagsVC.swift; sourceTree = "<group>"; };
 		43B22415274D132C004C6912 /* CategoriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesVC.swift; sourceTree = "<group>"; };
 		43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -696,6 +699,7 @@
 		43D545C826CCFBA10064660A /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		43D545CC26CD49F40064660A /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		43D545CD26CD49F40064660A /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
+		43DF596727B942FB000D9F69 /* ShareEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareEventVC.swift; sourceTree = "<group>"; };
 		43E692BF2765FF9D0075671D /* Ex+Switch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Switch.swift"; sourceTree = "<group>"; };
 		43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionVC.swift; sourceTree = "<group>"; };
 		43E7EC44279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VerifyFaceRegistrationAlertView.xib; sourceTree = "<group>"; };
@@ -902,6 +906,7 @@
 				43B22415274D132C004C6912 /* CategoriesVC.swift */,
 				4369F4582797546300D5E064 /* ShareVC.swift */,
 				43ACFEBA27B3B065001CD340 /* EventDetailsViewController.swift */,
+				43DF596727B942FB000D9F69 /* ShareEventVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1493,6 +1498,7 @@
 				4382AC1826C27195005C1857 /* SceneDelegate.swift */,
 				43FC3C9F2727EBD000D94ABB /* MyLocation.swift */,
 				43FC3CA12727EC5D00D94ABB /* LocationsStorage.swift */,
+				43B05A4427B9056200D9099A /* NotificationManager.swift */,
 			);
 			path = Delegate;
 			sourceTree = "<group>";
@@ -2086,6 +2092,7 @@
 				4336D13726DB95670093C7A6 /* ProfileModel.swift in Sources */,
 				43119D7826E4F07000AD2260 /* CategoryEventViewModel.swift in Sources */,
 				43D545A926CBB0450064660A /* EventCalendarView.swift in Sources */,
+				43DF596827B942FB000D9F69 /* ShareEventVC.swift in Sources */,
 				43F473B926E61EAA001E4FAE /* InterestsModel.swift in Sources */,
 				4320A64C26F20FF7003604EE /* BlockedListVC.swift in Sources */,
 				430A351226CA8A1200477A94 /* TermsAndConditionsVC.swift in Sources */,
@@ -2118,6 +2125,7 @@
 				4382AC4C26C2748B005C1857 /* UIColorExtension.swift in Sources */,
 				4336D13926DB95D20093C7A6 /* ChangePasswordViewModel.swift in Sources */,
 				4306C59F27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.swift in Sources */,
+				43B05A4527B9056200D9099A /* NotificationManager.swift in Sources */,
 				4337B47A278714630077B794 /* UsersFeedTableViewCell.swift in Sources */,
 				4344110726CE885F00F8233E /* ContactsTableViewCell.swift in Sources */,
 				43D545C126CBEC5B0064660A /* EventDetailsVC.swift in Sources */,

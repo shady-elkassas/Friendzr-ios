@@ -186,11 +186,11 @@ class NotificationsVC: UIViewController {
     func HandleInternetConnection() {
         if btnsSelect {
             emptyView.isHidden = true
-            self.view.makeToast("No avaliable network ,Please try again!".localizedString)
+            self.view.makeToast("No available network, please try again!".localizedString)
         }else {
             emptyView.isHidden = false
             emptyImg.image = UIImage.init(named: "nointernet")
-            emptyLbl.text = "No avaliable network ,Please try again!".localizedString
+            emptyLbl.text = "No available network, please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }
     }

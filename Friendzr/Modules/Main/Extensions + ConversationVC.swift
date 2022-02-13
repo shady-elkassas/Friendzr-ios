@@ -379,7 +379,6 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
     }
     
     func inputBar(_ inputBar: InputBarAccessoryView, textViewTextDidChangeTo text: String) {
-        print("PPPPPPPP")
         if text == "" {
             setupLeftInputButton(tapMessage: false, Recorder: "play")
         }else {
