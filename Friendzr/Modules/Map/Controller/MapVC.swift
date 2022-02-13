@@ -176,16 +176,19 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.getAllEventsOnlyAroundMe(lat: location?.latitude ?? 0.0, lng: location?.longitude ?? 0.0, pageNumber: 1)
         viewmodel.eventsOnlyMe.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.collectionView.dataSource = self
-                self.collectionView.delegate = self
-                self.collectionView.reloadData()
-                
-                if isViewUp == true {
-                    collectionViewHeight.constant = 140
-                    subViewHeight.constant = 190
-                }else {
-                    collectionViewHeight.constant = 0
-                    subViewHeight.constant = 50
+                DispatchQueue.main.async {
+                    self.collectionView.dataSource = self
+                    self.collectionView.delegate = self
+                    self.collectionView.reloadData()
+                }
+                DispatchQueue.main.async {
+                    if isViewUp == true {
+                        collectionViewHeight.constant = 140
+                        subViewHeight.constant = 190
+                    }else {
+                        collectionViewHeight.constant = 0
+                        subViewHeight.constant = 50
+                    }
                 }
             }
         }
@@ -226,7 +229,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.getEventsByLoction(lat: lat, lng: lng)
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
                 self.eventsTableView.dataSource = self
                 self.eventsTableView.delegate = self
                 self.eventsTableView.reloadData()

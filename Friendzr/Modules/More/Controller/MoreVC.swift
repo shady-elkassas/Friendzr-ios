@@ -125,15 +125,15 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         moreList.append(("Contact Friendzr".localizedString, UIImage(named: "Contactus_ic")!))
         moreList.append(("Log Out".localizedString, UIImage(named: "logout_ic")!))
         
-        if Defaults.isIPhoneSmall {
+//        if Defaults.isIPhoneSmall {
             profileImgH.constant = 200
             profileImgW.constant = 200
             profileImg.cornerRadiusView(radius: 100)
-        }else {
-            profileImgH.constant = 280
-            profileImgW.constant = 280
-            profileImg.cornerRadiusView(radius: 140)
-        }
+//        }else {
+//            profileImgH.constant = 280
+//            profileImgW.constant = 280
+//            profileImg.cornerRadiusView(radius: 140)
+//        }
         
         profileImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 2)
     }
@@ -277,7 +277,7 @@ extension MoreVC : UITableViewDataSource {
 
 extension MoreVC : UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 55
+        return 40
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

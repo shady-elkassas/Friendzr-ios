@@ -154,10 +154,18 @@ class MyProfileVC: UIViewController {
         profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
         tagListView.removeAllTags()
-        for item in model?.listoftagsmodel ?? [] {
-            tagListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
-        }
         
+        if (model?.listoftagsmodel?.count ?? 0) > 4 {
+            tagListView.addTag(tagId: model?.listoftagsmodel?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
+            tagListView.addTag(tagId: model?.listoftagsmodel?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
+            tagListView.addTag(tagId: model?.listoftagsmodel?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
+            tagListView.addTag(tagId: model?.listoftagsmodel?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
+        }else {
+            for item in model?.listoftagsmodel ?? [] {
+                tagListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
+            }
+        }
+
         print("tagListView.rows \(tagListView.rows)")
         tagsViewhHeight.constant = CGFloat(tagListView.rows * 25)
         

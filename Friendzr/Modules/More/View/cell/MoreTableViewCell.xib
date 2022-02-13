@@ -73,7 +73,7 @@
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ast-3i-Faq">
                         <rect key="frame" x="53" y="55" width="247" height="2"/>
-                        <color key="backgroundColor" name="ColorLbl5"/>
+                        <color key="backgroundColor" name="BGColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="2" id="JvK-b8-m5Z"/>
                         </constraints>
@@ -102,14 +102,14 @@
         </tableViewCell>
     </objects>
     <resources>
+        <namedColor name="BGColor">
+            <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="Color0">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="ColorLbl3">
             <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="ColorLbl5">
-            <color red="0.94099998474121094" green="0.95300000905990601" blue="0.9570000171661377" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

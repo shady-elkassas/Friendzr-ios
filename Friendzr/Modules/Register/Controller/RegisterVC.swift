@@ -98,7 +98,7 @@ class RegisterVC: UIViewController {
     @IBAction func registerBtn(_ sender: Any) {
         updateUserInterface()
         if internetConect {
-            self.showLoading()
+//            self.showLoading()
             registerVM.RegisterNewUser(withUserName: userNameTxt.text!, AndEmail: emailTxt.text!, password: passwordTxt.text!,confirmPassword:confirmPasswordTxt.text!) { error, data in
                 self.hideLoading()
                 if let error = error {
@@ -195,7 +195,7 @@ class RegisterVC: UIViewController {
                         
                         print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
                         
-                        self.showLoading()
+//                        self.showLoading()
                         self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, socialUser: "\(2)") { (error, data) in
                             self.hideLoading()
                             if let error = error {
@@ -342,7 +342,7 @@ extension RegisterVC {
                     
                     print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
                     
-                    self.showLoading()
+//                    self.showLoading()
                     self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName, socialUser: "\(1)") { (error, data) in
                         self.hideLoading()
                         if let error = error {
@@ -444,7 +444,7 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
                 useremailApple = email
             }
             
-            self.showLoading()
+//            self.showLoading()
             self.socailMediaVM.socialMediaRegisterUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple, socialUser: "\(3)") { (error, data) in
                 self.hideLoading()
                 if let error = error {
