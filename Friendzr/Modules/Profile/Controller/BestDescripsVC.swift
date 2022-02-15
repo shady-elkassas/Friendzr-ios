@@ -2,7 +2,7 @@
 //  BestDescripsVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 15/02/2022.
+//  Created by Muhammad Sabri Saad on 15/02/2022.
 //
 
 import UIKit

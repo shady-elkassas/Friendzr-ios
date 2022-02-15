@@ -246,17 +246,23 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     @objc func listenToMessages() {
         getUserChatMessages(pageNumber: 1)
-        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+        }
     }
     
     @objc func listenToMessagesForEvent() {
         getEventChatMessages(pageNumber: 1)
-        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+        }
     }
     
     @objc func listenToMessagesForGroup() {
         getGroupChatMessages(pageNumber: 1)
-        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+        }
     }
     
     func insertMessage(_ message: UserMessage) {
@@ -292,8 +298,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     @objc func updateMessagesChat() {
         print("POP")
         setupNavigationbar()
-        NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
-        NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
     }
     
     func showDownView() {
@@ -334,11 +338,8 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
         maintainPositionOnKeyboardFrameChanged = true // default false
         showMessageTimestampOnSwipeLeft = false // default false
-        scrollsToBottomOnKeyboardBeginsEditing = true
+//        scrollsToBottomOnKeyboardBeginsEditing = true
         messagesCollectionView.refreshControl = refreshControl
-        
-        NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
-        NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
     }
     
     func configureMessageInputBar() {

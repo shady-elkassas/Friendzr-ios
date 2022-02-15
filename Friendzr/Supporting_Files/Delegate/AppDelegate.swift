@@ -148,6 +148,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Defaults.isIPhoneSmall = false
         }
         
+        UIView.appearance().semanticContentAttribute = .forceLeftToRight
+        self.window?.makeKeyAndVisible()
+
         return true
     }
     
