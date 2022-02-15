@@ -19,30 +19,44 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var superView: UIView!
     @IBOutlet weak var nameTxt: UITextField!
     @IBOutlet weak var dateBirthLbl: UILabel!
-    @IBOutlet weak var bioTxtView: UITextView!
     @IBOutlet weak var dateView: UIView!
     @IBOutlet weak var nameView: UIView!
     @IBOutlet weak var maleImg: UIImageView!
     @IBOutlet weak var femaleImg: UIImageView!
     @IBOutlet weak var otherImg: UIImageView!
     @IBOutlet weak var saveBtn: UIButton!
-    @IBOutlet weak var tagsView: UIView!
+    
     @IBOutlet weak var aboutMeView: UIView!
+    @IBOutlet weak var bioTxtView: UITextView!
     @IBOutlet weak var placeHolderLbl: UILabel!
+    
+    @IBOutlet weak var tagsView: UIView!
     @IBOutlet weak var tagsViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tagsListView: TagListView!
     @IBOutlet weak var selectTagsLbl: UILabel!
+    
+    @IBOutlet weak var bestDescribesView: UIView!
+    @IBOutlet weak var bestDescribesViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var bestDescribesListView: TagListView!
+    @IBOutlet weak var selectbestDescribesLbl: UILabel!
+
     @IBOutlet weak var logoutBtn: UIButton!
     
     @IBOutlet weak var tagsBottomSpaceLayout: NSLayoutConstraint!
     @IBOutlet weak var tagsTopSpaceLayout: NSLayoutConstraint!
-    
+    @IBOutlet weak var bestDescribesBottomSpaceLayout: NSLayoutConstraint!
+    @IBOutlet weak var bestDescribessTopSpaceLayout: NSLayoutConstraint!
+
+    @IBOutlet weak var lookingforTxtView: UITextView!
+    @IBOutlet weak var lookingforView: UIView!
+    @IBOutlet weak var lookingforPlaceHolderLbl: UILabel!
+
     @IBOutlet weak var otherGenderSubView: UIView!
     @IBOutlet weak var otherGenderView: UIView!
     @IBOutlet weak var otherGenderTxt: UITextField!
     
     @IBOutlet weak var ProcessingLbl: UILabel!
-    
+
     //MARK: - Properties
     
     lazy var logoutAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
@@ -58,6 +72,9 @@ class EditMyProfileVC: UIViewController {
     var faceRecognitionVM:FaceRecognitionViewModel = FaceRecognitionViewModel()
     var tagsid:[String] = [String]()
     var tagsNames:[String] = [String]()
+    var bestDescribesid:[String] = [String]()
+    var bestDescribesNames:[String] = [String]()
+
     var attachedImg:Bool = false
     var birthDay = ""
     
@@ -165,8 +182,12 @@ class EditMyProfileVC: UIViewController {
         nameView.cornerRadiusView(radius: 8)
         dateView.cornerRadiusView(radius: 8)
         bioTxtView.cornerRadiusView(radius: 8)
+        lookingforTxtView.cornerRadiusView(radius: 8)
         tagsView.cornerRadiusView(radius: 8)
+        bestDescribesView.cornerRadiusView(radius: 8)
+
         aboutMeView.cornerRadiusView(radius: 8)
+        lookingforView.cornerRadiusView(radius: 8)
         otherGenderSubView.cornerRadiusView(radius: 8)
         logoutBtn.cornerRadiusView(radius: 8)
         
@@ -174,7 +195,9 @@ class EditMyProfileVC: UIViewController {
         
         profileImg.cornerRadiusForHeight()
         bioTxtView.delegate = self
+        lookingforTxtView.delegate = self
         tagsListView.delegate = self
+        bestDescribesListView.delegate = self
     }
     
     //MARK: - API
@@ -216,6 +239,14 @@ class EditMyProfileVC: UIViewController {
         }else {
             bioTxtView.text = ""
             placeHolderLbl.isHidden = false
+        }
+        
+        if model?.bio != "" {
+            lookingforTxtView.text = model?.bio
+            lookingforPlaceHolderLbl.isHidden = true
+        }else {
+            lookingforTxtView.text = ""
+            lookingforPlaceHolderLbl.isHidden = false
         }
         
         if model?.birthdate == "" {
@@ -270,6 +301,43 @@ class EditMyProfileVC: UIViewController {
             tagsBottomSpaceLayout.constant = 17
         }
         
+        
+        bestDescribesListView.removeAllTags()
+        for itm in model?.listoftagsmodel ?? [] {
+            bestDescribesListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
+            bestDescribesid.append(itm.tagID)
+            bestDescribesNames.append(itm.tagname)
+        }
+        
+        if bestDescribesListView.rows == 0 {
+            bestDescribesViewHeight.constant = 45
+            selectbestDescribesLbl.isHidden = false
+            selectbestDescribesLbl.textColor = .lightGray
+        }else {
+            bestDescribesViewHeight.constant = CGFloat(bestDescribesListView.rows * 25) + 25
+            selectbestDescribesLbl.isHidden = true
+            
+            print("bestViewHeight.constant >> \(bestDescribesViewHeight.constant)")
+        }
+        
+        bestDescribesListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
+        
+        if bestDescribesListView.rows == 0 {
+            bestDescribessTopSpaceLayout.constant = 5
+            bestDescribesBottomSpaceLayout.constant = 5
+        }else if bestDescribesListView.rows == 1 {
+            bestDescribessTopSpaceLayout.constant = 25
+            bestDescribesBottomSpaceLayout.constant = 5
+        }else if bestDescribesListView.rows == 2 {
+            bestDescribessTopSpaceLayout.constant = 16
+            bestDescribesBottomSpaceLayout.constant = 5
+        }else if bestDescribesListView.rows == 3 {
+            bestDescribessTopSpaceLayout.constant = 10
+            bestDescribesBottomSpaceLayout.constant = 5
+        }else if bestDescribesListView.rows == 4 {
+            bestDescribessTopSpaceLayout.constant = 10
+            bestDescribesBottomSpaceLayout.constant = 17
+        }
         
         if model?.gender == "male" {
             maleImg.image = UIImage(named: "select_ic")
@@ -344,6 +412,51 @@ class EditMyProfileVC: UIViewController {
         
     }
     
+    func OnbestDescribesCallBack(_ data: [String], _ value: [String]) -> () {
+        print(data, value)
+        
+        selectbestDescribesLbl.isHidden = true
+        bestDescribesListView.removeAllTags()
+        bestDescribesNames.removeAll()
+        for item in value {
+            bestDescribesListView.addTag(tagId: "", title: "#\(item)")
+            bestDescribesNames.append(item)
+        }
+        
+        if bestDescribesListView.rows == 0 {
+            bestDescribesViewHeight.constant = 45
+            selectbestDescribesLbl.isHidden = false
+            selectbestDescribesLbl.textColor = .lightGray
+        }else {
+            bestDescribesViewHeight.constant = CGFloat(bestDescribesListView.rows * 25) + 25
+            selectbestDescribesLbl.isHidden = true
+        }
+        
+        print("bestViewHeight.constant >> \(bestDescribesViewHeight.constant)")
+        
+        bestDescribesid.removeAll()
+        for itm in data {
+            bestDescribesid.append(itm)
+        }
+        
+        if bestDescribesListView.rows == 0 {
+            bestDescribessTopSpaceLayout.constant = 5
+            bestDescribesBottomSpaceLayout.constant = 5
+        }else if bestDescribesListView.rows == 1 {
+            bestDescribessTopSpaceLayout.constant = 25
+            bestDescribesBottomSpaceLayout.constant = 5
+        }else if bestDescribesListView.rows == 2 {
+            bestDescribessTopSpaceLayout.constant = 16
+            bestDescribesBottomSpaceLayout.constant = 5
+        }else if bestDescribesListView.rows == 3 {
+            bestDescribessTopSpaceLayout.constant = 10
+            bestDescribesBottomSpaceLayout.constant = 5
+        }else if bestDescribesListView.rows == 4 {
+            bestDescribessTopSpaceLayout.constant = 10
+            bestDescribesBottomSpaceLayout.constant = 17
+        }
+        
+    }
     func logout() {
         logoutAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
@@ -511,6 +624,17 @@ class EditMyProfileVC: UIViewController {
         }
     }
     
+    @IBAction func bestDescribesBtn(_ sender: Any) {
+        updateUserInterface2()
+        if internetConect {
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "SelectedTagsVC") as? SelectedTagsVC else {return}
+            vc.arrSelectedDataIds = bestDescribesid
+            vc.arrSelectedDataNames = bestDescribesNames
+            vc.onInterestsCallBackResponse = self.OnbestDescribesCallBack
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     @IBAction func saveBtn(_ sender: Any) {
         updateUserInterface2()
         if self.attachedImg == false {
@@ -659,12 +783,22 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
 //text view delegate
 extension EditMyProfileVC: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        placeHolderLbl.isHidden = !textView.text.isEmpty
+        if textView == bioTxtView {
+            placeHolderLbl.isHidden = !bioTxtView.text.isEmpty
+        }else {
+            lookingforPlaceHolderLbl.isHidden = !lookingforTxtView.text.isEmpty
+        }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let newText = (bioTxtView.text as NSString).replacingCharacters(in: range, with: text)
-        return newText.count < 150
+        if textView == bioTxtView {
+            let newText = (bioTxtView.text as NSString).replacingCharacters(in: range, with: text)
+            return newText.count < 150
+        }else {
+            let newText = (lookingforTxtView.text as NSString).replacingCharacters(in: range, with: text)
+            return newText.count < 150
+
+        }
     }
 }
 

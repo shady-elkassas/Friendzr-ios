@@ -483,7 +483,7 @@ extension RequestVC:UITableViewDelegate {
         if internetConnect {
             if viewmodel.requests.value?.data?.count != 0 {
                 let model = viewmodel.requests.value?.data?[indexPath.row]
-                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                 vc.userID = model?.userId ?? ""
                 self.navigationController?.pushViewController(vc, animated: true)
             }

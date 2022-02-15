@@ -137,6 +137,20 @@
 		436288B126C95B1300B51E51 /* FriendProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436288B026C95B1300B51E51 /* FriendProfileVC.swift */; };
 		436460BA26E8EE2E007C3F27 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436460B826E8EE2E007C3F27 /* LoginModel.swift */; };
 		436460BB26E8EE2E007C3F27 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436460B926E8EE2E007C3F27 /* UserModel.swift */; };
+		4367E45827BA46B000FE1880 /* ImageProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4367E45627BA46B000FE1880 /* ImageProfileTableViewCell.swift */; };
+		4367E45927BA46B000FE1880 /* ImageProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4367E45727BA46B000FE1880 /* ImageProfileTableViewCell.xib */; };
+		4367E46027BA478900FE1880 /* FriendImageProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4367E45E27BA478900FE1880 /* FriendImageProfileTableViewCell.swift */; };
+		4367E46127BA478900FE1880 /* FriendImageProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4367E45F27BA478900FE1880 /* FriendImageProfileTableViewCell.xib */; };
+		4367E46427BA4A0E00FE1880 /* ProfileUserNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4367E46227BA4A0E00FE1880 /* ProfileUserNameTableViewCell.swift */; };
+		4367E46527BA4A0E00FE1880 /* ProfileUserNameTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4367E46327BA4A0E00FE1880 /* ProfileUserNameTableViewCell.xib */; };
+		4367E46827BA4ACE00FE1880 /* InterestsProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4367E46627BA4ACE00FE1880 /* InterestsProfileTableViewCell.swift */; };
+		4367E46927BA4ACE00FE1880 /* InterestsProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4367E46727BA4ACE00FE1880 /* InterestsProfileTableViewCell.xib */; };
+		4367E46C27BA4BC600FE1880 /* BestDescribesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4367E46A27BA4BC600FE1880 /* BestDescribesTableViewCell.swift */; };
+		4367E46D27BA4BC600FE1880 /* BestDescribesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4367E46B27BA4BC600FE1880 /* BestDescribesTableViewCell.xib */; };
+		4367E47027BA4C4B00FE1880 /* AboutMeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4367E46E27BA4C4B00FE1880 /* AboutMeTableViewCell.swift */; };
+		4367E47127BA4C4B00FE1880 /* AboutMeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4367E46F27BA4C4B00FE1880 /* AboutMeTableViewCell.xib */; };
+		4367E47327BA4D0B00FE1880 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4367E47227BA4D0B00FE1880 /* MyProfileViewController.swift */; };
+		4367E47527BA4D3200FE1880 /* FriendProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4367E47427BA4D3200FE1880 /* FriendProfileViewController.swift */; };
 		436850982745008500A62287 /* InstagramWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436850972745008500A62287 /* InstagramWebVC.swift */; };
 		4368509A274500DD00A62287 /* structAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43685099274500DD00A62287 /* structAPI.swift */; };
 		4368509F27453E3800A62287 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4368509D27453E3800A62287 /* TagCollectionViewCell.swift */; };
@@ -478,6 +492,20 @@
 		436288B026C95B1300B51E51 /* FriendProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileVC.swift; sourceTree = "<group>"; };
 		436460B826E8EE2E007C3F27 /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		436460B926E8EE2E007C3F27 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		4367E45627BA46B000FE1880 /* ImageProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProfileTableViewCell.swift; sourceTree = "<group>"; };
+		4367E45727BA46B000FE1880 /* ImageProfileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageProfileTableViewCell.xib; sourceTree = "<group>"; };
+		4367E45E27BA478900FE1880 /* FriendImageProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendImageProfileTableViewCell.swift; sourceTree = "<group>"; };
+		4367E45F27BA478900FE1880 /* FriendImageProfileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendImageProfileTableViewCell.xib; sourceTree = "<group>"; };
+		4367E46227BA4A0E00FE1880 /* ProfileUserNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUserNameTableViewCell.swift; sourceTree = "<group>"; };
+		4367E46327BA4A0E00FE1880 /* ProfileUserNameTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileUserNameTableViewCell.xib; sourceTree = "<group>"; };
+		4367E46627BA4ACE00FE1880 /* InterestsProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsProfileTableViewCell.swift; sourceTree = "<group>"; };
+		4367E46727BA4ACE00FE1880 /* InterestsProfileTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InterestsProfileTableViewCell.xib; sourceTree = "<group>"; };
+		4367E46A27BA4BC600FE1880 /* BestDescribesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestDescribesTableViewCell.swift; sourceTree = "<group>"; };
+		4367E46B27BA4BC600FE1880 /* BestDescribesTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BestDescribesTableViewCell.xib; sourceTree = "<group>"; };
+		4367E46E27BA4C4B00FE1880 /* AboutMeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMeTableViewCell.swift; sourceTree = "<group>"; };
+		4367E46F27BA4C4B00FE1880 /* AboutMeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AboutMeTableViewCell.xib; sourceTree = "<group>"; };
+		4367E47227BA4D0B00FE1880 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
+		4367E47427BA4D3200FE1880 /* FriendProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileViewController.swift; sourceTree = "<group>"; };
 		436850972745008500A62287 /* InstagramWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramWebVC.swift; sourceTree = "<group>"; };
 		43685099274500DD00A62287 /* structAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = structAPI.swift; sourceTree = "<group>"; };
 		4368509D27453E3800A62287 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1321,9 +1349,10 @@
 		436288AA26C93B4500B51E51 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				43D00937279441BD00370E2C /* Profile.storyboard */,
+				4367E45527BA45F800FE1880 /* Profile Cell */,
 				430A34FF26CA496300477A94 /* CustomViews */,
 				432C6AD526F33BCC0029FB89 /* TagListView */,
-				43D00937279441BD00370E2C /* Profile.storyboard */,
 				43A332AC27832EEA001ADB84 /* Cell */,
 			);
 			path = View;
@@ -1339,6 +1368,8 @@
 				436850972745008500A62287 /* InstagramWebVC.swift */,
 				43B22411274B89D7004C6912 /* SelectedTagsVC.swift */,
 				43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */,
+				4367E47227BA4D0B00FE1880 /* MyProfileViewController.swift */,
+				4367E47427BA4D3200FE1880 /* FriendProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1350,6 +1381,25 @@
 				436460B926E8EE2E007C3F27 /* UserModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		4367E45527BA45F800FE1880 /* Profile Cell */ = {
+			isa = PBXGroup;
+			children = (
+				4367E45627BA46B000FE1880 /* ImageProfileTableViewCell.swift */,
+				4367E45727BA46B000FE1880 /* ImageProfileTableViewCell.xib */,
+				4367E45E27BA478900FE1880 /* FriendImageProfileTableViewCell.swift */,
+				4367E45F27BA478900FE1880 /* FriendImageProfileTableViewCell.xib */,
+				4367E46227BA4A0E00FE1880 /* ProfileUserNameTableViewCell.swift */,
+				4367E46327BA4A0E00FE1880 /* ProfileUserNameTableViewCell.xib */,
+				4367E46627BA4ACE00FE1880 /* InterestsProfileTableViewCell.swift */,
+				4367E46727BA4ACE00FE1880 /* InterestsProfileTableViewCell.xib */,
+				4367E46A27BA4BC600FE1880 /* BestDescribesTableViewCell.swift */,
+				4367E46B27BA4BC600FE1880 /* BestDescribesTableViewCell.xib */,
+				4367E46E27BA4C4B00FE1880 /* AboutMeTableViewCell.swift */,
+				4367E46F27BA4C4B00FE1880 /* AboutMeTableViewCell.xib */,
+			);
+			path = "Profile Cell";
 			sourceTree = "<group>";
 		};
 		4371D40F27329535003B8AFD /* Modules */ = {
@@ -1826,9 +1876,11 @@
 				43967D76279443F7005B1F5D /* CalendarView.xib in Resources */,
 				4382AC9326C27FF2005C1857 /* Montserrat-Black.ttf in Resources */,
 				43A332692781C9B2001ADB84 /* GhostModeTableViewCell.xib in Resources */,
+				4367E45927BA46B000FE1880 /* ImageProfileTableViewCell.xib in Resources */,
 				43967DA827944DD5005B1F5D /* InterestsCollectionViewCell.xib in Resources */,
 				430D426226D3A10F00188E42 /* EventTableViewCell.xib in Resources */,
 				43ACFEDC27B3BBA1001CD340 /* AdsTableViewCell.xib in Resources */,
+				4367E46127BA478900FE1880 /* FriendImageProfileTableViewCell.xib in Resources */,
 				4382ACC426C2C37A005C1857 /* Lato-Semibold.ttf in Resources */,
 				43ACFEC427B3B2DE001CD340 /* EventButtonsTableViewCell.xib in Resources */,
 				4382AC2326C27195005C1857 /* Assets.xcassets in Resources */,
@@ -1844,14 +1896,17 @@
 				430A351026CA7A2200477A94 /* MoreTableViewCell.xib in Resources */,
 				43967D7D2794440F005B1F5D /* AddNewTagView.xib in Resources */,
 				43ACFED027B3B6A5001CD340 /* EventStatisticsTableViewCell.xib in Resources */,
+				4367E46527BA4A0E00FE1880 /* ProfileUserNameTableViewCell.xib in Resources */,
 				4315DB42278DBB12005AB950 /* GenderDistributionTableViewCell.xib in Resources */,
 				4337B4732785D9CC0077B794 /* GoogleService-Info.plist in Resources */,
 				43D008D32794383900370E2C /* FeedsTableViewCell.xib in Resources */,
 				43967D9227944D33005B1F5D /* EventTimeCalenderView.xib in Resources */,
 				43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */,
+				4367E46927BA4ACE00FE1880 /* InterestsProfileTableViewCell.xib in Resources */,
 				4369F45D2797553D00D5E064 /* ShareTableViewCell.xib in Resources */,
 				43ACFECC27B3B597001CD340 /* EventDetailsTableViewCell.xib in Resources */,
 				43967D6F279443D3005B1F5D /* BlockAlertView.xib in Resources */,
+				4367E47127BA4C4B00FE1880 /* AboutMeTableViewCell.xib in Resources */,
 				43967DA127944DA3005B1F5D /* SeeMoreTableViewCell.xib in Resources */,
 				4369F45F279889BC00D5E064 /* Main.storyboard in Resources */,
 				43D0090B27943F2300370E2C /* NearbyEventsCollectionViewCell.xib in Resources */,
@@ -1867,6 +1922,7 @@
 				4382AC9626C27FF2005C1857 /* Montserrat-Medium.ttf in Resources */,
 				43E7EC45279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib in Resources */,
 				43967DB627944E15005B1F5D /* StatisticsCollectionViewCell.xib in Resources */,
+				4367E46D27BA4BC600FE1880 /* BestDescribesTableViewCell.xib in Resources */,
 				43D008DA2794386A00370E2C /* EmptyViewTableViewCell.xib in Resources */,
 				43D008EF27943A1500370E2C /* RequestTableViewCell.xib in Resources */,
 				436850A027453E3800A62287 /* TagCollectionViewCell.xib in Resources */,
@@ -2018,6 +2074,7 @@
 				43119D7426E4F00000AD2260 /* DescriptionViewModel.swift in Sources */,
 				43B22416274D132C004C6912 /* CategoriesVC.swift in Sources */,
 				4382AC5026C2788D005C1857 /* StringExtension.swift in Sources */,
+				4367E46827BA4ACE00FE1880 /* InterestsProfileTableViewCell.swift in Sources */,
 				436460BB26E8EE2E007C3F27 /* UserModel.swift in Sources */,
 				43C97DE8279D7DA100D87CBE /* FaceRecognitionModel.swift in Sources */,
 				4369F45C2797553D00D5E064 /* ShareTableViewCell.swift in Sources */,
@@ -2077,6 +2134,7 @@
 				434428E927171AE800269444 /* ExtensionDate.swift in Sources */,
 				43F473B726E61E7F001E4FAE /* InterestsViewModel.swift in Sources */,
 				4388686B27845BDC004D36B2 /* ReportViewModel.swift in Sources */,
+				4367E47027BA4C4B00FE1880 /* AboutMeTableViewCell.swift in Sources */,
 				4382AC5B26C27B24005C1857 /* LoadingViewExtension.swift in Sources */,
 				43D545B226CBD7E40064660A /* ExtensionsNodes.swift in Sources */,
 				43D545AB26CBB61F0064660A /* EventTimeCalenderView.swift in Sources */,
@@ -2095,6 +2153,7 @@
 				43DF596827B942FB000D9F69 /* ShareEventVC.swift in Sources */,
 				43F473B926E61EAA001E4FAE /* InterestsModel.swift in Sources */,
 				4320A64C26F20FF7003604EE /* BlockedListVC.swift in Sources */,
+				4367E47527BA4D3200FE1880 /* FriendProfileViewController.swift in Sources */,
 				430A351226CA8A1200477A94 /* TermsAndConditionsVC.swift in Sources */,
 				43ACFEDB27B3BBA1001CD340 /* AdsTableViewCell.swift in Sources */,
 				4382ACA826C2843E005C1857 /* KeychainItem.swift in Sources */,
@@ -2102,6 +2161,7 @@
 				4362888126C8FEDE00B51E51 /* MapVC.swift in Sources */,
 				43119D6E26E4C1CC00AD2260 /* UserImageViewModel.swift in Sources */,
 				4336ACCA26D6377E00C8FD33 /* ShowImageVC.swift in Sources */,
+				4367E46C27BA4BC600FE1880 /* BestDescribesTableViewCell.swift in Sources */,
 				43D545B926CBD8470064660A /* Node.swift in Sources */,
 				4388686D27845C4D004D36B2 /* ReportModel.swift in Sources */,
 				43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */,
@@ -2127,6 +2187,7 @@
 				4306C59F27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.swift in Sources */,
 				43B05A4527B9056200D9099A /* NotificationManager.swift in Sources */,
 				4337B47A278714630077B794 /* UsersFeedTableViewCell.swift in Sources */,
+				4367E47327BA4D0B00FE1880 /* MyProfileViewController.swift in Sources */,
 				4344110726CE885F00F8233E /* ContactsTableViewCell.swift in Sources */,
 				43D545C126CBEC5B0064660A /* EventDetailsVC.swift in Sources */,
 				43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */,
@@ -2140,6 +2201,7 @@
 				4388685E278344F1004D36B2 /* ReportTitleTableViewCell.swift in Sources */,
 				4320A64F26F21180003604EE /* BlockedTableViewCell.swift in Sources */,
 				4319612B27A811530057FDC2 /* TabsCollectionViewCell.swift in Sources */,
+				4367E46027BA478900FE1880 /* FriendImageProfileTableViewCell.swift in Sources */,
 				43D545B526CBD81E0064660A /* Magnetic.swift in Sources */,
 				43375F5A27130D9E009EBED6 /* NotificationsViewModel.swift in Sources */,
 				4382AC1926C27195005C1857 /* SceneDelegate.swift in Sources */,
@@ -2150,6 +2212,7 @@
 				4330757026E75EDC002940DF /* AttendeesVC.swift in Sources */,
 				4320A64826F1FD50003604EE /* AllFriendesModel.swift in Sources */,
 				43E7EC43279C341900631AA0 /* FaceRecognitionVC.swift in Sources */,
+				4367E46427BA4A0E00FE1880 /* ProfileUserNameTableViewCell.swift in Sources */,
 				436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */,
 				4382ACBC26C2AFE9005C1857 /* SplachThreeVC.swift in Sources */,
 				4368509A274500DD00A62287 /* structAPI.swift in Sources */,
@@ -2159,6 +2222,7 @@
 				43ACFEC327B3B2DE001CD340 /* EventButtonsTableViewCell.swift in Sources */,
 				43FC3CA427280B9800D94ABB /* SettingsVC.swift in Sources */,
 				439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */,
+				4367E45827BA46B000FE1880 /* ImageProfileTableViewCell.swift in Sources */,
 				4336D11926DB7F780093C7A6 /* Defaults.swift in Sources */,
 				430A350326CA4A3600477A94 /* BlockAlertView.swift in Sources */,
 				4330757826E78AA1002940DF /* UIImageExtension.swift in Sources */,
@@ -2709,7 +2773,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.7;
+				CURRENT_PROJECT_VERSION = 2.8.8;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2738,7 +2802,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.7;
+				CURRENT_PROJECT_VERSION = 2.8.8;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

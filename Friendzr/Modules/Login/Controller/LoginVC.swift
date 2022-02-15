@@ -76,7 +76,7 @@ class LoginVC: UIViewController {
     @IBAction func loginBtn(_ sender: Any) {
         updateUserInterface()
         if internetConect {
-//            self.showLoading()
+            self.showLoading()
             loginVM.LoginUser(withEmail: emailTxt.text!, password: passwordTxt.text!) { error, data in
                 self.hideLoading()
                 if let error = error {
@@ -172,7 +172,6 @@ class LoginVC: UIViewController {
                         self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName) { (error, data) in
                             self.hideLoading()
                             if let error = error {
-                                //                                self.showAlert(withMessage: error)
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
                                 }
@@ -418,7 +417,7 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                 useremailApple = email
             }
             
-//            self.showLoading()
+            self.showLoading()
             self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
                 self.hideLoading()
                 if let error = error {

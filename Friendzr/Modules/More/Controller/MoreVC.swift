@@ -125,15 +125,15 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         moreList.append(("Contact Friendzr".localizedString, UIImage(named: "Contactus_ic")!))
         moreList.append(("Log Out".localizedString, UIImage(named: "logout_ic")!))
         
-//        if Defaults.isIPhoneSmall {
+        if Defaults.isIPhoneSmall {
+            profileImgH.constant = 150
+            profileImgW.constant = 150
+            profileImg.cornerRadiusView(radius: 75)
+        }else {
             profileImgH.constant = 200
             profileImgW.constant = 200
             profileImg.cornerRadiusView(radius: 100)
-//        }else {
-//            profileImgH.constant = 280
-//            profileImgW.constant = 280
-//            profileImg.cornerRadiusView(radius: 140)
-//        }
+        }
         
         profileImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 2)
     }
@@ -266,11 +266,16 @@ extension MoreVC : UITableViewDataSource {
         cell.imgView.image?.withTintColor(UIColor.setColor(lightColor: .black, darkColor: .white))
         
         if indexPath.row == 2 {
-            cell.badgeLbl.text = "\(Defaults.badgeNumber)"
-            cell.badgeView.isHidden = false
+            if Defaults.badgeNumber == 0 {
+                cell.badgeView.isHidden = true
+            }else {
+                cell.badgeLbl.text = "\(Defaults.badgeNumber)"
+                cell.badgeView.isHidden = false
+            }
         }else {
             cell.badgeView.isHidden = true
         }
+        
         return cell
     }
 }
@@ -285,7 +290,7 @@ extension MoreVC : UITableViewDelegate {
         switch indexPath.row {
         case 0: //my profile
             if internetConect {
-                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break

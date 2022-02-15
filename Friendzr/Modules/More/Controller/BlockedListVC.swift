@@ -363,7 +363,7 @@ extension BlockedListVC: UITableViewDelegate {
         if internetConect {
             if viewmodel.blocklist.value?.data?.count != 0 {
                 let model = viewmodel.blocklist.value?.data?[indexPath.row]
-                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                 vc.userID = model?.userId ?? ""
                 self.navigationController?.pushViewController(vc, animated: true)
             }

@@ -36,7 +36,6 @@ class MyProfileVC: UIViewController {
     
     var internetConnection:Bool = false
     
-    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +47,7 @@ class MyProfileVC: UIViewController {
         }
         
         self.title = "My Profile".localizedString
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -154,7 +154,6 @@ class MyProfileVC: UIViewController {
         profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))
         
         tagListView.removeAllTags()
-        
         if (model?.listoftagsmodel?.count ?? 0) > 4 {
             tagListView.addTag(tagId: model?.listoftagsmodel?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
             tagListView.addTag(tagId: model?.listoftagsmodel?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")

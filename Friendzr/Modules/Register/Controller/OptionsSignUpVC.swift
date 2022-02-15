@@ -186,9 +186,9 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
                         
                         print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
                         
-//                        self.showLoading()
+                        self.showLoading()
                         self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, completion: { (error, data) in
-//                            self.hideLoading()
+                            self.hideLoading()
                             if let error = error {
 //                                self.showAlert(withMessage: error)
                                 DispatchQueue.main.async {
@@ -290,11 +290,10 @@ extension OptionsSignUpVC {
                     
                     print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
                     
-//                    self.showLoading()
+                    self.showLoading()
                     self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail, username: self.UserFBUserName, completion: { (error, data) in
-//                        self.hideLoading()
+                        self.hideLoading()
                         if let error = error {
-//                            self.showAlert(withMessage: error)
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
                             }
@@ -391,7 +390,7 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
                 useremailApple = email
             }
             
-//            self.showLoading()
+            self.showLoading()
             self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
                 self.hideLoading()
                 if let error = error {

@@ -365,7 +365,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             center.add(request, withCompletionHandler: nil)
 
             if action == "Friend_Request" {
-                if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC,
+                if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.userID = actionId!
@@ -373,7 +373,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
             else if action == "Accept_Friend_Request" {
-                if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC,
+                if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.userID = actionId ?? ""

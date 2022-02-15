@@ -1046,7 +1046,7 @@ extension ConversationVC {
     }
     
     @objc func goToUserProfileVC() {
-        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
         vc.userID = self.titleID ?? ""
         self.navigationController?.pushViewController(vc, animated: true)
     }

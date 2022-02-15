@@ -895,7 +895,7 @@ extension FeedVC:UITableViewDelegate {
         
         if internetConnect {
             if viewmodel.feeds.value?.data?.count != 0 {
-                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else {return}
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                 vc.userID = viewmodel.feeds.value?.data?[indexPath.row].userId ?? ""
                 //                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
                 self.navigationController?.pushViewController(vc, animated: true)

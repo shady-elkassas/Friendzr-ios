@@ -150,7 +150,7 @@ extension UIViewController {
     }
     
     @objc func goToMyProfile() {
-        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileVC") as? MyProfileVC else {return}
+        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

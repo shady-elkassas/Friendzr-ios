@@ -277,11 +277,11 @@ extension NotificationsVC: UITableViewDelegate {
                 let model = viewmodel.notifications.value?.data?[indexPath.row]
                 
                 if model?.action == "Friend_Request" {
-                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else { return}
+                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else { return}
                     vc.userID = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else if model?.action == "Accept_Friend_Request" {
-                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileVC") as? FriendProfileVC else { return}
+                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else { return}
                     vc.userID = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else if model?.action == "event_chat" {

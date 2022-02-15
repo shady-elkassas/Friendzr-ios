@@ -63,8 +63,6 @@
 	<string>284152480286634</string>
 	<key>InstagramRedirectURI</key>
 	<string>https://friendzr.com/oauth</string>
-	<key>UNNotificationExtensionCategory</key>
-	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>comgooglemaps</string>
@@ -347,5 +345,7 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>UNNotificationExtensionCategory</key>
+	<string></string>
 </dict>
 </plist>

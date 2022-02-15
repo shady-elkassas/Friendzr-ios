@@ -21,20 +21,27 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="en4-3l-oUv">
-                    <rect key="frame" x="132" y="406" width="150" height="94"/>
+                    <rect key="frame" x="132" y="405" width="150" height="96"/>
                     <subviews>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Rre-jd-ks3">
-                            <rect key="frame" x="65" y="22" width="20" height="20"/>
+                            <rect key="frame" x="55" y="22" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="V0f-en-odb"/>
+                                <constraint firstAttribute="height" constant="40" id="tpx-ZH-r0p"/>
+                            </constraints>
                             <color key="color" name="primaryColor"/>
                         </activityIndicatorView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NWQ-b0-fLh">
-                            <rect key="frame" x="8" y="64" width="134" height="18"/>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NWQ-b0-fLh">
+                            <rect key="frame" x="8" y="84" width="134" height="0.0"/>
+                            <constraints>
+                                <constraint firstAttribute="height" id="SVs-F7-mC9"/>
+                            </constraints>
                             <fontDescription key="fontDescription" name="Tajawal-Regular" family="Tajawal" pointSize="18"/>
                             <color key="textColor" name="primaryColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" name="Color0"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="Rre-jd-ks3" firstAttribute="centerX" secondItem="en4-3l-oUv" secondAttribute="centerX" id="DLj-vs-okC"/>
                         <constraint firstItem="NWQ-b0-fLh" firstAttribute="leading" secondItem="en4-3l-oUv" secondAttribute="leading" constant="8" id="Oaa-OR-ee2"/>
@@ -66,11 +73,8 @@
         </view>
     </objects>
     <resources>
-        <namedColor name="Color0">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="primaryColor">
-            <color red="0.043137254901960784" green="0.74509803921568629" blue="0.63137254901960782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

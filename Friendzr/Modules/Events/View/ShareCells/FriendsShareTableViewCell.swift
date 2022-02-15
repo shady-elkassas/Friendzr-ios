@@ -2,7 +2,7 @@
 //  FriendsShareTableViewCell.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 10/02/2022.
+//  Created by Muhammad Sabri Saad on 10/02/2022.
 //
 
 import UIKit
