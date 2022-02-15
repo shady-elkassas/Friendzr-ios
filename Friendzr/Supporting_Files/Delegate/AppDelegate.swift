@@ -138,13 +138,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Defaults.allowMyLocation = true
         }
         
-//        Localizer.DoExchange()
-//        if Language.currentLanguage() == "ar" {
-//            UIView.appearance().semanticContentAttribute = .forceRightToLeft
-//        }else{
-//            UIView.appearance().semanticContentAttribute = .forceLeftToRight
-//        }
-        
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
         }

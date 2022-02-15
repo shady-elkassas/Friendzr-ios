@@ -17,6 +17,7 @@ class EditProfileViewModel {
 //    let emailViewModel = EmailViewModel()
     let genderViewModel = GenderViewModel()
     let bioViewModel = BioViewModel()
+    let lookingForViewModel = LookingForViewModel()
     let birthdateViewModel = BirthdateViewModel()
     //    let userImageViewModel = UserImageViewModel()
     let generatedUserNameViewModel = GeneratedUserNameViewModel()
@@ -27,9 +28,9 @@ class EditProfileViewModel {
     var errorMsg : String = ""
     
     func validateEditProfileCredentials() -> Bool{
-        isSuccess =  userNameViewModel.validateCredentials() && genderViewModel.validateCredentials() && bioViewModel.validateCredentials() && birthdateViewModel.validateCredentials() && /*userImageViewModel.validateCredentials() &&*/ generatedUserNameViewModel.validateCredentials()
+        isSuccess =  userNameViewModel.validateCredentials() && genderViewModel.validateCredentials() && bioViewModel.validateCredentials() && birthdateViewModel.validateCredentials() && lookingForViewModel.validateCredentials() && generatedUserNameViewModel.validateCredentials()
         
-        errorMsg = "\(userNameViewModel.errorValue ?? "")\(genderViewModel.errorValue ?? "")\(bioViewModel.errorValue ?? "")\(birthdateViewModel.errorValue ?? "")\(generatedUserNameViewModel.errorValue ?? "")"
+        errorMsg = "\(userNameViewModel.errorValue ?? "")\(genderViewModel.errorValue ?? "")\(bioViewModel.errorValue ?? "")\(birthdateViewModel.errorValue ?? "")\(generatedUserNameViewModel.errorValue ?? "")\(lookingForViewModel.errorValue ?? "")"
         
         return isSuccess
     }
@@ -37,11 +38,11 @@ class EditProfileViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Edit Profile
-    func editProfile(withUserName userName:String,AndGender gender:String,AndGeneratedUserName generatedUserName:String,AndBio bio:String,AndBirthdate birthdate:String,OtherGenderName:String,tagsId:[String],attachedImg:Bool,AndUserImage userImage:UIImage,completion: @escaping (_ error: String?, _ data: ProfileObj?) -> ()) {
+    func editProfile(withUserName userName:String,AndGender gender:String,AndGeneratedUserName generatedUserName:String,AndBio bio:String,AndBirthdate birthdate:String,OtherGenderName:String,tagsId:[String],attachedImg:Bool,AndUserImage userImage:UIImage,whatAmILookingFor:String,WhatBestDescrips:[String],completion: @escaping (_ error: String?, _ data: ProfileObj?) -> ()) {
         
         CancelRequest.currentTask = false
         userNameViewModel.data = userName
-//        emailViewModel.data = email
+        lookingForViewModel.data = whatAmILookingFor
         genderViewModel.data = gender
         bioViewModel.data = bio
         birthdateViewModel.data = birthdate
@@ -62,7 +63,7 @@ class EditProfileViewModel {
         
         let url = URLs.baseURLFirst + "Account/update"
 
-        let parameters:[String:Any] = ["Gender":gender,"bio":bio,"birthdate":birthdate,"Username":userName,"listoftags[]": tagsId,"OtherGenderName":OtherGenderName]
+        let parameters:[String:Any] = ["Gender":gender,"bio":bio,"birthdate":birthdate,"Username":userName,"listoftags[]": tagsId,"OtherGenderName":OtherGenderName,"whatAmILookingFor":whatAmILookingFor,"WhatBestDescrips[]":WhatBestDescrips]
         let o = NSString(string: parameters.description)
         print(o)
         if attachedImg {
@@ -84,7 +85,6 @@ class EditProfileViewModel {
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
-//                print(httpResponse!)
                 print("statusCode: \(code ?? 0)")
                 print("**MD** response: \(String(describing: response))")
                 

@@ -26,7 +26,7 @@ extension String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSxxx"
         let dateObject = dateFormatter.date(from: self)
-        dateFormatter.locale = Locale(identifier: Language.currentLanguage())
+        dateFormatter.locale = Locale(identifier: "en")
         dateFormatter.dateFormat = format
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
         if dateObject != nil {

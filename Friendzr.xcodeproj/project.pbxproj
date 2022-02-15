@@ -57,6 +57,9 @@
 		4319612827A7E1940057FDC2 /* ExtensionMapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4319612727A7E1940057FDC2 /* ExtensionMapKit.swift */; };
 		4319612B27A811530057FDC2 /* TabsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4319612927A811530057FDC2 /* TabsCollectionViewCell.swift */; };
 		4319612C27A811530057FDC2 /* TabsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4319612A27A811530057FDC2 /* TabsCollectionViewCell.xib */; };
+		431D739327BB9EEC00EC8F7B /* BestDescripsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D739227BB9EEC00EC8F7B /* BestDescripsViewModel.swift */; };
+		431D739527BB9EF800EC8F7B /* BestDescripsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D739427BB9EF800EC8F7B /* BestDescripsModel.swift */; };
+		431D739727BBA08900EC8F7B /* BestDescripsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D739627BBA08900EC8F7B /* BestDescripsVC.swift */; };
 		431D93E627577A3200A1F780 /* Extensions + ConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D93E527577A3200A1F780 /* Extensions + ConversationVC.swift */; };
 		431FF241270C8DEA002A15E0 /* GenderDistributionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */; };
 		432098D427956E5F005B83A8 /* More.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 432098D627956E5F005B83A8 /* More.storyboard */; };
@@ -177,8 +180,6 @@
 		4382AC4C26C2748B005C1857 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC4B26C2748B005C1857 /* UIColorExtension.swift */; };
 		4382AC4E26C2778C005C1857 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC4D26C2778C005C1857 /* UIViewExtension.swift */; };
 		4382AC5026C2788D005C1857 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC4F26C2788D005C1857 /* StringExtension.swift */; };
-		4382AC5326C278D9005C1857 /* Localizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC5226C278D9005C1857 /* Localizer.swift */; };
-		4382AC5526C27911005C1857 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC5426C27911005C1857 /* Language.swift */; };
 		4382AC5726C27A03005C1857 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC5626C27A03005C1857 /* UIViewControllerExtension.swift */; };
 		4382AC5926C27A65005C1857 /* StoryBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC5826C27A65005C1857 /* StoryBoard.swift */; };
 		4382AC5B26C27B24005C1857 /* LoadingViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC5A26C27B24005C1857 /* LoadingViewExtension.swift */; };
@@ -316,7 +317,6 @@
 		43FBA1D726D4ED40005F4FBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43FBA1D626D4ED40005F4FBF /* AuthenticationServices.framework */; };
 		43FBA1D926D4ED7B005F4FBF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43FBA1D826D4ED7B005F4FBF /* MapKit.framework */; };
 		43FBA22C26D5330F005F4FBF /* SendLocationChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FBA22B26D5330F005F4FBF /* SendLocationChatVC.swift */; };
-		43FC3C7B2726F5A600D94ABB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 43FC3C7D2726F5A600D94ABB /* Localizable.strings */; };
 		43FC3C9E2726F7BA00D94ABB /* LoadingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43FC3C9D2726F7BA00D94ABB /* LoadingView.xib */; };
 		43FC3CA02727EBD000D94ABB /* MyLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FC3C9F2727EBD000D94ABB /* MyLocation.swift */; };
 		43FC3CA22727EC5D00D94ABB /* LocationsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FC3CA12727EC5D00D94ABB /* LocationsStorage.swift */; };
@@ -412,6 +412,9 @@
 		4319612727A7E1940057FDC2 /* ExtensionMapKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionMapKit.swift; sourceTree = "<group>"; };
 		4319612927A811530057FDC2 /* TabsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsCollectionViewCell.swift; sourceTree = "<group>"; };
 		4319612A27A811530057FDC2 /* TabsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabsCollectionViewCell.xib; sourceTree = "<group>"; };
+		431D739227BB9EEC00EC8F7B /* BestDescripsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestDescripsViewModel.swift; sourceTree = "<group>"; };
+		431D739427BB9EF800EC8F7B /* BestDescripsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestDescripsModel.swift; sourceTree = "<group>"; };
+		431D739627BBA08900EC8F7B /* BestDescripsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestDescripsVC.swift; sourceTree = "<group>"; };
 		431D93E527577A3200A1F780 /* Extensions + ConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions + ConversationVC.swift"; sourceTree = "<group>"; };
 		431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderDistributionVC.swift; sourceTree = "<group>"; };
 		432098D527956E5F005B83A8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/More.storyboard; sourceTree = "<group>"; };
@@ -536,8 +539,6 @@
 		4382AC4B26C2748B005C1857 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		4382AC4D26C2778C005C1857 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		4382AC4F26C2788D005C1857 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
-		4382AC5226C278D9005C1857 /* Localizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizer.swift; sourceTree = "<group>"; };
-		4382AC5426C27911005C1857 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		4382AC5626C27A03005C1857 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		4382AC5826C27A65005C1857 /* StoryBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryBoard.swift; sourceTree = "<group>"; };
 		4382AC5A26C27B24005C1857 /* LoadingViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewExtension.swift; sourceTree = "<group>"; };
@@ -568,46 +569,19 @@
 		4388686A27845BDC004D36B2 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		4388686C27845C4D004D36B2 /* ReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportModel.swift; sourceTree = "<group>"; };
 		43896A7C27AC14BA00EE3547 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
-		43967D6E2794428F005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Profile.strings; sourceTree = "<group>"; };
 		43967D70279443D3005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BlockAlertView.xib; sourceTree = "<group>"; };
-		43967D73279443D5005B1F5D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/BlockAlertView.strings; sourceTree = "<group>"; };
-		43967D75279443D5005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/BlockAlertView.strings; sourceTree = "<group>"; };
 		43967D77279443F7005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CalendarView.xib; sourceTree = "<group>"; };
-		43967D7A279443FA005B1F5D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/CalendarView.strings; sourceTree = "<group>"; };
-		43967D7C279443FB005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/CalendarView.strings; sourceTree = "<group>"; };
 		43967D7E2794440F005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AddNewTagView.xib; sourceTree = "<group>"; };
-		43967D8127944411005B1F5D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/AddNewTagView.strings; sourceTree = "<group>"; };
-		43967D8327944412005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AddNewTagView.strings; sourceTree = "<group>"; };
 		43967D8527944442005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Events.storyboard; sourceTree = "<group>"; };
-		43967D8827944476005B1F5D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Events.strings; sourceTree = "<group>"; };
-		43967D8A2794460B005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Events.strings; sourceTree = "<group>"; };
 		43967D8C27944D18005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EventCalendarView.xib; sourceTree = "<group>"; };
-		43967D8F27944D1A005B1F5D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/EventCalendarView.strings; sourceTree = "<group>"; };
-		43967D9127944D1B005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/EventCalendarView.strings; sourceTree = "<group>"; };
 		43967D9327944D33005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EventTimeCalenderView.xib; sourceTree = "<group>"; };
-		43967D9627944D36005B1F5D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/EventTimeCalenderView.strings; sourceTree = "<group>"; };
-		43967D9827944D37005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/EventTimeCalenderView.strings; sourceTree = "<group>"; };
 		43967D9A27944D69005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CategoriesView.xib; sourceTree = "<group>"; };
-		43967D9E27944D6E005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/CategoriesView.strings; sourceTree = "<group>"; };
-		43967DA027944D6F005B1F5D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/CategoriesView.strings; sourceTree = "<group>"; };
 		43967DA227944DA3005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SeeMoreTableViewCell.xib; sourceTree = "<group>"; };
-		43967DA527944DA6005B1F5D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/SeeMoreTableViewCell.strings; sourceTree = "<group>"; };
-		43967DA727944DA7005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SeeMoreTableViewCell.strings; sourceTree = "<group>"; };
 		43967DA927944DD5005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/InterestsCollectionViewCell.xib; sourceTree = "<group>"; };
-		43967DAC27944DD8005B1F5D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InterestsCollectionViewCell.strings; sourceTree = "<group>"; };
-		43967DAE27944DD9005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InterestsCollectionViewCell.strings; sourceTree = "<group>"; };
 		43967DB027944DFA005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GenderCollectionViewCell.xib; sourceTree = "<group>"; };
-		43967DB327944DFD005B1F5D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/GenderCollectionViewCell.strings; sourceTree = "<group>"; };
-		43967DB527944DFD005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GenderCollectionViewCell.strings; sourceTree = "<group>"; };
 		43967DB727944E15005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StatisticsCollectionViewCell.xib; sourceTree = "<group>"; };
-		43967DBA27944E18005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/StatisticsCollectionViewCell.strings; sourceTree = "<group>"; };
-		43967DBC27944E18005B1F5D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/StatisticsCollectionViewCell.strings; sourceTree = "<group>"; };
 		43967DBE27944E79005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ConfirmReportButtonTableViewCell.xib; sourceTree = "<group>"; };
-		43967DC127944E7B005B1F5D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/ConfirmReportButtonTableViewCell.strings; sourceTree = "<group>"; };
-		43967DC327944E7C005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/ConfirmReportButtonTableViewCell.strings; sourceTree = "<group>"; };
 		43967DC527944E92005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/WriteProblemTableViewCell.xib; sourceTree = "<group>"; };
-		43967DC827944E94005B1F5D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/WriteProblemTableViewCell.strings; sourceTree = "<group>"; };
-		43967DCA27944E94005B1F5D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/WriteProblemTableViewCell.strings; sourceTree = "<group>"; };
 		4397236C2709CE9E0062D684 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		4397236E2709D8870062D684 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeViewModel.swift; sourceTree = "<group>"; };
@@ -647,8 +621,6 @@
 		43BDFAE027B546A5005302CD /* EventsShareTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventsShareTableViewCell.xib; sourceTree = "<group>"; };
 		43BDFAE327B5473C005302CD /* GroupsShareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsShareTableViewCell.swift; sourceTree = "<group>"; };
 		43BDFAE427B5473C005302CD /* GroupsShareTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupsShareTableViewCell.xib; sourceTree = "<group>"; };
-		43C649FE27956F6600C35FA8 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/More.strings; sourceTree = "<group>"; };
-		43C64A0027956FD500C35FA8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/More.strings; sourceTree = "<group>"; };
 		43C64A0127957DFE00C35FA8 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		43C64A032795806400C35FA8 /* TitleGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleGroupViewModel.swift; sourceTree = "<group>"; };
 		43C64A0B2796C40800C35FA8 /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
@@ -656,60 +628,25 @@
 		43C97DE7279D7DA100D87CBE /* FaceRecognitionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionModel.swift; sourceTree = "<group>"; };
 		43C97DE927A04CF300D87CBE /* MainTBC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTBC.swift; sourceTree = "<group>"; };
 		43CCD4A6279424FE00C2E46D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Splach.storyboard; sourceTree = "<group>"; };
-		43CCD4A92794250200C2E46D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Splach.strings; sourceTree = "<group>"; };
-		43CCD4AB2794253200C2E46D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Splach.strings; sourceTree = "<group>"; };
 		43CCD4AD279426DB00C2E46D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
-		43CCD4B0279426DE00C2E46D /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Login.strings; sourceTree = "<group>"; };
-		43CCD4B22794270C00C2E46D /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Login.strings; sourceTree = "<group>"; };
 		43CFB00A271C56EB000CB41E /* InterestsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsCollectionViewCell.swift; sourceTree = "<group>"; };
 		43CFB00E271C56FC000CB41E /* GenderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderCollectionViewCell.swift; sourceTree = "<group>"; };
 		43D008C627942B9200370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Register.storyboard; sourceTree = "<group>"; };
-		43D008C927942B9700370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Register.strings; sourceTree = "<group>"; };
-		43D008CB27942BCA00370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Register.strings; sourceTree = "<group>"; };
 		43D008CD279431E000370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Feed.storyboard; sourceTree = "<group>"; };
-		43D008D0279431E600370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Feed.strings; sourceTree = "<group>"; };
-		43D008D22794321500370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Feed.strings; sourceTree = "<group>"; };
 		43D008D42794383900370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FeedsTableViewCell.xib; sourceTree = "<group>"; };
-		43D008D72794383D00370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/FeedsTableViewCell.strings; sourceTree = "<group>"; };
-		43D008D92794383E00370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/FeedsTableViewCell.strings; sourceTree = "<group>"; };
 		43D008DB2794386A00370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EmptyViewTableViewCell.xib; sourceTree = "<group>"; };
-		43D008DE2794386F00370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/EmptyViewTableViewCell.strings; sourceTree = "<group>"; };
-		43D008E02794387000370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/EmptyViewTableViewCell.strings; sourceTree = "<group>"; };
 		43D008E22794388300370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/UsersFeedTableViewCell.xib; sourceTree = "<group>"; };
-		43D008E52794388600370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/UsersFeedTableViewCell.strings; sourceTree = "<group>"; };
-		43D008E72794388700370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/UsersFeedTableViewCell.strings; sourceTree = "<group>"; };
 		43D008E9279438B300370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Request.storyboard; sourceTree = "<group>"; };
-		43D008EC279438B700370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Request.strings; sourceTree = "<group>"; };
-		43D008EE279438E500370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Request.strings; sourceTree = "<group>"; };
 		43D008F027943A1500370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/RequestTableViewCell.xib; sourceTree = "<group>"; };
-		43D008F327943A1900370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/RequestTableViewCell.strings; sourceTree = "<group>"; };
-		43D008F527943A1A00370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/RequestTableViewCell.strings; sourceTree = "<group>"; };
 		43D008F727943A4200370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/RequestsTableViewCell.xib; sourceTree = "<group>"; };
-		43D008FA27943A4500370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/RequestsTableViewCell.strings; sourceTree = "<group>"; };
-		43D008FC27943A4600370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/RequestsTableViewCell.strings; sourceTree = "<group>"; };
 		43D008FE27943A6700370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Map.storyboard; sourceTree = "<group>"; };
-		43D0090127943A6900370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Map.strings; sourceTree = "<group>"; };
-		43D0090327943A9700370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Map.strings; sourceTree = "<group>"; };
 		43D0090527943F0D00370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EventsInLocationTableViewCell.xib; sourceTree = "<group>"; };
-		43D0090827943F1000370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/EventsInLocationTableViewCell.strings; sourceTree = "<group>"; };
-		43D0090A27943F1100370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/EventsInLocationTableViewCell.strings; sourceTree = "<group>"; };
 		43D0090C27943F2300370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/NearbyEventsCollectionViewCell.xib; sourceTree = "<group>"; };
-		43D0090F27943F2500370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/NearbyEventsCollectionViewCell.strings; sourceTree = "<group>"; };
-		43D0091127943F2600370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/NearbyEventsCollectionViewCell.strings; sourceTree = "<group>"; };
 		43D0091A2794412900370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BlockedTableViewCell.xib; sourceTree = "<group>"; };
-		43D0091D2794412C00370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/BlockedTableViewCell.strings; sourceTree = "<group>"; };
-		43D0091F2794412D00370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/BlockedTableViewCell.strings; sourceTree = "<group>"; };
 		43D009212794413E00370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SettingsTableViewCell.xib; sourceTree = "<group>"; };
-		43D009242794414100370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/SettingsTableViewCell.strings; sourceTree = "<group>"; };
-		43D009262794414300370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SettingsTableViewCell.strings; sourceTree = "<group>"; };
 		43D009282794416500370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DeleteAccountTableViewCell.xib; sourceTree = "<group>"; };
-		43D0092B2794416800370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/DeleteAccountTableViewCell.strings; sourceTree = "<group>"; };
-		43D0092D2794416900370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/DeleteAccountTableViewCell.strings; sourceTree = "<group>"; };
 		43D0092F2794418C00370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HideGhostModeView.xib; sourceTree = "<group>"; };
-		43D009322794418E00370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/HideGhostModeView.strings; sourceTree = "<group>"; };
-		43D009342794418F00370E2C /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/HideGhostModeView.strings; sourceTree = "<group>"; };
 		43D00936279441BD00370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
-		43D00939279441EE00370E2C /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Profile.strings; sourceTree = "<group>"; };
 		43D10EAA271EB6440099A995 /* SearchUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserViewModel.swift; sourceTree = "<group>"; };
 		43D545A326CB9DDD0064660A /* AddEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventVC.swift; sourceTree = "<group>"; };
 		43D545A826CBB0450064660A /* EventCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCalendarView.swift; sourceTree = "<group>"; };
@@ -741,11 +678,6 @@
 		43FBA1D826D4ED7B005F4FBF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		43FBA1DA26D4EDBA005F4FBF /* Friendzr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Friendzr.entitlements; sourceTree = "<group>"; };
 		43FBA22B26D5330F005F4FBF /* SendLocationChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendLocationChatVC.swift; sourceTree = "<group>"; };
-		43FC3C7C2726F5A600D94ABB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		43FC3C7F2726F5F800D94ABB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		43FC3C802726F5F800D94ABB /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
-		43FC3C822726F60800D94ABB /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		43FC3C832726F60900D94ABB /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		43FC3C9D2726F7BA00D94ABB /* LoadingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingView.xib; sourceTree = "<group>"; };
 		43FC3C9F2727EBD000D94ABB /* MyLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLocation.swift; sourceTree = "<group>"; };
 		43FC3CA12727EC5D00D94ABB /* LocationsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsStorage.swift; sourceTree = "<group>"; };
@@ -1108,6 +1040,7 @@
 				4336D13A26DB96C20093C7A6 /* ProfileViewModel.swift */,
 				43119D6526E4BFDB00AD2260 /* EditProfileViewModel.swift */,
 				43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */,
+				431D739227BB9EEC00EC8F7B /* BestDescripsViewModel.swift */,
 				43119D6726E4C18A00AD2260 /* GenderViewModel.swift */,
 				43119D6926E4C1A000AD2260 /* BioViewModel.swift */,
 				43119D6B26E4C1BF00AD2260 /* BirthdateViewModel.swift */,
@@ -1123,6 +1056,7 @@
 			children = (
 				4336D13626DB95670093C7A6 /* ProfileModel.swift */,
 				43F473B826E61EAA001E4FAE /* InterestsModel.swift */,
+				431D739427BB9EF800EC8F7B /* BestDescripsModel.swift */,
 				43685099274500DD00A62287 /* structAPI.swift */,
 				43C97DE7279D7DA100D87CBE /* FaceRecognitionModel.swift */,
 			);
@@ -1365,6 +1299,7 @@
 				436288B026C95B1300B51E51 /* FriendProfileVC.swift */,
 				430A350426CA504100477A94 /* EditMyProfileVC.swift */,
 				43D545AE26CBD76E0064660A /* TagsVC.swift */,
+				431D739627BBA08900EC8F7B /* BestDescripsVC.swift */,
 				436850972745008500A62287 /* InstagramWebVC.swift */,
 				43B22411274B89D7004C6912 /* SelectedTagsVC.swift */,
 				43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */,
@@ -1463,7 +1398,6 @@
 				43D545B026CBD7C30064660A /* Source */,
 				4382ACAA26C28E9D005C1857 /* Core Data */,
 				4382AC6826C27DA5005C1857 /* Font */,
-				4382AC5126C278CA005C1857 /* Language */,
 				4382AC4A26C272D0005C1857 /* Extensions */,
 				43FC3CAD2729683800D94ABB /* Helpers */,
 			);
@@ -1487,16 +1421,6 @@
 				4327C66927AE932C0011963D /* ExtensionUIDevice.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		4382AC5126C278CA005C1857 /* Language */ = {
-			isa = PBXGroup;
-			children = (
-				43FC3C7D2726F5A600D94ABB /* Localizable.strings */,
-				4382AC5226C278D9005C1857 /* Localizer.swift */,
-				4382AC5426C27911005C1857 /* Language.swift */,
-			);
-			path = Language;
 			sourceTree = "<group>";
 		};
 		4382AC6326C27BD3005C1857 /* LoadingView */ = {
@@ -1829,8 +1753,6 @@
 			knownRegions = (
 				en,
 				Base,
-				ar,
-				fr,
 			);
 			mainGroup = 4382AC0A26C27195005C1857;
 			productRefGroup = 4382AC1426C27195005C1857 /* Products */;
@@ -1891,7 +1813,6 @@
 				43D008F627943A4200370E2C /* RequestsTableViewCell.xib in Resources */,
 				43967D8427944442005B1F5D /* Events.storyboard in Resources */,
 				43D008E8279438B300370E2C /* Request.storyboard in Resources */,
-				43FC3C7B2726F5A600D94ABB /* Localizable.strings in Resources */,
 				43D008CC279431E000370E2C /* Feed.storyboard in Resources */,
 				430A351026CA7A2200477A94 /* MoreTableViewCell.xib in Resources */,
 				43967D7D2794440F005B1F5D /* AddNewTagView.xib in Resources */,
@@ -2163,6 +2084,7 @@
 				4336ACCA26D6377E00C8FD33 /* ShowImageVC.swift in Sources */,
 				4367E46C27BA4BC600FE1880 /* BestDescribesTableViewCell.swift in Sources */,
 				43D545B926CBD8470064660A /* Node.swift in Sources */,
+				431D739527BB9EF800EC8F7B /* BestDescripsModel.swift in Sources */,
 				4388686D27845C4D004D36B2 /* ReportModel.swift in Sources */,
 				43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */,
 				43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */,
@@ -2170,7 +2092,6 @@
 				439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */,
 				43BDFADD27B5454E005302CD /* FriendsShareTableViewCell.swift in Sources */,
 				430A350F26CA7A2200477A94 /* MoreTableViewCell.swift in Sources */,
-				4382AC5526C27911005C1857 /* Language.swift in Sources */,
 				4336D13B26DB96C20093C7A6 /* ProfileViewModel.swift in Sources */,
 				43ACFED727B3B7F0001CD340 /* EventDetailsAttendeesTableViewCell.swift in Sources */,
 				4308EB7226E9FC5600D71379 /* RequestsViewModel.swift in Sources */,
@@ -2219,6 +2140,7 @@
 				43FC3CA727280BD500D94ABB /* SettingsTableViewCell.swift in Sources */,
 				43BDFAE527B5473C005302CD /* GroupsShareTableViewCell.swift in Sources */,
 				43119D6C26E4C1BF00AD2260 /* BirthdateViewModel.swift in Sources */,
+				431D739327BB9EEC00EC8F7B /* BestDescripsViewModel.swift in Sources */,
 				43ACFEC327B3B2DE001CD340 /* EventButtonsTableViewCell.swift in Sources */,
 				43FC3CA427280B9800D94ABB /* SettingsVC.swift in Sources */,
 				439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */,
@@ -2247,7 +2169,6 @@
 				43ACFECF27B3B6A5001CD340 /* EventStatisticsTableViewCell.swift in Sources */,
 				43526909276A0EDC00540726 /* BottomSheetViewController.swift in Sources */,
 				4326A8F726F87AE000D471E0 /* SettingsViewModel.swift in Sources */,
-				4382AC5326C278D9005C1857 /* Localizer.swift in Sources */,
 				43C97DE6279D76A900D87CBE /* FaceRecognitionViewModel.swift in Sources */,
 				43F473B326E6175F001E4FAE /* AllCategoriesViewModel.swift in Sources */,
 				431FF241270C8DEA002A15E0 /* GenderDistributionVC.swift in Sources */,
@@ -2259,6 +2180,7 @@
 				43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */,
 				4369F4592797546300D5E064 /* ShareVC.swift in Sources */,
 				4344110426CE796300F8233E /* ForgetPasswordVC.swift in Sources */,
+				431D739727BBA08900EC8F7B /* BestDescripsVC.swift in Sources */,
 				4336D11026DB7F410093C7A6 /* Constants.swift in Sources */,
 				43F473B526E61791001E4FAE /* CategoriesModel.swift in Sources */,
 				437EE47426E8BC1C00765089 /* AttendeesModel.swift in Sources */,
@@ -2304,8 +2226,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				432098D527956E5F005B83A8 /* Base */,
-				43C649FE27956F6600C35FA8 /* ar */,
-				43C64A0027956FD500C35FA8 /* fr */,
 			);
 			name = More.storyboard;
 			sourceTree = "<group>";
@@ -2314,8 +2234,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				4382AC2526C27195005C1857 /* Base */,
-				43FC3C7F2726F5F800D94ABB /* ar */,
-				43FC3C822726F60800D94ABB /* fr */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -2324,8 +2242,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43967D70279443D3005B1F5D /* Base */,
-				43967D73279443D5005B1F5D /* ar */,
-				43967D75279443D5005B1F5D /* fr */,
 			);
 			name = BlockAlertView.xib;
 			sourceTree = "<group>";
@@ -2334,8 +2250,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43967D77279443F7005B1F5D /* Base */,
-				43967D7A279443FA005B1F5D /* ar */,
-				43967D7C279443FB005B1F5D /* fr */,
 			);
 			name = CalendarView.xib;
 			sourceTree = "<group>";
@@ -2344,8 +2258,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43967D7E2794440F005B1F5D /* Base */,
-				43967D8127944411005B1F5D /* ar */,
-				43967D8327944412005B1F5D /* fr */,
 			);
 			name = AddNewTagView.xib;
 			sourceTree = "<group>";
@@ -2354,8 +2266,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43967D8527944442005B1F5D /* Base */,
-				43967D8827944476005B1F5D /* ar */,
-				43967D8A2794460B005B1F5D /* fr */,
 			);
 			name = Events.storyboard;
 			sourceTree = "<group>";
@@ -2364,8 +2274,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43967D8C27944D18005B1F5D /* Base */,
-				43967D8F27944D1A005B1F5D /* ar */,
-				43967D9127944D1B005B1F5D /* fr */,
 			);
 			name = EventCalendarView.xib;
 			sourceTree = "<group>";
@@ -2374,8 +2282,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43967D9327944D33005B1F5D /* Base */,
-				43967D9627944D36005B1F5D /* ar */,
-				43967D9827944D37005B1F5D /* fr */,
 			);
 			name = EventTimeCalenderView.xib;
 			sourceTree = "<group>";
@@ -2384,8 +2290,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43967D9A27944D69005B1F5D /* Base */,
-				43967D9E27944D6E005B1F5D /* fr */,
-				43967DA027944D6F005B1F5D /* ar */,
 			);
 			name = CategoriesView.xib;
 			sourceTree = "<group>";
@@ -2394,8 +2298,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43967DA227944DA3005B1F5D /* Base */,
-				43967DA527944DA6005B1F5D /* ar */,
-				43967DA727944DA7005B1F5D /* fr */,
 			);
 			name = SeeMoreTableViewCell.xib;
 			sourceTree = "<group>";
@@ -2404,8 +2306,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43967DA927944DD5005B1F5D /* Base */,
-				43967DAC27944DD8005B1F5D /* ar */,
-				43967DAE27944DD9005B1F5D /* fr */,
 			);
 			name = InterestsCollectionViewCell.xib;
 			sourceTree = "<group>";
@@ -2414,8 +2314,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43967DB027944DFA005B1F5D /* Base */,
-				43967DB327944DFD005B1F5D /* ar */,
-				43967DB527944DFD005B1F5D /* fr */,
 			);
 			name = GenderCollectionViewCell.xib;
 			sourceTree = "<group>";
@@ -2424,8 +2322,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43967DB727944E15005B1F5D /* Base */,
-				43967DBA27944E18005B1F5D /* fr */,
-				43967DBC27944E18005B1F5D /* ar */,
 			);
 			name = StatisticsCollectionViewCell.xib;
 			sourceTree = "<group>";
@@ -2434,8 +2330,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43967DBE27944E79005B1F5D /* Base */,
-				43967DC127944E7B005B1F5D /* ar */,
-				43967DC327944E7C005B1F5D /* fr */,
 			);
 			name = ConfirmReportButtonTableViewCell.xib;
 			sourceTree = "<group>";
@@ -2444,8 +2338,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43967DC527944E92005B1F5D /* Base */,
-				43967DC827944E94005B1F5D /* ar */,
-				43967DCA27944E94005B1F5D /* fr */,
 			);
 			name = WriteProblemTableViewCell.xib;
 			sourceTree = "<group>";
@@ -2454,8 +2346,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43CCD4A6279424FE00C2E46D /* Base */,
-				43CCD4A92794250200C2E46D /* ar */,
-				43CCD4AB2794253200C2E46D /* fr */,
 			);
 			name = Splach.storyboard;
 			sourceTree = "<group>";
@@ -2464,8 +2354,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43CCD4AD279426DB00C2E46D /* Base */,
-				43CCD4B0279426DE00C2E46D /* ar */,
-				43CCD4B22794270C00C2E46D /* fr */,
 			);
 			name = Login.storyboard;
 			sourceTree = "<group>";
@@ -2474,8 +2362,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D008C627942B9200370E2C /* Base */,
-				43D008C927942B9700370E2C /* ar */,
-				43D008CB27942BCA00370E2C /* fr */,
 			);
 			name = Register.storyboard;
 			sourceTree = "<group>";
@@ -2484,8 +2370,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D008CD279431E000370E2C /* Base */,
-				43D008D0279431E600370E2C /* ar */,
-				43D008D22794321500370E2C /* fr */,
 			);
 			name = Feed.storyboard;
 			sourceTree = "<group>";
@@ -2494,8 +2378,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D008D42794383900370E2C /* Base */,
-				43D008D72794383D00370E2C /* ar */,
-				43D008D92794383E00370E2C /* fr */,
 			);
 			name = FeedsTableViewCell.xib;
 			sourceTree = "<group>";
@@ -2504,8 +2386,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D008DB2794386A00370E2C /* Base */,
-				43D008DE2794386F00370E2C /* ar */,
-				43D008E02794387000370E2C /* fr */,
 			);
 			name = EmptyViewTableViewCell.xib;
 			sourceTree = "<group>";
@@ -2514,8 +2394,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D008E22794388300370E2C /* Base */,
-				43D008E52794388600370E2C /* ar */,
-				43D008E72794388700370E2C /* fr */,
 			);
 			name = UsersFeedTableViewCell.xib;
 			sourceTree = "<group>";
@@ -2524,8 +2402,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D008E9279438B300370E2C /* Base */,
-				43D008EC279438B700370E2C /* ar */,
-				43D008EE279438E500370E2C /* fr */,
 			);
 			name = Request.storyboard;
 			sourceTree = "<group>";
@@ -2534,8 +2410,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D008F027943A1500370E2C /* Base */,
-				43D008F327943A1900370E2C /* ar */,
-				43D008F527943A1A00370E2C /* fr */,
 			);
 			name = RequestTableViewCell.xib;
 			sourceTree = "<group>";
@@ -2544,8 +2418,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D008F727943A4200370E2C /* Base */,
-				43D008FA27943A4500370E2C /* ar */,
-				43D008FC27943A4600370E2C /* fr */,
 			);
 			name = RequestsTableViewCell.xib;
 			sourceTree = "<group>";
@@ -2554,8 +2426,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D008FE27943A6700370E2C /* Base */,
-				43D0090127943A6900370E2C /* ar */,
-				43D0090327943A9700370E2C /* fr */,
 			);
 			name = Map.storyboard;
 			sourceTree = "<group>";
@@ -2564,8 +2434,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D0090527943F0D00370E2C /* Base */,
-				43D0090827943F1000370E2C /* ar */,
-				43D0090A27943F1100370E2C /* fr */,
 			);
 			name = EventsInLocationTableViewCell.xib;
 			sourceTree = "<group>";
@@ -2574,8 +2442,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D0090C27943F2300370E2C /* Base */,
-				43D0090F27943F2500370E2C /* ar */,
-				43D0091127943F2600370E2C /* fr */,
 			);
 			name = NearbyEventsCollectionViewCell.xib;
 			sourceTree = "<group>";
@@ -2584,8 +2450,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D0091A2794412900370E2C /* Base */,
-				43D0091D2794412C00370E2C /* ar */,
-				43D0091F2794412D00370E2C /* fr */,
 			);
 			name = BlockedTableViewCell.xib;
 			sourceTree = "<group>";
@@ -2594,8 +2458,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D009212794413E00370E2C /* Base */,
-				43D009242794414100370E2C /* ar */,
-				43D009262794414300370E2C /* fr */,
 			);
 			name = SettingsTableViewCell.xib;
 			sourceTree = "<group>";
@@ -2604,8 +2466,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D009282794416500370E2C /* Base */,
-				43D0092B2794416800370E2C /* ar */,
-				43D0092D2794416900370E2C /* fr */,
 			);
 			name = DeleteAccountTableViewCell.xib;
 			sourceTree = "<group>";
@@ -2614,8 +2474,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D0092F2794418C00370E2C /* Base */,
-				43D009322794418E00370E2C /* ar */,
-				43D009342794418F00370E2C /* fr */,
 			);
 			name = HideGhostModeView.xib;
 			sourceTree = "<group>";
@@ -2624,20 +2482,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				43D00936279441BD00370E2C /* Base */,
-				43D00939279441EE00370E2C /* ar */,
-				43967D6E2794428F005B1F5D /* fr */,
 			);
 			name = Profile.storyboard;
-			sourceTree = "<group>";
-		};
-		43FC3C7D2726F5A600D94ABB /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				43FC3C7C2726F5A600D94ABB /* en */,
-				43FC3C802726F5F800D94ABB /* ar */,
-				43FC3C832726F60900D94ABB /* fr */,
-			);
-			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

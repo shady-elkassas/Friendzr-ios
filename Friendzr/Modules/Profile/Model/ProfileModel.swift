@@ -59,6 +59,9 @@ class ProfileObj: Mappable {
         myAppearanceTypes <- map["myAppearanceTypes"]
         ghostmode <- map["ghostmode"]
         pushnotification <- map["pushnotification"]
+        whatAmILookingFor <- map["whatAmILookingFor"]
+        whatBestDescripsMeList <- map["whatBestDescripsMeList"]
+        personalSpace <- map["personalSpace"]
     }
     
     
@@ -74,6 +77,8 @@ class ProfileObj: Mappable {
     var birthdate = ""
     var linkAccountmodel:LinkAccountModel? = nil
     var listoftagsmodel:[TagsModel]? = nil
+    var whatBestDescripsMeList:[TagsModel]? = nil
+    var whatAmILookingFor = ""
     var facebook = ""
     var instagram = ""
     var snapchat = ""
@@ -84,10 +89,10 @@ class ProfileObj: Mappable {
     var age = 0
     var needUpdate = 0
     var otherGenderName: String = ""
-    
     var frindRequestNumber:Int = 0
     var allowmylocation:Bool = false
     var myAppearanceTypes:[Int] = []
     var ghostmode:Bool = false
     var pushnotification:Bool = false
+    var personalSpace:Bool = false
 }

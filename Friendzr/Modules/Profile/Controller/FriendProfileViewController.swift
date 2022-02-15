@@ -112,7 +112,6 @@ class FriendProfileViewController: UIViewController {
         }
     }
     
-    
     func loadUserData() {
         self.hideView.showLoader()
         viewmodel.getFriendDetails(ById: userID)
@@ -148,8 +147,7 @@ class FriendProfileViewController: UIViewController {
             }
         }
     }
-    
-    
+        
     func updateUserInterface() {
         appDelegate.networkReachability()
         

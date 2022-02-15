@@ -29,6 +29,7 @@ class SettingsObj: Mappable {
     
     var ghostmode: Bool? = false
     var pushnotification: Bool? = false
+    var personalSpace: Bool? = false
     var allowmylocation: Bool? = false
     var myAppearanceTypes: [Int]? = [Int]()
     var agefrom: Int? = 0
@@ -52,6 +53,7 @@ class SettingsObj: Mappable {
         manualdistancecontrol  <- map["manualdistancecontrol"]
         distanceFilter  <- map["distanceFilter"]
         language  <- map["language"]
+        personalSpace  <- map["personalSpace"]        
     }
 }
 

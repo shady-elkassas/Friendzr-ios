@@ -238,13 +238,13 @@ extension MyProfileViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: bestDescribesCellId, for: indexPath) as? BestDescribesTableViewCell else {return UITableViewCell()}
             
             cell.tagsListView.removeAllTags()
-            if (model?.listoftagsmodel?.count ?? 0) > 4 {
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
+            if (model?.whatBestDescripsMeList?.count ?? 0) > 4 {
+                cell.tagsListView.addTag(tagId: model?.whatBestDescripsMeList?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
+                cell.tagsListView.addTag(tagId: model?.whatBestDescripsMeList?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
+                cell.tagsListView.addTag(tagId: model?.whatBestDescripsMeList?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
+                cell.tagsListView.addTag(tagId: model?.whatBestDescripsMeList?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
             }else {
-                for item in model?.listoftagsmodel ?? [] {
+                for item in model?.whatBestDescripsMeList ?? [] {
                     cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
                 }
             }
@@ -276,7 +276,7 @@ extension MyProfileViewController: UITableViewDataSource {
         }
         else {//what I am looking for...
             guard let cell = tableView.dequeueReusableCell(withIdentifier: aboutmeCellId, for: indexPath) as? AboutMeTableViewCell else {return UITableViewCell()}
-            cell.aboutMeLbl.text = model?.bio
+            cell.aboutMeLbl.text = model?.whatAmILookingFor
             cell.titleLbl.text = "What am I looking for..."
             return cell
         }

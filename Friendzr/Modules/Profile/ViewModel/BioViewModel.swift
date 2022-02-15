@@ -27,3 +27,24 @@ class BioViewModel : ValidationViewModel{
         return (size.min...size.max).contains(text.count)
     }
 }
+
+class LookingForViewModel : ValidationViewModel{
+    var errorValue: String?
+    var errorMessage: String = "Please enter what are you looking for with more than 10 characters and no more than 150 characters".localizedString
+    var data: String = ""
+    
+    func validateCredentials() -> Bool {
+        
+        guard validateLength(text: data, size: (10,150)) else {
+            errorValue = errorMessage
+            return false
+        }
+        
+        errorValue = ""
+        return true
+    }
+    
+    func validateLength(text : String, size : (min : Int, max : Int)) -> Bool{
+        return (size.min...size.max).contains(text.count)
+    }
+}

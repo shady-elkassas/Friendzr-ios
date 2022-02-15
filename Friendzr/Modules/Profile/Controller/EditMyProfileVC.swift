@@ -241,8 +241,8 @@ class EditMyProfileVC: UIViewController {
             placeHolderLbl.isHidden = false
         }
         
-        if model?.bio != "" {
-            lookingforTxtView.text = model?.bio
+        if model?.whatAmILookingFor != "" {
+            lookingforTxtView.text = model?.whatAmILookingFor
             lookingforPlaceHolderLbl.isHidden = true
         }else {
             lookingforTxtView.text = ""
@@ -283,7 +283,6 @@ class EditMyProfileVC: UIViewController {
         }
         
         tagsListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
-        
         if tagsListView.rows == 0 {
             tagsTopSpaceLayout.constant = 5
             tagsBottomSpaceLayout.constant = 5
@@ -303,7 +302,7 @@ class EditMyProfileVC: UIViewController {
         
         
         bestDescribesListView.removeAllTags()
-        for itm in model?.listoftagsmodel ?? [] {
+        for itm in model?.whatBestDescripsMeList ?? [] {
             bestDescribesListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
             bestDescribesid.append(itm.tagID)
             bestDescribesNames.append(itm.tagname)
@@ -627,10 +626,10 @@ class EditMyProfileVC: UIViewController {
     @IBAction func bestDescribesBtn(_ sender: Any) {
         updateUserInterface2()
         if internetConect {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "SelectedTagsVC") as? SelectedTagsVC else {return}
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "BestDescripsVC") as? BestDescripsVC else {return}
             vc.arrSelectedDataIds = bestDescribesid
             vc.arrSelectedDataNames = bestDescribesNames
-            vc.onInterestsCallBackResponse = self.OnbestDescribesCallBack
+            vc.onBestDescripstsCallBackResponse = self.OnbestDescribesCallBack
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -648,12 +647,18 @@ class EditMyProfileVC: UIViewController {
                     self.view.makeToast("Please select your tags".localizedString)
                 }
                 return
-            }else {
+            }else if bestDescribesid.isEmpty {
+                DispatchQueue.main.async {
+                    self.view.makeToast("Please select your best describes".localizedString)
+                }
+                return
+            }
+            else {
                 if internetConect {
                     self.saveBtn.setTitle("Saving...", for: .normal)
                     self.saveBtn.isUserInteractionEnabled = false
                     
-                    viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage()) { error, data in
+                    viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),whatAmILookingFor:lookingforTxtView.text!,WhatBestDescrips:bestDescribesid) { error, data in
                         
                         DispatchQueue.main.async {
                             self.saveBtn.setTitle("Save", for: .normal)
@@ -680,8 +685,6 @@ class EditMyProfileVC: UIViewController {
             }
         }
     }
-    
-    
     
     func onFaceRegistrationCallBack(_ faceImgOne:UIImage, _ faceImgTwo:UIImage,_ verify:Bool) -> () {
         self.faceImgOne = faceImgOne
@@ -821,11 +824,11 @@ extension EditMyProfileVC {
     func initCloseApp() {
         
         var imageName = ""
-        if Language.currentLanguage() == "ar" {
+//        if Language.currentLanguage() == "ar" {
             imageName = "back_icon"
-        }else {
-            imageName = "back_icon"
-        }
+//        }else {
+//            imageName = "back_icon"
+//        }
         
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)

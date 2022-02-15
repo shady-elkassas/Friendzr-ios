@@ -22,7 +22,7 @@ class RequestComponent {
         for singleComponent in component{
             switch singleComponent{
             case .lang:
-                header["lang"] = Language.currentLanguage()
+                header["lang"] = "en"
             case .authorization:
                 let tkn = "Bearer \(Defaults.token)"
                 header["Authorization"] = tkn

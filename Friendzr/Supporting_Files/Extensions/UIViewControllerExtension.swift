@@ -52,11 +52,11 @@ extension UIViewController {
     func initBackButton() {
         
         var imageName = ""
-        if Language.currentLanguage() == "ar" {
+//        if Language.currentLanguage() == "ar" {
             imageName = "back_icon"
-        }else {
-            imageName = "back_icon"
-        }
+//        }else {
+//            imageName = "back_icon"
+//        }
         
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)
@@ -72,11 +72,11 @@ extension UIViewController {
     func initBackColorButton() {
         
         var imageName = ""
-        if Language.currentLanguage() == "ar" {
-            imageName = "backWhite_icon"
-        }else {
-            imageName = "backWhite_icon"
-        }
+//        if Language.currentLanguage() == "ar" {
+        imageName = "backWhite_icon"
+//        }else {
+//            imageName = "backWhite_icon"
+//        }
         
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)

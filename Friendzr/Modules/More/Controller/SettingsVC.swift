@@ -289,59 +289,6 @@ class SettingsVC: UIViewController {
     }
     
     
-    func changeLanguage() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "English", style: .default, handler: {_ in
-                self.UpdateClientLanguage(lang: "en")
-            }))
-            actionAlert.addAction(UIAlertAction(title: "French", style: .default, handler: {_ in
-                self.UpdateClientLanguage(lang: "fr")
-            }))
-            actionAlert.addAction(UIAlertAction(title: "العربية", style: .default, handler: {_ in
-                self.UpdateClientLanguage(lang: "ar")
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionAlert, animated: true, completion: nil)
-        }else {
-            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "English", style: .default, handler: {_ in
-                self.UpdateClientLanguage(lang: "en")
-            }))
-            actionSheet.addAction(UIAlertAction(title: "French", style: .default, handler: {_ in
-                self.UpdateClientLanguage(lang: "fr")
-            }))
-            actionSheet.addAction(UIAlertAction(title: "العربية", style: .default, handler: {_ in
-                self.UpdateClientLanguage(lang: "ar")
-            }))
-            
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionSheet, animated: true, completion: nil)
-        }
-    }
-    
-    func UpdateClientLanguage(lang: String) {
-        Language.setAppLanuage(lang: lang)
-        Localizer.DoExchange()
-        languagechange()
-    }
-    
-    func languagechange() {
-        if Language.currentLanguage() == "ar" {
-            UIView.appearance().semanticContentAttribute = .forceRightToLeft
-        }else{
-            UIView.appearance().semanticContentAttribute = .forceLeftToRight
-        }
-        
-        Router().toFeed()
-        UIView.appearance().semanticContentAttribute = Language.currentLanguage() == "ar" ? .forceRightToLeft : .forceLeftToRight
-    }
-    
-    
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         
@@ -871,7 +818,123 @@ extension SettingsVC: UITableViewDataSource {
             //
             //            return cell
             
-        case 2://manual distance
+        case 2://Personal Space
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
+            
+            if model?.personalSpace == true {
+                cell.switchBtn.isOn = true
+            }else {
+                cell.switchBtn.isOn = false
+            }
+            
+            cell.titleLbl.text = "Personal Space".localizedString
+            cell.settingIcon.image = UIImage(named: "filterAccourdingAge_ic")
+            
+            cell.HandleSwitchBtn = {
+                if self.model?.personalSpace == true {
+                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    
+                    self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
+                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off personal Space?".localizedString
+                    
+                    self.deleteAlertView?.HandleConfirmBtn = {
+                        self.updateUserInterfaceForBtns()
+                        
+                        if self.internetConect {
+                            self.viewmodel.togglePersonalSpace(personalSpace: false) { error, data in
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
+                                    return
+                                }
+                                
+                                guard data != nil else {
+                                    return
+                                }
+                                
+                                self.model = data
+                                
+                                DispatchQueue.main.async {
+                                    self.setupData()
+                                }
+                            }
+                        }
+                        // handling code
+                        UIView.animate(withDuration: 0.3, animations: {
+                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                            self.deleteAlertView?.alpha = 0
+                        }) { (success: Bool) in
+                            self.deleteAlertView?.removeFromSuperview()
+                            self.deleteAlertView?.alpha = 1
+                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                        }
+                    }
+                    
+                    self.deleteAlertView?.HandleCancelBtn = {
+                        //handle cancel
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    }
+                    
+                    self.view.addSubview((self.deleteAlertView)!)
+                }
+                else {
+                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    
+                    self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
+                    self.deleteAlertView?.detailsLbl.text = "Randomly offset your map pin to hide exact location.".localizedString
+                    
+                    self.deleteAlertView?.HandleConfirmBtn = {
+                        self.updateUserInterfaceForBtns()
+                        
+                        if self.internetConect {
+                            self.viewmodel.togglePersonalSpace(personalSpace: true) { error, data in
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
+                                    return
+                                }
+                                
+                                guard data != nil else {
+                                    return
+                                }
+                                
+                                self.model = data
+                                
+                                DispatchQueue.main.async {
+                                    self.setupData()
+                                }
+                            }
+                        }
+                        // handling code
+                        UIView.animate(withDuration: 0.3, animations: {
+                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                            self.deleteAlertView?.alpha = 0
+                        }) { (success: Bool) in
+                            self.deleteAlertView?.removeFromSuperview()
+                            self.deleteAlertView?.alpha = 1
+                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                        }
+                    }
+                    
+                    self.deleteAlertView?.HandleCancelBtn = {
+                        DispatchQueue.main.async {
+                            self.setupData()
+                        }
+                    }
+                    
+                    self.view.addSubview((self.deleteAlertView)!)
+                    
+                }
+            }
+            
+            cell.ghostModeTypeLbl.isHidden = true
+            return cell
+            
+        case 3://manual distance
             guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Distance Filter".localizedString
             cell.settingIcon.image = UIImage(named: "manaualDistanceControl_ic")
@@ -907,7 +970,7 @@ extension SettingsVC: UITableViewDataSource {
             }
             return cell
             
-        case 3://filtring age
+        case 4://filtring age
             guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
             
             if model?.filteringaccordingtoage == true {
@@ -944,25 +1007,6 @@ extension SettingsVC: UITableViewDataSource {
             
             cell.ghostModeTypeLbl.isHidden = true
             return cell
-            
-        case 4://Personal Space
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
-            
-            if model?.filteringaccordingtoage == true {
-                cell.switchBtn.isOn = true
-            }else {
-                cell.switchBtn.isOn = false
-            }
-            
-            cell.titleLbl.text = "Personal Space".localizedString
-            cell.settingIcon.image = UIImage(named: "filterAccourdingAge_ic")
-            
-            cell.HandleSwitchBtn = {
-            }
-            
-            cell.ghostModeTypeLbl.isHidden = true
-            return cell
-            
         case 5://change password
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Change Password".localizedString

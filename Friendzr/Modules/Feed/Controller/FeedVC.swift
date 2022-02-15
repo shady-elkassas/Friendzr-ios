@@ -562,6 +562,70 @@ extension FeedVC:UITableViewDataSource {
         }
     }
     
+    func statuskey(_ model: UserFeedObj?, _ cell: UsersFeedTableViewCell) {
+        //status key
+        switch model?.key {
+        case 0:
+            //Status = normal case
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = false
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 1:
+            //Status = I have added a friend request
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = false
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 2:
+            //Status = Send me a request to add a friend
+            cell.subStackView.isHidden = false
+            cell.superStackView.isHidden = true
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 3:
+            //Status = We are friends
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = false
+            cell.unblockBtn.isHidden = true
+            break
+        case 4:
+            //Status = I block user
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = false
+            break
+        case 5:
+            //Status = user block me
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 6:
+            break
+        default:
+            break
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if viewmodel.feeds.value?.data?.count != 0 {
@@ -583,74 +647,6 @@ extension FeedVC:UITableViewDataSource {
                 cell.downView.isHidden = false
             }
             
-            
-            //set title btns
-            self.changeTitleBtns(btn: cell.unblockBtn, title: "Unblock".localizedString)
-            self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Cancel Request".localizedString)
-            self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Send Request".localizedString)
-            
-            //status key
-            switch model?.key {
-            case 0:
-                //Status = normal case
-                cell.subStackView.isHidden = true
-                cell.superStackView.isHidden = false
-                cell.cancelRequestBtn.isHidden = true
-                cell.sendRequestBtn.isHidden = false
-                cell.messageBtn.isHidden = true
-                cell.unblockBtn.isHidden = true
-                break
-            case 1:
-                //Status = I have added a friend request
-                cell.subStackView.isHidden = true
-                cell.superStackView.isHidden = false
-                cell.cancelRequestBtn.isHidden = false
-                cell.sendRequestBtn.isHidden = true
-                cell.messageBtn.isHidden = true
-                cell.unblockBtn.isHidden = true
-                break
-            case 2:
-                //Status = Send me a request to add a friend
-                cell.subStackView.isHidden = false
-                cell.superStackView.isHidden = true
-                cell.cancelRequestBtn.isHidden = true
-                cell.sendRequestBtn.isHidden = true
-                cell.messageBtn.isHidden = true
-                cell.unblockBtn.isHidden = true
-                break
-            case 3:
-                //Status = We are friends
-                cell.subStackView.isHidden = true
-                cell.superStackView.isHidden = false
-                cell.cancelRequestBtn.isHidden = true
-                cell.sendRequestBtn.isHidden = true
-                cell.messageBtn.isHidden = false
-                cell.unblockBtn.isHidden = true
-                break
-            case 4:
-                //Status = I block user
-                cell.subStackView.isHidden = true
-                cell.superStackView.isHidden = false
-                cell.cancelRequestBtn.isHidden = true
-                cell.sendRequestBtn.isHidden = true
-                cell.messageBtn.isHidden = true
-                cell.unblockBtn.isHidden = false
-                break
-            case 5:
-                //Status = user block me
-                cell.subStackView.isHidden = true
-                cell.superStackView.isHidden = false
-                cell.cancelRequestBtn.isHidden = true
-                cell.sendRequestBtn.isHidden = true
-                cell.messageBtn.isHidden = true
-                cell.unblockBtn.isHidden = true
-                break
-            case 6:
-                break
-            default:
-                break
-            }
-            
             cell.HandleSendRequestBtn = { //send request
                 self.btnsSelected = true
                 self.updateNetworkForBtns()
@@ -668,8 +664,8 @@ extension FeedVC:UITableViewDataSource {
                         guard let _ = message else {return}
                         
                         DispatchQueue.main.async {
+                            cell.sendRequestBtn.isHidden = true
                             cell.sendRequestBtn.setTitle("Send Request", for: .normal)
-                            
                             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
                         }
                         
@@ -827,7 +823,6 @@ extension FeedVC:UITableViewDataSource {
                 if self.internetConnect {
                     self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Canceling...".localizedString)
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
-                        
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -838,6 +833,8 @@ extension FeedVC:UITableViewDataSource {
                         guard let _ = message else {return}
                         
                         DispatchQueue.main.async {
+                            cell.cancelRequestBtn.isHidden = true
+                            cell.cancelRequestBtn.setTitle("Cancel Request", for: .normal)
                             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
                         }
                         
@@ -853,6 +850,8 @@ extension FeedVC:UITableViewDataSource {
                 }
             }
             
+            statuskey(model, cell)
+
             return cell
         }
         
