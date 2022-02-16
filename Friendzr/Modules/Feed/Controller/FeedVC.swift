@@ -921,7 +921,6 @@ extension FeedVC:UITableViewDelegate {
     }
 }
 
-
 extension FeedVC: CLLocationManagerDelegate {
     //Navigation related methods
     // Callback method after successful positioning, as long as the position changes, this method will be called

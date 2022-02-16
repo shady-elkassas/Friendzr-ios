@@ -19,6 +19,7 @@ import FirebaseFirestore
 import ListPlaceholder
 
 extension ConversationVC {
+    
     func buildFormatter(locale: Locale, hasRelativeDate: Bool = false, dateFormat: String? = nil) -> DateFormatter {
         let formatter = DateFormatter()
         formatter.timeStyle = .none
@@ -206,6 +207,40 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         alertView?.addGestureRecognizer(tap)
+        
+        
+        self.view.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
+        self.view.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
+        self.view.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
+        self.view.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
+    }
+    
+    private func createSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
+        // Initialize Swipe Gesture Recognizer
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        
+        // Configure Swipe Gesture Recognizer
+        swipeGestureRecognizer.direction = direction
+        
+        return swipeGestureRecognizer
+    }
+    
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        // Current Frame
+        switch sender.direction {
+        case .up:
+            break
+        case .down:
+            break
+        case .left:
+            break
+        case .right:
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                Router().toHome()
+            })
+        default:
+            break
+        }
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {

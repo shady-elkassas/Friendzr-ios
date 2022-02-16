@@ -117,7 +117,7 @@ class SettingsVC: UIViewController {
         tableView.delegate = self
         tableView.reloadData()
         
-        settingsViewHeight.constant = CGFloat(8 * 60)
+        settingsViewHeight.constant = CGFloat(8 * 50)
         Defaults.myAppearanceTypes = model?.myAppearanceTypes ?? []
         Defaults.ghostMode = model?.ghostmode ?? false
         
@@ -1036,7 +1036,7 @@ extension SettingsVC: UITableViewDataSource {
 }
 extension SettingsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 50
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
