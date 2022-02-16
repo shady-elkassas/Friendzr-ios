@@ -120,7 +120,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     var keyboardManager = KeyboardManager()
     let subviewInputBar = InputBarAccessoryView()
     
-    //    lazy var textMessageSizeCalculator: CustomTextLayoutSizeCalculator = CustomTextLayoutSizeCalculator(layout: self.messagesCollectionView.messagesCollectionViewFlowLayout)
+//        lazy var textMessageSizeCalculator: CustomTextLayoutSizeCalculator = CustomTextLayoutSizeCalculator(layout: self.messagesCollectionView.messagesCollectionViewFlowLayout)
     
     // MARK: - Private properties
     var senderUser = UserSender(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName)
@@ -460,15 +460,15 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     }
                 }
                 
-                if pageNumber <= 1 {
+                if self.currentPage != 1 {
+                    self.messagesCollectionView.reloadDataAndKeepOffset()
+                    self.refreshControl.endRefreshing()
+                }else {
                     if messageList.isEmpty {
                         messagesCollectionView.reloadData()
                     }else {
                         reloadLastIndexInCollectionView()
-                        
                     }
-                }else {
-                    self.messagesCollectionView.reloadDataAndKeepOffset()
                 }
                 
                 self.refreshControl.endRefreshing()
@@ -496,12 +496,9 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     func getEventChatMessages(pageNumber:Int) {
         CancelRequest.currentTask = false
-        
         viewmodel.getChatMessages(ByEventId: eventChatID, pageNumber: pageNumber)
         viewmodel.eventmessages.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
-                
                 messageList.removeAll()
                 for itm in value.pagedModel?.data ?? [] {
                     if itm.currentuserMessage! {
@@ -538,17 +535,17 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     }
                 }
                 
-                if pageNumber <= 1 {
+                if self.currentPage != 1 {
+                    self.messagesCollectionView.reloadDataAndKeepOffset()
+                    self.refreshControl.endRefreshing()
+                }else {
                     if messageList.isEmpty {
                         messagesCollectionView.reloadData()
                     }else {
                         reloadLastIndexInCollectionView()
                     }
-                }else {
-                    self.messagesCollectionView.reloadDataAndKeepOffset()
                 }
                 
-                self.refreshControl.endRefreshing()
                 updateTitleView(image: titleChatImage, subtitle: titleChatName, titleId: eventChatID, isEvent: true)
             }
         }
@@ -615,14 +612,15 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     }
                 }
                 
-                if pageNumber <= 1 {
+                if self.currentPage != 1 {
+                    self.messagesCollectionView.reloadDataAndKeepOffset()
+                    self.refreshControl.endRefreshing()
+                }else {
                     if messageList.isEmpty {
                         messagesCollectionView.reloadData()
                     }else {
                         reloadLastIndexInCollectionView()
                     }
-                }else {
-                    self.messagesCollectionView.reloadDataAndKeepOffset()
                 }
                 
                 self.refreshControl.endRefreshing()
