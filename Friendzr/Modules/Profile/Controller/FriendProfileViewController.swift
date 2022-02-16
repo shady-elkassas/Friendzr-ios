@@ -19,6 +19,8 @@ class FriendProfileViewController: UIViewController {
     let interestsCellId = "InterestsProfileTableViewCell"
     let bestDescribesCellId = "BestDescribesTableViewCell"
     let aboutmeCellId = "AboutMeTableViewCell"
+    let preferCellId = "PreferToTableViewCell"
+
     
     lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
@@ -75,7 +77,8 @@ class FriendProfileViewController: UIViewController {
         tableView.register(UINib(nibName: interestsCellId, bundle: nil), forCellReuseIdentifier: interestsCellId)
         tableView.register(UINib(nibName: bestDescribesCellId, bundle: nil), forCellReuseIdentifier: bestDescribesCellId)
         tableView.register(UINib(nibName: aboutmeCellId, bundle: nil), forCellReuseIdentifier: aboutmeCellId)
-        
+        tableView.register(UINib(nibName: preferCellId, bundle: nil), forCellReuseIdentifier: preferCellId)
+
         for itm in hideImgs {
             itm.cornerRadiusView(radius: 10)
         }
@@ -614,19 +617,52 @@ extension FriendProfileViewController:UITableViewDataSource {
             }
             return cell
         }
-        else if indexPath.row == 4 {//more about me...
+        else if indexPath.row == 4 {//I prefer to...
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: preferCellId, for: indexPath) as? PreferToTableViewCell else {return UITableViewCell()}
+            cell.tagsListView.removeAllTags()
+            if (model?.listoftagsmodel?.count ?? 0) > 4 {
+                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
+                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
+                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
+                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
+            }else {
+                for item in model?.listoftagsmodel ?? [] {
+                    cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
+                }
+            }
+
+            print("tagListView.rows \(cell.tagsListView.rows)")
+            cell.tagsListViewHeight.constant = CGFloat(cell.tagsListView.rows * 25)
+            
+            if cell.tagsListView.rows == 1 {
+                cell.tagsTopConstraint.constant = 10
+                cell.tagsBottomConstraint.constant = 16
+            }else if cell.tagsListView.rows == 2 {
+                cell.tagsTopConstraint.constant = 12
+                cell.tagsBottomConstraint.constant = 26
+            }else if cell.tagsListView.rows == 3 {
+                cell.tagsTopConstraint.constant = 12
+                cell.tagsBottomConstraint.constant = 40
+            }else {
+                cell.tagsTopConstraint.constant = 12
+                cell.tagsBottomConstraint.constant = 46
+            }
+            
+            return cell
+        }
+        
+        else {//more about me...
             guard let cell = tableView.dequeueReusableCell(withIdentifier: aboutmeCellId, for: indexPath) as? AboutMeTableViewCell else {return UITableViewCell()}
             cell.aboutMeLbl.text = model?.bio
             cell.titleLbl.text = "More about me..."
             return cell
-            
         }
-        else {//what I am looking for...
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: aboutmeCellId, for: indexPath) as? AboutMeTableViewCell else {return UITableViewCell()}
-            cell.aboutMeLbl.text = model?.bio
-            cell.titleLbl.text = "What am I looking for..."
-            return cell
-        }
+//        else {//what I am looking for...
+//            guard let cell = tableView.dequeueReusableCell(withIdentifier: aboutmeCellId, for: indexPath) as? AboutMeTableViewCell else {return UITableViewCell()}
+//            cell.aboutMeLbl.text = model?.bio
+//            cell.titleLbl.text = "What am I looking for..."
+//            return cell
+//        }
     }
 }
 

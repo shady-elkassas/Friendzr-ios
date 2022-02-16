@@ -40,16 +40,20 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var bestDescribesListView: TagListView!
     @IBOutlet weak var selectbestDescribesLbl: UILabel!
 
+    @IBOutlet weak var preferToView: UIView!
+    @IBOutlet weak var preferToViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var preferToListView: TagListView!
+    @IBOutlet weak var selectPreferToLbl: UILabel!
+
+    
     @IBOutlet weak var logoutBtn: UIButton!
     
     @IBOutlet weak var tagsBottomSpaceLayout: NSLayoutConstraint!
     @IBOutlet weak var tagsTopSpaceLayout: NSLayoutConstraint!
     @IBOutlet weak var bestDescribesBottomSpaceLayout: NSLayoutConstraint!
     @IBOutlet weak var bestDescribessTopSpaceLayout: NSLayoutConstraint!
-
-    @IBOutlet weak var lookingforTxtView: UITextView!
-    @IBOutlet weak var lookingforView: UIView!
-    @IBOutlet weak var lookingforPlaceHolderLbl: UILabel!
+    @IBOutlet weak var preferToBottomSpaceLayout: NSLayoutConstraint!
+    @IBOutlet weak var preferToTopSpaceLayout: NSLayoutConstraint!
 
     @IBOutlet weak var otherGenderSubView: UIView!
     @IBOutlet weak var otherGenderView: UIView!
@@ -182,12 +186,10 @@ class EditMyProfileVC: UIViewController {
         nameView.cornerRadiusView(radius: 8)
         dateView.cornerRadiusView(radius: 8)
         bioTxtView.cornerRadiusView(radius: 8)
-        lookingforTxtView.cornerRadiusView(radius: 8)
         tagsView.cornerRadiusView(radius: 8)
         bestDescribesView.cornerRadiusView(radius: 8)
 
         aboutMeView.cornerRadiusView(radius: 8)
-        lookingforView.cornerRadiusView(radius: 8)
         otherGenderSubView.cornerRadiusView(radius: 8)
         logoutBtn.cornerRadiusView(radius: 8)
         
@@ -195,7 +197,6 @@ class EditMyProfileVC: UIViewController {
         
         profileImg.cornerRadiusForHeight()
         bioTxtView.delegate = self
-        lookingforTxtView.delegate = self
         tagsListView.delegate = self
         bestDescribesListView.delegate = self
     }
@@ -241,14 +242,14 @@ class EditMyProfileVC: UIViewController {
             placeHolderLbl.isHidden = false
         }
         
-        if model?.whatAmILookingFor != "" {
-            lookingforTxtView.text = model?.whatAmILookingFor
-            lookingforPlaceHolderLbl.isHidden = true
-        }else {
-            lookingforTxtView.text = ""
-            lookingforPlaceHolderLbl.isHidden = false
-        }
-        
+//        if model?.whatAmILookingFor != "" {
+//            lookingforTxtView.text = model?.whatAmILookingFor
+//            lookingforPlaceHolderLbl.isHidden = true
+//        }else {
+//            lookingforTxtView.text = ""
+//            lookingforPlaceHolderLbl.isHidden = false
+//        }
+//
         if model?.birthdate == "" {
             dateBirthLbl.text = "Select your birthdate".localizedString
             dateBirthLbl.textColor = .lightGray
@@ -634,6 +635,11 @@ class EditMyProfileVC: UIViewController {
         }
     }
     
+    
+    @IBAction func preferToBtn(_ sender: Any) {
+        
+    }
+    
     @IBAction func saveBtn(_ sender: Any) {
         updateUserInterface2()
         if self.attachedImg == false {
@@ -658,7 +664,7 @@ class EditMyProfileVC: UIViewController {
                     self.saveBtn.setTitle("Saving...", for: .normal)
                     self.saveBtn.isUserInteractionEnabled = false
                     
-                    viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),whatAmILookingFor:lookingforTxtView.text!,WhatBestDescrips:bestDescribesid) { error, data in
+                    viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),whatAmILookingFor:"",WhatBestDescrips:bestDescribesid) { error, data in
                         
                         DispatchQueue.main.async {
                             self.saveBtn.setTitle("Save", for: .normal)
@@ -786,22 +792,21 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
 //text view delegate
 extension EditMyProfileVC: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        if textView == bioTxtView {
-            placeHolderLbl.isHidden = !bioTxtView.text.isEmpty
-        }else {
-            lookingforPlaceHolderLbl.isHidden = !lookingforTxtView.text.isEmpty
-        }
+//        if textView == bioTxtView {
+        placeHolderLbl.isHidden = !bioTxtView.text.isEmpty
+//        }else {
+//            lookingforPlaceHolderLbl.isHidden = !lookingforTxtView.text.isEmpty
+//        }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if textView == bioTxtView {
+//        if textView == bioTxtView {
             let newText = (bioTxtView.text as NSString).replacingCharacters(in: range, with: text)
             return newText.count < 150
-        }else {
-            let newText = (lookingforTxtView.text as NSString).replacingCharacters(in: range, with: text)
-            return newText.count < 150
-
-        }
+//        }else {
+//            let newText = (lookingforTxtView.text as NSString).replacingCharacters(in: range, with: text)
+//            return newText.count < 150
+//        }
     }
 }
 

@@ -124,6 +124,9 @@
 		434428E927171AE800269444 /* ExtensionDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434428E827171AE800269444 /* ExtensionDate.swift */; };
 		4345BA3A271C14ED0076101A /* GenderbylocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345BA39271C14ED0076101A /* GenderbylocationViewModel.swift */; };
 		4345BA3C271C15410076101A /* GenderbylocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345BA3B271C15410076101A /* GenderbylocationModel.swift */; };
+		434BCE4827BCE624002DC1DA /* PreferToTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434BCE4627BCE624002DC1DA /* PreferToTableViewCell.swift */; };
+		434BCE4927BCE624002DC1DA /* PreferToTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434BCE4727BCE624002DC1DA /* PreferToTableViewCell.xib */; };
+		434BCE4B27BCEB5E002DC1DA /* PreferToVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434BCE4A27BCEB5E002DC1DA /* PreferToVC.swift */; };
 		43526909276A0EDC00540726 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43526908276A0EDC00540726 /* BottomSheetViewController.swift */; };
 		43526916276A144A00540726 /* ScrollableBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43526914276A144A00540726 /* ScrollableBottomSheetViewController.swift */; };
 		43526917276A144A00540726 /* ScrollableBottomSheetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43526915276A144A00540726 /* ScrollableBottomSheetViewController.xib */; };
@@ -136,8 +139,6 @@
 		436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362889F26C9186C00B51E51 /* FeedsTableViewCell.swift */; };
 		436288A526C9334900B51E51 /* ChatListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436288A326C9334900B51E51 /* ChatListTableViewCell.swift */; };
 		436288A626C9334900B51E51 /* ChatListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436288A426C9334900B51E51 /* ChatListTableViewCell.xib */; };
-		436288AF26C93B7600B51E51 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436288AE26C93B7600B51E51 /* MyProfileVC.swift */; };
-		436288B126C95B1300B51E51 /* FriendProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436288B026C95B1300B51E51 /* FriendProfileVC.swift */; };
 		436460BA26E8EE2E007C3F27 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436460B826E8EE2E007C3F27 /* LoginModel.swift */; };
 		436460BB26E8EE2E007C3F27 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436460B926E8EE2E007C3F27 /* UserModel.swift */; };
 		4367E45827BA46B000FE1880 /* ImageProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4367E45627BA46B000FE1880 /* ImageProfileTableViewCell.swift */; };
@@ -479,6 +480,9 @@
 		434428E827171AE800269444 /* ExtensionDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDate.swift; sourceTree = "<group>"; };
 		4345BA39271C14ED0076101A /* GenderbylocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderbylocationViewModel.swift; sourceTree = "<group>"; };
 		4345BA3B271C15410076101A /* GenderbylocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderbylocationModel.swift; sourceTree = "<group>"; };
+		434BCE4627BCE624002DC1DA /* PreferToTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferToTableViewCell.swift; sourceTree = "<group>"; };
+		434BCE4727BCE624002DC1DA /* PreferToTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreferToTableViewCell.xib; sourceTree = "<group>"; };
+		434BCE4A27BCEB5E002DC1DA /* PreferToVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferToVC.swift; sourceTree = "<group>"; };
 		43526908276A0EDC00540726 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		43526914276A144A00540726 /* ScrollableBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableBottomSheetViewController.swift; sourceTree = "<group>"; };
 		43526915276A144A00540726 /* ScrollableBottomSheetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScrollableBottomSheetViewController.xib; sourceTree = "<group>"; };
@@ -491,8 +495,6 @@
 		4362889F26C9186C00B51E51 /* FeedsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsTableViewCell.swift; sourceTree = "<group>"; };
 		436288A326C9334900B51E51 /* ChatListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListTableViewCell.swift; sourceTree = "<group>"; };
 		436288A426C9334900B51E51 /* ChatListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatListTableViewCell.xib; sourceTree = "<group>"; };
-		436288AE26C93B7600B51E51 /* MyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
-		436288B026C95B1300B51E51 /* FriendProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendProfileVC.swift; sourceTree = "<group>"; };
 		436460B826E8EE2E007C3F27 /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		436460B926E8EE2E007C3F27 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		4367E45627BA46B000FE1880 /* ImageProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProfileTableViewCell.swift; sourceTree = "<group>"; };
@@ -1295,16 +1297,15 @@
 		436288AB26C93B4900B51E51 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				436288AE26C93B7600B51E51 /* MyProfileVC.swift */,
-				436288B026C95B1300B51E51 /* FriendProfileVC.swift */,
-				430A350426CA504100477A94 /* EditMyProfileVC.swift */,
-				43D545AE26CBD76E0064660A /* TagsVC.swift */,
-				431D739627BBA08900EC8F7B /* BestDescripsVC.swift */,
-				436850972745008500A62287 /* InstagramWebVC.swift */,
-				43B22411274B89D7004C6912 /* SelectedTagsVC.swift */,
-				43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */,
 				4367E47227BA4D0B00FE1880 /* MyProfileViewController.swift */,
 				4367E47427BA4D3200FE1880 /* FriendProfileViewController.swift */,
+				430A350426CA504100477A94 /* EditMyProfileVC.swift */,
+				43B22411274B89D7004C6912 /* SelectedTagsVC.swift */,
+				431D739627BBA08900EC8F7B /* BestDescripsVC.swift */,
+				434BCE4A27BCEB5E002DC1DA /* PreferToVC.swift */,
+				43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */,
+				43D545AE26CBD76E0064660A /* TagsVC.swift */,
+				436850972745008500A62287 /* InstagramWebVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1333,6 +1334,8 @@
 				4367E46B27BA4BC600FE1880 /* BestDescribesTableViewCell.xib */,
 				4367E46E27BA4C4B00FE1880 /* AboutMeTableViewCell.swift */,
 				4367E46F27BA4C4B00FE1880 /* AboutMeTableViewCell.xib */,
+				434BCE4627BCE624002DC1DA /* PreferToTableViewCell.swift */,
+				434BCE4727BCE624002DC1DA /* PreferToTableViewCell.xib */,
 			);
 			path = "Profile Cell";
 			sourceTree = "<group>";
@@ -1841,6 +1844,7 @@
 				43526917276A144A00540726 /* ScrollableBottomSheetViewController.xib in Resources */,
 				43967DC427944E92005B1F5D /* WriteProblemTableViewCell.xib in Resources */,
 				4382AC9626C27FF2005C1857 /* Montserrat-Medium.ttf in Resources */,
+				434BCE4927BCE624002DC1DA /* PreferToTableViewCell.xib in Resources */,
 				43E7EC45279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib in Resources */,
 				43967DB627944E15005B1F5D /* StatisticsCollectionViewCell.xib in Resources */,
 				4367E46D27BA4BC600FE1880 /* BestDescribesTableViewCell.xib in Resources */,
@@ -1975,7 +1979,6 @@
 				431505782705F90E002387A1 /* DegreeScaleView.swift in Sources */,
 				4327C66A27AE932C0011963D /* ExtensionUIDevice.swift in Sources */,
 				4336D12926DB89370093C7A6 /* PasswordViewModel.swift in Sources */,
-				436288B126C95B1300B51E51 /* FriendProfileVC.swift in Sources */,
 				4337B47627870F000077B794 /* RequestsTableViewCell.swift in Sources */,
 				43ACFED327B3B745001CD340 /* EventMapTableViewCell.swift in Sources */,
 				4325E20C26F0A048008F73C4 /* ChangePasswordVC.swift in Sources */,
@@ -2026,7 +2029,6 @@
 				430D427026D3C33B00188E42 /* AudioVC.swift in Sources */,
 				432C6ADB26F33BE70029FB89 /* CloseButton.swift in Sources */,
 				4309E73D26EF89FE001B227D /* SocialMediaRegisterViewModel.swift in Sources */,
-				436288AF26C93B7600B51E51 /* MyProfileVC.swift in Sources */,
 				4336D12726DB89210093C7A6 /* UserNameViewModel.swift in Sources */,
 				43D545C926CCFBA10064660A /* CircleView.swift in Sources */,
 				43375F5627130D85009EBED6 /* NotificationsVC.swift in Sources */,
@@ -2086,11 +2088,13 @@
 				43D545B926CBD8470064660A /* Node.swift in Sources */,
 				431D739527BB9EF800EC8F7B /* BestDescripsModel.swift in Sources */,
 				4388686D27845C4D004D36B2 /* ReportModel.swift in Sources */,
+				434BCE4827BCE624002DC1DA /* PreferToTableViewCell.swift in Sources */,
 				43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */,
 				43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */,
 				432C6AD726F33BD60029FB89 /* TagView.swift in Sources */,
 				439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */,
 				43BDFADD27B5454E005302CD /* FriendsShareTableViewCell.swift in Sources */,
+				434BCE4B27BCEB5E002DC1DA /* PreferToVC.swift in Sources */,
 				430A350F26CA7A2200477A94 /* MoreTableViewCell.swift in Sources */,
 				4336D13B26DB96C20093C7A6 /* ProfileViewModel.swift in Sources */,
 				43ACFED727B3B7F0001CD340 /* EventDetailsAttendeesTableViewCell.swift in Sources */,
