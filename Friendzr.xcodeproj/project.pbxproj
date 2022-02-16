@@ -165,6 +165,8 @@
 		4369F45D2797553D00D5E064 /* ShareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4369F45B2797553D00D5E064 /* ShareTableViewCell.xib */; };
 		4369F45F279889BC00D5E064 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4369F45E279889BC00D5E064 /* Main.storyboard */; };
 		4369F46127994FE000D5E064 /* DeepLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369F46027994FE000D5E064 /* DeepLinks.swift */; };
+		436E945C27BD153800CB2F1E /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436E945B27BD153800CB2F1E /* CustomSwitch.swift */; };
+		436E945E27BD155100CB2F1E /* CustomThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436E945D27BD155100CB2F1E /* CustomThumbView.swift */; };
 		4371D4212733F46C003B8AFD /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4202733F46C003B8AFD /* CustomCell.swift */; };
 		4371D4232737D054003B8AFD /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4222737D054003B8AFD /* CustomMessagesFlowLayout.swift */; };
 		4371D42627391B13003B8AFD /* EmptyViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */; };
@@ -521,6 +523,8 @@
 		4369F45B2797553D00D5E064 /* ShareTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareTableViewCell.xib; sourceTree = "<group>"; };
 		4369F45E279889BC00D5E064 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		4369F46027994FE000D5E064 /* DeepLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinks.swift; sourceTree = "<group>"; };
+		436E945B27BD153800CB2F1E /* CustomSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
+		436E945D27BD155100CB2F1E /* CustomThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomThumbView.swift; sourceTree = "<group>"; };
 		4371D40D273127F3003B8AFD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4371D4202733F46C003B8AFD /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		4371D4222737D054003B8AFD /* CustomMessagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagesFlowLayout.swift; sourceTree = "<group>"; };
@@ -1632,6 +1636,8 @@
 				43BA37982700A121003F28FA /* Reachability.swift */,
 				43FC3CAE2729686D00D94ABB /* Downloader.swift */,
 				4369F46027994FE000D5E064 /* DeepLinks.swift */,
+				436E945B27BD153800CB2F1E /* CustomSwitch.swift */,
+				436E945D27BD155100CB2F1E /* CustomThumbView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2120,6 +2126,7 @@
 				43ACFEC727B3B464001CD340 /* EventDateAndTimeTableViewCell.swift in Sources */,
 				43119D7226E4EFEB00AD2260 /* TitleEventViewModel.swift in Sources */,
 				43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */,
+				436E945C27BD153800CB2F1E /* CustomSwitch.swift in Sources */,
 				4382AC1726C27195005C1857 /* AppDelegate.swift in Sources */,
 				430D426B26D3BF1F00188E42 /* SimpleDataModel.swift in Sources */,
 				43FBA22C26D5330F005F4FBF /* SendLocationChatVC.swift in Sources */,
@@ -2149,6 +2156,7 @@
 				43FC3CA427280B9800D94ABB /* SettingsVC.swift in Sources */,
 				439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */,
 				4367E45827BA46B000FE1880 /* ImageProfileTableViewCell.swift in Sources */,
+				436E945E27BD155100CB2F1E /* CustomThumbView.swift in Sources */,
 				4336D11926DB7F780093C7A6 /* Defaults.swift in Sources */,
 				430A350326CA4A3600477A94 /* BlockAlertView.swift in Sources */,
 				4330757826E78AA1002940DF /* UIImageExtension.swift in Sources */,

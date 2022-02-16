@@ -186,13 +186,13 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
             arrSelectedDataNames = arrSelectedDataNames.filter { $0 != strData?.name}
         }
         else {
-            if arrSelectedDataIds.count < 4 {
+            if arrSelectedDataIds.count < 8 {
                 arrSelectedIndex.append(indexPath)
                 arrSelectedDataIds.append(strData?.id ?? "")
                 arrSelectedDataNames.append(strData?.name ?? "")
             }else {
                 DispatchQueue.main.async {
-                    self.view.makeToast("Please the number of tags must not be more than 4".localizedString)
+                    self.view.makeToast("Please the number of tags must not be more than 8".localizedString)
                 }
             }
         }
@@ -235,7 +235,7 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.getAllTags()
                         
-                        if self.arrSelectedDataIds.count < 4 {
+                        if self.arrSelectedDataIds.count < 8 {
                             self.arrSelectedDataIds.append(data.entityId ?? "")
                             self.arrSelectedDataNames.append(data.name ?? "")
                             print(self.arrSelectedDataNames)

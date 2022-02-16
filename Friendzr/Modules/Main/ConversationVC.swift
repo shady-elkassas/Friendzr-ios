@@ -460,18 +460,18 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     }
                 }
                 
-                if self.currentPage != 1 {
-                    self.messagesCollectionView.reloadDataAndKeepOffset()
-                    self.refreshControl.endRefreshing()
-                }else {
-                    if messageList.isEmpty {
-                        messagesCollectionView.reloadData()
+                DispatchQueue.main.async {
+                    if self.currentPage != 1 {
+                        self.messagesCollectionView.reloadDataAndKeepOffset()
+                        self.refreshControl.endRefreshing()
                     }else {
-                        reloadLastIndexInCollectionView()
+                        if messageList.isEmpty {
+                            messagesCollectionView.reloadData()
+                        }else {
+                            reloadLastIndexInCollectionView()
+                        }
                     }
                 }
-                
-                self.refreshControl.endRefreshing()
                 
                 updateTitleView(image: titleChatImage, subtitle: titleChatName, titleId: chatuserID, isEvent: false)
             }
@@ -535,14 +535,17 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     }
                 }
                 
-                if self.currentPage != 1 {
-                    self.messagesCollectionView.reloadDataAndKeepOffset()
-                    self.refreshControl.endRefreshing()
-                }else {
-                    if messageList.isEmpty {
+                DispatchQueue.main.async {
+                    if self.currentPage != 1 {
                         messagesCollectionView.reloadData()
+                        self.messagesCollectionView.reloadDataAndKeepOffset()
+                        self.refreshControl.endRefreshing()
                     }else {
-                        reloadLastIndexInCollectionView()
+                        if messageList.isEmpty {
+                            messagesCollectionView.reloadData()
+                        }else {
+                            reloadLastIndexInCollectionView()
+                        }
                     }
                 }
                 
@@ -612,18 +615,19 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     }
                 }
                 
-                if self.currentPage != 1 {
-                    self.messagesCollectionView.reloadDataAndKeepOffset()
-                    self.refreshControl.endRefreshing()
-                }else {
-                    if messageList.isEmpty {
-                        messagesCollectionView.reloadData()
+                DispatchQueue.main.async {
+                    if self.currentPage != 1 {
+                        self.messagesCollectionView.reloadDataAndKeepOffset()
+                        self.refreshControl.endRefreshing()
                     }else {
-                        reloadLastIndexInCollectionView()
+                        if messageList.isEmpty {
+                            messagesCollectionView.reloadData()
+                        }else {
+                            reloadLastIndexInCollectionView()
+                        }
                     }
                 }
-                
-                self.refreshControl.endRefreshing()
+
                 updateTitleView(image: titleChatImage, subtitle: titleChatName, titleId: groupId, isEvent: false)
             }
         }

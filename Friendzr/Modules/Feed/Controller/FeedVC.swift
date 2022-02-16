@@ -12,12 +12,6 @@ import Contacts
 import ListPlaceholder
 import GoogleMobileAds
 
-
-// MARK: Deep Link
-class SwitchOnControl {
-    static var control: Bool = false
-}
-
 let screenH: CGFloat = UIScreen.main.bounds.height
 let screenW: CGFloat = UIScreen.main.bounds.width
 
@@ -87,9 +81,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     var settingVM:SettingsViewModel = SettingsViewModel()
     
     var refreshControl = UIRefreshControl()
-    let switchCompassBarButton = Switch()
-    let switchGhostModeBarButton = Switch()
-
+    let switchCompassBarButton: CustomSwitch = CustomSwitch()
+    var switchGhostModeBarButton: CustomSwitch = CustomSwitch()
     var btnsSelected:Bool = false
     var internetConnect:Bool = false
     
@@ -1163,10 +1156,33 @@ extension FeedVC:GADBannerViewDelegate {
 
 extension FeedVC {
     func initCompassSwitchBarButton() {
+        switchCompassBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
         switchCompassBarButton.onTintColor = UIColor.FriendzrColors.primary!
-        switchCompassBarButton.thumbTintColor = .white
+        switchCompassBarButton.setBorder()
+        switchCompassBarButton.offTintColor = UIColor.color("#D8D8DC")!
+        switchCompassBarButton.cornerRadius = 0.5
+        switchCompassBarButton.thumbCornerRadius = 0.5
+        switchCompassBarButton.animationDuration = 0.25
+        switchCompassBarButton.thumbImage = UIImage(named: "compass_ic")
+
         switchCompassBarButton.addTarget(self, action: #selector(handleCompassSwitchBtn), for: .touchUpInside)
-        switchCompassBarButton.thumbImage = UIImage(named: "compass_ic")?.cgImage
+
+        switchCompassBarButton.addGestureRecognizer(createCompassSwipeGestureRecognizer(for: .up))
+        switchCompassBarButton.addGestureRecognizer(createCompassSwipeGestureRecognizer(for: .down))
+        switchCompassBarButton.addGestureRecognizer(createCompassSwipeGestureRecognizer(for: .left))
+        switchCompassBarButton.addGestureRecognizer(createCompassSwipeGestureRecognizer(for: .right))
+
+        if Defaults.allowMyLocation == true {
+            if isCompassOpen {
+                switchCompassBarButton.isOn = true
+            }else {
+                switchCompassBarButton.isOn = false
+            }
+        }else {
+            isCompassOpen = false
+            switchCompassBarButton.isOn = false
+        }
+        
         let barButton = UIBarButtonItem(customView: switchCompassBarButton)
         self.navigationItem.rightBarButtonItem = barButton
     }
@@ -1228,64 +1244,156 @@ extension FeedVC {
                     self.allowLocView.isHidden = false
                 }
             }
-        }else {
+        }
+        else {
             self.isCompassOpen = false
             switchCompassBarButton.isOn = false
             self.showAlert(withMessage: "Please allow your location".localizedString)
             bannerViewHeight.constant = 100
         }
     }
+
+    private func createCompassSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
+        // Initialize Swipe Gesture Recognizer
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didCompassSwipe(_:)))
+        
+        // Configure Swipe Gesture Recognizer
+        swipeGestureRecognizer.direction = direction
+        
+        return swipeGestureRecognizer
+    }
     
-    @objc func handleGhostModeSwitchBtn() {
-        let btnOffX = switchGhostModeBarButton.trackLayer.position.x / 1.8
-        let btnOffY = switchGhostModeBarButton.trackLayer.position.y
-        let btnOnX = switchGhostModeBarButton.trackLayer.position.x * 1.4
-
-        if Defaults.ghostMode == false {
-            self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-            
-            DispatchQueue.main.async {
-                self.switchGhostModeBarButton.isUserInteractionEnabled = false
-                self.switchCompassBarButton.isUserInteractionEnabled = false
-            }
-            
-            self.alertView?.parentVC = self
-            
-            self.alertView?.selectedHideType.removeAll()
-            self.alertView?.typeIDs.removeAll()
-            self.alertView?.typeStrings.removeAll()
-            
-            for item in self.alertView?.hideArray ?? [] {
-                item.isSelected = false
-                self.alertView?.tableView.reloadData()
-            }
-            
-            self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
-            
-            //cancel view
-            self.alertView?.HandlehideViewBtn = {
-                self.switchGhostModeBarButton.isOn = false
-                self.switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOffX, y: btnOffY)
-
-                DispatchQueue.main.async {
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                    self.switchCompassBarButton.isUserInteractionEnabled = true
+    @objc private func didCompassSwipe(_ sender: UISwipeGestureRecognizer) {
+        // Current Frame
+        switch sender.direction {
+        case .up:
+            break
+        case .down:
+            break
+        case .left:
+            if Defaults.allowMyLocation == true {
+                switchCompassBarButton.isOn = false
+                self.isCompassOpen = false
+                filterHideView.isHidden = true
+                Defaults.isFirstFilter = true
+                bannerViewHeight.constant = 100
+                
+                locationManager.stopUpdatingLocation()
+                locationManager.stopUpdatingHeading()
+                filterDir = false
+                compassContanierView.isHidden = true
+                
+                
+                filterBtn.isHidden = true
+                compassContainerViewHeight.constant = 0
+                
+                if Defaults.allowMyLocation == true {
+                    DispatchQueue.main.async {
+                        if self.isCompassOpen {
+                            self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                        }else {
+                            self.getAllFeeds(pageNumber: 0)
+                        }
+                        
+                    }
+                    self.allowLocView.isHidden = true
+                }else {
+                    self.emptyView.isHidden = true
+                    self.allowLocView.isHidden = false
                 }
             }
-            
-            self.alertView?.HandleSaveBtn = {
-                self.switchGhostModeBarButton.isOn = true
-                self.switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOnX, y: btnOffY)
-
-                DispatchQueue.main.async {
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                    self.switchCompassBarButton.isUserInteractionEnabled = true
+            else {
+                self.isCompassOpen = false
+                switchCompassBarButton.isOn = false
+                self.showAlert(withMessage: "Please allow your location".localizedString)
+                bannerViewHeight.constant = 100
+            }
+            //            break
+        case .right:
+            if Defaults.allowMyLocation == true {
+                switchCompassBarButton.isOn = true
+                
+                self.isCompassOpen = true
+                bannerViewHeight.constant = 50
+                if !Defaults.isFirstFilter {
+                    filterHideView.isHidden = false
+                    Defaults.isFirstFilter = true
+                }else {
+                    filterHideView.isHidden = true
+                    Defaults.isFirstFilter = true
+                    
+                    createLocationManager()
+                    filterDir = true
+                    filterBtn.isHidden = false
+                    compassContanierView.isHidden = false
+                    if Defaults.isIPhoneSmall {
+                        compassContainerViewHeight.constant = 200
+                    }else {
+                        compassContainerViewHeight.constant = 320
+                    }
+                    
+                    compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
                 }
             }
-            
-            self.view.addSubview((self.alertView)!)
+            else {
+                self.isCompassOpen = false
+                switchCompassBarButton.isOn = false
+                self.showAlert(withMessage: "Please allow your location".localizedString)
+                bannerViewHeight.constant = 100
+            }
+        default:
+            break
         }
-        else {
+        
+        print("\(switchCompassBarButton.isOn)")
+    }
+    
+    
+    
+    func initGhostModeSwitchButton() {
+        switchGhostModeBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
+        switchGhostModeBarButton.onTintColor = UIColor.FriendzrColors.primary!
+//        switchGhostModeBarButton.setBorder()
+        switchGhostModeBarButton.offTintColor = UIColor.color("#D8D8DC")!
+        switchGhostModeBarButton.cornerRadius = 0.5
+        switchGhostModeBarButton.thumbCornerRadius = 0.5
+        switchGhostModeBarButton.animationDuration = 0.25
+        switchGhostModeBarButton.thumbImage = UIImage(named: "ghostModeSwitch_ic")
+        
+        if Defaults.ghostMode == true {
+            switchGhostModeBarButton.isOn = true
+        }else {
+            switchGhostModeBarButton.isOn = false
+        }
+        
+        switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .up))
+        switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .down))
+        switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .left))
+        switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .right))
+        
+        switchGhostModeBarButton.addTarget(self, action:  #selector(handleGhostModeSwitchBtn), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: switchGhostModeBarButton)
+        self.navigationItem.leftBarButtonItem = barButton
+    }
+    
+    private func createGhostModeSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
+        // Initialize Swipe Gesture Recognizer
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didGhostModeSwipe(_:)))
+        
+        // Configure Swipe Gesture Recognizer
+        swipeGestureRecognizer.direction = direction
+        
+        return swipeGestureRecognizer
+    }
+
+    @objc private func didGhostModeSwipe(_ sender: UISwipeGestureRecognizer) {
+        // Current Frame
+        switch sender.direction {
+        case .up:
+            break
+        case .down:
+            break
+        case .left:
             self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             self.showAlertView?.titleLbl.text = "Confirm?".localizedString
@@ -1309,8 +1417,8 @@ extension FeedVC {
                         Defaults.myAppearanceTypes = [0]
                         
                         DispatchQueue.main.async {
-                            self.switchGhostModeBarButton.isOn = false
-                            self.switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOffX, y: btnOffY)
+//                            self.switchGhostModeBarButton.isOn = false
+                            self.initGhostModeSwitchButton()
                         }
                         
                         DispatchQueue.main.async {
@@ -1344,9 +1452,162 @@ extension FeedVC {
             
             self.showAlertView?.HandleCancelBtn = {
                 DispatchQueue.main.async {
-                    self.switchGhostModeBarButton.isOn = true
-                    self.switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOnX, y: btnOffY)
+                    self.initGhostModeSwitchButton()
+                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                    self.switchCompassBarButton.isUserInteractionEnabled = true
+                }
+            }
+            
+            self.view.addSubview((self.showAlertView)!)
 
+        case .right:
+            self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            
+            DispatchQueue.main.async {
+                self.switchGhostModeBarButton.isUserInteractionEnabled = false
+                self.switchCompassBarButton.isUserInteractionEnabled = false
+            }
+            
+            self.alertView?.parentVC = self
+            
+            self.alertView?.selectedHideType.removeAll()
+            self.alertView?.typeIDs.removeAll()
+            self.alertView?.typeStrings.removeAll()
+            
+            for item in self.alertView?.hideArray ?? [] {
+                item.isSelected = false
+                self.alertView?.tableView.reloadData()
+            }
+            
+            self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
+            
+            //cancel view
+            self.alertView?.HandlehideViewBtn = {
+                self.initGhostModeSwitchButton()
+                DispatchQueue.main.async {
+                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                    self.switchCompassBarButton.isUserInteractionEnabled = true
+                }
+            }
+            
+            self.alertView?.HandleSaveBtn = {
+                self.initGhostModeSwitchButton()
+                DispatchQueue.main.async {
+                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                    self.switchCompassBarButton.isUserInteractionEnabled = true
+                }
+            }
+            
+            self.view.addSubview((self.alertView)!)
+
+        default:
+            break
+        }
+        
+        print("\(switchCompassBarButton.isOn)")
+    }
+    
+    @objc func handleGhostModeSwitchBtn() {
+        
+        if Defaults.ghostMode == false {
+            self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            
+            DispatchQueue.main.async {
+                self.switchGhostModeBarButton.isUserInteractionEnabled = false
+                self.switchCompassBarButton.isUserInteractionEnabled = false
+            }
+            
+            self.alertView?.parentVC = self
+            
+            self.alertView?.selectedHideType.removeAll()
+            self.alertView?.typeIDs.removeAll()
+            self.alertView?.typeStrings.removeAll()
+            
+            for item in self.alertView?.hideArray ?? [] {
+                item.isSelected = false
+                self.alertView?.tableView.reloadData()
+            }
+            
+            self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
+            
+            //cancel view
+            self.alertView?.HandlehideViewBtn = {
+                self.initGhostModeSwitchButton()
+                DispatchQueue.main.async {
+                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                    self.switchCompassBarButton.isUserInteractionEnabled = true
+                }
+            }
+            
+            self.alertView?.HandleSaveBtn = {
+                self.initGhostModeSwitchButton()
+                DispatchQueue.main.async {
+                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                    self.switchCompassBarButton.isUserInteractionEnabled = true
+                }
+            }
+            
+            self.view.addSubview((self.alertView)!)
+        }
+        else {
+            self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            
+            self.showAlertView?.titleLbl.text = "Confirm?".localizedString
+            self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private modes?".localizedString
+            
+            self.showAlertView?.HandleConfirmBtn = {
+                self.updateNetworkForBtns()
+                
+                if self.internetConnect {
+                    self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard data != nil else {return}
+                        Defaults.ghostMode = false
+                        Defaults.ghostModeEveryOne = false
+                        Defaults.myAppearanceTypes = [0]
+                        
+                        DispatchQueue.main.async {
+                            self.initGhostModeSwitchButton()
+                        }
+                        
+                        DispatchQueue.main.async {
+                            if self.isCompassOpen {
+                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                            }else {
+                                self.getAllFeeds(pageNumber: 0)
+                            }
+                        }
+                        
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("updateSettings"), object: nil, userInfo: nil)
+                        }
+                    })
+                }
+                // handling code
+                UIView.animate(withDuration: 0.3, animations: {
+                    DispatchQueue.main.async {
+                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                        self.switchCompassBarButton.isUserInteractionEnabled = true
+                    }
+                    
+                    self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                    self.showAlertView?.alpha = 0
+                }) { (success: Bool) in
+                    self.showAlertView?.removeFromSuperview()
+                    self.showAlertView?.alpha = 1
+                    self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                }
+            }
+            
+            self.showAlertView?.HandleCancelBtn = {
+                DispatchQueue.main.async {
+                    self.initGhostModeSwitchButton()
                     self.switchGhostModeBarButton.isUserInteractionEnabled = true
                     self.switchCompassBarButton.isUserInteractionEnabled = true
                 }
@@ -1392,14 +1653,9 @@ extension FeedVC {
                     Defaults.ghostMode = false
                 }
             }
-            
-            let btnOffY = self.switchGhostModeBarButton.trackLayer.position.y
-            let btnOnX = self.switchGhostModeBarButton.trackLayer.position.x * 1.4
 
             DispatchQueue.main.async {
-                self.switchGhostModeBarButton.isOn = true
-                self.switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOnX, y: btnOffY)
-
+                self.initGhostModeSwitchButton()
                 self.switchGhostModeBarButton.isUserInteractionEnabled = true
                 self.switchCompassBarButton.isUserInteractionEnabled = true
             }
@@ -1418,29 +1674,4 @@ extension FeedVC {
         }
     }
     
-    func initGhostModeSwitchButton() {
-        
-//        let imageOn = "toggle-on-ic"
-//        let imageOff = "toggle-off-ic"
-        switchGhostModeBarButton.onTintColor = UIColor.FriendzrColors.primary!
-        switchGhostModeBarButton.thumbTintColor = .white
-        switchGhostModeBarButton.thumbImage = UIImage(named: "ghostModeSwitch_ic")?.cgImage
-        switchGhostModeBarButton.trackLayer.backgroundColor = switchGhostModeBarButton.getBackgroundColor()
-        
-        let btnOffX = switchGhostModeBarButton.trackLayer.position.x / 1.8
-        let btnOffY = switchGhostModeBarButton.trackLayer.position.y
-        let btnOnX = switchGhostModeBarButton.trackLayer.position.x * 1.4
-
-        if Defaults.ghostMode == true {
-            switchGhostModeBarButton.isOn = true
-            switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOnX, y: btnOffY)
-        }else {
-            switchGhostModeBarButton.isOn = false
-            switchGhostModeBarButton.thumbLayer.position = CGPoint(x: btnOffX, y: btnOffY)
-        }
-        
-        switchGhostModeBarButton.addTarget(self, action:  #selector(handleGhostModeSwitchBtn), for: .touchUpInside)
-        let barButton = UIBarButtonItem(customView: switchGhostModeBarButton)
-        self.navigationItem.leftBarButtonItem = barButton
-    }
 }
