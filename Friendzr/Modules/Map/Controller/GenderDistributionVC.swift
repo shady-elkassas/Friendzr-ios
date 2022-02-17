@@ -23,6 +23,7 @@ class GenderDistributionVC: UIViewController {
     @IBOutlet weak var tvContainerView: UIView!
     @IBOutlet weak var tvContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var hideView: UIView!
     
@@ -124,6 +125,7 @@ class GenderDistributionVC: UIViewController {
 extension GenderDistributionVC:GADBannerViewDelegate {
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print(error)
+        bannerViewHeight.constant = 0
     }
 
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {

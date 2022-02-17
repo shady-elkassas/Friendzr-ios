@@ -104,6 +104,8 @@ class EventDetailsVC: UIViewController,UIScrollViewDelegate {
         setupViews()
         initOptionsEventButton()
         initBackButton()
+        self.title = "Friendzr Event"
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -225,7 +227,6 @@ class EventDetailsVC: UIViewController,UIScrollViewDelegate {
         eventTitleLbl.text = model?.title
         dateCreateLbl.text = model?.datetext
         
-        self.title = model?.title
         if model?.timefrom != "" && model?.allday == false {
             timeCreateLbl.text = model?.timetext
         }else {
@@ -236,7 +237,7 @@ class EventDetailsVC: UIViewController,UIScrollViewDelegate {
         categoryNameLbl.text = model?.categorie
         descreptionLbl.text = model?.descriptionEvent
         encryptedID = model?.encryptedID ?? ""
-        eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
+        eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
         if model?.key == 1 { //my event
             editBtn.isHidden = false
             chatBtn.isHidden = false
@@ -576,7 +577,7 @@ extension EventDetailsVC: UITableViewDataSource {
         
         cell.joinDateLbl.isHidden = true
         cell.friendNameLbl.text = model?.userName
-        cell.friendImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+        cell.friendImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
         if indexPath.row == (viewmodel.event.value?.attendees?.count ?? 0) - 1 {
             cell.underView.isHidden = true

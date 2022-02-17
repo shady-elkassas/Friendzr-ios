@@ -73,6 +73,7 @@ class EventDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Friendzr Event"
         initOptionsEventButton()
         
         if isConv {
@@ -172,8 +173,6 @@ class EventDetailsViewController: UIViewController {
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
-                
-                self.title = value.title
             }
         }
         
@@ -197,8 +196,6 @@ class EventDetailsViewController: UIViewController {
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
-                
-                self.title = value.title
                 
                 DispatchQueue.main.async {
                     self.hideView.hideLoader()
@@ -247,7 +244,7 @@ extension EventDetailsViewController: UITableViewDataSource {
         
         if indexPath.row == 0 {//image
             guard let cell = tableView.dequeueReusableCell(withIdentifier: eventImgCellId, for: indexPath) as?  EventImageTableViewCell else {return UITableViewCell()}
-            cell.eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeholder"))
+            cell.eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.titleLbl.text = model?.title
             cell.categoryLbl.text = model?.categorie
             cell.attendeesLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
@@ -395,15 +392,7 @@ extension EventDetailsViewController: UITableViewDataSource {
         
         else if indexPath.row == 4 {//ads
             guard let cell = tableView.dequeueReusableCell(withIdentifier: adsCellId, for: indexPath) as? AdsTableViewCell else {return UITableViewCell()}
-            
             cell.parentVC = self
-            cell.bannerView.adUnitID = adUnitID
-            //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-            //        addBannerViewToView(bannerView)
-            cell.bannerView.rootViewController = self
-            cell.bannerView.load(GADRequest())
-            cell.bannerView.delegate = self
-            cell.bannerView.cornerRadiusView(radius: 12)
             return cell
         }
         
@@ -473,8 +462,8 @@ extension EventDetailsViewController: UITableViewDelegate {
             return 100
         }else if indexPath.row == 3 {
             return 150
-        }else if indexPath.row == 4 {
-            return 200
+        }else if indexPath.row == 4 {//ads
+            return UITableView.automaticDimension
         }else if indexPath.row == 5 {
             return 250
         }else if indexPath.row == 6 {

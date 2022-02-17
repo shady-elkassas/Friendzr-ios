@@ -21,7 +21,7 @@ class ShowImageVC: UIViewController ,UIScrollViewDelegate {
         initBackButton()
         title = "Show Image".localizedString
         setupNavBar()
-        imgView.sd_setImage(with: URL(string: imgURL ?? "") , placeholderImage: UIImage(named: "placeholder"))
+        imgView.sd_setImage(with: URL(string: imgURL ?? "") , placeholderImage: UIImage(named: "placeHolderApp"))
         
         imgView.enableZoom()
 //        setupScrollView()

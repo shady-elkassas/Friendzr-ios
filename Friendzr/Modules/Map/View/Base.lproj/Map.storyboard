@@ -296,6 +296,7 @@
                         <outlet property="addEventBtn" destination="OIM-6b-ASS" id="Guv-RQ-oEY"/>
                         <outlet property="arrowUpDownImg" destination="HWv-wk-juQ" id="I9h-Ss-I25"/>
                         <outlet property="bannerView" destination="fE0-XQ-LAZ" id="QCs-QD-bc9"/>
+                        <outlet property="bannerViewHeight" destination="sEo-ed-EDe" id="oWM-wu-dhG"/>
                         <outlet property="collectionView" destination="9VD-SG-N5s" id="9c0-C6-zz4"/>
                         <outlet property="collectionViewHeight" destination="b2d-8e-jzV" id="GB0-T5-4GF"/>
                         <outlet property="currentLocationBtn" destination="Erl-g5-LHz" id="kVF-Lh-oW4"/>
@@ -403,6 +404,7 @@
                     <navigationItem key="navigationItem" id="5Ba-N6-IEe"/>
                     <connections>
                         <outlet property="bannerView" destination="Qt5-5L-W1W" id="QfY-TU-NlP"/>
+                        <outlet property="bannerViewHeight" destination="P03-d6-LUr" id="OEh-kI-dht"/>
                         <outlet property="genderDistributionChart" destination="MGN-1y-Gsu" id="Bqj-CB-jUo"/>
                         <outlet property="genderDistributionView" destination="JR0-pi-jKY" id="gEZ-ZQ-la8"/>
                         <outlet property="hideView" destination="1Ra-yd-rrS" id="MaV-b3-jqW"/>

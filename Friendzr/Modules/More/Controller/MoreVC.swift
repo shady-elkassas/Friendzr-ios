@@ -139,7 +139,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     }
     
     func setupUserData() {
-        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeholder"))
+        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
         nameLbl.text = Defaults.userName
     }
     
@@ -282,7 +282,7 @@ extension MoreVC : UITableViewDataSource {
 
 extension MoreVC : UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
+        return 45
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

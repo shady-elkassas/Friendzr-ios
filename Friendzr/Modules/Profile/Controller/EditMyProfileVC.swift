@@ -30,16 +30,19 @@ class EditMyProfileVC: UIViewController {
     @IBOutlet weak var bioTxtView: UITextView!
     @IBOutlet weak var placeHolderLbl: UILabel!
     
+    @IBOutlet weak var tagsSubView: UIView!
     @IBOutlet weak var tagsView: UIView!
     @IBOutlet weak var tagsViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tagsListView: TagListView!
     @IBOutlet weak var selectTagsLbl: UILabel!
     
+    @IBOutlet weak var bestDescribesSubView: UIView!
     @IBOutlet weak var bestDescribesView: UIView!
     @IBOutlet weak var bestDescribesViewHeight: NSLayoutConstraint!
     @IBOutlet weak var bestDescribesListView: TagListView!
     @IBOutlet weak var selectbestDescribesLbl: UILabel!
 
+    @IBOutlet weak var preferToSubView: UIView!
     @IBOutlet weak var preferToView: UIView!
     @IBOutlet weak var preferToViewHeight: NSLayoutConstraint!
     @IBOutlet weak var preferToListView: TagListView!
@@ -76,8 +79,11 @@ class EditMyProfileVC: UIViewController {
     var faceRecognitionVM:FaceRecognitionViewModel = FaceRecognitionViewModel()
     var tagsid:[String] = [String]()
     var tagsNames:[String] = [String]()
-    var bestDescribesid:[String] = [String]()
-    var bestDescribesNames:[String] = [String]()
+    var iamid:[String] = [String]()
+    var iamNames:[String] = [String]()
+
+    var preferToid:[String] = [String]()
+    var preferToNames:[String] = [String]()
 
     var attachedImg:Bool = false
     var birthDay = ""
@@ -186,9 +192,9 @@ class EditMyProfileVC: UIViewController {
         nameView.cornerRadiusView(radius: 8)
         dateView.cornerRadiusView(radius: 8)
         bioTxtView.cornerRadiusView(radius: 8)
-        tagsView.cornerRadiusView(radius: 8)
-        bestDescribesView.cornerRadiusView(radius: 8)
-
+        tagsSubView.cornerRadiusView(radius: 8)
+        preferToSubView.cornerRadiusView(radius: 8)
+        bestDescribesSubView.cornerRadiusView(radius: 8)
         aboutMeView.cornerRadiusView(radius: 8)
         otherGenderSubView.cornerRadiusView(radius: 8)
         logoutBtn.cornerRadiusView(radius: 8)
@@ -242,14 +248,6 @@ class EditMyProfileVC: UIViewController {
             placeHolderLbl.isHidden = false
         }
         
-//        if model?.whatAmILookingFor != "" {
-//            lookingforTxtView.text = model?.whatAmILookingFor
-//            lookingforPlaceHolderLbl.isHidden = true
-//        }else {
-//            lookingforTxtView.text = ""
-//            lookingforPlaceHolderLbl.isHidden = false
-//        }
-//
         if model?.birthdate == "" {
             dateBirthLbl.text = "Select your birthdate".localizedString
             dateBirthLbl.textColor = .lightGray
@@ -259,7 +257,7 @@ class EditMyProfileVC: UIViewController {
         }
         
         if model?.userImage != "" {
-            profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             self.attachedImg = true
         }else {
             self.attachedImg = false
@@ -303,10 +301,10 @@ class EditMyProfileVC: UIViewController {
         
         
         bestDescribesListView.removeAllTags()
-        for itm in model?.whatBestDescripsMeList ?? [] {
+        for itm in model?.iamList ?? [] {
             bestDescribesListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
-            bestDescribesid.append(itm.tagID)
-            bestDescribesNames.append(itm.tagname)
+            iamid.append(itm.tagID)
+            iamNames.append(itm.tagname)
         }
         
         if bestDescribesListView.rows == 0 {
@@ -338,6 +336,47 @@ class EditMyProfileVC: UIViewController {
             bestDescribessTopSpaceLayout.constant = 10
             bestDescribesBottomSpaceLayout.constant = 17
         }
+        
+        
+        
+        preferToListView.removeAllTags()
+        for itm in model?.prefertoList ?? [] {
+            preferToListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
+            preferToid.append(itm.tagID)
+            preferToNames.append(itm.tagname)
+        }
+        
+        if preferToListView.rows == 0 {
+            preferToViewHeight.constant = 45
+            selectPreferToLbl.isHidden = false
+            selectPreferToLbl.textColor = .lightGray
+        }else {
+            preferToViewHeight.constant = CGFloat(preferToListView.rows * 25) + 25
+            selectPreferToLbl.isHidden = true
+            
+            print("bestViewHeight.constant >> \(preferToViewHeight.constant)")
+        }
+        
+        preferToListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
+        
+        if preferToListView.rows == 0 {
+            preferToTopSpaceLayout.constant = 5
+            preferToBottomSpaceLayout.constant = 5
+        }else if preferToListView.rows == 1 {
+            preferToTopSpaceLayout.constant = 25
+            preferToBottomSpaceLayout.constant = 5
+        }else if preferToListView.rows == 2 {
+            preferToTopSpaceLayout.constant = 16
+            preferToBottomSpaceLayout.constant = 5
+        }else if preferToListView.rows == 3 {
+            preferToTopSpaceLayout.constant = 10
+            preferToBottomSpaceLayout.constant = 5
+        }else if preferToListView.rows == 4 {
+            preferToTopSpaceLayout.constant = 10
+            preferToBottomSpaceLayout.constant = 17
+        }
+        
+        
         
         if model?.gender == "male" {
             maleImg.image = UIImage(named: "select_ic")
@@ -412,15 +451,15 @@ class EditMyProfileVC: UIViewController {
         
     }
     
-    func OnbestDescribesCallBack(_ data: [String], _ value: [String]) -> () {
+    func OnIamCallBack(_ data: [String], _ value: [String]) -> () {
         print(data, value)
         
         selectbestDescribesLbl.isHidden = true
         bestDescribesListView.removeAllTags()
-        bestDescribesNames.removeAll()
+        iamNames.removeAll()
         for item in value {
             bestDescribesListView.addTag(tagId: "", title: "#\(item)")
-            bestDescribesNames.append(item)
+            iamNames.append(item)
         }
         
         if bestDescribesListView.rows == 0 {
@@ -434,9 +473,9 @@ class EditMyProfileVC: UIViewController {
         
         print("bestViewHeight.constant >> \(bestDescribesViewHeight.constant)")
         
-        bestDescribesid.removeAll()
+        iamid.removeAll()
         for itm in data {
-            bestDescribesid.append(itm)
+            iamid.append(itm)
         }
         
         if bestDescribesListView.rows == 0 {
@@ -457,6 +496,53 @@ class EditMyProfileVC: UIViewController {
         }
         
     }
+
+    func OnPreferToCallBack(_ data: [String], _ value: [String]) -> () {
+        print(data, value)
+        
+        selectbestDescribesLbl.isHidden = true
+        preferToListView.removeAllTags()
+        preferToNames.removeAll()
+        for item in value {
+            preferToListView.addTag(tagId: "", title: "#\(item)")
+            preferToNames.append(item)
+        }
+        
+        if preferToListView.rows == 0 {
+            preferToViewHeight.constant = 45
+            selectPreferToLbl.isHidden = false
+            selectPreferToLbl.textColor = .lightGray
+        }else {
+            preferToViewHeight.constant = CGFloat(preferToListView.rows * 25) + 25
+            selectPreferToLbl.isHidden = true
+        }
+        
+        print("bestViewHeight.constant >> \(bestDescribesViewHeight.constant)")
+        
+        preferToid.removeAll()
+        for itm in data {
+            preferToid.append(itm)
+        }
+        
+        if preferToListView.rows == 0 {
+            preferToTopSpaceLayout.constant = 5
+            preferToBottomSpaceLayout.constant = 5
+        }else if preferToListView.rows == 1 {
+            preferToTopSpaceLayout.constant = 25
+            preferToBottomSpaceLayout.constant = 5
+        }else if preferToListView.rows == 2 {
+            preferToTopSpaceLayout.constant = 16
+            preferToBottomSpaceLayout.constant = 5
+        }else if preferToListView.rows == 3 {
+            preferToTopSpaceLayout.constant = 10
+            preferToBottomSpaceLayout.constant = 5
+        }else if preferToListView.rows == 4 {
+            preferToTopSpaceLayout.constant = 10
+            preferToBottomSpaceLayout.constant = 17
+        }
+        
+    }
+
     func logout() {
         logoutAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
@@ -497,7 +583,6 @@ class EditMyProfileVC: UIViewController {
         
         self.view.addSubview((logoutAlertView)!)
     }
-    
     
     func showFailAlert() {
         verifyFaceView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -627,17 +712,24 @@ class EditMyProfileVC: UIViewController {
     @IBAction func bestDescribesBtn(_ sender: Any) {
         updateUserInterface2()
         if internetConect {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "BestDescripsVC") as? BestDescripsVC else {return}
-            vc.arrSelectedDataIds = bestDescribesid
-            vc.arrSelectedDataNames = bestDescribesNames
-            vc.onBestDescripstsCallBackResponse = self.OnbestDescribesCallBack
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "IamVC") as? IamVC else {return}
+            vc.arrSelectedDataIds = iamid
+            vc.arrSelectedDataNames = iamNames
+            vc.onIamCallBackResponse = self.OnIamCallBack
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
     
     @IBAction func preferToBtn(_ sender: Any) {
-        
+        updateUserInterface2()
+        if internetConect {
+            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "PreferToVC") as? PreferToVC else {return}
+            vc.arrSelectedDataIds = preferToid
+            vc.arrSelectedDataNames = preferToNames
+            vc.onPreferToCallBackResponse = self.OnPreferToCallBack
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     @IBAction func saveBtn(_ sender: Any) {
@@ -653,9 +745,14 @@ class EditMyProfileVC: UIViewController {
                     self.view.makeToast("Please select your tags".localizedString)
                 }
                 return
-            }else if bestDescribesid.isEmpty {
+            }else if iamid.isEmpty {
                 DispatchQueue.main.async {
                     self.view.makeToast("Please select your best describes".localizedString)
+                }
+                return
+            }else if preferToid.isEmpty {
+                DispatchQueue.main.async {
+                    self.view.makeToast("Please select your preference".localizedString)
                 }
                 return
             }
@@ -664,7 +761,7 @@ class EditMyProfileVC: UIViewController {
                     self.saveBtn.setTitle("Saving...", for: .normal)
                     self.saveBtn.isUserInteractionEnabled = false
                     
-                    viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),whatAmILookingFor:"",WhatBestDescrips:bestDescribesid) { error, data in
+                    viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),WhatBestDescrips:iamid, preferto: preferToid) { error, data in
                         
                         DispatchQueue.main.async {
                             self.saveBtn.setTitle("Save", for: .normal)

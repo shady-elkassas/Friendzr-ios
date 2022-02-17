@@ -626,7 +626,7 @@ extension FeedVC:UITableViewDataSource {
             let model = viewmodel.feeds.value?.data?[indexPath.row]
             cell.friendRequestNameLbl.text = model?.userName
             cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
-            cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
             if indexPath.row == 0 {
                 cell.upView.isHidden = false
@@ -1129,6 +1129,7 @@ extension FeedVC: CLLocationManagerDelegate {
 extension FeedVC:GADBannerViewDelegate {
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print(error)
+        bannerViewHeight.constant = 0
     }
     
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
@@ -1157,7 +1158,7 @@ extension FeedVC {
     func initCompassSwitchBarButton() {
         switchCompassBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
         switchCompassBarButton.onTintColor = UIColor.FriendzrColors.primary!
-        switchCompassBarButton.setBorder()
+//        switchCompassBarButton.setBorder()
         switchCompassBarButton.offTintColor = UIColor.color("#D8D8DC")!
         switchCompassBarButton.cornerRadius = 0.5
         switchCompassBarButton.thumbCornerRadius = 0.5

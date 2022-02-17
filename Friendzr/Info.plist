@@ -115,6 +115,8 @@
 	<string>This application requiers documents folder to download files.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Can i use the face id?</string>
+	<key>NSLocalizedDescription</key>
+	<string>ads showing</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>$(PRODUCT_NAME) logs your location. It works best when you allow background location updates. Logged data never leaves the device.</string>
 	<key>NSLocationAlwaysUsageDescription</key>

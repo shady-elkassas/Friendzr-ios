@@ -1,5 +1,5 @@
 //
-//  BestDescripsVC.swift
+//  IamVC.swift
 //  Friendzr
 //
 //  Created by Muhammad Sabri Saad on 15/02/2022.
@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 import ListPlaceholder
 
-class BestDescripsVC: UIViewController {
+class IamVC: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var saveBtn: UIButton!
@@ -17,10 +17,10 @@ class BestDescripsVC: UIViewController {
     lazy var addNewTagView = Bundle.main.loadNibNamed("AddNewTagView", owner: self, options: nil)?.first as? AddNewTagView
     
     private var layout: UICollectionViewFlowLayout!
-    var viewmodel = BestDescripsViewModel()
-    var selectedBestDescrips:[BestDescripsObj]!
+    var viewmodel = IamViewModel()
+    var selectedIam:[IamObj]!
     
-    var onBestDescripstsCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
+    var onIamCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
     
     var arrData = [String]() // This is your data array
     var arrSelectedIndex = [IndexPath]() // This is selected cell Index array
@@ -34,7 +34,7 @@ class BestDescripsVC: UIViewController {
         super.viewDidLoad()
         
         initBackButton()
-//        initAddTagButton()
+        //        initAddTagButton()
         title = "Choose Your Best Descrips".localizedString
         
         setupView()
@@ -58,8 +58,8 @@ class BestDescripsVC: UIViewController {
     
     func getAllBestDescrips() {
         self.collectionView.hideLoader()
-        viewmodel.getAllBestDescrips()
-        viewmodel.bestDescrips.bind { [unowned self] value in
+        viewmodel.getAllIam()
+        viewmodel.IAM.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                 collectionView.delegate = self
                 collectionView.dataSource = self
@@ -81,8 +81,8 @@ class BestDescripsVC: UIViewController {
     }
     
     func loadAllTags() {
-        viewmodel.getAllBestDescrips()
-        viewmodel.bestDescrips.bind { [unowned self] value in
+        viewmodel.getAllIam()
+        viewmodel.IAM.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 collectionView.delegate = self
                 collectionView.dataSource = self
@@ -109,33 +109,33 @@ class BestDescripsVC: UIViewController {
     }
     
     @IBAction func saveBtn(_ sender: Any) {
-        onBestDescripstsCallBackResponse!(arrSelectedDataIds,arrSelectedDataNames)
+        onIamCallBackResponse!(arrSelectedDataIds,arrSelectedDataNames)
         self.onPopup()
     }
     
 }
 
-extension BestDescripsVC:UICollectionViewDataSource {
+extension IamVC:UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewmodel.bestDescrips.value?.count ?? 0
+        return viewmodel.IAM.value?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? TagCollectionViewCell else {return UICollectionViewCell()}
-        let model = viewmodel.bestDescrips.value?[indexPath.row]
+        let model = viewmodel.IAM.value?[indexPath.row]
         cell.tagNameLbl.text = "#\(model?.name ?? "")"
         
-        if model?.isSharedForAll == true {
+//        if model?.isSharedForAll == true {
             cell.editBtn.isHidden = true
             cell.editBtnWidth.constant = 0
-        }else {
-            cell.editBtn.isHidden = false
-            cell.editBtnWidth.constant = 30
-        }
+//        }else {
+//            cell.editBtn.isHidden = false
+//            cell.editBtnWidth.constant = 30
+//        }
         
         if arrSelectedDataIds.contains(model?.id ?? "") {
             cell.containerView.backgroundColor = UIColor.FriendzrColors.primary
@@ -153,15 +153,15 @@ extension BestDescripsVC:UICollectionViewDataSource {
     }
 }
 
-extension BestDescripsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
+extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let model = viewmodel.bestDescrips.value?[indexPath.row]
+        let model = viewmodel.IAM.value?[indexPath.row]
         let width = model?.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
-        if model?.isSharedForAll == true {
+//        if model?.isSharedForAll == true {
             return CGSize(width: width! + 50, height: 45)
-        }else {
-            return CGSize(width: width! + 80, height: 45)
-        }
+//        }else {
+//            return CGSize(width: width! + 80, height: 45)
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -178,7 +178,7 @@ extension BestDescripsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("You selected cell #\(indexPath.row)!")
-        let strData = viewmodel.bestDescrips.value?[indexPath.row]
+        let strData = viewmodel.IAM.value?[indexPath.row]
         
         if arrSelectedDataIds.contains(strData?.id ?? "") {
             arrSelectedIndex = arrSelectedIndex.filter { $0 != indexPath}
@@ -221,7 +221,7 @@ extension BestDescripsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                 self.view.makeToast("Please type the name of the tag first".localizedString)
             }else {
                 
-                self.viewmodel.addMyNewBestDescrip(name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
+                self.viewmodel.addMyNewIam(name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
                     
                     if let error = error {
                         DispatchQueue.main.async {
@@ -244,9 +244,9 @@ extension BestDescripsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                     }
                     
                     
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast("Added successfully".localizedString)
-//                    }
+                    //                    DispatchQueue.main.async {
+                    //                        self.view.makeToast("Added successfully".localizedString)
+                    //                    }
                 }
             }
             
@@ -278,7 +278,7 @@ extension BestDescripsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                     if self.addNewTagView?.newTagTxt.text == "" {
                         self.view.makeToast("Please type the name of the tag first".localizedString)
                     }else {
-                        self.viewmodel.EditBestDescrip(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
+                        self.viewmodel.EditIam(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
@@ -292,9 +292,9 @@ extension BestDescripsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                                 self.getAllBestDescrips()
                             }
                             
-//                            DispatchQueue.main.async {
-//                                self.view.makeToast("Edit successfully".localizedString)
-//                            }
+                            //                            DispatchQueue.main.async {
+                            //                                self.view.makeToast("Edit successfully".localizedString)
+                            //                            }
                         }
                     }
                     
@@ -317,7 +317,7 @@ extension BestDescripsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                 self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
                 self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
                 
-                self.viewmodel.deleteBestDescrips(ById: id) { error, data in
+                self.viewmodel.deleteIam(ById: id) { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -330,9 +330,9 @@ extension BestDescripsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                         self.getAllBestDescrips()
                     }
                     
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast("Deleted successfully".localizedString)
-//                    }
+                    //                    DispatchQueue.main.async {
+                    //                        self.view.makeToast("Deleted successfully".localizedString)
+                    //                    }
                 }
             }))
             actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
@@ -349,7 +349,7 @@ extension BestDescripsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                     if self.addNewTagView?.newTagTxt.text == "" {
                         self.view.makeToast("Please type the name of the tag first".localizedString)
                     }else {
-                        self.viewmodel.EditBestDescrip(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
+                        self.viewmodel.EditIam(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
@@ -363,9 +363,9 @@ extension BestDescripsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                                 self.getAllBestDescrips()
                             }
                             
-//                            DispatchQueue.main.async {
-//                                self.view.makeToast("Edit successfully".localizedString)
-//                            }
+                            //                            DispatchQueue.main.async {
+                            //                                self.view.makeToast("Edit successfully".localizedString)
+                            //                            }
                         }
                     }
                     
@@ -387,7 +387,7 @@ extension BestDescripsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                 self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
                 self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
                 
-                self.viewmodel.deleteBestDescrips(ById: id) { error, data in
+                self.viewmodel.deleteIam(ById: id) { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -400,9 +400,9 @@ extension BestDescripsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                         self.getAllBestDescrips()
                     }
                     
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast("Deleted successfully".localizedString)
-//                    }
+                    //                    DispatchQueue.main.async {
+                    //                        self.view.makeToast("Deleted successfully".localizedString)
+                    //                    }
                 }
             }))
             actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in

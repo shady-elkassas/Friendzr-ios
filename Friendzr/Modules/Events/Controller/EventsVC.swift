@@ -264,7 +264,7 @@ extension EventsVC: UITableViewDataSource {
             cell.eventTitleLbl.text = model?.title
             cell.categoryLbl.text = model?.categorie
             cell.dateLbl.text = model?.eventdate
-            cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
             if model?.key == 1 {
                 cell.editBtn.isHidden = false

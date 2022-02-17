@@ -1,8 +1,8 @@
 //
-//  BestDescripsViewModel.swift
+//  PreferToViewModel.swift
 //  Friendzr
 //
-//  Created by Muhammad Sabri Saad on 15/02/2022.
+//  Created by Muhammad Sabri Saad on 17/02/2022.
 //
 
 import Foundation
@@ -10,22 +10,22 @@ import ObjectMapper
 import MobileCoreServices
 //import Alamofire
 
-class BestDescripsViewModel {
+class PreferToViewModel {
     
-    var bestDescrips : DynamicType<BestDescripsList> = DynamicType<BestDescripsList>()
+    var PreferTo : DynamicType<PreferToList> = DynamicType<PreferToList>()
     
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
-    func getAllBestDescrips(completion: @escaping (_ error: String?, _ data: [BestDescripsObj]?) -> ())  {
+    func getAllPreferTo(completion: @escaping (_ error: String?, _ data: [PreferToObj]?) -> ())  {
         CancelRequest.currentTask = false
-        let url = URLs.baseURLFirst + "Interests/GetAllWhatBestDescripsMe"
+        let url = URLs.baseURLFirst + "prefertoLISTES/GETpreferto"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
-            guard let userResponse = Mapper<BestDescripsModel>().map(JSON: data!) else {
+            guard let userResponse = Mapper<PreferToModel>().map(JSON: data!) else {
                 self.error.value = error!
                 completion(self.error.value, nil)
                 return
@@ -45,14 +45,14 @@ class BestDescripsViewModel {
         }
     }
     
-    func getAllBestDescrips()  {
+    func getAllPreferTo()  {
         CancelRequest.currentTask = false
-        let url = URLs.baseURLFirst + "Interests/GetAllWhatBestDescripsMe"
+        let url = URLs.baseURLFirst + "prefertoLISTES/GETpreferto"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
-            guard let userResponse = Mapper<BestDescripsModel>().map(JSON: data!) else {
+            guard let userResponse = Mapper<PreferToModel>().map(JSON: data!) else {
                 self.error.value = error!
                 return
             }
@@ -64,21 +64,21 @@ class BestDescripsViewModel {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
                     print("toAdd ::: \(toAdd)")
-                    self.bestDescrips.value = toAdd
+                    self.PreferTo.value = toAdd
                 }
             }
         }
     }
     
-    func addMyNewBestDescrip(name:String,completion: @escaping (_ error: String?, _ data: NewBestDescripsAddedObj?) -> ()) {
+    func addMyNewPreferTo(name:String,completion: @escaping (_ error: String?, _ data: NewPreferToAddedObj?) -> ()) {
         CancelRequest.currentTask = false
-        let url = URLs.baseURLFirst + "Interests/ADDWhatBestDescripsMe"
+        let url = URLs.baseURLFirst + "prefertoLISTES/ADDpreferto"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["name": name]
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
-
-            guard let userResponse = Mapper<AddUserBestDescripsModel>().map(JSON: data!) else {
+            
+            guard let userResponse = Mapper<AddUserPreferToModel>().map(JSON: data!) else {
                 self.error.value = error!
                 completion(self.error.value, nil)
                 return
@@ -97,15 +97,15 @@ class BestDescripsViewModel {
         }
     }
     
-    func deleteBestDescrips(ById id:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+    func deletePreferTo(ById id:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
-        let url = URLs.baseURLFirst + "Interests/DeleteInterest"
+        let url = URLs.baseURLFirst + "prefertoLISTES/Deletepreferto"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["interestID": id]
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
-
-            guard let userResponse = Mapper<AddUserBestDescripsModel>().map(JSON: data!) else {
+            
+            guard let userResponse = Mapper<AddUserPreferToModel>().map(JSON: data!) else {
                 self.error.value = error!
                 completion(self.error.value, nil)
                 return
@@ -124,15 +124,15 @@ class BestDescripsViewModel {
         }
     }
     
-    func EditBestDescrip(ByID id:String,name:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+    func EditPreferTo(ByID id:String,name:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
-        let url = URLs.baseURLFirst + "Interests/updateInterest"
+        let url = URLs.baseURLFirst + "prefertoLISTES/updatepreferto"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         let parameters:[String : Any] = ["name": name,"entityId":id]
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
-
-            guard let userResponse = Mapper<AddUserBestDescripsModel>().map(JSON: data!) else {
+            
+            guard let userResponse = Mapper<AddUserPreferToModel>().map(JSON: data!) else {
                 self.error.value = error!
                 completion(self.error.value, nil)
                 return

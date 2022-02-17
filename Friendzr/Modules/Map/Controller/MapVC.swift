@@ -77,6 +77,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet var bannerView: GADBannerView!
     @IBOutlet weak var upDownViewBtn: UIButton!
     @IBOutlet weak var arrowUpDownImg: UIImageView!
+    @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
     
     //MARK: - Properties
     var locations:[EventsLocation] = [EventsLocation]()
@@ -389,7 +390,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         topContainerView.cornerRadiusView(radius: 10)
         
         profileImg.cornerRadiusForHeight()
-        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeholder"))
+        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
         
         searchBar.delegate = self
         searchBar.backgroundColor = UIColor.clear
@@ -863,7 +864,7 @@ extension MapVC:UITableViewDataSource {
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
-        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
         cell.HandleDirectionBtn = {
             let lat = Double("\(model?.lat ?? "")")
@@ -926,7 +927,7 @@ extension MapVC:UICollectionViewDataSource {
         
         cell.eventDateLbl.textColor = UIColor.color("#0BBEA1")
         
-        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
 //        cell.eventColorView.backgroundColor = UIColor.color("#0BBEA1")
         
@@ -1137,6 +1138,7 @@ extension MapVC {
 extension MapVC:GADBannerViewDelegate {
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print(error)
+        bannerViewHeight.constant = 0
     }
     
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {

@@ -2,7 +2,7 @@
 //  PreferToVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 16/02/2022.
+//  Created by Muhammad Sabri Saad on 16/02/2022.
 //
 
 import UIKit
@@ -17,10 +17,10 @@ class PreferToVC: UIViewController {
     lazy var addNewTagView = Bundle.main.loadNibNamed("AddNewTagView", owner: self, options: nil)?.first as? AddNewTagView
     
     private var layout: UICollectionViewFlowLayout!
-    var viewmodel = InterestsViewModel()
-    var selectedInterests:[InterestObj]!
+    var viewmodel = PreferToViewModel()
+    var selectedPreferTo:[PreferToObj]!
     
-    var onInterestsCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
+    var onPreferToCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
     
     var arrData = [String]() // This is your data array
     var arrSelectedIndex = [IndexPath]() // This is selected cell Index array
@@ -58,8 +58,8 @@ class PreferToVC: UIViewController {
     
     func getAllTags() {
         self.collectionView.hideLoader()
-        viewmodel.getAllInterests()
-        viewmodel.interests.bind { [unowned self] value in
+        viewmodel.getAllPreferTo()
+        viewmodel.PreferTo.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 collectionView.delegate = self
                 collectionView.dataSource = self
@@ -81,8 +81,8 @@ class PreferToVC: UIViewController {
     }
     
     func loadAllTags() {
-        viewmodel.getAllInterests()
-        viewmodel.interests.bind { [unowned self] value in
+        viewmodel.getAllPreferTo()
+        viewmodel.PreferTo.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 collectionView.delegate = self
                 collectionView.dataSource = self
@@ -109,7 +109,7 @@ class PreferToVC: UIViewController {
     }
     
     @IBAction func saveBtn(_ sender: Any) {
-        onInterestsCallBackResponse!(arrSelectedDataIds,arrSelectedDataNames)
+        onPreferToCallBackResponse!(arrSelectedDataIds,arrSelectedDataNames)
         self.onPopup()
     }
     
@@ -121,21 +121,21 @@ extension PreferToVC:UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewmodel.interests.value?.count ?? 0
+        return viewmodel.PreferTo.value?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? TagCollectionViewCell else {return UICollectionViewCell()}
-        let model = viewmodel.interests.value?[indexPath.row]
+        let model = viewmodel.PreferTo.value?[indexPath.row]
         cell.tagNameLbl.text = "#\(model?.name ?? "")"
         
-        if model?.isSharedForAll == true {
+//        if model?.isSharedForAll == true {
             cell.editBtn.isHidden = true
             cell.editBtnWidth.constant = 0
-        }else {
-            cell.editBtn.isHidden = false
-            cell.editBtnWidth.constant = 30
-        }
+//        }else {
+//            cell.editBtn.isHidden = false
+//            cell.editBtnWidth.constant = 30
+//        }
         
         if arrSelectedDataIds.contains(model?.id ?? "") {
             cell.containerView.backgroundColor = UIColor.FriendzrColors.primary
@@ -155,13 +155,13 @@ extension PreferToVC:UICollectionViewDataSource {
 
 extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let model = viewmodel.interests.value?[indexPath.row]
+        let model = viewmodel.PreferTo.value?[indexPath.row]
         let width = model?.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
-        if model?.isSharedForAll == true {
+//        if model?.isSharedForAll == true {
             return CGSize(width: width! + 50, height: 45)
-        }else {
-            return CGSize(width: width! + 80, height: 45)
-        }
+//        }else {
+//            return CGSize(width: width! + 80, height: 45)
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -178,7 +178,7 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("You selected cell #\(indexPath.row)!")
-        let strData = viewmodel.interests.value?[indexPath.row]
+        let strData = viewmodel.PreferTo.value?[indexPath.row]
         
         if arrSelectedDataIds.contains(strData?.id ?? "") {
             arrSelectedIndex = arrSelectedIndex.filter { $0 != indexPath}
@@ -221,7 +221,7 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
                 self.view.makeToast("Please type the name of the tag first".localizedString)
             }else {
                 
-                self.viewmodel.addMyNewInterest(name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
+                self.viewmodel.addMyNewPreferTo(name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
                     
                     if let error = error {
                         DispatchQueue.main.async {
@@ -242,11 +242,6 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
                             self.collectionView.reloadData()
                         }
                     }
-                    
-                    
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast("Added successfully".localizedString)
-//                    }
                 }
             }
             
@@ -278,7 +273,7 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
                     if self.addNewTagView?.newTagTxt.text == "" {
                         self.view.makeToast("Please type the name of the tag first".localizedString)
                     }else {
-                        self.viewmodel.EditInterest(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
+                        self.viewmodel.EditPreferTo(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
@@ -291,10 +286,6 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                 self.getAllTags()
                             }
-                            
-//                            DispatchQueue.main.async {
-//                                self.view.makeToast("Edit successfully".localizedString)
-//                            }
                         }
                     }
                     
@@ -317,7 +308,7 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
                 self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
                 self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
                 
-                self.viewmodel.deleteInterest(ById: id) { error, data in
+                self.viewmodel.deletePreferTo(ById: id) { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -349,7 +340,7 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
                     if self.addNewTagView?.newTagTxt.text == "" {
                         self.view.makeToast("Please type the name of the tag first".localizedString)
                     }else {
-                        self.viewmodel.EditInterest(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
+                        self.viewmodel.EditPreferTo(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
@@ -387,7 +378,7 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
                 self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
                 self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
                 
-                self.viewmodel.deleteInterest(ById: id) { error, data in
+                self.viewmodel.deletePreferTo(ById: id) { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -399,10 +390,6 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.getAllTags()
                     }
-                    
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast("Deleted successfully".localizedString)
-//                    }
                 }
             }))
             actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in

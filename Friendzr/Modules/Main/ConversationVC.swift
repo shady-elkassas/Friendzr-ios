@@ -55,8 +55,8 @@ extension ConversationVC {
         // "18 January"
         
         if relativeDateString == normalDateString {
-            print("Use custom date \(customDateString)") // Jan 18
-            return  customDateString
+            print("Use custom date \(normalDateString)") // Jan 18
+            return  normalDateString
         } else {
             print("Use relative date \(relativeDateString)") // Today, Yesterday
             return "\(relativeDateString) \(time)"
@@ -121,7 +121,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     var keyboardManager = KeyboardManager()
     let subviewInputBar = InputBarAccessoryView()
     
-//        lazy var textMessageSizeCalculator: CustomTextLayoutSizeCalculator = CustomTextLayoutSizeCalculator(layout: self.messagesCollectionView.messagesCollectionViewFlowLayout)
+    //        lazy var textMessageSizeCalculator: CustomTextLayoutSizeCalculator = CustomTextLayoutSizeCalculator(layout: self.messagesCollectionView.messagesCollectionViewFlowLayout)
     
     // MARK: - Private properties
     var senderUser = UserSender(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName)
@@ -373,7 +373,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
         maintainPositionOnKeyboardFrameChanged = true // default false
         showMessageTimestampOnSwipeLeft = false // default false
-//        scrollsToBottomOnKeyboardBeginsEditing = true
+        //        scrollsToBottomOnKeyboardBeginsEditing = true
         messagesCollectionView.refreshControl = refreshControl
     }
     
@@ -662,7 +662,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                         }
                     }
                 }
-
+                
                 updateTitleView(image: titleChatImage, subtitle: titleChatName, titleId: groupId, isEvent: false)
             }
         }
@@ -718,11 +718,11 @@ extension ConversationVC {
     func initBackChatButton() {
         
         var imageName = ""
-//        if Language.currentLanguage() == "ar" {
-//            imageName = "back_icon"
-//        }else {
-            imageName = "back_icon"
-//        }
+        //        if Language.currentLanguage() == "ar" {
+        //            imageName = "back_icon"
+        //        }else {
+        imageName = "back_icon"
+        //        }
         
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)
@@ -1033,7 +1033,7 @@ extension ConversationVC {
         imageUser.image = UIImage(named: image)
         imageUser.contentMode = .scaleToFill
         imageUser.cornerRadiusForHeight()
-        imageUser.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder"))
+        imageUser.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeHolderApp"))
         
         let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 31, width: 0, height: 0))
         subtitleLabel.textColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)

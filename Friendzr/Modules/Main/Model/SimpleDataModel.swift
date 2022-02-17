@@ -20,7 +20,7 @@ struct UserSender: SenderType,Equatable {
     init(senderId:String,photoURL:String,displayName:String) {
         self.senderId = senderId
         self.displayName = displayName
-        self.photoURL.sd_setImage(with: URL(string: photoURL), placeholderImage: UIImage(named: "placeholder"))
+        self.photoURL.sd_setImage(with: URL(string: photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
     }
 }
 
@@ -162,7 +162,7 @@ final internal class SimpleDataModel {
         let lastName = sender.displayName.components(separatedBy: " ").first
         let initials = "\(firstName?.first ?? "A")\(lastName?.first ?? "A")"
         //        let imag = UIImageView()
-        //        imag.sd_setImage(with: URL(string: imgStr), placeholderImage: UIImage(named: "placeholder"))
+        //        imag.sd_setImage(with: URL(string: imgStr), placeholderImage: UIImage(named: "placeHolderApp"))
         
         switch sender.senderId {
         case "000001":

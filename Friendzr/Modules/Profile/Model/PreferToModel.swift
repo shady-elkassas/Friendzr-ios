@@ -1,20 +1,20 @@
 //
-//  BestDescripsModel.swift
+//  PreferToModel.swift
 //  Friendzr
 //
-//  Created by Muhammad Sabri Saad on 15/02/2022.
+//  Created by Muhammad Sabri Saad on 17/02/2022.
 //
 
 import Foundation
 import ObjectMapper
 
-typealias BestDescripsList = [BestDescripsObj]
+typealias PreferToList = [PreferToObj]
 
-class BestDescripsModel: Mappable {
+class PreferToModel: Mappable {
     
     var isSuccessful: Bool?
     var message: String?
-    var data: [BestDescripsObj]? = nil
+    var data: [PreferToObj]? = nil
     
     required init?(map: Map) {
     }
@@ -26,11 +26,11 @@ class BestDescripsModel: Mappable {
     }
 }
 
-class AddUserBestDescripsModel: Mappable {
+class AddUserPreferToModel: Mappable {
     
     var isSuccessful: Bool?
     var message: String?
-    var data: NewBestDescripsAddedObj? = nil
+    var data: NewPreferToAddedObj? = nil
     
     required init?(map: Map) {
     }
@@ -42,7 +42,7 @@ class AddUserBestDescripsModel: Mappable {
     }
 }
 
-class BestDescripsObj : Mappable {
+class PreferToObj : Mappable {
     
     var id: String? = ""
     var name: String? = ""
@@ -64,7 +64,7 @@ class BestDescripsObj : Mappable {
     }
 }
 
-class NewBestDescripsAddedObj : Mappable {
+class NewPreferToAddedObj : Mappable {
     
     var entityId: String? = ""
     var name: String? = ""

@@ -129,7 +129,7 @@ extension UIViewController {
         view.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
         
         let imgView = UIImageView()
-        imgView.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeholder"))
+        imgView.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
         imgView.contentMode = .scaleToFill
         
         let btn = UIButton(type: .custom)

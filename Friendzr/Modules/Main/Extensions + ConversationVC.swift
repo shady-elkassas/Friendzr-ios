@@ -393,6 +393,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         print("SSSSSS")
         setupNavigationbar()
+        
         NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
         NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
     }

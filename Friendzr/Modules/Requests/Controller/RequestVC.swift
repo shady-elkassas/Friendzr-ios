@@ -27,6 +27,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var hidesImgs: [UIImageView]!
     @IBOutlet var proImgs: [UIImageView]!
+    @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
     
     //MARK: - Properties
     let cellID = "RequestsTableViewCell"
@@ -375,7 +376,7 @@ extension RequestVC:UITableViewDataSource {
             cell.friendRequestNameLbl.text = model?.userName
             cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
             cell.friendRequestDateLbl.text = model?.regestdata
-            cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
             if indexPath.row == (viewmodel.requests.value?.data?.count ?? 0) - 1 {
                 cell.bottomView.isHidden = true
@@ -531,6 +532,7 @@ extension UISegmentedControl {
 extension RequestVC:GADBannerViewDelegate {
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print(error)
+        bannerViewHeight.constant = 0
     }
     
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {

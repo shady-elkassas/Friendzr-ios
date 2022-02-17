@@ -44,6 +44,8 @@ class FriendObj: NSObject,Mappable {
     var birthdate:String?
     var linkAccountmodel:[String]?
     var listoftagsmodel:[TagsModel]?
+    var prefertoList:[TagsModel]?
+    var iamList:[TagsModel]?
     var regestdata:String? = ""
     var otherGenderName:String? = ""
     var isSentRequest:Int = 0
@@ -75,6 +77,8 @@ class FriendObj: NSObject,Mappable {
         birthdate    <- map["birthdate"]
         linkAccountmodel    <- map["linkAccountmodel"]
         listoftagsmodel    <- map["listoftagsmodel"]
+        prefertoList    <- map["prefertoList"]
+        iamList    <- map["iamList"]
         regestdata    <- map["regestdata"]
         otherGenderName    <- map["otherGenderName"]
         isSentRequest    <- map["isSentRequest"]

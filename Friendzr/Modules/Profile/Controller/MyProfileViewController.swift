@@ -177,7 +177,7 @@ extension MyProfileViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: imageCellID, for: indexPath) as? ImageProfileTableViewCell else {return UITableViewCell()}
             
-            cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.ageLbl.text = "\(model?.age ?? 0)"
             if model?.gender == "other" {
                 cell.genderlbl.text = "other(".localizedString + "\(model?.otherGenderName ?? "")" + ")"
@@ -240,15 +240,8 @@ extension MyProfileViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: bestDescribesCellId, for: indexPath) as? BestDescribesTableViewCell else {return UITableViewCell()}
             
             cell.tagsListView.removeAllTags()
-            if (model?.whatBestDescripsMeList?.count ?? 0) > 4 {
-                cell.tagsListView.addTag(tagId: model?.whatBestDescripsMeList?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.whatBestDescripsMeList?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.whatBestDescripsMeList?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.whatBestDescripsMeList?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
-            }else {
-                for item in model?.whatBestDescripsMeList ?? [] {
-                    cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
-                }
+            for item in model?.iamList ?? [] {
+                cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
             }
 
             print("tagListView.rows \(cell.tagsListView.rows)")
@@ -267,21 +260,16 @@ extension MyProfileViewController: UITableViewDataSource {
                 cell.tagsTopConstraint.constant = 12
                 cell.tagsBottomConstraint.constant = 46
             }
+            
             return cell
         }
         
-        else if indexPath.row == 4 {
+        else if indexPath.row == 4 {//preferTo
             guard let cell = tableView.dequeueReusableCell(withIdentifier: preferCellId, for: indexPath) as? PreferToTableViewCell else {return UITableViewCell()}
+            
             cell.tagsListView.removeAllTags()
-            if (model?.listoftagsmodel?.count ?? 0) > 4 {
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
-            }else {
-                for item in model?.listoftagsmodel ?? [] {
-                    cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
-                }
+            for item in model?.prefertoList ?? [] {
+                cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
             }
 
             print("tagListView.rows \(cell.tagsListView.rows)")
@@ -309,12 +297,6 @@ extension MyProfileViewController: UITableViewDataSource {
             cell.titleLbl.text = "More about me..."
             return cell
         }
-//        else {//what I am looking for...
-//            guard let cell = tableView.dequeueReusableCell(withIdentifier: aboutmeCellId, for: indexPath) as? AboutMeTableViewCell else {return UITableViewCell()}
-//            cell.aboutMeLbl.text = model?.whatAmILookingFor
-//            cell.titleLbl.text = "What am I looking for..."
-//            return cell
-//        }
     }
 }
 

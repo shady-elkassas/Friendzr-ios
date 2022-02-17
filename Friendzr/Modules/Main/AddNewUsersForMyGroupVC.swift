@@ -277,7 +277,7 @@ extension AddNewUsersForMyGroupVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? SelectedFriendTableViewCell else {return UITableViewCell()}
         let model = viewmodel.friends.value?.data?[indexPath.row]
         cell.titleLbl.text = model?.userName
-        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+        cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
         if indexPath.row == ((viewmodel.friends.value?.data?.count ?? 0) - 1 ) {
             cell.bottomView.isHidden = true

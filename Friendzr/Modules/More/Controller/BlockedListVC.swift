@@ -289,7 +289,7 @@ extension BlockedListVC: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? BlockedTableViewCell else {return UITableViewCell()}
             let model = viewmodel.blocklist.value?.data?[indexPath.row]
             cell.nameLbl.text = model?.userName
-            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
             if indexPath.row == ((viewmodel.blocklist.value?.data?.count ?? 0) - 1 ) {
                 cell.underView.isHidden = true

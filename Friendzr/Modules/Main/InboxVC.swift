@@ -32,8 +32,8 @@ extension InboxVC {
         // "18 January"
 
         if relativeDateString == normalDateString {
-            print("Use custom date \(customDateString)") // Jan 18
-            return  customDateString
+            print("Use custom date \(normalDateString)") // Jan 18
+            return  normalDateString
         } else {
             print("Use relative date \(relativeDateString)") // Today, Yesterday
             return "\(relativeDateString) \(time)"
@@ -52,7 +52,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
     @IBOutlet var bannerView: GADBannerView!
-    
+    @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var prosImg: [UIImageView]!
     @IBOutlet var hidesImg: [UIImageView]!
@@ -393,7 +393,7 @@ extension InboxVC:UITableViewDataSource {
                 cell.nameLbl.text = model?.chatName
                 cell.lastMessageLbl.text = model?.messages
                 
-                cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+                cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 
                 if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
                     if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
@@ -427,7 +427,7 @@ extension InboxVC:UITableViewDataSource {
                 let model = viewmodel.listChat.value?.data?[indexPath.row]
                 cell.nameLbl.text = model?.chatName
                 cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
-                cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+                cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 
                 if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
                     if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
@@ -1051,6 +1051,7 @@ extension InboxVC: UISearchBarDelegate{
 extension InboxVC : GADBannerViewDelegate {
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print(error)
+        bannerViewHeight.constant = 0
     }
     
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {

@@ -129,13 +129,13 @@ extension SelectedTagsVC:UICollectionViewDataSource {
         let model = viewmodel.interests.value?[indexPath.row]
         cell.tagNameLbl.text = "#\(model?.name ?? "")"
         
-        if model?.isSharedForAll == true {
+//        if model?.isSharedForAll == true {
             cell.editBtn.isHidden = true
             cell.editBtnWidth.constant = 0
-        }else {
-            cell.editBtn.isHidden = false
-            cell.editBtnWidth.constant = 30
-        }
+//        }else {
+//            cell.editBtn.isHidden = false
+//            cell.editBtnWidth.constant = 30
+//        }
         
         if arrSelectedDataIds.contains(model?.id ?? "") {
             cell.containerView.backgroundColor = UIColor.FriendzrColors.primary
@@ -157,11 +157,11 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let model = viewmodel.interests.value?[indexPath.row]
         let width = model?.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
-        if model?.isSharedForAll == true {
+//        if model?.isSharedForAll == true {
             return CGSize(width: width! + 50, height: 45)
-        }else {
-            return CGSize(width: width! + 80, height: 45)
-        }
+//        }else {
+//            return CGSize(width: width! + 80, height: 45)
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

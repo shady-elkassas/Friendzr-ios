@@ -118,7 +118,7 @@ class GroupVC: UIViewController {
                 
                 tableViewHeight.constant = CGFloat((value.chatGroupSubscribers?.count ?? 0) * 75)
                 
-                groupImg.sd_setImage(with: URL(string: value.image ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+                groupImg.sd_setImage(with: URL(string: value.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 nameTxt.text = value.name
                 
                 self.superView.hideLoader()
@@ -489,7 +489,7 @@ extension GroupVC : UITableViewDataSource {
         }
         
         cell.friendNameLbl.text = model?.userName
-        cell.friendImg.sd_setImage(with: URL(string: model?.userImage ?? ""), placeholderImage: UIImage(named: "placeholder"))
+        cell.friendImg.sd_setImage(with: URL(string: model?.userImage ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
         
         //        cell.joinDateLbl.text = "join date: ".localizedString + "\(model?.joinDateTime ?? "")"
         cell.joinDateLbl.isHidden = true

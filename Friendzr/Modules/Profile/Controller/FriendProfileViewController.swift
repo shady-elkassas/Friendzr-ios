@@ -9,7 +9,7 @@ import UIKit
 import ListPlaceholder
 
 class FriendProfileViewController: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var hideImgs: [UIImageView]!
@@ -20,14 +20,14 @@ class FriendProfileViewController: UIViewController {
     let bestDescribesCellId = "BestDescribesTableViewCell"
     let aboutmeCellId = "AboutMeTableViewCell"
     let preferCellId = "PreferToTableViewCell"
-
+    
     
     lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         control.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         return control
     }()
-
+    
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     var viewmodel:FriendViewModel = FriendViewModel()
     var userID:String = ""
@@ -35,11 +35,11 @@ class FriendProfileViewController: UIViewController {
     
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var internetConect:Bool = false
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
@@ -64,13 +64,13 @@ class FriendProfileViewController: UIViewController {
         CancelRequest.currentTask = true
         hideView.hideLoader()
     }
-
+    
     @objc func didPullToRefresh() {
         print("Refersh")
         updateUserInterface()
         self.refreshControl.endRefreshing()
     }
-
+    
     func setupView() {
         tableView.register(UINib(nibName: imageCellId, bundle: nil), forCellReuseIdentifier: imageCellId)
         tableView.register(UINib(nibName: userNameCellId, bundle: nil), forCellReuseIdentifier: userNameCellId)
@@ -78,12 +78,12 @@ class FriendProfileViewController: UIViewController {
         tableView.register(UINib(nibName: bestDescribesCellId, bundle: nil), forCellReuseIdentifier: bestDescribesCellId)
         tableView.register(UINib(nibName: aboutmeCellId, bundle: nil), forCellReuseIdentifier: aboutmeCellId)
         tableView.register(UINib(nibName: preferCellId, bundle: nil), forCellReuseIdentifier: preferCellId)
-
+        
         for itm in hideImgs {
             itm.cornerRadiusView(radius: 10)
         }
     }
-
+    
     //MARK:- APIs
     func getFriendProfileInformation() {
         self.hideView.hideLoader()
@@ -150,7 +150,7 @@ class FriendProfileViewController: UIViewController {
             }
         }
     }
-        
+    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -215,7 +215,7 @@ extension FriendProfileViewController:UITableViewDataSource {
         if indexPath.row == 0 {//image
             guard let cell = tableView.dequeueReusableCell(withIdentifier: imageCellId, for: indexPath) as? FriendImageProfileTableViewCell else {return UITableViewCell()}
             
-            cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeholder"))
+            cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.ageLbl.text = "\(model?.age ?? 0)"
             
             if model?.gender == "other" {
@@ -290,7 +290,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                 if self.internetConect == true {
                     self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
                     self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1) { error, message in
-
+                        
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -502,7 +502,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                         
                         self.changeTitleBtns(btn: cell.unblockBtn, title: "Sending...")
                         self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 4) { error, message in
-
+                            
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
@@ -541,9 +541,9 @@ extension FriendProfileViewController:UITableViewDataSource {
             cell.unblockBtn.setTitle("Unblock".localizedString, for: .normal)
             cell.unFriendBtn.setTitle("Unfriend".localizedString, for: .normal)
             cell.blockBtn.setTitle("Block".localizedString, for: .normal)
-
+            
             return cell
-
+            
         }
         else if indexPath.row == 1 {//name & username
             guard let cell = tableView.dequeueReusableCell(withIdentifier: userNameCellId, for: indexPath) as? ProfileUserNameTableViewCell else {return UITableViewCell()}
@@ -564,7 +564,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                     cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
                 }
             }
-
+            
             print("tagListView.rows \(cell.tagsListView.rows)")
             cell.tagsListViewHeight.constant = CGFloat(cell.tagsListView.rows * 25)
             
@@ -584,21 +584,14 @@ extension FriendProfileViewController:UITableViewDataSource {
             
             return cell
         }
-        else if indexPath.row == 3 {//what best describes me
+        else if indexPath.row == 3 {//what i am
             guard let cell = tableView.dequeueReusableCell(withIdentifier: bestDescribesCellId, for: indexPath) as? BestDescribesTableViewCell else {return UITableViewCell()}
             
             cell.tagsListView.removeAllTags()
-            if (model?.listoftagsmodel?.count ?? 0) > 4 {
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
-            }else {
-                for item in model?.listoftagsmodel ?? [] {
-                    cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
-                }
+            for item in model?.iamList ?? [] {
+                cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
             }
-
+            
             print("tagListView.rows \(cell.tagsListView.rows)")
             cell.tagsListViewHeight.constant = CGFloat(cell.tagsListView.rows * 25)
             
@@ -620,17 +613,10 @@ extension FriendProfileViewController:UITableViewDataSource {
         else if indexPath.row == 4 {//I prefer to...
             guard let cell = tableView.dequeueReusableCell(withIdentifier: preferCellId, for: indexPath) as? PreferToTableViewCell else {return UITableViewCell()}
             cell.tagsListView.removeAllTags()
-            if (model?.listoftagsmodel?.count ?? 0) > 4 {
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
-            }else {
-                for item in model?.listoftagsmodel ?? [] {
-                    cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
-                }
+            for item in model?.prefertoList ?? [] {
+                cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
             }
-
+            
             print("tagListView.rows \(cell.tagsListView.rows)")
             cell.tagsListViewHeight.constant = CGFloat(cell.tagsListView.rows * 25)
             
@@ -657,12 +643,6 @@ extension FriendProfileViewController:UITableViewDataSource {
             cell.titleLbl.text = "More about me..."
             return cell
         }
-//        else {//what I am looking for...
-//            guard let cell = tableView.dequeueReusableCell(withIdentifier: aboutmeCellId, for: indexPath) as? AboutMeTableViewCell else {return UITableViewCell()}
-//            cell.aboutMeLbl.text = model?.bio
-//            cell.titleLbl.text = "What am I looking for..."
-//            return cell
-//        }
     }
 }
 
