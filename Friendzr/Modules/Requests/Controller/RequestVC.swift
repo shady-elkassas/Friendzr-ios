@@ -263,12 +263,12 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     func HandleInternetConnection() {
         if cellSelected {
             emptyView.isHidden = true
-            self.view.makeToast("No available network, please try again!".localizedString)
+            self.view.makeToast("Network is unavailable, please try again!".localizedString)
         }
         else {
             emptyView.isHidden = false
             emptyImg.image = UIImage.init(named: "nointernet")
-            emptyLbl.text = "No available network, please try again!".localizedString
+            emptyLbl.text = "Network is unavailable, please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }
     }
@@ -505,7 +505,7 @@ extension RequestVC:UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data here".localizedString)
+                    self.view.makeToast("No more data".localizedString)
                 }
                 return
             }

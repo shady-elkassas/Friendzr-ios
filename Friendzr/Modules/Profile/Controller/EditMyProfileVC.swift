@@ -184,7 +184,7 @@ class EditMyProfileVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No available network, please try again!".localizedString)
+        self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
     func setup() {
@@ -736,23 +736,23 @@ class EditMyProfileVC: UIViewController {
         updateUserInterface2()
         if self.attachedImg == false {
             DispatchQueue.main.async {
-                self.view.makeToast("Please add profile image".localizedString)
+                self.view.makeToast("Please add a profile image".localizedString)
             }
             return
         }else {
             if tagsid.isEmpty {
                 DispatchQueue.main.async {
-                    self.view.makeToast("Please select your tags".localizedString)
+                    self.view.makeToast("Please select what you enjoy doing".localizedString)
                 }
                 return
             }else if iamid.isEmpty {
                 DispatchQueue.main.async {
-                    self.view.makeToast("Please select your best describes".localizedString)
+                    self.view.makeToast("Please select what best describes you".localizedString)
                 }
                 return
             }else if preferToid.isEmpty {
                 DispatchQueue.main.async {
-                    self.view.makeToast("Please select your preference".localizedString)
+                    self.view.makeToast("Please select what you prefer to do".localizedString)
                 }
                 return
             }

@@ -78,14 +78,14 @@ class HideGhostModeView: UIView {
     @IBAction func saveBtn(_ sender: Any) {
    
         if typeIDs.count > 2 {
-            self.parentVC.view.makeToast("Please, do not choose more than two".localizedString)
+            self.parentVC.view.makeToast("You can only select two".localizedString)
             return
         }else {
             if SelectedSingleTone.isSelected == true {
                 onTypesCallBackResponse?(["Everyone"],[1])
             }else {
                 if typeIDs.count == 0 {
-                    self.parentVC.view.makeToast("Please select a private modes type".localizedString)
+                    self.parentVC.view.makeToast("Please select a private mode type".localizedString)
                     return
                 }else {
                     onTypesCallBackResponse?(typeStrings,typeIDs)

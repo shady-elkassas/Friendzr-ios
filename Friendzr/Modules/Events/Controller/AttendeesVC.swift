@@ -397,7 +397,7 @@ extension AttendeesVC:UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data here".localizedString)
+                    self.view.makeToast("No more data".localizedString)
                 }
                 return
             }

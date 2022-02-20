@@ -1065,32 +1065,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="448"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xlr-JQ-JFe">
-                                        <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="35" id="5Xw-b3-7c6"/>
-                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="35" id="81P-HS-9Pm"/>
-                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="8J2-o7-OMi"/>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="35" id="E4T-a1-Zaj"/>
-                                            <constraint firstAttribute="height" constant="35" id="Pvk-70-63G"/>
-                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="35" id="VRK-6b-syl"/>
-                                        </constraints>
-                                        <color key="tintColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="close_ic" title=" "/>
-                                        <connections>
-                                            <action selector="closeBtn:" destination="Pyh-n4-cxk" eventType="touchUpInside" id="k5X-1T-nby"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="Xlr-JQ-JFe" firstAttribute="top" secondItem="vtq-DC-OiE" secondAttribute="top" id="7Ly-Fg-vL8"/>
                                     <constraint firstItem="vgy-eh-05y" firstAttribute="top" secondItem="vtq-DC-OiE" secondAttribute="top" id="Sqd-RF-7qZ"/>
                                     <constraint firstItem="vgy-eh-05y" firstAttribute="leading" secondItem="vtq-DC-OiE" secondAttribute="leading" id="Uis-eT-rw2"/>
                                     <constraint firstAttribute="trailing" secondItem="vgy-eh-05y" secondAttribute="trailing" id="fT0-oX-0Vn"/>
                                     <constraint firstAttribute="bottom" secondItem="vgy-eh-05y" secondAttribute="bottom" id="p3Y-rm-o4M"/>
-                                    <constraint firstItem="Xlr-JQ-JFe" firstAttribute="leading" secondItem="vtq-DC-OiE" secondAttribute="leading" id="rK7-Ys-Bro"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -1501,7 +1482,6 @@
     </scenes>
     <resources>
         <image name="camera_ic" width="60" height="60"/>
-        <image name="close_ic" width="15" height="15"/>
         <image name="emptyImage" width="256" height="256"/>
         <image name="inbox_selected_ic" width="27" height="27"/>
         <image name="inbox_unselected_ic" width="16" height="16"/>

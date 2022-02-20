@@ -383,7 +383,7 @@ class AddEventVC: UIViewController {
         if internetConect == true {
             if attachedImg == false {
                 DispatchQueue.main.async {
-                    self.view.makeToast("Please add image of your event".localizedString)
+                    self.view.makeToast("Please add image to the event".localizedString)
                 }
             }else {
                 self.saveBtn.setTitle("Saving...", for: .normal)
@@ -461,7 +461,7 @@ class AddEventVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No available network, please try again!".localizedString)
+        self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
     func setupView() {

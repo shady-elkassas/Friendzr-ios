@@ -470,7 +470,7 @@ class EventDetailsVC: UIViewController,UIScrollViewDelegate {
         if viewmodel.event.value?.leveevent == 1 {
             Router().toConversationVC(isEvent: true, eventChatID: eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: viewmodel.event.value?.image ?? "", titleChatName: viewmodel.event.value?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: false)
         }else {
-            self.view.makeToast("Wait, I'll join you in the event chat...".localizedString)
+            self.view.makeToast("Wait, I'll join you in the event's chat...".localizedString)
             joinCahtEventVM.joinChat(ByID: eventId, ActionDate: JoinDate, Actiontime: Jointime) { error, data in
                 if let error = error {
                     DispatchQueue.main.async {

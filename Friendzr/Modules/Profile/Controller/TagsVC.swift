@@ -171,7 +171,7 @@ class TagsVC: UIViewController {
 //                self.showAlert(withMessage: "Choose maximum 5 interests".localizedString)
                 
                 DispatchQueue.main.async {
-                    self.view.makeToast("Choose maximum 5 interests".localizedString)
+                    self.view.makeToast("Choose a maximum of 5 interests".localizedString)
                 }
                 return
             }else {

@@ -138,7 +138,7 @@ class EventDetailsViewController: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No available network, please try again!".localizedString)
+        self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
     func showNewtworkConnected() {
@@ -282,7 +282,7 @@ extension EventDetailsViewController: UITableViewDataSource {
                 if model?.leveevent == 1 {
                     Router().toConversationVC(isEvent: true, eventChatID: self.eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: model?.image ?? "", titleChatName: model?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: self.isEventAdmin)
                 }else {
-                    self.view.makeToast("Wait, I'll join you in the event chat...".localizedString)
+                    self.view.makeToast("Wait, I'll join you in the event's chat...".localizedString)
                     self.joinCahtEventVM.joinChat(ByID: self.eventId, ActionDate: JoinDate, Actiontime: Jointime) { error, data in
                         if let error = error {
                             DispatchQueue.main.async {

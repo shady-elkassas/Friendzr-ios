@@ -183,7 +183,7 @@ class SettingsVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No available network, please try again!".localizedString)
+        self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
     func updateMyLocation() {

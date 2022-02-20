@@ -55,9 +55,9 @@ class ShowImageVC: UIViewController ,UIScrollViewDelegate {
         return self.imgView
     }
     
-    @IBAction func closeBtn(_ sender: Any) {
-        self.dismiss(animated: true)
-    }
+//    @IBAction func closeBtn(_ sender: Any) {
+//        self.dismiss(animated: true)
+//    }
     
     @IBAction func cancelpopups(_ sender: UIButton) {
         self.dismiss(animated: true)

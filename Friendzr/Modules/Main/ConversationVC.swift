@@ -688,13 +688,13 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     func HandleinvalidUrl() {
         DispatchQueue.main.async {
-            self.view.makeToast("sorry for that we have some maintaince with our servers please try again in few moments".localizedString)
+            self.view.makeToast("Please try again later".localizedString)
         }
     }
     
     func HandleInternetConnection() {
         DispatchQueue.main.async {
-            self.view.makeToast("No available network, please try again!".localizedString)
+            self.view.makeToast("Network is unavailable, please try again!".localizedString)
         }
     }
     

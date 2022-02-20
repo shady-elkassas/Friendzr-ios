@@ -297,7 +297,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No available network, please try again!".localizedString)
+        self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
     @objc func handleSubViewHide() {
@@ -537,7 +537,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBAction func addEventBtn(_ sender: Any) {
         if Defaults.allowMyLocation == true {
             self.appendNewLocation = true
-            self.view.makeToast("Please pick the event location".localizedString)
+            self.view.makeToast("Please pick event's location".localizedString)
             self.goAddEventBtn.isHidden = false
             self.addEventBtn.isHidden = true
             
@@ -762,7 +762,7 @@ extension MapVC : CLLocationManagerDelegate {
             }
         }else {
             DispatchQueue.main.async {
-                self.view.makeToast("Please allow your location".localizedString)
+                self.view.makeToast("Please allow your location services".localizedString)
             }
             return
         }

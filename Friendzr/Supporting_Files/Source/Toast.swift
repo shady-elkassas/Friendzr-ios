@@ -549,7 +549,7 @@ public struct ToastStyle {
     /**
      The background color. Default is `.black` at 80% opacity.
     */
-    public var backgroundColor: UIColor = UIColor.black.withAlphaComponent(0.8)
+    public var backgroundColor: UIColor = UIColor.FriendzrColors.primary!
     
     /**
      The title color. Default is `UIColor.whiteColor()`.
@@ -686,7 +686,7 @@ public struct ToastStyle {
     /**
      Activity background color. Default is `.black` at 80% opacity.
      */
-    public var activityBackgroundColor: UIColor = UIColor.black.withAlphaComponent(0.8)
+    public var activityBackgroundColor: UIColor = UIColor.FriendzrColors.primary!
     
 }
 

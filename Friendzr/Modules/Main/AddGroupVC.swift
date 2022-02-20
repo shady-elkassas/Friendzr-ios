@@ -142,7 +142,7 @@ class AddGroupVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No available network, please try again!".localizedString)
+        self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
     
@@ -273,7 +273,7 @@ class AddGroupVC: UIViewController {
         let actionTime = formatterTime.string(from: Date())
 
         if selectedIDs.count == 0 {
-            self.view.makeToast("Please select a group of friends".localizedString)
+            self.view.makeToast("Please select group participants".localizedString)
         }else {
             self.doneBtn.setTitle("Sending...", for: .normal)
             self.doneBtn.isUserInteractionEnabled = false
@@ -400,7 +400,7 @@ extension AddGroupVC: UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data here".localizedString)
+                    self.view.makeToast("No more data".localizedString)
                 }
                 return
             }

@@ -424,7 +424,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             }else {
                 self.allowLocView.isHidden = false
             }
-            self.view.makeToast("No available network, please try again!".localizedString)
+            self.view.makeToast("Network is unavailable, please try again!".localizedString)
         }else {
             emptyView.isHidden = false
             if Defaults.allowMyLocation == true {
@@ -913,7 +913,7 @@ extension FeedVC:UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data here".localizedString)
+                    self.view.makeToast("No more data".localizedString)
                 }
                 return
             }

@@ -68,8 +68,6 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     
     
     @IBAction func showProfileImgBtn(_ sender: Any) {
-//        guard let imgURL = Defaults.Image else {return}
-        
         guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
         popupVC.modalPresentationStyle = .overCurrentContext
         popupVC.modalTransitionStyle = .crossDissolve
@@ -106,7 +104,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("No available network, please try again!".localizedString)
+        self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
     func setupView() {

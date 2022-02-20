@@ -143,11 +143,11 @@ class NewConversationVC: UIViewController {
     func HandleInternetConnection() {
         if cellSelected {
             emptyView.isHidden = true
-            self.view.makeToast("No available network, please try again!".localizedString)
+            self.view.makeToast("Network is unavailable, please try again!".localizedString)
         }else {
             emptyView.isHidden = false
             emptyImg.image = UIImage.init(named: "nointernet")
-            emptyLbl.text = "No available network, please try again!".localizedString
+            emptyLbl.text = "Network is unavailable, please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }
     }
@@ -317,7 +317,7 @@ extension NewConversationVC: UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data here".localizedString)
+                    self.view.makeToast("No more data".localizedString)
                 }
                 return
             }
@@ -340,7 +340,7 @@ extension NewConversationVC {
     
     @objc func handleAddGroupVC() {
         if viewmodel.friends.value?.data?.count == 0 {
-            self.view.makeToast("If you need to create a group, you must have friends first".localizedString)
+            self.view.makeToast("Please add friends to create a group".localizedString)
             return
         }else {
             if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "AddGroupNC") as? UINavigationController, let _ = controller.viewControllers.first as? AddGroupVC {

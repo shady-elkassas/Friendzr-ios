@@ -265,11 +265,11 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     func HandleInternetConnection() {
         if cellSelect {
             emptyView.isHidden = true
-            self.view.makeToast("No available network, please try again!".localizedString)
+            self.view.makeToast("Network is unavailable, please try again!".localizedString)
         }else {
             emptyView.isHidden = false
             emptyImg.image = UIImage.init(named: "nointernet")
-            emptyLbl.text = "No available network, please try again!".localizedString
+            emptyLbl.text = "Network is unavailable, please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }
     }
@@ -660,7 +660,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                                 
 //                                DispatchQueue.main.async {
-//                                    self.view.makeToast("You have successfully left the chat".localizedString)
+//                                    self.view.makeToast("You have left the chat".localizedString)
 //                                }
                                 
                                 DispatchQueue.main.async {
@@ -689,7 +689,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                                 
 //                                DispatchQueue.main.async {
-//                                    self.view.makeToast("You have successfully left the chat".localizedString)
+//                                    self.view.makeToast("You have left the chat".localizedString)
 //                                }
                                 
                                 DispatchQueue.main.async {
@@ -720,7 +720,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                                 
 //                                DispatchQueue.main.async {
-//                                    self.view.makeToast("You have successfully join the chat".localizedString)
+//                                    self.view.makeToast("You have joined the chat".localizedString)
 //                                }
                                 
                                 DispatchQueue.main.async {
@@ -749,7 +749,7 @@ extension InboxVC:UITableViewDelegate {
                                 }
                                 
 //                                DispatchQueue.main.async {
-//                                    self.view.makeToast("You have successfully join the chat".localizedString)
+//                                    self.view.makeToast("You have joined the chat".localizedString)
 //                                }
                                 
                                 DispatchQueue.main.async {
@@ -1006,7 +1006,7 @@ extension InboxVC:UITableViewDelegate {
                 }else {
                     self.tableView.tableFooterView = nil
                     DispatchQueue.main.async {
-                        self.view.makeToast("No more data here".localizedString)
+                        self.view.makeToast("No more data".localizedString)
                     }
                     return
                 }

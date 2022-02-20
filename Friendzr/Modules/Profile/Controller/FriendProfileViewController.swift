@@ -194,7 +194,7 @@ class FriendProfileViewController: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast( "No available network, please try again!".localizedString)
+        self.view.makeToast( "Network is unavailable, please try again!".localizedString)
     }
     
     func changeTitleBtns(btn:UIButton,title:String) {
@@ -554,16 +554,16 @@ extension FriendProfileViewController:UITableViewDataSource {
         else if indexPath.row == 2 {//interests
             guard let cell = tableView.dequeueReusableCell(withIdentifier: interestsCellId, for: indexPath) as? InterestsProfileTableViewCell else {return UITableViewCell()}
             cell.tagsListView.removeAllTags()
-            if (model?.listoftagsmodel?.count ?? 0) > 4 {
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
-                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
-            }else {
+//            if (model?.listoftagsmodel?.count ?? 0) > 4 {
+//                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
+//                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
+//                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
+//                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
+//            }else {
                 for item in model?.listoftagsmodel ?? [] {
                     cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
                 }
-            }
+//            }
             
             print("tagListView.rows \(cell.tagsListView.rows)")
             cell.tagsListViewHeight.constant = CGFloat(cell.tagsListView.rows * 25)
