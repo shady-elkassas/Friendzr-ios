@@ -505,7 +505,11 @@ extension EventDetailsViewController {
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         button.setImage(image, for: .normal)
         image?.withTintColor(UIColor.blue)
-        button.addTarget(self, action:  #selector(handleEventOptionsBtn), for: .touchUpInside)
+        if self.isEventAdmin {
+            button.addTarget(self, action:  #selector(handleShareOptionsBtn), for: .touchUpInside)
+        }else {
+            button.addTarget(self, action:  #selector(handleEventOptionsBtn), for: .touchUpInside)
+        }
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.rightBarButtonItem = barButton
     }
@@ -515,7 +519,6 @@ extension EventDetailsViewController {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
-//                    vc.encryptedID = self.encryptedID
                     self.present(controller, animated: true)
                 }
             }))
@@ -557,7 +560,33 @@ extension EventDetailsViewController {
             present(actionSheet, animated: true, completion: nil)
         }
     }
-    
+    @objc func handleShareOptionsBtn() {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+            actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let _ = controller.viewControllers.first as? ShareEventVC {
+                    self.present(controller, animated: true)
+                }
+            }))
+            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionAlert, animated: true, completion: nil)
+        }
+        else {
+            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let _ = controller.viewControllers.first as? ShareEventVC {
+                    self.present(controller, animated: true)
+                }
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionSheet, animated: true, completion: nil)
+        }
+    }
+
     func shareEvent() {
         // Setting description
         let encryptedID = viewmodel.event.value?.encryptedID ?? ""

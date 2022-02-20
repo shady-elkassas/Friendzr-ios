@@ -60,6 +60,12 @@ class LoginVC: UIViewController {
         setup()
         clearNavigationBar()
         removeNavigationBorder()
+        
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: nil
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -155,8 +155,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func seyupAds() {
-        bannerView.adUnitID = adUnitID
-        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        bannerView.adUnitID =  URLs.adUnitBanner
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
         //        addBannerViewToView(bannerView)
         bannerView.rootViewController = self
         bannerView.load(GADRequest())

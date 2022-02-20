@@ -21,7 +21,7 @@ class AdsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         bannerView.cornerRadiusView(radius: 12)
-        bannerView.adUnitID = adUnitID
+        bannerView.adUnitID =  URLs.adUnitBanner
 //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
 //        addBannerViewToView(bannerView)
         bannerView.rootViewController = parentVC

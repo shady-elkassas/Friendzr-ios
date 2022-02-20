@@ -136,7 +136,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - APIs
     func seyupAds() {
-        bannerView.adUnitID = adUnitID
+        bannerView.adUnitID = URLs.adUnitBanner
         //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
         //        addBannerViewToView(bannerView)
         bannerView.rootViewController = self
@@ -203,10 +203,11 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.hideView.isHidden = true
                 }
                 
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
-                
+                DispatchQueue.main.async {
+                    self.tableView.delegate = self
+                    self.tableView.dataSource = self
+                    self.tableView.reloadData()
+                }
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
             }

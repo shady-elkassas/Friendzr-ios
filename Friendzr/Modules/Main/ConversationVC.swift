@@ -1092,6 +1092,7 @@ extension ConversationVC {
     @objc func goToEventDetailsVC() {
         guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
         vc.eventId = self.titleID ?? ""
+        vc.isEventAdmin = self.isEventAdmin
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

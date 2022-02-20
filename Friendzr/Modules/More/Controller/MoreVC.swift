@@ -8,6 +8,8 @@
 import UIKit
 import MessageUI
 import AuthenticationServices
+import Firebase
+import FirebaseMessaging
 
 class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRecognizerDelegate,UIPopoverPresentationControllerDelegate {
     
@@ -225,15 +227,16 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
                     
                     // For the purpose of this demo app, delete the user identifier that was previously stored in the keychain.
                     KeychainItem.deleteUserIdentifierFromKeychain()
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
-                        Router().toOptionsSignUpVC()
-                    })
-                    
-                    //                    let request = ASAuthorizationAppleIDProvider().createRequest()
-                    //                    request.requestedOperation = .operationLogout
-                    //                    let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-                    //                    authorizationController.performRequests()
+                    Messaging.messaging().deleteToken {  error in
+                        if let error = error {
+                            self.view.makeToast(error.localizedDescription)
+                            return
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
+                            Router().toOptionsSignUpVC()
+                        })
+                    }
                 }
             }
             
@@ -301,6 +304,7 @@ extension MoreVC : UITableViewDelegate {
         case 2://notificationList
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "NotificationsVC") as? NotificationsVC else {return}
+                UIApplication.shared.applicationIconBadgeNumber = 0
                 Defaults.badgeNumber = 0
                 self.tableView.reloadData()
                 self.navigationController?.pushViewController(vc, animated: true)

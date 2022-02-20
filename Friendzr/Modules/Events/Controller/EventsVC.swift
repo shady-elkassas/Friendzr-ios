@@ -290,12 +290,20 @@ extension EventsVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = viewmodel.events.value?.data?[indexPath.row]
         cellSelect = true
         updateUserInterface()
         if internetConect == true {
             if viewmodel.events.value?.data?.count != 0 {
+               
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-                vc.eventId = viewmodel.events.value?.data?[indexPath.row].id ?? ""
+                vc.eventId = model?.id ?? ""
+                if model?.key == 1 {
+                    vc.isEventAdmin = true
+                }else {
+                    vc.isEventAdmin = false
+                }
+               
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }

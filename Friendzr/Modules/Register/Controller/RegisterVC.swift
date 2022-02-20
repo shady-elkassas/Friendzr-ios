@@ -69,6 +69,12 @@ class RegisterVC: UIViewController {
         clearNavigationBar()
         removeNavigationBorder()
         userNameTxt.addTarget(self, action: #selector(handleCheckUserName), for: .allEvents)
+        
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: nil
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {

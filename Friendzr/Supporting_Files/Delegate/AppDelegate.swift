@@ -468,9 +468,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate : MessagingDelegate{
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         
-        let dataDict:[String: String] = ["token": fcmToken!]
+        let dataDict:[String: String] = ["token": fcmToken ?? ""]
         print("Firebase registration token: \(String(describing: fcmToken))")
-        Defaults.fcmToken = fcmToken!
+        Defaults.fcmToken = fcmToken ?? ""
+        
         NotificationCenter.default.post(
             name: Notification.Name("FCMToken"),
             object: nil,
@@ -483,9 +484,7 @@ extension AppDelegate : MessagingDelegate{
 extension AppDelegate : UNUserNotificationCenterDelegate {
     
     // Receive displayed notifications for iOS 10 devices.
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,willPresent notification: UNNotification,withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = notification.request.content.userInfo
         
         // With swizzling disabled you must let Messaging know about the message, for Analytics
@@ -517,6 +516,12 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
         }
         
+        if action == "Friend_request_cancelled" {
+            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+        }
         
         if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
             print("user_chat OR event_chat OR user_chatGroup")
@@ -524,7 +529,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
         }
         
-        let soundNoti: String = userInfo["sound"] as? String ?? ""
+        let _: String = userInfo["sound"] as? String ?? ""
         content.sound = UNNotificationSound.default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
@@ -534,22 +539,25 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
         
-        if isMute == "False" {
-            if #available(iOS 14.0, *) {
-                completionHandler([[.alert, .badge, .sound,.banner,.list]])
-            } else {
-                // Fallback on earlier versions
-                completionHandler([[.alert, .badge, .sound]])
+        if action == "Friend_request_cancelled" {
+            completionHandler([[]])
+        }else {
+            if isMute == "False" {
+                if #available(iOS 14.0, *) {
+                    completionHandler([[.alert, .badge, .sound,.banner,.list]])
+                } else {
+                    // Fallback on earlier versions
+                    completionHandler([[.alert, .badge, .sound]])
+                }
+            }
+            else {
+                completionHandler([[]])
             }
         }
-        else {
-            completionHandler([[]])
-        }
+      
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = response.notification.request.content.userInfo
 
         // Print message ID.
@@ -583,16 +591,20 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 
         center.add(request, withCompletionHandler: nil)
 
-        if isMute == "False" {
-            if #available(iOS 14.0, *) {
-                completionHandler([[.alert, .badge, .sound,.banner,.list]])
-            } else {
-                // Fallback on earlier versions
-                completionHandler([[.alert, .badge, .sound]])
-            }
-        }
-        else {
+        if action == "Friend_request_cancelled" {
             completionHandler([[]])
+        }else {
+            if isMute == "False" {
+                if #available(iOS 14.0, *) {
+                    completionHandler([[.alert, .badge, .sound,.banner,.list]])
+                } else {
+                    // Fallback on earlier versions
+                    completionHandler([[.alert, .badge, .sound]])
+                }
+            }
+            else {
+                completionHandler([[]])
+            }
         }
     }
 

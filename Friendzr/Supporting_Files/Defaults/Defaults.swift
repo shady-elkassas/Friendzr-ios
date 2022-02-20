@@ -437,6 +437,7 @@ class Defaults {
         defaults.removeObject(forKey: "ghostModeEveryOne")
         defaults.removeObject(forKey: "ghostMode")
         defaults.removeObject(forKey: "frindRequestNumber")
+        defaults.removeObject(forKey: "fcmToken")
         
         if let token = AccessToken.current,
            !token.isExpired {

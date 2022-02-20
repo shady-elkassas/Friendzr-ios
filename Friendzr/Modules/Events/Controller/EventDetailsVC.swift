@@ -135,13 +135,16 @@ class EventDetailsVC: UIViewController,UIScrollViewDelegate {
     }
     
     func seyupAds() {
-        bannerView.adUnitID = adUnitID
-        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        bannerView.adUnitID =  URLs.adUnitBanner
+        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
         //        addBannerViewToView(bannerView)
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
         bannerView.delegate = self
         bannerView.cornerRadiusView(radius: 12)
+        
+        
+
     }
     
     //MARK: - Helper

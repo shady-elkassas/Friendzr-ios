@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 import GoogleMobileAds
 
-let adUnitID =  "ca-app-pub-3940256099942544/2934735716"
+//let adUnitID =  "ca-app-pub-3940256099942544/2934735716"
 //let publisherID = "ca-app-pub-3940256099942544/2934735716"
 //let adUnitID = "ca-app-pub-9901362047037891/8741727589"
 //let appID = "ca-app-pub-9901362047037891~4064115975"
@@ -51,7 +51,7 @@ class GenderDistributionVC: UIViewController {
     }
     
     func seyupAds() {
-        bannerView.adUnitID = adUnitID
+        bannerView.adUnitID = URLs.adUnitBanner
         //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
         //        addBannerViewToView(bannerView)
         bannerView.rootViewController = self

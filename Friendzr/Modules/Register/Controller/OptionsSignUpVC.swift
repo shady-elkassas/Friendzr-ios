@@ -56,6 +56,12 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: nil
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {

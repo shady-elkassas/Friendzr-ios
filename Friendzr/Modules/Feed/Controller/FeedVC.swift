@@ -168,7 +168,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func seyupAds() {
-        bannerView.adUnitID = adUnitID
+        bannerView.adUnitID =  URLs.adUnitBanner
         //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
         //        addBannerViewToView(bannerView)
         bannerView.rootViewController = self

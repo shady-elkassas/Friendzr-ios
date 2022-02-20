@@ -180,7 +180,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Helper
     func seyupAds() {
-        bannerView.adUnitID = adUnitID
+        bannerView.adUnitID =  URLs.adUnitBanner
         //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
         //        addBannerViewToView(bannerView)
         bannerView.rootViewController = self
