@@ -322,6 +322,16 @@ class Defaults {
         }
     }
     
+    static var allowMyLocationSettings: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "allowMyLocationSettings")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "allowMyLocationSettings")
+        }
+    }
+    
     static var ghostModeEveryOne: Bool {
         set{
             UserDefaults.standard.set(newValue, forKey: "ghostModeEveryOne")

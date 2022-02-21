@@ -311,6 +311,7 @@
                         <outlet property="subView" destination="wUG-6d-BKB" id="SHh-dr-scR"/>
                         <outlet property="subViewHeight" destination="vsw-T0-lGF" id="Szl-Z0-A8j"/>
                         <outlet property="topContainerView" destination="6Ik-au-9Lj" id="CmH-PC-rt6"/>
+                        <outlet property="upDownBtn" destination="FTg-wr-6YI" id="7aM-NL-tab"/>
                         <outlet property="upDownViewBtn" destination="FTg-wr-6YI" id="3S9-4t-MoF"/>
                         <outlet property="zoomingStatisticsView" destination="Kad-lD-qUK" id="4Cb-Jc-XRs"/>
                     </connections>
@@ -335,13 +336,13 @@
                                 <rect key="frame" x="25" y="342" width="364" height="250"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender Distribution" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q0a-5e-7Ec">
-                                        <rect key="frame" x="110" y="16" width="144" height="17.5"/>
+                                        <rect key="frame" x="121" y="16" width="122" height="16.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
                                         <color key="textColor" name="ColorLbl3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MGN-1y-Gsu">
-                                        <rect key="frame" x="0.0" y="49.5" width="364" height="200.5"/>
+                                        <rect key="frame" x="0.0" y="48.5" width="364" height="201.5"/>
                                         <color key="backgroundColor" name="Color0"/>
                                     </view>
                                 </subviews>

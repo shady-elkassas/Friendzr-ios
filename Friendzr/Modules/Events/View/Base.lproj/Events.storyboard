@@ -1810,10 +1810,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EXK-ik-rSn">
-                                <rect key="frame" x="25" y="108" width="364" height="30"/>
+                                <rect key="frame" x="25" y="108" width="364" height="38"/>
                                 <subviews>
                                     <searchBar contentMode="redraw" placeholder="Search Messages" translatesAutoresizingMaskIntoConstraints="NO" id="gB9-a3-wH7">
-                                        <rect key="frame" x="0.0" y="0.0" width="364" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="364" height="38"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="barTintColor" red="0.95686274510000002" green="0.97254901959999995" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -1822,14 +1822,14 @@
                                 <color key="backgroundColor" name="Color0"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="gB9-a3-wH7" secondAttribute="trailing" id="G9D-uG-YQ6"/>
-                                    <constraint firstAttribute="height" constant="30" id="LOF-H8-e9r"/>
+                                    <constraint firstAttribute="height" constant="38" id="LOF-H8-e9r"/>
                                     <constraint firstItem="gB9-a3-wH7" firstAttribute="top" secondItem="EXK-ik-rSn" secondAttribute="top" id="M7m-FF-I2w"/>
                                     <constraint firstAttribute="bottom" secondItem="gB9-a3-wH7" secondAttribute="bottom" id="kAa-iN-Rkp"/>
                                     <constraint firstItem="gB9-a3-wH7" firstAttribute="leading" secondItem="EXK-ik-rSn" secondAttribute="leading" id="vbn-gR-Stw"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yeQ-6G-6xr">
-                                <rect key="frame" x="0.0" y="158" width="414" height="704"/>
+                                <rect key="frame" x="0.0" y="166" width="414" height="696"/>
                                 <color key="backgroundColor" name="BGColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="MSQ-q1-BWl" id="AU8-LI-WvH"/>
@@ -1837,22 +1837,22 @@
                                 </connections>
                             </tableView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vvt-Km-7x1">
-                                <rect key="frame" x="0.0" y="158" width="414" height="704"/>
+                                <rect key="frame" x="0.0" y="166" width="414" height="696"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emptyImage" translatesAutoresizingMaskIntoConstraints="NO" id="lvn-SK-Ng1">
-                                        <rect key="frame" x="103.5" y="148.5" width="207" height="207"/>
+                                        <rect key="frame" x="103.5" y="144.5" width="207" height="207"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="lvn-SK-Ng1" secondAttribute="height" multiplier="1:1" id="rrQ-zb-afs"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffF-DM-PP5">
-                                        <rect key="frame" x="103.5" y="390.5" width="207" height="17.5"/>
+                                        <rect key="frame" x="103.5" y="386.5" width="207" height="17.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <color key="textColor" name="ColorLbl1"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8vS-ah-32w">
-                                        <rect key="frame" x="138" y="428" width="138" height="42"/>
+                                        <rect key="frame" x="138" y="424" width="138" height="42"/>
                                         <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="42" id="lcI-3F-iKv"/>

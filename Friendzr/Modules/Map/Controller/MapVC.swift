@@ -78,6 +78,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var upDownViewBtn: UIButton!
     @IBOutlet weak var arrowUpDownImg: UIImageView!
     @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var upDownBtn: UIButton!
     
     //MARK: - Properties
     var locations:[EventsLocation] = [EventsLocation]()
@@ -105,23 +106,20 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var isViewUp:Bool = false
     var internetConect:Bool = false
     
+//    var isLocationSettingsAllow:Bool = false
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateLocation()
         setupViews()
         title = "Map".localizedString
-        NotificationCenter.default.addObserver(self, selector: #selector(handleSubViewHide), name: Notification.Name("handleSubViewHide"), object: nil)
-        
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
         
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         mapView.clear()
-        
-        self.hideLoading()
         CancelRequest.currentTask = true
         
 //        NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
@@ -135,28 +133,21 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         addEventBtn.isHidden = false
         CancelRequest.currentTask = false
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.updateUserInterface()
-        }
-        
-        //        hideNavigationBar(NavigationBar: true, BackButton: true)
         initProfileBarButton()
-        //        setupNavBar()
         
         seyupAds()
         clearNavigationBar()
         
+        checkLocationPermission()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-//        NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
     }
     
     func seyupAds() {
         bannerView.adUnitID =  URLs.adUnitBanner
-        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+//        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
         //        addBannerViewToView(bannerView)
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
@@ -166,7 +157,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @objc func updateMapVC() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.updateUserInterface()
+            if Defaults.allowMyLocationSettings == true {
+                self.updateUserInterface()
+            }
         }
     }
     //MARK: - APIs
@@ -261,12 +254,17 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             HandleInternetConnection()
         case .wwan:
             internetConect = true
-            bindToModel()
-            getEventsOnlyAroundMe()
+            if Defaults.allowMyLocationSettings == true {
+                bindToModel()
+                getEventsOnlyAroundMe()
+            }
         case .wifi:
             internetConect = true
-            bindToModel()
-            getEventsOnlyAroundMe()
+            
+            if Defaults.allowMyLocationSettings == true {
+                bindToModel()
+                getEventsOnlyAroundMe()
+            }
         }
         
         print("Reachability Summary")
@@ -381,6 +379,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         marker.map = mapView
     }
     
+
+    
     func setupViews() {
         //setup search bar
         addEventBtn.cornerRadiusView(radius: 10)
@@ -421,15 +421,51 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         zoomingStatisticsView.cornerRadiusView(radius: 6)
         
-        subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
-        subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
-        subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
-        subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
+//        setupSwipeSubView()
+    }
+    
+    func setupSwipeSubView() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleSubViewHide), name: Notification.Name("handleSubViewHide"), object: nil)
+
+//        checkLocationPermission()
+        if Defaults.allowMyLocationSettings {
+            subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
+            subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
+            subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
+            subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
+
+            upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
+            upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
+            upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
+            upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
+        }else {
+            removeGestureSwipeSubView()
+        }
+    }
+    
+    func removeGestureSwipeSubView() {
+        subView.removeGestureRecognizer(createSwipeGestureRecognizer(for: .up))
+        subView.removeGestureRecognizer(createSwipeGestureRecognizer(for: .down))
+        subView.removeGestureRecognizer(createSwipeGestureRecognizer(for: .left))
+        subView.removeGestureRecognizer(createSwipeGestureRecognizer(for: .right))
+        upDownViewBtn.removeGestureRecognizer(createSwipeGestureRecognizer(for: .up))
+        upDownViewBtn.removeGestureRecognizer(createSwipeGestureRecognizer(for: .down))
+        upDownViewBtn.removeGestureRecognizer(createSwipeGestureRecognizer(for: .left))
+        upDownViewBtn.removeGestureRecognizer(createSwipeGestureRecognizer(for: .right))
         
-        upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
-        upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
-        upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
-        upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
+        if Defaults.allowMyLocationSettings {
+            collectionViewHeight.constant = 140
+            subViewHeight.constant = 190
+            subView.isHidden = false
+            isViewUp = true
+            arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
+        }else {
+            collectionViewHeight.constant = 0
+            subViewHeight.constant = 50
+            subView.isHidden = false
+            isViewUp = false
+            arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+        }
     }
     
     //create marker for location selected
@@ -457,23 +493,25 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //setup google map
     private func setupGoogleMap(zoom1:Float,zoom2:Float) {
-        self.mapView.delegate = self
-        self.mapView.isMyLocationEnabled = true
-        self.mapView.isBuildingsEnabled = true
-        self.mapView.isIndoorEnabled = true
-        
-        let lat = Double(Defaults.LocationLat) ?? 0.0
-        let lng = Double(Defaults.LocationLng) ?? 0.0
-        
-        mapView.camera = GMSCameraPosition.camera(withLatitude: lat,longitude: lng, zoom: zoom1)
-        CATransaction.begin()
-        CATransaction.setValue(1.0, forKey: kCATransactionAnimationDuration)
-        let city = GMSCameraPosition.camera(withLatitude: lat,longitude: lng, zoom: zoom2)
-        self.mapView.animate(to: city)
-        CATransaction.commit()
-        
-        LocationZooming.locationLat = lat
-        LocationZooming.locationLng = lng
+        if Defaults.allowMyLocationSettings {
+            self.mapView.delegate = self
+            self.mapView.isMyLocationEnabled = true
+            self.mapView.isBuildingsEnabled = true
+            self.mapView.isIndoorEnabled = true
+            
+            let lat = Double(Defaults.LocationLat) ?? 0.0
+            let lng = Double(Defaults.LocationLng) ?? 0.0
+            
+            mapView.camera = GMSCameraPosition.camera(withLatitude: lat,longitude: lng, zoom: zoom1)
+            CATransaction.begin()
+            CATransaction.setValue(1.0, forKey: kCATransactionAnimationDuration)
+            let city = GMSCameraPosition.camera(withLatitude: lat,longitude: lng, zoom: zoom2)
+            self.mapView.animate(to: city)
+            CATransaction.commit()
+            
+            LocationZooming.locationLat = lat
+            LocationZooming.locationLng = lng
+        }
     }
     
     private func geocode(latitude: Double, longitude: Double, completion: @escaping (_ placemark: CLPlacemark?, _ error: Error?) -> Void)  {
@@ -491,10 +529,17 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        let cancelAction = UIAlertAction(title: "Cancel".localizedString, style: .cancel)
+        let cancelAction = UIAlertAction(title: "Cancel".localizedString, style: .cancel) { (UIAlertAction) in
+            self.upDownBtn.isUserInteractionEnabled = false
+            self.isViewUp = false
+            Defaults.allowMyLocationSettings = false
+            self.removeGestureSwipeSubView()
+            NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
+        }
         let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
         }
+        
         alertController.addAction(cancelAction)
         alertController.addAction(settingsAction)
         self.present(alertController, animated: true, completion: nil)
@@ -535,13 +580,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Actions
     @IBAction func addEventBtn(_ sender: Any) {
-        if Defaults.allowMyLocation == true {
+        if Defaults.allowMyLocationSettings == true {
             self.appendNewLocation = true
             self.view.makeToast("Please pick event's location".localizedString)
             self.goAddEventBtn.isHidden = false
             self.addEventBtn.isHidden = true
-            
-            //            self.setupMarker(for: self.location!)
             markerImg.isHidden = false
         }else {
             markerImg.isHidden = true
@@ -575,8 +618,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBAction func profileBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
         self.navigationController?.pushViewController(vc, animated: true)
-        
-        //        addBottomSheetView()
     }
     
     @IBAction func convertMapStyleBtn(_ sender: Any) {
@@ -591,30 +632,44 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBAction func currentLocationBtn(_ sender: Any) {
         self.updateUserInterfaceBtns()
         if self.internetConect {
-            setupGoogleMap(zoom1: 15, zoom2: 18)
+            if Defaults.allowMyLocationSettings {
+                setupGoogleMap(zoom1: 15, zoom2: 18)
+            }else {
+                createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+            }
         }
         
         searchBar.text = ""
     }
     
     @IBAction func upDownBtn(_ sender: Any) {
-//        upDownViewBtn.isSelected = !upDownViewBtn.isSelected
         isViewUp.toggle()
         
-        if isViewUp {
-            print("Up")
-            collectionViewHeight.constant = 140
-            subViewHeight.constant = 190
-            subView.isHidden = false
-            isViewUp = true
-            arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
-        }else {
+        if Defaults.allowMyLocationSettings {
+            if isViewUp {
+                print("Up")
+                collectionViewHeight.constant = 140
+                subViewHeight.constant = 190
+                subView.isHidden = false
+                isViewUp = true
+                arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
+            }else {
+                print("Down")
+                collectionViewHeight.constant = 0
+                subViewHeight.constant = 50
+                subView.isHidden = false
+                isViewUp = false
+                arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+            }
+        }
+        else {
             print("Down")
             collectionViewHeight.constant = 0
             subViewHeight.constant = 50
             subView.isHidden = false
             isViewUp = false
             arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+            createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
         }
     }
     
@@ -730,41 +785,46 @@ extension MapVC : CLLocationManagerDelegate {
     }
     
     func checkLocationPermission() {
-        if Defaults.allowMyLocation == true {
-            if CLLocationManager.locationServicesEnabled() {
-                switch(CLLocationManager.authorizationStatus()) {
-                case .notDetermined, .restricted, .denied:
-                    //open setting app when location services are disabled
-                    createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
-                case .authorizedAlways, .authorizedWhenInUse:
-                    print("Access")
-                    settingVM.toggleAllowMyLocation(allowMyLocation: true) { error, data in
-                        if let error = error {
-                            //                            self.showAlert(withMessage: error)
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let data = data else {
-                            return
-                        }
-                        
-                        Defaults.allowMyLocation = data.allowmylocation ?? true
-                    }
-                default:
-                    break
-                }
-            } else {
-                print("Location services are not enabled")
+        if CLLocationManager.locationServicesEnabled() {
+            switch(CLLocationManager.authorizationStatus()) {
+            case .notDetermined, .restricted, .denied:
+                //open setting app when location services are disabled
                 createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+                self.upDownBtn.isUserInteractionEnabled = false
+                self.isViewUp = false
+                Defaults.allowMyLocationSettings = false
+                self.removeGestureSwipeSubView()
+                NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
+                locationManager.stopUpdatingLocation()
+            case .authorizedAlways, .authorizedWhenInUse:
+                print("Access")
+                Defaults.allowMyLocationSettings = true
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.updateUserInterface()
+                }
+                
+                DispatchQueue.main.async {
+                    self.updateLocation()
+                }
+                DispatchQueue.main.async {
+                    self.isViewUp = false
+                    self.upDownBtn.isUserInteractionEnabled = true
+                    self.setupSwipeSubView()
+                    
+                }
+            default:
+                break
             }
-        }else {
-            DispatchQueue.main.async {
-                self.view.makeToast("Please allow your location services".localizedString)
-            }
-            return
+        }
+        else {
+            print("Location services are not enabled")
+            self.upDownBtn.isUserInteractionEnabled = false
+//            Defaults.allowMyLocation = false
+            self.isViewUp = false
+            Defaults.allowMyLocationSettings = false
+            self.removeGestureSwipeSubView()
+//            createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
         }
         
     }
@@ -1097,11 +1157,21 @@ extension MapVC {
         switch sender.direction {
         case .up:
             print("Up")
-            collectionViewHeight.constant = 140
-            subViewHeight.constant = 190
-            subView.isHidden = false
-            isViewUp = true
-            arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
+            if Defaults.allowMyLocationSettings {
+                collectionViewHeight.constant = 140
+                subViewHeight.constant = 190
+                subView.isHidden = false
+                isViewUp = true
+                arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
+            }else {
+                collectionViewHeight.constant = 0
+                subViewHeight.constant = 50
+                subView.isHidden = false
+                isViewUp = false
+                arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+                
+                createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+            }
         case .down:
             print("Down")
             collectionViewHeight.constant = 0

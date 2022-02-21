@@ -15,6 +15,50 @@ import GoogleMobileAds
 let screenH: CGFloat = UIScreen.main.bounds.height
 let screenW: CGFloat = UIScreen.main.bounds.width
 
+extension FeedVC {
+    func checkLocationPermission() {
+        if CLLocationManager.locationServicesEnabled() {
+            switch(CLLocationManager.authorizationStatus()) {
+            case .notDetermined, .restricted, .denied:
+                //open setting app when location services are disabled
+                createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+                Defaults.allowMyLocationSettings = false
+                hideView.isHidden = true
+                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+                
+            case .authorizedAlways, .authorizedWhenInUse:
+                print("Access")
+                Defaults.allowMyLocationSettings = true
+                hideView.isHidden = true
+                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+            default:
+                break
+            }
+        }else {
+            print("Location in not allow")
+            Defaults.allowMyLocationSettings = false
+            hideView.isHidden = true
+            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+            createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+        }
+    }
+    
+    //create alert when user not access location
+    func createSettingsAlertController(title: String, message: String) {
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel".localizedString, style: .cancel)
+        let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(settingsAction)
+        self.present(alertController, animated: true, completion: nil)
+        
+    }
+}
+
 class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK:- Outlets
@@ -108,7 +152,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         pullToRefresh()
         addCompassView()
         
-        if Defaults.allowMyLocation == true {
+        if Defaults.allowMyLocationSettings == true {
             DispatchQueue.main.async {
                 self.updateUserInterface()
             }
@@ -130,6 +174,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         CancelRequest.currentTask = false
         initGhostModeSwitchButton()
         setupHideView()
+        
+        self.checkLocationPermission()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -169,8 +215,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     func seyupAds() {
         bannerView.adUnitID =  URLs.adUnitBanner
-        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-        //        addBannerViewToView(bannerView)
+//        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+//        addBannerViewToView(bannerView)
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
         bannerView.delegate = self
@@ -179,7 +225,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK:- APIs
     @objc func updateFeeds() {
-        if Defaults.allowMyLocation == true {
+        if Defaults.allowMyLocationSettings == true {
             DispatchQueue.main.async {
                 if self.isCompassOpen {
                     self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
@@ -323,7 +369,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         case .unreachable:
             self.emptyView.isHidden = false
             self.hideView.isHidden = true
-            if Defaults.allowMyLocation == true {
+            if Defaults.allowMyLocationSettings == true {
                 self.allowLocView.isHidden = true
             }else {
                 self.allowLocView.isHidden = false
@@ -341,7 +387,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 LoadAllFeeds(pageNumber: 0)
             }
             
-            if Defaults.allowMyLocation == true {
+            if Defaults.allowMyLocationSettings == true {
                 self.allowLocView.isHidden = true
             }else {
                 self.allowLocView.isHidden = false
@@ -353,7 +399,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         case .wifi:
             self.emptyView.isHidden = true
             self.hideView.isHidden = false
-            if Defaults.allowMyLocation == true {
+            if Defaults.allowMyLocationSettings == true {
                 self.allowLocView.isHidden = true
             }else {
                 self.allowLocView.isHidden = false
@@ -406,7 +452,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     func HandleinvalidUrl() {
         emptyView.isHidden = false
-        if Defaults.allowMyLocation == true {
+        if Defaults.allowMyLocationSettings == true {
             self.allowLocView.isHidden = true
         }else {
             self.allowLocView.isHidden = false
@@ -419,7 +465,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     func HandleInternetConnection() {
         if btnsSelected {
             emptyView.isHidden = true
-            if Defaults.allowMyLocation == true {
+            if Defaults.allowMyLocationSettings == true {
                 self.allowLocView.isHidden = true
             }else {
                 self.allowLocView.isHidden = false
@@ -427,7 +473,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             self.view.makeToast("Network is unavailable, please try again!".localizedString)
         }else {
             emptyView.isHidden = false
-            if Defaults.allowMyLocation == true {
+            if Defaults.allowMyLocationSettings == true {
                 self.allowLocView.isHidden = true
             }else {
                 self.allowLocView.isHidden = false
@@ -486,7 +532,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         filterBtn.isHidden = false
         compassContanierView.isHidden = false
         compassContainerViewHeight.constant = 320
-        //        compassContanierView.addSubview(dScaView)
     }
     
     
@@ -499,50 +544,50 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func allowLocationBtn(_ sender: Any) {
+        createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
         
-        self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-        self.showAlertView?.detailsLbl.text = "Are you sure you want to turn on your location?".localizedString
-        
-        self.showAlertView?.HandleConfirmBtn = {
-            self.updateNetworkForBtns()
-            
-            if self.internetConnect {
-                self.settingVM.toggleAllowMyLocation(allowMyLocation: true) { error, data in
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                        }
-                        return
-                    }
-                    
-                    guard let data = data else {
-                        return
-                    }
-                    
-                    Defaults.allowMyLocation = data.allowmylocation ?? false
-                    
-                    DispatchQueue.main.async {
-                        self.updateUserInterface()
-                    }
-                    
-                    self.updateMyLocation()
-                }
-            }
-            // handling code
-            UIView.animate(withDuration: 0.3, animations: {
-                self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.showAlertView?.alpha = 0
-            }) { (success: Bool) in
-                self.showAlertView?.removeFromSuperview()
-                self.showAlertView?.alpha = 1
-                self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        self.view.addSubview((self.showAlertView)!)
+//        self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+//        self.showAlertView?.titleLbl.text = "Confirm?".localizedString
+//        self.showAlertView?.detailsLbl.text = "Are you sure you want to turn on your location?".localizedString
+//
+//        self.showAlertView?.HandleConfirmBtn = {
+//            self.updateNetworkForBtns()
+//
+//            if self.internetConnect {
+//                self.settingVM.toggleAllowMyLocation(allowMyLocation: true) { error, data in
+//                    if let error = error {
+//                        DispatchQueue.main.async {
+//                            self.view.makeToast(error)
+//                        }
+//                        return
+//                    }
+//
+//                    guard let data = data else {
+//                        return
+//                    }
+//
+//                    Defaults.allowMyLocation = data.allowmylocation ?? false
+//
+//                    DispatchQueue.main.async {
+//                        self.updateUserInterface()
+//                    }
+//
+//                    self.updateMyLocation()
+//                }
+//            }
+//            // handling code
+//            UIView.animate(withDuration: 0.3, animations: {
+//                self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+//                self.showAlertView?.alpha = 0
+//            }) { (success: Bool) in
+//                self.showAlertView?.removeFromSuperview()
+//                self.showAlertView?.alpha = 1
+//                self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+//            }
+//        }
+//
+//        self.view.addSubview((self.showAlertView)!)
     }
-    
 }
 
 //MARK: - Extensions
@@ -1158,8 +1203,8 @@ extension FeedVC {
     func initCompassSwitchBarButton() {
         switchCompassBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
         switchCompassBarButton.onTintColor = UIColor.FriendzrColors.primary!
-//        switchCompassBarButton.setBorder()
-        switchCompassBarButton.offTintColor = UIColor.color("#D8D8DC")!
+        switchCompassBarButton.setBorder()
+        switchCompassBarButton.offTintColor = UIColor.white
         switchCompassBarButton.cornerRadius = 0.5
         switchCompassBarButton.thumbCornerRadius = 0.5
         switchCompassBarButton.animationDuration = 0.25
@@ -1172,7 +1217,7 @@ extension FeedVC {
         switchCompassBarButton.addGestureRecognizer(createCompassSwipeGestureRecognizer(for: .left))
         switchCompassBarButton.addGestureRecognizer(createCompassSwipeGestureRecognizer(for: .right))
 
-        if Defaults.allowMyLocation == true {
+        if Defaults.allowMyLocationSettings == true {
             if isCompassOpen {
                 switchCompassBarButton.isOn = true
             }else {
@@ -1191,7 +1236,7 @@ extension FeedVC {
         print("\(switchCompassBarButton.isOn)")
         
         // Azimuth
-        if Defaults.allowMyLocation == true {
+        if Defaults.allowMyLocationSettings == true {
             if switchCompassBarButton.isOn {
                 self.isCompassOpen = true
                 bannerViewHeight.constant = 50
@@ -1229,7 +1274,7 @@ extension FeedVC {
                 filterBtn.isHidden = true
                 compassContainerViewHeight.constant = 0
                 
-                if Defaults.allowMyLocation == true {
+                if Defaults.allowMyLocationSettings == true {
                     DispatchQueue.main.async {
                         if self.isCompassOpen {
                             self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
@@ -1248,7 +1293,7 @@ extension FeedVC {
         else {
             self.isCompassOpen = false
             switchCompassBarButton.isOn = false
-            self.showAlert(withMessage: "Please allow your location".localizedString)
+            createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
             bannerViewHeight.constant = 100
         }
     }
@@ -1271,7 +1316,7 @@ extension FeedVC {
         case .down:
             break
         case .left:
-            if Defaults.allowMyLocation == true {
+            if Defaults.allowMyLocationSettings == true {
                 switchCompassBarButton.isOn = false
                 self.isCompassOpen = false
                 filterHideView.isHidden = true
@@ -1287,7 +1332,7 @@ extension FeedVC {
                 filterBtn.isHidden = true
                 compassContainerViewHeight.constant = 0
                 
-                if Defaults.allowMyLocation == true {
+                if Defaults.allowMyLocationSettings == true {
                     DispatchQueue.main.async {
                         if self.isCompassOpen {
                             self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
@@ -1305,12 +1350,14 @@ extension FeedVC {
             else {
                 self.isCompassOpen = false
                 switchCompassBarButton.isOn = false
-                self.showAlert(withMessage: "Please allow your location".localizedString)
+//                self.showAlert(withMessage: "Please allow your location".localizedString)
+                createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+                initCompassSwitchBarButton()
                 bannerViewHeight.constant = 100
             }
             //            break
         case .right:
-            if Defaults.allowMyLocation == true {
+            if Defaults.allowMyLocationSettings == true {
                 switchCompassBarButton.isOn = true
                 
                 self.isCompassOpen = true
@@ -1338,7 +1385,9 @@ extension FeedVC {
             else {
                 self.isCompassOpen = false
                 switchCompassBarButton.isOn = false
-                self.showAlert(withMessage: "Please allow your location".localizedString)
+//                self.showAlert(withMessage: "Please allow your location".localizedString)
+                createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+                initCompassSwitchBarButton()
                 bannerViewHeight.constant = 100
             }
         default:
@@ -1353,8 +1402,8 @@ extension FeedVC {
     func initGhostModeSwitchButton() {
         switchGhostModeBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
         switchGhostModeBarButton.onTintColor = UIColor.FriendzrColors.primary!
-//        switchGhostModeBarButton.setBorder()
-        switchGhostModeBarButton.offTintColor = UIColor.color("#D8D8DC")!
+        switchGhostModeBarButton.setBorder()
+        switchGhostModeBarButton.offTintColor = UIColor.white
         switchGhostModeBarButton.cornerRadius = 0.5
         switchGhostModeBarButton.thumbCornerRadius = 0.5
         switchGhostModeBarButton.animationDuration = 0.25

@@ -27,6 +27,7 @@ class EventTableViewCell: UITableViewCell {
         containerView.cornerRadiusView(radius: 12)
         bgView.setCornerforBottom()
         eventImg.cornerRadiusView(radius: 12)
+//        editBtn.cornerRadiusForHeight()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
