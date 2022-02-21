@@ -35,7 +35,7 @@ class PreferToVC: UIViewController {
         
         initBackButton()
 //        initAddTagButton()
-        title = "Choose Your Tags".localizedString
+        title = "I Perfer To".localizedString
         
         setupView()
         loadAllTags()

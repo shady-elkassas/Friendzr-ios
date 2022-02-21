@@ -179,7 +179,7 @@ extension SendLocationChatVC : CLLocationManagerDelegate {
             case .notDetermined, .restricted, .denied:
                 //open setting app when location services are disabled
                 //                openSettingApp(message:NSLocalizedString("please.enable.location.services.to.continue.using.the.app", comment: ""))
-                createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
             default:
@@ -188,7 +188,7 @@ extension SendLocationChatVC : CLLocationManagerDelegate {
         } else {
             print("Location services are not enabled")
             //            openSettingApp(message:NSLocalizedString("please.enable.location.services.to.continue.using.the.app", comment: ""))
-            createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
         }
     }
 }

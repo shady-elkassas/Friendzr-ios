@@ -187,7 +187,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:
                 //open setting app when location services are disabled
-                createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
             default:
@@ -195,7 +195,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
             }
         } else {
             print("Location services are not enabled")
-            createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
         }
     }
     
@@ -208,7 +208,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
             if Defaults.token != "" {
                 self.settingVM.toggleAllowMyLocation(allowMyLocation: false) { error, data in
                     if let error = error {
-//                        self.showAlert(withMessage: error)
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }

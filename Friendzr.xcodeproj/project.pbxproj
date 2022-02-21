@@ -305,7 +305,6 @@
 		43D545BB26CBD8610064660A /* SKAction+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545BA26CBD8610064660A /* SKAction+Color.swift */; };
 		43D545BD26CBD8730064660A /* SKMultilineLabelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545BC26CBD8730064660A /* SKMultilineLabelNode.swift */; };
 		43D545BF26CBD8BB0064660A /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545BE26CBD8BB0064660A /* Toast.swift */; };
-		43D545C126CBEC5B0064660A /* EventDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545C026CBEC5B0064660A /* EventDetailsVC.swift */; };
 		43D545C926CCFBA10064660A /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545C826CCFBA10064660A /* CircleView.swift */; };
 		43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545CC26CD49F40064660A /* CategoryTableViewCell.swift */; };
 		43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D545CD26CD49F40064660A /* CategoryTableViewCell.xib */; };
@@ -670,7 +669,6 @@
 		43D545BA26CBD8610064660A /* SKAction+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKAction+Color.swift"; sourceTree = "<group>"; };
 		43D545BC26CBD8730064660A /* SKMultilineLabelNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKMultilineLabelNode.swift; sourceTree = "<group>"; };
 		43D545BE26CBD8BB0064660A /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
-		43D545C026CBEC5B0064660A /* EventDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsVC.swift; sourceTree = "<group>"; };
 		43D545C826CCFBA10064660A /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		43D545CC26CD49F40064660A /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		43D545CD26CD49F40064660A /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
@@ -869,13 +867,12 @@
 			isa = PBXGroup;
 			children = (
 				430A351F26CAB02700477A94 /* EventsVC.swift */,
+				43ACFEBA27B3B065001CD340 /* EventDetailsViewController.swift */,
 				43D545A326CB9DDD0064660A /* AddEventVC.swift */,
 				430A351D26CAB01A00477A94 /* EditEventsVC.swift */,
-				43D545C026CBEC5B0064660A /* EventDetailsVC.swift */,
 				4330756F26E75EDC002940DF /* AttendeesVC.swift */,
 				43B22415274D132C004C6912 /* CategoriesVC.swift */,
 				4369F4582797546300D5E064 /* ShareVC.swift */,
-				43ACFEBA27B3B065001CD340 /* EventDetailsViewController.swift */,
 				43DF596727B942FB000D9F69 /* ShareEventVC.swift */,
 			);
 			path = Controller;
@@ -2126,7 +2123,6 @@
 				4337B47A278714630077B794 /* UsersFeedTableViewCell.swift in Sources */,
 				4367E47327BA4D0B00FE1880 /* MyProfileViewController.swift in Sources */,
 				4344110726CE885F00F8233E /* ContactsTableViewCell.swift in Sources */,
-				43D545C126CBEC5B0064660A /* EventDetailsVC.swift in Sources */,
 				43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */,
 				430D426926D3BEBA00188E42 /* ConversationVC.swift in Sources */,
 				43ACFEC727B3B464001CD340 /* EventDateAndTimeTableViewCell.swift in Sources */,

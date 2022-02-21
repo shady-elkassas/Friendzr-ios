@@ -105,8 +105,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kad-lD-qUK">
                                 <rect key="frame" x="10" y="733" width="140" height="20"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u3m-tk-o2w">
-                                        <rect key="frame" x="76" y="4" width="59" height="12.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u3m-tk-o2w">
+                                        <rect key="frame" x="76" y="10" width="59" height="0.0"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
                                         <color key="textColor" name="Color0"/>
                                         <nil key="highlightedColor"/>
@@ -118,8 +118,8 @@
                                             <constraint firstAttribute="width" constant="2" id="dfM-KX-DEg"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qR3-xK-COz">
-                                        <rect key="frame" x="5" y="4" width="59" height="12.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qR3-xK-COz">
+                                        <rect key="frame" x="5" y="10" width="59" height="0.0"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
                                         <color key="textColor" name="Color0"/>
                                         <nil key="highlightedColor"/>
@@ -336,13 +336,13 @@
                                 <rect key="frame" x="25" y="342" width="364" height="250"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender Distribution" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q0a-5e-7Ec">
-                                        <rect key="frame" x="121" y="16" width="122" height="16.5"/>
+                                        <rect key="frame" x="110" y="16" width="144" height="17.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
                                         <color key="textColor" name="ColorLbl3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MGN-1y-Gsu">
-                                        <rect key="frame" x="0.0" y="48.5" width="364" height="201.5"/>
+                                        <rect key="frame" x="0.0" y="49.5" width="364" height="200.5"/>
                                         <color key="backgroundColor" name="Color0"/>
                                     </view>
                                 </subviews>

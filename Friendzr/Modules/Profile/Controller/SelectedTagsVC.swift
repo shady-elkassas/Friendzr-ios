@@ -35,7 +35,7 @@ class SelectedTagsVC: UIViewController {
         
         initBackButton()
 //        initAddTagButton()
-        title = "Choose Your Tags".localizedString
+        title = "I Enjoy".localizedString
         
         setupView()
         loadAllTags()

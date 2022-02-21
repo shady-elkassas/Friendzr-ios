@@ -106,7 +106,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var isViewUp:Bool = false
     var internetConect:Bool = false
     
-//    var isLocationSettingsAllow:Bool = false
+    //    var isLocationSettingsAllow:Bool = false
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -116,15 +116,15 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         title = "Map".localizedString
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
-        
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         mapView.clear()
         CancelRequest.currentTask = true
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
-
-//        NotificationCenter.default.post(name: Notification.Name("handleSubViewHide"), object: nil, userInfo: nil)
+        //        NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
+        
+        //        NotificationCenter.default.post(name: Notification.Name("handleSubViewHide"), object: nil, userInfo: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -147,7 +147,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     func seyupAds() {
         bannerView.adUnitID =  URLs.adUnitBanner
-//        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
         //        addBannerViewToView(bannerView)
         bannerView.rootViewController = self
         bannerView.load(GADRequest())
@@ -379,7 +379,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         marker.map = mapView
     }
     
-
+    
     
     func setupViews() {
         //setup search bar
@@ -421,19 +421,19 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         zoomingStatisticsView.cornerRadiusView(radius: 6)
         
-//        setupSwipeSubView()
+        //        setupSwipeSubView()
     }
     
     func setupSwipeSubView() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleSubViewHide), name: Notification.Name("handleSubViewHide"), object: nil)
-
-//        checkLocationPermission()
+        
+        //        checkLocationPermission()
         if Defaults.allowMyLocationSettings {
             subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
             subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
             subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
             subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
-
+            
             upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
             upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
             upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
@@ -635,7 +635,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             if Defaults.allowMyLocationSettings {
                 setupGoogleMap(zoom1: 15, zoom2: 18)
             }else {
-                createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
             }
         }
         
@@ -669,10 +669,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             subView.isHidden = false
             isViewUp = false
             arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-            createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
         }
     }
-    
     
     func angleFromCoordinate(firstCoordinate: CLLocationCoordinate2D,secondCoordinate: CLLocationCoordinate2D) -> Double {
         
@@ -789,13 +788,14 @@ extension MapVC : CLLocationManagerDelegate {
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:
                 //open setting app when location services are disabled
-                createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                 self.upDownBtn.isUserInteractionEnabled = false
                 self.isViewUp = false
                 Defaults.allowMyLocationSettings = false
                 self.removeGestureSwipeSubView()
                 NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
                 locationManager.stopUpdatingLocation()
+                self.zoomingStatisticsView.isHidden = true
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
                 Defaults.allowMyLocationSettings = true
@@ -811,7 +811,7 @@ extension MapVC : CLLocationManagerDelegate {
                     self.isViewUp = false
                     self.upDownBtn.isUserInteractionEnabled = true
                     self.setupSwipeSubView()
-                    
+                    self.zoomingStatisticsView.isHidden = false
                 }
             default:
                 break
@@ -820,11 +820,10 @@ extension MapVC : CLLocationManagerDelegate {
         else {
             print("Location services are not enabled")
             self.upDownBtn.isUserInteractionEnabled = false
-//            Defaults.allowMyLocation = false
             self.isViewUp = false
             Defaults.allowMyLocationSettings = false
             self.removeGestureSwipeSubView()
-//            createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+            self.zoomingStatisticsView.isHidden = true
         }
         
     }
@@ -989,7 +988,7 @@ extension MapVC:UICollectionViewDataSource {
         
         cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
-//        cell.eventColorView.backgroundColor = UIColor.color("#0BBEA1")
+        //        cell.eventColorView.backgroundColor = UIColor.color("#0BBEA1")
         
         cell.HandledetailsBtn = {
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
@@ -1170,7 +1169,7 @@ extension MapVC {
                 isViewUp = false
                 arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
                 
-                createSettingsAlertController(title: "", message: "Please enable location services to continue using the app".localizedString)
+                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
             }
         case .down:
             print("Down")

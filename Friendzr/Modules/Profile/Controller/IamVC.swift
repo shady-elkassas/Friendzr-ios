@@ -35,7 +35,7 @@ class IamVC: UIViewController {
         
         initBackButton()
         //        initAddTagButton()
-        title = "Choose Your Best Descrips".localizedString
+        title = "I Am".localizedString
         
         setupView()
         loadAllTags()
