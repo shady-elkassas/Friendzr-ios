@@ -93,10 +93,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UNUserNotificationCenter.current().requestAuthorization(
                 options: authOptions,
                 completionHandler: {_, _ in })
-
-            // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = self
-
         } else {
             let settings: UIUserNotificationSettings =
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
@@ -178,32 +174,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let sourceApplication: String? = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String
         let googleDidHandle = GIDSignIn.sharedInstance.handle(url as URL)
         let facebookDidHandle = ApplicationDelegate.shared.application(app, open: url, sourceApplication: sourceApplication, annotation: options[UIApplication.OpenURLOptionsKey.annotation])
-
-        //        let snapDidHandle = SCSDKLoginClient.application(app, open: url, options: options)
-        
-//        guard let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-//              let annotation = options[UIApplication.OpenURLOptionsKey.annotation] else {
-//                  return false
-//              }
-        
-//        let TikTokDidHandle = TikTokOpenSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: sourceApplication, annotation: annotation)
-        
         return googleDidHandle || facebookDidHandle //|| snapDidHandle || TikTokDidHandle
     }
-    
-//    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-//        if TikTokOpenSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation) {
-//            return true
-//        }
-//        return false
-//    }
-    
-//    func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
-//        if TikTokOpenSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: nil, annotation: "") {
-//            return true
-//        }
-//        return false
-//    }
     
     func networkReachability() {
         do {
@@ -311,14 +283,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Print full message.
         print(userInfo)
-        let aps = userInfo["aps"] as? [String:Any] //?[""]
-        let action = userInfo["Action"] as? String //action transaction
-        let actionId = userInfo["Action_code"] as? String //userid
-        let chatTitle = userInfo["name"] as? String
-        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
-        let imageNotifications = chatTitleImage?["image"] as? String
+//        let aps = userInfo["aps"] as? [String:Any] //?[""]
+//        let action = userInfo["Action"] as? String //action transaction
+//        let actionId = userInfo["Action_code"] as? String //userid
+//        let chatTitle = userInfo["name"] as? String
+//        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
+//        let imageNotifications = chatTitleImage?["image"] as? String
 
-        let soundNoti: String = userInfo["sound"] as? String ?? ""
+//        let soundNoti: String = userInfo["sound"] as? String ?? ""
         content.sound = UNNotificationSound.default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
@@ -345,7 +317,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             let userInfo = response.notification.request.content.userInfo
             
-            let aps = userInfo["aps"] as? [String:Any] //?[""]
+            _ = userInfo["aps"] as? [String:Any] //?[""]
             let action = userInfo["Action"] as? String //action transaction
             let actionId = userInfo["Action_code"] as? String //userid
             let chatTitle = userInfo["name"] as? String
@@ -353,7 +325,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let imageNotifications = chatTitleImage?["image"] as? String
             
 //            let isAdminEvent = userInfo["fcm_options"] as? [String:Any]
-            let soundNoti: String = userInfo["sound"] as? String ?? ""
+//            let soundNoti: String = userInfo["sound"] as? String ?? ""
             self.content.sound = UNNotificationSound.default
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
             let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)

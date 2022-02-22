@@ -72,11 +72,11 @@ class ChatViewModel {
     }
     
     //MARK:- Send Message with user
-    func SendMessage(withUserId userId:String,AndMessage message:String,AndMessageType messagetype:Int,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,fileUrl:URL,completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
+    func SendMessage(withUserId userId:String,AndMessage message:String,AndMessageType messagetype:Int,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,fileUrl:URL,linkable:Bool,eventShareid:String,completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/SendMessage"
         
-        let parameters:[String:Any] = ["UserId":userId,"Message":message,"Messagetype":messagetype,"messagestime":messagestime,"messagesdate":messagesdate]
+        let parameters:[String:Any] = ["UserId":userId,"Message":message,"Messagetype":messagetype,"messagestime":messagestime,"messagesdate":messagesdate,"linkable":linkable,"EventLINKid":eventShareid]
         
         let oParam = NSString(string: parameters.description)
         print(oParam)
@@ -248,11 +248,11 @@ class ChatViewModel {
     }
     
     //MARK:- Send Message with Event
-    func SendMessage(withEventId eventId:String,AndMessageType messagetype:Int,AndMessage message:String,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,fileUrl:URL,completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
+    func SendMessage(withEventId eventId:String,AndMessageType messagetype:Int,AndMessage message:String,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,fileUrl:URL,linkable:Bool,eventShareid:String,completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/SendEventMessage"
         
-        let parameters:[String:Any] = ["EventId":eventId,"Message":message,"Messagetype":messagetype,"messagestime":messagestime,"messagesdate":messagesdate]
+        let parameters:[String:Any] = ["EventId":eventId,"Message":message,"Messagetype":messagetype,"messagestime":messagestime,"messagesdate":messagesdate,"linkable":linkable,"EventLINKid":eventShareid]
         let oParam = NSString(string: parameters.description)
         print(oParam)
         
@@ -423,7 +423,6 @@ class ChatViewModel {
     }
     
     func getChatMessages(ByUserId userid:String,pageNumber:Int) {
-//        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/Chatdata"
         let headers = RequestComponent.headerComponent([.authorization,.type])
         
@@ -494,12 +493,12 @@ class ChatViewModel {
         }
     }
     
-    func SendMessage(withGroupId groupId:String,AndMessageType messagetype:Int,AndMessage message:String,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,fileUrl:URL,completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
+    func SendMessage(withGroupId groupId:String,AndMessageType messagetype:Int,AndMessage message:String,messagesdate:String,messagestime:String,attachedImg:Bool,AndAttachImage attachImage:UIImage,fileUrl:URL,linkable:Bool,eventShareid:String,completion: @escaping (_ error: String?, _ data: SendMessageObj?) -> ()) {
         
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/SendChatGroupMessage"
         
-        let parameters:[String:Any] = ["ChatGroupID":groupId,"Message":message,"Messagetype":messagetype,"MessagesDateTime":"\(messagesdate) \(messagestime)"]
+        let parameters:[String:Any] = ["ChatGroupID":groupId,"Message":message,"Messagetype":messagetype,"MessagesDateTime":"\(messagesdate) \(messagestime)","linkable":linkable,"EventLINKid":eventShareid]
         let oParam = NSString(string: parameters.description)
         print(oParam)
         

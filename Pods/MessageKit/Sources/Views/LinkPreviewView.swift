@@ -30,19 +30,11 @@ open class LinkPreviewView: UIView {
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
-
-        addSubview(imageView)
-
-        NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            imageView.topAnchor.constraint(equalTo: topAnchor),
-            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1),
-            imageView.widthAnchor.constraint(equalToConstant: LinkPreviewMessageSizeCalculator.imageViewSize),
-            imageView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor)
-        ])
-
+        imageView.layer.cornerRadius = 8
+        imageView.layer.masksToBounds = true
         return imageView
     }()
+    
     lazy var titleLabel: UILabel = {
         let label: UILabel = .init()
         label.numberOfLines = 0
@@ -55,6 +47,23 @@ open class LinkPreviewView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    lazy var peopleLabel: UILabel = {
+        let label: UILabel = .init()
+        label.numberOfLines = 0
+        label.text = "New Lable"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var dateLabel: UILabel = {
+        let label: UILabel = .init()
+        label.numberOfLines = 0
+        label.text = "New Lable"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     lazy var domainLabel: UILabel = {
         let label: UILabel = .init()
         label.numberOfLines = 0
@@ -65,13 +74,13 @@ open class LinkPreviewView: UIView {
     private lazy var contentView: UIView = {
         let view: UIView = .init(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
-
+        
         addSubview(view)
-
+        
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: topAnchor),
-            view.leadingAnchor.constraint(equalTo: imageView.trailingAnchor,
-                                          constant: LinkPreviewMessageSizeCalculator.imageViewMargin),
+            view.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                          constant: 0),
             view.trailingAnchor.constraint(equalTo: trailingAnchor),
             view.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
@@ -82,28 +91,47 @@ open class LinkPreviewView: UIView {
     init() {
         super.init(frame: .zero)
 
+        contentView.addSubview(imageView)
+        NSLayoutConstraint.activate([
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
+        
         contentView.addSubview(titleLabel)
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 10)
         ])
 
         contentView.addSubview(teaserLabel)
         NSLayoutConstraint.activate([
-            teaserLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            teaserLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             teaserLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 3),
-            teaserLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            teaserLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10)
         ])
-        teaserLabel.setContentHuggingPriority(.init(249), for: .vertical)
-
-        contentView.addSubview(domainLabel)
+        
+        
+     
+        contentView.addSubview(peopleLabel)
         NSLayoutConstraint.activate([
-            domainLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            domainLabel.topAnchor.constraint(equalTo: teaserLabel.bottomAnchor, constant: 3),
-            domainLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            domainLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            peopleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
+            peopleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10)
         ])
+        
+        contentView.addSubview(dateLabel)
+        NSLayoutConstraint.activate([
+            dateLabel.leadingAnchor.constraint(equalTo: peopleLabel.leadingAnchor),
+            dateLabel.bottomAnchor.constraint(equalTo: peopleLabel.topAnchor,constant: -4)
+        ])
+
+//        contentView.addSubview(domainLabel)
+//        NSLayoutConstraint.activate([
+//            domainLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+//            domainLabel.topAnchor.constraint(equalTo: teaserLabel.bottomAnchor, constant: 3),
+//            domainLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+//            domainLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+//        ])
     }
 
     required public init?(coder aDecoder: NSCoder) {

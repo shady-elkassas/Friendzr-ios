@@ -17,6 +17,7 @@ let screenW: CGFloat = UIScreen.main.bounds.width
 
 extension FeedVC {
     func checkLocationPermission() {
+        self.refreshControl.endRefreshing()
         if CLLocationManager.locationServicesEnabled() {
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:
@@ -493,9 +494,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @objc func didPullToRefresh() {
         print("Refersh")
         currentPage = 1
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
+        checkLocationPermission()
+//        DispatchQueue.main.async {
+//            self.updateUserInterface()
+//        }
         self.refreshControl.endRefreshing()
     }
     
@@ -544,49 +546,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func allowLocationBtn(_ sender: Any) {
-        createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-        
-        //        self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        //        self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-        //        self.showAlertView?.detailsLbl.text = "Are you sure you want to turn on your location?".localizedString
-        //
-        //        self.showAlertView?.HandleConfirmBtn = {
-        //            self.updateNetworkForBtns()
-        //
-        //            if self.internetConnect {
-        //                self.settingVM.toggleAllowMyLocation(allowMyLocation: true) { error, data in
-        //                    if let error = error {
-        //                        DispatchQueue.main.async {
-        //                            self.view.makeToast(error)
-        //                        }
-        //                        return
-        //                    }
-        //
-        //                    guard let data = data else {
-        //                        return
-        //                    }
-        //
-        //                    Defaults.allowMyLocation = data.allowmylocation ?? false
-        //
-        //                    DispatchQueue.main.async {
-        //                        self.updateUserInterface()
-        //                    }
-        //
-        //                    self.updateMyLocation()
-        //                }
-        //            }
-        //            // handling code
-        //            UIView.animate(withDuration: 0.3, animations: {
-        //                self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-        //                self.showAlertView?.alpha = 0
-        //            }) { (success: Bool) in
-        //                self.showAlertView?.removeFromSuperview()
-        //                self.showAlertView?.alpha = 1
-        //                self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-        //            }
-        //        }
-        //
-        //        self.view.addSubview((self.showAlertView)!)
+        self.refreshControl.endRefreshing()
+        self.checkLocationPermission()
     }
 }
 

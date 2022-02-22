@@ -123,6 +123,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         moreList.append(("Terms & Conditions".localizedString, UIImage(named: "Terms_ic")!))
         moreList.append(("Privacy Policy".localizedString, UIImage(named: "privacy_ic")!))
         moreList.append(("Contact Friendzr".localizedString, UIImage(named: "Contactus_ic")!))
+        moreList.append(("Help".localizedString, UIImage(named: "Contactus_ic")!))
         moreList.append(("Log Out".localizedString, UIImage(named: "logout_ic")!))
         
         if Defaults.isIPhoneSmall {
@@ -360,7 +361,9 @@ extension MoreVC : UITableViewDelegate {
                 self.present(mc, animated: true, completion: nil)
             }
             break
-        case 10://logout
+        case 10:
+            break
+        case 11://logout
             logout()
             break
         default:

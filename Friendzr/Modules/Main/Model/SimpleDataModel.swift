@@ -104,7 +104,8 @@ final internal class SimpleDataModel {
             url: URL(string: "https://github.com/MessageKit")!,
             title: "MessageKit",
             teaser: "A community-driven replacement for JSQMessagesViewController - MessageKit",
-            thumbnailImage: UIImage(named: "mkorglogo")!
+            thumbnailImage: UIImage(named: "mkorglogo")!,
+            people: "",date: ""
         )
     }
 

@@ -67,6 +67,8 @@ class MessageObj: NSObject,Mappable {
     var messagestime: String? = ""
     var messageAttachedVM: [MessageAttachedModel]? = []
     var messagetype:Int? = 0
+    var eventData:EventObj? = nil
+    var linkable:Bool = false
     
     override init() {
         super.init()
@@ -89,6 +91,8 @@ class MessageObj: NSObject,Mappable {
         messagestime    <- map["messagestime"]
         messageAttachedVM   <- map["messageAttachedVM"]
         messagetype   <- map["messagetype"]
+        eventData   <- map["eventData"]
+        linkable   <- map["linkable"]
     }
 }
 

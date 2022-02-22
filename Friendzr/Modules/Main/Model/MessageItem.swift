@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import MessageKit
 import AVFoundation
+import MapKit
 
 private struct CoordinateItem: LocationItem {
 
@@ -100,6 +101,19 @@ struct MessageLinkItem: LinkItem {
     let title: String?
     let teaser: String
     let thumbnailImage: UIImage
+    var people: String?
+    var date: String?
+
+    init(text:String,attributedText:NSAttributedString?,url:URL,title:String,teaser:String,thumbnailImage:UIImage,people:String,date:String) {
+        self.text = text
+        self.attributedText = attributedText
+        self.url = url
+        self.title = title
+        self.teaser = teaser
+        self.people = people
+        self.date = date
+        self.thumbnailImage = thumbnailImage
+    }
 }
 
 internal struct UserMessage: MessageType {
@@ -113,63 +127,68 @@ internal struct UserMessage: MessageType {
     var messageType:Int
     var dateandtime:String = ""
     
+    var linkPreviewID:String = ""
+    var isJoinEvent:Int = 0
+    
     var user: UserSender
 
-    private init(kind: MessageKind, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int) {
+    private init(kind: MessageKind, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int,linkPreviewID:String,isJoinEvent:Int) {
         self.kind = kind
         self.user = user
         self.messageId = messageId
         self.sentDate = date
         self.dateandtime = dateandtime
         self.messageType = messageType
+        self.isJoinEvent = isJoinEvent
+        self.linkPreviewID = linkPreviewID
     }
     
-    init(custom: Any?, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int) {
-        self.init(kind: .custom(custom), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType)
+    init(custom: Any?, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int,linkPreviewID:String,isJoinEvent:Int) {
+        self.init(kind: .custom(custom), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType,linkPreviewID: linkPreviewID,isJoinEvent: isJoinEvent)
+    }
+    
+    init(text: String, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int,linkPreviewID:String,isJoinEvent:Int) {
+        self.init(kind: .text(text), user: user, messageId: messageId,date:date,dateandtime:dateandtime, messageType: messageType,linkPreviewID: linkPreviewID,isJoinEvent: isJoinEvent)
     }
 
-    init(text: String, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int) {
-        self.init(kind: .text(text), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType)
+    init(attributedText: NSAttributedString, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int,linkPreviewID:String,isJoinEvent:Int) {
+        self.init(kind: .attributedText(attributedText), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType,linkPreviewID: linkPreviewID,isJoinEvent: isJoinEvent)
     }
 
-    init(attributedText: NSAttributedString, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int) {
-        self.init(kind: .attributedText(attributedText), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType)
-    }
-
-    init(image: UIImage, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int) {
+    init(image: UIImage, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int,linkPreviewID:String,isJoinEvent:Int) {
         let mediaItem = ImageMediaItem(image: image)
-        self.init(kind: .photo(mediaItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType)
+        self.init(kind: .photo(mediaItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType,linkPreviewID: linkPreviewID,isJoinEvent: isJoinEvent)
     }
 
-    init(imageURL: URL, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int) {
+    init(imageURL: URL, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int,linkPreviewID:String,isJoinEvent:Int) {
         let mediaItem = ImageMediaItem(imageURL: imageURL)
-        self.init(kind: .photo(mediaItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType)
+        self.init(kind: .photo(mediaItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType,linkPreviewID: linkPreviewID,isJoinEvent: isJoinEvent)
     }
 
-    init(videoURL: URL, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int) {
+    init(videoURL: URL, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int,linkPreviewID:String,isJoinEvent:Int) {
         let mediaItem = VideoMediaItem(videoURL: videoURL)
-        self.init(kind: .video(mediaItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType)
+        self.init(kind: .video(mediaItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType,linkPreviewID: linkPreviewID,isJoinEvent: isJoinEvent)
     }
     
-    init(location: CLLocation, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int) {
+    init(location: CLLocation, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int,linkPreviewID:String,isJoinEvent:Int) {
         let locationItem = CoordinateItem(location: location)
-        self.init(kind: .location(locationItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType)
+        self.init(kind: .location(locationItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType,linkPreviewID: linkPreviewID,isJoinEvent: isJoinEvent)
     }
 
-    init(emoji: String, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int) {
-        self.init(kind: .emoji(emoji), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType)
+    init(emoji: String, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int,linkPreviewID:String,isJoinEvent:Int) {
+        self.init(kind: .emoji(emoji), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType,linkPreviewID: linkPreviewID,isJoinEvent: isJoinEvent)
     }
 
-    init(audioURL: URL, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int) {
+    init(audioURL: URL, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int,linkPreviewID:String,isJoinEvent:Int) {
         let audioItem = MessageAudioItem(url: audioURL)
-        self.init(kind: .audio(audioItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType)
+        self.init(kind: .audio(audioItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType,linkPreviewID: linkPreviewID,isJoinEvent: isJoinEvent)
     }
 
-    init(contact: MessageContactItem, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int) {
-        self.init(kind: .contact(contact), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType)
+    init(contact: MessageContactItem, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int,linkPreviewID:String,isJoinEvent:Int) {
+        self.init(kind: .contact(contact), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType,linkPreviewID: linkPreviewID,isJoinEvent: isJoinEvent)
     }
 
-    init(linkItem: LinkItem, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int) {
-        self.init(kind: .linkPreview(linkItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType)
+    init(linkItem: LinkItem, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int,linkPreviewID:String,isJoinEvent:Int) {
+        self.init(kind: .linkPreview(linkItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType,linkPreviewID: linkPreviewID,isJoinEvent: isJoinEvent)
     }
 }

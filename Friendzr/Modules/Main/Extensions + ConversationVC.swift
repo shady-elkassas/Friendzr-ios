@@ -73,9 +73,13 @@ extension ConversationVC: MessagesDataSource {
         let model = messageList[indexPath.section]
         let colorlbl = isFromCurrentSender(message: message) ? UIColor.white : UIColor.gray
 
-        return NSAttributedString(string: model.dateandtime, attributes: [NSAttributedString.Key.font:
-                                                                            UIFont(name: "Montserrat-Medium", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2),
-                                                                          NSAttributedString.Key.foregroundColor:colorlbl])
+        if model.messageType == 4 {
+            return nil
+        }else {
+            return NSAttributedString(string: model.dateandtime, attributes: [NSAttributedString.Key.font:
+                                                                                UIFont(name: "Montserrat-Medium", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2),
+                                                                              NSAttributedString.Key.foregroundColor:colorlbl])
+        }
     }
     
     func textCell(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionViewCell? {
@@ -127,7 +131,11 @@ extension ConversationVC: MessageCellDelegate {
             break
         case .contact(_):break
         case .emoji(_):break
-        case .linkPreview(_):break
+        case .linkPreview(_):
+            if message.messageType == 4 {
+                print("link Preview ")
+                Router().toEventDetailsVC(eventId: message.linkPreviewID, isConv: true)
+            }
         case .photo(_):break
         case .video(_):break
         case .audio(_):break
@@ -311,14 +319,14 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
         let messageTime = formatterTime.string(from: Date())
         let url:URL? = URL(string: "https://www.apple.com/eg/")
         
-        self.insertMessage(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 1))
+        self.insertMessage(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 1,linkPreviewID: "",isJoinEvent: 0))
         
         DispatchQueue.main.async {
             inputBar.inputTextView.text = ""
         }
         
         if isEvent {
-            viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
+            viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!,linkable: false,eventShareid: "") { error, data in
                 
                 if let error = error {
                     DispatchQueue.main.async {
@@ -339,7 +347,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
         }
         else {
             if isChatGroup {
-                viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
+                viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!,linkable: false,eventShareid: "") { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -357,7 +365,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
                     }
                 }
             }else {
-                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!) { error, data in
+                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),fileUrl: url!,linkable: false,eventShareid: "") { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -434,7 +442,14 @@ extension ConversationVC: MessagesDisplayDelegate {
     
     // MARK: - Text Messages
     func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
-        isFromCurrentSender(message: message) ? .white : .darkText
+        switch message.kind {
+        case .linkPreview(_):
+            return isFromCurrentSender(message: message) ? UIColor.white : UIColor.lightGray
+        default:
+            break
+        }
+        
+        return isFromCurrentSender(message: message) ? UIColor.white : UIColor.darkGray
     }
     
     func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
@@ -467,7 +482,7 @@ extension ConversationVC: MessagesDisplayDelegate {
         case .video(_):
             return isFromCurrentSender(message: message) ? UIColor.clear : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .linkPreview(_):
-            return isFromCurrentSender(message: message) ? UIColor.red : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
+            return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         case .attributedText(_):
             return isFromCurrentSender(message: message) ? UIColor.FriendzrColors.primary! : UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         default:
@@ -540,7 +555,6 @@ extension ConversationVC: MessagesDisplayDelegate {
     func configureAudioCell(_ cell: AudioMessageCell, message: MessageType) {
         audioController.configureAudioCell(cell, message: message) // this is needed especially when the cell is reconfigure while is playing sound
     }
-    
 }
 
 
@@ -693,7 +707,7 @@ extension ConversationVC {
         } else {
             soundRecorder.stop()
             setupLeftInputButton(tapMessage: false, Recorder: "play")
-            insertMessage(UserMessage(audioURL: getFileURL(), user: senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6))
+            insertMessage(UserMessage(audioURL: getFileURL(), user: senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6,linkPreviewID: "",isJoinEvent: 0))
             self.messagesCollectionView.reloadData()
         }
     }
@@ -947,17 +961,17 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
             print(videoURL)
             picker.dismiss(animated:true, completion: {
                 
-                self.insertMessage(UserMessage(videoURL: videoURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6))
+                self.insertMessage(UserMessage(videoURL: videoURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6,linkPreviewID: "",isJoinEvent: 0))
                 self.messagesCollectionView.reloadData()
             })
         }else {
             let image = info[.originalImage] as! UIImage
             
-            self.insertMessage(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 2))
+            self.insertMessage(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 2,linkPreviewID: "",isJoinEvent: 0))
             self.sendingImageView = image
             
             if isEvent {
-                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
+                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,linkable: false,eventShareid: "") { error, data in
                     
                     if let error = error {
                         DispatchQueue.main.async {
@@ -977,7 +991,7 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
                 }
             }else {
                 if isChatGroup {
-                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
+                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,linkable: false,eventShareid: "") { error, data in
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -995,7 +1009,7 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
                         }
                     }
                 }else {
-                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!) { error, data in
+                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,linkable: false,eventShareid: "") { error, data in
                         
                         if let error = error {
                             DispatchQueue.main.async {
@@ -1190,12 +1204,12 @@ extension ConversationVC: UIDocumentPickerDelegate {
 
             if isEvent {
                 let imgView:UIImageView = UIImageView()
-                self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3))
+                self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0))
                 
                 imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
                 self.sendingImageView  = imgView.image
                 
-                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
+                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,linkable: false,eventShareid: "") { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -1216,11 +1230,11 @@ extension ConversationVC: UIDocumentPickerDelegate {
             }else {
                 if isChatGroup {
                     let imgView:UIImageView = UIImageView()
-                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime:messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3))
+                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime:messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0))
                     imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
                     self.sendingImageView  = imgView.image
 
-                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
+                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,linkable: false,eventShareid: "") { error, data in
                         
                         if let error = error {
                             DispatchQueue.main.async {
@@ -1241,11 +1255,11 @@ extension ConversationVC: UIDocumentPickerDelegate {
                     }
                 }else {
                     let imgView:UIImageView = UIImageView()
-                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3))
+                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0))
                     imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
                     self.sendingImageView  = imgView.image
                     
-                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL) { error, data in
+                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,linkable: false,eventShareid: "") { error, data in
                         
                         if let error = error {
                             DispatchQueue.main.async {
@@ -1278,5 +1292,72 @@ extension ConversationVC: UIDocumentPickerDelegate {
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         print("close")
         controller.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension ConversationVC {
+    
+    func handleLinkPreviewOptionsTapped(ById id:String,IsInEvent:Int) {
+        
+        var joinTitle:String = ""
+        if IsInEvent == 0 {
+            
+        }else {
+            if IsInEvent == 1 {
+                joinTitle = "Exit"
+            }else {
+                joinTitle = "Join"
+            }
+        }
+        
+        if IsInEvent == 0 {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+                actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
+                    Router().toEventDetailsVC(eventId: id, isConv: true)
+                }))
+                actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+                }))
+                
+                present(actionAlert, animated: true, completion: nil)
+            }else {
+                let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
+                    Router().toEventDetailsVC(eventId: id, isConv: true)
+                }))
+                actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+                }))
+                present(actionSheet, animated: true, completion: nil)
+            }
+        }
+        else {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+                actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
+                    Router().toEventDetailsVC(eventId: id, isConv: true)
+                }))
+                
+                actionAlert.addAction(UIAlertAction(title: joinTitle, style: .default, handler: { action in
+                    
+                }))
+
+                actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+                }))
+                
+                present(actionAlert, animated: true, completion: nil)
+            }else {
+                let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
+                    Router().toEventDetailsVC(eventId: id, isConv: true)
+
+                }))
+                
+                actionSheet.addAction(UIAlertAction(title: joinTitle, style: .default, handler: { action in
+                }))
+                actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+                }))
+                present(actionSheet, animated: true, completion: nil)
+            }
+        }
     }
 }

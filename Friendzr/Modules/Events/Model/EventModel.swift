@@ -102,6 +102,7 @@ class EventObj: NSObject,Mappable {
     var joined: Int? = 0
     var attendees: [AttendeesObj]? = [AttendeesObj]()
     var categorie:String? = ""
+    var category:String? = ""
     var descriptionEvent:String? = ""
     var key:Int? = 0
     var lat:String? = ""
@@ -122,6 +123,7 @@ class EventObj: NSObject,Mappable {
     // Mappable
     func mapping(map: Map) {
         eventdate    <- map["eventdate"]
+        category    <- map["category"]
         datetext    <- map["datetext"]
         categorieimage    <- map["categorieimage"]
         categorieid    <- map["categorieid"]

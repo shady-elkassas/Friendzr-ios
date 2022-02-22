@@ -519,6 +519,7 @@ extension EventDetailsViewController {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
+                    vc.eventID = self.viewmodel.event.value?.id ?? ""
                     self.present(controller, animated: true)
                 }
             }))
@@ -540,7 +541,7 @@ extension EventDetailsViewController {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
-//                    vc.encryptedID = self.encryptedID
+                    vc.eventID = self.viewmodel.event.value?.id ?? ""
                     self.present(controller, animated: true)
                 }
             }))
@@ -564,7 +565,8 @@ extension EventDetailsViewController {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let _ = controller.viewControllers.first as? ShareEventVC {
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
+                    vc.eventID = self.viewmodel.event.value?.id ?? ""
                     self.present(controller, animated: true)
                 }
             }))
@@ -576,7 +578,8 @@ extension EventDetailsViewController {
         else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let _ = controller.viewControllers.first as? ShareEventVC {
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
+                    vc.eventID = self.viewmodel.event.value?.id ?? ""
                     self.present(controller, animated: true)
                 }
             }))

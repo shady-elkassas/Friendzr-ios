@@ -30,11 +30,26 @@ class ShareEventVC: UIViewController {
     
     
     var cellID = "ShareTableViewCell"
-    
+    var eventID:String = ""
     var myFriendsVM:AllFriendesViewModel = AllFriendesViewModel()
     var myEventsVM:EventsViewModel = EventsViewModel()
     var myGroupsVM:GroupViewModel = GroupViewModel()
-
+    var shareEventMessageVM:ChatViewModel = ChatViewModel()
+    
+    let formatterDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+    
+    let formatterTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "HH:mm:ss"
+        return formatter
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -60,7 +75,6 @@ class ShareEventVC: UIViewController {
                 if value.data?.count == 0 {
                     eventsEmptyView.isHidden = false
                     emptyeventslbl.text = "No events match your search"
-//                    eventsSearchView.isHidden = true
                 }else {
                     eventsEmptyView.isHidden = true
                 }
@@ -259,12 +273,39 @@ extension ShareEventVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
         
+        let messageDate = formatterDate.string(from: Date())
+        let messageTime = formatterTime.string(from: Date())
+        let url:URL? = URL(string: "https://www.apple.com/eg/")
+
         if tableView == friendsTV {
             let model = myFriendsVM.friends.value?.data?[indexPath.row]
             cell.titleLbl.text = model?.userName
             
             cell.HandleSendBtn = {
-                
+                cell.sendBtn.setTitle("Sending...", for: .normal)
+                cell.sendBtn.isUserInteractionEnabled = false
+                self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "oo", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,linkable: true,eventShareid: self.eventID) { error, data in
+                    
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard let _ = data else {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        cell.sendBtn.isUserInteractionEnabled = true
+                        cell.sendBtn.setTitle("Send", for: .normal)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+                    }
+                }
             }
         }
         else if tableView == groupsTV {
@@ -272,7 +313,30 @@ extension ShareEventVC: UITableViewDataSource {
             cell.titleLbl.text = model?.chatName
             
             cell.HandleSendBtn = {
-                
+                cell.sendBtn.setTitle("Sending...", for: .normal)
+                cell.sendBtn.isUserInteractionEnabled = false
+                self.shareEventMessageVM.SendMessage(withGroupId: model?.id ?? "", AndMessageType: 2, AndMessage: "oo", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, linkable: true, eventShareid: self.eventID) { error, data in
+                    
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard let _ = data else {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        cell.sendBtn.isUserInteractionEnabled = true
+                        cell.sendBtn.setTitle("Send", for: .normal)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+                    }
+                }
             }
             
         }
@@ -280,7 +344,30 @@ extension ShareEventVC: UITableViewDataSource {
             let model = myEventsVM.events.value?.data?[indexPath.row]
             cell.titleLbl.text = model?.title
             cell.HandleSendBtn = {
-                
+                cell.sendBtn.setTitle("Sending...", for: .normal)
+                cell.sendBtn.isUserInteractionEnabled = false
+                self.shareEventMessageVM.SendMessage(withEventId: model?.id ?? "", AndMessageType: 2, AndMessage: "oo", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, linkable: true, eventShareid: self.eventID) { error, data in
+                    
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard let _ = data else {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        cell.sendBtn.isUserInteractionEnabled = true
+                        cell.sendBtn.setTitle("Send", for: .normal)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+                    }
+                }
             }
         }
         
