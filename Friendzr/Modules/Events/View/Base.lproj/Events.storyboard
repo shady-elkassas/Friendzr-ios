@@ -2111,7 +2111,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="1078"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQD-Lz-yoM">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="927"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="777"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qea-SR-zcY">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="1"/>
@@ -2185,10 +2185,10 @@
                                                 </constraints>
                                             </view>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="sZN-Pv-uYV">
-                                                <rect key="frame" x="0.0" y="97" width="414" height="250"/>
+                                                <rect key="frame" x="0.0" y="97" width="414" height="200"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="250" id="SgW-rg-auI"/>
+                                                    <constraint firstAttribute="height" constant="200" id="SgW-rg-auI"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="dataSource" destination="CnN-yk-wg3" id="TsB-Ng-oXY"/>
@@ -2196,10 +2196,10 @@
                                                 </connections>
                                             </tableView>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MC0-vM-uue">
-                                                <rect key="frame" x="0.0" y="97" width="414" height="250"/>
+                                                <rect key="frame" x="0.0" y="97" width="414" height="200"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no friends yet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uKR-lQ-7CK">
-                                                        <rect key="frame" x="135.5" y="117.5" width="143" height="15"/>
+                                                        <rect key="frame" x="135.5" y="92.5" width="143" height="15"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -2212,7 +2212,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="huH-uO-CkU">
-                                                <rect key="frame" x="0.0" y="347" width="414" height="40"/>
+                                                <rect key="frame" x="0.0" y="297" width="414" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Groups" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yxi-Kr-977">
                                                         <rect key="frame" x="20" y="12.5" width="66.5" height="15"/>
@@ -2251,10 +2251,10 @@
                                                 </constraints>
                                             </view>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="oS9-lD-TnX">
-                                                <rect key="frame" x="0.0" y="387" width="414" height="250"/>
+                                                <rect key="frame" x="0.0" y="337" width="414" height="200"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="250" id="o44-0j-3AV"/>
+                                                    <constraint firstAttribute="height" constant="200" id="o44-0j-3AV"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="dataSource" destination="CnN-yk-wg3" id="qID-jU-Bns"/>
@@ -2262,10 +2262,10 @@
                                                 </connections>
                                             </tableView>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r25-p3-fkS">
-                                                <rect key="frame" x="0.0" y="387" width="414" height="250"/>
+                                                <rect key="frame" x="0.0" y="337" width="414" height="200"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no groups yet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OT2-ib-LV1">
-                                                        <rect key="frame" x="136" y="117.5" width="142.5" height="15"/>
+                                                        <rect key="frame" x="136" y="92.5" width="142.5" height="15"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -2278,7 +2278,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mNd-2h-z5C">
-                                                <rect key="frame" x="0.0" y="637" width="414" height="40"/>
+                                                <rect key="frame" x="0.0" y="537" width="414" height="40"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wuh-9B-P2R">
                                                         <rect key="frame" x="98.5" y="5" width="295.5" height="30"/>
@@ -2317,10 +2317,10 @@
                                                 </constraints>
                                             </view>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="qv2-qM-I0j">
-                                                <rect key="frame" x="0.0" y="677" width="414" height="250"/>
+                                                <rect key="frame" x="0.0" y="577" width="414" height="200"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="250" id="2KO-rc-eoY"/>
+                                                    <constraint firstAttribute="height" constant="200" id="2KO-rc-eoY"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="dataSource" destination="CnN-yk-wg3" id="eSW-8J-mwl"/>
@@ -2328,10 +2328,10 @@
                                                 </connections>
                                             </tableView>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ve2-wb-Xdc">
-                                                <rect key="frame" x="0.0" y="677" width="414" height="250"/>
+                                                <rect key="frame" x="0.0" y="577" width="414" height="200"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no events yet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W8E-z7-57g">
-                                                        <rect key="frame" x="137" y="117.5" width="140" height="15"/>
+                                                        <rect key="frame" x="137" y="92.5" width="140" height="15"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>

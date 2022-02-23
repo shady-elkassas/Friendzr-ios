@@ -77,7 +77,7 @@ class EventsVC: UIViewController {
     //MARK:- APIs
     func getAllEvents(pageNumber:Int) {
         hideView.hideLoader()
-        viewmodel.getMyEvents(pageNumber: pageNumber)
+        viewmodel.getMyEvents(pageNumber: pageNumber, search: "")
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
@@ -116,7 +116,7 @@ class EventsVC: UIViewController {
     func LoadAllEvents(pageNumber:Int) {
 //        self.view.makeToast("Please wait for the data to load...")
         hideView.showLoader()
-        viewmodel.getMyEvents(pageNumber: pageNumber)
+        viewmodel.getMyEvents(pageNumber: pageNumber, search: "")
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
 
@@ -171,6 +171,29 @@ class EventsVC: UIViewController {
             internetConect = true
             self.emptyView.isHidden = true
             LoadAllEvents(pageNumber: 1)
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func updateUserInterfaceBtns() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            self.emptyView.isHidden = false
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+            self.emptyView.isHidden = true
+        case .wifi:
+            internetConect = true
+            self.emptyView.isHidden = true
         }
         
         print("Reachability Summary")
@@ -276,6 +299,15 @@ extension EventsVC: UITableViewDataSource {
             }else {
                 cell.editBtn.isHidden = true
             }
+            
+            cell.HandleEditBtn = {
+                self.updateUserInterfaceBtns()
+                if self.internetConect == true {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
+                    vc.eventModel = model
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
             return cell
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
@@ -297,7 +329,7 @@ extension EventsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = viewmodel.events.value?.data?[indexPath.row]
         cellSelect = true
-        updateUserInterface()
+        updateUserInterfaceBtns()
         if internetConect == true {
             if viewmodel.events.value?.data?.count != 0 {
                

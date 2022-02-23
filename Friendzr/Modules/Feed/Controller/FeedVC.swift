@@ -26,12 +26,13 @@ extension FeedVC {
                 Defaults.allowMyLocationSettings = false
                 hideView.isHidden = true
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
                 Defaults.allowMyLocationSettings = true
                 hideView.isHidden = true
-                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+                DispatchQueue.main.async {
+                    self.updateUserInterface()
+                }
             default:
                 break
             }
@@ -148,20 +149,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         
         self.title = "Feed".localizedString
-        setup()
         initCompassSwitchBarButton()
         pullToRefresh()
         addCompassView()
-        
-        if Defaults.allowMyLocationSettings == true {
-            DispatchQueue.main.async {
-                self.updateUserInterface()
-            }
-            self.allowLocView.isHidden = true
-        }else {
-            self.emptyView.isHidden = true
-            self.allowLocView.isHidden = false
-        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
         
@@ -173,6 +163,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        setup()
         Defaults.availableVC = "FeedVC"
         print("availableVC >> \(Defaults.availableVC)")
 
@@ -285,6 +276,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func LoadAllFeeds(pageNumber:Int) {
+        hideView.isHidden = false
         hideView.showLoader()
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in

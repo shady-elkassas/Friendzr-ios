@@ -111,7 +111,6 @@
 		43375F5A27130D9E009EBED6 /* NotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43375F5927130D9E009EBED6 /* NotificationsViewModel.swift */; };
 		43375F5F271313C4009EBED6 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43375F5D271313C4009EBED6 /* NotificationTableViewCell.swift */; };
 		43375F60271313C4009EBED6 /* NotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43375F5E271313C4009EBED6 /* NotificationTableViewCell.xib */; };
-		4337B4732785D9CC0077B794 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4337B4722785D9CC0077B794 /* GoogleService-Info.plist */; };
 		4337B47627870F000077B794 /* RequestsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4337B47427870F000077B794 /* RequestsTableViewCell.swift */; };
 		4337B47A278714630077B794 /* UsersFeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4337B478278714630077B794 /* UsersFeedTableViewCell.swift */; };
 		4337B47E278718880077B794 /* InboxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4337B47C278718880077B794 /* InboxTableViewCell.swift */; };
@@ -228,6 +227,7 @@
 		43967DB627944E15005B1F5D /* StatisticsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43967DB827944E15005B1F5D /* StatisticsCollectionViewCell.xib */; };
 		43967DBD27944E79005B1F5D /* ConfirmReportButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43967DBF27944E79005B1F5D /* ConfirmReportButtonTableViewCell.xib */; };
 		43967DC427944E92005B1F5D /* WriteProblemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43967DC627944E92005B1F5D /* WriteProblemTableViewCell.xib */; };
+		4396AA0927C664F300598B8E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4396AA0827C664F300598B8E /* GoogleService-Info.plist */; };
 		4397236D2709CE9E0062D684 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236C2709CE9E0062D684 /* ChatViewModel.swift */; };
 		4397236F2709D8870062D684 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236E2709D8870062D684 /* ChatModel.swift */; };
 		439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */; };
@@ -470,7 +470,6 @@
 		43375F5927130D9E009EBED6 /* NotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewModel.swift; sourceTree = "<group>"; };
 		43375F5D271313C4009EBED6 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		43375F5E271313C4009EBED6 /* NotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NotificationTableViewCell.xib; sourceTree = "<group>"; };
-		4337B4722785D9CC0077B794 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4337B47427870F000077B794 /* RequestsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsTableViewCell.swift; sourceTree = "<group>"; };
 		4337B478278714630077B794 /* UsersFeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersFeedTableViewCell.swift; sourceTree = "<group>"; };
 		4337B47C278718880077B794 /* InboxTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxTableViewCell.swift; sourceTree = "<group>"; };
@@ -591,6 +590,7 @@
 		43967DB727944E15005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StatisticsCollectionViewCell.xib; sourceTree = "<group>"; };
 		43967DBE27944E79005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ConfirmReportButtonTableViewCell.xib; sourceTree = "<group>"; };
 		43967DC527944E92005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/WriteProblemTableViewCell.xib; sourceTree = "<group>"; };
+		4396AA0827C664F300598B8E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4397236C2709CE9E0062D684 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		4397236E2709D8870062D684 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeViewModel.swift; sourceTree = "<group>"; };
@@ -1393,7 +1393,7 @@
 				4382AC2226C27195005C1857 /* Assets.xcassets */,
 				4382AC2426C27195005C1857 /* LaunchScreen.storyboard */,
 				4371D40D273127F3003B8AFD /* Info.plist */,
-				4337B4722785D9CC0077B794 /* GoogleService-Info.plist */,
+				4396AA0827C664F300598B8E /* GoogleService-Info.plist */,
 				4388686927844445004D36B2 /* Friendzr-Bridging-Header.h */,
 			);
 			path = Friendzr;
@@ -1822,6 +1822,7 @@
 				4382AC9526C27FF2005C1857 /* Montserrat-Bold.ttf in Resources */,
 				43ACFEC827B3B464001CD340 /* EventDateAndTimeTableViewCell.xib in Resources */,
 				43D00935279441BD00370E2C /* Profile.storyboard in Resources */,
+				4396AA0927C664F300598B8E /* GoogleService-Info.plist in Resources */,
 				43D008F627943A4200370E2C /* RequestsTableViewCell.xib in Resources */,
 				43967D8427944442005B1F5D /* Events.storyboard in Resources */,
 				43D008E8279438B300370E2C /* Request.storyboard in Resources */,
@@ -1831,7 +1832,6 @@
 				43ACFED027B3B6A5001CD340 /* EventStatisticsTableViewCell.xib in Resources */,
 				4367E46527BA4A0E00FE1880 /* ProfileUserNameTableViewCell.xib in Resources */,
 				4315DB42278DBB12005AB950 /* GenderDistributionTableViewCell.xib in Resources */,
-				4337B4732785D9CC0077B794 /* GoogleService-Info.plist in Resources */,
 				43D008D32794383900370E2C /* FeedsTableViewCell.xib in Resources */,
 				43967D9227944D33005B1F5D /* EventTimeCalenderView.xib in Resources */,
 				43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */,

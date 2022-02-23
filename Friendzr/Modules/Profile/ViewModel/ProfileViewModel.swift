@@ -63,6 +63,7 @@ class ProfileViewModel {
         Defaults.ghostMode = user.ghostmode
         Defaults.myAppearanceTypes = user.myAppearanceTypes
         Defaults.frindRequestNumber = user.frindRequestNumber
+        Defaults.pushnotification = user.pushnotification
     }
 }
 

@@ -8,7 +8,7 @@
 import UIKit
 
 class ShareEventVC: UIViewController {
-
+    
     @IBOutlet weak var friendsSearchBar: UISearchBar!
     @IBOutlet weak var friendsEmptyView: UIView!
     @IBOutlet weak var emptyFriendslbl: UILabel!
@@ -18,12 +18,12 @@ class ShareEventVC: UIViewController {
     @IBOutlet weak var groupsEmptyView: UIView!
     @IBOutlet weak var emptygroupslbl: UILabel!
     @IBOutlet weak var groupsTV: UITableView!
-
+    
     @IBOutlet weak var eventsSearchBar: UISearchBar!
     @IBOutlet weak var eventsEmptyView: UIView!
     @IBOutlet weak var emptyeventslbl: UILabel!
     @IBOutlet weak var eventsTV: UITableView!
-
+    
     @IBOutlet weak var eventsSearchView: UIView!
     @IBOutlet weak var groupsSearchView: UIView!
     @IBOutlet weak var friendsSearchView: UIView!
@@ -52,10 +52,10 @@ class ShareEventVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = "Share".localizedString
         setupViews()
-        getAllMyEvents(pageNumber: 1)
+        getAllMyEvents(pageNumber: 1,search:"")
         getAllMyGroups(pageNumber: 1, search: "")
         getAllMyFriends(pageNumber: 1, search: "")
         initCloseBarButton()
@@ -68,8 +68,8 @@ class ShareEventVC: UIViewController {
     }
     
     //MARK:- APIs
-    func getAllMyEvents(pageNumber:Int) {
-        myEventsVM.getMyEvents(pageNumber: pageNumber)
+    func getAllMyEvents(pageNumber:Int,search:String) {
+        myEventsVM.getMyEvents(pageNumber: pageNumber, search: search)
         myEventsVM.events.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.eventsTV.delegate = self
@@ -78,7 +78,11 @@ class ShareEventVC: UIViewController {
                 
                 if value.data?.count == 0 {
                     eventsEmptyView.isHidden = false
-                    emptyeventslbl.text = "No events match your search"
+                    if search != "" {
+                        emptyFriendslbl.text = "No events match your search"
+                    }else {
+                        emptyFriendslbl.text = "You have no events"
+                    }
                 }else {
                     eventsEmptyView.isHidden = true
                 }
@@ -106,7 +110,11 @@ class ShareEventVC: UIViewController {
                 
                 if value.data?.count == 0 {
                     groupsEmptyView.isHidden = false
-                    emptygroupslbl.text = "No groups match your search"
+                    if search != "" {
+                        emptyFriendslbl.text = "No groups match your search"
+                    }else {
+                        emptyFriendslbl.text = "You have no groups"
+                    }
                 }else {
                     groupsEmptyView.isHidden = true
                 }
@@ -134,7 +142,11 @@ class ShareEventVC: UIViewController {
                 
                 if value.data?.count == 0 {
                     friendsEmptyView.isHidden = false
-                    emptyFriendslbl.text = "No friends match your search"
+                    if search != "" {
+                        emptyFriendslbl.text = "No friends match your search"
+                    }else {
+                        emptyFriendslbl.text = "You have no friends"
+                    }
                 }else {
                     friendsEmptyView.isHidden = true
                 }
@@ -218,7 +230,7 @@ class ShareEventVC: UIViewController {
         friendsSearchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 12)
         friendsSearchBar.searchTextField.attributedPlaceholder = placeHolder
         friendsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchFriendsResult), for: .editingChanged)
-
+        
         
         groupsSearchBar.delegate = self
         groupsSearchView.cornerRadiusView(radius: 6)
@@ -229,7 +241,7 @@ class ShareEventVC: UIViewController {
         groupsSearchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 12)
         groupsSearchBar.searchTextField.attributedPlaceholder = placeHolder
         groupsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchFriendsResult), for: .editingChanged)
-
+        
         
         eventsSearchBar.delegate = self
         eventsSearchView.cornerRadiusView(radius: 6)
@@ -280,15 +292,14 @@ extension ShareEventVC: UITableViewDataSource {
         let messageDate = formatterDate.string(from: Date())
         let messageTime = formatterTime.string(from: Date())
         let url:URL? = URL(string: "https://www.apple.com/eg/")
-
+        
         if tableView == friendsTV {
             let model = myFriendsVM.friends.value?.data?[indexPath.row]
             cell.titleLbl.text = model?.userName
-            
             cell.HandleSendBtn = {
                 cell.sendBtn.setTitle("Sending...", for: .normal)
                 cell.sendBtn.isUserInteractionEnabled = false
-                self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "oo", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,linkable: true,eventShareid: self.eventID) { error, data in
+                self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "oo", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,eventShareid: self.eventID) { error, data in
                     
                     if let error = error {
                         DispatchQueue.main.async {
@@ -302,8 +313,8 @@ extension ShareEventVC: UITableViewDataSource {
                     }
                     
                     DispatchQueue.main.async {
-                        cell.sendBtn.isUserInteractionEnabled = true
-                        cell.sendBtn.setTitle("Send", for: .normal)
+                        cell.sendBtn.isUserInteractionEnabled = false
+                        cell.sendBtn.setTitle("Sent", for: .normal)
                     }
                     
                     DispatchQueue.main.async {
@@ -315,11 +326,10 @@ extension ShareEventVC: UITableViewDataSource {
         else if tableView == groupsTV {
             let model = myGroupsVM.listChat.value?.data?[indexPath.row]
             cell.titleLbl.text = model?.chatName
-            
             cell.HandleSendBtn = {
                 cell.sendBtn.setTitle("Sending...", for: .normal)
                 cell.sendBtn.isUserInteractionEnabled = false
-                self.shareEventMessageVM.SendMessage(withGroupId: model?.id ?? "", AndMessageType: 2, AndMessage: "oo", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, linkable: true, eventShareid: self.eventID) { error, data in
+                self.shareEventMessageVM.SendMessage(withGroupId: model?.id ?? "", AndMessageType: 4, AndMessage: "oo", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: self.eventID) { error, data in
                     
                     if let error = error {
                         DispatchQueue.main.async {
@@ -333,8 +343,8 @@ extension ShareEventVC: UITableViewDataSource {
                     }
                     
                     DispatchQueue.main.async {
-                        cell.sendBtn.isUserInteractionEnabled = true
-                        cell.sendBtn.setTitle("Send", for: .normal)
+                        cell.sendBtn.isUserInteractionEnabled = false
+                        cell.sendBtn.setTitle("Sent", for: .normal)
                     }
                     
                     DispatchQueue.main.async {
@@ -350,7 +360,7 @@ extension ShareEventVC: UITableViewDataSource {
             cell.HandleSendBtn = {
                 cell.sendBtn.setTitle("Sending...", for: .normal)
                 cell.sendBtn.isUserInteractionEnabled = false
-                self.shareEventMessageVM.SendMessage(withEventId: model?.id ?? "", AndMessageType: 2, AndMessage: "oo", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, linkable: true, eventShareid: self.eventID) { error, data in
+                self.shareEventMessageVM.SendMessage(withEventId: model?.id ?? "", AndMessageType: 4, AndMessage: "oo", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: self.eventID) { error, data in
                     
                     if let error = error {
                         DispatchQueue.main.async {
@@ -364,8 +374,8 @@ extension ShareEventVC: UITableViewDataSource {
                     }
                     
                     DispatchQueue.main.async {
-                        cell.sendBtn.isUserInteractionEnabled = true
-                        cell.sendBtn.setTitle("Send", for: .normal)
+                        cell.sendBtn.isUserInteractionEnabled = false
+                        cell.sendBtn.setTitle("Sent", for: .normal)
                     }
                     
                     DispatchQueue.main.async {
@@ -397,7 +407,7 @@ extension ShareEventVC: UISearchBarDelegate{
             getAllMyFriends(pageNumber: 1, search: text1)
         }else {
             getAllMyFriends(pageNumber: 1, search: "")
-
+            
         }
         
         if text2 != "" {
@@ -407,9 +417,9 @@ extension ShareEventVC: UISearchBarDelegate{
         }
         
         if text3 != "" {
-//            getAllMyEvents(pageNumber: 1)
+            getAllMyEvents(pageNumber: 1, search: text3)
         }else {
-//            getAllMyEvents(pageNumber: 1)
+            getAllMyEvents(pageNumber: 1, search: "")
         }
     }
 }

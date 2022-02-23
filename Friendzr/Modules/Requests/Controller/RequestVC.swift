@@ -51,10 +51,6 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         pullToRefresh()
         self.title = "Requests".localizedString
         
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
-        
         seyupAds()
 
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -76,6 +72,10 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         
         CancelRequest.currentTask = false
         setupHideView()
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -137,6 +137,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func loadAllUserRequests(pageNumber:Int) {
+        hideView.isHidden = false
         hideView.showLoader()
         viewmodel.getAllRequests(requestesType: RequestesType.type, pageNumber: pageNumber)
         viewmodel.requests.bind { [unowned self] value in
@@ -217,12 +218,12 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
             self.emptyView.isHidden = true
             self.hideView.isHidden = false
             internetConnect = true
-            loadAllUserRequests(pageNumber: 0)
+            loadAllUserRequests(pageNumber: 1)
         case .wifi:
             self.emptyView.isHidden = true
             self.hideView.isHidden = false
             internetConnect = true
-            loadAllUserRequests(pageNumber: 0)
+            loadAllUserRequests(pageNumber: 1)
         }
         
         print("Reachability Summary")
@@ -324,16 +325,11 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         {
         case 0:
             RequestesType.type = 2
-            hideView.isHidden = false
-            hideView.showLoader()
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.updateUserInterface()
             }
         case 1:
             RequestesType.type = 1
-            hideView.isHidden = false
-            hideView.showLoader()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.updateUserInterface()

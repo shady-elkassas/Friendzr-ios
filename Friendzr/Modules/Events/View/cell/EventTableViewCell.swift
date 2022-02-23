@@ -19,7 +19,8 @@ class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var editBtn: UIButton!
     
-    
+    var HandleEditBtn: (() -> ())?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -36,5 +37,6 @@ class EventTableViewCell: UITableViewCell {
     
     
     @IBAction func editBtn(_ sender: Any) {
+        HandleEditBtn?()
     }
 }

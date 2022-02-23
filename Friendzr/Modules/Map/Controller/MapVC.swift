@@ -115,16 +115,16 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         setupViews()
         title = "Map".localizedString
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        
+        DispatchQueue.main.async {
+            self.updateLocation()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         mapView.clear()
         CancelRequest.currentTask = true
-        
-        //        NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
-        
-        //        NotificationCenter.default.post(name: Notification.Name("handleSubViewHide"), object: nil, userInfo: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -342,9 +342,15 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         marker.title = markerID
         marker.opacity = Float(eventsCount)
         
-        if LocationZooming.locationLat == position.latitude {
-            marker.appearAnimation = .pop
-        }
+//        if LocationZooming.locationLat == position.latitude {
+//            if isEvent {
+//                marker.appearAnimation = .pop
+//            }else {
+//                marker.appearAnimation = .none
+//            }
+//        }
+        
+//        marker.appearAnimation = .none
         
         let xview:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
         let labl = UILabel()
@@ -374,11 +380,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         
         if isEvent {
-            //            marker.icon = UIImage(named: markerIcon!)
             marker.iconView = xview
         }else {
-            //            marker.iconView = xview
-            //            marker.icon = nil
             marker.icon = UIImage(named: markerIcon!)
         }
         
@@ -805,14 +808,12 @@ extension MapVC : CLLocationManagerDelegate {
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
                 Defaults.allowMyLocationSettings = true
-                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self.updateUserInterface()
                 }
                 
-                DispatchQueue.main.async {
-                    self.updateLocation()
-                }
+                locationManager.stopUpdatingLocation()
+                
                 DispatchQueue.main.async {
                     self.isViewUp = false
                     self.upDownBtn.isUserInteractionEnabled = true
@@ -1032,7 +1033,8 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
             if index == indexPath.row {
                 if LocationZooming.locationLat != locitm.latitude {
                     animationZoomingMap(zoomIN: 17, zoomOUT: 15, lat: locitm.latitude, lng: locitm.longitude)
-                }else {
+                }
+                else {
                     self.mapView.clear()
                     self.setupMarkers()
                 }

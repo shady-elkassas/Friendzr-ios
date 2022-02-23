@@ -403,6 +403,15 @@ class Defaults {
         }
     }
     
+    static var pushnotification: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "pushnotification")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "pushnotification")
+        }
+    }
     
     static func initUser(user:UserObj)  {
         Defaults.userName = user.userName
@@ -426,6 +435,7 @@ class Defaults {
         Defaults.ghostMode = user.ghostmode
         Defaults.myAppearanceTypes = user.myAppearanceTypes
         Defaults.frindRequestNumber = user.frindRequestNumber
+        Defaults.pushnotification = user.pushnotification
     }
     
     static func deleteUserData(){
@@ -458,7 +468,8 @@ class Defaults {
         defaults.removeObject(forKey: "ghostMode")
         defaults.removeObject(forKey: "frindRequestNumber")
         defaults.removeObject(forKey: "fcmToken")
-        
+        defaults.removeObject(forKey: "pushnotification")
+
         if let token = AccessToken.current,
            !token.isExpired {
             // User is logged in, do work such as go to next view controller.

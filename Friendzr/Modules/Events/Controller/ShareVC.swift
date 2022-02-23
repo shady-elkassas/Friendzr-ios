@@ -29,7 +29,7 @@ class ShareVC: UIViewController {
         
         title = "Share".localizedString
         setupViews()
-        getAllMyEvents(pageNumber: 1)
+        getAllMyEvents(pageNumber: 1, search: "")
         getAllMyGroups(pageNumber: 1, search: "")
         getAllMyFriends(pageNumber: 1, search: "")
         initCloseBarButton()
@@ -50,8 +50,8 @@ class ShareVC: UIViewController {
     }
     
     //MARK:- APIs
-    func getAllMyEvents(pageNumber:Int) {
-        myEventsVM.getMyEvents(pageNumber: pageNumber)
+    func getAllMyEvents(pageNumber:Int,search:String) {
+        myEventsVM.getMyEvents(pageNumber: pageNumber, search: search)
         myEventsVM.events.bind { [unowned self] value in
             DispatchQueue.main.async {
                 self.tableView.delegate = self
@@ -261,7 +261,6 @@ extension ShareVC:UITableViewDataSource {
                 return cell
             }
         }
-        
         else {
             if indexPath.row == 0 {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
@@ -280,6 +279,7 @@ extension ShareVC:UITableViewDataSource {
                 if myFriendsVM.friends.value?.data?.count == 0 {
                     cell.emptyView.isHidden = false
                     cell.searchContainerView.isHidden = true
+                    cell.emptyLbl.text = "You have no friends"
                 }else {
                     cell.emptyView.isHidden = true
                     cell.searchContainerView.isHidden = false
@@ -303,6 +303,7 @@ extension ShareVC:UITableViewDataSource {
                 if myGroupsVM.listChat.value?.data?.count == 0 {
                     cell.emptyView.isHidden = false
                     cell.searchContainerView.isHidden = true
+                    cell.emptyLbl.text = "You have no groups"
                 }else {
                     cell.emptyView.isHidden = true
                     cell.searchContainerView.isHidden = false
@@ -314,12 +315,14 @@ extension ShareVC:UITableViewDataSource {
                 cell.tableView.reloadData()
                 
                 return cell
-            }else {//events
+            }
+            else {//events
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: myEventsCellId, for: indexPath) as? EventsShareTableViewCell else {return UITableViewCell()}
                 cell.myEventsModel = myEventsVM.events.value?.data
                 if myEventsVM.events.value?.data?.count == 0 {
                     cell.emptyView.isHidden = false
                     cell.searchContainerView.isHidden = true
+                    cell.emptyLbl.text = "You have no events"
                 }else {
                     cell.emptyView.isHidden = true
                     cell.searchContainerView.isHidden = false

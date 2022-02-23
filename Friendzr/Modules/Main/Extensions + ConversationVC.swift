@@ -326,7 +326,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
         }
         
         if isEvent {
-            viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!,linkable: false,eventShareid: "") { error, data in
+            viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!,eventShareid: "") { error, data in
                 
                 if let error = error {
                     DispatchQueue.main.async {
@@ -347,7 +347,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
         }
         else {
             if isChatGroup {
-                viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!,linkable: false,eventShareid: "") { error, data in
+                viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!,eventShareid: "") { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -365,7 +365,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
                     }
                 }
             }else {
-                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),fileUrl: url!,linkable: false,eventShareid: "") { error, data in
+                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),fileUrl: url!,eventShareid: "") { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -971,7 +971,7 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
             self.sendingImageView = image
             
             if isEvent {
-                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,linkable: false,eventShareid: "") { error, data in
+                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,eventShareid: "") { error, data in
                     
                     if let error = error {
                         DispatchQueue.main.async {
@@ -991,7 +991,7 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
                 }
             }else {
                 if isChatGroup {
-                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,linkable: false,eventShareid: "") { error, data in
+                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,eventShareid: "") { error, data in
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -1009,7 +1009,7 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
                         }
                     }
                 }else {
-                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,linkable: false,eventShareid: "") { error, data in
+                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,eventShareid: "") { error, data in
                         
                         if let error = error {
                             DispatchQueue.main.async {
@@ -1209,7 +1209,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
                 imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
                 self.sendingImageView  = imgView.image
                 
-                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,linkable: false,eventShareid: "") { error, data in
+                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
@@ -1234,7 +1234,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
                     imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
                     self.sendingImageView  = imgView.image
 
-                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,linkable: false,eventShareid: "") { error, data in
+                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in
                         
                         if let error = error {
                             DispatchQueue.main.async {
@@ -1259,7 +1259,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
                     imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
                     self.sendingImageView  = imgView.image
                     
-                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,linkable: false,eventShareid: "") { error, data in
+                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in
                         
                         if let error = error {
                             DispatchQueue.main.async {

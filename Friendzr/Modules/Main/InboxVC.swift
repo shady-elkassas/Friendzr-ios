@@ -474,6 +474,11 @@ extension InboxVC:UITableViewDataSource {
                 }
                 else {
                     print("\(model?.messagestype ?? 0)")
+                    cell.attachImg.isHidden = false
+                    cell.attachTypeLbl.isHidden = false
+                    cell.lastMessageLbl.isHidden = true
+                    cell.attachImg.image = UIImage(named: "attachFile_ic")
+                    cell.attachTypeLbl.text = "Link".localizedString
                 }
                 return cell
             }else {

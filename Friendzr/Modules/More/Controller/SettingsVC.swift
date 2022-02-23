@@ -125,6 +125,7 @@ class SettingsVC: UIViewController {
         settingsViewHeight.constant = CGFloat(8 * 50)
         Defaults.myAppearanceTypes = model?.myAppearanceTypes ?? []
         Defaults.ghostMode = model?.ghostmode ?? false
+        Defaults.pushnotification = model?.pushnotification ?? false
         
         ageFrom = model?.agefrom ?? 14
         ageTo = model?.ageto ?? 85

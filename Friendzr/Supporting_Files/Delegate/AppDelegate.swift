@@ -485,16 +485,35 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             Defaults.frindRequestNumber += 1
             NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
         }else if action == "Accept_Friend_Request" {
-            Defaults.frindRequestNumber -= 1
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+            if Defaults.frindRequestNumber != 0 {
+                Defaults.frindRequestNumber -= 1
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+            }
         }else if action == "Friend_request_cancelled" {
-            Defaults.frindRequestNumber -= 1
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+            if Defaults.frindRequestNumber != 0 {
+                Defaults.frindRequestNumber -= 1
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+            }
         }else if action == "event_attend" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
         }else if action == "Event_reminder" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
         }else if action == "event_Updated" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
         }else if action == "update_Event_Data" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
         }else if action == "Check_events_near_you" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
         }else if action == "Joined_ChatGroup" {
         }else if action == "Kickedout_ChatGroup" {
         }
@@ -505,13 +524,15 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             }else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
-        }else if action == "event_chat" {
+        }
+        else if action == "event_chat" {
             if Defaults.availableVC == "ConversationVC" {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
             }else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
-        }else if action == "user_chatGroup" {
+        }
+        else if action == "user_chatGroup" {
             if Defaults.availableVC == "ConversationVC" {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForGroup"), object: nil, userInfo: nil)
             }else if Defaults.availableVC == "InboxVC" {
@@ -537,7 +558,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
             print("user_chat OR event_chat OR user_chatGroup")
-        }else {
+        }
+        else {
             Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
         }
         
@@ -555,6 +577,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             completionHandler([[]])
         }
         else if Defaults.availableVC == "ConversationVC" {
+            completionHandler([[]])
+        }
+        else if Defaults.pushnotification == false {
             completionHandler([[]])
         }
         else {
@@ -575,7 +600,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         let userInfo = response.notification.request.content.userInfo
-
+        
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
@@ -584,15 +609,75 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
         
-        // Change this to your preferred presentation option
-        let isMute: String = userInfo["muit"] as? String ?? ""
         let action = userInfo["Action"] as? String //action transaction
-
-        if action == "Friend_Request" || action == "Accept_Friend_Request"{
+        
+        if action == "user_chat" {
+        }else if action == "event_chat" {
+        }else if action == "user_chatGroup" {
+        }else if action == "Friend_Request" {
+            Defaults.frindRequestNumber += 1
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+        }else if action == "Accept_Friend_Request" {
+            if Defaults.frindRequestNumber != 0 {
+                Defaults.frindRequestNumber -= 1
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+            }
+        }else if action == "Friend_request_cancelled" {
+            if Defaults.frindRequestNumber != 0 {
+                Defaults.frindRequestNumber -= 1
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+            }
+        }else if action == "event_attend" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
+        }else if action == "Event_reminder" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
+        }else if action == "event_Updated" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
+        }else if action == "update_Event_Data" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
+        }else if action == "Check_events_near_you" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
+        }else if action == "Joined_ChatGroup" {
+        }else if action == "Kickedout_ChatGroup" {
+        }
+        
+        if action == "user_chat" {
+            if Defaults.availableVC == "ConversationVC" {
+                NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+            }else if Defaults.availableVC == "InboxVC" {
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+        }
+        else if action == "event_chat" {
+            if Defaults.availableVC == "ConversationVC" {
+                NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
+            }else if Defaults.availableVC == "InboxVC" {
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+        }
+        else if action == "user_chatGroup" {
+            if Defaults.availableVC == "ConversationVC" {
+                NotificationCenter.default.post(name: Notification.Name("listenToMessagesForGroup"), object: nil, userInfo: nil)
+            }else if Defaults.availableVC == "InboxVC" {
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+        }
+        
+       
+        if action == "Friend_Request" || action == "Accept_Friend_Request" || action == "Friend_request_cancelled" {
             if Defaults.availableVC == "RequestVC" {
                 NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
             }
-
             else if Defaults.availableVC == "FeedVC" {
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
             }
@@ -601,26 +686,33 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             }
             
             NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
-
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         }
-
+        
         if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
-            print("user_chat Or event_chat")
-        }else {
+            print("user_chat OR event_chat OR user_chatGroup")
+        }
+        else {
             Defaults.badgeNumber = UIApplication.shared.applicationIconBadgeNumber
         }
         
+        let _: String = userInfo["sound"] as? String ?? ""
         content.sound = UNNotificationSound.default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
 
         center.add(request, withCompletionHandler: nil)
 
+        // Change this to your preferred presentation option
+        let isMute: String = userInfo["muit"] as? String ?? ""
+        
         if action == "Friend_request_cancelled" {
             completionHandler([[]])
         }
         else if Defaults.availableVC == "ConversationVC" {
+            completionHandler([[]])
+        }
+        else if Defaults.pushnotification == false {
             completionHandler([[]])
         }
         else {
@@ -636,6 +728,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 completionHandler([[]])
             }
         }
+      
     }
 
 

@@ -469,33 +469,26 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                 
                 for itm in value.data ?? [] {
                     if itm.currentuserMessage! {
-                        if itm.linkable {
-                            let url = URL(string: itm.eventData?.image ?? "")
-                            let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-                            let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.category ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
-                            messageList.insert(UserMessage(linkItem: linkPreview,user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
-                        }else {
-                            if itm.messagetype == 1 { //text
-                                messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
-                            }else if itm.messagetype == 2 { //image
-                                if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
-                                    messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
-                                }
-                            }else if itm.messagetype == 3 { //file
-                                if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
-                                    messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
-                                }
+                        if itm.messagetype == 1 { //text
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+                        }else if itm.messagetype == 2 { //image
+                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+                            }
+                        }else if itm.messagetype == 3 { //file
+                            if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
                             }
                         }
-                    }
-                    else {
-                        if itm.linkable {
+                        else if itm.messagetype == 4{
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-                            let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.category ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
-
-                            messageList.insert(UserMessage(linkItem: linkPreview, user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
-                        }else {
+                            let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
+                            messageList.insert(UserMessage(linkItem: linkPreview,user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                        }
+                        
+                    }
+                    else {
                             if itm.messagetype == 1 { //text
                                 messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID:"",isJoinEvent: 0), at: 0)
                             }
@@ -508,8 +501,14 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                                 if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
                                     messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
                                 }
+                            } else if itm.messagetype == 4{
+                                let url = URL(string: itm.eventData?.image ?? "")
+                                let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
+                                let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
+                                
+                                messageList.insert(UserMessage(linkItem: linkPreview, user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                                
                             }
-                        }
                         
                         receiveimg = itm.userimage ?? ""
                         receiveName = itm.username ?? ""
@@ -558,39 +557,28 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                 messageList.removeAll()
                 for itm in value.pagedModel?.data ?? [] {
                     if itm.currentuserMessage! {
-                        if itm.linkable {
+                        if itm.messagetype == 1 { //text
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+                        }else if itm.messagetype == 2 { //image
+                            if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+                            }else {
+                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+                            }
+                        }else if itm.messagetype == 3 { //file
+                            if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime:messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+                            }else {
+                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+                            }
+                        }else if itm.messagetype == 4 {
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-                            let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.category ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
+                            let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
                             messageList.insert(UserMessage(linkItem: linkPreview,user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         }
-                        else {
-                            if itm.messagetype == 1 { //text
-                                messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
-                            }else if itm.messagetype == 2 { //image
-                                if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                    messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
-                                }else {
-                                    messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
-                                }
-                            }else if itm.messagetype == 3 { //file
-                                if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                    messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime:messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
-                                }else {
-                                    messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
-                                }
-                            }
-                        }
-
                     }
                     else {
-                        if itm.linkable {
-                            let url = URL(string: itm.eventData?.image ?? "")
-                            let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-                            let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.category ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
-
-                            messageList.insert(UserMessage(linkItem: linkPreview, user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
-                        }else {
                             if itm.messagetype == 1 { //text
                                 messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
                             }else if itm.messagetype == 2 { //image
@@ -602,6 +590,12 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                                     messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
                                 }
                             }
+                        else if itm.messagetype == 4 {
+                            let url = URL(string: itm.eventData?.image ?? "")
+                            let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
+                            let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
+                            
+                            messageList.insert(UserMessage(linkItem: linkPreview, user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         }
 
                         
@@ -657,38 +651,28 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                 messageList.removeAll()
                 for itm in value.pagedModel?.data ?? [] {
                     if itm.currentuserMessage! {
-                        if itm.linkable {
+                        if itm.messagetype == 1 { //text
+                            messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+                        }else if itm.messagetype == 2 { //image
+                            if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+                            }else {
+                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+                            }
+                        }else if itm.messagetype == 3 { //file
+                            if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
+                                messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+                            }else {
+                                messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+                            }
+                        }else if itm.messagetype == 4 {
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-                            let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.category ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
+                            let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
                             messageList.insert(UserMessage(linkItem: linkPreview,user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
-                        }else {
-                            if itm.messagetype == 1 { //text
-                                messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
-                            }else if itm.messagetype == 2 { //image
-                                if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                    messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
-                                }else {
-                                    messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
-                                }
-                            }else if itm.messagetype == 3 { //file
-                                if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                    messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
-                                }else {
-                                    messageList.insert(UserMessage(image: UIImage(named: "placeholder")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
-                                }
-                            }
                         }
-
                     }
                     else {
-                        if itm.linkable {
-                            let url = URL(string: itm.eventData?.image ?? "")
-                            let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-                            let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.category ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
-
-                            messageList.insert(UserMessage(linkItem: linkPreview, user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
-                        }else {
                             if itm.messagetype == 1 { //text
                                 messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
                             }else if itm.messagetype == 2 { //image
@@ -699,8 +683,15 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                                 if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
                                     messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
                                 }
+                            }else if itm.messagetype == 4 {
+                                let url = URL(string: itm.eventData?.image ?? "")
+                                let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
+                                
+                                let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
+                                
+                                messageList.insert(UserMessage(linkItem: linkPreview, user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                             }
-                        }
+                        
                         receiveimg = itm.userimage ?? ""
                         receiveName = itm.username ?? ""
                     }
