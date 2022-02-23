@@ -78,6 +78,11 @@ class RegisterVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "RegisterVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
     }

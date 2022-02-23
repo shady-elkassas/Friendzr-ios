@@ -271,6 +271,10 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "ConversationVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         setupNavigationbar()
         setupLeftInputButton(tapMessage: false, Recorder: "play")
     }
@@ -467,7 +471,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     if itm.currentuserMessage! {
                         if itm.linkable {
                             let url = URL(string: itm.eventData?.image ?? "")
-                            let data = try? Data(contentsOf: url!)
+                            let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.category ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
                             messageList.insert(UserMessage(linkItem: linkPreview,user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         }else {
@@ -483,10 +487,11 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                                 }
                             }
                         }
-                    }else {
+                    }
+                    else {
                         if itm.linkable {
                             let url = URL(string: itm.eventData?.image ?? "")
-                            let data = try? Data(contentsOf: url!)
+                            let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.category ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
 
                             messageList.insert(UserMessage(linkItem: linkPreview, user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
@@ -555,7 +560,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     if itm.currentuserMessage! {
                         if itm.linkable {
                             let url = URL(string: itm.eventData?.image ?? "")
-                            let data = try? Data(contentsOf: url!)
+                            let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.category ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
                             messageList.insert(UserMessage(linkItem: linkPreview,user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         }
@@ -581,7 +586,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     else {
                         if itm.linkable {
                             let url = URL(string: itm.eventData?.image ?? "")
-                            let data = try? Data(contentsOf: url!)
+                            let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.category ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
 
                             messageList.insert(UserMessage(linkItem: linkPreview, user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
@@ -654,7 +659,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     if itm.currentuserMessage! {
                         if itm.linkable {
                             let url = URL(string: itm.eventData?.image ?? "")
-                            let data = try? Data(contentsOf: url!)
+                            let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.category ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
                             messageList.insert(UserMessage(linkItem: linkPreview,user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         }else {
@@ -679,7 +684,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     else {
                         if itm.linkable {
                             let url = URL(string: itm.eventData?.image ?? "")
-                            let data = try? Data(contentsOf: url!)
+                            let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             let linkPreview = MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.category ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? "")
 
                             messageList.insert(UserMessage(linkItem: linkPreview, user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)

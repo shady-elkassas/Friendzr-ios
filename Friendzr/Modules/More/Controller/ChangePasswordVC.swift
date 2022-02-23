@@ -35,6 +35,10 @@ class ChangePasswordVC: UIViewController  {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults.availableVC = "ChangePasswordVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         CancelRequest.currentTask = false
     }
     

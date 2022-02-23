@@ -24,6 +24,11 @@ class SplachFourVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "SplachFourVC"
+        print("availableVC >> \(Defaults.availableVC)")
+        
         hideNavigationBar(NavigationBar: true, BackButton: true)
     }
     

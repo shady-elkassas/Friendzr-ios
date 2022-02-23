@@ -32,6 +32,11 @@ class ForgetPasswordVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "ForgetPasswordVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
     }

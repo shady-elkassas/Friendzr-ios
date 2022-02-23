@@ -123,6 +123,11 @@ class EditMyProfileVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "EditMyProfileVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         if needUpdateVC == true {
             logoutBtn.isHidden = false
             initCloseApp()

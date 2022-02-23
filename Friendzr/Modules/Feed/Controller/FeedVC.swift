@@ -171,6 +171,11 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "FeedVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         filterDir = switchCompassBarButton.isOn
         CancelRequest.currentTask = false
         initGhostModeSwitchButton()

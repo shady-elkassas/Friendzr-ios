@@ -18,6 +18,9 @@ class SplachThreeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        Defaults.availableVC = "SplachThreeVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         pageControl.currentPage = 2
         nextBtn.cornerRadiusForHeight()
         nextBtn.layer.applySketchShadow()

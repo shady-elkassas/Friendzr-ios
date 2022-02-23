@@ -36,6 +36,12 @@ class ShareVC: UIViewController {
         setupNavBar()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults.availableVC = "ShareVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
+    }
     func setupViews() {
         tableView.register(UINib(nibName: myGroupCellId, bundle: nil), forCellReuseIdentifier: myGroupCellId)
         tableView.register(UINib(nibName: myEventsCellId, bundle: nil), forCellReuseIdentifier: myEventsCellId)

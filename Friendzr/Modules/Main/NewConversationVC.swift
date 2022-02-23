@@ -51,6 +51,10 @@ class NewConversationVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "NewConversationVC"
+        print("availableVC >> \(Defaults.availableVC)")
         CancelRequest.currentTask = false
         setupHideView()
     }

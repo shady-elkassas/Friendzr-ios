@@ -62,6 +62,12 @@ class AddNewUsersForMyGroupVC: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults.availableVC = "AddNewUsersForMyGroupVC"
+        print("availableVC >> \(Defaults.availableVC)")
+    }
+    
     //MARK: - Helper
     func updateUserInterface() {
         appDelegate.networkReachability()

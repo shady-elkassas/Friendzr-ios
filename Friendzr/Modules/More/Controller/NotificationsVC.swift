@@ -49,6 +49,11 @@ class NotificationsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "NotificationsVC"
+        print("availableVC >> \(Defaults.availableVC)")
+        
         CancelRequest.currentTask = false
         setupHideView()
     }

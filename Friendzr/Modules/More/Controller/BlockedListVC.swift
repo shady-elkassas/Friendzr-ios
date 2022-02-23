@@ -59,6 +59,11 @@ class BlockedListVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "BlockedListVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         CancelRequest.currentTask = false
         setupHideView()
     }

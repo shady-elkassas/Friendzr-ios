@@ -95,6 +95,11 @@ class EventDetailsViewController: UIViewController {
         pullToRefresh()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults.availableVC = "EventDetailsViewController"
+        print("availableVC >> \(Defaults.availableVC)")
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
@@ -169,7 +174,7 @@ class EventDetailsViewController: UIViewController {
     func getEventDetails() {
         viewmodel.getEventByID(id: eventId)
         viewmodel.event.bind { [unowned self] value in
-            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
+            DispatchQueue.main.asyncAfter(wallDeadline: .now()) {
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
@@ -393,6 +398,7 @@ extension EventDetailsViewController: UITableViewDataSource {
         else if indexPath.row == 4 {//ads
             guard let cell = tableView.dequeueReusableCell(withIdentifier: adsCellId, for: indexPath) as? AdsTableViewCell else {return UITableViewCell()}
             cell.parentVC = self
+            cell.bannerView.delegate = self
             return cell
         }
         
@@ -434,6 +440,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: attendeesCellId, for: indexPath) as? EventDetailsAttendeesTableViewCell else {return UITableViewCell()}
             cell.parentvc = self
             cell.eventModel = model
+            cell.tableView.reloadData()
             
             if model?.attendees?.count == 0 {
                 cell.tableViewHeight.constant = 0

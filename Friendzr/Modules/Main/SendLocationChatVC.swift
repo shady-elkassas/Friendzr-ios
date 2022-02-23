@@ -40,6 +40,11 @@ class SendLocationChatVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "SendLocationChatVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         initBackButton()
         removeNavigationBorder()
         clearNavigationBar()

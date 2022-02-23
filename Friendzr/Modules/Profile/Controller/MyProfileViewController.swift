@@ -49,6 +49,9 @@ class MyProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        Defaults.availableVC = "MyProfileViewController"
+        print("availableVC >> \(Defaults.availableVC)")
+
         CancelRequest.currentTask = false
     }
     

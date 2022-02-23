@@ -65,6 +65,10 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "SplachVC"
+        print("availableVC >> \(Defaults.availableVC)")
         Defaults.isFirstLaunch = true
         CancelRequest.currentTask = false
     }

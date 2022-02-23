@@ -41,6 +41,11 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "MoreVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         clearNavigationBar()
         DispatchQueue.main.async {
             self.updateUserInterface()

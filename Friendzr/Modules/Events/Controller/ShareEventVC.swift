@@ -61,7 +61,11 @@ class ShareEventVC: UIViewController {
         initCloseBarButton()
         setupNavBar()
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults.availableVC = "ShareEventVC"
+        print("availableVC >> \(Defaults.availableVC)")
+    }
     
     //MARK:- APIs
     func getAllMyEvents(pageNumber:Int) {

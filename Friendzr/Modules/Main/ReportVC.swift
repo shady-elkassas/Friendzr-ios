@@ -49,6 +49,9 @@ class ReportVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        Defaults.availableVC = "ReportVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         if selectedVC == "Present" {
             initCloseBarButton()
         }else {

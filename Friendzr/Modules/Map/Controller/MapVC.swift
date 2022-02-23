@@ -128,6 +128,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "MapVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         appendNewLocation = false
         goAddEventBtn.isHidden = true
         addEventBtn.isHidden = false

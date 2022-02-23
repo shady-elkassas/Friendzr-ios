@@ -73,6 +73,11 @@ class SettingsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "SettingsVC"
+        print("availableVC >> \(Defaults.availableVC)")
+        
         initBackButton()
         
         setupCLLocationManager()

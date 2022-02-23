@@ -65,6 +65,11 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "OptionsSignUpVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         hideNavigationBar(NavigationBar: true, BackButton: true)
         CancelRequest.currentTask = false
     }

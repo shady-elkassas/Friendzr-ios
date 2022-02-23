@@ -50,10 +50,15 @@ class FriendProfileViewController: UIViewController {
         
         initOptionsUserButton()
         tableView.refreshControl = refreshControl
+        NotificationCenter.default.addObserver(self, selector: #selector(updateFriendVC), name: Notification.Name("updateFriendVC"), object: nil)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "FriendProfileViewController"
+        print("availableVC >> \(Defaults.availableVC)")
         
         CancelRequest.currentTask = false
     }
@@ -81,6 +86,12 @@ class FriendProfileViewController: UIViewController {
         
         for itm in hideImgs {
             itm.cornerRadiusView(radius: 10)
+        }
+    }
+    
+    @objc func updateFriendVC() {
+        DispatchQueue.main.async {
+            self.getFriendProfileInformation()
         }
     }
     

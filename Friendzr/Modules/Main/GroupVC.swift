@@ -64,6 +64,11 @@ class GroupVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "GroupVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
     }
     
     @objc func updateGroupDetails() {

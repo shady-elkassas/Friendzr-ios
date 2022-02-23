@@ -373,6 +373,16 @@ class Defaults {
         }
     }
     
+    static var availableVC: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "availableVC")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "availableVC") ?? ""
+        }
+    }
+    
     static var isFirstFilter: Bool {
         set{
             UserDefaults.standard.set(newValue, forKey: "isFirstFilter")

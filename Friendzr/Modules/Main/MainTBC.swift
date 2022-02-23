@@ -28,12 +28,18 @@ class MainTBC: UITabBarController {
     }
     
     @objc func updatebadgeRequests() {
+        
+//        if Defaults.pushNotificationAction == "Friend_Request" {
+//            Defaults.frindRequestNumber += 1
+//        }else if Defaults.pushNotificationAction == "Accept_Friend_Request" || Defaults.pushNotificationAction == "Friend_request_cancelled" {
+//            Defaults.frindRequestNumber -= 1
+//        }
+        
         if Defaults.frindRequestNumber != 0 {
             self.tabBar.items![3].badgeValue = "\(Defaults.frindRequestNumber)"
         }else {
             self.tabBar.items![3].badgeValue = nil
         }
-        
         NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
     }
     

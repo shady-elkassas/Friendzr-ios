@@ -36,7 +36,7 @@ class EventDetailsAttendeesTableViewCell: UITableViewCell {
 
     var attendeesVM:AttendeesViewModel = AttendeesViewModel()
     var eventModel:Event? = Event()
-    var parentvc = UIViewController()
+    var parentvc = EventDetailsViewController()
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -50,15 +50,15 @@ class EventDetailsAttendeesTableViewCell: UITableViewCell {
         tableView.register(UINib(nibName: attendeesCellID, bundle: nil), forCellReuseIdentifier: attendeesCellID)
         tableView.register(UINib(nibName: footerCellID, bundle: nil), forHeaderFooterViewReuseIdentifier: footerCellID)
      
-//        if eventModel?.attendees?.count == 0 {
-//            self.tableViewHeight.constant = 0
-//        }else if eventModel?.attendees?.count == 1 {
-//            self.tableViewHeight.constant = CGFloat(120)
-//        }else if eventModel?.attendees?.count == 2 {
-//            self.tableViewHeight.constant = CGFloat(220)
-//        }else {
-//            self.tableViewHeight.constant = CGFloat(275)
-//        }
+        if eventModel?.attendees?.count == 0 {
+            self.tableViewHeight.constant = 0
+        }else if eventModel?.attendees?.count == 1 {
+            self.tableViewHeight.constant = CGFloat(120)
+        }else if eventModel?.attendees?.count == 2 {
+            self.tableViewHeight.constant = CGFloat(220)
+        }else {
+            self.tableViewHeight.constant = CGFloat(275)
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -125,7 +125,7 @@ extension EventDetailsAttendeesTableViewCell: UITableViewDataSource {
                 self.parentvc.present(settingsActionSheet, animated:true, completion:nil)
             }
         }
-
+        
         return cell
     }
 
@@ -138,14 +138,18 @@ extension EventDetailsAttendeesTableViewCell: UITableViewDataSource {
             vc.eventID = self.eventModel?.id ?? ""
             self.parentvc.navigationController?.pushViewController(vc, animated: true)
         }
-        return footerView
+        if (eventModel?.attendees?.count ?? 0) == 1 {
+            return nil
+        }else {
+            return footerView
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if (eventModel?.attendees?.count ?? 0) > 1 {
-            return 40
-        }else {
+        if (eventModel?.attendees?.count ?? 0) == 1 {
             return 0
+        }else {
+            return 40
         }
     }
 }
@@ -190,8 +194,11 @@ extension EventDetailsAttendeesTableViewCell {
                 }
                 
                 guard let _ = data else {return}
+                
+                
                 DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+                    self.parentvc.getEventDetails()
+//                    NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
                 }
             }
             

@@ -59,6 +59,9 @@ class TagsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults.availableVC = "TagsVC"
+        print("availableVC >> \(Defaults.availableVC)")
         CancelRequest.currentTask = false
     }
     

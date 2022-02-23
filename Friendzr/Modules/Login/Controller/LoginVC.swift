@@ -69,6 +69,11 @@ class LoginVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "LoginVC"
+        print("availableVC >> \(Defaults.availableVC)")
+        
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
     }

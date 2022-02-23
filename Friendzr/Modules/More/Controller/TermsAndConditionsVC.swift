@@ -29,6 +29,11 @@ class TermsAndConditionsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "TermsAndConditionsVC"
+        print("availableVC >> \(Defaults.availableVC)")
+        
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
     }

@@ -47,6 +47,10 @@ class GenderDistributionVC: UIViewController {
 
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "GenderDistributionVC"
+        print("availableVC >> \(Defaults.availableVC)")
         seyupAds()
     }
     

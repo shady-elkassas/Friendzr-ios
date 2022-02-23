@@ -83,7 +83,10 @@ class EditEventsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        setupNavBar()
+        super.viewWillAppear(animated)
+        Defaults.availableVC = "EditEventsVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         CancelRequest.currentTask = false
     }
     

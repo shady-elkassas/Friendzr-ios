@@ -53,6 +53,11 @@ class EventsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "EventsVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         setupNavBar()
         CancelRequest.currentTask = false
         

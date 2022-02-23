@@ -28,6 +28,11 @@ class SplachOneVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "SplachOneVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         hideNavigationBar(NavigationBar: true, BackButton: true)
     }
     

@@ -66,6 +66,11 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        Defaults.availableVC = "RequestVC"
+        print("availableVC >> \(Defaults.availableVC)")
+        
         setupNavBar()
         initProfileBarButton()
         

@@ -28,7 +28,11 @@ class FaceRecognitionVC: UIViewController {
         setupViews()
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Defaults.availableVC = "FaceRecognitionVC"
+        print("availableVC >> \(Defaults.availableVC)")
+    }
     func setupViews() {
         modelImg.cornerRadiusView(radius: 10)
         verifyBtn.cornerRadiusForHeight()
