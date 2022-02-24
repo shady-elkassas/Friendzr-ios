@@ -343,13 +343,13 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         marker.title = markerID
         marker.opacity = Float(eventsCount)
         
-//        if LocationZooming.locationLat == position.latitude {
-//            if isEvent {
-//                marker.appearAnimation = .pop
-//            }else {
-//                marker.appearAnimation = .none
-//            }
-//        }
+        if LocationZooming.locationLat == position.latitude {
+            if isEvent {
+                marker.appearAnimation = .pop
+            }else {
+                marker.appearAnimation = .none
+            }
+        }
         
 //        marker.appearAnimation = .none
         

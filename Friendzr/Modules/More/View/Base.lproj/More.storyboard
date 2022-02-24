@@ -112,16 +112,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q4X-Yc-yfV">
-                                <rect key="frame" x="0.0" y="88" width="414" height="724"/>
+                                <rect key="frame" x="0.0" y="88" width="428" height="724"/>
                                 <color key="backgroundColor" name="BGColor"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="J5z-Gx-JQW"/>
                         <color key="backgroundColor" name="Color0"/>
                         <constraints>
-                            <constraint firstItem="Q4X-Yc-yfV" firstAttribute="leading" secondItem="J5z-Gx-JQW" secondAttribute="leading" id="0Jb-mn-Tz3"/>
+                            <constraint firstItem="Q4X-Yc-yfV" firstAttribute="leading" secondItem="PaC-4c-5U4" secondAttribute="leading" id="0Jb-mn-Tz3"/>
                             <constraint firstItem="Q4X-Yc-yfV" firstAttribute="top" secondItem="J5z-Gx-JQW" secondAttribute="top" id="cwz-x7-OLi"/>
-                            <constraint firstItem="J5z-Gx-JQW" firstAttribute="trailing" secondItem="Q4X-Yc-yfV" secondAttribute="trailing" id="iXQ-Di-VIW"/>
+                            <constraint firstAttribute="trailing" secondItem="Q4X-Yc-yfV" secondAttribute="trailing" constant="-14" id="iXQ-Di-VIW"/>
                             <constraint firstItem="J5z-Gx-JQW" firstAttribute="bottom" secondItem="Q4X-Yc-yfV" secondAttribute="bottom" constant="50" id="sE2-Dw-wBS"/>
                         </constraints>
                     </view>

@@ -616,6 +616,18 @@ extension SettingsVC: UITableViewDataSource {
                     
                     self.alertView?.parentVC = self
                     self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
+                    self.alertView?.selectedHideType.removeAll()
+                    self.alertView?.typeIDs.removeAll()
+                    self.alertView?.typeStrings.removeAll()
+                    
+                    for item in self.alertView?.hideArray ?? [] {
+                        item.isSelected = false
+                        self.alertView?.tableView.reloadData()
+                    }
+                    for item in self.alertView?.hideArray ?? [] {
+                        item.isSelected = false
+                        self.alertView?.tableView.reloadData()
+                    }
                     
                     //cancel view
                     self.alertView?.HandlehideViewBtn = {

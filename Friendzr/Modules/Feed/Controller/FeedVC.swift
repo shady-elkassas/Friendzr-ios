@@ -660,17 +660,17 @@ extension FeedVC:UITableViewDataSource {
                         guard let _ = message else {return}
                         
                         DispatchQueue.main.async {
-                            cell.sendRequestBtn.isHidden = true
-                            cell.sendRequestBtn.setTitle("Send Request", for: .normal)
-                            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-                        }
-                        
-                        DispatchQueue.main.async {
                             if self.isCompassOpen {
                                 self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
                             }else {
                                 self.getAllFeeds(pageNumber: 1)
                             }
+                        }
+                        
+                        DispatchQueue.main.async {
+                            cell.sendRequestBtn.isHidden = true
+                            cell.sendRequestBtn.setTitle("Send Request", for: .normal)
+                            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
                         }
                     }
                 }
@@ -1561,6 +1561,11 @@ extension FeedVC {
             
             self.showAlertView?.titleLbl.text = "Confirm?".localizedString
             self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private modes?".localizedString
+            
+            DispatchQueue.main.async {
+                self.switchGhostModeBarButton.isUserInteractionEnabled = false
+                self.switchCompassBarButton.isUserInteractionEnabled = false
+            }
             
             self.showAlertView?.HandleConfirmBtn = {
                 self.updateNetworkForBtns()

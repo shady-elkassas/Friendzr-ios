@@ -65,7 +65,7 @@ class HideGhostModeView: UIView {
     
     @IBAction func hideViewBtn(_ sender: Any) {
         HandlehideViewBtn?()
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
             self.alpha = 0
         }) { (success: Bool) in
@@ -94,7 +94,7 @@ class HideGhostModeView: UIView {
             
             HandleSaveBtn?()
             
-            UIView.animate(withDuration: 0.3, animations: {
+            UIView.animate(withDuration: 0.5, animations: {
                 self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.alpha = 0
             }) { (success: Bool) in

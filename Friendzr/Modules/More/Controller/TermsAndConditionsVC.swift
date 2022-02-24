@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class TermsAndConditionsVC: UIViewController {
+class TermsAndConditionsVC: UIViewController,WKNavigationDelegate {
     
     //MARK:- Outlets
     @IBOutlet weak var viewForEmbeddingWebView: UIView!
@@ -45,10 +45,14 @@ class TermsAndConditionsVC: UIViewController {
     
     //MARK: - Helper
     func setupWebView() {
-        webView = WKWebView(frame: viewForEmbeddingWebView.bounds, configuration: WKWebViewConfiguration() )
+        webView = WKWebView(frame: CGRect(x: 0, y: 0, width: viewForEmbeddingWebView.frame.width, height: viewForEmbeddingWebView.frame.height), configuration: WKWebViewConfiguration() )
         self.viewForEmbeddingWebView.addSubview(webView)
+        webView.backgroundColor = .clear
+        webView.navigationDelegate = self
         self.webView.allowsBackForwardNavigationGestures = true
-        webView.contentMode = .scaleAspectFill
+        webView.contentMode = .scaleToFill
+        webView.scrollView.showsHorizontalScrollIndicator = false
+        webView.scrollView.showsVerticalScrollIndicator = false
         let myURL = URL(string: urlString)
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)

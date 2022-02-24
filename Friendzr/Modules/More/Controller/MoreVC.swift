@@ -233,16 +233,18 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
                     
                     // For the purpose of this demo app, delete the user identifier that was previously stored in the keychain.
                     KeychainItem.deleteUserIdentifierFromKeychain()
-                    Messaging.messaging().deleteToken {  error in
-                        if let error = error {
-                            self.view.makeToast(error.localizedDescription)
-                            return
-                        }
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
-                            Router().toOptionsSignUpVC()
-                        })
-                    }
+//                    Messaging.messaging().deleteToken {  error in
+//                        if let error = error {
+//                            self.view.makeToast(error.localizedDescription)
+//                            return
+//                        }
+//
+//
+//                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
+                        Router().toOptionsSignUpVC()
+                    })
                 }
             }
             
@@ -328,6 +330,12 @@ extension MoreVC : UITableViewDelegate {
             }
             break
         case 5://Tips& Guides
+            if internetConect {
+                guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
+                vc.titleVC = "Tips & Guides".localizedString
+                vc.urlString = "https://friendzr.com/blog-tips-guidance/"
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
             break
         case 6://aboutus
             if internetConect {
@@ -366,7 +374,7 @@ extension MoreVC : UITableViewDelegate {
                 self.present(mc, animated: true, completion: nil)
             }
             break
-        case 10:
+        case 10://help
             break
         case 11://logout
             logout()
