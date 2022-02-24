@@ -47,9 +47,7 @@ class EventsVC: UIViewController {
         pullToRefresh()
         NotificationCenter.default.addObserver(self, selector: #selector(refreshAllEvents), name: Notification.Name("refreshAllEvents"), object: nil)
         
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,6 +60,10 @@ class EventsVC: UIViewController {
         CancelRequest.currentTask = false
         
         setupHideView()
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -76,6 +78,7 @@ class EventsVC: UIViewController {
     
     //MARK:- APIs
     func getAllEvents(pageNumber:Int) {
+        self.hideView.isHidden = false
         hideView.hideLoader()
         viewmodel.getMyEvents(pageNumber: pageNumber, search: "")
         viewmodel.events.bind { [unowned self] value in

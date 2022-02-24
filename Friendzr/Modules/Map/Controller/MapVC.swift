@@ -125,10 +125,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         super.viewWillDisappear(animated)
         mapView.clear()
         CancelRequest.currentTask = true
+        collectionViewHeight.constant = 0
+        subViewHeight.constant = 50
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         super.viewWillAppear(animated)
         
         Defaults.availableVC = "MapVC"
@@ -939,12 +940,18 @@ extension MapVC:UITableViewDataSource {
             if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
                 UIApplication.shared.open(URL(string: "comgooglemaps://?saddr=&daddr=\(model?.lat ?? ""),\(model?.lang ?? "")&directionsmode=driving")!)
             }else {
-                let source = MKMapItem(coordinate: .init(latitude: lat ?? 0.0, longitude: lng ?? 0.0), name: "Source")
-                let destination = MKMapItem(coordinate: .init(latitude: lat ?? 0.0, longitude: lng ?? 0.0), name: model?.title ?? "")
-                
+                let coordinates = CLLocationCoordinate2DMake(lat ?? 0.0, lng ?? 0.0)
+                let source = MKMapItem(coordinate: coordinates, name: "Source")
+                let regionDistance:CLLocationDistance = 10000
+                let destination = MKMapItem(coordinate: coordinates, name: model?.title ?? "")
+                let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
+                let options = [
+                    MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+                    MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
+                    ]
                 MKMapItem.openMaps(
                     with: [source, destination],
-                    launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+                    launchOptions: options
                 )
             }
             

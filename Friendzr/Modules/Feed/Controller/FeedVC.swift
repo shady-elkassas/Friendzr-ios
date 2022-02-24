@@ -680,7 +680,7 @@ extension FeedVC:UITableViewDataSource {
                 
                 self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-                self.showAlertView?.detailsLbl.text = "Are you sure you will accept this request?".localizedString
+                self.showAlertView?.detailsLbl.text = "Are you sure you want to accept this request?".localizedString
                 
                 self.showAlertView?.HandleConfirmBtn = {
                     self.btnsSelected = true
@@ -727,7 +727,7 @@ extension FeedVC:UITableViewDataSource {
             cell.HandleRefusedBtn = { // refused request
                 self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-                self.showAlertView?.detailsLbl.text = "Are you sure you will refuse this request?"
+                self.showAlertView?.detailsLbl.text = "Are you sure you want to refuse this request?"
                 
                 self.showAlertView?.HandleConfirmBtn = {
                     self.btnsSelected = true

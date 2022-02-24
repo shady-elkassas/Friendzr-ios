@@ -411,14 +411,39 @@ extension InboxVC:UITableViewDataSource {
                 cell.lastMessageDateLbl.text = lastMessageDateTime(date: model?.latestdate ?? "", time: model?.latesttime ?? "")
                 
                 //handle type message
-                if model?.messagestype == 1 {
+                if model?.messagestype == 0 {
                     cell.attachImg.isHidden = true
+                    cell.attachTypeLbl.isHidden = true
+                    cell.lastMessageLbl.isHidden = false
+                    cell.lastMessageLbl.text = ""
+                }
+                else if model?.messagestype == 1 {
+                    cell.attachImg.isHidden = true
+                    cell.attachTypeLbl.isHidden = true
                     cell.lastMessageLbl.isHidden = false
                     cell.lastMessageLbl.text = model?.messages
-                }else {
+                }
+                else if model?.messagestype == 2 {
                     cell.attachImg.isHidden = false
+                    cell.attachTypeLbl.isHidden = false
                     cell.lastMessageLbl.isHidden = true
-                    cell.attachImg.sd_setImage(with: URL(string: model?.messagesattach ?? "" ), placeholderImage: UIImage(named: "attach_ic"))
+                    cell.attachImg.image = UIImage(named: "placeholder")
+                    cell.attachTypeLbl.text = "Photo".localizedString
+                }
+                else if model?.messagestype == 3 {
+                    cell.attachImg.isHidden = false
+                    cell.attachTypeLbl.isHidden = false
+                    cell.lastMessageLbl.isHidden = true
+                    cell.attachImg.image = UIImage(named: "attachFile_ic")
+                    cell.attachTypeLbl.text = "File".localizedString
+                }
+                else {
+                    print("\(model?.messagestype ?? 0)")
+                    cell.attachImg.isHidden = false
+                    cell.attachTypeLbl.isHidden = false
+                    cell.lastMessageLbl.isHidden = true
+                    cell.attachImg.image = UIImage(named: "Events_ic")
+                    cell.attachTypeLbl.text = "Event".localizedString
                 }
                 
                 return cell
@@ -477,8 +502,8 @@ extension InboxVC:UITableViewDataSource {
                     cell.attachImg.isHidden = false
                     cell.attachTypeLbl.isHidden = false
                     cell.lastMessageLbl.isHidden = true
-                    cell.attachImg.image = UIImage(named: "attachFile_ic")
-                    cell.attachTypeLbl.text = "Link".localizedString
+                    cell.attachImg.image = UIImage(named: "Events_ic")
+                    cell.attachTypeLbl.text = "Event".localizedString
                 }
                 return cell
             }else {

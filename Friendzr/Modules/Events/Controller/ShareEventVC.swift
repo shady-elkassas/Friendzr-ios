@@ -315,6 +315,9 @@ extension ShareEventVC: UITableViewDataSource {
                     DispatchQueue.main.async {
                         cell.sendBtn.isUserInteractionEnabled = false
                         cell.sendBtn.setTitle("Sent", for: .normal)
+                        cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+                        cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
+                        cell.sendBtn.backgroundColor = .white
                     }
                     
                     DispatchQueue.main.async {
@@ -345,6 +348,9 @@ extension ShareEventVC: UITableViewDataSource {
                     DispatchQueue.main.async {
                         cell.sendBtn.isUserInteractionEnabled = false
                         cell.sendBtn.setTitle("Sent", for: .normal)
+                        cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+                        cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
+                        cell.sendBtn.backgroundColor = .white
                     }
                     
                     DispatchQueue.main.async {
@@ -376,6 +382,9 @@ extension ShareEventVC: UITableViewDataSource {
                     DispatchQueue.main.async {
                         cell.sendBtn.isUserInteractionEnabled = false
                         cell.sendBtn.setTitle("Sent", for: .normal)
+                        cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+                        cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
+                        cell.sendBtn.backgroundColor = .white
                     }
                     
                     DispatchQueue.main.async {

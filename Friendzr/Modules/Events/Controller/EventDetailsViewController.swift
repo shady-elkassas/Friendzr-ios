@@ -84,10 +84,7 @@ class EventDetailsViewController: UIViewController {
         
         setupViews()
         setupNavBar()
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
-        
+    
         CancelRequest.currentTask = false
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleEventDetails), name: Notification.Name("handleEventDetails"), object: nil)
@@ -99,6 +96,10 @@ class EventDetailsViewController: UIViewController {
         super.viewWillAppear(animated)
         Defaults.availableVC = "EventDetailsViewController"
         print("availableVC >> \(Defaults.availableVC)")
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -398,7 +399,6 @@ extension EventDetailsViewController: UITableViewDataSource {
         else if indexPath.row == 4 {//ads
             guard let cell = tableView.dequeueReusableCell(withIdentifier: adsCellId, for: indexPath) as? AdsTableViewCell else {return UITableViewCell()}
             cell.parentVC = self
-            cell.bannerView.delegate = self
             return cell
         }
         

@@ -11,6 +11,7 @@ import CoreLocation
 import MessageKit
 import AVFoundation
 import MapKit
+import SDWebImage
 
 private struct CoordinateItem: LocationItem {
 
@@ -189,6 +190,7 @@ internal struct UserMessage: MessageType {
     }
 
     init(linkItem: LinkItem, user: UserSender, messageId: String, date: Date,dateandtime:String,messageType:Int,linkPreviewID:String,isJoinEvent:Int) {
+        
         self.init(kind: .linkPreview(linkItem), user: user, messageId: messageId, date: date,dateandtime:dateandtime, messageType: messageType,linkPreviewID: linkPreviewID,isJoinEvent: isJoinEvent)
     }
 }

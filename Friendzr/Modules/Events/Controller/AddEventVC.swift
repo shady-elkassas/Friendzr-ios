@@ -101,7 +101,6 @@ class AddEventVC: UIViewController {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         categoriesSuperView?.addGestureRecognizer(tap)
-
     }
     
     override func viewWillAppear(_ animated: Bool) {

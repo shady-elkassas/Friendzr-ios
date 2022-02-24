@@ -91,7 +91,7 @@ class EditEventsVC: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.hideLoading()
+//        self.hideLoading()
         CancelRequest.currentTask = true
     }
     

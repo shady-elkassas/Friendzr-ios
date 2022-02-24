@@ -136,7 +136,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         locationManager.requestAlwaysAuthorization()
         locationManager.requestLocation()
         
-        if Defaults.allowMyLocation == true {
+        if Defaults.allowMyLocationSettings == true {
             locationManager.startUpdatingLocation()
             
             //            if CLLocationManager.locationServicesEnabled(){
@@ -172,10 +172,10 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
             
             let placemark = (placemarks ?? []) as [CLPlacemark]
             if placemark.count>0{
-                let placemark = placemarks![0]
-                print(placemark.locality!)
-                print(placemark.administrativeArea!)
-                print(placemark.country!)
+                let placemark = placemarks?[0]
+                print(placemark?.locality ?? "")
+                print(placemark?.administrativeArea ?? "")
+                print(placemark?.country ?? "")
             }
         }
     }
@@ -209,22 +209,22 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel".localizedString, comment: ""), style: .cancel, handler: {_ in
-            if Defaults.token != "" {
-                self.settingVM.toggleAllowMyLocation(allowMyLocation: false) { error, data in
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                        }
-                        return
-                    }
-                    
-                    guard let data = data else {
-                        return
-                    }
-                    
-                    Defaults.allowMyLocation = data.allowmylocation ?? false
-                }
-            }
+//            if Defaults.token != "" {
+////                self.settingVM.toggleAllowMyLocation(allowMyLocation: false) { error, data in
+////                    if let error = error {
+////                        DispatchQueue.main.async {
+////                            self.view.makeToast(error)
+////                        }
+////                        return
+////                    }
+////
+////                    guard let data = data else {
+////                        return
+////                    }
+////
+////                    Defaults.allowMyLocation = data.allowmylocation ?? false
+////                }
+//            }
         })
         let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString.localizedString, comment: ""), style: .default) { (UIAlertAction) in
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
