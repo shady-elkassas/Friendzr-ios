@@ -56,12 +56,6 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        
-        NotificationCenter.default.post(
-            name: Notification.Name("FCMToken"),
-            object: nil,
-            userInfo: nil
-        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,6 +66,8 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
 
         hideNavigationBar(NavigationBar: true, BackButton: true)
         CancelRequest.currentTask = false
+        
+        NotificationCenter.default.post(name: Notification.Name("registrationFCM"), object: nil, userInfo: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

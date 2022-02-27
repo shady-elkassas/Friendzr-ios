@@ -76,6 +76,8 @@ class LoginVC: UIViewController {
         
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
+        
+        NotificationCenter.default.post(name: Notification.Name("registrationFCM"), object: nil, userInfo: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -85,6 +87,12 @@ class LoginVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func loginBtn(_ sender: Any) {
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: nil
+        )
+        
         updateUserInterface()
         if internetConect {
             self.showLoading()

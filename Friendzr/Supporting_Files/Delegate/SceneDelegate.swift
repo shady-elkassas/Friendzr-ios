@@ -27,6 +27,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.overrideUserInterfaceStyle = .light
         }
         
+        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: nil)
+        
         //        if Defaults.darkMode == true {
         //            UIApplication.shared.windows.forEach { window in
         //                window.overrideUserInterfaceStyle = .dark

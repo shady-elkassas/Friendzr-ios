@@ -85,6 +85,8 @@ class RegisterVC: UIViewController {
 
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
+        
+        NotificationCenter.default.post(name: Notification.Name("registrationFCM"), object: nil, userInfo: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

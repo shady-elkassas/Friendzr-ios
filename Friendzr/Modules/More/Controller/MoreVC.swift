@@ -233,15 +233,6 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
                     
                     // For the purpose of this demo app, delete the user identifier that was previously stored in the keychain.
                     KeychainItem.deleteUserIdentifierFromKeychain()
-//                    Messaging.messaging().deleteToken {  error in
-//                        if let error = error {
-//                            self.view.makeToast(error.localizedDescription)
-//                            return
-//                        }
-//
-//
-//                    }
-                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
                         Router().toOptionsSignUpVC()
                     })

@@ -53,7 +53,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let locationManager = CLLocationManager()
     var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
     let content = UNMutableNotificationContent()
-
+    
+    let fcmToken:String = ""
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -61,14 +63,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared().isEnabled = true
         IQKeyboardManager.shared().toolbarTintColor = UIColor.red
         IQKeyboardManager.shared().isEnableAutoToolbar = true
-
+        
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!], for: .selected)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .selected)
         
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
-
+        
         if #available(iOS 13, *) {
         } else {
             Router().toSplach()
@@ -78,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSServices.provideAPIKey("AIzaSyCLmWYc00w0KZ-qj8hIymWCIs8K5Z0cG0g")
         GMSPlacesClient.provideAPIKey("AIzaSyCLmWYc00w0KZ-qj8hIymWCIs8K5Z0cG0g")
         GADMobileAds.sharedInstance().start(completionHandler: nil)
-
+        
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
             if error != nil || user == nil {
                 // Show the app's signed-out state.
@@ -86,6 +88,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Show the app's signed-in state.
             }
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(registrationFCM), name: Notification.Name("registrationFCM"), object: nil)
         
         UNUserNotificationCenter.current().delegate = self
         if #available(iOS 10.0, *) {
@@ -95,19 +99,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 completionHandler: {_, _ in })
         } else {
             let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
-
+        
         Messaging.messaging().delegate = self
         application.registerForRemoteNotifications()
         
         content.sound = UNNotificationSound.default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
-
+        
         center.add(request, withCompletionHandler: nil)
-
+        
         networkReachability()
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateBadgeApp), name: Notification.Name("updateBadgeApp"), object: nil)
@@ -116,6 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         center.requestAuthorization(options: [.alert, .sound]) { granted, error in
         }
+        
         locationManager.requestAlwaysAuthorization()
         
         locationManager.startMonitoringVisits()
@@ -146,7 +151,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIView.appearance().semanticContentAttribute = .forceLeftToRight
         self.window?.makeKeyAndVisible()
-
+        
         return true
     }
     
@@ -248,23 +253,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Print full message.
         print(userInfo)
         
-        let soundNoti: String = userInfo["sound"] as? String ?? ""
+        let _: String = userInfo["sound"] as? String ?? ""
         content.sound = UNNotificationSound.default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
-
+        
         center.add(request, withCompletionHandler: nil)
-
+        
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
-
+        
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
     }
     
     
-
+    
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult)
@@ -283,20 +288,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Print full message.
         print(userInfo)
-//        let aps = userInfo["aps"] as? [String:Any] //?[""]
-//        let action = userInfo["Action"] as? String //action transaction
-//        let actionId = userInfo["Action_code"] as? String //userid
-//        let chatTitle = userInfo["name"] as? String
-//        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
-//        let imageNotifications = chatTitleImage?["image"] as? String
-
-//        let soundNoti: String = userInfo["sound"] as? String ?? ""
+        //        let aps = userInfo["aps"] as? [String:Any] //?[""]
+        //        let action = userInfo["Action"] as? String //action transaction
+        //        let actionId = userInfo["Action_code"] as? String //userid
+        //        let chatTitle = userInfo["name"] as? String
+        //        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
+        //        let imageNotifications = chatTitleImage?["image"] as? String
+        
+        //        let soundNoti: String = userInfo["sound"] as? String ?? ""
         content.sound = UNNotificationSound.default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
-
+        
         center.add(request, withCompletionHandler: nil)
-
+        
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
         completionHandler(UIBackgroundFetchResult.newData)
@@ -305,6 +310,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
+        
+        Messaging.messaging().token { token, error in
+            if let error = error {
+                print("Error fetching FCM registration token: \(error)")
+            } else if let token = token {
+                print("FCM registration token: \(token)")
+            }
+        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
@@ -325,15 +338,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let imageNotifications = chatTitleImage?["image"] as? String
             let isEventAdmin = userInfo["isAdmin"] as? String
             
-//            let isAdminEvent = userInfo["fcm_options"] as? [String:Any]
-//            let soundNoti: String = userInfo["sound"] as? String ?? ""
+            //            let isAdminEvent = userInfo["fcm_options"] as? [String:Any]
+            //            let soundNoti: String = userInfo["sound"] as? String ?? ""
             
             self.content.sound = UNNotificationSound.default
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
             let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
-    
+            
             center.add(request, withCompletionHandler: nil)
-
+            
             if action == "Friend_Request" {
                 if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
                    let tabBarController = rootViewController as? UITabBarController,
@@ -440,20 +453,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             break
         }
     }
+    
+    @objc func registrationFCM() {
+        Messaging.messaging().token { token, error in
+            if let error = error {
+                print("Error fetching FCM registration token: \(error)")
+            } else if let token = token {
+                print("FCM registration token: \(token)")
+                Defaults.fcmToken = token
+            }
+        }
+    }
 }
 
 
 extension AppDelegate : MessagingDelegate{
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         
-        let dataDict:[String: String] = ["token": fcmToken ?? ""]
+        let _:[String: String] = ["token": fcmToken ?? ""]
         print("Firebase registration token: \(String(describing: fcmToken))")
         Defaults.fcmToken = fcmToken ?? ""
         
         NotificationCenter.default.post(
             name: Notification.Name("FCMToken"),
             object: nil,
-            userInfo: dataDict
+            userInfo: nil
         )
     }
 }
