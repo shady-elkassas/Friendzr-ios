@@ -57,6 +57,7 @@ class EventModel: Mappable {
     var isSuccessful: Bool?
     var message: String?
     var data: EventObj? = nil
+    var status:Int?
     
     required init?(map: Map) {
     }
@@ -66,6 +67,7 @@ class EventModel: Mappable {
         data    <- map["model"]
         isSuccessful   <- map["isSuccessful"]
         message  <- map["message"]
+        status  <- map["status"]
     }
 }
 

@@ -49,7 +49,6 @@
 		43148538278C3E110048EC01 /* SelectedFriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43148536278C3E110048EC01 /* SelectedFriendTableViewCell.swift */; };
 		43148539278C3E110048EC01 /* SelectedFriendTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43148537278C3E110048EC01 /* SelectedFriendTableViewCell.xib */; };
 		4314853B278C42930048EC01 /* AddGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314853A278C42930048EC01 /* AddGroupVC.swift */; };
-		4314853D278C701D0048EC01 /* GroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314853C278C701D0048EC01 /* GroupVC.swift */; };
 		43148540278D86570048EC01 /* StatisticsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4314853E278D86570048EC01 /* StatisticsCollectionViewCell.swift */; };
 		431505782705F90E002387A1 /* DegreeScaleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431505772705F90E002387A1 /* DegreeScaleView.swift */; };
 		4315DB41278DBB12005AB950 /* GenderDistributionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4315DB3F278DBB12005AB950 /* GenderDistributionTableViewCell.swift */; };
@@ -411,7 +410,6 @@
 		43148536278C3E110048EC01 /* SelectedFriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedFriendTableViewCell.swift; sourceTree = "<group>"; };
 		43148537278C3E110048EC01 /* SelectedFriendTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectedFriendTableViewCell.xib; sourceTree = "<group>"; };
 		4314853A278C42930048EC01 /* AddGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupVC.swift; sourceTree = "<group>"; };
-		4314853C278C701D0048EC01 /* GroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupVC.swift; sourceTree = "<group>"; };
 		4314853E278D86570048EC01 /* StatisticsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCollectionViewCell.swift; sourceTree = "<group>"; };
 		431505772705F90E002387A1 /* DegreeScaleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DegreeScaleView.swift; sourceTree = "<group>"; };
 		4315DB3F278DBB12005AB950 /* GenderDistributionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderDistributionTableViewCell.swift; sourceTree = "<group>"; };
@@ -1262,7 +1260,6 @@
 				4382AC1A26C27195005C1857 /* InboxVC.swift */,
 				4344110126CE63AF00F8233E /* NewConversationVC.swift */,
 				4314853A278C42930048EC01 /* AddGroupVC.swift */,
-				4314853C278C701D0048EC01 /* GroupVC.swift */,
 				433CDE2027CCD90A00A80A40 /* GroupDetailsVC.swift */,
 				4369F4522797278000D5E064 /* AddNewUsersForMyGroupVC.swift */,
 				430D426826D3BEBA00188E42 /* ConversationVC.swift */,
@@ -2058,7 +2055,6 @@
 				4345BA3A271C14ED0076101A /* GenderbylocationViewModel.swift in Sources */,
 				4362889426C8FF9300B51E51 /* MoreVC.swift in Sources */,
 				43119D6A26E4C1A000AD2260 /* BioViewModel.swift in Sources */,
-				4314853D278C701D0048EC01 /* GroupVC.swift in Sources */,
 				43A332632781AE37001ADB84 /* AddNewTagView.swift in Sources */,
 				43375F5827130D94009EBED6 /* NotificationsModel.swift in Sources */,
 				43119D6626E4BFDB00AD2260 /* EditProfileViewModel.swift in Sources */,

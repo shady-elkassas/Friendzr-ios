@@ -170,15 +170,17 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.hideView.hideLoader()
                     self.hideView.isHidden = true
                 }
-
+                
                 DispatchQueue.main.async {
                     self.tableView.delegate = self
                     self.tableView.dataSource = self
                     self.tableView.reloadData()
+                    
+                    DispatchQueue.main.async {
+                        self.isLoadingList = false
+                        self.tableView.tableFooterView = nil
+                    }
                 }
-                
-                self.isLoadingList = false
-                self.tableView.tableFooterView = nil
             }
         }
         
@@ -214,8 +216,11 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.tableView.dataSource = self
                     self.tableView.reloadData()
                 }
-                self.isLoadingList = false
-                self.tableView.tableFooterView = nil
+                
+                DispatchQueue.main.async {
+                    self.isLoadingList = false
+                    self.tableView.tableFooterView = nil
+                }
             }
         }
         
@@ -230,7 +235,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
-                    
                 }
             }
         }

@@ -33,6 +33,7 @@ class IsMoreEventAtMarker {
 class LocationZooming {
     static var locationLat: Double = 0.0
     static var locationLng: Double = 0.0
+//    static var didSelected: Double = 0.0
 }
 
 //create location
@@ -213,7 +214,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     func bindToModel() {
         viewmodel.getAllEventsAroundMe()
         viewmodel.locations.bind { [unowned self] value in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
                 self.setupMarkers()
             }
         }
@@ -353,8 +354,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         marker.title = markerID
         marker.opacity = Float(eventsCount)
         
-        if LocationZooming.locationLat == position.latitude {
-            if typelocation == "event" {
+        if typelocation == "event" {
+            if LocationZooming.locationLat == position.latitude && LocationZooming.locationLng == position.longitude {
                 marker.appearAnimation = .pop
             }else {
                 marker.appearAnimation = .none
@@ -1047,7 +1048,7 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
         for (index,item) in model!.enumerated() {
             let locitm = CLLocationCoordinate2DMake(Double(item.lat!)!, Double(item.lang!)!)
             if index == indexPath.row {
-                if LocationZooming.locationLat != locitm.latitude {
+                if LocationZooming.locationLat != locitm.latitude && LocationZooming.locationLng != locitm.longitude {
                     animationZoomingMap(zoomIN: 17, zoomOUT: 15, lat: locitm.latitude, lng: locitm.longitude)
                 }
                 else {
@@ -1111,10 +1112,10 @@ extension MapVC {
         LocationZooming.locationLat = lat
         LocationZooming.locationLng = lng
         
-        delay(seconds: 2.5) { () -> () in
-            self.mapView.clear()
-            self.setupMarkers()
-        }
+//        delay(seconds: 2.5) { () -> () in
+//            self.mapView.clear()
+//            self.setupMarkers()
+//        }
     }
 }
 

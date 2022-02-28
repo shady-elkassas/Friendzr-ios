@@ -1140,7 +1140,7 @@
         <!--Navigation Controller-->
         <scene sceneID="IwG-6v-mjd">
             <objects>
-                <navigationController storyboardIdentifier="GroupNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kh9-5H-bm4" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="GroupDetailsNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kh9-5H-bm4" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="1ja-Zn-a69">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -1155,10 +1155,10 @@
             </objects>
             <point key="canvasLocation" x="7363.7681159420299" y="835.71428571428567"/>
         </scene>
-        <!--GroupVC-->
+        <!--Group DetailsVC-->
         <scene sceneID="T8y-aB-RuF">
             <objects>
-                <viewController storyboardIdentifier="GroupVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="f9n-R4-4SF" customClass="GroupVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GroupDetailsVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="f9n-R4-4SF" customClass="GroupDetailsVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JhG-bF-nLN">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -665,6 +665,9 @@ extension FeedVC:UITableViewDataSource {
                 self.updateNetworkForBtns()
                 if self.internetConnect {
                     self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
+//                    cell.sendRequestBtn.isHidden = true
+//                    cell.cancelRequestBtn.isHidden = false
+                    cell.sendRequestBtn.isUserInteractionEnabled = false
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         
                         if let error = error {
@@ -679,13 +682,15 @@ extension FeedVC:UITableViewDataSource {
                         DispatchQueue.main.async {
                             cell.sendRequestBtn.isHidden = true
                             cell.sendRequestBtn.setTitle("Send Request", for: .normal)
+                            cell.sendRequestBtn.isUserInteractionEnabled = true
+                            cell.cancelRequestBtn.isHidden = false
+                            
                             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
                         }
                         
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                        }
-
+//                        DispatchQueue.main.async {
+//                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+//                        }
                     }
                 }
             }
@@ -819,6 +824,9 @@ extension FeedVC:UITableViewDataSource {
                 
                 if self.internetConnect {
                     self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Canceling...".localizedString)
+//                    cell.sendRequestBtn.isHidden = false
+//                    cell.cancelRequestBtn.isHidden = true
+                    cell.cancelRequestBtn.isUserInteractionEnabled = false
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
@@ -833,15 +841,20 @@ extension FeedVC:UITableViewDataSource {
                             DispatchQueue.main.async {
                                 cell.cancelRequestBtn.isHidden = true
                                 cell.cancelRequestBtn.setTitle("Cancel Request", for: .normal)
+                                cell.sendRequestBtn.isHidden = false
+                                cell.cancelRequestBtn.isUserInteractionEnabled = true
+
+//                                cell.sendRequestBtn.isUserInteractionEnabled = true
+//                                cell.cancelRequestBtn.isUserInteractionEnabled = true
                             }
                             
                             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
                         }
                    
                         
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                        }
+//                        DispatchQueue.main.async {
+//                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+//                        }
                     }
                 }
             }
@@ -1366,11 +1379,7 @@ extension FeedVC {
         switchGhostModeBarButton.animationDuration = 0.25
         switchGhostModeBarButton.thumbImage = UIImage(named: "ghostModeSwitch_ic")
         
-        if Defaults.ghostMode == true {
-            switchGhostModeBarButton.isOn = true
-        }else {
-            switchGhostModeBarButton.isOn = false
-        }
+        switchGhostModeBarButton.isOn = Defaults.ghostMode
         
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .up))
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .down))
@@ -1421,10 +1430,11 @@ extension FeedVC {
                         Defaults.ghostMode = false
                         Defaults.ghostModeEveryOne = false
                         Defaults.myAppearanceTypes = [0]
+                        self.switchGhostModeBarButton.isOn = false
                         
-                        DispatchQueue.main.async {
-                            self.initGhostModeSwitchButton()
-                        }
+//                        DispatchQueue.main.async {
+//                            self.initGhostModeSwitchButton()
+//                        }
                         
                         DispatchQueue.main.async {
                             NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
@@ -1492,7 +1502,7 @@ extension FeedVC {
             }
             
             self.alertView?.HandleSaveBtn = {
-                self.initGhostModeSwitchButton()
+//                self.initGhostModeSwitchButton()
                 DispatchQueue.main.async {
                     self.switchGhostModeBarButton.isUserInteractionEnabled = true
                     self.switchCompassBarButton.isUserInteractionEnabled = true
@@ -1542,7 +1552,7 @@ extension FeedVC {
             }
             
             self.alertView?.HandleSaveBtn = {
-                self.initGhostModeSwitchButton()
+//                self.initGhostModeSwitchButton()
                 DispatchQueue.main.async {
                     self.switchGhostModeBarButton.isUserInteractionEnabled = true
                     self.switchCompassBarButton.isUserInteractionEnabled = true
@@ -1578,10 +1588,11 @@ extension FeedVC {
                         Defaults.ghostMode = false
                         Defaults.ghostModeEveryOne = false
                         Defaults.myAppearanceTypes = [0]
+                        self.switchGhostModeBarButton.isOn = false
                         
-                        DispatchQueue.main.async {
-                            self.initGhostModeSwitchButton()
-                        }
+//                        DispatchQueue.main.async {
+//                            self.initGhostModeSwitchButton()
+//                        }
                         
                         DispatchQueue.main.async {
                             if self.isCompassOpen {
@@ -1655,14 +1666,16 @@ extension FeedVC {
                     }else {
                         Defaults.ghostModeEveryOne = false
                     }
+                    self.switchGhostModeBarButton.isOn = true
                 }else {
                     Defaults.ghostModeEveryOne = false
                     Defaults.ghostMode = false
+                    self.switchGhostModeBarButton.isOn = false
                 }
             }
             
             DispatchQueue.main.async {
-                self.initGhostModeSwitchButton()
+//                self.initGhostModeSwitchButton()
                 self.switchGhostModeBarButton.isUserInteractionEnabled = true
                 self.switchCompassBarButton.isUserInteractionEnabled = true
             }

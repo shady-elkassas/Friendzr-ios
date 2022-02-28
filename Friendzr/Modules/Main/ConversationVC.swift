@@ -754,6 +754,9 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     func HandleInternetConnection() {
         DispatchQueue.main.async {
             self.view.makeToast("Network is unavailable, please try again!".localizedString)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                Router().toHome()
+            })
         }
     }
     

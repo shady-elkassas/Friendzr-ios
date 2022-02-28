@@ -30,6 +30,7 @@ class SendReportResponse : Mappable {
     
     var isSuccessful: Bool?
     var message: String?
+    var status:Int?
     
     required init?(map: Map) {
     }
@@ -37,6 +38,7 @@ class SendReportResponse : Mappable {
     func mapping(map: Map) {
         isSuccessful   <- map["isSuccessful"]
         message  <- map["message"]
+        status  <- map["status"]
     }
 }
 

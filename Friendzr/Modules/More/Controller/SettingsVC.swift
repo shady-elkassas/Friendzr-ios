@@ -633,11 +633,15 @@ extension SettingsVC: UITableViewDataSource {
                     
                     //cancel view
                     self.alertView?.HandlehideViewBtn = {
-                        self.setupData()
+//                        self.setupData()
+                        cell.switchBtn.isOn = false
+                        cell.ghostModeTypeLbl.isHidden = true
                     }
                     
                     self.alertView?.HandleSaveBtn = {
-                        self.setupData()
+//                        self.setupData()
+                        cell.switchBtn.isOn = true
+                        cell.ghostModeTypeLbl.isHidden = false
                     }
                     
                     self.view.addSubview((self.alertView)!)
@@ -666,7 +670,10 @@ extension SettingsVC: UITableViewDataSource {
                                 self.model = data
                                 
                                 DispatchQueue.main.async {
-                                    self.setupData()
+//                                    self.setupData()
+                                    cell.switchBtn.isOn = false
+                                    cell.ghostModeTypeLbl.isHidden = true
+                                    cell.ghostModeTypeLbl.text = ""
                                 }
                                 
                             })
@@ -684,7 +691,9 @@ extension SettingsVC: UITableViewDataSource {
                     
                     self.deleteAlertView?.HandleCancelBtn = {
                         DispatchQueue.main.async {
-                            self.setupData()
+//                            self.setupData()
+                            cell.switchBtn.isOn = true
+                            cell.ghostModeTypeLbl.isHidden = false
                         }
                     }
                     

@@ -16,6 +16,7 @@ class ChatsListModel: Mappable {
     var isSuccessful: Bool?
     var message: String?
     var data: ChatListDataModel? = nil
+    var status:Int = 0
     
     required init?(map: Map) {
     }
@@ -24,6 +25,7 @@ class ChatsListModel: Mappable {
         data    <- map["model"]
         isSuccessful   <- map["isSuccessful"]
         message  <- map["message"]
+        status  <- map["status"]
     }
 }
 class ChatListDataModel: Mappable {
@@ -108,7 +110,8 @@ class ConversationsResponse: Mappable {
     var isSuccessful: Bool?
     var message: String?
     var data: ConversationsDataModel? = nil
-    
+    var status:Int?
+
     required init?(map: Map) {
     }
     // Mappable
@@ -116,6 +119,7 @@ class ConversationsResponse: Mappable {
         data    <- map["model"]
         isSuccessful   <- map["isSuccessful"]
         message  <- map["message"]
+        status  <- map["status"]
     }
 }
 
@@ -181,7 +185,8 @@ class SendMessageModel:Mappable {
     var isSuccessful: Bool?
     var message: String?
     var data: SendMessageObj? = nil
-    
+    var status:Int?
+
     required init?(map: Map) {
     }
     // Mappable
@@ -189,6 +194,7 @@ class SendMessageModel:Mappable {
         data    <- map["model"]
         isSuccessful   <- map["isSuccessful"]
         message  <- map["message"]
+        status  <- map["status"]
     }
 }
 

@@ -17,7 +17,8 @@ class MessagesChatResponse: Mappable {
     var isSuccessful: Bool?
     var message: String?
     var data: MessagesDataModel? = nil
-    
+    var status:Int?
+
     required init?(map: Map) {
     }
     // Mappable
@@ -25,6 +26,7 @@ class MessagesChatResponse: Mappable {
         data    <- map["model"]
         isSuccessful   <- map["isSuccessful"]
         message  <- map["message"]
+        status  <- map["status"]
     }
 }
 
@@ -113,7 +115,8 @@ class EventChatMessagesResponse: Mappable {
     var isSuccessful: Bool?
     var message: String?
     var data: EventMessagesModel? = nil
-    
+    var statusCode:Int? = 0
+
     required init?(map: Map) {
     }
     // Mappable
@@ -121,6 +124,7 @@ class EventChatMessagesResponse: Mappable {
         data    <- map["model"]
         isSuccessful   <- map["isSuccessful"]
         message  <- map["message"]
+        statusCode  <- map["statusCode"]
     }
 }
 
@@ -147,7 +151,8 @@ class GroupChatMessagesResponse: Mappable {
     var isSuccessful: Bool?
     var message: String?
     var data: GroupMessagesModel? = nil
-    
+    var status:Int?
+
     required init?(map: Map) {
     }
     // Mappable
@@ -155,6 +160,7 @@ class GroupChatMessagesResponse: Mappable {
         data    <- map["model"]
         isSuccessful   <- map["isSuccessful"]
         message  <- map["message"]
+        status  <- map["status"]
     }
 }
 

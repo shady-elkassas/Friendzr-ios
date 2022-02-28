@@ -173,9 +173,10 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                     hideView.isHidden = true
                 }
                 
-                self.isLoadingList = false
-                self.tableView.tableFooterView = nil
-                
+                DispatchQueue.main.async {
+                    self.isLoadingList = false
+                    self.tableView.tableFooterView = nil
+                }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)

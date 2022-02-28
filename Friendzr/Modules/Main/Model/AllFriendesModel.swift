@@ -15,6 +15,7 @@ class AllFriendesModel: Mappable {
     var isSuccessful: Bool?
     var message: String?
     var data: AllFriendesDataModel?
+    var status:Int?
     
     required init?(map: Map) {
     }
@@ -23,6 +24,7 @@ class AllFriendesModel: Mappable {
         data    <- map["model"]
         isSuccessful   <- map["isSuccessful"]
         message  <- map["message"]
+        status  <- map["status"]
     }
 }
 

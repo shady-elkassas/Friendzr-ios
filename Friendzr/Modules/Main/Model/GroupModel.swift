@@ -16,6 +16,7 @@ class GroupResponse : Mappable {
     var isSuccessful: Bool?
     var message: String?
     var data: GroupModel? = nil
+    var status:Int?
     
     required init?(map: Map) {
     }
@@ -24,6 +25,7 @@ class GroupResponse : Mappable {
         isSuccessful   <- map["isSuccessful"]
         message  <- map["message"]
         data  <- map["model"]
+        status  <- map["status"]
     }
 }
 

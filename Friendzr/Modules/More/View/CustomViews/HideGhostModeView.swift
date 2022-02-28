@@ -79,7 +79,7 @@ class HideGhostModeView: UIView {
     }
     
     @IBAction func saveBtn(_ sender: Any) {
-   
+        
         if typeIDs.count > 2 {
             self.parentVC.view.makeToast("You can only select two".localizedString)
             return
@@ -96,15 +96,13 @@ class HideGhostModeView: UIView {
             }
             
             HandleSaveBtn?()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                    self.alpha = 0
-                }) { (success: Bool) in
-                    self.removeFromSuperview()
-                    self.alpha = 1
-                    self.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                }
+            UIView.animate(withDuration: 0.5, animations: {
+                self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alpha = 0
+            }) { (success: Bool) in
+                self.removeFromSuperview()
+                self.alpha = 1
+                self.transform = CGAffineTransform.init(scaleX: 1, y: 1)
             }
         }
     }

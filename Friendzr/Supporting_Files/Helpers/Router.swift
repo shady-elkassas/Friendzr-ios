@@ -184,7 +184,7 @@ class Router {
         }
     }
     func toGroupVC(groupId:String,isGroupAdmin:Bool)  {
-        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupVC {
+        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
             vc.groupId = groupId
             vc.isGroupAdmin = isGroupAdmin
             go(withVC: controller)
