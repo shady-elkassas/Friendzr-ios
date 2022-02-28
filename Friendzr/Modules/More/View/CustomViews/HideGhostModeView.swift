@@ -65,13 +65,16 @@ class HideGhostModeView: UIView {
     
     @IBAction func hideViewBtn(_ sender: Any) {
         HandlehideViewBtn?()
-        UIView.animate(withDuration: 0.5, animations: {
-            self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.alpha = 0
-        }) { (success: Bool) in
-            self.removeFromSuperview()
-            self.alpha = 1
-            self.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alpha = 0
+            }) { (success: Bool) in
+                self.removeFromSuperview()
+                self.alpha = 1
+                self.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
         }
     }
     
@@ -93,14 +96,15 @@ class HideGhostModeView: UIView {
             }
             
             HandleSaveBtn?()
-            
-            UIView.animate(withDuration: 0.5, animations: {
-                self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.alpha = 0
-            }) { (success: Bool) in
-                self.removeFromSuperview()
-                self.alpha = 1
-                self.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                    self.alpha = 0
+                }) { (success: Bool) in
+                    self.removeFromSuperview()
+                    self.alpha = 1
+                    self.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                }
             }
         }
     }

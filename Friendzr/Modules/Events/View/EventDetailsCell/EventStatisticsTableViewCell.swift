@@ -21,10 +21,15 @@ class EventStatisticsTableViewCell: UITableViewCell {
         // Initialization code
         
         containerView.cornerRadiusView(radius: 12)
-        collectionView.register(UINib(nibName: statisticsCellID, bundle: nil), forCellWithReuseIdentifier: statisticsCellID)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.reloadData()
+        
+        collectionView.register(UINib(nibName: statisticsCellID, bundle: nil), forCellWithReuseIdentifier: statisticsCellID)
+    }
+    
+    override func reloadInputViews() {
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -43,8 +48,8 @@ extension EventStatisticsTableViewCell: UICollectionViewDataSource {
         cell.genderModel = model?.genderStatistic
         cell.interestModel = model?.interestStatistic
         cell.parentVC = self.parentvc
-        cell.genderTV.reloadData()
-        cell.interestTV.reloadData()
+//        cell.genderTV.reloadData()
+//        cell.interestTV.reloadData()
         return cell
     }
 }

@@ -139,7 +139,11 @@ class EventDetailsViewController: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        getEventDetails()
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
+        
         self.refreshControl.endRefreshing()
     }
     
@@ -198,6 +202,7 @@ class EventDetailsViewController: UIViewController {
         self.hideView.showLoader()
         viewmodel.getEventByID(id: eventId)
         viewmodel.event.bind { [unowned self] value in
+            
             DispatchQueue.main.async {
                 tableView.delegate = self
                 tableView.dataSource = self
@@ -424,12 +429,18 @@ extension EventDetailsViewController: UITableViewDataSource {
                 if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
                     UIApplication.shared.open(URL(string: "comgooglemaps://?saddr=&daddr=\(model?.lat ?? ""),\(model?.lang ?? "")&directionsmode=driving")!)
                 }else {
-                    let source = MKMapItem(coordinate: .init(latitude: lat ?? 0.0, longitude: lng ?? 0.0), name: "Source")
-                    let destination = MKMapItem(coordinate: .init(latitude: lat ?? 0.0, longitude: lng ?? 0.0), name: model?.title ?? "")
-                    
+                    let coordinates = CLLocationCoordinate2DMake(lat ?? 0.0, lng ?? 0.0)
+                    let source = MKMapItem(coordinate: coordinates, name: "Source")
+                    let regionDistance:CLLocationDistance = 10000
+                    let destination = MKMapItem(coordinate: coordinates, name: model?.title ?? "")
+                    let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
+                    let options = [
+                        MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+                        MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
+                        ]
                     MKMapItem.openMaps(
                         with: [source, destination],
-                        launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+                        launchOptions: options
                     )
                 }
             }

@@ -115,6 +115,20 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    private let formatterDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "dd-MM-yyyy"
+        return formatter
+    }()
+    
+    private let formatterTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "HH:mm:ss"
+        return formatter
+    }()
+    
     var compassDegree:Double = 0.0
     var filterDir = false
     
@@ -624,6 +638,9 @@ extension FeedVC:UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        let actionDate = formatterDate.string(from: Date())
+        let actionTime = formatterTime.string(from: Date())
+
         if viewmodel.feeds.value?.data?.count != 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? UsersFeedTableViewCell else {return UITableViewCell()}
             let model = viewmodel.feeds.value?.data?[indexPath.row]
@@ -648,7 +665,7 @@ extension FeedVC:UITableViewDataSource {
                 self.updateNetworkForBtns()
                 if self.internetConnect {
                     self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1) { error, message in
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         
                         if let error = error {
                             DispatchQueue.main.async {
@@ -660,18 +677,15 @@ extension FeedVC:UITableViewDataSource {
                         guard let _ = message else {return}
                         
                         DispatchQueue.main.async {
-                            if self.isCompassOpen {
-                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
-                            }else {
-                                self.getAllFeeds(pageNumber: 1)
-                            }
-                        }
-                        
-                        DispatchQueue.main.async {
                             cell.sendRequestBtn.isHidden = true
                             cell.sendRequestBtn.setTitle("Send Request", for: .normal)
                             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
                         }
+                        
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+                        }
+
                     }
                 }
             }
@@ -687,7 +701,7 @@ extension FeedVC:UITableViewDataSource {
                     self.updateNetworkForBtns()
                     
                     if self.internetConnect {
-                        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
+                        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2, requestdate: "\(actionDate) \(actionTime)") { error, message in
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
@@ -702,14 +716,11 @@ extension FeedVC:UITableViewDataSource {
                             }
                             
                             DispatchQueue.main.async {
-                                if self.isCompassOpen {
-                                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
-                                }else {
-                                    self.getAllFeeds(pageNumber: 0)
-                                }
+                                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                             }
                         }
                     }
+                    
                     // handling code
                     UIView.animate(withDuration: 0.3, animations: {
                         self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -734,7 +745,7 @@ extension FeedVC:UITableViewDataSource {
                     self.updateNetworkForBtns()
                     
                     if self.internetConnect {
-                        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
+                        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, requestdate: "\(actionDate) \(actionTime)") { error, message in
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
@@ -749,12 +760,7 @@ extension FeedVC:UITableViewDataSource {
                             }
                             
                             DispatchQueue.main.async {
-                                if self.isCompassOpen {
-                                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
-                                }else {
-                                    self.getAllFeeds(pageNumber: 0)
-                                }
-                                
+                                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                             }
                         }
                     }
@@ -788,7 +794,7 @@ extension FeedVC:UITableViewDataSource {
                 self.updateNetworkForBtns()
                 
                 if self.internetConnect {
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4, requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -798,12 +804,7 @@ extension FeedVC:UITableViewDataSource {
                         
                         guard let _ = message else {return}
                         DispatchQueue.main.async {
-                            if self.isCompassOpen {
-                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
-                            }else {
-                                self.getAllFeeds(pageNumber: 0)
-                            }
-                            
+                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                         }
                     }
                 }else {
@@ -818,7 +819,7 @@ extension FeedVC:UITableViewDataSource {
                 
                 if self.internetConnect {
                     self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Canceling...".localizedString)
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -829,18 +830,17 @@ extension FeedVC:UITableViewDataSource {
                         guard let _ = message else {return}
                         
                         DispatchQueue.main.async {
-                            cell.cancelRequestBtn.isHidden = true
-                            cell.cancelRequestBtn.setTitle("Cancel Request", for: .normal)
-                            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-                        }
-                        
-                        DispatchQueue.main.async {
-                            if self.isCompassOpen {
-                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
-                            }else {
-                                self.getAllFeeds(pageNumber: 0)
+                            DispatchQueue.main.async {
+                                cell.cancelRequestBtn.isHidden = true
+                                cell.cancelRequestBtn.setTitle("Cancel Request", for: .normal)
                             }
                             
+                            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                        }
+                   
+                        
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                         }
                     }
                 }
@@ -1355,8 +1355,7 @@ extension FeedVC {
         print("\(switchCompassBarButton.isOn)")
     }
     
-    
-    
+
     func initGhostModeSwitchButton() {
         switchGhostModeBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
         switchGhostModeBarButton.onTintColor = UIColor.FriendzrColors.primary!
@@ -1424,16 +1423,11 @@ extension FeedVC {
                         Defaults.myAppearanceTypes = [0]
                         
                         DispatchQueue.main.async {
-                            //                            self.switchGhostModeBarButton.isOn = false
                             self.initGhostModeSwitchButton()
                         }
                         
                         DispatchQueue.main.async {
-                            if self.isCompassOpen {
-                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
-                            }else {
-                                self.getAllFeeds(pageNumber: 0)
-                            }
+                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                         }
                         
                         DispatchQueue.main.async {
@@ -1529,6 +1523,7 @@ extension FeedVC {
             self.alertView?.selectedHideType.removeAll()
             self.alertView?.typeIDs.removeAll()
             self.alertView?.typeStrings.removeAll()
+            SelectedSingleTone.isSelected = false
             
             for item in self.alertView?.hideArray ?? [] {
                 item.isSelected = false
@@ -1677,11 +1672,7 @@ extension FeedVC {
             }
             
             DispatchQueue.main.async {
-                if self.isCompassOpen {
-                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
-                }else {
-                    self.getAllFeeds(pageNumber: 0)
-                }
+                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
             }
         }
     }

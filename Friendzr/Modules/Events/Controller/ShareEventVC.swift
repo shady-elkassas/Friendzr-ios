@@ -72,10 +72,12 @@ class ShareEventVC: UIViewController {
         myEventsVM.getMyEvents(pageNumber: pageNumber, search: search)
         myEventsVM.events.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.eventsTV.delegate = self
-                self.eventsTV.dataSource = self
-                self.eventsTV.reloadData()
                 
+                DispatchQueue.main.async {
+                    self.eventsTV.delegate = self
+                    self.eventsTV.dataSource = self
+                    self.eventsTV.reloadData()
+                }
                 if value.data?.count == 0 {
                     eventsEmptyView.isHidden = false
                     if search != "" {
@@ -104,9 +106,11 @@ class ShareEventVC: UIViewController {
         myGroupsVM.getAllGroupChat(pageNumber: pageNumber, search: search)
         myGroupsVM.listChat.bind { [unowned self] value in
             DispatchQueue.main.async {
-                groupsTV.delegate = self
-                groupsTV.dataSource = self
-                groupsTV.reloadData()
+                DispatchQueue.main.async {
+                    self.groupsTV.delegate = self
+                    self.groupsTV.dataSource = self
+                    self.groupsTV.reloadData()
+                }
                 
                 if value.data?.count == 0 {
                     groupsEmptyView.isHidden = false
@@ -136,9 +140,12 @@ class ShareEventVC: UIViewController {
         myFriendsVM.getAllFriendes(pageNumber: pageNumber, search: search)
         myFriendsVM.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
-                friendsTV.delegate = self
-                friendsTV.dataSource = self
-                friendsTV.reloadData()
+                
+                DispatchQueue.main.async {
+                    self.friendsTV.delegate = self
+                    self.friendsTV.dataSource = self
+                    self.friendsTV.reloadData()
+                }
                 
                 if value.data?.count == 0 {
                     friendsEmptyView.isHidden = false
@@ -304,6 +311,7 @@ extension ShareEventVC: UITableViewDataSource {
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
+                            cell.sendBtn.setTitle("Send", for: .normal)
                         }
                         return
                     }
@@ -337,6 +345,7 @@ extension ShareEventVC: UITableViewDataSource {
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
+                            cell.sendBtn.setTitle("Sent", for: .normal)
                         }
                         return
                     }
@@ -347,7 +356,7 @@ extension ShareEventVC: UITableViewDataSource {
                     
                     DispatchQueue.main.async {
                         cell.sendBtn.isUserInteractionEnabled = false
-                        cell.sendBtn.setTitle("Sent", for: .normal)
+                        cell.sendBtn.setTitle("Send", for: .normal)
                         cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
                         cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
                         cell.sendBtn.backgroundColor = .white
@@ -371,6 +380,7 @@ extension ShareEventVC: UITableViewDataSource {
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
+                            cell.sendBtn.setTitle("Send", for: .normal)
                         }
                         return
                     }

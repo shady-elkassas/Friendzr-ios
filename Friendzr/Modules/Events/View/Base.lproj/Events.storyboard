@@ -2008,7 +2008,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lTJ-GI-hd1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4076.811594202899" y="1561.6071428571429"/>
+            <point key="canvasLocation" x="5897.1014492753629" y="1561.6071428571429"/>
         </scene>
         <!--ShareVC-->
         <scene sceneID="EI5-Hp-dZf">
@@ -2043,7 +2043,128 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tWU-U6-ksP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5739.130434782609" y="1573.6607142857142"/>
+            <point key="canvasLocation" x="7559.420289855073" y="1573.6607142857142"/>
+        </scene>
+        <!--Event CalendarVC-->
+        <scene sceneID="qGg-Rc-sgB">
+            <objects>
+                <viewController storyboardIdentifier="EventCalendarVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dIV-WI-g8m" customClass="EventCalendarVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gU7-gg-No6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ncd-Oo-TLE">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X2q-NO-7Qd">
+                                <rect key="frame" x="34.5" y="207" width="345" height="482"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gae-rV-hMe">
+                                        <rect key="frame" x="0.0" y="0.0" width="345" height="79.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2021" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jnh-Mx-wI6">
+                                                <rect key="frame" x="25" y="15" width="26.5" height="15"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wed, Dec 25" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CbU-7A-Kfk">
+                                                <rect key="frame" x="25" y="35" width="156" height="29.5"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="24"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="CbU-7A-Kfk" firstAttribute="top" secondItem="jnh-Mx-wI6" secondAttribute="bottom" constant="5" id="EQH-xk-K9l"/>
+                                            <constraint firstItem="jnh-Mx-wI6" firstAttribute="top" secondItem="Gae-rV-hMe" secondAttribute="top" constant="15" id="Fxv-oz-QJT"/>
+                                            <constraint firstItem="CbU-7A-Kfk" firstAttribute="leading" secondItem="jnh-Mx-wI6" secondAttribute="leading" id="o7z-Jf-jI2"/>
+                                            <constraint firstItem="jnh-Mx-wI6" firstAttribute="leading" secondItem="Gae-rV-hMe" secondAttribute="leading" constant="25" id="rKQ-9D-r6W"/>
+                                            <constraint firstAttribute="bottom" secondItem="CbU-7A-Kfk" secondAttribute="bottom" constant="15" id="yD2-fy-A92"/>
+                                        </constraints>
+                                    </view>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="1J8-3C-SKl">
+                                        <rect key="frame" x="0.0" y="79.5" width="345" height="330.5"/>
+                                    </datePicker>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="s0e-Hd-3yN">
+                                        <rect key="frame" x="191" y="426" width="129" height="40"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PfL-8y-GdJ">
+                                                <rect key="frame" x="0.0" y="0.0" width="81" height="40"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
+                                                <state key="normal" title="CANCEL">
+                                                    <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="cancelBtn:" destination="dIV-WI-g8m" eventType="touchUpInside" id="vA1-6s-p0v"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="omZ-3W-2Ne">
+                                                <rect key="frame" x="89" y="0.0" width="40" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="40" id="tFM-hm-RSa"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
+                                                <state key="normal" title="OK">
+                                                    <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="okBtn:" destination="dIV-WI-g8m" eventType="touchUpInside" id="M1G-Wa-0xT"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="4Zp-pR-eWY"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" name="Color0"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Gae-rV-hMe" secondAttribute="trailing" id="07d-6N-ykL"/>
+                                    <constraint firstItem="Gae-rV-hMe" firstAttribute="top" secondItem="X2q-NO-7Qd" secondAttribute="top" id="GtG-By-Vrt"/>
+                                    <constraint firstItem="Gae-rV-hMe" firstAttribute="leading" secondItem="X2q-NO-7Qd" secondAttribute="leading" id="NyL-CJ-D79"/>
+                                    <constraint firstAttribute="trailing" secondItem="s0e-Hd-3yN" secondAttribute="trailing" constant="25" id="SJ5-8F-Ztn"/>
+                                    <constraint firstItem="s0e-Hd-3yN" firstAttribute="top" secondItem="1J8-3C-SKl" secondAttribute="bottom" constant="16" id="nDR-tv-4l0"/>
+                                    <constraint firstAttribute="bottom" secondItem="s0e-Hd-3yN" secondAttribute="bottom" constant="16" id="qa9-6T-u8p"/>
+                                    <constraint firstAttribute="trailing" secondItem="1J8-3C-SKl" secondAttribute="trailing" id="uug-fY-hJ2"/>
+                                    <constraint firstItem="1J8-3C-SKl" firstAttribute="top" secondItem="Gae-rV-hMe" secondAttribute="bottom" id="vx0-kp-cMf"/>
+                                    <constraint firstItem="1J8-3C-SKl" firstAttribute="leading" secondItem="X2q-NO-7Qd" secondAttribute="leading" id="wNe-B9-JXc"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="gx7-LV-WqE"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ncd-Oo-TLE" secondAttribute="trailing" id="Gue-eJ-app"/>
+                            <constraint firstItem="X2q-NO-7Qd" firstAttribute="centerY" secondItem="gU7-gg-No6" secondAttribute="centerY" id="Klf-6Q-SKF"/>
+                            <constraint firstItem="X2q-NO-7Qd" firstAttribute="centerX" secondItem="gU7-gg-No6" secondAttribute="centerX" id="YY3-aY-09N"/>
+                            <constraint firstItem="ncd-Oo-TLE" firstAttribute="top" secondItem="gU7-gg-No6" secondAttribute="top" id="a7K-Jg-WEG"/>
+                            <constraint firstItem="ncd-Oo-TLE" firstAttribute="leading" secondItem="gU7-gg-No6" secondAttribute="leading" id="ciV-5O-xBB"/>
+                            <constraint firstAttribute="bottom" secondItem="ncd-Oo-TLE" secondAttribute="bottom" id="vpY-RV-U5t"/>
+                            <constraint firstItem="X2q-NO-7Qd" firstAttribute="width" secondItem="gU7-gg-No6" secondAttribute="width" multiplier="1:1.2" id="xCh-kr-FRm"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="oYJ-XO-c08"/>
+                    <connections>
+                        <outlet property="calenderView" destination="1J8-3C-SKl" id="Fkx-iT-9tI"/>
+                        <outlet property="cancelBtn" destination="PfL-8y-GdJ" id="ENF-ij-t93"/>
+                        <outlet property="containerView" destination="X2q-NO-7Qd" id="3On-am-Xjj"/>
+                        <outlet property="dayLbl" destination="CbU-7A-Kfk" id="JE1-MT-2Mg"/>
+                        <outlet property="okBtn" destination="omZ-3W-2Ne" id="srb-E1-1zv"/>
+                        <outlet property="yearAndDayView" destination="Gae-rV-hMe" id="d4p-ep-uIY"/>
+                        <outlet property="yearLbl" destination="jnh-Mx-wI6" id="wI6-Sq-vsL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WYv-ef-rSC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3740.579710144928" y="1728.3482142857142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Z20-Hd-JpB">
@@ -2061,7 +2182,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BSQ-sE-nqB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3184.057971014493" y="1561.6071428571429"/>
+            <point key="canvasLocation" x="5004.347826086957" y="1561.6071428571429"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Ruk-Yd-5Fc">
@@ -2079,7 +2200,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Ws-qn-XFT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4937.68115942029" y="1573.6607142857142"/>
+            <point key="canvasLocation" x="6757.971014492754" y="1573.6607142857142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="r2F-zP-424">
@@ -2455,6 +2576,152 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="amj-Vq-HUB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="413.04347826086962" y="864.50892857142856"/>
+        </scene>
+        <!--Event TimeVC-->
+        <scene sceneID="N1J-TU-EVL">
+            <objects>
+                <viewController storyboardIdentifier="EventTimeVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="TOh-7y-d1a" customClass="EventTimeVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lpa-0M-Erc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view alpha="0.80000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xuz-tX-09a">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ArB-zb-7eT">
+                                <rect key="frame" x="34.5" y="349" width="345" height="198.5"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FUy-7F-KVl">
+                                        <rect key="frame" x="0.0" y="0.0" width="345" height="79.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fyg-Ma-l4X">
+                                                <rect key="frame" x="25" y="25" width="106" height="29.5"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="24"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="Fyg-Ma-l4X" secondAttribute="bottom" constant="25" id="EXY-d8-agq"/>
+                                            <constraint firstItem="Fyg-Ma-l4X" firstAttribute="leading" secondItem="FUy-7F-KVl" secondAttribute="leading" constant="25" id="P0H-Vh-5BH"/>
+                                            <constraint firstItem="Fyg-Ma-l4X" firstAttribute="top" secondItem="FUy-7F-KVl" secondAttribute="top" constant="25" id="eSz-FG-MXv"/>
+                                        </constraints>
+                                    </view>
+                                    <datePicker contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="Tqb-Wk-AEk">
+                                        <rect key="frame" x="78" y="79.5" width="189" height="47"/>
+                                    </datePicker>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="5i6-Fk-Xvj">
+                                        <rect key="frame" x="191" y="142.5" width="129" height="40"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3rR-XQ-OEI">
+                                                <rect key="frame" x="0.0" y="0.0" width="81" height="40"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
+                                                <state key="normal" title="CANCEL">
+                                                    <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="cancelBtn:" destination="TOh-7y-d1a" eventType="touchUpInside" id="kx1-xy-u6I"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b3o-PQ-LnH">
+                                                <rect key="frame" x="89" y="0.0" width="40" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="40" id="bhd-Mw-TDO"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
+                                                <state key="normal" title="OK">
+                                                    <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="okBtn:" destination="TOh-7y-d1a" eventType="touchUpInside" id="7Ml-N8-SRx"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="3NV-Xa-2P6"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" name="Color0"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="5i6-Fk-Xvj" secondAttribute="bottom" constant="16" id="8R2-oe-3dI"/>
+                                    <constraint firstItem="FUy-7F-KVl" firstAttribute="top" secondItem="ArB-zb-7eT" secondAttribute="top" id="BA2-ol-AOv"/>
+                                    <constraint firstItem="FUy-7F-KVl" firstAttribute="leading" secondItem="ArB-zb-7eT" secondAttribute="leading" id="KVy-ad-wPY"/>
+                                    <constraint firstItem="5i6-Fk-Xvj" firstAttribute="top" secondItem="Tqb-Wk-AEk" secondAttribute="bottom" constant="16" id="NXq-6U-Rl0"/>
+                                    <constraint firstItem="Tqb-Wk-AEk" firstAttribute="top" secondItem="FUy-7F-KVl" secondAttribute="bottom" id="Wcx-aX-ECH"/>
+                                    <constraint firstItem="Tqb-Wk-AEk" firstAttribute="centerX" secondItem="ArB-zb-7eT" secondAttribute="centerX" id="Xug-b7-U0L"/>
+                                    <constraint firstAttribute="trailing" secondItem="5i6-Fk-Xvj" secondAttribute="trailing" constant="25" id="jdl-Me-t6T"/>
+                                    <constraint firstAttribute="trailing" secondItem="FUy-7F-KVl" secondAttribute="trailing" id="kgb-wC-0hd"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="LIp-Yz-8Fa"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="xuz-tX-09a" firstAttribute="leading" secondItem="LIp-Yz-8Fa" secondAttribute="leading" id="A5J-g4-6qn"/>
+                            <constraint firstItem="ArB-zb-7eT" firstAttribute="centerY" secondItem="lpa-0M-Erc" secondAttribute="centerY" id="EMA-Zm-nsL"/>
+                            <constraint firstItem="xuz-tX-09a" firstAttribute="top" secondItem="lpa-0M-Erc" secondAttribute="top" id="QaN-UF-zsx"/>
+                            <constraint firstAttribute="bottom" secondItem="xuz-tX-09a" secondAttribute="bottom" id="eXD-eA-Gnw"/>
+                            <constraint firstItem="LIp-Yz-8Fa" firstAttribute="trailing" secondItem="xuz-tX-09a" secondAttribute="trailing" id="icn-pu-fai"/>
+                            <constraint firstItem="ArB-zb-7eT" firstAttribute="centerX" secondItem="lpa-0M-Erc" secondAttribute="centerX" id="pVO-pW-tfL"/>
+                            <constraint firstItem="ArB-zb-7eT" firstAttribute="width" secondItem="lpa-0M-Erc" secondAttribute="width" multiplier="1:1.2" id="upC-5f-44F"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="oBo-L2-21O"/>
+                    <connections>
+                        <outlet property="cancelBtn" destination="3rR-XQ-OEI" id="9TQ-Ed-AnA"/>
+                        <outlet property="containerView" destination="ArB-zb-7eT" id="iE5-0d-H9l"/>
+                        <outlet property="okBtn" destination="b3o-PQ-LnH" id="x79-rT-afH"/>
+                        <outlet property="subView" destination="FUy-7F-KVl" id="x52-u8-Bnc"/>
+                        <outlet property="timeView" destination="Tqb-Wk-AEk" id="RfC-q9-tRU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NxT-BH-fv6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1647.826086956522" y="1809.375"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="5OD-yO-fjS">
+            <objects>
+                <navigationController storyboardIdentifier="EventCalendarNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="iKu-5p-dq5" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="88J-an-t88">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="dIV-WI-g8m" kind="relationship" relationship="rootViewController" id="Qf4-zy-fyQ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BOk-cH-7xz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2831.8840579710145" y="1728.3482142857142"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ZbT-J6-JzU">
+            <objects>
+                <navigationController storyboardIdentifier="EventTimeNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="9YB-Hh-yLk" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="RXV-sU-fVv">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="TOh-7y-d1a" kind="relationship" relationship="rootViewController" id="Hlm-jD-kZg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yWA-kB-2Vp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="737.68115942028987" y="1809.375"/>
         </scene>
     </scenes>
     <resources>

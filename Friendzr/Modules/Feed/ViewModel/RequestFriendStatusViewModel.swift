@@ -17,11 +17,11 @@ class RequestFriendStatusViewModel {
     var error:DynamicType<String> = DynamicType()
     
     //add Request Friend Status
-    func requestFriendStatus(withID id:String,AndKey key:Int,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+    func requestFriendStatus(withID id:String,AndKey key:Int,requestdate:String,completion: @escaping (_ error: String?, _ data: Bool?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/RequestFriendStatus"
         let headers = RequestComponent.headerComponent([.authorization,.type])
-        let parameters:[String : Any] = ["userid": id,"key":key]
+        let parameters:[String : Any] = ["userid": id,"key":key,"Requestdate":requestdate]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
@@ -36,7 +36,7 @@ class RequestFriendStatusViewModel {
             }
             else {
                 // When set the listener (if any) will be notified
-                if let toAdd = userResponse.message {
+                if let toAdd = userResponse.isSuccessful {
                     completion(nil, toAdd)
                 }
             }

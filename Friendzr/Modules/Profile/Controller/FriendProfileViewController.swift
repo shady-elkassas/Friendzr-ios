@@ -36,6 +36,19 @@ class FriendProfileViewController: UIViewController {
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var internetConect:Bool = false
     
+    private let formatterDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "dd-MM-yyyy"
+        return formatter
+    }()
+    
+    private let formatterTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "HH:mm:ss"
+        return formatter
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -221,6 +234,9 @@ extension FriendProfileViewController:UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let actionDate = formatterDate.string(from: Date())
+        let actionTime = formatterTime.string(from: Date())
+
         let model = viewmodel.model.value
         
         if indexPath.row == 0 {//image
@@ -300,7 +316,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                 self.updateUserInterfaceBtns()
                 if self.internetConect == true {
                     self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
-                    self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1) { error, message in
+                    self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         
                         if let error = error {
                             DispatchQueue.main.async {
@@ -326,7 +342,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                 self.updateUserInterfaceBtns()
                 if self.internetConect == true {
                     self.changeTitleBtns(btn: cell.cancelBtn, title: "Canceling...".localizedString)
-                    self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6) { error, message in
+                    self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -356,7 +372,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                 self.alertView?.HandleConfirmBtn = {
                     self.updateUserInterfaceBtns()
                     if self.internetConect == true {
-                        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6) { error, message in
+                        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6,requestdate: "\(actionDate) \(actionTime)") { error, message in
                             self.hideLoading()
                             if let error = error {
                                 DispatchQueue.main.async {
@@ -394,7 +410,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             cell.HandleAcceptBtn = {
                 self.updateUserInterfaceBtns()
                 if self.internetConect == true {
-                    self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 2) { error, message in
+                    self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 2,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -429,7 +445,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                         cell.sendRequestBtn.isHidden = false
                         cell.friendStackView.isHidden = true
                         
-                        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 5) { error, message in
+                        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 5,requestdate: "\(actionDate) \(actionTime)") { error, message in
                             self.hideLoading()
                             if let error = error {
                                 DispatchQueue.main.async {
@@ -471,7 +487,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                     self.updateUserInterfaceBtns()
                     if self.internetConect == true {
                         self.changeTitleBtns(btn: cell.blockBtn, title: "Sending...".localizedString)
-                        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 3) { error, message in
+                        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 3,requestdate: "\(actionDate) \(actionTime)") { error, message in
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
@@ -512,7 +528,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                     if self.internetConect == true {
                         
                         self.changeTitleBtns(btn: cell.unblockBtn, title: "Sending...")
-                        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 4) { error, message in
+                        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 4,requestdate: "\(actionDate) \(actionTime)") { error, message in
                             
                             if let error = error {
                                 DispatchQueue.main.async {

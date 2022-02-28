@@ -40,6 +40,21 @@ class BlockedListVC: UIViewController {
     var currentPage : Int = 1
     var isLoadingList : Bool = false
     
+    
+    private let formatterDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "dd-MM-yyyy"
+        return formatter
+    }()
+    
+    private let formatterTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "HH:mm:ss"
+        return formatter
+    }()
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -289,6 +304,9 @@ extension BlockedListVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let actionDate = formatterDate.string(from: Date())
+        let actionTime = formatterTime.string(from: Date())
+
         if viewmodel.blocklist.value?.data?.count != 0 {
             
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? BlockedTableViewCell else {return UITableViewCell()}
@@ -310,7 +328,7 @@ extension BlockedListVC: UITableViewDataSource {
                     // handling code
                     self.btnsSelect = true
                     if self.internetConect {
-                        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4) { error, message in
+                        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4, requestdate: "\(actionDate) \(actionTime)") { error, message in
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)

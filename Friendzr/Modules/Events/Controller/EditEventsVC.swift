@@ -234,6 +234,31 @@ class EditEventsVC: UIViewController {
         }
     }
     
+    func onStartDateCallBack(_ dayDate: String, _ date: String,_ minimumDate:Date,_ maximumDate:Date) -> () {
+        self.startDayLbl.text = dayDate
+        self.startDate = date
+        self.minimumDate = minimumDate
+        self.maximumDate = maximumDate
+    }
+    
+    func onEndDateCallBack(_ dayDate: String, _ date: String,_ minimumDate:Date,_ maximumDate:Date) -> () {
+        self.endDayLbl.text = dayDate
+        self.endDate = date
+    }
+    
+    func onStartTimeCallBack(_ timeDateLbl: String, _ timeDate: String) -> () {
+        self.startTimeLbl.text = timeDateLbl
+        self.startTime = timeDate
+    }
+    
+    func onEndTimeCallBack(_ timeDateLbl: String, _ timeDate: String) -> () {
+        self.endTimeLbl.text = timeDateLbl
+        self.endTime = timeDate
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
     //MARK: - Actions
     
     @IBAction func saveBtn(_ sender: Any) {
@@ -253,7 +278,6 @@ class EditEventsVC: UIViewController {
                 guard let _ = data else {return}
                 
                 DispatchQueue.main.async {
-//                    self.view.makeToast("Edit Save successfully".localizedString)
                     self.saveBtn.setTitle("Save", for: .normal)
                     self.saveBtn.isUserInteractionEnabled = true
                 }
@@ -320,176 +344,55 @@ class EditEventsVC: UIViewController {
     }
     
     @IBAction func startDayBtn(_ sender: Any) {
-        dateAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        
-        self.dateAlertView?.calenderView.addTarget(self, action: #selector(self.dateChanged(_:)), for: .valueChanged)
-        
-        dateAlertView?.HandleOKBtn = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
-            
-            let formatter2 = DateFormatter()
-            formatter2.dateFormat = "yyyy-MM-dd"
-            self.startDate = formatter2.string(from: (self.dateAlertView?.calenderView.date)!)
-            
-            
-            var comps2:DateComponents = DateComponents()
-            comps2.month = 1
-            comps2.day = -1
-            
-            self.minimumDate = (self.dateAlertView?.calenderView.date)!
-            self.maximumDate = (self.dateAlertView?.calenderView.calendar.date(byAdding: comps2, to: self.minimumDate))!
-            
-            print(formatter2.string(from: self.minimumDate),formatter2.string(from: self.maximumDate))
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.dateAlertView?.alpha = 0
-            }) { (success: Bool) in
-                self.dateAlertView?.removeFromSuperview()
-                self.dateAlertView?.alpha = 1
-                self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        dateAlertView?.HandleCancelBtn = {
-            // handling code
-            UIView.animate(withDuration: 0.3, animations: {
-                self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.dateAlertView?.alpha = 0
-            }) { (success: Bool) in
-                self.dateAlertView?.removeFromSuperview()
-                self.dateAlertView?.alpha = 1
-                self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        self.view.addSubview((dateAlertView)!)
+        guard let popupVC = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventCalendarVC") as? EventCalendarVC else {return}
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.modalTransitionStyle = .crossDissolve
+        let pVC = popupVC.popoverPresentationController
+        pVC?.permittedArrowDirections = .any
+        pVC?.delegate = self
+        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+        popupVC.eventModel = eventModel
+        popupVC.onDateCallBackResponse = self.onStartDateCallBack
+        present(popupVC, animated: true, completion: nil)
     }
     
     @IBAction func endDayBtn(_ sender: Any) {
-        dateAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        
-        self.dateAlertView?.calenderView.addTarget(self, action: #selector(self.dateChanged(_:)), for: .valueChanged)
-        
-        self.dateAlertView?.calenderView.maximumDate = self.maximumDate
-        
-        dateAlertView?.HandleOKBtn = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
-            
-            let formatter2 = DateFormatter()
-            formatter2.dateFormat = "yyyy-MM-dd"
-            self.endDate = formatter2.string(from: (self.dateAlertView?.calenderView.date)!)
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.dateAlertView?.alpha = 0
-            }) { (success: Bool) in
-                self.dateAlertView?.removeFromSuperview()
-                self.dateAlertView?.alpha = 1
-                self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        dateAlertView?.HandleCancelBtn = {
-            // handling code
-            UIView.animate(withDuration: 0.3, animations: {
-                self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.dateAlertView?.alpha = 0
-            }) { (success: Bool) in
-                self.dateAlertView?.removeFromSuperview()
-                self.dateAlertView?.alpha = 1
-                self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        self.view.addSubview((dateAlertView)!)
+        guard let popupVC = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventCalendarVC") as? EventCalendarVC else {return}
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.modalTransitionStyle = .crossDissolve
+        let pVC = popupVC.popoverPresentationController
+        pVC?.permittedArrowDirections = .any
+        pVC?.delegate = self
+        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+        popupVC.onDateCallBackResponse = self.onEndDateCallBack
+        present(popupVC, animated: true, completion: nil)
+
     }
-    
+
     @IBAction func startTimeBtn(_ sender: Any) {
-        timeAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        
-        var comps2:DateComponents = DateComponents()
-        comps2.day = -1
-        
-        self.timeAlertView?.timeView.minimumDate = self.timeAlertView?.timeView.calendar.date(from: comps2)
-        
-        timeAlertView?.HandleOKBtn = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "HH:mm"
-            self.startTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
-            
-            let formatter2 = DateFormatter()
-            formatter2.dateFormat = "HH:mm"
-            self.startTime = formatter2.string(from: (self.timeAlertView?.timeView.date)!)
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.timeAlertView?.alpha = 0
-            }) { (success: Bool) in
-                self.timeAlertView?.removeFromSuperview()
-                self.timeAlertView?.alpha = 1
-                self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        timeAlertView?.HandleCancelBtn = {
-            // handling code
-            UIView.animate(withDuration: 0.3, animations: {
-                self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.timeAlertView?.alpha = 0
-            }) { (success: Bool) in
-                self.timeAlertView?.removeFromSuperview()
-                self.timeAlertView?.alpha = 1
-                self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        self.view.addSubview((timeAlertView)!)
+        guard let popupVC = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventTimeVC") as? EventTimeVC else {return}
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.modalTransitionStyle = .crossDissolve
+        let pVC = popupVC.popoverPresentationController
+        pVC?.permittedArrowDirections = .any
+        pVC?.delegate = self
+        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+        popupVC.onTimeCallBackResponse = self.onStartTimeCallBack
+        present(popupVC, animated: true, completion: nil)
+
     }
     
     @IBAction func endTimeBtn(_ sender: Any) {
-        timeAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        
-        var comps2:DateComponents = DateComponents()
-        comps2.day = -1
-        self.timeAlertView?.timeView.minimumDate = self.timeAlertView?.timeView.calendar.date(from: comps2)
-        
-        timeAlertView?.HandleOKBtn = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "HH:mm"
-            self.endTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
-            
-            let formatter2 = DateFormatter()
-            formatter2.dateFormat = "HH:mm"
-            self.endTime = formatter2.string(from: (self.timeAlertView?.timeView.date)!)
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.timeAlertView?.alpha = 0
-            }) { (success: Bool) in
-                self.timeAlertView?.removeFromSuperview()
-                self.timeAlertView?.alpha = 1
-                self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        timeAlertView?.HandleCancelBtn = {
-            // handling code
-            UIView.animate(withDuration: 0.3, animations: {
-                self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.timeAlertView?.alpha = 0
-            }) { (success: Bool) in
-                self.timeAlertView?.removeFromSuperview()
-                self.timeAlertView?.alpha = 1
-                self.timeAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        self.view.addSubview((timeAlertView)!)
+        guard let popupVC = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventTimeVC") as? EventTimeVC else {return}
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.modalTransitionStyle = .crossDissolve
+        let pVC = popupVC.popoverPresentationController
+        pVC?.permittedArrowDirections = .any
+        pVC?.delegate = self
+        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+        popupVC.onTimeCallBackResponse = self.onEndTimeCallBack
+        present(popupVC, animated: true, completion: nil)
+
     }
     
     @IBAction func attendeesBtn(_ sender: Any) {
@@ -694,4 +597,8 @@ extension EditEventsVC: UITableViewDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
+}
+
+extension EditEventsVC : UIPopoverPresentationControllerDelegate{
+    
 }

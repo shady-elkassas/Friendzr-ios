@@ -615,10 +615,12 @@ extension SettingsVC: UITableViewDataSource {
                     self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     
                     self.alertView?.parentVC = self
-                    self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
                     self.alertView?.selectedHideType.removeAll()
                     self.alertView?.typeIDs.removeAll()
                     self.alertView?.typeStrings.removeAll()
+                    SelectedSingleTone.isSelected = false
+
+                    self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
                     
                     for item in self.alertView?.hideArray ?? [] {
                         item.isSelected = false

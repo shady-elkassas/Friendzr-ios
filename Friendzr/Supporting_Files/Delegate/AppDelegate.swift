@@ -77,6 +77,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         FirebaseApp.configure()
+        FirebaseConfiguration.shared.setLoggerLevel(.min)
+        
         GMSServices.provideAPIKey("AIzaSyCLmWYc00w0KZ-qj8hIymWCIs8K5Z0cG0g")
         GMSPlacesClient.provideAPIKey("AIzaSyCLmWYc00w0KZ-qj8hIymWCIs8K5Z0cG0g")
         GADMobileAds.sharedInstance().start(completionHandler: nil)
@@ -274,13 +276,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult)
                      -> Void) {
-        // If you are receiving a notification message while your app is in the background,
-        // this callback will not be fired till the user taps on the notification launching the application.
-        // TODO: Handle data of notification
-        
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
-        
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
@@ -288,14 +283,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Print full message.
         print(userInfo)
-        //        let aps = userInfo["aps"] as? [String:Any] //?[""]
-        //        let action = userInfo["Action"] as? String //action transaction
-        //        let actionId = userInfo["Action_code"] as? String //userid
-        //        let chatTitle = userInfo["name"] as? String
-        //        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
-        //        let imageNotifications = chatTitleImage?["image"] as? String
-        
-        //        let soundNoti: String = userInfo["sound"] as? String ?? ""
         content.sound = UNNotificationSound.default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
@@ -320,8 +307,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    
+    
+    @objc func updateBadgeApp() {
+        let state = UIApplication.shared.applicationState
         
+        switch state {
+        case .inactive:
+            print("Inactive")
+            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            content.sound = UNNotificationSound.default
+        case .background:
+            print("Background")
+            // update badge count here
+            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            content.sound = UNNotificationSound.default
+        case .active:
+            print("Active")
+            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            content.sound = UNNotificationSound.default
+        default:
+            break
+        }
+    }
+
+}
+
+
+extension AppDelegate : MessagingDelegate{
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        
+        let _:[String: String] = ["token": fcmToken ?? ""]
+        print("Firebase registration token: \(String(describing: fcmToken))")
+        Defaults.fcmToken = fcmToken ?? ""
+        
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: nil
+        )
+    }
+    
+    @objc func registrationFCM() {
+        Messaging.messaging().token { token, error in
+            if let error = error {
+                print("Error fetching FCM registration token: \(error)")
+            } else if let token = token {
+                print("FCM registration token: \(token)")
+                Defaults.fcmToken = token
+            }
+        }
+    }
+}
+
+@available(iOS 10, *)
+extension AppDelegate : UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+
         // retrieve the root view controller (which is a tab bar controller)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             guard let rootViewController = Initializer.getWindow().rootViewController else {
@@ -337,10 +380,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
             let imageNotifications = chatTitleImage?["image"] as? String
             let isEventAdmin = userInfo["isAdmin"] as? String
-            
-            //            let isAdminEvent = userInfo["fcm_options"] as? [String:Any]
-            //            let soundNoti: String = userInfo["sound"] as? String ?? ""
-            
+
             self.content.sound = UNNotificationSound.default
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
             let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
@@ -387,7 +427,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.eventId = actionId ?? ""
-                    //                    tabBarController.selectedIndex = 4
                     navController.pushViewController(vc, animated: true)
                 }
             }
@@ -430,63 +469,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         completionHandler()
     }
-    
-    
-    @objc func updateBadgeApp() {
-        let state = UIApplication.shared.applicationState
-        
-        switch state {
-        case .inactive:
-            print("Inactive")
-            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-            content.sound = UNNotificationSound.default
-        case .background:
-            print("Background")
-            // update badge count here
-            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-            content.sound = UNNotificationSound.default
-        case .active:
-            print("Active")
-            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-            content.sound = UNNotificationSound.default
-        default:
-            break
-        }
-    }
-    
-    @objc func registrationFCM() {
-        Messaging.messaging().token { token, error in
-            if let error = error {
-                print("Error fetching FCM registration token: \(error)")
-            } else if let token = token {
-                print("FCM registration token: \(token)")
-                Defaults.fcmToken = token
-            }
-        }
-    }
-}
 
-
-extension AppDelegate : MessagingDelegate{
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        
-        let _:[String: String] = ["token": fcmToken ?? ""]
-        print("Firebase registration token: \(String(describing: fcmToken))")
-        Defaults.fcmToken = fcmToken ?? ""
-        
-        NotificationCenter.default.post(
-            name: Notification.Name("FCMToken"),
-            object: nil,
-            userInfo: nil
-        )
-    }
-}
-
-@available(iOS 10, *)
-extension AppDelegate : UNUserNotificationCenterDelegate {
-    
     // Receive displayed notifications for iOS 10 devices.
     func userNotificationCenter(_ center: UNUserNotificationCenter,willPresent notification: UNNotification,withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+//        process(notification)
+//        completionHandler([[.banner, .sound]])
+
         let userInfo = notification.request.content.userInfo
         
         // With swizzling disabled you must let Messaging know about the message, for Analytics
@@ -591,7 +580,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         content.sound = UNNotificationSound.default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
-
         center.add(request, withCompletionHandler: nil)
 
         // Change this to your preferred presentation option
@@ -619,7 +607,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 completionHandler([[]])
             }
         }
-      
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {

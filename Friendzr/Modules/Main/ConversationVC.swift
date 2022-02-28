@@ -167,6 +167,13 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         return formatter
     }()
     
+    let formatterUnfriendDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "dd-MM-yyyy"
+        return formatter
+    }()
+    
     let formatterTime: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -456,7 +463,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     func getUserChatMessages(pageNumber:Int) {
         CancelRequest.currentTask = false
-        
         if pageNumber > viewmodel.messages.value?.totalPages ?? 1 {
             return
         }
@@ -1001,8 +1007,11 @@ extension ConversationVC {
         alertView?.titleLbl.text = "Confirm?".localizedString
         alertView?.detailsLbl.text = "Are you sure you want to unfriend this account?".localizedString
         
+        let actionDate = formatterUnfriendDate.string(from: Date())
+        let actionTime = formatterTime.string(from: Date())
+
         alertView?.HandleConfirmBtn = {
-            self.requestFriendVM.requestFriendStatus(withID: self.chatuserID, AndKey: 5) { error, message in
+            self.requestFriendVM.requestFriendStatus(withID: self.chatuserID, AndKey: 5,requestdate: "\(actionDate) \(actionTime)") { error, message in
                 self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
@@ -1012,10 +1021,6 @@ extension ConversationVC {
                 }
                 
                 guard let message = message else {return}
-                
-                DispatchQueue.main.async {
-                    self.view.makeToast(message)
-                }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     Router().toHome()
                 }
@@ -1037,11 +1042,14 @@ extension ConversationVC {
     func blockFriendAccount() {
         alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
+        let actionDate = formatterUnfriendDate.string(from: Date())
+        let actionTime = formatterTime.string(from: Date())
+
         alertView?.titleLbl.text = "Confirm?".localizedString
         alertView?.detailsLbl.text = "Are you sure you want to block this account?".localizedString
         
         alertView?.HandleConfirmBtn = {
-            self.requestFriendVM.requestFriendStatus(withID: self.chatuserID, AndKey: 3) { error, message in
+            self.requestFriendVM.requestFriendStatus(withID: self.chatuserID, AndKey: 3,requestdate: "\(actionDate) \(actionTime)") { error, message in
                 self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
@@ -1051,10 +1059,7 @@ extension ConversationVC {
                 }
                 
                 guard let message = message else {return}
-                
-                DispatchQueue.main.async {
-                    self.view.makeToast(message)
-                }
+
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     Router().toHome()
                 }

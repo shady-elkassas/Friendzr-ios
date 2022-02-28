@@ -12,6 +12,7 @@ import GooglePlaces
 import ObjectMapper
 import MapKit
 import GoogleMobileAds
+import ListPlaceholder
 
 let googleApiKey = "AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY"
 
@@ -174,14 +175,18 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         self.subView.isHidden = false
         self.upDownViewBtn.isHidden = false
         collectionViewHeight.constant = 0
+        
         viewmodel.getAllEventsOnlyAroundMe(lat: location?.latitude ?? 0.0, lng: location?.longitude ?? 0.0, pageNumber: 1)
         viewmodel.eventsOnlyMe.bind { [unowned self] value in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                
                 DispatchQueue.main.async {
                     self.collectionView.dataSource = self
                     self.collectionView.delegate = self
                     self.collectionView.reloadData()
                 }
+                
                 DispatchQueue.main.async {
                     if isViewUp == true {
                         collectionViewHeight.constant = 140
@@ -197,11 +202,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
+//                self.hideLoading()
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                 }
-                
             }
         }
     }
@@ -209,7 +213,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     func bindToModel() {
         viewmodel.getAllEventsAroundMe()
         viewmodel.locations.bind { [unowned self] value in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 self.setupMarkers()
             }
         }
@@ -323,20 +327,26 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "eventMarker_ic", typelocation: "event", eventsCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : "",isEvent: true,peopleCount: 0))
         }
         
-        for item in model?.peoplocationDataMV ?? [] {
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "markerLocations_ic", typelocation: "people", eventsCount: 1, markerId: "1",isEvent: false,peopleCount: item.totalUsers ?? 0))
+        DispatchQueue.main.async {
+            for item in model?.peoplocationDataMV ?? [] {
+                self.locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "markerLocations_ic", typelocation: "people", eventsCount: 1, markerId: "1",isEvent: false,peopleCount: item.totalUsers ?? 0))
+            }
         }
         
-        for item in locations {
-            setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, eventsCount: item.eventsCount,isEvent: item.isEvent,peopleCount: item.peopleCount)
+        DispatchQueue.main.async {
+            for item in self.locations {
+                self.setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, eventsCount: item.eventsCount,isEvent: item.isEvent,peopleCount: item.peopleCount)
+            }
         }
     }
     
     //create markers for locations events
     func setupMarkerz(for position:CLLocationCoordinate2D , markerIcon:String?,typelocation:String,markerID:String,eventsCount:Int,isEvent: Bool,peopleCount: Int)  {
+     
         if appendNewLocation {
             mapView.clear()
         }
+        
         let marker = GMSMarker(position: position)
         
         marker.snippet = typelocation
@@ -344,14 +354,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         marker.opacity = Float(eventsCount)
         
         if LocationZooming.locationLat == position.latitude {
-            if isEvent {
+            if typelocation == "event" {
                 marker.appearAnimation = .pop
             }else {
                 marker.appearAnimation = .none
             }
         }
-        
-//        marker.appearAnimation = .none
         
         let xview:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
         let labl = UILabel()
@@ -377,7 +385,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         let widthConstraint = labl.widthAnchor.constraint(equalToConstant: xview.bounds.width)
         let heightConstraint = labl.heightAnchor.constraint(equalToConstant: xview.bounds.height)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        
         
         
         if isEvent {
@@ -932,6 +939,8 @@ extension MapVC:UITableViewDataSource {
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
         cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+        
+        cell.directionBtn.isHidden = true
         
         cell.HandleDirectionBtn = {
             let lat = Double("\(model?.lat ?? "")")

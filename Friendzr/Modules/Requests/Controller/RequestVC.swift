@@ -43,6 +43,21 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     var currentPage : Int = 0
     var isLoadingList : Bool = false
     
+    
+    private let formatterDate: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "dd-MM-yyyy"
+        return formatter
+    }()
+    
+    private let formatterTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "HH:mm:ss"
+        return formatter
+    }()
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -351,6 +366,10 @@ extension RequestVC:UITableViewDataSource {
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let actionDate = formatterDate.string(from: Date())
+        let actionTime = formatterTime.string(from: Date())
+
         if viewmodel.requests.value?.data?.count != 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? RequestsTableViewCell else {return UITableViewCell()}
             cell.setNeedsLayout()
@@ -389,7 +408,7 @@ extension RequestVC:UITableViewDataSource {
                 self.cellSelected = true
                 self.updateNetworkForBtns()
                 if self.internetConnect {
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2) { error, message in
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -420,7 +439,7 @@ extension RequestVC:UITableViewDataSource {
                 self.cellSelected = true
                 self.updateNetworkForBtns()
                 if self.internetConnect {
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6) { error, message in
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)

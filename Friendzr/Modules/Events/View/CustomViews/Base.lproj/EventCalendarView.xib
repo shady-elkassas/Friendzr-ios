@@ -44,11 +44,6 @@
                     </view>
                     <blurEffect style="dark"/>
                 </visualEffectView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4mO-St-rpM">
-                    <rect key="frame" x="0.0" y="-50" width="414" height="946"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1kI-5H-nGa">
                     <rect key="frame" x="34.5" y="212" width="345" height="482"/>
                     <subviews>
@@ -134,14 +129,10 @@
             <viewLayoutGuide key="safeArea" id="QRe-09-rtZ"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="4mO-St-rpM" secondAttribute="bottom" id="4MB-j7-Yim"/>
                 <constraint firstItem="1kI-5H-nGa" firstAttribute="width" secondItem="baZ-Nl-aib" secondAttribute="width" multiplier="1:1.2" id="Dfm-w2-GQV"/>
                 <constraint firstItem="1kI-5H-nGa" firstAttribute="centerX" secondItem="baZ-Nl-aib" secondAttribute="centerX" id="FAF-7Z-Xj2"/>
-                <constraint firstItem="4mO-St-rpM" firstAttribute="top" secondItem="baZ-Nl-aib" secondAttribute="top" constant="-50" id="FXl-8c-Rg8"/>
-                <constraint firstAttribute="trailing" secondItem="4mO-St-rpM" secondAttribute="trailing" id="Fh9-4d-Ggu"/>
                 <constraint firstItem="1kI-5H-nGa" firstAttribute="centerY" secondItem="baZ-Nl-aib" secondAttribute="centerY" constant="5" id="N6j-nG-zj5"/>
                 <constraint firstItem="YBw-yb-axO" firstAttribute="leading" secondItem="baZ-Nl-aib" secondAttribute="leading" id="Uz1-jH-lqY"/>
-                <constraint firstItem="4mO-St-rpM" firstAttribute="leading" secondItem="QRe-09-rtZ" secondAttribute="leading" id="Yih-PC-1VM"/>
                 <constraint firstItem="YBw-yb-axO" firstAttribute="trailing" secondItem="baZ-Nl-aib" secondAttribute="trailing" id="YwA-7I-PZ5"/>
                 <constraint firstItem="YBw-yb-axO" firstAttribute="top" secondItem="baZ-Nl-aib" secondAttribute="top" id="a6U-O7-Pdm"/>
                 <constraint firstAttribute="bottom" secondItem="YBw-yb-axO" secondAttribute="bottom" id="p5D-UR-dMS"/>
