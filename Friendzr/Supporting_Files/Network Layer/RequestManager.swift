@@ -15,6 +15,9 @@ class CancelRequest {
 }
 
 class RequestManager  {
+    
+    let startDate = Date()
+
     func request(fromUrl url: String, byMethod method: String? = nil, withParameters parameters: [String:Any]?
                  , andHeaders headers: HTTPHeaders?, completion: @escaping (_ response:[String:Any]?, _ error: String?) -> ()) {
         
@@ -127,6 +130,9 @@ class RequestManager  {
                 }
             }
         })
+
+        let executionTimeWithSuccess = Date().timeIntervalSince(startDate)
+        print("executionTimeWithSuccess \(executionTimeWithSuccess * 1000) second")
         
         if CancelRequest.currentTask == true {
             task.cancel()

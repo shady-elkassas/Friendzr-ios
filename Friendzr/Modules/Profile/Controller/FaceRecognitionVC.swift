@@ -33,6 +33,7 @@ class FaceRecognitionVC: UIViewController {
         Defaults.availableVC = "FaceRecognitionVC"
         print("availableVC >> \(Defaults.availableVC)")
     }
+    
     func setupViews() {
         modelImg.cornerRadiusView(radius: 10)
         verifyBtn.cornerRadiusForHeight()
@@ -47,14 +48,7 @@ class FaceRecognitionVC: UIViewController {
             imagePicker.cameraCaptureMode = .photo
             imagePicker.cameraDevice = .front
             self.present(imagePicker, animated: true, completion: nil)
-        }
-//        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-//            imagePicker.delegate = self
-//            imagePicker.sourceType = .photoLibrary
-//            imagePicker.allowsEditing = true
-//            self.present(imagePicker, animated: true, completion: nil)
-//        }
-        
+        }        
     }
 
     @IBAction func contactBtn(_ sender: Any) {

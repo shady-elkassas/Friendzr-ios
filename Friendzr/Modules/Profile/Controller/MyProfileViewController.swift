@@ -34,10 +34,6 @@ class MyProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
-        
         self.title = "My Profile".localizedString
         initBackButton()
         clearNavigationBar()
@@ -53,6 +49,10 @@ class MyProfileViewController: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
 
         CancelRequest.currentTask = false
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

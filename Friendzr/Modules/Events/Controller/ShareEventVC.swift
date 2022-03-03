@@ -330,6 +330,7 @@ extension ShareEventVC: UITableViewDataSource {
                     
                     DispatchQueue.main.async {
                         NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
                     }
                 }
             }
@@ -364,6 +365,7 @@ extension ShareEventVC: UITableViewDataSource {
                     
                     DispatchQueue.main.async {
                         NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
                     }
                 }
             }
@@ -399,6 +401,7 @@ extension ShareEventVC: UITableViewDataSource {
                     
                     DispatchQueue.main.async {
                         NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
                     }
                 }
             }

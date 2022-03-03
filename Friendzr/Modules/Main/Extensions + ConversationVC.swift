@@ -658,8 +658,8 @@ extension ConversationVC {
         messageInputBar.setStackViewItems([button], forStack: .left, animated: false)
         messageInputBar.inputTextView.font = UIFont(name: "Montserrat-Medium", size: 12)
         
-//        NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
-//        NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
     }
     
     func setupDownView(textLbl:String) {

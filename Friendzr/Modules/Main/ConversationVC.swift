@@ -98,6 +98,10 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     
+    @IBOutlet weak var hideView: UIView!
+    @IBOutlet var messagesViews: [UIImageView]!
+    @IBOutlet var iconsViews: [UIImageView]!
+
     // MARK: - Public properties
     var soundRecorder: AVAudioRecorder!
     var soundPlayer:AVAudioPlayer!
@@ -112,6 +116,8 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     /// The `BasicAudioController` control the AVAudioPlayer state (play, pause, stop) and update audio cell UI accordingly.
     lazy var audioController = AudioVC(messageCollectionView: messagesCollectionView)
     lazy var messageList: [UserMessage] = []
+    var isRefreshNewMessages:Bool = false
+    
     lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         control.addTarget(self, action: #selector(loadMoreMessages), for: .valueChanged)
@@ -221,51 +227,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         self.view.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
         self.view.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
     }
-    
-    private func createSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
-        // Initialize Swipe Gesture Recognizer
-        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
-        
-        // Configure Swipe Gesture Recognizer
-        swipeGestureRecognizer.direction = direction
-        
-        return swipeGestureRecognizer
-    }
-    
-    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
-        // Current Frame
-        switch sender.direction {
-        case .up:
-            break
-        case .down:
-            break
-        case .left:
-            break
-        case .right:
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                Router().toHome()
-            })
-        default:
-            break
-        }
-    }
-    
-    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
-        // handling code
-        UIView.animate(withDuration: 0.3, animations: {
-            self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.alertView?.alpha = 0
-        }) { (success: Bool) in
-            self.alertView?.removeFromSuperview()
-            self.alertView?.alpha = 1
-            self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-        }
-    }
-    
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
@@ -284,6 +246,8 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
 
         setupNavigationbar()
         setupLeftInputButton(tapMessage: false, Recorder: "play")
+        
+        setupHideView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -385,7 +349,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         scrollsToLastItemOnKeyboardBeginsEditing = true // default false
         maintainPositionOnKeyboardFrameChanged = true // default false
         showMessageTimestampOnSwipeLeft = false // default false
-        //        scrollsToBottomOnKeyboardBeginsEditing = true
         messagesCollectionView.refreshControl = refreshControl
     }
     
@@ -423,6 +386,50 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         messageInputBar.inputTextView.textContainerInset.bottom = 8
     }
     
+    private func createSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
+        // Initialize Swipe Gesture Recognizer
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        
+        // Configure Swipe Gesture Recognizer
+        swipeGestureRecognizer.direction = direction
+        
+        return swipeGestureRecognizer
+    }
+    
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        // Current Frame
+        switch sender.direction {
+        case .up:
+            break
+        case .down:
+            break
+        case .left:
+            break
+        case .right:
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                Router().toHome()
+            })
+        default:
+            break
+        }
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        // handling code
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.alertView?.alpha = 0
+        }) { (success: Bool) in
+            self.alertView?.removeFromSuperview()
+            self.alertView?.alpha = 1
+            self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+        }
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
     func setupMessages() {
         if isEvent {
             self.getEventChatMessages(pageNumber: 1)
@@ -452,6 +459,17 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         self.messagesCollectionView.reloadData()
     }
     
+    
+    func setupHideView() {
+        for itm in messagesViews {
+            itm.cornerRadiusView(radius: 8)
+        }
+        
+        for iteem in iconsViews {
+            iteem.cornerRadiusForHeight()
+        }
+    }
+        
     //MARK: - APIs
     func getDate(dateStr:String,timeStr:String) -> Date? {
         let dateFormatter = DateFormatter()
@@ -467,9 +485,16 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             return
         }
         
-        self.showLoading()
+        let startDate = Date()
+        if isRefreshNewMessages == true {
+            self.hideLoading()
+        }else {
+            self.showLoading()
+        }
         viewmodel.getChatMessages(ByUserId: chatuserID, pageNumber: pageNumber)
         viewmodel.messages.bind { [unowned self] value in
+            let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
+            print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
             DispatchQueue.main.async {
                 messageList.removeAll()
                 for itm in value.data ?? [] {
@@ -519,8 +544,11 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     }
                 }
 
-                self.hideLoading()
 
+                let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
+                print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
+
+                self.hideLoading()
                 DispatchQueue.main.async {
                     if self.currentPage != 1 {
                         self.messagesCollectionView.reloadDataAndKeepOffset()
@@ -549,17 +577,26 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
-                    
                 }
             }
         }
     }
     
     func getEventChatMessages(pageNumber:Int) {
+        let startDate = Date()
+
         CancelRequest.currentTask = false
-        self.showLoading()
+        if isRefreshNewMessages == true {
+            self.hideLoading()
+        }else {
+            self.showLoading()
+        }
+
         viewmodel.getChatMessages(ByEventId: eventChatID, pageNumber: pageNumber)
         viewmodel.eventmessages.bind { [unowned self] value in
+            let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
+            print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
+
             DispatchQueue.main.async {
                 messageList.removeAll()
                 
@@ -584,6 +621,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                         case 4://link
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
+                            
                             messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         default:
                             break
@@ -613,6 +651,9 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     }
                 }
                 
+                let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
+                print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
+
                 self.hideLoading()
                 DispatchQueue.main.async {
                     if self.currentPage != 1 {
@@ -651,12 +692,20 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     }
     
     func getGroupChatMessages(pageNumber:Int) {
+        let startDate = Date()
+
         CancelRequest.currentTask = false
-        self.showLoading()
+        if isRefreshNewMessages == true {
+            self.hideLoading()
+        }else {
+            self.showLoading()
+        }
         viewmodel.getChatMessages(BygroupId: groupId, pageNumber: pageNumber)
         viewmodel.groupmessages.bind { [unowned self] value in
+            let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
+            print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
+
             DispatchQueue.main.async {
-                self.hideLoading()
                 
                 messageList.removeAll()
                 for itm in value.pagedModel?.data ?? [] {
@@ -710,6 +759,10 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     }
                 }
                 
+                let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
+                print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
+                self.hideLoading()
+
                 DispatchQueue.main.async {
                     if self.currentPage != 1 {
                         self.messagesCollectionView.reloadDataAndKeepOffset()
@@ -761,6 +814,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     }
     
     @objc func loadMoreMessages() {
+        isRefreshNewMessages = true
         DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
             self.currentPage += 1
             if self.isEvent {

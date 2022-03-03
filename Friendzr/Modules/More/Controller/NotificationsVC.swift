@@ -183,7 +183,7 @@ class NotificationsVC: UIViewController {
     
     func HandleinvalidUrl() {
         emptyView.isHidden = false
-        emptyImg.image = UIImage.init(named: "emptyImage")
+        emptyImg.image = UIImage.init(named: "notificationnodata_img")
         emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
         tryAgainBtn.alpha = 1.0
     }
@@ -258,6 +258,8 @@ extension NotificationsVC: UITableViewDataSource {
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
             cell.controlBtn.isHidden = true
+            cell.emptyImg.image = UIImage(named: "notificationnodata_img")
+            cell.titleLbl.text = "You’re all up to date"
             return cell
         }
     }
@@ -269,7 +271,7 @@ extension NotificationsVC: UITableViewDelegate {
         if viewmodel.notifications.value?.data?.count != 0 {
             return 75
         }else {
-            return 350
+            return UITableView.automaticDimension
         }
     }
     

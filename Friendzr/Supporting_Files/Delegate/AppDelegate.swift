@@ -270,12 +270,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
     }
     
-    
-    
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult)
                      -> Void) {
+        
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
@@ -307,8 +306,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    
-    
     @objc func updateBadgeApp() {
         let state = UIApplication.shared.applicationState
         
@@ -316,23 +313,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case .inactive:
             print("Inactive")
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-            content.sound = UNNotificationSound.default
         case .background:
             print("Background")
             // update badge count here
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-            content.sound = UNNotificationSound.default
         case .active:
             print("Active")
             UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
-            content.sound = UNNotificationSound.default
         default:
             break
         }
+        
+        content.sound = UNNotificationSound.default
     }
-
+    
 }
-
 
 extension AppDelegate : MessagingDelegate{
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {

@@ -117,6 +117,9 @@
 		433CDE1D27CCBAF200A80A40 /* EventCalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433CDE1C27CCBAF200A80A40 /* EventCalendarVC.swift */; };
 		433CDE1F27CCC46600A80A40 /* EventTimeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433CDE1E27CCC46600A80A40 /* EventTimeVC.swift */; };
 		433CDE2127CCD90A00A80A40 /* GroupDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433CDE2027CCD90A00A80A40 /* GroupDetailsVC.swift */; };
+		433CDE2327CE0C6300A80A40 /* Ex+Con.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433CDE2227CE0C6300A80A40 /* Ex+Con.swift */; };
+		433CDE2527CE0E0900A80A40 /* FacialRecognitionPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433CDE2427CE0E0900A80A40 /* FacialRecognitionPopUpView.swift */; };
+		433CDE2727CE132F00A80A40 /* FacialRecognitionPopUpView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 433CDE2627CE132F00A80A40 /* FacialRecognitionPopUpView2.swift */; };
 		4344107C26CD54D600F8233E /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344107B26CD54D600F8233E /* CategoriesView.swift */; };
 		4344110226CE63AF00F8233E /* NewConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344110126CE63AF00F8233E /* NewConversationVC.swift */; };
 		4344110426CE796300F8233E /* ForgetPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4344110326CE796300F8233E /* ForgetPasswordVC.swift */; };
@@ -478,6 +481,9 @@
 		433CDE1C27CCBAF200A80A40 /* EventCalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCalendarVC.swift; sourceTree = "<group>"; };
 		433CDE1E27CCC46600A80A40 /* EventTimeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTimeVC.swift; sourceTree = "<group>"; };
 		433CDE2027CCD90A00A80A40 /* GroupDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailsVC.swift; sourceTree = "<group>"; };
+		433CDE2227CE0C6300A80A40 /* Ex+Con.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Con.swift"; sourceTree = "<group>"; };
+		433CDE2427CE0E0900A80A40 /* FacialRecognitionPopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacialRecognitionPopUpView.swift; sourceTree = "<group>"; };
+		433CDE2627CE132F00A80A40 /* FacialRecognitionPopUpView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacialRecognitionPopUpView2.swift; sourceTree = "<group>"; };
 		4344107B26CD54D600F8233E /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
 		4344110126CE63AF00F8233E /* NewConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationVC.swift; sourceTree = "<group>"; };
 		4344110326CE796300F8233E /* ForgetPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgetPasswordVC.swift; sourceTree = "<group>"; };
@@ -1263,6 +1269,7 @@
 				433CDE2027CCD90A00A80A40 /* GroupDetailsVC.swift */,
 				4369F4522797278000D5E064 /* AddNewUsersForMyGroupVC.swift */,
 				430D426826D3BEBA00188E42 /* ConversationVC.swift */,
+				433CDE2227CE0C6300A80A40 /* Ex+Con.swift */,
 				431D93E527577A3200A1F780 /* Extensions + ConversationVC.swift */,
 				430D426F26D3C33B00188E42 /* AudioVC.swift */,
 				43FBA22B26D5330F005F4FBF /* SendLocationChatVC.swift */,
@@ -1319,6 +1326,8 @@
 				43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */,
 				43D545AE26CBD76E0064660A /* TagsVC.swift */,
 				436850972745008500A62287 /* InstagramWebVC.swift */,
+				433CDE2427CE0E0900A80A40 /* FacialRecognitionPopUpView.swift */,
+				433CDE2627CE132F00A80A40 /* FacialRecognitionPopUpView2.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1978,6 +1987,7 @@
 				4362888D26C8FF6500B51E51 /* RequestVC.swift in Sources */,
 				43C64A0C2796C40800C35FA8 /* GroupModel.swift in Sources */,
 				43BA37992700A121003F28FA /* Reachability.swift in Sources */,
+				433CDE2327CE0C6300A80A40 /* Ex+Con.swift in Sources */,
 				4330757526E76CB3002940DF /* SeeMoreTableViewCell.swift in Sources */,
 				4336D11626DB7F610093C7A6 /* ValidationViewModel.swift in Sources */,
 				4362888626C8FF3A00B51E51 /* FeedVC.swift in Sources */,
@@ -2048,6 +2058,7 @@
 				4336D12726DB89210093C7A6 /* UserNameViewModel.swift in Sources */,
 				43D545C926CCFBA10064660A /* CircleView.swift in Sources */,
 				43375F5627130D85009EBED6 /* NotificationsVC.swift in Sources */,
+				433CDE2727CE132F00A80A40 /* FacialRecognitionPopUpView2.swift in Sources */,
 				4326A8F526F87AD400D471E0 /* SettingsModel.swift in Sources */,
 				4382ACB326C29019005C1857 /* SplachOneVC.swift in Sources */,
 				4330757C26E79299002940DF /* JoinEventViewModel.swift in Sources */,
@@ -2132,6 +2143,7 @@
 				4344110726CE885F00F8233E /* ContactsTableViewCell.swift in Sources */,
 				43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */,
 				430D426926D3BEBA00188E42 /* ConversationVC.swift in Sources */,
+				433CDE2527CE0E0900A80A40 /* FacialRecognitionPopUpView.swift in Sources */,
 				43ACFEC727B3B464001CD340 /* EventDateAndTimeTableViewCell.swift in Sources */,
 				43119D7226E4EFEB00AD2260 /* TitleEventViewModel.swift in Sources */,
 				43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */,
@@ -2643,7 +2655,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.12;
+				CURRENT_PROJECT_VERSION = 2.8.14;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2672,7 +2684,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.12;
+				CURRENT_PROJECT_VERSION = 2.8.14;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

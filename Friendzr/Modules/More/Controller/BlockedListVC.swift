@@ -227,7 +227,7 @@ class BlockedListVC: UIViewController {
     
     func HandleinvalidUrl() {
         emptyView.isHidden = false
-        emptyImg.image = UIImage.init(named: "emptyImage")
+        emptyImg.image = UIImage.init(named: "blocklistnodata_img")
         emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
         tryAgainBtn.alpha = 1.0
     }
@@ -366,6 +366,8 @@ extension BlockedListVC: UITableViewDataSource {
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
             cell.controlBtn.isHidden = true
+            cell.emptyImg.image = UIImage(named: "blocklistnodata_img")
+            cell.titleLbl.text = "No Friendzrs have been blocked"
             return cell
         }
     }
@@ -376,7 +378,7 @@ extension BlockedListVC: UITableViewDelegate {
         if viewmodel.blocklist.value?.data?.count != 0 {
             return 75
         }else {
-            return 350
+            return UITableView.automaticDimension
         }
     }
     

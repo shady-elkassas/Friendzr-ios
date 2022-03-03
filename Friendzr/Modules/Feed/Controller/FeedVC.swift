@@ -36,7 +36,8 @@ extension FeedVC {
             default:
                 break
             }
-        }else {
+        }
+        else {
             print("Location in not allow")
             Defaults.allowMyLocationSettings = false
             hideView.isHidden = true
@@ -277,6 +278,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
+                
+                DispatchQueue.main.async {
+                    self.initGhostModeSwitchButton()
+                }
             })
         }
         
@@ -295,6 +300,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
+                
                 DispatchQueue.main.async {
                     hideView.hideLoader()
                     hideView.isHidden = true
@@ -303,8 +309,15 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
-                self.isLoadingList = false
-                self.tableView.tableFooterView = nil
+                
+                DispatchQueue.main.async {
+                    self.isLoadingList = false
+                    self.tableView.tableFooterView = nil
+                }
+                
+                DispatchQueue.main.async {
+                    self.initGhostModeSwitchButton()
+                }
             })
         }
         
@@ -336,6 +349,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 self.tableView.tableFooterView = nil
                 
                 isSendRequest = false
+                
+                DispatchQueue.main.async {
+                    self.initGhostModeSwitchButton()
+                }
             })
         }
         
@@ -469,7 +486,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         }else {
             self.allowLocView.isHidden = false
         }
-        emptyImg.image = UIImage.init(named: "maskGroup9")
+        emptyImg.image = UIImage.init(named: "feednodata_img")
         emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
         tryAgainBtn.alpha = 1.0
     }
@@ -490,7 +507,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             }else {
                 self.allowLocView.isHidden = false
             }
-            emptyImg.image = UIImage.init(named: "nointernet")
+            
+            emptyImg.image = UIImage.init(named: "feednodata_img")
             emptyLbl.text = "No available network, please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }
@@ -665,8 +683,6 @@ extension FeedVC:UITableViewDataSource {
                 self.updateNetworkForBtns()
                 if self.internetConnect {
                     self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
-//                    cell.sendRequestBtn.isHidden = true
-//                    cell.cancelRequestBtn.isHidden = false
                     cell.sendRequestBtn.isUserInteractionEnabled = false
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         
@@ -687,10 +703,6 @@ extension FeedVC:UITableViewDataSource {
                             
                             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
                         }
-                        
-//                        DispatchQueue.main.async {
-//                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-//                        }
                     }
                 }
             }
@@ -824,8 +836,6 @@ extension FeedVC:UITableViewDataSource {
                 
                 if self.internetConnect {
                     self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Canceling...".localizedString)
-//                    cell.sendRequestBtn.isHidden = false
-//                    cell.cancelRequestBtn.isHidden = true
                     cell.cancelRequestBtn.isUserInteractionEnabled = false
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
@@ -843,18 +853,10 @@ extension FeedVC:UITableViewDataSource {
                                 cell.cancelRequestBtn.setTitle("Cancel Request", for: .normal)
                                 cell.sendRequestBtn.isHidden = false
                                 cell.cancelRequestBtn.isUserInteractionEnabled = true
-
-//                                cell.sendRequestBtn.isUserInteractionEnabled = true
-//                                cell.cancelRequestBtn.isUserInteractionEnabled = true
                             }
                             
                             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
                         }
-                   
-                        
-//                        DispatchQueue.main.async {
-//                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-//                        }
                     }
                 }
             }
@@ -868,8 +870,8 @@ extension FeedVC:UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
             if Defaults.myAppearanceTypes == [1] {
                 cell.controlBtn.isHidden = false
-                cell.titleLbl.text = "Turn off private modes to see friendzrs".localizedString
-                cell.emptyImg.image = UIImage(named: "ghostImg")
+                cell.titleLbl.text = "Turn off private mode to find Friendzrs in your area".localizedString
+                cell.emptyImg.image = UIImage(named: "ghostmodenodata_img")
                 
                 cell.HandleControlBtn = {
                     guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC else {return}
@@ -877,8 +879,8 @@ extension FeedVC:UITableViewDataSource {
                 }
             }else {
                 cell.controlBtn.isHidden = true
-                cell.titleLbl.text = "You haven't any data yet".localizedString
-                cell.emptyImg.image = UIImage(named: "emptyImage")
+                cell.titleLbl.text = "No Friendzrs are online currently. \nAdjust your settings or check back again later".localizedString
+                cell.emptyImg.image = UIImage(named: "feednodata_img")
             }
             
             return cell
@@ -892,7 +894,7 @@ extension FeedVC:UITableViewDelegate {
         if viewmodel.feeds.value?.data?.count != 0 {
             return 75
         }else {
-            return 350
+            return UITableView.automaticDimension
         }
     }
     

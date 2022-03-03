@@ -205,7 +205,8 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         hideView.showLoader()
         viewmodel.getChatList(pageNumber: pageNumber)
         viewmodel.listChat.bind { [unowned self] value in
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                
                 DispatchQueue.main.async {
                     self.hideView.hideLoader()
                     self.hideView.isHidden = true
@@ -268,8 +269,8 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     func HandleinvalidUrl() {
         emptyView.isHidden = false
-        emptyImg.image = UIImage.init(named: "emptyImage")
-        emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
+        emptyImg.image = UIImage.init(named: "inboxnodata_img")
+        emptyLbl.text = "No messages sent or received as yet".localizedString
         tryAgainBtn.alpha = 1.0
     }
     
@@ -455,6 +456,8 @@ extension InboxVC:UITableViewDataSource {
                 return cell
             }else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
+                cell.emptyImg.image = UIImage(named: "inboxnodata_img")
+                cell.titleLbl.text = "No messages sent or received as yet"
                 return cell
             }
         }else {
@@ -515,6 +518,8 @@ extension InboxVC:UITableViewDataSource {
             }else {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
                 cell.controlBtn.isHidden = true
+                cell.emptyImg.image = UIImage(named: "inboxnodata_img")
+                cell.titleLbl.text = "No messages sent or received as yet"
                 return cell
             }
         }
@@ -526,13 +531,13 @@ extension InboxVC:UITableViewDelegate {
             if searchVM.usersinChat.value?.data?.count != 0 {
                 return 75
             }else {
-                return 350
+                return UITableView.automaticDimension
             }
         }else {
             if viewmodel.listChat.value?.data?.count != 0 {
                 return 75
             }else {
-                return 350
+                return UITableView.automaticDimension
             }
             
         }

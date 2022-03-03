@@ -208,7 +208,7 @@ class EventsVC: UIViewController {
     
     func HandleinvalidUrl() {
         emptyView.isHidden = false
-        emptyImg.image = UIImage.init(named: "emptyImage")
+        emptyImg.image = UIImage.init(named: "myEventnodata_img")
         emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
         tryAgainBtn.alpha = 1.0
     }
@@ -219,7 +219,7 @@ class EventsVC: UIViewController {
             self.view.makeToast("Network is unavailable, please try again!".localizedString)
         }else {
             emptyView.isHidden = false
-            emptyImg.image = UIImage.init(named: "nointernet")
+            emptyImg.image = UIImage.init(named: "myEventnodata_img")
             emptyLbl.text = "Network is unavailable, please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }
@@ -315,6 +315,8 @@ extension EventsVC: UITableViewDataSource {
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
             cell.controlBtn.isHidden = true
+            cell.emptyImg.image = UIImage(named: "myEventnodata_img")
+            cell.titleLbl.text = "No events booked as yet, \nHead to Map and find out what’s coming up near you"
             return cell
         }
     }
@@ -325,7 +327,7 @@ extension EventsVC: UITableViewDelegate {
         if viewmodel.events.value?.data?.count != 0 {
             return 200
         }else {
-            return 350
+            return UITableView.automaticDimension
         }
     }
     

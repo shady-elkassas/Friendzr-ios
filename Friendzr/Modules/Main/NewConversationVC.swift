@@ -115,7 +115,7 @@ class NewConversationVC: UIViewController {
     func showEmptyView() {
         if viewmodel.friends.value?.data?.count == 0 {
             emptyView.isHidden = false
-            emptyLbl.text = "You haven't any data yet".localizedString
+            emptyLbl.text = "You have no Friendzrs  currently. \nlet's Friendzr on your Feed and check back again".localizedString
         }else {
             emptyView.isHidden = true
         }

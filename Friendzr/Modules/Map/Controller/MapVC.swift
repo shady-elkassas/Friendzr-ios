@@ -118,9 +118,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         title = "Map".localizedString
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
-        DispatchQueue.main.async {
-            self.updateLocation()
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -147,6 +145,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         seyupAds()
         clearNavigationBar()
         
+        DispatchQueue.main.async {
+            self.updateLocation()
+        }
+        
         checkLocationPermission()
     }
     
@@ -165,7 +167,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @objc func updateMapVC() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
             if Defaults.allowMyLocationSettings == true {
                 self.updateUserInterface()
             }
@@ -173,15 +175,16 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     //MARK: - APIs
     func getEventsOnlyAroundMe() {
+        
         self.subView.isHidden = false
         self.upDownViewBtn.isHidden = false
         collectionViewHeight.constant = 0
-        
+        collectionView.showLoader()
         viewmodel.getAllEventsOnlyAroundMe(lat: location?.latitude ?? 0.0, lng: location?.longitude ?? 0.0, pageNumber: 1)
         viewmodel.eventsOnlyMe.bind { [unowned self] value in
             
             DispatchQueue.main.asyncAfter(deadline: .now()) {
-                
+                collectionView.hideLoader()
                 DispatchQueue.main.async {
                     self.collectionView.dataSource = self
                     self.collectionView.delegate = self
@@ -396,8 +399,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         marker.map = mapView
     }
-    
-    
     
     func setupViews() {
         //setup search bar
@@ -651,7 +652,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         self.updateUserInterfaceBtns()
         if self.internetConect {
             if Defaults.allowMyLocationSettings {
-                setupGoogleMap(zoom1: 15, zoom2: 18)
+                setupGoogleMap(zoom1: 14, zoom2: 18)
             }else {
                 createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
             }
@@ -788,7 +789,7 @@ extension MapVC : CLLocationManagerDelegate {
         if internetConect {
             self.location = manager.location?.coordinate
             locationManager.stopUpdatingLocation()
-            setupGoogleMap(zoom1: 1, zoom2: 14)
+            setupGoogleMap(zoom1: -10, zoom2: 14)
         }else {
             print("NOT NETWORK AVILABLE")
         }

@@ -483,6 +483,14 @@ extension RequestVC:UITableViewDataSource {
         else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}
             cell.controlBtn.isHidden = true
+            if RequestesType.type == 1 {
+                cell.titleLbl.text = "You haven’t sent any requests as yet. \nHead to your Feed to find Friendzrs online now"
+            }else {
+                cell.titleLbl.text = "No requests received as yet \n– reach out to start up a chat!"
+            }
+            
+            cell.emptyImg.image = UIImage(named: "requestesnodata_img")
+
             return cell
             
         }
@@ -493,7 +501,7 @@ extension RequestVC:UITableViewDataSource {
 extension RequestVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if viewmodel.requests.value?.data?.count == 0 {
-            return 350
+            return UITableView.automaticDimension
         }else {
             return 75
         }

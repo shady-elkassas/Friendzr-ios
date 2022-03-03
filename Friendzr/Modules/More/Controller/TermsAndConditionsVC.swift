@@ -12,6 +12,7 @@ class TermsAndConditionsVC: UIViewController,WKNavigationDelegate {
     
     //MARK:- Outlets
     @IBOutlet weak var viewForEmbeddingWebView: UIView!
+    @IBOutlet weak var webViewTrailingLayoutConstraint: NSLayoutConstraint!
     
     //MARK: - Properties
     var webView: WKWebView!
@@ -36,6 +37,7 @@ class TermsAndConditionsVC: UIViewController,WKNavigationDelegate {
         
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
+        viewForEmbeddingWebView.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -45,8 +47,14 @@ class TermsAndConditionsVC: UIViewController,WKNavigationDelegate {
     
     //MARK: - Helper
     func setupWebView() {
-        webView = WKWebView(frame: CGRect(x: 0, y: 0, width: viewForEmbeddingWebView.frame.width, height: viewForEmbeddingWebView.frame.height), configuration: WKWebViewConfiguration() )
-        self.viewForEmbeddingWebView.addSubview(webView)
+        if !Defaults.isIPhoneSmall {
+            webViewTrailingLayoutConstraint.constant = -14
+        }else {
+            webViewTrailingLayoutConstraint.constant = 0
+        }
+        
+        webView = WKWebView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height), configuration: WKWebViewConfiguration() )
+        self.view.addSubview(webView)
         webView.backgroundColor = .clear
         webView.navigationDelegate = self
         self.webView.allowsBackForwardNavigationGestures = true

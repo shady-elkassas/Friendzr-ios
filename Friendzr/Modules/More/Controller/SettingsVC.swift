@@ -55,6 +55,9 @@ class SettingsVC: UIViewController {
     let deleteCllID = "DeleteAccountTableViewCell"
     var ghostmode:String = ""
 
+    var isAgeFilterAvailable:Bool = false
+    var isDistanceFilterAvailable:Bool = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -130,6 +133,9 @@ class SettingsVC: UIViewController {
         ageFrom = model?.agefrom ?? 14
         ageTo = model?.ageto ?? 85
         manualdistancecontrol = (model?.manualdistancecontrol ?? 0.2)
+        
+        isDistanceFilterAvailable = model?.distanceFilter ?? false
+        isAgeFilterAvailable = model?.filteringaccordingtoage ?? false
         
         DispatchQueue.main.async { [self] in
             if self.model?.ghostmode == true {
@@ -245,7 +251,7 @@ class SettingsVC: UIViewController {
         distanceSlider.hasRoundTrackEnds = true
         distanceSlider.showsThumbImageShadow = false // wide tracks look better without thumb shadow
         distanceSlider.valueLabelFormatter.positiveSuffix = "km"
-        
+        isDistanceFilterAvailable = true
     }
     
     @objc func distanceSliderChanged(_ slider: MultiSlider) {
@@ -280,7 +286,7 @@ class SettingsVC: UIViewController {
         ageSlider.trackWidth = 30
         ageSlider.hasRoundTrackEnds = true
         ageSlider.showsThumbImageShadow = false // wide tracks look better without thumb shadow
-        
+        isAgeFilterAvailable = true
     }
     
     @objc func ageSliderChanged(_ slider: MultiSlider) {
@@ -293,8 +299,6 @@ class SettingsVC: UIViewController {
         ageFrom = Int(slider.value[0])
         ageTo = Int(slider.value[1])
     }
-    
-    
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         
@@ -636,12 +640,14 @@ extension SettingsVC: UITableViewDataSource {
 //                        self.setupData()
                         cell.switchBtn.isOn = false
                         cell.ghostModeTypeLbl.isHidden = true
+                        Defaults.ghostMode = self.model?.ghostmode ?? false
                     }
                     
                     self.alertView?.HandleSaveBtn = {
 //                        self.setupData()
                         cell.switchBtn.isOn = true
                         cell.ghostModeTypeLbl.isHidden = false
+                        Defaults.ghostMode = self.model?.ghostmode ?? false
                     }
                     
                     self.view.addSubview((self.alertView)!)
@@ -674,6 +680,7 @@ extension SettingsVC: UITableViewDataSource {
                                     cell.switchBtn.isOn = false
                                     cell.ghostModeTypeLbl.isHidden = true
                                     cell.ghostModeTypeLbl.text = ""
+                                    Defaults.ghostMode = self.model?.ghostmode ?? false
                                 }
                                 
                             })
@@ -694,6 +701,7 @@ extension SettingsVC: UITableViewDataSource {
 //                            self.setupData()
                             cell.switchBtn.isOn = true
                             cell.ghostModeTypeLbl.isHidden = false
+                            Defaults.ghostMode = self.model?.ghostmode ?? false
                         }
                     }
                     
@@ -887,6 +895,10 @@ extension SettingsVC: UITableViewDataSource {
                                 DispatchQueue.main.async {
                                     self.setupData()
                                 }
+                                
+                                DispatchQueue.main.async { //update map
+                                    NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
+                                }
                             }
                         }
                         // handling code
@@ -935,6 +947,10 @@ extension SettingsVC: UITableViewDataSource {
                                 
                                 DispatchQueue.main.async {
                                     self.setupData()
+                                }
+                                
+                                DispatchQueue.main.async { //update map
+                                    NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
                                 }
                             }
                         }
@@ -1063,13 +1079,29 @@ extension SettingsVC: UITableViewDataSource {
         }
     }
 }
+
 extension SettingsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 5 { //change password
+        
+        if indexPath.row == 3 {
+            if isDistanceFilterAvailable {
+                self.createDistanceSlider()
+            }else {
+                return
+            }
+        }
+        else if indexPath.row == 4 {
+            if isAgeFilterAvailable {
+                self.createAgeSlider()
+            }else {
+                return
+            }
+        }
+        else if indexPath.row == 5 { //change password
             guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "ChangePasswordVC") as? ChangePasswordVC else {return}
             self.navigationController?.pushViewController(vc, animated: true)
         }

@@ -24,7 +24,7 @@ class FaceRecognitionViewModel {
     func compare(withImage1 image1:UIImage,AndImage2 image2:UIImage,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         
         CancelRequest.currentTask = false
-        let url = "http://20.74.242.209/compare/"
+        let url = "https://confirmation.friendzr.com/compare/"
         
         guard let mediaImage1 = Media(withImage: image1, forKey: "image1") else { return }
         guard let mediaImage2 = Media(withImage: image2, forKey: "image2") else { return }

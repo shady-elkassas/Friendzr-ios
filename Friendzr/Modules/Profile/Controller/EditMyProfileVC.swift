@@ -12,7 +12,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import ListPlaceholder
 
-class EditMyProfileVC: UIViewController {
+class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate {
     
     //MARK:- Outlets
     @IBOutlet weak var profileImg: UIImageView!
@@ -108,6 +108,8 @@ class EditMyProfileVC: UIViewController {
     
     var faceImgOne: UIImage = UIImage()
     var faceImgTwo: UIImage = UIImage()
+    
+    var imgTake: Int = 0
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -548,6 +550,106 @@ class EditMyProfileVC: UIViewController {
         
     }
 
+    func onOkCallBack(_ okBtn: Bool) -> () {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+            
+            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openCamera()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openLibrary()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            
+            present(settingsActionSheet, animated:true, completion:nil)
+            
+        }else {
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+            
+            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openCamera()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openLibrary()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            
+            present(settingsActionSheet, animated:true, completion:nil)
+        }
+    }
+    
+    func FacialRecognitionAPI(imageOne:UIImage,imageTwo:UIImage) {
+        
+        self.ProcessingLbl.isHidden = false
+        self.imgTake = 1
+        print(imgTake)
+        faceRecognitionVM.compare(withImage1: imageOne, AndImage2: imageTwo) { error, data in
+            
+            if error != nil {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.ProcessingLbl.text = "Failed".localizedString
+                    self.ProcessingLbl.textColor = .red
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.showFailAlert()
+                    }
+                }
+                return
+            }
+            
+            guard let data = data else {return}
+            print(data)
+            if data == "Matched" {
+                DispatchQueue.main.async {
+                    self.ProcessingLbl.text = "Matched"
+                    self.ProcessingLbl.textColor = .green
+                    self.imgTake = 0
+                    print(self.imgTake)
+                    self.attachedImg = true
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.ProcessingLbl.isHidden = true
+                    self.ProcessingLbl.text = "Processing...".localizedString
+                    self.ProcessingLbl.textColor = .blue
+                }
+                
+                DispatchQueue.main.async {
+                    self.profileImg.image = imageOne
+                }
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.ProcessingLbl.text = data
+                    self.ProcessingLbl.textColor = .red
+                    self.imgTake = 0
+                    print(self.imgTake)
+                    self.attachedImg = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        //                        self.showFailAlert()
+                        self.ProcessingLbl.isHidden = true
+                        self.ProcessingLbl.text = "Processing...".localizedString
+                        self.ProcessingLbl.textColor = .blue
+                    }
+                }
+            }
+        }
+    }
+    
+    func onVerifyCallBack(_ okBtn: Bool) -> () {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+            imagePicker.allowsEditing = false
+            imagePicker.cameraCaptureMode = .photo
+            imagePicker.cameraDevice = .front
+            imagePicker.cameraFlashMode = .off
+            imagePicker.cameraViewTransform = .identity
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
     func logout() {
         logoutAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
@@ -608,32 +710,15 @@ class EditMyProfileVC: UIViewController {
     }
     
     @IBAction func editProfileImgBtn(_ sender: Any) {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-            
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-        }
+        guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FacialRecognitionPopUpView") as? FacialRecognitionPopUpView else {return}
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.modalTransitionStyle = .crossDissolve
+        let pVC = popupVC.popoverPresentationController
+        pVC?.permittedArrowDirections = .any
+        pVC?.delegate = self
+        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+        popupVC.onOkCallBackResponse = self.onOkCallBack
+        present(popupVC, animated: true, completion: nil)
     }
     
     @IBAction func dateBtn(_ sender: Any) {
@@ -739,113 +824,70 @@ class EditMyProfileVC: UIViewController {
     
     @IBAction func saveBtn(_ sender: Any) {
         updateUserInterface2()
-        if self.attachedImg == false {
-            DispatchQueue.main.async {
-                self.view.makeToast("Please add a profile image".localizedString)
-            }
-            return
-        }else {
-            if tagsid.isEmpty {
+        print(imgTake)
+        if imgTake == 0 {
+            if self.attachedImg == false {
                 DispatchQueue.main.async {
-                    self.view.makeToast("Please select what you enjoy doing".localizedString)
-                }
-                return
-            }else if iamid.isEmpty {
-                DispatchQueue.main.async {
-                    self.view.makeToast("Please select what best describes you".localizedString)
-                }
-                return
-            }else if preferToid.isEmpty {
-                DispatchQueue.main.async {
-                    self.view.makeToast("Please select what you prefer to do".localizedString)
+                    self.view.makeToast("Please add a profile image".localizedString)
                 }
                 return
             }
             else {
-                if internetConect {
-                    self.saveBtn.setTitle("Saving...", for: .normal)
-                    self.saveBtn.isUserInteractionEnabled = false
-                    
-                    viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),WhatBestDescrips:iamid, preferto: preferToid) { error, data in
+                if tagsid.isEmpty {
+                    DispatchQueue.main.async {
+                        self.view.makeToast("Please select what you enjoy doing".localizedString)
+                    }
+                    return
+                }else if iamid.isEmpty {
+                    DispatchQueue.main.async {
+                        self.view.makeToast("Please select what best describes you".localizedString)
+                    }
+                    return
+                }else if preferToid.isEmpty {
+                    DispatchQueue.main.async {
+                        self.view.makeToast("Please select what you prefer to do".localizedString)
+                    }
+                    return
+                }
+                else {
+                    if internetConect {
+                        self.saveBtn.setTitle("Saving...", for: .normal)
+                        self.saveBtn.isUserInteractionEnabled = false
                         
-                        DispatchQueue.main.async {
-                            self.saveBtn.setTitle("Save", for: .normal)
-                            self.saveBtn.isUserInteractionEnabled = true
-                        }
-                        
-                        if let error = error {
+                        viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),WhatBestDescrips:iamid, preferto: preferToid) { error, data in
+                            
                             DispatchQueue.main.async {
-                                self.view.makeToast(error)
+                                self.saveBtn.setTitle("Save", for: .normal)
+                                self.saveBtn.isUserInteractionEnabled = true
                             }
-                            return
-                        }
-                        
-                        guard let _ = data else {return}
-                        DispatchQueue.main.async {
-                            if Defaults.needUpdate == 1 {
+                            
+                            if let error = error {
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
                                 return
-                            }else {
-                                Router().toFeed()
+                            }
+                            
+                            guard let _ = data else {return}
+                            DispatchQueue.main.async {
+                                if Defaults.needUpdate == 1 {
+                                    return
+                                }else {
+//                                    Router().toFeed()
+                                    self.onPopup()
+                                }
                             }
                         }
                     }
                 }
             }
+
+        }
+        else {
+            self.view.makeToast("Please wait a moment while the image comparison process is completed")
         }
     }
-    
-    func onFaceRegistrationCallBack(_ faceImgOne:UIImage, _ faceImgTwo:UIImage,_ verify:Bool) -> () {
-        self.faceImgOne = faceImgOne
-        self.faceImgTwo = faceImgTwo
-        print("1:\(faceImgOne),2:\(faceImgTwo)")
-        
-        self.ProcessingLbl.isHidden = false
-        faceRecognitionVM.compare(withImage1: self.faceImgOne, AndImage2: self.faceImgTwo) { error, data in
-            
-            if error != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    self.ProcessingLbl.text = "Failed".localizedString
-                    self.ProcessingLbl.textColor = .red
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self.showFailAlert()
-                    }
-                }
-                return
-            }
-            
-            guard let data = data else {return}
-            print(data)
-            if data == "Matched" {
-                DispatchQueue.main.async {
-                    self.ProcessingLbl.text = "Matched"
-                    self.ProcessingLbl.textColor = .green
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.ProcessingLbl.isHidden = true
-                    self.ProcessingLbl.text = "Processing...".localizedString
-                    self.ProcessingLbl.textColor = .blue
-                }
-                
-                DispatchQueue.main.async {
-                    self.profileImg.image = faceImgOne
-                }
-            } else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.ProcessingLbl.text = data
-                    self.ProcessingLbl.textColor = .red
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        //                        self.showFailAlert()
-                        self.ProcessingLbl.isHidden = true
-                        self.ProcessingLbl.text = "Processing...".localizedString
-                        self.ProcessingLbl.textColor = .blue
-                    }
-                }
-            }
-        }
-    }
+
 }
 
 //MARK: - Extensions
@@ -857,6 +899,8 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
             imagePicker.delegate = self
             imagePicker.sourceType = .camera
             imagePicker.allowsEditing = false
+            imgTake = 1
+            print(imgTake)
             self.present(imagePicker, animated: true, completion: nil)
         }
     }
@@ -865,28 +909,47 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
             imagePicker.allowsEditing = true
+            imgTake = 1
+            print(imgTake)
             self.present(imagePicker, animated: true, completion: nil)
         }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-        picker.dismiss(animated:true, completion: {
-            let size = CGSize(width: screenW, height: screenW)
-            let img = image.crop(to: size)
-            self.profileImg.image = img
-            self.attachedImg = true
-            
-            //            self.faceImgOne = image
-            //
-            //            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FaceRecognitionVC") as? FaceRecognitionVC else {return}
-            //            vc.faceImgOne = self.faceImgOne
-            //            vc.onFaceRegistrationCallBackResponse = self.onFaceRegistrationCallBack
-            //            self.navigationController?.pushViewController(vc, animated: true)
-        })
+        if imgTake == 1 {
+            let image1 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+            picker.dismiss(animated:true, completion: {
+                
+                self.faceImgOne = image1
+                self.imgTake = 2
+                print(self.imgTake)
+
+                guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FacialRecognitionPopUpView2") as? FacialRecognitionPopUpView2 else {return}
+                popupVC.modalPresentationStyle = .overCurrentContext
+                popupVC.modalTransitionStyle = .crossDissolve
+                let pVC = popupVC.popoverPresentationController
+                pVC?.permittedArrowDirections = .any
+                pVC?.delegate = self
+                pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+                popupVC.faceImgOne = self.faceImgOne
+                popupVC.onVerifyCallBackResponse = self.onVerifyCallBack
+                self.present(popupVC, animated: true, completion: nil)
+            })
+        }else if self.imgTake == 2 {
+            let image2 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+            picker.dismiss(animated:true, completion: {
+                self.attachedImg = true
+                self.faceImgTwo = image2.fixOrientation()
+                self.FacialRecognitionAPI(imageOne: self.faceImgOne, imageTwo: self.faceImgTwo)
+            })
+        }
     }
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        imgTake = 0
+        print(imgTake)
+        self.attachedImg = false
         picker.dismiss(animated:true, completion: nil)
     }
 }
@@ -894,21 +957,12 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
 //text view delegate
 extension EditMyProfileVC: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-//        if textView == bioTxtView {
         placeHolderLbl.isHidden = !bioTxtView.text.isEmpty
-//        }else {
-//            lookingforPlaceHolderLbl.isHidden = !lookingforTxtView.text.isEmpty
-//        }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//        if textView == bioTxtView {
             let newText = (bioTxtView.text as NSString).replacingCharacters(in: range, with: text)
             return newText.count < 150
-//        }else {
-//            let newText = (lookingforTxtView.text as NSString).replacingCharacters(in: range, with: text)
-//            return newText.count < 150
-//        }
     }
 }
 
@@ -931,12 +985,7 @@ extension EditMyProfileVC {
     func initCloseApp() {
         
         var imageName = ""
-//        if Language.currentLanguage() == "ar" {
-            imageName = "back_icon"
-//        }else {
-//            imageName = "back_icon"
-//        }
-        
+        imageName = "back_icon"
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)

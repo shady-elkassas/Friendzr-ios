@@ -323,7 +323,7 @@ extension MoreVC : UITableViewDelegate {
         case 5://Tips& Guides
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
-                vc.titleVC = "Tips & Guides".localizedString
+                vc.titleVC = "Tips & Guidances".localizedString
                 vc.urlString = "https://friendzr.com/blog-tips-guidance/"
                 self.navigationController?.pushViewController(vc, animated: true)
             }

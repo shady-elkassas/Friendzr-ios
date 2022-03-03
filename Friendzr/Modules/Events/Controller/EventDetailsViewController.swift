@@ -251,6 +251,10 @@ extension EventDetailsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let JoinDate = self.formatterDate.string(from: Date())
+        let Jointime = self.formatterTime.string(from: Date())
+        
+
         let model = viewmodel.event.value
         
         if indexPath.row == 0 {//image
@@ -287,9 +291,6 @@ extension EventDetailsViewController: UITableViewDataSource {
             }
             
             cell.HandleChatBtn = {
-                let JoinDate = self.formatterDate.string(from: Date())
-                let Jointime = self.formatterTime.string(from: Date())
-                
                 if model?.leveevent == 1 {
                     Router().toConversationVC(isEvent: true, eventChatID: self.eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: model?.image ?? "", titleChatName: model?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: self.isEventAdmin)
                 }else {
@@ -314,7 +315,7 @@ extension EventDetailsViewController: UITableViewDataSource {
                 self.showNewtworkConnected()
                 if self.internetConect == true {
                     cell.leaveBtn.isUserInteractionEnabled = false
-                    self.leaveVM.leaveEvent(ByEventid: self.eventId) { error, data in
+                    self.leaveVM.leaveEvent(ByEventid: self.eventId,leaveeventDate: JoinDate,leaveeventtime: Jointime) { error, data in
                         DispatchQueue.main.async {
                             cell.leaveBtn.isUserInteractionEnabled = true
                         }

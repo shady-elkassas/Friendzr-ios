@@ -154,7 +154,6 @@ class AttendeesVC: UIViewController {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-//                self.hideLoading()
                 if error == "Internal Server Error" {
                     HandleInternetConnection()
                 }else if error == "Bad Request" {
