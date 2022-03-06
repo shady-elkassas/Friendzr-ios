@@ -83,7 +83,7 @@ class ShareEventVC: UIViewController {
                     if search != "" {
                         emptyFriendslbl.text = "No events match your search"
                     }else {
-                        emptyFriendslbl.text = "You have no events"
+                        emptyFriendslbl.text = "You have no events yet"
                     }
                 }else {
                     eventsEmptyView.isHidden = true
@@ -117,7 +117,7 @@ class ShareEventVC: UIViewController {
                     if search != "" {
                         emptyFriendslbl.text = "No groups match your search"
                     }else {
-                        emptyFriendslbl.text = "You have no groups"
+                        emptyFriendslbl.text = "You have no groups yet"
                     }
                 }else {
                     groupsEmptyView.isHidden = true
@@ -152,7 +152,7 @@ class ShareEventVC: UIViewController {
                     if search != "" {
                         emptyFriendslbl.text = "No friends match your search"
                     }else {
-                        emptyFriendslbl.text = "You have no friends"
+                        emptyFriendslbl.text = "you have no friends yet"
                     }
                 }else {
                     friendsEmptyView.isHidden = true

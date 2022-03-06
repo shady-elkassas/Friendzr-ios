@@ -64,6 +64,7 @@ class ProfileObj: Mappable {
         prefertoList <- map["prefertoList"]
         iamList <- map["iamList"]
         personalSpace <- map["personalSpace"]
+        notificationcount <- map["notificationcount"]
     }
     
     
@@ -97,4 +98,5 @@ class ProfileObj: Mappable {
     var ghostmode:Bool = false
     var pushnotification:Bool = false
     var personalSpace:Bool = false
+    var notificationcount:Int = 0
 }

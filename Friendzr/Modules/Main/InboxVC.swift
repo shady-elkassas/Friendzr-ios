@@ -207,7 +207,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.listChat.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 
-                DispatchQueue.main.async {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self.hideView.hideLoader()
                     self.hideView.isHidden = true
                 }
@@ -704,11 +704,6 @@ extension InboxVC:UITableViewDelegate {
                                 guard let _ = data else {
                                     return
                                 }
-                                
-//                                DispatchQueue.main.async {
-//                                    self.view.makeToast("You have left the chat".localizedString)
-//                                }
-                                
                                 DispatchQueue.main.async {
                                     self.getAllChatList(pageNumber: 1)
                                 }
@@ -733,11 +728,6 @@ extension InboxVC:UITableViewDelegate {
                                 guard let _ = data else {
                                     return
                                 }
-                                
-//                                DispatchQueue.main.async {
-//                                    self.view.makeToast("You have left the chat".localizedString)
-//                                }
-                                
                                 DispatchQueue.main.async {
                                     self.getAllChatList(pageNumber: 1)
                                 }

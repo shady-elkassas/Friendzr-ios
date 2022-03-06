@@ -134,7 +134,7 @@ extension ConversationVC: MessageCellDelegate {
         case .linkPreview(_):
             if message.messageType == 4 {
                 print("link Preview ")
-                Router().toEventDetailsVC(eventId: message.linkPreviewID, isConv: true)
+                Router().toEventDetailsVC(eventId: message.linkPreviewID, isConv: true, isEventAdmin: self.isEventAdmin)
             }
         case .photo(_):break
         case .video(_):break
@@ -1314,7 +1314,7 @@ extension ConversationVC {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
                 actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    Router().toEventDetailsVC(eventId: id, isConv: true)
+                    Router().toEventDetailsVC(eventId: id, isConv: true, isEventAdmin: self.isEventAdmin)
                 }))
                 actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
                 }))
@@ -1323,7 +1323,7 @@ extension ConversationVC {
             }else {
                 let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    Router().toEventDetailsVC(eventId: id, isConv: true)
+                    Router().toEventDetailsVC(eventId: id, isConv: true, isEventAdmin: self.isEventAdmin)
                 }))
                 actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
                 }))
@@ -1334,7 +1334,7 @@ extension ConversationVC {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
                 actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    Router().toEventDetailsVC(eventId: id, isConv: true)
+                    Router().toEventDetailsVC(eventId: id, isConv: true, isEventAdmin: self.isEventAdmin)
                 }))
                 
                 actionAlert.addAction(UIAlertAction(title: joinTitle, style: .default, handler: { action in
@@ -1348,7 +1348,7 @@ extension ConversationVC {
             }else {
                 let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    Router().toEventDetailsVC(eventId: id, isConv: true)
+                    Router().toEventDetailsVC(eventId: id, isConv: true, isEventAdmin: self.isEventAdmin)
 
                 }))
                 

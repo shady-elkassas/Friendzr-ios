@@ -515,7 +515,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                         case 4://link
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         default:
                             break
                         }
@@ -535,7 +535,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             
-                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         default:
                             break
                         }
@@ -622,7 +622,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             
-                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         default:
                             break
                         }
@@ -642,7 +642,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             
-                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         default:
                             break
                         }
@@ -729,7 +729,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                         case 4://link
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         default:
                             break
                         }
@@ -749,7 +749,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             
-                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data!)) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         default:
                             break
                         }
@@ -932,7 +932,7 @@ extension ConversationVC {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    Router().toEventDetailsVC(eventId: self.titleID ?? "", isConv: true)
+                    Router().toEventDetailsVC(eventId: self.titleID ?? "", isConv: true, isEventAdmin: self.isEventAdmin)
                 }else {
                     Router().toGroupVC(groupId: self.groupId, isGroupAdmin: self.isChatGroupAdmin)
                 }
@@ -976,7 +976,7 @@ extension ConversationVC {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    Router().toEventDetailsVC(eventId: self.titleID ?? "", isConv: true)
+                    Router().toEventDetailsVC(eventId: self.titleID ?? "", isConv: true, isEventAdmin: self.isEventAdmin)
                 }else {
                     Router().toGroupVC(groupId: self.groupId, isGroupAdmin: self.isChatGroupAdmin)
                 }

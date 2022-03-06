@@ -45,7 +45,7 @@
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wnm-cP-aUm">
                                                 <rect key="frame" x="24" y="100.5" width="66" height="2.5"/>
-                                                <color key="backgroundColor" red="0.062745098039215685" green="0.40784313725490196" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" name="primaryColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="2.5" id="DEK-ck-6sU"/>
                                                     <constraint firstAttribute="width" constant="66" id="Rli-ug-JAb"/>
@@ -761,6 +761,9 @@
         </namedColor>
         <namedColor name="ColorLbl4">
             <color red="0.76899999380111694" green="0.76899999380111694" blue="0.76899999380111694" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="primaryColor">
+            <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

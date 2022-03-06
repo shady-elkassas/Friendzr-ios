@@ -74,7 +74,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var genderString = ""
     let imagePicker = UIImagePickerController()
     var viewmodel:EditProfileViewModel = EditProfileViewModel()
-    var profileVM: ProfileViewModel = ProfileViewModel()
+    var profileModel:ProfileObj? = nil
     var logoutVM:LogoutViewModel = LogoutViewModel()
     var faceRecognitionVM:FaceRecognitionViewModel = FaceRecognitionViewModel()
     var tagsid:[String] = [String]()
@@ -157,10 +157,10 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             HandleInternetConnection()
         case .wwan:
             internetConect = true
-            getProfileInformation()
+            setupDate()
         case .wifi:
             internetConect = true
-            getProfileInformation()
+            setupDate()
         }
         
         print("Reachability Summary")
@@ -215,200 +215,181 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     }
     
     //MARK: - API
-    func getProfileInformation() {
-        self.superView.showLoader()
-        profileVM.getProfileInfo()
-        profileVM.userModel.bind { [unowned self]value in
-            DispatchQueue.main.async {
-                setupDate()
-                self.superView.hideLoader()
-            }
-        }
-        
-        // Set View Model Event Listener
-        profileVM.error.bind { [unowned self]error in
-            DispatchQueue.main.async {
-                self.hideLoading()
-                if error == "Internal Server Error" {
-                    HandleInternetConnection()
-                }
-                else {
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                    }
-                    
-                }
-            }
-        }
-    }
-    
+
     func setupDate() {
-        let model = profileVM.userModel.value
-        
-        nameTxt.text = model?.userName
-        
-        if model?.bio != "" {
-            bioTxtView.text = model?.bio
-            placeHolderLbl.isHidden = true
-        }else {
-            bioTxtView.text = ""
-            placeHolderLbl.isHidden = false
+        if needUpdateVC {
+            nameTxt.text = Defaults.userName
         }
-        
-        if model?.birthdate == "" {
-            dateBirthLbl.text = "Select your birthdate".localizedString
-            dateBirthLbl.textColor = .lightGray
-        }else {
-            dateBirthLbl.text = model?.birthdate
-            dateBirthLbl.textColor = .black
-        }
-        
-        if model?.userImage != "" {
-            profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-            self.attachedImg = true
-        }else {
-            self.attachedImg = false
-        }
-        
-        tagsListView.removeAllTags()
-        for itm in model?.listoftagsmodel ?? [] {
-            tagsListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
-            tagsid.append(itm.tagID)
-            tagsNames.append(itm.tagname)
-        }
-        
-        if tagsListView.rows == 0 {
-            tagsViewHeight.constant = 45
-            selectTagsLbl.isHidden = false
-            selectTagsLbl.textColor = .lightGray
-        }else {
-            tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 25
-            selectTagsLbl.isHidden = true
+        else {
+            nameTxt.text = profileModel?.userName
             
-            print("tagsViewHeight.constant >> \(tagsViewHeight.constant)")
-        }
-        
-        tagsListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
-        if tagsListView.rows == 0 {
-            tagsTopSpaceLayout.constant = 5
-            tagsBottomSpaceLayout.constant = 5
-        }else if tagsListView.rows == 1 {
-            tagsTopSpaceLayout.constant = 25
-            tagsBottomSpaceLayout.constant = 5
-        }else if tagsListView.rows == 2 {
-            tagsTopSpaceLayout.constant = 16
-            tagsBottomSpaceLayout.constant = 5
-        }else if tagsListView.rows == 3 {
-            tagsTopSpaceLayout.constant = 10
-            tagsBottomSpaceLayout.constant = 5
-        }else if tagsListView.rows == 4 {
-            tagsTopSpaceLayout.constant = 10
-            tagsBottomSpaceLayout.constant = 17
-        }
-        
-        
-        bestDescribesListView.removeAllTags()
-        for itm in model?.iamList ?? [] {
-            bestDescribesListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
-            iamid.append(itm.tagID)
-            iamNames.append(itm.tagname)
-        }
-        
-        if bestDescribesListView.rows == 0 {
-            bestDescribesViewHeight.constant = 45
-            selectbestDescribesLbl.isHidden = false
-            selectbestDescribesLbl.textColor = .lightGray
-        }else {
-            bestDescribesViewHeight.constant = CGFloat(bestDescribesListView.rows * 25) + 25
-            selectbestDescribesLbl.isHidden = true
+            if profileModel?.bio != "" {
+                bioTxtView.text = profileModel?.bio
+                placeHolderLbl.isHidden = true
+            }
+            else {
+                bioTxtView.text = ""
+                placeHolderLbl.isHidden = false
+            }
             
-            print("bestViewHeight.constant >> \(bestDescribesViewHeight.constant)")
-        }
-        
-        bestDescribesListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
-        
-        if bestDescribesListView.rows == 0 {
-            bestDescribessTopSpaceLayout.constant = 5
-            bestDescribesBottomSpaceLayout.constant = 5
-        }else if bestDescribesListView.rows == 1 {
-            bestDescribessTopSpaceLayout.constant = 25
-            bestDescribesBottomSpaceLayout.constant = 5
-        }else if bestDescribesListView.rows == 2 {
-            bestDescribessTopSpaceLayout.constant = 16
-            bestDescribesBottomSpaceLayout.constant = 5
-        }else if bestDescribesListView.rows == 3 {
-            bestDescribessTopSpaceLayout.constant = 10
-            bestDescribesBottomSpaceLayout.constant = 5
-        }else if bestDescribesListView.rows == 4 {
-            bestDescribessTopSpaceLayout.constant = 10
-            bestDescribesBottomSpaceLayout.constant = 17
-        }
-        
-        
-        
-        preferToListView.removeAllTags()
-        for itm in model?.prefertoList ?? [] {
-            preferToListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
-            preferToid.append(itm.tagID)
-            preferToNames.append(itm.tagname)
-        }
-        
-        if preferToListView.rows == 0 {
-            preferToViewHeight.constant = 45
-            selectPreferToLbl.isHidden = false
-            selectPreferToLbl.textColor = .lightGray
-        }else {
-            preferToViewHeight.constant = CGFloat(preferToListView.rows * 25) + 25
-            selectPreferToLbl.isHidden = true
+            if profileModel?.birthdate == "" {
+                dateBirthLbl.text = "Select your birthdate".localizedString
+                dateBirthLbl.textColor = .lightGray
+            }
+            else {
+                dateBirthLbl.text = profileModel?.birthdate
+                dateBirthLbl.textColor = .black
+            }
             
-            print("bestViewHeight.constant >> \(preferToViewHeight.constant)")
-        }
-        
-        preferToListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
-        
-        if preferToListView.rows == 0 {
-            preferToTopSpaceLayout.constant = 5
-            preferToBottomSpaceLayout.constant = 5
-        }else if preferToListView.rows == 1 {
-            preferToTopSpaceLayout.constant = 25
-            preferToBottomSpaceLayout.constant = 5
-        }else if preferToListView.rows == 2 {
-            preferToTopSpaceLayout.constant = 16
-            preferToBottomSpaceLayout.constant = 5
-        }else if preferToListView.rows == 3 {
-            preferToTopSpaceLayout.constant = 10
-            preferToBottomSpaceLayout.constant = 5
-        }else if preferToListView.rows == 4 {
-            preferToTopSpaceLayout.constant = 10
-            preferToBottomSpaceLayout.constant = 17
-        }
-        
-        
-        
-        if model?.gender == "male" {
-            maleImg.image = UIImage(named: "select_ic")
-            femaleImg.image = UIImage(named: "unSelect_ic")
-            otherImg.image = UIImage(named: "unSelect_ic")
-            otherGenderView.isHidden = true
-            otherGenderTxt.text = ""
+            if profileModel?.userImage != "" {
+                profileImg.sd_setImage(with: URL(string: profileModel?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+                self.attachedImg = true
+            }
+            else {
+                self.attachedImg = false
+            }
             
-            genderString = "male"
-        }else if model?.gender == "female" {
-            femaleImg.image = UIImage(named: "select_ic")
-            maleImg.image = UIImage(named: "unSelect_ic")
-            otherImg.image = UIImage(named: "unSelect_ic")
-            otherGenderView.isHidden = true
-            otherGenderTxt.text = ""
+            tagsListView.removeAllTags()
+            for itm in profileModel?.listoftagsmodel ?? [] {
+                tagsListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
+                tagsid.append(itm.tagID)
+                tagsNames.append(itm.tagname)
+            }
             
-            genderString = "female"
-        }else {
-            otherImg.image = UIImage(named: "select_ic")
-            maleImg.image = UIImage(named: "unSelect_ic")
-            femaleImg.image = UIImage(named: "unSelect_ic")
-            otherGenderView.isHidden = false
-            otherGenderTxt.text = model?.otherGenderName
+            if tagsListView.rows == 0 {
+                tagsViewHeight.constant = 45
+                selectTagsLbl.isHidden = false
+                selectTagsLbl.textColor = .lightGray
+            }else {
+                tagsViewHeight.constant = CGFloat(tagsListView.rows * 25) + 25
+                selectTagsLbl.isHidden = true
+                
+                print("tagsViewHeight.constant >> \(tagsViewHeight.constant)")
+            }
             
-            genderString = "other"
+            tagsListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
+            if tagsListView.rows == 0 {
+                tagsTopSpaceLayout.constant = 5
+                tagsBottomSpaceLayout.constant = 5
+            }else if tagsListView.rows == 1 {
+                tagsTopSpaceLayout.constant = 25
+                tagsBottomSpaceLayout.constant = 5
+            }else if tagsListView.rows == 2 {
+                tagsTopSpaceLayout.constant = 16
+                tagsBottomSpaceLayout.constant = 5
+            }else if tagsListView.rows == 3 {
+                tagsTopSpaceLayout.constant = 10
+                tagsBottomSpaceLayout.constant = 5
+            }else if tagsListView.rows == 4 {
+                tagsTopSpaceLayout.constant = 10
+                tagsBottomSpaceLayout.constant = 17
+            }
+            
+            
+            bestDescribesListView.removeAllTags()
+            for itm in profileModel?.iamList ?? [] {
+                bestDescribesListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
+                iamid.append(itm.tagID)
+                iamNames.append(itm.tagname)
+            }
+            
+            if bestDescribesListView.rows == 0 {
+                bestDescribesViewHeight.constant = 45
+                selectbestDescribesLbl.isHidden = false
+                selectbestDescribesLbl.textColor = .lightGray
+            }else {
+                bestDescribesViewHeight.constant = CGFloat(bestDescribesListView.rows * 25) + 25
+                selectbestDescribesLbl.isHidden = true
+                
+                print("bestViewHeight.constant >> \(bestDescribesViewHeight.constant)")
+            }
+            
+            bestDescribesListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
+            
+            if bestDescribesListView.rows == 0 {
+                bestDescribessTopSpaceLayout.constant = 5
+                bestDescribesBottomSpaceLayout.constant = 5
+            }else if bestDescribesListView.rows == 1 {
+                bestDescribessTopSpaceLayout.constant = 25
+                bestDescribesBottomSpaceLayout.constant = 5
+            }else if bestDescribesListView.rows == 2 {
+                bestDescribessTopSpaceLayout.constant = 16
+                bestDescribesBottomSpaceLayout.constant = 5
+            }else if bestDescribesListView.rows == 3 {
+                bestDescribessTopSpaceLayout.constant = 10
+                bestDescribesBottomSpaceLayout.constant = 5
+            }else if bestDescribesListView.rows == 4 {
+                bestDescribessTopSpaceLayout.constant = 10
+                bestDescribesBottomSpaceLayout.constant = 17
+            }
+            
+            
+            
+            preferToListView.removeAllTags()
+            for itm in profileModel?.prefertoList ?? [] {
+                preferToListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
+                preferToid.append(itm.tagID)
+                preferToNames.append(itm.tagname)
+            }
+            
+            if preferToListView.rows == 0 {
+                preferToViewHeight.constant = 45
+                selectPreferToLbl.isHidden = false
+                selectPreferToLbl.textColor = .lightGray
+            }else {
+                preferToViewHeight.constant = CGFloat(preferToListView.rows * 25) + 25
+                selectPreferToLbl.isHidden = true
+                
+                print("bestViewHeight.constant >> \(preferToViewHeight.constant)")
+            }
+            
+            preferToListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
+            
+            if preferToListView.rows == 0 {
+                preferToTopSpaceLayout.constant = 5
+                preferToBottomSpaceLayout.constant = 5
+            }else if preferToListView.rows == 1 {
+                preferToTopSpaceLayout.constant = 25
+                preferToBottomSpaceLayout.constant = 5
+            }else if preferToListView.rows == 2 {
+                preferToTopSpaceLayout.constant = 16
+                preferToBottomSpaceLayout.constant = 5
+            }else if preferToListView.rows == 3 {
+                preferToTopSpaceLayout.constant = 10
+                preferToBottomSpaceLayout.constant = 5
+            }else if preferToListView.rows == 4 {
+                preferToTopSpaceLayout.constant = 10
+                preferToBottomSpaceLayout.constant = 17
+            }
+            
+            
+            
+            if profileModel?.gender == "male" {
+                maleImg.image = UIImage(named: "select_ic")
+                femaleImg.image = UIImage(named: "unSelect_ic")
+                otherImg.image = UIImage(named: "unSelect_ic")
+                otherGenderView.isHidden = true
+                otherGenderTxt.text = ""
+                
+                genderString = "male"
+            }else if profileModel?.gender == "female" {
+                femaleImg.image = UIImage(named: "select_ic")
+                maleImg.image = UIImage(named: "unSelect_ic")
+                otherImg.image = UIImage(named: "unSelect_ic")
+                otherGenderView.isHidden = true
+                otherGenderTxt.text = ""
+                
+                genderString = "female"
+            }else {
+                otherImg.image = UIImage(named: "select_ic")
+                maleImg.image = UIImage(named: "unSelect_ic")
+                femaleImg.image = UIImage(named: "unSelect_ic")
+                otherGenderView.isHidden = false
+                otherGenderTxt.text = profileModel?.otherGenderName
+                
+                genderString = "other"
+            }
+
         }
     }
     
@@ -873,7 +854,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                                 if Defaults.needUpdate == 1 {
                                     return
                                 }else {
-//                                    Router().toFeed()
                                     self.onPopup()
                                 }
                             }

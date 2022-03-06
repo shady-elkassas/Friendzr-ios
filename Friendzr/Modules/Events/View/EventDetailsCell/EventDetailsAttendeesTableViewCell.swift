@@ -197,8 +197,8 @@ extension EventDetailsAttendeesTableViewCell {
                 
                 
                 DispatchQueue.main.async {
-                    self.parentvc.getEventDetails()
-//                    NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+//                    self.parentvc.getEventDetails()
+                    NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
                 }
             }
             

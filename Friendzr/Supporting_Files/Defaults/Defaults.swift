@@ -224,16 +224,6 @@ class Defaults {
         }
     }
     
-    static var badgeNumber: Int {
-        set{
-            UserDefaults.standard.set(newValue, forKey: "badgeNumber")
-            UserDefaults.standard.synchronize()
-        }
-        get{
-            return UserDefaults.standard.integer(forKey: "badgeNumber")
-        }
-    }
-    
 //    static var RequestsBadge: Int {
 //        set{
 //            UserDefaults.standard.set(newValue, forKey: "RequestsBadge")
@@ -309,6 +299,16 @@ class Defaults {
         }
         get{
             return UserDefaults.standard.integer(forKey: "messagesInboxCountBadge")
+        }
+    }
+    
+    static var notificationcount: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "notificationcount")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "notificationcount")
         }
     }
     
@@ -436,6 +436,7 @@ class Defaults {
         Defaults.myAppearanceTypes = user.myAppearanceTypes
         Defaults.frindRequestNumber = user.frindRequestNumber
         Defaults.pushnotification = user.pushnotification
+        Defaults.notificationcount = user.notificationcount
     }
     
     static func deleteUserData(){
@@ -461,7 +462,6 @@ class Defaults {
         defaults.removeObject(forKey: "needUpdate")
         defaults.removeObject(forKey: "allowMyLocation")
         defaults.removeObject(forKey: "isFirstFilter")
-        defaults.removeObject(forKey: "badgeNumber")
         defaults.removeObject(forKey: "OtherGenderName")
         defaults.removeObject(forKey: "myAppearanceTypes")
         defaults.removeObject(forKey: "ghostModeEveryOne")
@@ -469,6 +469,7 @@ class Defaults {
         defaults.removeObject(forKey: "frindRequestNumber")
         defaults.removeObject(forKey: "fcmToken")
         defaults.removeObject(forKey: "pushnotification")
+        defaults.removeObject(forKey: "notificationcount")
 
         if let token = AccessToken.current,
            !token.isExpired {

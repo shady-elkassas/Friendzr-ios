@@ -192,10 +192,11 @@ class Router {
         
     }
     
-    func toEventDetailsVC(eventId:String,isConv:Bool)  {
+    func toEventDetailsVC(eventId:String,isConv:Bool,isEventAdmin:Bool)  {
         if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
             vc.eventId = eventId
             vc.isConv = isConv
+            vc.isEventAdmin = isEventAdmin
             go(withVC: controller)
         }
         

@@ -897,7 +897,7 @@ extension SettingsVC: UITableViewDataSource {
                                 }
                                 
                                 DispatchQueue.main.async { //update map
-                                    NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
+//                                    NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
                                 }
                             }
                         }
@@ -950,7 +950,7 @@ extension SettingsVC: UITableViewDataSource {
                                 }
                                 
                                 DispatchQueue.main.async { //update map
-                                    NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
+//                                    NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
                                 }
                             }
                         }

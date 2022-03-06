@@ -123,10 +123,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
         mapView.clear()
         CancelRequest.currentTask = true
         collectionViewHeight.constant = 0
         subViewHeight.constant = 50
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -218,6 +220,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.getAllEventsAroundMe()
         viewmodel.locations.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
+                print("peoplocationDataCount>> \(value.peoplocationDataMV?.count ?? 0)")
+                print("eventlocationDataCount>> \(value.eventlocationDataMV?.count ?? 0)")
+                
                 self.setupMarkers()
             }
         }
@@ -325,6 +330,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     // locations markers
     func setupMarkers() {
+        mapView.clear()
+        
         let model = viewmodel.locations.value
         locations.removeAll()
         for item in model?.eventlocationDataMV ?? [] {

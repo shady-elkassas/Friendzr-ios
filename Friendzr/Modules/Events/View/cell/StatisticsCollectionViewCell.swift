@@ -43,7 +43,6 @@ class StatisticsCollectionViewCell: UICollectionViewCell {
         interestTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         genderTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
     }
-    
 }
 
 extension StatisticsCollectionViewCell:UITableViewDataSource {

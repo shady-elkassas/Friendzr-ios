@@ -42,6 +42,7 @@ class UserObj: Mappable {
         pushnotification <- map["pushnotification"]
         OtherGenderName <- map["OtherGenderName"]
         frindRequestNumber <- map["frindRequestNumber"]
+        notificationcount <- map["notificationcount"]
 
     }
     
@@ -74,6 +75,7 @@ class UserObj: Mappable {
     var myAppearanceTypes:[Int] = []
     var ghostmode:Bool = false
     var pushnotification:Bool = false
+    var notificationcount:Int = 0
 }
 
 

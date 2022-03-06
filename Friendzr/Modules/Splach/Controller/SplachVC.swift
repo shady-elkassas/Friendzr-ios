@@ -78,29 +78,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         CancelRequest.currentTask = true
     }
     
-    
-    func getProfileInformation() {
-        profileVM.getProfileInfo()
-        profileVM.userModel.bind { [unowned self]value in
-            self.hideLoading()
-            DispatchQueue.main.async {
-                Router().toFeed()
-            }
-        }
-        
-        // Set View Model Event Listener
-        profileVM.error.bind { [unowned self]error in
-            self.hideLoading()
-            DispatchQueue.main.async {
-                self.hideLoading()
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
-            }
-        }
-    }
-    
     var duration: Double = 1.5
     var delay: Double = 2.0
     var minimumBeats: Int = 1

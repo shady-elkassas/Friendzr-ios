@@ -1175,6 +1175,11 @@ extension FeedVC:GADBannerViewDelegate {
 extension FeedVC {
     func initCompassSwitchBarButton() {
         switchCompassBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
+        
+//        if Defaults.isIPhoneSmall {
+//            switchCompassBarButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+//        }
+        
         switchCompassBarButton.onTintColor = UIColor.FriendzrColors.primary!
         switchCompassBarButton.setBorder()
         switchCompassBarButton.offTintColor = UIColor.white
@@ -1373,6 +1378,9 @@ extension FeedVC {
 
     func initGhostModeSwitchButton() {
         switchGhostModeBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
+//        if Defaults.isIPhoneSmall {
+//            switchCompassBarButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+//        }
         switchGhostModeBarButton.onTintColor = UIColor.FriendzrColors.primary!
         switchGhostModeBarButton.setBorder()
         switchGhostModeBarButton.offTintColor = UIColor.white

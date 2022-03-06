@@ -192,6 +192,7 @@ extension MyProfileViewController: UITableViewDataSource {
                 self.updateUserInterfaceBtns()
                 if self.internetConnection {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC else {return}
+                    vc.profileModel = self.viewmodel.userModel.value
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else {
                     return

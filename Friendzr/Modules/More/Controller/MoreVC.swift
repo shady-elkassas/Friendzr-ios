@@ -123,7 +123,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         moreList.append(("Notifications".localizedString, UIImage(named: "notificationList_ic")!))
         moreList.append(("Share".localizedString, UIImage(named: "Share_ic")!))
         moreList.append(("Settings".localizedString, UIImage(named: "Settings_ic")!))
-        moreList.append(("Tips & Guidances".localizedString, UIImage(named: "Settings_ic")!))
+        moreList.append(("Tips and Guidance".localizedString, UIImage(named: "Settings_ic")!))
         moreList.append(("About Us".localizedString, UIImage(named: "information_ic")!))
         moreList.append(("Terms & Conditions".localizedString, UIImage(named: "Terms_ic")!))
         moreList.append(("Privacy Policy".localizedString, UIImage(named: "privacy_ic")!))
@@ -266,10 +266,10 @@ extension MoreVC : UITableViewDataSource {
         cell.imgView.image?.withTintColor(UIColor.setColor(lightColor: .black, darkColor: .white))
         
         if indexPath.row == 2 {
-            if Defaults.badgeNumber == 0 {
+            if Defaults.notificationcount == 0 {
                 cell.badgeView.isHidden = true
             }else {
-                cell.badgeLbl.text = "\(Defaults.badgeNumber)"
+                cell.badgeLbl.text = "\(Defaults.notificationcount)"
                 cell.badgeView.isHidden = false
             }
         }else {
@@ -304,7 +304,7 @@ extension MoreVC : UITableViewDelegate {
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "NotificationsVC") as? NotificationsVC else {return}
                 UIApplication.shared.applicationIconBadgeNumber = 0
-                Defaults.badgeNumber = 0
+                Defaults.notificationcount = 0
                 self.tableView.reloadData()
                 self.navigationController?.pushViewController(vc, animated: true)
             }
@@ -323,7 +323,7 @@ extension MoreVC : UITableViewDelegate {
         case 5://Tips& Guides
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
-                vc.titleVC = "Tips & Guidances".localizedString
+                vc.titleVC = "Tips and Guidance".localizedString
                 vc.urlString = "https://friendzr.com/blog-tips-guidance/"
                 self.navigationController?.pushViewController(vc, animated: true)
             }

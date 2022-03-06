@@ -332,12 +332,11 @@ extension EventsVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = viewmodel.events.value?.data?[indexPath.row]
         cellSelect = true
         updateUserInterfaceBtns()
         if internetConect == true {
             if viewmodel.events.value?.data?.count != 0 {
-               
+                let model = viewmodel.events.value?.data?[indexPath.row]
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
                 vc.eventId = model?.id ?? ""
                 if model?.key == 1 {

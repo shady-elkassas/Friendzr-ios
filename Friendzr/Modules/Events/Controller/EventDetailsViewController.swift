@@ -51,7 +51,7 @@ class EventDetailsViewController: UIViewController {
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
-        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.dateFormat = "dd-MM-yyyy"
         return formatter
     }()
     
@@ -333,7 +333,7 @@ extension EventDetailsViewController: UITableViewDataSource {
                             cell.leaveBtn.isUserInteractionEnabled = true
                         }
                         
-                        self.getEventDetails()
+                        NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
                     }
                 }else {
                     return
@@ -362,7 +362,7 @@ extension EventDetailsViewController: UITableViewDataSource {
                         }
                         
                         guard let _ = data else {return}
-                        self.getEventDetails()
+                        NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
                     }
                 }else {
                     return
@@ -497,12 +497,7 @@ extension EventDetailsViewController {
     func initBackChatButton() {
         
         var imageName = ""
-//        if Language.currentLanguage() == "ar" {
-            imageName = "back_icon"
-//        }else {
-//            imageName = "back_icon"
-//        }
-        
+        imageName = "back_icon"
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)

@@ -22,7 +22,7 @@ class SettingsTableViewCell: UITableViewCell {
         // Initialization code
         
         if Defaults.isIPhoneSmall {
-            switchBtn.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+//            switchBtn.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             ghostModeTypeLbl.font = UIFont(name: "Montserrat-Medium", size: 8)
         }else {
             ghostModeTypeLbl.font = UIFont(name: "Montserrat-Medium", size: 12)
