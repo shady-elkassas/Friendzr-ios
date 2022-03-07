@@ -30,7 +30,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kQ8-8a-btW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="236"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="oRC-l4-8rf">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="oRC-l4-8rf">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="236"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Om-o2-pgM" customClass="GradientView" customModule="Friendzr" customModuleProvider="target">
@@ -93,6 +93,10 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="KGO-wt-og0">
+                                <rect key="frame" x="150" y="108" width="20" height="20"/>
+                                <color key="color" name="primaryColor"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
@@ -109,7 +113,9 @@
                             <constraint firstAttribute="trailing" secondItem="oRC-l4-8rf" secondAttribute="trailing" id="aoF-RT-4cb"/>
                             <constraint firstItem="y2w-AH-Cey" firstAttribute="leading" secondItem="wUm-1F-Tdr" secondAttribute="trailing" constant="20" id="c35-wq-192"/>
                             <constraint firstItem="wUm-1F-Tdr" firstAttribute="leading" secondItem="kQ8-8a-btW" secondAttribute="leading" constant="20" id="dIf-3h-GsC"/>
+                            <constraint firstItem="KGO-wt-og0" firstAttribute="centerY" secondItem="kQ8-8a-btW" secondAttribute="centerY" id="dmz-x6-Fha"/>
                             <constraint firstItem="5B8-Wv-LyA" firstAttribute="width" secondItem="4Om-o2-pgM" secondAttribute="width" multiplier="1:3" id="g8g-kN-2Bg"/>
+                            <constraint firstItem="KGO-wt-og0" firstAttribute="centerX" secondItem="kQ8-8a-btW" secondAttribute="centerX" id="gYy-rC-bL2"/>
                             <constraint firstItem="4Om-o2-pgM" firstAttribute="leading" secondItem="kQ8-8a-btW" secondAttribute="leading" id="oYm-o8-3qz"/>
                             <constraint firstItem="wUm-1F-Tdr" firstAttribute="centerY" secondItem="5B8-Wv-LyA" secondAttribute="centerY" id="yki-iK-xUJ"/>
                         </constraints>
@@ -130,12 +136,13 @@
                 <outlet property="genderlbl" destination="Ybi-1j-PrO" id="Ojl-00-DV9"/>
                 <outlet property="gradientView" destination="4Om-o2-pgM" id="TTP-YB-J11"/>
                 <outlet property="profileImg" destination="oRC-l4-8rf" id="YC6-KN-ljE"/>
+                <outlet property="profileImgLoader" destination="KGO-wt-og0" id="fp6-1X-Ooe"/>
             </connections>
             <point key="canvasLocation" x="161" y="102"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="placeholder" width="1000" height="1000"/>
+        <image name="placeHolderApp" width="180" height="180"/>
         <namedColor name="primaryColor">
             <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

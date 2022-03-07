@@ -23,6 +23,8 @@ class UsersFeedTableViewCell: UITableViewCell {
     @IBOutlet weak var refusedRequestBtn: UIButton!
     @IBOutlet weak var subStackView: UIStackView!
     
+    @IBOutlet weak var loaderImg: UIActivityIndicatorView!
+    
     var HandleSendRequestBtn: (() -> ())?
     var HandleCancelRequestBtn: (() -> ())?
     var HandleMessageBtn: (() -> ())?

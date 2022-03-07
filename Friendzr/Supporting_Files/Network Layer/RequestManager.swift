@@ -100,6 +100,7 @@ class RequestManager  {
                         print(error)
                     }
                 }
+                //500 network handling
                 else if code == 500 || code == 501 || code == 502 || code == 503 {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)

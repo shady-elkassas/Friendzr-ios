@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "export 3 icon x32.png",
+      "filename" : "off x32 png.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "export 3 icon x64.png",
+      "filename" : "off x64 png.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "export 3 icon x128.png",
+      "filename" : "off x128 png.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -15,6 +15,7 @@ class ImageProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var genderlbl: UILabel!
     @IBOutlet weak var ageLbl: UILabel!
     
+    @IBOutlet weak var profileImgLoader: UIActivityIndicatorView!
     
     var HandleEditBtn: (()->())?
     

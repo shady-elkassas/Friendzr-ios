@@ -53,6 +53,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let locationManager = CLLocationManager()
     var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
     let content = UNMutableNotificationContent()
+//    let notificationDelegate = SampleNotificationDelegate()
+//    var vcNotifi = NotificationViewController()
     
     let fcmToken:String = ""
     
@@ -104,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
-        
+//        self.configureNotification()
         Messaging.messaging().delegate = self
         application.registerForRemoteNotifications()
         
@@ -156,6 +158,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
+//    func scheduleNotification() {
+//
+//        UNUserNotificationCenter.current().delegate = self
+//
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+//
+//        let content = UNMutableNotificationContent()
+//        content.title = "Stay Health"
+//        content.body = "Just a reminder to eat your favourtite healty food."
+//        content.sound = UNNotificationSound.default
+//        content.categoryIdentifier = "foodCategory"
+//
+//        guard let path = Bundle.main.path(forResource: "placeHolderApp", ofType: "png") else {return}
+//        let url = URL(fileURLWithPath: path)
+//
+//        do {
+//            let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: nil)
+//            content.attachments = [attachment]
+//        }catch{
+//            print("The attachment could not be loaded")
+//        }
+//
+//        let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
+//
+//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+//        UNUserNotificationCenter.current().add(request) { (error:Error?) in
+//            if let error = error {
+//                print("Error: \(error.localizedDescription)")
+//            }
+//        }
+//    }
     
     // MARK: UISceneSession Lifecycle
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -379,10 +413,10 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             let isEventAdmin = userInfo["isAdmin"] as? String
             let messageType = userInfo["Messagetype"] as? Int
             
-//            self.content.sound = UNNotificationSound.default
-//            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-//            let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
-//            center.add(request, withCompletionHandler: nil)
+            self.content.sound = UNNotificationSound.default
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
+            center.add(request, withCompletionHandler: nil)
             
             if action == "Friend_Request" {
                 if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
@@ -487,8 +521,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         print(userInfo)
                 
         let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
-        let title = apsAlert?["title"] as? String
-        let body = apsAlert?["body"] as? String
+        let alert = apsAlert?["alert"] as? [String:Any]
+        let title = alert?["title"] as? String
+        let body =  alert?["body"]  as? String
         
         let action = userInfo["Action"] as? String //action transaction
         let actionId = userInfo["Action_code"] as? String //userid
@@ -500,24 +535,40 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let _: String = userInfo["sound"] as? String ?? ""
 
         self.content.sound = UNNotificationSound.default
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
         
         if messageType == "1" {//text
             self.content.title = title ?? ""
             self.content.body = body ?? ""
-        }else if messageType == "2" {//image
+        }
+        else if messageType == "2" {//image
             self.content.title = title ?? ""
-            self.content.body = "Image"
-        }else if messageType == "3" {//file
+//            self.content.body = "Image"
+            
+            if body != nil, let fileUrl = URL(string: imageNotifications!) {
+                print("fileUrl: \(fileUrl)")
+                do {
+                    let attachment = try UNNotificationAttachment(identifier: "", url: fileUrl)
+                    content.attachments = [ attachment ]
+                }
+                catch {
+                    print("error attachment")
+                }
+            }
+        }
+        else if messageType == "3" {//file
             self.content.title = title ?? ""
             self.content.body = "File"
-        }else if messageType == "4" {//share link
+        }
+        else if messageType == "4" {//share link
             self.content.title = title ?? ""
             self.content.body = "Link"
-        }else {
+        }
+        else {
             
         }
+                
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
         center.add(request, withCompletionHandler: nil)
 
         if action == "user_chat" {
@@ -646,35 +697,36 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         let action = userInfo["Action"] as? String //action transaction
         let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
-        let title = apsAlert?["title"] as? String
-        let body = apsAlert?["body"] as? String
-        let actionId = userInfo["Action_code"] as? String //userid
-        let chatTitle = userInfo["name"] as? String
-        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
-        let imageNotifications = chatTitleImage?["image"] as? String
-        let isEventAdmin = userInfo["isAdmin"] as? String
-        let messageType = userInfo["Messagetype"] as? String
-        let _: String = userInfo["sound"] as? String ?? ""
+//        let title = apsAlert?["title"] as? String
+//        let body = apsAlert?["body"] as? String
+//        let actionId = userInfo["Action_code"] as? String //userid
+//        let chatTitle = userInfo["name"] as? String
+//        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
+//        let imageNotifications = chatTitleImage?["image"] as? String
+//        let isEventAdmin = userInfo["isAdmin"] as? String
+//        let messageType = userInfo["Messagetype"] as? String
+//        let _: String = userInfo["sound"] as? String ?? ""
 
         self.content.sound = UNNotificationSound.default
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
-        
-        if messageType == "1" {//text
-            self.content.title = title ?? ""
-            self.content.body = body ?? ""
-        }else if messageType == "2" {//image
-            self.content.title = title ?? ""
-            self.content.body = "Image"
-        }else if messageType == "3" {//file
-            self.content.title = title ?? ""
-            self.content.body = "File"
-        }else if messageType == "4" {//share link
-            self.content.title = title ?? ""
-            self.content.body = "Link"
-        }else {
-            
-        }
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+//        let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
+//        center.add(request, withCompletionHandler: nil)
+
+//        if messageType == "1" {//text
+//            self.content.title = title ?? ""
+//            self.content.body = body ?? ""
+//        }else if messageType == "2" {//image
+//            self.content.title = title ?? ""
+//            self.content.body = "Image"
+//        }else if messageType == "3" {//file
+//            self.content.title = title ?? ""
+//            self.content.body = "File"
+//        }else if messageType == "4" {//share link
+//            self.content.title = title ?? ""
+//            self.content.body = "Link"
+//        }else {
+//
+//        }
 
         
         if action == "user_chat" {
@@ -761,13 +813,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         else {
             Defaults.notificationcount = UIApplication.shared.applicationIconBadgeNumber
         }
-        
-//        let _: String = userInfo["sound"] as? String ?? ""
-//        content.sound = UNNotificationSound.default
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-//        let request = UNNotificationRequest(identifier: "", content: selfط.content, trigger: trigger)
-
-        center.add(request, withCompletionHandler: nil)
 
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
@@ -797,7 +842,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
       
     }
 
-
+    func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
+        
+    }
 }
 
 extension AppDelegate: CLLocationManagerDelegate {

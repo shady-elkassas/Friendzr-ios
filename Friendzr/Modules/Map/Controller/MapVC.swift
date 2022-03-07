@@ -82,6 +82,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var upDownBtn: UIButton!
     
+    @IBOutlet weak var hideCollectionView: UIView!
+    @IBOutlet var hideImgs: [UIImageView]!
+
     //MARK: - Properties
     var locations:[EventsLocation] = [EventsLocation]()
     var location: CLLocationCoordinate2D? = nil
@@ -128,7 +131,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         CancelRequest.currentTask = true
         collectionViewHeight.constant = 0
         subViewHeight.constant = 50
-        
+        isViewUp = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -181,12 +184,19 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         self.subView.isHidden = false
         self.upDownViewBtn.isHidden = false
         collectionViewHeight.constant = 0
-        collectionView.showLoader()
+        
+        DispatchQueue.main.async {
+            if self.isViewUp == true {
+                self.hideCollectionView.isHidden = false
+            }else {
+                self.hideCollectionView.isHidden = true
+            }
+        }
+        
+        self.hideCollectionView.showLoader()
         viewmodel.getAllEventsOnlyAroundMe(lat: location?.latitude ?? 0.0, lng: location?.longitude ?? 0.0, pageNumber: 1)
         viewmodel.eventsOnlyMe.bind { [unowned self] value in
-            
             DispatchQueue.main.asyncAfter(deadline: .now()) {
-                collectionView.hideLoader()
                 DispatchQueue.main.async {
                     self.collectionView.dataSource = self
                     self.collectionView.delegate = self
@@ -201,6 +211,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                         collectionViewHeight.constant = 0
                         subViewHeight.constant = 50
                     }
+                }
+                
+                DispatchQueue.main.async {
+                    self.hideCollectionView.hideLoader()
+                    self.hideCollectionView.isHidden = true
                 }
             }
         }
@@ -448,6 +463,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         zoomingStatisticsView.cornerRadiusView(radius: 6)
         
         //        setupSwipeSubView()
+        
+        for itm in hideImgs {
+            itm.cornerRadiusView(radius: 8)
+        }
     }
     
     func setupSwipeSubView() {

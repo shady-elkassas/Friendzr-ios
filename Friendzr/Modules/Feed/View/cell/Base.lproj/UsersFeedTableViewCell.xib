@@ -178,8 +178,12 @@
                             <constraint firstAttribute="height" constant="1" id="sTr-fj-DBQ"/>
                         </constraints>
                     </view>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="2un-cW-8Zy">
+                        <rect key="frame" x="35" y="42" width="20" height="20"/>
+                    </activityIndicatorView>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="2un-cW-8Zy" firstAttribute="centerY" secondItem="j3q-OK-73z" secondAttribute="centerY" id="07J-Fc-w7M"/>
                     <constraint firstAttribute="bottom" secondItem="P0K-fl-uqX" secondAttribute="bottom" id="2qL-uh-Ddl"/>
                     <constraint firstItem="vhv-lO-oaP" firstAttribute="centerY" secondItem="9sO-WH-tQf" secondAttribute="centerY" id="6v7-dW-9Uu"/>
                     <constraint firstItem="vhv-lO-oaP" firstAttribute="height" secondItem="9sO-WH-tQf" secondAttribute="height" id="80a-Ha-qMl"/>
@@ -190,6 +194,7 @@
                     <constraint firstItem="9sO-WH-tQf" firstAttribute="centerY" secondItem="gU2-4c-CCD" secondAttribute="centerY" id="Qlw-BU-fLk"/>
                     <constraint firstItem="P0K-fl-uqX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="X3h-NU-rcS"/>
                     <constraint firstAttribute="trailing" secondItem="9sO-WH-tQf" secondAttribute="trailing" constant="20" id="dmJ-SD-sY7"/>
+                    <constraint firstItem="2un-cW-8Zy" firstAttribute="centerX" secondItem="j3q-OK-73z" secondAttribute="centerX" id="fKv-Vr-jrP"/>
                     <constraint firstItem="6Ld-CC-cBM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="qA8-l2-bZc"/>
                     <constraint firstItem="j3q-OK-73z" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="rmX-s0-66z"/>
                     <constraint firstAttribute="trailing" secondItem="6Ld-CC-cBM" secondAttribute="trailing" id="sta-Xy-UzX"/>
@@ -206,6 +211,7 @@
                 <outlet property="friendRequestImg" destination="j3q-OK-73z" id="7NY-nk-TLp"/>
                 <outlet property="friendRequestNameLbl" destination="2mt-gd-63X" id="b7i-79-0Ae"/>
                 <outlet property="friendRequestUserNameLbl" destination="HVf-lY-knW" id="ZZF-GF-CJU"/>
+                <outlet property="loaderImg" destination="2un-cW-8Zy" id="uIN-Gf-lh9"/>
                 <outlet property="messageBtn" destination="wjr-cu-EjV" id="FbV-m2-zQR"/>
                 <outlet property="refusedRequestBtn" destination="IWi-hd-7t5" id="Vu1-Wt-HjQ"/>
                 <outlet property="sendRequestBtn" destination="Veo-yp-N1D" id="Fn6-Qv-ZdI"/>
