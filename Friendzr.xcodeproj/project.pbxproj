@@ -314,6 +314,8 @@
 		43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545CC26CD49F40064660A /* CategoryTableViewCell.swift */; };
 		43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D545CD26CD49F40064660A /* CategoryTableViewCell.xib */; };
 		43DAF9DE27D62A9A00D16462 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DAF9DD27D62A9A00D16462 /* ImageDownloader.swift */; };
+		43DAFA2E27D6472B00D16462 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DAFA2D27D6472B00D16462 /* NotificationService.swift */; };
+		43DAFA3227D6472B00D16462 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 43DAFA2B27D6472B00D16462 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		43DF596827B942FB000D9F69 /* ShareEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF596727B942FB000D9F69 /* ShareEventVC.swift */; };
 		43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E692BF2765FF9D0075671D /* Ex+Switch.swift */; };
 		43E7EC43279C341900631AA0 /* FaceRecognitionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */; };
@@ -354,6 +356,13 @@
 			remoteGlobalIDString = 4382AC1226C27195005C1857;
 			remoteInfo = Friendzr;
 		};
+		43DAFA3027D6472B00D16462 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4382AC0B26C27195005C1857 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43DAFA2A27D6472B00D16462;
+			remoteInfo = NotificationService;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -363,6 +372,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				43DAFA3227D6472B00D16462 /* NotificationService.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -686,6 +696,9 @@
 		43DAF9DD27D62A9A00D16462 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		43DAF9F327D6348500D16462 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		43DAF9F527D6348500D16462 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		43DAFA2B27D6472B00D16462 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		43DAFA2D27D6472B00D16462 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		43DAFA2F27D6472B00D16462 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43DF596727B942FB000D9F69 /* ShareEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareEventVC.swift; sourceTree = "<group>"; };
 		43E692BF2765FF9D0075671D /* Ex+Switch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Switch.swift"; sourceTree = "<group>"; };
 		43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionVC.swift; sourceTree = "<group>"; };
@@ -733,6 +746,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4382AC3426C27195005C1857 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43DAFA2827D6472B00D16462 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1389,6 +1409,7 @@
 			isa = PBXGroup;
 			children = (
 				4382AC1526C27195005C1857 /* Friendzr */,
+				43DAFA2C27D6472B00D16462 /* NotificationService */,
 				4382AC1426C27195005C1857 /* Products */,
 				2C9E98B46E9A7CE7204CF3B0 /* Pods */,
 				2E46D04BCE75F82D975E85B7 /* Frameworks */,
@@ -1401,6 +1422,7 @@
 				4382AC1326C27195005C1857 /* Friendzr.app */,
 				4382AC2C26C27195005C1857 /* FriendzrTests.xctest */,
 				4382AC3726C27195005C1857 /* FriendzrUITests.xctest */,
+				43DAFA2B27D6472B00D16462 /* NotificationService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1650,6 +1672,15 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
+		43DAFA2C27D6472B00D16462 /* NotificationService */ = {
+			isa = PBXGroup;
+			children = (
+				43DAFA2D27D6472B00D16462 /* NotificationService.swift */,
+				43DAFA2F27D6472B00D16462 /* Info.plist */,
+			);
+			path = NotificationService;
+			sourceTree = "<group>";
+		};
 		43FC3CAD2729683800D94ABB /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1716,6 +1747,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				43DAFA3127D6472B00D16462 /* PBXTargetDependency */,
 			);
 			name = Friendzr;
 			productName = Friendzr;
@@ -1758,6 +1790,23 @@
 			productReference = 4382AC3726C27195005C1857 /* FriendzrUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		43DAFA2A27D6472B00D16462 /* NotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43DAFA3527D6472B00D16462 /* Build configuration list for PBXNativeTarget "NotificationService" */;
+			buildPhases = (
+				43DAFA2727D6472B00D16462 /* Sources */,
+				43DAFA2827D6472B00D16462 /* Frameworks */,
+				43DAFA2927D6472B00D16462 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationService;
+			productName = NotificationService;
+			productReference = 43DAFA2B27D6472B00D16462 /* NotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1778,6 +1827,9 @@
 						CreatedOnToolsVersion = 12.5.1;
 						TestTargetID = 4382AC1226C27195005C1857;
 					};
+					43DAFA2A27D6472B00D16462 = {
+						CreatedOnToolsVersion = 13.0;
+					};
 				};
 			};
 			buildConfigurationList = 4382AC0E26C27195005C1857 /* Build configuration list for PBXProject "Friendzr" */;
@@ -1796,6 +1848,7 @@
 				4382AC1226C27195005C1857 /* Friendzr */,
 				4382AC2B26C27195005C1857 /* FriendzrTests */,
 				4382AC3626C27195005C1857 /* FriendzrUITests */,
+				43DAFA2A27D6472B00D16462 /* NotificationService */,
 			);
 		};
 /* End PBXProject section */
@@ -1898,6 +1951,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4382AC3526C27195005C1857 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43DAFA2927D6472B00D16462 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2250,6 +2310,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		43DAFA2727D6472B00D16462 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43DAFA2E27D6472B00D16462 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2262,6 +2330,11 @@
 			isa = PBXTargetDependency;
 			target = 4382AC1226C27195005C1857 /* Friendzr */;
 			targetProxy = 4382AC3826C27195005C1857 /* PBXContainerItemProxy */;
+		};
+		43DAFA3127D6472B00D16462 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43DAFA2A27D6472B00D16462 /* NotificationService */;
+			targetProxy = 43DAFA3027D6472B00D16462 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2657,13 +2730,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 06E1CB890D75E84719ECEFB5 /* Pods-Friendzr.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.14;
+				CURRENT_PROJECT_VERSION = 2.8.15;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2685,6 +2759,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FEE62193B6EE621B033E5DF9 /* Pods-Friendzr.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
@@ -2692,7 +2767,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.14;
+				CURRENT_PROJECT_VERSION = 2.8.15;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;
@@ -2797,6 +2872,61 @@
 			};
 			name = Release;
 		};
+		43DAFA3327D6472B00D16462 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8S62D745ZJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios.NotificationService";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		43DAFA3427D6472B00D16462 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8S62D745ZJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationService;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios.NotificationService";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2832,6 +2962,15 @@
 			buildConfigurations = (
 				4382AC4726C27195005C1857 /* Debug */,
 				4382AC4826C27195005C1857 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43DAFA3527D6472B00D16462 /* Build configuration list for PBXNativeTarget "NotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43DAFA3327D6472B00D16462 /* Debug */,
+				43DAFA3427D6472B00D16462 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

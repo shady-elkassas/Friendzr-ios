@@ -342,6 +342,16 @@ class Defaults {
         }
     }
     
+//    static var applicationState: String {
+//        set{
+//            UserDefaults.standard.set(newValue, forKey: "applicationState")
+//            UserDefaults.standard.synchronize()
+//        }
+//        get{
+//            return UserDefaults.standard.string(forKey: "applicationState") ?? ""
+//        }
+//    }
+    
     static var ghostMode: Bool {
         set{
             UserDefaults.standard.set(newValue, forKey: "ghostMode")

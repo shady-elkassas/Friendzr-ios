@@ -60,6 +60,32 @@ extension FeedVC {
         self.present(alertController, animated: true, completion: nil)
         
     }
+    
+    
+    func checkLocationPermissionBtns() {
+        self.refreshControl.endRefreshing()
+        if CLLocationManager.locationServicesEnabled() {
+            switch(CLLocationManager.authorizationStatus()) {
+            case .notDetermined, .restricted, .denied:
+                //open setting app when location services are disabled
+                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                Defaults.allowMyLocationSettings = false
+                hideView.isHidden = true
+            case .authorizedAlways, .authorizedWhenInUse:
+                print("Access")
+                Defaults.allowMyLocationSettings = true
+                hideView.isHidden = true
+            default:
+                break
+            }
+        }
+        else {
+            print("Location in not allow")
+            Defaults.allowMyLocationSettings = false
+            hideView.isHidden = true
+            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+        }
+    }
 }
 
 class FeedVC: UIViewController, UIGestureRecognizerDelegate {
@@ -255,11 +281,17 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func loadMoreItemsForList(){
-        currentPage += 1
-        if self.isCompassOpen {
-            self.filterFeedsBy(degree: compassDegree, pageNumber: currentPage)
+        checkLocationPermissionBtns()
+        if Defaults.allowMyLocationSettings {
+            self.allowLocView.isHidden = true
+            currentPage += 1
+            if self.isCompassOpen {
+                self.filterFeedsBy(degree: compassDegree, pageNumber: currentPage)
+            }else {
+                self.getAllFeeds(pageNumber: currentPage)
+            }
         }else {
-            self.getAllFeeds(pageNumber: currentPage)
+            self.allowLocView.isHidden = false
         }
     }
     
@@ -524,9 +556,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         print("Refersh")
         currentPage = 1
         checkLocationPermission()
-//        DispatchQueue.main.async {
-//            self.updateUserInterface()
-//        }
         self.refreshControl.endRefreshing()
     }
     
@@ -1181,11 +1210,6 @@ extension FeedVC:GADBannerViewDelegate {
 extension FeedVC {
     func initCompassSwitchBarButton() {
         switchCompassBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
-        
-//        if Defaults.isIPhoneSmall {
-//            switchCompassBarButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-//        }
-        
         switchCompassBarButton.onTintColor = UIColor.FriendzrColors.primary!
         switchCompassBarButton.setBorder()
         switchCompassBarButton.offTintColor = UIColor.white

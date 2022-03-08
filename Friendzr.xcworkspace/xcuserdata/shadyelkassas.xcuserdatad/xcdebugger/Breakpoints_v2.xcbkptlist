@@ -318,8 +318,8 @@
             filePath = "Friendzr/Modules/Feed/Controller/FeedVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1398"
-            endingLineNumber = "1398"
+            startingLineNumber = "1422"
+            endingLineNumber = "1422"
             landmarkName = "initGhostModeSwitchButton()"
             landmarkType = "7">
          </BreakpointContent>
@@ -455,16 +455,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0B7D1EF2-7BDD-4D6A-A807-8932DED7223D"
-            shouldBeEnabled = "No"
+            uuid = "2F228AA9-413B-450E-9D5B-104407E21434"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Friendzr/Supporting_Files/Delegate/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "543"
-            endingLineNumber = "543"
-            landmarkName = "userNotificationCenter(_:willPresent:withCompletionHandler:)"
+            startingLineNumber = "797"
+            endingLineNumber = "797"
+            landmarkName = "locationManager(_:didVisit:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

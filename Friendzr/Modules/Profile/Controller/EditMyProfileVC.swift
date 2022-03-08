@@ -250,6 +250,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             }
             
             tagsListView.removeAllTags()
+            tagsid.removeAll()
+            tagsNames.removeAll()
             for itm in profileModel?.listoftagsmodel ?? [] {
                 tagsListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
                 tagsid.append(itm.tagID)
@@ -287,6 +289,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             
             
             bestDescribesListView.removeAllTags()
+            iamid.removeAll()
+            iamNames.removeAll()
             for itm in profileModel?.iamList ?? [] {
                 bestDescribesListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
                 iamid.append(itm.tagID)
@@ -326,6 +330,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             
             
             preferToListView.removeAllTags()
+            preferToNames.removeAll()
+            preferToid.removeAll()
             for itm in profileModel?.prefertoList ?? [] {
                 preferToListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
                 preferToid.append(itm.tagID)

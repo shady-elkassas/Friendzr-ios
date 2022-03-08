@@ -59,7 +59,6 @@ class MyProfileViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         CancelRequest.currentTask = true
-        hideView.hideLoader()
     }
     
     
@@ -71,20 +70,21 @@ class MyProfileViewController: UIViewController {
     
     //MARK: - API
     func getProfileInformation() {
+        self.hideView.isHidden = false
         self.hideView.showLoader()
         viewmodel.getProfileInfo()
         viewmodel.userModel.bind { [unowned self]value in
             DispatchQueue.main.async {
-                
-                DispatchQueue.main.async {
-                    self.hideView.hideLoader()
-                    self.hideView.isHidden = true
-                }
-
+      
                 DispatchQueue.main.async {
                     self.tableView.dataSource = self
                     self.tableView.delegate = self
                     self.tableView.reloadData()
+                }
+                
+                DispatchQueue.main.async {
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
                 }
             }
         }
@@ -138,7 +138,6 @@ class MyProfileViewController: UIViewController {
             internetConnection = false
         case .wwan:
             internetConnection = true
-            getProfileInformation()
         case .wifi:
             internetConnection = true
         }

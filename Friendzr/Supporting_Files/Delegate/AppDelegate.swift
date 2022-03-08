@@ -24,24 +24,6 @@ import UserNotifications
 import GoogleMobileAds
 import IQKeyboardManager
 
-//let notificationManager = NotificationManager.shared
-//        NotificationCenter.default.addObserver(
-//            self,
-//            selector: #selector(newLocationAdded(_:)),
-//            name: .newLocationSaved,
-//            object: nil)
-
-//        if Defaults.darkMode == true {
-//            UIApplication.shared.windows.forEach { window in
-//                window.overrideUserInterfaceStyle = .dark
-//            }
-//        }else {
-//            UIApplication.shared.windows.forEach { window in
-//                window.overrideUserInterfaceStyle = .light
-//            }
-//        }
-
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -53,9 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let locationManager = CLLocationManager()
     var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
     let content = UNMutableNotificationContent()
-//    let notificationDelegate = SampleNotificationDelegate()
-//    var vcNotifi = NotificationViewController()
-    
     let fcmToken:String = ""
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -156,48 +135,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIView.appearance().semanticContentAttribute = .forceLeftToRight
         self.window?.makeKeyAndVisible()
         
+        
         return true
     }
     
-//    func scheduleNotification() {
-//
-//        UNUserNotificationCenter.current().delegate = self
-//
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-//
-//        let content = UNMutableNotificationContent()
-//        content.title = "Stay Health"
-//        content.body = "Just a reminder to eat your favourtite healty food."
-//        content.sound = UNNotificationSound.default
-//        content.categoryIdentifier = "foodCategory"
-//
-//        guard let path = Bundle.main.path(forResource: "placeHolderApp", ofType: "png") else {return}
-//        let url = URL(fileURLWithPath: path)
-//
-//        do {
-//            let attachment = try UNNotificationAttachment(identifier: "logo", url: url, options: nil)
-//            content.attachments = [attachment]
-//        }catch{
-//            print("The attachment could not be loaded")
-//        }
-//
-//        let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
-//
-//        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-//        UNUserNotificationCenter.current().add(request) { (error:Error?) in
-//            if let error = error {
-//                print("Error: \(error.localizedDescription)")
-//            }
-//        }
-//    }
-    
-    // MARK: UISceneSession Lifecycle
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // reset badge count
-        
-        application.applicationIconBadgeNumber = 0
-    }
-    
+    // MARK: UISceneSession Lifecycle    }
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
@@ -304,10 +246,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
     }
     
-    func application(_ application: UIApplication,
-                     didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult)
-                     -> Void) {
+    func application(_ application: UIApplication,didReceiveRemoteNotification userInfo: [AnyHashable: Any],fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
@@ -360,7 +299,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         content.sound = UNNotificationSound.default
     }
-    
 }
 
 extension AppDelegate : MessagingDelegate{
@@ -874,6 +812,10 @@ extension AppDelegate: CLLocationManagerDelegate {
 //                let request = UNNotificationRequest(identifier: location.dateString, content: content, trigger: trigger)
 //                center.add(request, withCompletionHandler: nil)
         
+        if Defaults.availableVC == "MapVC" {
+            self.checkLocationPermission()
+        }
+        
         //update location server
         self.updateLocationVM.updatelocation(ByLat: "\(location.latitude)", AndLng: "\(location.longitude)") { error, data in
             if let error = error {
@@ -934,5 +876,81 @@ final class FakeVisit: CLVisit {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+
+//let notificationManager = NotificationManager.shared
+//        NotificationCenter.default.addObserver(
+//            self,
+//            selector: #selector(newLocationAdded(_:)),
+//            name: .newLocationSaved,
+//            object: nil)
+
+//        if Defaults.darkMode == true {
+//            UIApplication.shared.windows.forEach { window in
+//                window.overrideUserInterfaceStyle = .dark
+//            }
+//        }else {
+//            UIApplication.shared.windows.forEach { window in
+//                window.overrideUserInterfaceStyle = .light
+//            }
+//        }
+
+
+extension AppDelegate {
+    func applicationWillResignActive(_ application: UIApplication) {
+        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application, and it begins the transition to the background state.
+        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        
+        print("applicationWillResignActive")
+    }
+    
+    func applicationDidEnterBackground(_UIApplicationDidBecomeActiveNotification application: UIApplication) {
+        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        application.applicationIconBadgeNumber = 0
+    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    
+    
+    
+    func checkLocationPermission() {
+        if CLLocationManager.locationServicesEnabled() {
+            switch(CLLocationManager.authorizationStatus()) {
+            case .notDetermined, .restricted, .denied:
+                //open setting app when location services are disabled
+                locationManager.stopUpdatingLocation()
+                Defaults.allowMyLocationSettings = false
+                NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
+            case .authorizedAlways, .authorizedWhenInUse:
+                print("Access")
+                Defaults.allowMyLocationSettings = true
+                locationManager.startUpdatingLocation()
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
+                }
+            default:
+                break
+            }
+        }
+        else {
+            print("Location services are not enabled")
+            Defaults.allowMyLocationSettings = false
+        }
+        
     }
 }

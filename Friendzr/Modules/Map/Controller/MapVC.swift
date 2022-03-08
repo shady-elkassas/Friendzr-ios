@@ -625,6 +625,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Actions
     @IBAction func addEventBtn(_ sender: Any) {
+        checkLocationPermissionBtns()
         if Defaults.allowMyLocationSettings == true {
             self.appendNewLocation = true
             self.view.makeToast("Please pick event's location".localizedString)
@@ -638,24 +639,27 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func goAddEventBtn(_ sender: Any) {
+        checkLocationPermissionBtns()
         
-        if self.appendNewLocation {
-            self.updateUserInterfaceBtns()
-            if self.internetConect {
-                self.setupMarkerz(for: self.location!, markerIcon: "eventMarker_ic", typelocation: "event", markerID: "", eventsCount: 0,isEvent: true,peopleCount: 0)
-                
-                self.locations.append(EventsLocation(location: self.location!, markerIcon: "eventMarker_ic", typelocation: "event",eventsCount: 0,markerId: "",isEvent: true,peopleCount: 0))
-                
-                LocationZooming.locationLat = self.location?.latitude ?? 0.0
-                LocationZooming.locationLng = self.location?.longitude ?? 0.0
-                
-                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
-                vc.locationLat = self.location!.latitude
-                vc.locationLng = self.location!.longitude
-                self.addEventBtn.isHidden = false
-                self.goAddEventBtn.isHidden = true
-                self.markerImg.isHidden = true
-                self.navigationController?.pushViewController(vc, animated: true)
+        if Defaults.allowMyLocationSettings {
+            if self.appendNewLocation {
+                self.updateUserInterfaceBtns()
+                if self.internetConect {
+                    self.setupMarkerz(for: self.location!, markerIcon: "eventMarker_ic", typelocation: "event", markerID: "", eventsCount: 0,isEvent: true,peopleCount: 0)
+                    
+                    self.locations.append(EventsLocation(location: self.location!, markerIcon: "eventMarker_ic", typelocation: "event",eventsCount: 0,markerId: "",isEvent: true,peopleCount: 0))
+                    
+                    LocationZooming.locationLat = self.location?.latitude ?? 0.0
+                    LocationZooming.locationLng = self.location?.longitude ?? 0.0
+                    
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
+                    vc.locationLat = self.location!.latitude
+                    vc.locationLng = self.location!.longitude
+                    self.addEventBtn.isHidden = false
+                    self.goAddEventBtn.isHidden = true
+                    self.markerImg.isHidden = true
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
         }
     }
@@ -666,16 +670,21 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func convertMapStyleBtn(_ sender: Any) {
-        MapAppType.type = !MapAppType.type
-        if MapAppType.type {
-            mapView.mapType = .normal
-        }else {
-            mapView.mapType = .satellite
+        checkLocationPermissionBtns()
+        if Defaults.allowMyLocationSettings {
+            MapAppType.type = !MapAppType.type
+            if MapAppType.type {
+                mapView.mapType = .normal
+            }else {
+                mapView.mapType = .satellite
+            }
         }
     }
     
     @IBAction func currentLocationBtn(_ sender: Any) {
+        self.checkLocationPermissionBtns()
         self.updateUserInterfaceBtns()
+        
         if self.internetConect {
             if Defaults.allowMyLocationSettings {
                 setupGoogleMap(zoom1: 14, zoom2: 18)
@@ -869,6 +878,27 @@ extension MapVC : CLLocationManagerDelegate {
             self.zoomingStatisticsView.isHidden = true
         }
         
+    }
+    
+    func checkLocationPermissionBtns() {
+        if CLLocationManager.locationServicesEnabled() {
+            switch(CLLocationManager.authorizationStatus()) {
+            case .notDetermined, .restricted, .denied:
+                //open setting app when location services are disabled
+                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                Defaults.allowMyLocationSettings = false
+            case .authorizedAlways, .authorizedWhenInUse:
+                print("Access")
+                Defaults.allowMyLocationSettings = true
+            default:
+                break
+            }
+        }
+        else {
+            print("Location in not allow")
+            Defaults.allowMyLocationSettings = false
+            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+        }
     }
 }
 
