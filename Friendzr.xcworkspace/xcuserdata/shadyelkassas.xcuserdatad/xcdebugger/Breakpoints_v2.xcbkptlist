@@ -334,8 +334,8 @@
             filePath = "Friendzr/Modules/Main/ConversationVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "622"
-            endingLineNumber = "622"
+            startingLineNumber = "621"
+            endingLineNumber = "621"
             landmarkName = "getEventChatMessages(pageNumber:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -350,8 +350,8 @@
             filePath = "Friendzr/Modules/Main/ConversationVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "623"
-            endingLineNumber = "623"
+            startingLineNumber = "622"
+            endingLineNumber = "622"
             landmarkName = "getEventChatMessages(pageNumber:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -475,10 +475,18 @@ extension GroupDetailsVC : UITableViewDataSource {
             cell.adminLbl.isHidden = false
             cell.btnWidth.constant = 0
         }else {
-            cell.dropDownBtn.isHidden = false
-            cell.adminLbl.isHidden = true
-            cell.btnWidth.constant = 20
+            if self.isGroupAdmin {
+                cell.dropDownBtn.isHidden = false
+                cell.adminLbl.isHidden = true
+                cell.btnWidth.constant = 20
+            }else {
+                cell.dropDownBtn.isHidden = true
+                cell.adminLbl.isHidden = true
+                cell.btnWidth.constant = 20
+                
+            }
         }
+        
         
         cell.friendNameLbl.text = model?.userName
         cell.friendImg.sd_setImage(with: URL(string: model?.userImage ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
@@ -493,9 +501,9 @@ extension GroupDetailsVC : UITableViewDataSource {
                 settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                     self.showAlertView(messageString: "delete", userID: model?.userID ?? "", Stutus: 1)
                 }))
-//                settingsActionSheet.addAction(UIAlertAction(title:"Make coordinator".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                    //                    self.showAlertView(messageString: "Make coordinator".localizedString, userID: model?.userID ?? "", Stutus: 2)
-//                }))
+                //                settingsActionSheet.addAction(UIAlertAction(title:"Make coordinator".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                //                    //                    self.showAlertView(messageString: "Make coordinator".localizedString, userID: model?.userID ?? "", Stutus: 2)
+                //                }))
                 settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString.localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                 
                 self.present(settingsActionSheet, animated:true, completion:nil)
@@ -505,9 +513,9 @@ extension GroupDetailsVC : UITableViewDataSource {
                 settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
                     self.showAlertView(messageString: "delete".localizedString, userID: model?.userID ?? "", Stutus: 1)
                 }))
-//                settingsActionSheet.addAction(UIAlertAction(title:"Make coordinator".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-//                    //                    self.showAlertView(messageString: "Make coordinator".localizedString, userID: model?.userID ?? "", Stutus: 2)
-//                }))
+                //                settingsActionSheet.addAction(UIAlertAction(title:"Make coordinator".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                //                    //                    self.showAlertView(messageString: "Make coordinator".localizedString, userID: model?.userID ?? "", Stutus: 2)
+                //                }))
                 settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                 
                 self.present(settingsActionSheet, animated:true, completion:nil)

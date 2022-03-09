@@ -1452,7 +1452,7 @@ extension FeedVC {
             self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-            self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private modes?".localizedString
+            self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
             
             self.showAlertView?.HandleConfirmBtn = {
                 self.updateNetworkForBtns()
@@ -1605,7 +1605,7 @@ extension FeedVC {
             self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-            self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private modes?".localizedString
+            self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
             
             DispatchQueue.main.async {
                 self.switchGhostModeBarButton.isUserInteractionEnabled = false

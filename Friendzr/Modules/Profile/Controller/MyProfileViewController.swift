@@ -10,11 +10,11 @@ import SDWebImage
 import ListPlaceholder
 
 class MyProfileViewController: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var hideImgs: [UIImageView]!
-
+    
     var viewmodel: ProfileViewModel = ProfileViewModel()
     var internetConnection:Bool = false
     
@@ -30,10 +30,10 @@ class MyProfileViewController: UIViewController {
         control.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         return control
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.title = "My Profile".localizedString
         initBackButton()
         clearNavigationBar()
@@ -41,13 +41,14 @@ class MyProfileViewController: UIViewController {
         
         tableView.refreshControl = refreshControl
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.hideView.isHidden = false
         Defaults.availableVC = "MyProfileViewController"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         CancelRequest.currentTask = false
         
         DispatchQueue.main.async {
@@ -70,12 +71,11 @@ class MyProfileViewController: UIViewController {
     
     //MARK: - API
     func getProfileInformation() {
-        self.hideView.isHidden = false
         self.hideView.showLoader()
         viewmodel.getProfileInfo()
         viewmodel.userModel.bind { [unowned self]value in
             DispatchQueue.main.async {
-      
+                
                 DispatchQueue.main.async {
                     self.tableView.dataSource = self
                     self.tableView.delegate = self
@@ -160,12 +160,12 @@ class MyProfileViewController: UIViewController {
         tableView.register(UINib(nibName: bestDescribesCellId, bundle: nil), forCellReuseIdentifier: bestDescribesCellId)
         tableView.register(UINib(nibName: aboutmeCellId, bundle: nil), forCellReuseIdentifier: aboutmeCellId)
         tableView.register(UINib(nibName: preferCellId, bundle: nil), forCellReuseIdentifier: preferCellId)
-
+        
         for itm in hideImgs {
             itm.cornerRadiusView(radius: 10)
         }
     }
-
+    
 }
 
 extension MyProfileViewController: UITableViewDataSource {
@@ -182,7 +182,6 @@ extension MyProfileViewController: UITableViewDataSource {
             cell.profileImgLoader.isHidden = false
             cell.profileImgLoader.startAnimating()
             DispatchQueue.global(qos: .default).async {
-//                sleep(1)
                 cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 
                 DispatchQueue.main.async {
@@ -191,7 +190,7 @@ extension MyProfileViewController: UITableViewDataSource {
                 }
             }
             
-      
+            
             
             cell.ageLbl.text = "\(model?.age ?? 0)"
             if model?.gender == "other" {
@@ -222,17 +221,9 @@ extension MyProfileViewController: UITableViewDataSource {
         else if indexPath.row == 2 {//interests...
             guard let cell = tableView.dequeueReusableCell(withIdentifier: interestsCellId, for: indexPath) as? InterestsProfileTableViewCell else {return UITableViewCell()}
             cell.tagsListView.removeAllTags()
-//            if (model?.listoftagsmodel?.count ?? 0) > 4 {
-//                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
-//                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
-//                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
-//                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
-//            }else {
-                for item in model?.listoftagsmodel ?? [] {
-                    cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
-                }
-//            }
-
+            for item in model?.listoftagsmodel ?? [] {
+                cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
+            }
             print("tagListView.rows \(cell.tagsListView.rows)")
             cell.tagsListViewHeight.constant = CGFloat(cell.tagsListView.rows * 25)
             
@@ -259,7 +250,7 @@ extension MyProfileViewController: UITableViewDataSource {
             for item in model?.iamList ?? [] {
                 cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
             }
-
+            
             print("tagListView.rows \(cell.tagsListView.rows)")
             cell.tagsListViewHeight.constant = CGFloat(cell.tagsListView.rows * 25)
             
@@ -287,7 +278,7 @@ extension MyProfileViewController: UITableViewDataSource {
             for item in model?.prefertoList ?? [] {
                 cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
             }
-
+            
             print("tagListView.rows \(cell.tagsListView.rows)")
             cell.tagsListViewHeight.constant = CGFloat(cell.tagsListView.rows * 25)
             

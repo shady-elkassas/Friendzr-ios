@@ -99,9 +99,6 @@ final internal class SimpleDataModel {
 
     let linkItem: (() -> MessageLinkItem) = {
         MessageLinkItem(
-            text: "https://github.com/MessageKit",
-            attributedText: nil,
-            url: URL(string: "https://github.com/MessageKit")!,
             title: "MessageKit",
             teaser: "A community-driven replacement for JSQMessagesViewController - MessageKit",
             thumbnailImage: UIImage(named: "mkorglogo")!,

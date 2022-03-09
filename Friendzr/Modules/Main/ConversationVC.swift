@@ -116,6 +116,8 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     /// The `BasicAudioController` control the AVAudioPlayer state (play, pause, stop) and update audio cell UI accordingly.
     lazy var audioController = AudioVC(messageCollectionView: messagesCollectionView)
     lazy var messageList: [UserMessage] = []
+    lazy var messagesChatList: [UserMessage] = []
+
     var isRefreshNewMessages:Bool = false
     
     lazy var refreshControl: UIRefreshControl = {
@@ -279,8 +281,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     func insertMessage(_ message: UserMessage) {
         messageList.append(message)
         setupNavigationbar()
-        
-        //        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
         
         //         Reload last section to update header/footer labels and insert a new one
         messagesCollectionView.performBatchUpdates({
@@ -498,7 +498,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             DispatchQueue.main.async {
                 messageList.removeAll()
                 for itm in value.data ?? [] {
-                    
                     switch itm.currentuserMessage! {
                     case true:
                         switch itm.messagetype {
@@ -515,7 +514,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                         case 4://link
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                            messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         default:
                             break
                         }
@@ -535,7 +534,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             
-                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                            messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         default:
                             break
                         }
@@ -622,7 +621,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             
-                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                            messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         default:
                             break
                         }
@@ -642,7 +641,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             
-                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                            messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         default:
                             break
                         }
@@ -693,22 +692,24 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     func getGroupChatMessages(pageNumber:Int) {
         let startDate = Date()
-
+        
         CancelRequest.currentTask = false
         if isRefreshNewMessages == true {
             self.hideLoading()
         }else {
             self.showLoading()
         }
+        
         viewmodel.getChatMessages(BygroupId: groupId, pageNumber: pageNumber)
         viewmodel.groupmessages.bind { [unowned self] value in
             let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
             print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
-
+            
             DispatchQueue.main.async {
                 
                 messageList.removeAll()
-                for itm in value.pagedModel?.data ?? [] {
+                for itm in value.pagedModel?.data ?? []
+                {
                     switch itm.currentuserMessage! {
                     case true:
                         switch itm.messagetype {
@@ -729,7 +730,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                         case 4://link
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                            messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         default:
                             break
                         }
@@ -749,20 +750,20 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             
-                            messageList.insert(UserMessage(linkItem: MessageLinkItem(text:"", attributedText: NSAttributedString(string: itm.eventData?.title ?? ""), url: URL(string: "https://friendzr.com/")!, title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+                            messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
                         default:
                             break
                         }
                         receiveimg = itm.userimage ?? ""
                         receiveName = itm.username ?? ""
-
+                        
                     }
                 }
                 
                 let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
                 print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
                 self.hideLoading()
-
+                
                 DispatchQueue.main.async {
                     if self.currentPage != 1 {
                         self.messagesCollectionView.reloadDataAndKeepOffset()
@@ -815,17 +816,22 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     @objc func loadMoreMessages() {
         isRefreshNewMessages = true
+        print("current page == \(self.currentPage)")
         DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
+            
             self.currentPage += 1
+            
             if self.isEvent {
                 self.getEventChatMessages(pageNumber: self.currentPage)
-            }else {
+            }
+            else {
                 if self.isChatGroup {
                     self.getGroupChatMessages(pageNumber: self.currentPage)
                 }else {
                     self.getUserChatMessages(pageNumber: self.currentPage)
                 }
             }
+            
         }
     }
 }

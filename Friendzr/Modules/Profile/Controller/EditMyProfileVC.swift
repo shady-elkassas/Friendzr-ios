@@ -860,7 +860,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                                 if Defaults.needUpdate == 1 {
                                     return
                                 }else {
-                                    self.onPopup()
+                                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
+                                    self.navigationController?.pushViewController(vc, animated: true)
                                 }
                             }
                         }

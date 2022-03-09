@@ -280,11 +280,16 @@ class AddGroupVC: UIViewController {
         if selectedIDs.count == 0 {
             self.view.makeToast("Please select group participants".localizedString)
         }else {
-            self.doneBtn.setTitle("Sending...", for: .normal)
-            self.doneBtn.isUserInteractionEnabled = false
+            DispatchQueue.main.async {
+                self.doneBtn.setTitle("Sending...", for: .normal)
+                self.doneBtn.isUserInteractionEnabled = false
+            }
+            
             addGroupChat.createGroup(withName: groupNameTxt.text!, AndListOfUserIDs: selectedIDs, AndRegistrationDateTime: "\(actionDate) \(actionTime)", attachedImg: self.attachedImg, AndImage: groupImg.image ?? UIImage()) { error, data in
-                self.doneBtn.isUserInteractionEnabled = true
-                self.doneBtn.setTitle("Done", for: .normal)
+                DispatchQueue.main.async {
+                    self.doneBtn.isUserInteractionEnabled = true
+                    self.doneBtn.setTitle("Done", for: .normal)
+                }
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -293,11 +298,6 @@ class AddGroupVC: UIViewController {
                 }
                 
                 guard let _ = data else {return}
-                
-//                DispatchQueue.main.async {
-//                    self.view.makeToast("Your group added successfully".localizedString)
-//                }
-                
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
                     Router().toHome()
                 }

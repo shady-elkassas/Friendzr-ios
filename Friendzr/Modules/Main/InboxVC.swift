@@ -553,6 +553,9 @@ extension InboxVC:UITableViewDelegate {
             }
             
             Router().toConversationVC(isEvent: model?.isevent ?? false, eventChatID: model?.id ?? "", leavevent: model?.leavevent ?? 0, chatuserID: model?.id ?? "", isFriend: model?.isfrind ?? false, titleChatImage: model?.image ?? "", titleChatName: model?.chatName ?? "", isChatGroupAdmin: model?.isChatGroupAdmin ?? false, isChatGroup: model?.isChatGroup ?? false, groupId: model?.id ?? "",leaveGroup: model?.leaveGroup ?? 0, isEventAdmin: model?.myevent ?? false)
+            
+            
+//            guard let vc = UIViewController
         }
         
     }

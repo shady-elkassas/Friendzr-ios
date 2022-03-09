@@ -105,16 +105,18 @@ struct MessageLinkItem: LinkItem {
     var people: String?
     var date: String?
 
-    init(text:String,attributedText:NSAttributedString?,url:URL,title:String,teaser:String,thumbnailImage:UIImage,people:String,date:String) {
-        self.text = text
-        self.attributedText = attributedText
-        self.url = url
+    init(title:String,teaser:String,thumbnailImage:UIImage,people:String,date:String) {
+        self.text = ""
+        self.attributedText = NSAttributedString(string: "")
+        self.url = URL(string: "bit.ly/3sbXHy5")!
+        
         self.title = title
         self.teaser = teaser
         self.people = people
         self.date = date
         self.thumbnailImage = thumbnailImage
     }
+    
 }
 
 internal struct UserMessage: MessageType {
