@@ -286,8 +286,8 @@
             filePath = "Friendzr/Modules/Main/Extensions + ConversationVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1306"
-            endingLineNumber = "1306"
+            startingLineNumber = "1312"
+            endingLineNumber = "1312"
             landmarkName = "handleLinkPreviewOptionsTapped(ById:IsInEvent:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -334,8 +334,8 @@
             filePath = "Friendzr/Modules/Main/ConversationVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "622"
-            endingLineNumber = "622"
+            startingLineNumber = "626"
+            endingLineNumber = "626"
             landmarkName = "getEventChatMessages(pageNumber:)"
             landmarkType = "7">
          </BreakpointContent>

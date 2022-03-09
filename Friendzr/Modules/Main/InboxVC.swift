@@ -9,6 +9,7 @@ import UIKit
 import SwiftUI
 import ListPlaceholder
 import GoogleMobileAds
+import SDWebImage
 
 extension InboxVC {
     func lastMessageDateTime(date:String,time:String) -> String {
@@ -405,6 +406,7 @@ extension InboxVC:UITableViewDataSource {
                 cell.nameLbl.text = model?.chatName
                 cell.lastMessageLbl.text = model?.messages
                 
+                cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
                 cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 
                 if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
@@ -466,6 +468,8 @@ extension InboxVC:UITableViewDataSource {
                 let model = viewmodel.listChat.value?.data?[indexPath.row]
                 cell.nameLbl.text = model?.chatName
                 cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
+
+                cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
                 cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 
                 if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
@@ -553,9 +557,6 @@ extension InboxVC:UITableViewDelegate {
             }
             
             Router().toConversationVC(isEvent: model?.isevent ?? false, eventChatID: model?.id ?? "", leavevent: model?.leavevent ?? 0, chatuserID: model?.id ?? "", isFriend: model?.isfrind ?? false, titleChatImage: model?.image ?? "", titleChatName: model?.chatName ?? "", isChatGroupAdmin: model?.isChatGroupAdmin ?? false, isChatGroup: model?.isChatGroup ?? false, groupId: model?.id ?? "",leaveGroup: model?.leaveGroup ?? 0, isEventAdmin: model?.myevent ?? false)
-            
-            
-//            guard let vc = UIViewController
         }
         
     }

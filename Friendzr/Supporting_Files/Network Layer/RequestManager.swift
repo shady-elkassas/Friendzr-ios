@@ -60,6 +60,13 @@ class RequestManager  {
         let task = session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
             if (error != nil) {
                 print(error!)
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                    print(json)
+                    completion([:],"Internal Server Error")
+                } catch {
+                    print(error)
+                }
             }
             else {
                 let httpResponse = response as? HTTPURLResponse
@@ -73,7 +80,8 @@ class RequestManager  {
                         print(json)
                         let valJsonBlock = json as! [String : Any]
                         completion(valJsonBlock,nil)
-                    } catch {
+                    }
+                    catch {
                         print(error)
                     }
                 }
@@ -125,7 +133,8 @@ class RequestManager  {
                         print(json)
                         let valJsonBlock = json as! [String : Any]
                         completion([:],valJsonBlock["message"] as? String)
-                    } catch {
+                    }
+                    catch {
                         print(error)
                     }
                 }

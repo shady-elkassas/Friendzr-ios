@@ -587,12 +587,14 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             
             guard let data = data else {return}
             print(data)
+            
+            self.imgTake = 0
+            print(self.imgTake)
+            
             if data == "Matched" {
                 DispatchQueue.main.async {
                     self.ProcessingLbl.text = "Matched"
                     self.ProcessingLbl.textColor = .green
-                    self.imgTake = 0
-                    print(self.imgTake)
                     self.attachedImg = true
                 }
                 
@@ -609,8 +611,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.ProcessingLbl.text = data
                     self.ProcessingLbl.textColor = .red
-                    self.imgTake = 0
-                    print(self.imgTake)
                     self.attachedImg = false
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         //                        self.showFailAlert()

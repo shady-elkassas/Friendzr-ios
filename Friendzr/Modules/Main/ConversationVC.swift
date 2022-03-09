@@ -204,7 +204,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         
         configureMessageCollectionView()
         initBackChatButton()
-        showDownView()
+//        showDownView()
         setupMessages()
         
         configureMessageInputBar()
@@ -490,7 +490,9 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             self.hideLoading()
         }else {
             self.showLoading()
+            messageInputBar.isHidden = true
         }
+        
         viewmodel.getChatMessages(ByUserId: chatuserID, pageNumber: pageNumber)
         viewmodel.messages.bind { [unowned self] value in
             let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
@@ -562,6 +564,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     }
                 }
                 
+                showDownView()
                 updateTitleView(image: titleChatImage, subtitle: titleChatName, titleId: chatuserID, isEvent: false)
             }
         }
@@ -590,6 +593,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             self.hideLoading()
         }else {
             self.showLoading()
+            messageInputBar.isHidden = true
         }
 
         viewmodel.getChatMessages(ByEventId: eventChatID, pageNumber: pageNumber)
@@ -622,7 +626,12 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             
+//                            messageList.insert(UserMessage(imageURL: URL(string: itm.eventData?.image ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+
                             messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+//                            let executionTimeWithSuccessVC4 = Date().timeIntervalSince(startDate)
+//                            print("executionTimeWithSuccessVC4 \(executionTimeWithSuccessVC4 * 1000) second")
+
                         default:
                             break
                         }
@@ -642,7 +651,11 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                             let url = URL(string: itm.eventData?.image ?? "")
                             let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                             
+//                            messageList.insert(UserMessage(imageURL:  URL(string: itm.eventData?.image ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0), at: 0)
+
                             messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0), at: 0)
+//                            let executionTimeWithSuccessVC3 = Date().timeIntervalSince(startDate)
+//                            print("executionTimeWithSuccessVC3 \(executionTimeWithSuccessVC3 * 1000) second")
                         default:
                             break
                         }
@@ -669,6 +682,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     }
                 }
                 
+                showDownView()
                 updateTitleView(image: titleChatImage, subtitle: titleChatName, titleId: eventChatID, isEvent: true)
             }
         }
@@ -698,6 +712,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             self.hideLoading()
         }else {
             self.showLoading()
+            messageInputBar.isHidden = true
         }
         
         viewmodel.getChatMessages(BygroupId: groupId, pageNumber: pageNumber)
@@ -777,6 +792,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     }
                 }
                 
+                showDownView()
                 updateTitleView(image: titleChatImage, subtitle: titleChatName, titleId: groupId, isEvent: false)
             }
         }
@@ -1083,7 +1099,7 @@ extension ConversationVC {
                     return
                 }
                 
-                guard let message = message else {return}
+                guard let ـ = message else {return}
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     Router().toHome()
                 }

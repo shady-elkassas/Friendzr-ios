@@ -104,7 +104,7 @@ struct MessageLinkItem: LinkItem {
     let thumbnailImage: UIImage
     var people: String?
     var date: String?
-
+    
     init(title:String,teaser:String,thumbnailImage:UIImage,people:String,date:String) {
         self.text = ""
         self.attributedText = NSAttributedString(string: "")
@@ -116,7 +116,6 @@ struct MessageLinkItem: LinkItem {
         self.date = date
         self.thumbnailImage = thumbnailImage
     }
-    
 }
 
 internal struct UserMessage: MessageType {

@@ -179,16 +179,17 @@ extension MyProfileViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: imageCellID, for: indexPath) as? ImageProfileTableViewCell else {return UITableViewCell()}
             
-            cell.profileImgLoader.isHidden = false
-            cell.profileImgLoader.startAnimating()
-            DispatchQueue.global(qos: .default).async {
+            cell.profileImgLoader.isHidden = true
+//            cell.profileImgLoader.startAnimating()
+//            DispatchQueue.global(qos: .default).async {
+                cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
                 cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 
-                DispatchQueue.main.async {
-                    cell.profileImgLoader.stopAnimating()
-                    cell.profileImgLoader.isHidden = true
-                }
-            }
+//                DispatchQueue.main.async {
+//                    cell.profileImgLoader.stopAnimating()
+//                    cell.profileImgLoader.isHidden = true
+//                }
+//            }
             
             
             
