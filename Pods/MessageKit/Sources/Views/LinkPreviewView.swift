@@ -70,7 +70,16 @@ open class LinkPreviewView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
+    lazy var gradientView: GradientView2 = {
+        let view: GradientView2 = .init(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.firstColor = UIColor.white
+        view.secondColor = UIColor.black
+        view.vertical = true
+        return view
+    }()
+    
     private lazy var contentView: UIView = {
         let view: UIView = .init(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -99,6 +108,14 @@ open class LinkPreviewView: UIView {
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
         
+        contentView.addSubview(gradientView)
+        NSLayoutConstraint.activate([
+            gradientView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            gradientView.heightAnchor.constraint(greaterThanOrEqualToConstant: 85),
+            gradientView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
+            gradientView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
+        
         contentView.addSubview(titleLabel)
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 10)
@@ -124,17 +141,62 @@ open class LinkPreviewView: UIView {
             dateLabel.leadingAnchor.constraint(equalTo: peopleLabel.leadingAnchor),
             dateLabel.bottomAnchor.constraint(equalTo: peopleLabel.topAnchor,constant: -4)
         ])
-
-//        contentView.addSubview(domainLabel)
-//        NSLayoutConstraint.activate([
-//            domainLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//            domainLabel.topAnchor.constraint(equalTo: teaserLabel.bottomAnchor, constant: 3),
-//            domainLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//            domainLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-//        ])
     }
 
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+class GradientView2: UIView {
+   @IBInspectable var firstColor: UIColor = UIColor.clear
+   @IBInspectable var secondColor: UIColor = UIColor.black
+
+   @IBInspectable var vertical: Bool = true
+
+   lazy var gradientLayer: CAGradientLayer = {
+       let layer = CAGradientLayer()
+       layer.colors = [firstColor.cgColor, secondColor.cgColor]
+       layer.startPoint = CGPoint.zero
+       return layer
+   }()
+
+   //MARK: -
+
+   required init?(coder aDecoder: NSCoder) {
+       super.init(coder: aDecoder)
+
+       applyGradient()
+   }
+
+   override init(frame: CGRect) {
+       super.init(frame: frame)
+
+       applyGradient()
+   }
+
+   override func prepareForInterfaceBuilder() {
+       super.prepareForInterfaceBuilder()
+       applyGradient()
+   }
+
+   override func layoutSubviews() {
+       super.layoutSubviews()
+       updateGradientFrame()
+   }
+
+   //MARK: -
+
+   func applyGradient() {
+       updateGradientDirection()
+       layer.sublayers = [gradientLayer]
+   }
+
+   func updateGradientFrame() {
+       gradientLayer.frame = bounds
+   }
+
+   func updateGradientDirection() {
+       gradientLayer.endPoint = vertical ? CGPoint(x: 0, y: 1) : CGPoint(x: 1, y: 0)
+   }
 }

@@ -447,6 +447,7 @@ class ChatViewModel {
                                 self.messagesTemp.data?.append(itm)
                             }
                         }
+                        
                         self.messages.value = self.messagesTemp
                     } else {
                         self.messages.value = toAdd

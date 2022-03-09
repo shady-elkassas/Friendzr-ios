@@ -17,6 +17,7 @@ import Firebase
 import FirebaseDatabase
 import FirebaseFirestore
 import ListPlaceholder
+import SwiftUI
 
 extension ConversationVC {
     
@@ -116,7 +117,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     /// The `BasicAudioController` control the AVAudioPlayer state (play, pause, stop) and update audio cell UI accordingly.
     lazy var audioController = AudioVC(messageCollectionView: messagesCollectionView)
     lazy var messageList: [UserMessage] = []
-    lazy var messagesChatList: [UserMessage] = []
 
     var isRefreshNewMessages:Bool = false
     
@@ -497,6 +497,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
             DispatchQueue.main.async {
                 messageList.removeAll()
+                
                 for itm in value.data ?? [] {
                     switch itm.currentuserMessage! {
                     case true:
@@ -580,7 +581,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             }
         }
     }
-    
+
     func getEventChatMessages(pageNumber:Int) {
         let startDate = Date()
 
@@ -684,7 +685,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
-                    
                 }
             }
         }

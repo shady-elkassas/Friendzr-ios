@@ -183,7 +183,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         self.subView.isHidden = false
         self.upDownViewBtn.isHidden = false
-        collectionViewHeight.constant = 0
+//        collectionViewHeight.constant = 0
         
         DispatchQueue.main.async {
             if self.isViewUp == true {
@@ -291,14 +291,14 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             internetConect = true
             if Defaults.allowMyLocationSettings == true {
                 bindToModel()
-                getEventsOnlyAroundMe()
+//                getEventsOnlyAroundMe()
             }
         case .wifi:
             internetConect = true
             
             if Defaults.allowMyLocationSettings == true {
                 bindToModel()
-                getEventsOnlyAroundMe()
+//                getEventsOnlyAroundMe()
             }
         }
         
@@ -707,6 +707,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 subView.isHidden = false
                 isViewUp = true
                 arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
+                self.getEventsOnlyAroundMe()
             }else {
                 print("Down")
                 collectionViewHeight.constant = 0
@@ -1104,6 +1105,7 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
         
         for (index,item) in model!.enumerated() {
             let locitm = CLLocationCoordinate2DMake(Double(item.lat!)!, Double(item.lang!)!)
+            
             if index == indexPath.row {
                 if LocationZooming.locationLat != locitm.latitude && LocationZooming.locationLng != locitm.longitude {
                     animationZoomingMap(zoomIN: 17, zoomOUT: 15, lat: locitm.latitude, lng: locitm.longitude)
@@ -1244,6 +1246,7 @@ extension MapVC {
                 subView.isHidden = false
                 isViewUp = true
                 arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
+                self.getEventsOnlyAroundMe()
             }else {
                 collectionViewHeight.constant = 0
                 subViewHeight.constant = 50

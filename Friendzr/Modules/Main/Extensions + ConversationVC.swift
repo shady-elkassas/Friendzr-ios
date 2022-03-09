@@ -321,6 +321,9 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
         
         self.insertMessage(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 1,linkPreviewID: "",isJoinEvent: 0))
         
+//        self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 1,linkPreviewID: "",isJoinEvent: 0))
+        
+        
         DispatchQueue.main.async {
             inputBar.inputTextView.text = ""
         }
@@ -444,7 +447,7 @@ extension ConversationVC: MessagesDisplayDelegate {
     func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         switch message.kind {
         case .linkPreview(_):
-            return isFromCurrentSender(message: message) ? UIColor.white : UIColor.lightGray
+            return isFromCurrentSender(message: message) ? UIColor.white : UIColor.white
         default:
             break
         }
