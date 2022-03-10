@@ -75,11 +75,11 @@ extension StatisticsCollectionViewCell:UITableViewDataSource {
                     cell.sliderLbl.maximumTrackTintColor = .red
                 }
             }else {
-                cell.sliderLbl.minimumTrackTintColor = .darkGray
+                cell.sliderLbl.minimumTrackTintColor = .green
                 if model?.gendercount == 0 {
                     cell.sliderLbl.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }else if model?.gendercount == 100 {
-                    cell.sliderLbl.maximumTrackTintColor = .darkGray
+                    cell.sliderLbl.maximumTrackTintColor = .green
                 }
             }
 

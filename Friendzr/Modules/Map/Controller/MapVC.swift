@@ -144,7 +144,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         goAddEventBtn.isHidden = true
         addEventBtn.isHidden = false
         CancelRequest.currentTask = false
-        
+        isViewUp = false
         initProfileBarButton()
         
         seyupAds()
@@ -1247,7 +1247,8 @@ extension MapVC {
                 isViewUp = true
                 arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
                 self.getEventsOnlyAroundMe()
-            }else {
+            }
+            else {
                 collectionViewHeight.constant = 0
                 subViewHeight.constant = 50
                 subView.isHidden = false

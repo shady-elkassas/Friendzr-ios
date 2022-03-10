@@ -692,117 +692,167 @@ extension InboxVC:UITableViewDelegate {
             let leaveAction = UITableViewRowAction(style: .default, title: self.leaveOrJoinTitle) { action, indexPath in
                 print("LeaveAction")
                 
-                if model?.leavevent == 0 {
-                    if UIDevice.current.userInterfaceIdiom == .pad {
-                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-                        
-                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
+                if model?.isevent == true {
+                    if model?.leavevent == 0 {
+                        if UIDevice.current.userInterfaceIdiom == .pad {
+                            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+                            
+                            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                                self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
                                     }
-                                    return
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    DispatchQueue.main.async {
+                                        self.getAllChatList(pageNumber: 1)
+                                    }
                                 }
-                                
-                                guard let _ = data else {
-                                    return
+                            }))
+                            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                            
+                            self.present(settingsActionSheet, animated:true, completion:nil)
+                        }
+                        else {
+                            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                            
+                            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                                self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
+                                    }
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    DispatchQueue.main.async {
+                                        self.getAllChatList(pageNumber: 1)
+                                    }
                                 }
-                                DispatchQueue.main.async {
-                                    self.getAllChatList(pageNumber: 1)
-                                }
-                            }
-                        }))
-                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                        
-                        self.present(settingsActionSheet, animated:true, completion:nil)
+                            }))
+                            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                            
+                            self.present(settingsActionSheet, animated:true, completion:nil)
+                        }
                     }
                     else {
-                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                        
-                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
+                        if UIDevice.current.userInterfaceIdiom == .pad {
+                            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+                            
+                            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                                self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
                                     }
-                                    return
-                                }
-                                
-                                guard let _ = data else {
-                                    return
-                                }
-                                DispatchQueue.main.async {
-                                    self.getAllChatList(pageNumber: 1)
-                                }
-                            }
-                        }))
-                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                        
-                        self.present(settingsActionSheet, animated:true, completion:nil)
-                    }
-                    
-                }else {
-                    if UIDevice.current.userInterfaceIdiom == .pad {
-                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-                        
-                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
+                                    
+                                    guard let _ = data else {
+                                        return
                                     }
-                                    return
-                                }
-                                
-                                guard let _ = data else {
-                                    return
-                                }
-                                
-//                                DispatchQueue.main.async {
-//                                    self.view.makeToast("You have joined the chat".localizedString)
-//                                }
-                                
-                                DispatchQueue.main.async {
-                                    self.getAllChatList(pageNumber: 1)
-                                }
-                            }
-                        }))
-                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                        
-                        self.present(settingsActionSheet, animated:true, completion:nil)
-                    }
-                    else {
-                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                        
-                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                if let error = error {
                                     DispatchQueue.main.async {
-                                        self.view.makeToast(error)
+                                        self.getAllChatList(pageNumber: 1)
                                     }
-                                    return
                                 }
-                                
-                                guard let _ = data else {
-                                    return
+                            }))
+                            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                            
+                            self.present(settingsActionSheet, animated:true, completion:nil)
+                        }
+                        else {
+                            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                            
+                            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                                self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
+                                    }
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    
+    //                                DispatchQueue.main.async {
+    //                                    self.view.makeToast("You have joined the chat".localizedString)
+    //                                }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.getAllChatList(pageNumber: 1)
+                                    }
                                 }
-                                
-//                                DispatchQueue.main.async {
-//                                    self.view.makeToast("You have joined the chat".localizedString)
-//                                }
-                                
-                                DispatchQueue.main.async {
-                                    self.getAllChatList(pageNumber: 1)
-                                }
-                            }
-                        }))
-                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                            }))
+                            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                            
+                            self.present(settingsActionSheet, animated:true, completion:nil)
+                        }
                         
-                        self.present(settingsActionSheet, animated:true, completion:nil)
                     }
-                    
                 }
+                else if model?.isChatGroup == true {
+                    if model?.leaveGroup == 0 {
+                        if UIDevice.current.userInterfaceIdiom == .pad {
+                            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+                            
+                            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                                self.groupVM.leaveGroupChat(ByID: model?.id ?? "", registrationDateTime: actionDate) { error, data in
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
+                                    }
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    DispatchQueue.main.async {
+                                        self.getAllChatList(pageNumber: 1)
+                                    }
+                                }
+                            }))
+                            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                            
+                            self.present(settingsActionSheet, animated:true, completion:nil)
+                        }
+                        else {
+                            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                            
+                            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                                self.groupVM.leaveGroupChat(ByID: model?.id ?? "", registrationDateTime: actionDate) { error, data in
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
+                                    }
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    DispatchQueue.main.async {
+                                        self.getAllChatList(pageNumber: 1)
+                                    }
+                                }
+                            }))
+                            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                            
+                            self.present(settingsActionSheet, animated:true, completion:nil)
+                        }
+                    }
+                }
+
             }
             
             let muteAction = UITableViewRowAction(style: .default, title: muteTitle) { action, indexPath in
@@ -1016,7 +1066,7 @@ extension InboxVC:UITableViewDelegate {
                 }
             }
             else if model?.isChatGroup == true {
-                if model?.leaveGroup == 0 {
+                if model?.leaveGroup == 0 && model?.isChatGroupAdmin == false {
                     return [deleteAction,leaveAction,muteAction]
                 }else {
                     return [deleteAction]

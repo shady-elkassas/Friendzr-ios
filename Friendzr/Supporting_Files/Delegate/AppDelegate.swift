@@ -587,7 +587,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         }
         
-        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
+        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled"{
             print("user_chat OR event_chat OR user_chatGroup")
         }
         else {
@@ -745,7 +745,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         }
         
-        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" {
+        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled" {
             print("user_chat OR event_chat OR user_chatGroup")
         }
         else {
@@ -812,7 +812,7 @@ extension AppDelegate: CLLocationManagerDelegate {
 //                let request = UNNotificationRequest(identifier: location.dateString, content: content, trigger: trigger)
 //                center.add(request, withCompletionHandler: nil)
         
-        if Defaults.availableVC == "MapVC" {
+        if Defaults.availableVC == "FeedVC" || Defaults.availableVC == "MapVC" {
             self.checkLocationPermission()
         }
         
@@ -934,14 +934,24 @@ extension AppDelegate {
                 //open setting app when location services are disabled
                 locationManager.stopUpdatingLocation()
                 Defaults.allowMyLocationSettings = false
-                NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
+                if Defaults.availableVC == "MapVC" {
+                    NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
+                }
+                else if Defaults.availableVC == "FeedVC" {
+                    NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+                }
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
                 Defaults.allowMyLocationSettings = true
                 locationManager.startUpdatingLocation()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
+                    if Defaults.availableVC == "MapVC" {
+                        NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
+                    }
+                    else if Defaults.availableVC == "FeedVC" {
+                        NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+                    }
                 }
             default:
                 break

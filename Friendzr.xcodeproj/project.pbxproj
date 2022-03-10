@@ -277,6 +277,8 @@
 		43C97DE6279D76A900D87CBE /* FaceRecognitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C97DE5279D76A900D87CBE /* FaceRecognitionViewModel.swift */; };
 		43C97DE8279D7DA100D87CBE /* FaceRecognitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C97DE7279D7DA100D87CBE /* FaceRecognitionModel.swift */; };
 		43C97DEA27A04CF300D87CBE /* MainTBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C97DE927A04CF300D87CBE /* MainTBC.swift */; };
+		43CBA9C827DA2D13006020FC /* StatisticsDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CBA9C627DA2D13006020FC /* StatisticsDetailsTableViewCell.swift */; };
+		43CBA9C927DA2D13006020FC /* StatisticsDetailsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43CBA9C727DA2D13006020FC /* StatisticsDetailsTableViewCell.xib */; };
 		43CCD4A5279424FE00C2E46D /* Splach.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43CCD4A7279424FE00C2E46D /* Splach.storyboard */; };
 		43CCD4AC279426DB00C2E46D /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43CCD4AE279426DB00C2E46D /* Login.storyboard */; };
 		43CFB00C271C56EB000CB41E /* InterestsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CFB00A271C56EB000CB41E /* InterestsCollectionViewCell.swift */; };
@@ -320,6 +322,8 @@
 		43E7EC43279C341900631AA0 /* FaceRecognitionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */; };
 		43E7EC45279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43E7EC44279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib */; };
 		43E7EC47279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E7EC46279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift */; };
+		43EA53B027DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EA53AE27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift */; };
+		43EA53B127DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EA53AF27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib */; };
 		43F473B326E6175F001E4FAE /* AllCategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B226E6175F001E4FAE /* AllCategoriesViewModel.swift */; };
 		43F473B526E61791001E4FAE /* CategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B426E61791001E4FAE /* CategoriesModel.swift */; };
 		43F473B726E61E7F001E4FAE /* InterestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */; };
@@ -655,6 +659,8 @@
 		43C97DE5279D76A900D87CBE /* FaceRecognitionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionViewModel.swift; sourceTree = "<group>"; };
 		43C97DE7279D7DA100D87CBE /* FaceRecognitionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionModel.swift; sourceTree = "<group>"; };
 		43C97DE927A04CF300D87CBE /* MainTBC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTBC.swift; sourceTree = "<group>"; };
+		43CBA9C627DA2D13006020FC /* StatisticsDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsDetailsTableViewCell.swift; sourceTree = "<group>"; };
+		43CBA9C727DA2D13006020FC /* StatisticsDetailsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatisticsDetailsTableViewCell.xib; sourceTree = "<group>"; };
 		43CCD4A6279424FE00C2E46D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Splach.storyboard; sourceTree = "<group>"; };
 		43CCD4AD279426DB00C2E46D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Login.storyboard; sourceTree = "<group>"; };
 		43CFB00A271C56EB000CB41E /* InterestsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -702,6 +708,8 @@
 		43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionVC.swift; sourceTree = "<group>"; };
 		43E7EC44279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VerifyFaceRegistrationAlertView.xib; sourceTree = "<group>"; };
 		43E7EC46279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyFaceRegistrationAlertView.swift; sourceTree = "<group>"; };
+		43EA53AE27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsInfoCollectionViewCell.swift; sourceTree = "<group>"; };
+		43EA53AF27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatisticsInfoCollectionViewCell.xib; sourceTree = "<group>"; };
 		43F473B226E6175F001E4FAE /* AllCategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesViewModel.swift; sourceTree = "<group>"; };
 		43F473B426E61791001E4FAE /* CategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModel.swift; sourceTree = "<group>"; };
 		43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewModel.swift; sourceTree = "<group>"; };
@@ -1615,6 +1623,10 @@
 				43ACFED627B3B7F0001CD340 /* EventDetailsAttendeesTableViewCell.xib */,
 				43ACFED927B3BBA1001CD340 /* AdsTableViewCell.swift */,
 				43ACFEDA27B3BBA1001CD340 /* AdsTableViewCell.xib */,
+				43EA53AE27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift */,
+				43EA53AF27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib */,
+				43CBA9C627DA2D13006020FC /* StatisticsDetailsTableViewCell.swift */,
+				43CBA9C727DA2D13006020FC /* StatisticsDetailsTableViewCell.xib */,
 			);
 			path = EventDetailsCell;
 			sourceTree = "<group>";
@@ -1858,6 +1870,7 @@
 				43886864278344F1004D36B2 /* ProblemTableViewCell.xib in Resources */,
 				432098D427956E5F005B83A8 /* More.storyboard in Resources */,
 				4382AC9A26C27FF2005C1857 /* Montserrat-Light.ttf in Resources */,
+				43CBA9C927DA2D13006020FC /* StatisticsDetailsTableViewCell.xib in Resources */,
 				43BDFADE27B5454E005302CD /* FriendsShareTableViewCell.xib in Resources */,
 				43FC3C9E2726F7BA00D94ABB /* LoadingView.xib in Resources */,
 				43ACFEC027B3B0EB001CD340 /* EventImageTableViewCell.xib in Resources */,
@@ -1918,6 +1931,7 @@
 				43D009272794416500370E2C /* DeleteAccountTableViewCell.xib in Resources */,
 				43D008C527942B9200370E2C /* Register.storyboard in Resources */,
 				43CCD4A5279424FE00C2E46D /* Splach.storyboard in Resources */,
+				43EA53B127DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib in Resources */,
 				43D0092E2794418C00370E2C /* HideGhostModeView.xib in Resources */,
 				43375F60271313C4009EBED6 /* NotificationTableViewCell.xib in Resources */,
 				430D425E26D38D9B00188E42 /* AttendeesTableViewCell.xib in Resources */,
@@ -2280,11 +2294,13 @@
 				43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */,
 				4369F4592797546300D5E064 /* ShareVC.swift in Sources */,
 				4344110426CE796300F8233E /* ForgetPasswordVC.swift in Sources */,
+				43CBA9C827DA2D13006020FC /* StatisticsDetailsTableViewCell.swift in Sources */,
 				431D739727BBA08900EC8F7B /* IamVC.swift in Sources */,
 				4336D11026DB7F410093C7A6 /* Constants.swift in Sources */,
 				43F473B526E61791001E4FAE /* CategoriesModel.swift in Sources */,
 				437EE47426E8BC1C00765089 /* AttendeesModel.swift in Sources */,
 				4382ACA626C28327005C1857 /* Initializer.swift in Sources */,
+				43EA53B027DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift in Sources */,
 				43C64A042795806400C35FA8 /* TitleGroupViewModel.swift in Sources */,
 				43A332682781C9B2001ADB84 /* GhostModeTableViewCell.swift in Sources */,
 				4309E73726EF422F001B227D /* RequestFriendStatusViewModel.swift in Sources */,

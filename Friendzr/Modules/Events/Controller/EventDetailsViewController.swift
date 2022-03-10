@@ -25,7 +25,7 @@ class EventDetailsViewController: UIViewController {
     let btnsCellId = "EventButtonsTableViewCell"
     let eventDateCellId = "EventDateAndTimeTableViewCell"
     let detailsCellId = "EventDetailsTableViewCell"
-    let statisticsCellId = "EventStatisticsTableViewCell"
+    let statisticsCellId = "StatisticsDetailsTableViewCell"
     let mapCellId = "EventMapTableViewCell"
     let attendeesCellId = "EventDetailsAttendeesTableViewCell"
     let adsCellId = "AdsTableViewCell"
@@ -409,10 +409,95 @@ extension EventDetailsViewController: UITableViewDataSource {
         }
         
         else if indexPath.row == 5 {//statistics
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: statisticsCellId, for: indexPath) as? EventStatisticsTableViewCell else {return UITableViewCell()}
-            cell.parentvc = self
-            cell.model = model
-            cell.collectionView.reloadData()
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: statisticsCellId, for: indexPath) as? StatisticsDetailsTableViewCell else {return UITableViewCell()}
+            
+            cell.femaleLbl.text = "Female"
+            cell.maleLbl.text = "Male"
+            cell.otherLbl.text = "Other Gender"
+            
+            cell.interest1Lbl.text = model?.interestStatistic?[0].name
+            cell.interest2Lbl.text = model?.interestStatistic?[1].name
+            cell.interest3Lbl.text = model?.interestStatistic?[2].name
+
+            cell.interest1PercentageLbl.text = "\(model?.interestStatistic?[0].interestcount ?? 0) %"
+            cell.interest2PercentageLbl.text = "\(model?.interestStatistic?[1].interestcount ?? 0) %"
+            cell.interest3PercentageLbl.text = "\(model?.interestStatistic?[2].interestcount ?? 0) %"
+
+            cell.interest1Slider.value = Float(model?.interestStatistic?[0].interestcount ?? 0)
+            cell.interest2Slider.value = Float(model?.interestStatistic?[1].interestcount ?? 0)
+            cell.interest3Slider.value = Float(model?.interestStatistic?[2].interestcount ?? 0)
+
+            if (model?.interestStatistic?[0].interestcount ?? 0) == 0 {
+                cell.interest1Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+            }else if (model?.interestStatistic?[0].interestcount ?? 0) == 100 {
+                cell.interest1Slider.maximumTrackTintColor = .blue
+            }else {
+                cell.interest1Slider.minimumTrackTintColor = .blue
+                cell.interest1Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+            }
+            
+            if (model?.interestStatistic?[1].interestcount ?? 0) == 0 {
+                cell.interest2Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+            }
+            else if (model?.interestStatistic?[1].interestcount ?? 0) == 100 {
+                cell.interest2Slider.maximumTrackTintColor = .red
+            }
+            else {
+                cell.interest2Slider.minimumTrackTintColor = .red
+                cell.interest2Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+
+            }
+            
+            if (model?.interestStatistic?[2].interestcount ?? 0) == 0 {
+                cell.interest3Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+            }
+            else if (model?.interestStatistic?[2].interestcount ?? 0) == 100 {
+                cell.interest3Slider.maximumTrackTintColor = .green
+            }
+            else {
+                cell.interest3Slider.minimumTrackTintColor = .green
+                cell.interest3Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+
+            }
+            
+            for itm in model?.genderStatistic ?? [] {
+                if itm.key == "Male" {
+                    cell.maleSlider.value = Float(itm.gendercount ?? 0)
+                    
+                    cell.maleSlider.minimumTrackTintColor = .blue
+                    if itm.gendercount == 0 {
+                        cell.maleSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    }else if itm.gendercount == 100 {
+                        cell.maleSlider.maximumTrackTintColor = .blue
+                    }
+                    
+                    cell.malePercentageLbl.text = "\(itm.gendercount ?? 0) %"
+                }
+                else if itm.key == "Female" {
+                    cell.femaleSlider.value = Float(itm.gendercount ?? 0)
+                    
+                    cell.femaleSlider.minimumTrackTintColor = .red
+                    if itm.gendercount == 0 {
+                        cell.femaleSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    }else if itm.gendercount == 100 {
+                        cell.femaleSlider.maximumTrackTintColor = .red
+                    }
+                    
+                    cell.femalePercentageLbl.text = "\(itm.gendercount ?? 0) %"
+                }else {
+                    cell.otherSlider.value = Float(itm.gendercount ?? 0)
+
+                    cell.otherSlider.minimumTrackTintColor = .green
+                    if itm.gendercount == 0 {
+                        cell.otherSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    }else if itm.gendercount == 100 {
+                        cell.otherSlider.maximumTrackTintColor = .green
+                    }
+                    
+                    cell.otherPercentageLbl.text = "\(itm.gendercount ?? 0) %"
+                }
+            }
+
             return cell
         }
         
