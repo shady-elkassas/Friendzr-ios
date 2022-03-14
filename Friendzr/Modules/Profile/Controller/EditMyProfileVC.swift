@@ -985,7 +985,7 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         
-        self.profileImg.image = _croppedImage
+        self.profileImg.image = image
         self.imgTake = 0
         self.attachedImg = true
         

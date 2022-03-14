@@ -168,6 +168,7 @@
 		4369F45D2797553D00D5E064 /* ShareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4369F45B2797553D00D5E064 /* ShareTableViewCell.xib */; };
 		4369F45F279889BC00D5E064 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4369F45E279889BC00D5E064 /* Main.storyboard */; };
 		4369F46127994FE000D5E064 /* DeepLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369F46027994FE000D5E064 /* DeepLinks.swift */; };
+		436DCFAE27DF689A00A4A7F7 /* SelectFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DCFAD27DF689A00A4A7F7 /* SelectFriendsVC.swift */; };
 		436E945C27BD153800CB2F1E /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436E945B27BD153800CB2F1E /* CustomSwitch.swift */; };
 		436E945E27BD155100CB2F1E /* CustomThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436E945D27BD155100CB2F1E /* CustomThumbView.swift */; };
 		4371D4212733F46C003B8AFD /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4202733F46C003B8AFD /* CustomCell.swift */; };
@@ -546,6 +547,7 @@
 		4369F45B2797553D00D5E064 /* ShareTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareTableViewCell.xib; sourceTree = "<group>"; };
 		4369F45E279889BC00D5E064 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		4369F46027994FE000D5E064 /* DeepLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinks.swift; sourceTree = "<group>"; };
+		436DCFAD27DF689A00A4A7F7 /* SelectFriendsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectFriendsVC.swift; sourceTree = "<group>"; };
 		436E945B27BD153800CB2F1E /* CustomSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
 		436E945D27BD155100CB2F1E /* CustomThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomThumbView.swift; sourceTree = "<group>"; };
 		4371D40D273127F3003B8AFD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -918,6 +920,7 @@
 				43DF596727B942FB000D9F69 /* ShareEventVC.swift */,
 				433CDE1C27CCBAF200A80A40 /* EventCalendarVC.swift */,
 				433CDE1E27CCC46600A80A40 /* EventTimeVC.swift */,
+				436DCFAD27DF689A00A4A7F7 /* SelectFriendsVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2290,6 +2293,7 @@
 				4371D4212733F46C003B8AFD /* CustomCell.swift in Sources */,
 				43FC3CA02727EBD000D94ABB /* MyLocation.swift in Sources */,
 				43D545BF26CBD8BB0064660A /* Toast.swift in Sources */,
+				436DCFAE27DF689A00A4A7F7 /* SelectFriendsVC.swift in Sources */,
 				4337B47E278718880077B794 /* InboxTableViewCell.swift in Sources */,
 				43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */,
 				4369F4592797546300D5E064 /* ShareVC.swift in Sources */,
