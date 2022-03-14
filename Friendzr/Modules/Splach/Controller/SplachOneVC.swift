@@ -15,6 +15,9 @@ class SplachOneVC: UIViewController {
     @IBOutlet weak var startBtn: UIButton!
     @IBOutlet weak var splachImg: UIImageView!
     
+    @IBOutlet weak var bottomLAyoutConstraint: NSLayoutConstraint!
+    var selectVC:String = ""
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,22 +35,36 @@ class SplachOneVC: UIViewController {
         
         Defaults.availableVC = "SplachOneVC"
         print("availableVC >> \(Defaults.availableVC)")
-
-        hideNavigationBar(NavigationBar: true, BackButton: true)
+        
+        //        hideNavigationBar(NavigationBar: true, BackButton: true)
+        
+        if selectVC == "MoreVC" {
+            initBackButton()
+            hideNavigationBar(NavigationBar: false, BackButton: false)
+        }
+        else {
+            hideNavigationBar(NavigationBar: true, BackButton: true)
+        }
     }
     
     //MARK: - Actions
     @IBAction func getStartBtn(_ sender: Any) {
-//        if Defaults.needUpdate == 1 {{
-//            Router().toEditProfileVC()
-//        }else {
-//            if Defaults.token != "" {
-//                Router().toFeed()
-//            }else {
-//                Router().toSplach2()
-//            }
-//        }}
+        //        if Defaults.needUpdate == 1 {{
+        //            Router().toEditProfileVC()
+        //        }else {
+        //            if Defaults.token != "" {
+        //                Router().toFeed()
+        //            }else {
+        //                Router().toSplach2()
+        //            }
+        //        }}
         
-        Router().toSplach2()
+        if selectVC == "MoreVC" {
+            guard let vc = UIViewController.viewController(withStoryboard: .Splach, AndContollerID: "SplachTwoVC") as? SplachTwoVC else {return}
+            vc.selectVC = "MoreVC"
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else {
+            Router().toSplach2()
+        }
     }
 }

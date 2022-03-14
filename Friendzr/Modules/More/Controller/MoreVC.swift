@@ -123,12 +123,12 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         moreList.append(("Notifications".localizedString, UIImage(named: "notificationList_ic")!))
         moreList.append(("Share".localizedString, UIImage(named: "Share_ic")!))
         moreList.append(("Settings".localizedString, UIImage(named: "Settings_ic")!))
+        moreList.append(("Help".localizedString, UIImage(named: "Contactus_ic")!))
         moreList.append(("Tips and Guidance".localizedString, UIImage(named: "Settings_ic")!))
         moreList.append(("About Us".localizedString, UIImage(named: "information_ic")!))
         moreList.append(("Terms & Conditions".localizedString, UIImage(named: "Terms_ic")!))
         moreList.append(("Privacy Policy".localizedString, UIImage(named: "privacy_ic")!))
         moreList.append(("Contact Friendzr".localizedString, UIImage(named: "Contactus_ic")!))
-        moreList.append(("Help".localizedString, UIImage(named: "Contactus_ic")!))
         moreList.append(("Log Out".localizedString, UIImage(named: "logout_ic")!))
         
         if Defaults.isIPhoneSmall {
@@ -320,15 +320,20 @@ extension MoreVC : UITableViewDelegate {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
-        case 5://Tips& Guides
+        case 5://help
+            guard let vc = UIViewController.viewController(withStoryboard: .Splach, AndContollerID: "SplachOneVC") as? SplachOneVC else {return}
+            vc.selectVC = "MoreVC"
+            self.navigationController?.pushViewController(vc, animated: true)
+            break
+        case 6://Tips& Guides
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "Tips and Guidance".localizedString
-                vc.urlString = "https://friendzr.com/blog-tips-guidance/"
+                vc.urlString = "https://friendzr.com/tips-and-guidance/"
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
-        case 6://aboutus
+        case 7://aboutus
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "About Us".localizedString
@@ -336,7 +341,7 @@ extension MoreVC : UITableViewDelegate {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
-        case 7://terms
+        case 8://terms
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "Terms & Conditions".localizedString
@@ -344,7 +349,7 @@ extension MoreVC : UITableViewDelegate {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
-        case 8://Privacy Policy
+        case 9://Privacy Policy
             if internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "Privacy Policy".localizedString
@@ -352,7 +357,7 @@ extension MoreVC : UITableViewDelegate {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
-        case 9: //contactus
+        case 10: //contactus
             if internetConect {
                 let subjectTitle = "Suggestions"
                 let messageBody = ""
@@ -364,8 +369,6 @@ extension MoreVC : UITableViewDelegate {
                 mc.setToRecipients(toRecipents)
                 self.present(mc, animated: true, completion: nil)
             }
-            break
-        case 10://help
             break
         case 11://logout
             logout()

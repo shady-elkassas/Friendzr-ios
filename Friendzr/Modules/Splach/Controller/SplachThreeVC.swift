@@ -13,26 +13,46 @@ class SplachThreeVC: UIViewController {
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var skipBtn: UIButton!
-
+    
+    @IBOutlet weak var bottomLAyoutConstraint: NSLayoutConstraint!
+    var selectVC:String = ""
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         Defaults.availableVC = "SplachThreeVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         pageControl.currentPage = 2
         nextBtn.cornerRadiusForHeight()
         nextBtn.layer.applySketchShadow()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        hideNavigationBar(NavigationBar: true, BackButton: true)
+        //        hideNavigationBar(NavigationBar: true, BackButton: true)
+        if selectVC == "MoreVC" {
+            initBackButton()
+            hideNavigationBar(NavigationBar: false, BackButton: false)
+            skipBtn.isHidden = true
+        }
+        else {
+            hideNavigationBar(NavigationBar: true, BackButton: true)
+            skipBtn.isHidden = false
+        }
     }
     
     //MARK: - Actions
     @IBAction func nextBtn(_ sender: Any) {
-        Router().toSplach4()
+        
+        if selectVC == "MoreVC" {
+            guard let vc = UIViewController.viewController(withStoryboard: .Splach, AndContollerID: "SplachFourVC") as? SplachFourVC else {return}
+            vc.selectVC = "MoreVC"
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
+            Router().toSplach4()
+        }
     }
     
     @IBAction func skipBtn(_ sender: Any) {

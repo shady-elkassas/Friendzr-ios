@@ -109,8 +109,10 @@ class LoginVC: UIViewController {
                 
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {
+                        FirstLoginApp.isFirst = 2
                         Router().toSplachOne()
                     }else {
+                        FirstLoginApp.isFirst = 0
                         Router().toFeed()
                     }
                 }
@@ -203,8 +205,10 @@ class LoginVC: UIViewController {
                             
                             DispatchQueue.main.async {
                                 if Defaults.needUpdate == 1 {
+                                    FirstLoginApp.isFirst = 1
                                     Router().toSplachOne()
                                 }else {
+                                    FirstLoginApp.isFirst = 0
                                     Router().toFeed()
                                 }
                             }
@@ -351,8 +355,10 @@ extension LoginVC {
                         Defaults.initUser(user: data)
                         DispatchQueue.main.async {
                             if Defaults.needUpdate == 1 {
+                                FirstLoginApp.isFirst = 1
                                 Router().toSplachOne()
                             }else {
+                                FirstLoginApp.isFirst = 0
                                 Router().toFeed()
                             }
                         }
@@ -452,8 +458,10 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                 
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {
+                        FirstLoginApp.isFirst = 1
                         Router().toSplachOne()
                     }else {
+                        FirstLoginApp.isFirst = 0
                         Router().toFeed()
                     }
                 }

@@ -14,6 +14,8 @@ class SplachFourVC: UIViewController {
     @IBOutlet weak var skipBtn: UIButton!
     @IBOutlet weak var containerView: UIView!
     
+    var selectVC:String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,7 +31,18 @@ class SplachFourVC: UIViewController {
         Defaults.availableVC = "SplachFourVC"
         print("availableVC >> \(Defaults.availableVC)")
         
-        hideNavigationBar(NavigationBar: true, BackButton: true)
+        //        hideNavigationBar(NavigationBar: true, BackButton: true)
+        if selectVC == "MoreVC" {
+            initBackButton()
+            hideNavigationBar(NavigationBar: false, BackButton: false)
+            nextBtn.isHidden = true
+            skipBtn.isHidden = true
+        }
+        else {
+            hideNavigationBar(NavigationBar: true, BackButton: true)
+            nextBtn.isHidden = false
+            skipBtn.isHidden = false
+        }
     }
     
     @IBAction func nextBtn(_ sender: Any) {

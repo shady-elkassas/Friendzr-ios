@@ -225,8 +225,10 @@ class RegisterVC: UIViewController {
                             
                             DispatchQueue.main.async {
                                 if Defaults.needUpdate == 1 {
+                                    FirstLoginApp.isFirst = 1
                                     Router().toSplachOne()
                                 }else {
+                                    FirstLoginApp.isFirst = 0
                                     Router().toFeed()
                                 }
                             }
@@ -370,8 +372,10 @@ extension RegisterVC {
                         
                         DispatchQueue.main.async {
                             if Defaults.needUpdate == 1 {
+                                FirstLoginApp.isFirst = 1
                                 Router().toSplachOne()
                             }else {
+                                FirstLoginApp.isFirst = 0
                                 Router().toFeed()
                             }
                         }
@@ -473,8 +477,10 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
                 
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {
+                        FirstLoginApp.isFirst = 1
                         Router().toSplachOne()
                     }else {
+                        FirstLoginApp.isFirst = 0
                         Router().toFeed()
                     }
                 }

@@ -16,7 +16,6 @@ class NotificationsVC: UIViewController {
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
-    
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var prosImg: [UIImageView]!
     @IBOutlet var hidesImg: [UIImageView]!
@@ -56,11 +55,14 @@ class NotificationsVC: UIViewController {
         
         CancelRequest.currentTask = false
         setupHideView()
+        
+        Defaults.notificationcount = 0
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
+        Defaults.notificationcount = 0
     }
     
     //MARK:- APIs

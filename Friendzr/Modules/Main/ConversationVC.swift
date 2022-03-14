@@ -854,10 +854,8 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
 
 extension ConversationVC {
     func initBackChatButton() {
-        
         var imageName = ""
         imageName = "back_icon"
-        
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)

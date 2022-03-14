@@ -39,6 +39,18 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var saveCategoryBtn: UIButton!
     @IBOutlet weak var hideView: UIView!
     
+    @IBOutlet weak var eventTypeLbl: UILabel!
+    @IBOutlet weak var selectFriendsView: UIView!
+    @IBOutlet weak var selectFriendsTopView: UIView!
+    @IBOutlet weak var selectFriendsViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var selectFirendsBtn: UIButton!
+    @IBOutlet weak var topFriendsViewLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomFriendsViewLayoutConstaint: NSLayoutConstraint!
+    @IBOutlet weak var eventTypesView: UIView!
+    @IBOutlet weak var eventTypesTV: UITableView!
+//    @IBOutlet weak var saveEventTypeBtn: UIButton!
+    
+    
     //MARK: - Properties
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
     lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
@@ -66,10 +78,14 @@ class AddEventVC: UIViewController {
     var locationLng:Double = 0.0
 
     let cellId = "CategoryCollectionViewCell"
+    let eventTypeCellId = "ProblemTableViewCell"
     var catsVM:AllCategoriesViewModel = AllCategoriesViewModel()
     var catID = ""
     var catselectedID:String = ""
     var catSelectedName:String = ""
+
+    var eventTypeID = ""
+    var eventTypeName = ""
 
     var internetConect:Bool = false
     
@@ -120,6 +136,7 @@ class AddEventVC: UIViewController {
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         self.categoriesSuperView.isHidden = true
         categoriesView.isHidden = true
+        eventTypesView.isHidden = true
     }
     
     //MARK: - APIs
@@ -177,6 +194,23 @@ class AddEventVC: UIViewController {
             present(settingsActionSheet, animated:true, completion:nil)
         }
     }
+    
+    @IBAction func selectEventTypeBtn(_ sender: Any) {
+        categoriesSuperView.isHidden = false
+        eventTypesView.isHidden = false
+    }
+
+    @IBAction func selectFriendsBtn(_ sender: Any) {
+        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SelectFriendsNC") as? UINavigationController, let _ = controller.viewControllers.first as? SelectFriendsVC {
+            self.present(controller, animated: true)
+        }
+    }
+    
+//    @IBAction func saveEventTypeBtn(_ sender: Any) {
+//        eventTypeLbl.text = eventTypeName
+//        categoriesSuperView.isHidden = true
+//        eventTypesView.isHidden = true
+//    }
     
     @IBAction func saveCategoryBtn(_ sender: Any) {
         categoryLbl.text = catSelectedName
@@ -406,10 +440,6 @@ class AddEventVC: UIViewController {
                     }
                     
                     guard let _ = data else {return}
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast("Your event added successfully".localizedString)
-//                    }
-                    
                     DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
                         Router().toMap()
                     }
@@ -472,6 +502,12 @@ class AddEventVC: UIViewController {
         saveBtn.cornerRadiusView(radius: 6)
         limitUsersView.cornerRadiusView(radius: 5)
         descriptionTxtView.cornerRadiusView(radius: 5)
+        saveCategoryBtn.cornerRadiusView(radius: 8)
+//        saveEventTypeBtn.cornerRadiusView(radius: 6)
+
+        categoriesView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
+        eventTypesView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
+
         descriptionTxtView.delegate = self
         
         let formatter = DateFormatter()
@@ -485,16 +521,8 @@ class AddEventVC: UIViewController {
         self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
         
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
-        saveCategoryBtn.cornerRadiusView(radius: 8)
-        categoriesView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
+        eventTypesTV.register(UINib(nibName: eventTypeCellId, bundle: nil), forCellReuseIdentifier: eventTypeCellId)
     }
-    
-//    func OnCategoryCallBack(_ data: String, _ value: String) -> () {
-//        print(data, value)
-//        categoryLbl.text = value
-//        catID = data
-//        catName = value
-//    }
 }
 
 //MARK: - Extensions
@@ -627,7 +655,6 @@ extension AddEventVC : UIImagePickerControllerDelegate,UINavigationControllerDel
     }
 }
 
-
 extension AddEventVC : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return catsVM.cats.value?.count ?? 0
@@ -666,5 +693,53 @@ extension AddEventVC: UICollectionViewDelegate,UICollectionViewDelegateFlowLayou
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+}
+
+extension AddEventVC :UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: eventTypeCellId, for: indexPath) as? ProblemTableViewCell else {return UITableViewCell()}
+        if indexPath.row == 0 {
+            cell.titleLbl.text = "Friendzr Event"
+        }else {
+            cell.titleLbl.text = "Private Event"
+            cell.bottomView.isHidden = true
+        }
+        return cell
+    }
+    
+    
+}
+
+extension AddEventVC:UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            eventTypeLbl.text = "Friendzr Event"
+            eventTypeName = "Friendzr Event"
+            selectFriendsView.isHidden = true
+            topFriendsViewLayoutConstraint.constant = 0
+            bottomFriendsViewLayoutConstaint.constant = 0
+            selectFriendsViewHeight.constant = 0
+            selectFriendsTopView.isHidden = true
+        }else {
+            eventTypeLbl.text = "Private Event"
+            eventTypeName = "Private Event"
+            selectFriendsView.isHidden = false
+            topFriendsViewLayoutConstraint.constant = 10
+            bottomFriendsViewLayoutConstaint.constant = 10
+            selectFriendsViewHeight.constant = 40
+            selectFriendsTopView.isHidden = false
+        }
+        
+        categoriesSuperView.isHidden = true
+        eventTypesView.isHidden = true
     }
 }

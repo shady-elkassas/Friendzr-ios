@@ -11,6 +11,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 import ListPlaceholder
+//import ImageCropper
 
 class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate {
     
@@ -18,7 +19,9 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var superView: UIView!
     @IBOutlet weak var nameTxt: UITextField!
-    @IBOutlet weak var dateBirthLbl: UILabel!
+//    @IBOutlet weak var dateBirthLbl: UILabel!
+    
+    @IBOutlet weak var dateBirthdayTxt: UITextField!
     @IBOutlet weak var dateView: UIView!
     @IBOutlet weak var nameView: UIView!
     @IBOutlet weak var maleImg: UIImageView!
@@ -108,7 +111,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     
     var faceImgOne: UIImage = UIImage()
     var faceImgTwo: UIImage = UIImage()
-    
+    var firstLogin:Int? = 0
     var imgTake: Int = 0
     
     //MARK: - Life Cycle
@@ -122,6 +125,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        showDatePicker()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -137,6 +142,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             logoutBtn.isHidden = true
             initBackButton()
         }
+        
         clearNavigationBar()
         
         CancelRequest.currentTask = false
@@ -232,14 +238,14 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                 placeHolderLbl.isHidden = false
             }
             
-            if profileModel?.birthdate == "" {
-                dateBirthLbl.text = "Select your birthdate".localizedString
-                dateBirthLbl.textColor = .lightGray
-            }
-            else {
-                dateBirthLbl.text = profileModel?.birthdate
-                dateBirthLbl.textColor = .black
-            }
+            //            if profileModel?.birthdate == "" {
+            //                dateBirthLbl.text = "Select your birthdate".localizedString
+            //                dateBirthLbl.textColor = .lightGray
+            //            }
+            //            else {
+            dateBirthdayTxt.text = profileModel?.birthdate
+            //            dateBirthdayTxt.textColor = .black
+            //            }
             
             if profileModel?.userImage != "" {
                 profileImg.sd_setImage(with: URL(string: profileModel?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
@@ -395,7 +401,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                 
                 genderString = "other"
             }
-
+            
         }
     }
     
@@ -697,50 +703,117 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     }
     
     @IBAction func editProfileImgBtn(_ sender: Any) {
-        guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FacialRecognitionPopUpView") as? FacialRecognitionPopUpView else {return}
-        popupVC.modalPresentationStyle = .overCurrentContext
-        popupVC.modalTransitionStyle = .crossDissolve
-        let pVC = popupVC.popoverPresentationController
-        pVC?.permittedArrowDirections = .any
-        pVC?.delegate = self
-        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
-        popupVC.onOkCallBackResponse = self.onOkCallBack
-        present(popupVC, animated: true, completion: nil)
+//        guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FacialRecognitionPopUpView") as? FacialRecognitionPopUpView else {return}
+//        popupVC.modalPresentationStyle = .overCurrentContext
+//        popupVC.modalTransitionStyle = .crossDissolve
+//        let pVC = popupVC.popoverPresentationController
+//        pVC?.permittedArrowDirections = .any
+//        pVC?.delegate = self
+//        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+//        popupVC.onOkCallBackResponse = self.onOkCallBack
+//        present(popupVC, animated: true, completion: nil)
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
+            
+            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openCamera()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openLibrary()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            
+            present(settingsActionSheet, animated:true, completion:nil)
+            
+        }else {
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+            
+            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openCamera()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openLibrary()
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            
+            present(settingsActionSheet, animated:true, completion:nil)
+        }
+
     }
     
+    let datePicker = UIDatePicker()
+
+    func showDatePicker(){
+        //Formate Date
+        datePicker.datePickerMode = .date
+//        datePicker.calendar = .Component
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
+        
+        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        
+        dateBirthdayTxt.inputAccessoryView = toolbar
+        dateBirthdayTxt.inputView = datePicker
+        
+    }
+
+    @objc func donedatePicker(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        dateBirthdayTxt.text = formatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+    }
+
+    @objc func cancelDatePicker(){
+        self.view.endEditing(true)
+    }
+    
+
     @IBAction func dateBtn(_ sender: Any) {
-        calendarView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        
-        calendarView?.HandleOKBtn = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd-MM-yyyy"
-            self.dateBirthLbl.text = formatter.string(from: (self.calendarView?.calendarView.date)!)
-            self.birthDay = formatter.string(from: (self.calendarView?.calendarView.date)!)
-            self.dateBirthLbl.textColor = .black
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.calendarView?.alpha = 0
-            }) { (success: Bool) in
-                self.calendarView?.removeFromSuperview()
-                self.calendarView?.alpha = 1
-                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        calendarView?.HandleCancelBtn = {
-            // handling code
-            UIView.animate(withDuration: 0.3, animations: {
-                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.calendarView?.alpha = 0
-            }) { (success: Bool) in
-                self.calendarView?.removeFromSuperview()
-                self.calendarView?.alpha = 1
-                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        self.view.addSubview((calendarView)!)
+//        calendarView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+//
+//        calendarView?.HandleOKBtn = {
+//            let formatter = DateFormatter()
+//            formatter.dateFormat = "dd-MM-yyyy"
+//            self.dateBirthdayTxt.text = formatter.string(from: (self.calendarView?.calendarView.date)!)
+//            self.birthDay = formatter.string(from: (self.calendarView?.calendarView.date)!)
+//            self.dateBirthdayTxt.textColor = .black
+//
+//            UIView.animate(withDuration: 0.3, animations: {
+//                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+//                self.calendarView?.alpha = 0
+//            }) { (success: Bool) in
+//                self.calendarView?.removeFromSuperview()
+//                self.calendarView?.alpha = 1
+//                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+//            }
+//        }
+//
+//        calendarView?.HandleCancelBtn = {
+//            // handling code
+//            UIView.animate(withDuration: 0.3, animations: {
+//                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+//                self.calendarView?.alpha = 0
+//            }) { (success: Bool) in
+//                self.calendarView?.removeFromSuperview()
+//                self.calendarView?.alpha = 1
+//                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+//            }
+//        }
+//
+//        self.view.addSubview((calendarView)!)
     }
     
     @IBAction func maleBtn(_ sender: Any) {
@@ -841,7 +914,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                         self.saveBtn.setTitle("Saving...", for: .normal)
                         self.saveBtn.isUserInteractionEnabled = false
                         
-                        viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthLbl.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),WhatBestDescrips:iamid, preferto: preferToid) { error, data in
+                        viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthdayTxt.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),WhatBestDescrips:iamid, preferto: preferToid) { error, data in
                             
                             DispatchQueue.main.async {
                                 self.saveBtn.setTitle("Save", for: .normal)
@@ -860,8 +933,14 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                                 if Defaults.needUpdate == 1 {
                                     return
                                 }else {
-                                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
-                                    self.navigationController?.pushViewController(vc, animated: true)
+                                    if FirstLoginApp.isFirst == 0 {//toprofile
+                                        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
+                                        self.navigationController?.pushViewController(vc, animated: true)
+                                    }else if FirstLoginApp.isFirst == 1 {//tofeed if socail media login
+                                        Router().toFeed()
+                                    }else {//to login
+                                        Router().toOptionsSignUpVC()
+                                    }
                                 }
                             }
                         }
@@ -904,33 +983,69 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        if imgTake == 1 {
-            let image1 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-            picker.dismiss(animated:true, completion: {
-                
-                self.faceImgOne = image1
-                self.imgTake = 2
-                print(self.imgTake)
-
-                guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FacialRecognitionPopUpView2") as? FacialRecognitionPopUpView2 else {return}
-                popupVC.modalPresentationStyle = .overCurrentContext
-                popupVC.modalTransitionStyle = .crossDissolve
-                let pVC = popupVC.popoverPresentationController
-                pVC?.permittedArrowDirections = .any
-                pVC?.delegate = self
-                pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
-                popupVC.faceImgOne = self.faceImgOne
-                popupVC.onVerifyCallBackResponse = self.onVerifyCallBack
-                self.present(popupVC, animated: true, completion: nil)
-            })
-        }else if self.imgTake == 2 {
-            let image2 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-            picker.dismiss(animated:true, completion: {
-                self.attachedImg = true
-                self.faceImgTwo = image2.fixOrientation()
-                self.FacialRecognitionAPI(imageOne: self.faceImgOne, imageTwo: self.faceImgTwo)
-            })
+        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        
+        self.profileImg.image = _croppedImage
+        self.imgTake = 0
+        self.attachedImg = true
+        
+        //        var config = ImageCropperConfiguration(with: image, and: .rect1x2, cornerRadius: 1)
+        //        config.maskFillColor = UIColor(displayP3Red: 0.7, green: 0.5, blue: 0.2, alpha: 0.75)
+        //        config.borderColor = UIColor.black
+        //        config.showGrid = true
+        //        config.gridColor = UIColor.white
+        //        config.doneTitle = "CROP"
+        //        config.cancelTitle = "Back"
+        
+        
+        picker.dismiss(animated:true, completion: {
+            
+            //            let cropper = ImageCropperViewController.initialize(with: config, completionHandler: { _croppedImage in
+            //              /*
+            //              Code to perform after finishing cropping process
+            //              */
+            //
+            //                self.profileImg.image = _croppedImage
+            //                self.imgTake = 0
+            //                self.attachedImg = true
+            //
+            //            }) {
+            //              /*
+            //              Code to perform after dismissing controller
+            //              */
+            //            }
+            //
+            //            self.navigationController?.pushViewController(cropper, animated: true)
         }
+        )
+        
+        //        if imgTake == 1 {
+        //            let image1 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        //            picker.dismiss(animated:true, completion: {
+        //
+        //                self.faceImgOne = image1
+        //                self.imgTake = 2
+        //                print(self.imgTake)
+        //
+        //                guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FacialRecognitionPopUpView2") as? FacialRecognitionPopUpView2 else {return}
+        //                popupVC.modalPresentationStyle = .overCurrentContext
+        //                popupVC.modalTransitionStyle = .crossDissolve
+        //                let pVC = popupVC.popoverPresentationController
+        //                pVC?.permittedArrowDirections = .any
+        //                pVC?.delegate = self
+        //                pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+        //                popupVC.faceImgOne = self.faceImgOne
+        //                popupVC.onVerifyCallBackResponse = self.onVerifyCallBack
+        //                self.present(popupVC, animated: true, completion: nil)
+        //            })
+        //        }else if self.imgTake == 2 {
+        //            let image2 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        //            picker.dismiss(animated:true, completion: {
+        //                self.attachedImg = true
+        //                self.faceImgTwo = image2.fixOrientation()
+        //                self.FacialRecognitionAPI(imageOne: self.faceImgOne, imageTwo: self.faceImgTwo)
+        //            })
+        //        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

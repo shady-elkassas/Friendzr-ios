@@ -37,6 +37,17 @@ class EditEventsVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var attendeesViewHeight: NSLayoutConstraint!
     
+    @IBOutlet weak var hideTypesView: UIView!
+    @IBOutlet weak var eventTypeLbl: UILabel!
+    @IBOutlet weak var selectFriendsView: UIView!
+    @IBOutlet weak var selectFriendsTopView: UIView!
+    @IBOutlet weak var selectFriendsViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var topFriendsViewLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomFriendsViewLayoutConstaint: NSLayoutConstraint!
+    @IBOutlet weak var eventTypesView: UIView!
+    @IBOutlet weak var eventTypesTV: UITableView!
+
+    
     //MARK: - Properties
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
     lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
@@ -45,7 +56,8 @@ class EditEventsVC: UIViewController {
     
     let attendeesCellID = "AttendeesTableViewCell"
     let footerCellID = "SeeMoreTableViewCell"
-    
+    let eventTypeCellId = "ProblemTableViewCell"
+
     var dayname = ""
     var monthname = ""
     var nday = ""
@@ -67,6 +79,9 @@ class EditEventsVC: UIViewController {
     var minimumDate:Date = Date()
     var maximumDate:Date = Date()
     
+    var eventTypeID = ""
+    var eventTypeName = ""
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +95,9 @@ class EditEventsVC: UIViewController {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        hideTypesView?.addGestureRecognizer(tap)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -130,6 +148,9 @@ class EditEventsVC: UIViewController {
         
         tableView.register(UINib(nibName: attendeesCellID, bundle: nil), forCellReuseIdentifier: attendeesCellID)
         tableView.register(UINib(nibName: footerCellID, bundle: nil), forHeaderFooterViewReuseIdentifier: footerCellID)
+        
+        eventTypesView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
+        eventTypesTV.register(UINib(nibName: eventTypeCellId, bundle: nil), forCellReuseIdentifier: eventTypeCellId)
     }
     
     func initDeleteEventButton(btnColor: UIColor? = .red) {
@@ -234,6 +255,11 @@ class EditEventsVC: UIViewController {
         }
     }
     
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        hideTypesView.isHidden = true
+        eventTypesView.isHidden = true
+    }
+
     func onStartDateCallBack(_ dayDate: String, _ date: String,_ minimumDate:Date,_ maximumDate:Date) -> () {
         self.startDayLbl.text = dayDate
         self.startDate = date
@@ -260,6 +286,17 @@ class EditEventsVC: UIViewController {
         return true
     }
     //MARK: - Actions
+    
+    @IBAction func selectEventTypeBtn(_ sender: Any) {
+        hideTypesView.isHidden = false
+        eventTypesView.isHidden = false
+    }
+    
+    @IBAction func selectEventAttendeesBtn(_ sender: Any) {
+        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SelectFriendsNC") as? UINavigationController, let _ = controller.viewControllers.first as? SelectFriendsVC {
+            self.present(controller, animated: true)
+        }
+    }
     
     @IBAction func saveBtn(_ sender: Any) {
         updateUserInterface()
@@ -537,44 +574,70 @@ extension EditEventsVC : UIImagePickerControllerDelegate,UINavigationControllerD
 
 extension EditEventsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return eventModel?.attendees?.count ?? 0
+        if tableView == eventTypesTV {
+            return 2
+        }
+        else {
+            return eventModel?.attendees?.count ?? 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: attendeesCellID, for: indexPath) as? AttendeesTableViewCell else {return UITableViewCell()}
-        let model = eventModel?.attendees?[indexPath.row]
-        cell.dropDownBtn.isHidden = true
-        cell.joinDateLbl.isHidden = true
-        cell.friendNameLbl.text = model?.userName
-        cell.friendImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-        
-        if indexPath.row == (eventModel?.attendees?.count ?? 0) - 1 {
-            cell.underView.isHidden = true
-        }else {
-            cell.underView.isHidden = false
+        if tableView == eventTypesTV {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: eventTypeCellId, for: indexPath) as? ProblemTableViewCell else {return UITableViewCell()}
+            if indexPath.row == 0 {
+                cell.titleLbl.text = "Friendzr Event"
+            }else {
+                cell.titleLbl.text = "Private Event"
+                cell.bottomView.isHidden = true
+            }
+            return cell
         }
-        
-        return cell
+        else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: attendeesCellID, for: indexPath) as? AttendeesTableViewCell else {return UITableViewCell()}
+            let model = eventModel?.attendees?[indexPath.row]
+            cell.dropDownBtn.isHidden = true
+            cell.joinDateLbl.isHidden = true
+            cell.friendNameLbl.text = model?.userName
+            cell.friendImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            
+            if indexPath.row == (eventModel?.attendees?.count ?? 0) - 1 {
+                cell.underView.isHidden = true
+            }else {
+                cell.underView.isHidden = false
+            }
+            
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        
-        guard let footerView = Bundle.main.loadNibNamed(footerCellID, owner: self, options: nil)?.first as? SeeMoreTableViewCell else { return UIView()}
-        
-        footerView.HandleSeeMoreBtn = {
-            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AttendeesVC") as? AttendeesVC else {return}
-            vc.eventID = self.eventModel?.id ?? ""
-            self.navigationController?.pushViewController(vc, animated: true)
+        if tableView == eventTypesTV {
+            return UIView()
         }
-        
-        return footerView
+        else {
+            guard let footerView = Bundle.main.loadNibNamed(footerCellID, owner: self, options: nil)?.first as? SeeMoreTableViewCell else { return UIView()}
+            
+            footerView.HandleSeeMoreBtn = {
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AttendeesVC") as? AttendeesVC else {return}
+                vc.eventID = self.eventModel?.id ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
+            return footerView
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if (eventModel?.attendees?.count ?? 0) > 1 {
-            return 40
-        }else {
+        if tableView == eventTypesTV {
             return 0
+        }
+        else {
+            if (eventModel?.attendees?.count ?? 0) > 1 {
+                return 40
+            }else {
+                return 0
+            }
         }
     }
 }
@@ -582,19 +645,47 @@ extension EditEventsVC: UITableViewDataSource {
 
 extension EditEventsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        if tableView == eventTypesTV {
+            return 50
+        }else {
+            return 60
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = eventModel?.attendees?[indexPath.row]
-        
-        if model?.myEventO == true {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
-            self.navigationController?.pushViewController(vc, animated: true)
-        }else {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-            vc.userID = model?.userId ?? ""
-            self.navigationController?.pushViewController(vc, animated: true)
+        if tableView == eventTypesTV {
+            if indexPath.row == 0 {
+                eventTypeLbl.text = "Friendzr Event"
+                eventTypeName = "Friendzr Event"
+                selectFriendsView.isHidden = true
+                topFriendsViewLayoutConstraint.constant = 0
+                bottomFriendsViewLayoutConstaint.constant = 0
+                selectFriendsViewHeight.constant = 0
+                selectFriendsTopView.isHidden = true
+            }else {
+                eventTypeLbl.text = "Private Event"
+                eventTypeName = "Private Event"
+                selectFriendsView.isHidden = false
+                topFriendsViewLayoutConstraint.constant = 10
+                bottomFriendsViewLayoutConstaint.constant = 10
+                selectFriendsViewHeight.constant = 40
+                selectFriendsTopView.isHidden = false
+            }
+            
+            hideTypesView.isHidden = true
+            eventTypesView.isHidden = true
+        }
+        else {
+            let model = eventModel?.attendees?[indexPath.row]
+            
+            if model?.myEventO == true {
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else {
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+                vc.userID = model?.userId ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
 }

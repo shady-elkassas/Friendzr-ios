@@ -609,7 +609,8 @@ extension SettingsVC: UITableViewDataSource {
                         cell.ghostModeTypeLbl.text = "Women, Other Gender".localizedString
                     }
                 }
-            }else{
+            }
+            else{
                 cell.switchBtn.isOn = false
                 cell.ghostModeTypeLbl.isHidden = true
             }
