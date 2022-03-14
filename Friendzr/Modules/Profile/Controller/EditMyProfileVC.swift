@@ -11,7 +11,8 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 import ListPlaceholder
-//import ImageCropper
+import ImageCropper
+
 
 class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate {
     
@@ -146,6 +147,9 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         clearNavigationBar()
         
         CancelRequest.currentTask = false
+        
+        self.tabBarController?.tabBar.isHidden = false
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -974,7 +978,7 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
-            imagePicker.allowsEditing = true
+            imagePicker.allowsEditing = false
             imgTake = 1
             print(imgTake)
             self.present(imagePicker, animated: true, completion: nil)
@@ -985,39 +989,39 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         
-        self.profileImg.image = image
-        self.imgTake = 0
-        self.attachedImg = true
+//        self.profileImg.image = image
+//        self.imgTake = 0
+//        self.attachedImg = true
         
-        //        var config = ImageCropperConfiguration(with: image, and: .rect1x2, cornerRadius: 1)
-        //        config.maskFillColor = UIColor(displayP3Red: 0.7, green: 0.5, blue: 0.2, alpha: 0.75)
-        //        config.borderColor = UIColor.black
-        //        config.showGrid = true
-        //        config.gridColor = UIColor.white
-        //        config.doneTitle = "CROP"
-        //        config.cancelTitle = "Back"
-        
+        var config = ImageCropperConfiguration(with: image, and: .rect4x3, cornerRadius: 0)
+        config.maskFillColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
+        config.borderColor = UIColor.black
+        config.showGrid = true
+        config.gridColor = UIColor.white
+        config.doneTitle = "CROP"
+        config.cancelTitle = ""
         
         picker.dismiss(animated:true, completion: {
+            self.tabBarController?.tabBar.isHidden = true
+            let cropper = ImageCropperViewController.initialize(with: config, completionHandler: { _croppedImage in
+                /*
+                 Code to perform after finishing cropping process
+                 */
+                
+                self.profileImg.image = _croppedImage
+                self.imgTake = 0
+                self.attachedImg = true
+//                self.tabBarController?.tabBar.isHidden = false
+                self.onPopup()
+            }) {
+                /*
+                 Code to perform after dismissing controller
+                 */
+            }
             
-            //            let cropper = ImageCropperViewController.initialize(with: config, completionHandler: { _croppedImage in
-            //              /*
-            //              Code to perform after finishing cropping process
-            //              */
-            //
-            //                self.profileImg.image = _croppedImage
-            //                self.imgTake = 0
-            //                self.attachedImg = true
-            //
-            //            }) {
-            //              /*
-            //              Code to perform after dismissing controller
-            //              */
-            //            }
-            //
-            //            self.navigationController?.pushViewController(cropper, animated: true)
-        }
-        )
+            self.navigationController?.pushViewController(cropper, animated: true)
+        })
+        
         
         //        if imgTake == 1 {
         //            let image1 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
@@ -1052,6 +1056,7 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         imgTake = 0
         print(imgTake)
         self.attachedImg = false
+        self.tabBarController?.tabBar.isHidden = false
         picker.dismiss(animated:true, completion: nil)
     }
 }

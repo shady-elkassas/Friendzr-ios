@@ -429,7 +429,7 @@ extension AddGroupVC : UIImagePickerControllerDelegate,UINavigationControllerDel
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
-            imagePicker.allowsEditing = true
+            imagePicker.allowsEditing = false
             self.present(imagePicker, animated: true, completion: nil)
         }
     }

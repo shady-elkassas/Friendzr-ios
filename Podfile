@@ -24,23 +24,18 @@ target 'Friendzr' do
   pod 'Firebase/Storage'
   pod 'Firebase/Firestore'
   
+  pod 'MessageKit', '~> 3.5.1'
+  pod 'Google-Mobile-Ads-SDK'
   pod 'IQKeyboardManager'
   pod 'SDWebImage'
-  
-  #    pod 'TagsList'
-  
   pod 'GoogleMaps'
   pod 'GooglePlaces'
-  
   pod 'MultiSlider'
-  
-  pod 'MessageKit', '~> 3.5.1'
-  
-  pod 'Google-Mobile-Ads-SDK'
-  
-#  pod 'Shimmer'
-#  pod 'LoadingShimmer'
   pod 'ListPlaceholder'
+  pod 'ImageCropper'
+
+  #    pod 'TagsList'
+
 
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|

@@ -543,6 +543,7 @@ PODS:
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.6.1)
+  - ImageCropper (0.1.5.1)
   - InputBarAccessoryView (5.3.1):
     - InputBarAccessoryView/Core (= 5.3.1)
   - InputBarAccessoryView/Core (5.3.1)
@@ -581,6 +582,7 @@ DEPENDENCIES:
   - GoogleMaps
   - GooglePlaces
   - GoogleSignIn
+  - ImageCropper
   - IQKeyboardManager
   - ListPlaceholder
   - MessageKit (~> 3.5.1)
@@ -622,6 +624,7 @@ SPEC REPOS:
     - gRPC-Core
     - GTMAppAuth
     - GTMSessionFetcher
+    - ImageCropper
     - InputBarAccessoryView
     - IQKeyboardManager
     - leveldb-library
@@ -667,6 +670,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
+  ImageCropper: 031f4dc49908419529d56cdedaea7111cd823c3d
   InputBarAccessoryView: 1f75d8c9f75e5e57f3ffac36ed58635a8005e0bc
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
@@ -679,6 +683,6 @@ SPEC CHECKSUMS:
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SweeterSwift: 8a90cf3156f5a1b6f39785c479369a16633b5ea9
 
-PODFILE CHECKSUM: 080df4e12bb312ff73c56969dbcce66f3850671f
+PODFILE CHECKSUM: c71196435c7ed2103d723da80a4715e536afa8dc
 
 COCOAPODS: 1.10.2

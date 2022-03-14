@@ -920,7 +920,7 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
-            imagePicker.allowsEditing = true
+            imagePicker.allowsEditing = false
             imagePicker.mediaTypes = ["public.image"]
             self.present(imagePicker, animated: true, completion: nil)
         }
@@ -931,7 +931,7 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
-            imagePicker.allowsEditing = true
+            imagePicker.allowsEditing = false
             imagePicker.mediaTypes = ["public.movie"]
             imagePicker.videoQuality = .typeMedium
             self.present(imagePicker, animated: true, completion: nil)
@@ -943,7 +943,7 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             imagePicker.delegate = self
             imagePicker.sourceType = .camera
-            imagePicker.allowsEditing = true
+            imagePicker.allowsEditing = false
             imagePicker.videoQuality = .typeMedium
             imagePicker.mediaTypes = ["public.movie"]
             self.present(imagePicker, animated: true, completion: nil)
