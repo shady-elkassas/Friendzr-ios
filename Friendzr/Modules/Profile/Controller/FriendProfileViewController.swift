@@ -74,6 +74,9 @@ class FriendProfileViewController: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
         
         CancelRequest.currentTask = false
+        
+        setupNavBar()
+        hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

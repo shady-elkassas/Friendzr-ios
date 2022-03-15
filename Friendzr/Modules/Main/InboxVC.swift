@@ -549,16 +549,62 @@ extension InboxVC:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if searchVM.usersinChat.value?.data?.count != 0 || viewmodel.listChat.value?.data?.count != 0  {
-            //
+            let vc = ConversationVC()
+            
             var model = viewmodel.listChat.value?.data?[indexPath.row]
-            //
             if isSearch {
                 model = searchVM.usersinChat.value?.data?[indexPath.row]
             }
             
-            Router().toConversationVC(isEvent: model?.isevent ?? false, eventChatID: model?.id ?? "", leavevent: model?.leavevent ?? 0, chatuserID: model?.id ?? "", isFriend: model?.isfrind ?? false, titleChatImage: model?.image ?? "", titleChatName: model?.chatName ?? "", isChatGroupAdmin: model?.isChatGroupAdmin ?? false, isChatGroup: model?.isChatGroup ?? false, groupId: model?.id ?? "",leaveGroup: model?.leaveGroup ?? 0, isEventAdmin: model?.myevent ?? false)
+            if model?.isevent == true {
+                vc.isEvent = true
+                vc.eventChatID = model?.id ?? ""
+                vc.chatuserID = ""
+                vc.leavevent = model?.leavevent ?? 0
+                vc.leaveGroup = 1
+                vc.isFriend = false
+                vc.titleChatImage = model?.image ?? ""
+                vc.titleChatName = model?.chatName ?? ""
+                vc.isChatGroupAdmin = false
+                vc.isChatGroup = false
+                vc.groupId = ""
+                vc.isEventAdmin = model?.myevent ?? false
+            }else {
+                if (model?.isChatGroup ?? false) == true {
+                    vc.isEvent = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = ""
+                    vc.leavevent = 1
+                    vc.leaveGroup = model?.leaveGroup ?? 0
+                    vc.isFriend = false
+                    vc.titleChatImage = model?.image ?? ""
+                    vc.titleChatName = model?.chatName ?? ""
+                    vc.isChatGroupAdmin = model?.isChatGroupAdmin ?? false
+                    vc.isChatGroup = model?.isChatGroup ?? false
+                    vc.groupId = model?.id ?? ""
+                    vc.isEventAdmin = false
+                }else {
+                    vc.isEvent = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = model?.id ?? ""
+                    vc.leaveGroup = 1
+                    vc.isFriend = model?.isfrind ?? false
+                    vc.leavevent = model?.leavevent ?? 0
+                    vc.titleChatImage = model?.image ?? ""
+                    vc.titleChatName = model?.chatName ?? ""
+                    vc.isChatGroupAdmin = false
+                    vc.isChatGroup = false
+                    vc.groupId = ""
+                    vc.isEventAdmin = false
+                }
+            }
+            
+            vc.titleChatImage = model?.image ?? ""
+            vc.titleChatName = model?.chatName ?? ""
+            CancelRequest.currentTask = false
+            
+            navigationController?.pushViewController(vc, animated: true)
         }
-        
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

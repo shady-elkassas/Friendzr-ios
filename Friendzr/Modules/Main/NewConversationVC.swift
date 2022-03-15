@@ -40,7 +40,7 @@ class NewConversationVC: UIViewController {
         
         self.title = "New Conversation".localizedString
         initCancelBarButton()
-        setupNavBar()
+//        setupNavBar()
         setupSearchBar()
         setupViews()
         initAddGroupBarButton()
@@ -57,6 +57,9 @@ class NewConversationVC: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
         CancelRequest.currentTask = false
         setupHideView()
+        
+        setupNavBar()
+        hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -299,9 +302,28 @@ extension NewConversationVC: UITableViewDelegate {
         updateNetworkForBtns()
         
         if internetConnect {
+            let vc = ConversationVC()
             let model = viewmodel.friends.value?.data?[indexPath.row]
-            Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: false)
-        }else {
+            vc.isEvent = false
+            vc.eventChatID = ""
+            vc.chatuserID = model?.userId ?? ""
+            vc.leaveGroup = 1
+            vc.isFriend = true
+            vc.leavevent = 0
+            vc.titleChatImage = model?.image ?? ""
+            vc.titleChatName = model?.userName ?? ""
+            vc.isChatGroupAdmin = false
+            vc.isChatGroup = false
+            vc.groupId = ""
+            vc.isEventAdmin = false
+            
+            vc.titleChatImage = model?.image ?? ""
+            vc.titleChatName = model?.userName ?? ""
+            CancelRequest.currentTask = false
+            
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
             return
         }
     }

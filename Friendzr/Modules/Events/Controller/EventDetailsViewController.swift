@@ -73,18 +73,10 @@ class EventDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "Friendzr Event"
         initOptionsEventButton()
-        
-        if isConv {
-            initBackChatButton()
-        }else {
-            initBackButton()
-        }
-        
+
+        initBackButton()
         setupViews()
-        setupNavBar()
-    
         CancelRequest.currentTask = false
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleEventDetails), name: Notification.Name("handleEventDetails"), object: nil)
@@ -96,10 +88,14 @@ class EventDetailsViewController: UIViewController {
         super.viewWillAppear(animated)
         Defaults.availableVC = "EventDetailsViewController"
         print("availableVC >> \(Defaults.availableVC)")
+        self.title = "Friendzr Event"
         
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        setupNavBar()
+        hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -292,7 +288,21 @@ extension EventDetailsViewController: UITableViewDataSource {
             
             cell.HandleChatBtn = {
                 if model?.leveevent == 1 {
-                    Router().toConversationVC(isEvent: true, eventChatID: self.eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: model?.image ?? "", titleChatName: model?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: self.isEventAdmin)
+                    let vc = ConversationVC()
+                    vc.isEvent = true
+                    vc.eventChatID = self.eventId
+                    vc.chatuserID = ""
+                    vc.leavevent = 0
+                    vc.leaveGroup = 1
+                    vc.isFriend = false
+                    vc.titleChatImage = model?.image ?? ""
+                    vc.titleChatName = model?.title ?? ""
+                    vc.isChatGroupAdmin = false
+                    vc.isChatGroup = false
+                    vc.groupId = ""
+                    vc.isEventAdmin = self.isEventAdmin
+                    CancelRequest.currentTask = false
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }else {
                     self.view.makeToast("Wait, I'll join you in the event's chat...".localizedString)
                     self.joinCahtEventVM.joinChat(ByID: self.eventId, ActionDate: JoinDate, Actiontime: Jointime) { error, data in
@@ -305,7 +315,21 @@ extension EventDetailsViewController: UITableViewDataSource {
                         
                         guard let _ = data else {return}
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            Router().toConversationVC(isEvent: true, eventChatID: self.eventId, leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: self.viewmodel.event.value?.image ?? "", titleChatName: self.viewmodel.event.value?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: self.isEventAdmin)
+                            let vc = ConversationVC()
+                            vc.isEvent = true
+                            vc.eventChatID = self.eventId
+                            vc.chatuserID = ""
+                            vc.leavevent = 0
+                            vc.leaveGroup = 1
+                            vc.isFriend = false
+                            vc.titleChatImage = model?.image ?? ""
+                            vc.titleChatName = model?.title ?? ""
+                            vc.isChatGroupAdmin = false
+                            vc.isChatGroup = false
+                            vc.groupId = ""
+                            vc.isEventAdmin = self.isEventAdmin
+                            CancelRequest.currentTask = false
+                            self.navigationController?.pushViewController(vc, animated: true)
                         }
                     }
                 }

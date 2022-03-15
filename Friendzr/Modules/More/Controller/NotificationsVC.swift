@@ -295,20 +295,7 @@ extension NotificationsVC: UITableViewDelegate {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else { return}
                     vc.userID = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
-                }else if model?.action == "event_chat" {
-                    Router().toConversationVC(isEvent: true, eventChatID: model?.action_code ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: "", titleChatName: "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: false)
-                }else if model?.action == "user_chat" {
-                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.action_code ?? "", isFriend: true, titleChatImage: model?.imageUrl ?? "", titleChatName: model?.title ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: false)
                 }
-//                else if model?.action == "user_chatGroup" { //isChatGroupAdmin ??
-//                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 1, chatuserID: "", isFriend: false, titleChatImage: "", titleChatName: "", isChatGroupAdmin: model?.isChatGroupAdmin ?? false, isChatGroup: true, groupId: model?.action_code ?? "",leaveGroup: 0)
-//                }
-//                else if model?.action == "Join Chat Group" {
-//                    Router().toHome()
-//                }
-//                else if model?.action == "Kickedout From Chat Group" {
-//                    Router().toHome()
-//                }
                 else if model?.action == "event_Updated" {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else { return}
                     vc.eventId = model?.action_code ?? ""

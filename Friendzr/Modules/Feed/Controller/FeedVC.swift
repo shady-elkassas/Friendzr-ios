@@ -213,7 +213,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         CancelRequest.currentTask = false
         initGhostModeSwitchButton()
         setupHideView()
-        
+        setupNavBar()
+
         self.checkLocationPermission()
     }
     
@@ -837,7 +838,22 @@ extension FeedVC:UITableViewDataSource {
                 self.updateNetworkForBtns()
                 
                 if self.self.internetConnect {
-                    Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: model?.userId ?? "", isFriend: true, titleChatImage: model?.image ?? "", titleChatName: model?.userName ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: false)
+                    let vc = ConversationVC()
+                    vc.isEvent = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = model?.userId ?? ""
+                    vc.leaveGroup = 1
+                    vc.isFriend = true
+                    vc.leavevent = 0
+                    vc.titleChatImage = model?.image ?? ""
+                    vc.titleChatName = model?.userName ?? ""
+                    vc.isChatGroupAdmin = false
+                    vc.isChatGroup = false
+                    vc.groupId = ""
+                    vc.isEventAdmin = false
+                    CancelRequest.currentTask = false
+                    
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }else {
                     return
                 }

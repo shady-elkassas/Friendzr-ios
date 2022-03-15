@@ -54,6 +54,9 @@ class MyProfileViewController: UIViewController {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        setupNavBar()
+        hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

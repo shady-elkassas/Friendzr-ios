@@ -203,10 +203,10 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         super.viewDidLoad()
         
         configureMessageCollectionView()
-        initBackChatButton()
+//        initBackChatButton()
 //        showDownView()
         setupMessages()
-        
+        initBackButton()
         configureMessageInputBar()
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessages), name: Notification.Name("listenToMessages"), object: nil)
@@ -222,12 +222,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         alertView?.addGestureRecognizer(tap)
-        
-        
-        self.view.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
-        self.view.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
-        self.view.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
-        self.view.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -248,8 +242,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
 
         setupNavigationbar()
         setupLeftInputButton(tapMessage: false, Recorder: "play")
-        
-        setupHideView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -386,34 +378,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         messageInputBar.inputTextView.textContainerInset.bottom = 8
     }
     
-    private func createSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
-        // Initialize Swipe Gesture Recognizer
-        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
-        
-        // Configure Swipe Gesture Recognizer
-        swipeGestureRecognizer.direction = direction
-        
-        return swipeGestureRecognizer
-    }
-    
-    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
-        // Current Frame
-        switch sender.direction {
-        case .up:
-            break
-        case .down:
-            break
-        case .left:
-            break
-        case .right:
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                Router().toHome()
-            })
-        default:
-            break
-        }
-    }
-    
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         // handling code
         UIView.animate(withDuration: 0.3, animations: {
@@ -459,17 +423,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         self.messagesCollectionView.reloadData()
     }
     
-    
-    func setupHideView() {
-        for itm in messagesViews {
-            itm.cornerRadiusView(radius: 8)
-        }
-        
-        for iteem in iconsViews {
-            iteem.cornerRadiusForHeight()
-        }
-    }
-        
     //MARK: - APIs
     func getDate(dateStr:String,timeStr:String) -> Date? {
         let dateFormatter = DateFormatter()
@@ -952,7 +905,10 @@ extension ConversationVC {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    Router().toEventDetailsVC(eventId: self.titleID ?? "", isConv: true, isEventAdmin: self.isEventAdmin)
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                    vc.eventId = self.titleID ?? ""
+                    vc.isEventAdmin = self.isEventAdmin
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }else {
                     Router().toGroupVC(groupId: self.groupId, isGroupAdmin: self.isChatGroupAdmin)
                 }
@@ -996,7 +952,10 @@ extension ConversationVC {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    Router().toEventDetailsVC(eventId: self.titleID ?? "", isConv: true, isEventAdmin: self.isEventAdmin)
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                    vc.eventId = self.titleID ?? ""
+                    vc.isEventAdmin = self.isEventAdmin
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }else {
                     Router().toGroupVC(groupId: self.groupId, isGroupAdmin: self.isChatGroupAdmin)
                 }

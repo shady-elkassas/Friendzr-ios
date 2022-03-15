@@ -131,8 +131,6 @@ class Router {
                 vc.leavevent = leavevent
                 vc.leaveGroup = 1
                 vc.isFriend = false
-                vc.titleChatImage = titleChatImage
-                vc.titleChatName = titleChatName
                 vc.isChatGroupAdmin = false
                 vc.isChatGroup = false
                 vc.groupId = ""
@@ -145,8 +143,6 @@ class Router {
                     vc.leavevent = 1
                     vc.leaveGroup = leaveGroup
                     vc.isFriend = false
-                    vc.titleChatImage = titleChatImage
-                    vc.titleChatName = titleChatName
                     vc.isChatGroupAdmin = isChatGroupAdmin
                     vc.isChatGroup = isChatGroup
                     vc.groupId = groupId
@@ -158,8 +154,6 @@ class Router {
                     vc.leaveGroup = 1
                     vc.isFriend = isFriend
                     vc.leavevent = leavevent
-                    vc.titleChatImage = titleChatImage
-                    vc.titleChatName = titleChatName
                     vc.isChatGroupAdmin = false
                     vc.isChatGroup = false
                     vc.groupId = ""
@@ -189,7 +183,6 @@ class Router {
             vc.isGroupAdmin = isGroupAdmin
             go(withVC: controller)
         }
-        
     }
     
     func toEventDetailsVC(eventId:String,isConv:Bool,isEventAdmin:Bool)  {
