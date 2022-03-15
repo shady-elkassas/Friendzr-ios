@@ -45,7 +45,7 @@ class GroupDetailsVC: UIViewController {
     
     //    var attachedImg:Bool = false
     let imagePicker = UIImagePickerController()
-    
+    var selectedVC:Bool = false
     var viewmodel:GroupViewModel = GroupViewModel()
 
     
@@ -53,11 +53,15 @@ class GroupDetailsVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
-        title = "Group Details"
         
         getGroupDetails(search: "")
         setupSearchBar()
-        initBackChatButton()
+        
+        if selectedVC {
+            initCloseBarButton()
+        }else {
+            initBackButton()
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateGroupDetails), name: Notification.Name("updateGroupDetails"), object: nil)
     }
@@ -68,7 +72,10 @@ class GroupDetailsVC: UIViewController {
         
         Defaults.availableVC = "GroupDetailsVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
+        title = "Group Details"
+        setupNavBar()
+        hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
     @objc func updateGroupDetails() {

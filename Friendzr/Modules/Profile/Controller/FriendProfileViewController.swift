@@ -50,6 +50,8 @@ class FriendProfileViewController: UIViewController {
         return formatter
     }()
     
+    var selectedVC:Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -57,7 +59,12 @@ class FriendProfileViewController: UIViewController {
             self.updateUserInterface()
         }
         
-        initBackButton()
+        if selectedVC {
+            initCloseBarButton()
+        }else {
+            initBackButton()
+        }
+        
         clearNavigationBar()
         setupView()
         

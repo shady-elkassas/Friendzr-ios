@@ -103,15 +103,18 @@ extension ConversationVC: MessageCellDelegate {
         }
         let model = messageList[indexPath.section]
         
-        if model.user.senderId == senderUser.senderId {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
-            self.navigationController?.pushViewController(vc, animated: true)
+        if model.user.senderId == senderUser.senderId {            
+            if let controller = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileNC") as? UINavigationController, let vc = controller.viewControllers.first as? MyProfileViewController {
+                vc.selectedVC = true
+                self.present(controller, animated: true)
+            }
         }else {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-            vc.userID = model.user.senderId
-            self.navigationController?.pushViewController(vc, animated: true)
+            if let controller = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileNC") as? UINavigationController, let vc = controller.viewControllers.first as? FriendProfileViewController {
+                vc.userID = self.titleID ?? ""
+                vc.selectedVC = true
+                self.present(controller, animated: true)
+            }
         }
-        
     }
     
     func didTapMessage(in cell: MessageCollectionViewCell) {

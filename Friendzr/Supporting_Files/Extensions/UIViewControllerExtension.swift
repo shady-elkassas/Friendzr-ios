@@ -187,6 +187,7 @@ extension UIViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor.setColor(lightColor: .white, darkColor: .black)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage() , for:UIBarMetrics.default)
         self.navigationController?.navigationBar.backgroundColor = .white
+        view.backgroundColor = .white
     }
     
     func hideNavigationBar(NavigationBar: Bool,BackButton: Bool) {

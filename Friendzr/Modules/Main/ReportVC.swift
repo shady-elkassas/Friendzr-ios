@@ -33,9 +33,7 @@ class ReportVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Report".localizedString
         setupView()
-        
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
@@ -55,10 +53,12 @@ class ReportVC: UIViewController {
         if selectedVC == "Present" {
             initCloseBarButton()
         }else {
-            initBackChatButton()
+            initBackButton()
         }
         
+        title = "Report".localizedString
         setupNavBar()
+        hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
     func setupView() {
@@ -201,17 +201,11 @@ extension ReportVC: UITableViewDataSource {
                             }
                             
                             guard let _ = data else {return}
-                            
-//                            DispatchQueue.main.async {
-//                                cell.confirmBtn.isUserInteractionEnabled = true
-//                                cell.confirmBtn.setTitle("Submit", for: .normal)
-//                            }
-                            
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                 if self.selectedVC == "Present" {
                                     self.onDismiss()
                                 }else {
-                                    Router().toHome()
+                                    self.onPopup()
                                 }
                             }
                         }

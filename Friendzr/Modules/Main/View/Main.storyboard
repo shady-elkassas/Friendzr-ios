@@ -1209,10 +1209,10 @@
             </objects>
             <point key="canvasLocation" x="3543" y="787"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Nav Controller-->
         <scene sceneID="wbA-ey-dPf">
             <objects>
-                <navigationController storyboardIdentifier="ReportNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="XbI-VT-PjB" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ReportNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="XbI-VT-PjB" customClass="NavController" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nrh-Ho-7lE">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

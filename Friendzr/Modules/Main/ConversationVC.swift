@@ -860,12 +860,35 @@ extension ConversationVC {
             }))
             actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                        vc.id = self.eventChatID
+                        vc.chatimg = self.titleChatImage
+                        vc.chatname = self.titleChatName
+                        vc.reportType = 2
+                        vc.selectedVC = "Present"
+                        self.present(controller, animated: true)
+                    }
                 }else {
                     if self.isChatGroup == true {
-                        Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                            vc.id = self.groupId
+                            vc.chatimg = self.titleChatImage
+                            vc.chatname = self.titleChatName
+                            vc.reportType = 1
+                            vc.selectedVC = "Present"
+                            self.present(controller, animated: true)
+                        }
+                        
                     }else {
-                        Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                            vc.id = self.chatuserID
+                            vc.chatimg = self.titleChatImage
+                            vc.chatname = self.titleChatName
+                            vc.reportType = 3
+                            vc.selectedVC = "Present"
+                            self.present(controller, animated: true)
+                        }
+                        
                     }
                 }
             }))
@@ -883,12 +906,34 @@ extension ConversationVC {
             }))
             actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                    if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                        vc.id = self.eventChatID
+                        vc.chatimg = self.titleChatImage
+                        vc.chatname = self.titleChatName
+                        vc.reportType = 2
+                        vc.selectedVC = "Present"
+                        self.present(controller, animated: true)
+                    }
+                    
                 }else {
                     if self.isChatGroup == true {
-                        Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                            vc.id = self.groupId
+                            vc.chatimg = self.titleChatImage
+                            vc.chatname = self.titleChatName
+                            vc.reportType = 1
+                            vc.selectedVC = "Present"
+                            self.present(controller, animated: true)
+                        }
                     }else {
-                        Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                            vc.id = self.chatuserID
+                            vc.chatimg = self.titleChatImage
+                            vc.chatname = self.titleChatName
+                            vc.reportType = 3
+                            vc.selectedVC = "Present"
+                            self.present(controller, animated: true)
+                        }
                     }
                 }
             }))
@@ -905,12 +950,20 @@ extension ConversationVC {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-                    vc.eventId = self.titleID ?? ""
-                    vc.isEventAdmin = self.isEventAdmin
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+                        vc.eventId = self.titleID ?? ""
+                        vc.isEventAdmin = self.isEventAdmin
+                        vc.selectedVC = true
+                        self.present(controller, animated: true)
+                    }
                 }else {
-                    Router().toGroupVC(groupId: self.groupId, isGroupAdmin: self.isChatGroupAdmin)
+                    if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
+                        vc.groupId = self.groupId
+                        vc.isGroupAdmin = self.isChatGroupAdmin
+                        vc.selectedVC = true
+                        self.present(controller, animated: true)
+                    }
+                    
                 }
             }))
             
@@ -918,12 +971,35 @@ extension ConversationVC {
                 if !self.isEventAdmin {
                     actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                         if self.isEvent == true {
-                            Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                vc.id = self.eventChatID
+                                vc.chatimg = self.titleChatImage
+                                vc.chatname = self.titleChatName
+                                vc.reportType = 2
+                                vc.selectedVC = "Present"
+                                self.present(controller, animated: true)
+                            }
                         }else {
                             if self.isChatGroup == true {
-                                Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                    vc.id = self.groupId
+                                    vc.chatimg = self.titleChatImage
+                                    vc.chatname = self.titleChatName
+                                    vc.reportType = 1
+                                    vc.selectedVC = "Present"
+                                    self.present(controller, animated: true)
+                                }
+                                
                             }else {
-                                Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                    vc.id = self.chatuserID
+                                    vc.chatimg = self.titleChatImage
+                                    vc.chatname = self.titleChatName
+                                    vc.reportType = 3
+                                    vc.selectedVC = "Present"
+                                    self.present(controller, animated: true)
+                                }
+                                
                             }
                         }
                     }))
@@ -932,12 +1008,33 @@ extension ConversationVC {
                 if !self.isChatGroupAdmin {
                     actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                         if self.isEvent == true {
-                            Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                vc.id = self.eventChatID
+                                vc.chatimg = self.titleChatImage
+                                vc.chatname = self.titleChatName
+                                vc.reportType = 2
+                                vc.selectedVC = "Present"
+                                self.present(controller, animated: true)
+                            }
                         }else {
                             if self.isChatGroup == true {
-                                Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                    vc.id = self.groupId
+                                    vc.chatimg = self.titleChatImage
+                                    vc.chatname = self.titleChatName
+                                    vc.reportType = 1
+                                    vc.selectedVC = "Present"
+                                    self.present(controller, animated: true)
+                                }
                             }else {
-                                Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                    vc.id = self.chatuserID
+                                    vc.chatimg = self.titleChatImage
+                                    vc.chatname = self.titleChatName
+                                    vc.reportType = 3
+                                    vc.selectedVC = "Present"
+                                    self.present(controller, animated: true)
+                                }
                             }
                         }
                     }))
@@ -952,24 +1049,54 @@ extension ConversationVC {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-                    vc.eventId = self.titleID ?? ""
-                    vc.isEventAdmin = self.isEventAdmin
-                    self.navigationController?.pushViewController(vc, animated: true)
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+                        vc.eventId = self.titleID ?? ""
+                        vc.isEventAdmin = self.isEventAdmin
+                        vc.selectedVC = true
+                        self.present(controller, animated: true)
+                    }
+                    
                 }else {
-                    Router().toGroupVC(groupId: self.groupId, isGroupAdmin: self.isChatGroupAdmin)
+                    if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
+                        vc.groupId = self.groupId
+                        vc.isGroupAdmin = self.isChatGroupAdmin
+                        vc.selectedVC = true
+                        self.present(controller, animated: true)
+                    }
+                    
                 }
             }))
             if self.isEvent {
                 if !self.isEventAdmin {
                     actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                         if self.isEvent == true {
-                            Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                vc.id = self.eventChatID
+                                vc.chatimg = self.titleChatImage
+                                vc.chatname = self.titleChatName
+                                vc.reportType = 2
+                                vc.selectedVC = "Present"
+                                self.present(controller, animated: true)
+                            }
                         }else {
                             if self.isChatGroup == true {
-                                Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                    vc.id = self.groupId
+                                    vc.chatimg = self.titleChatImage
+                                    vc.chatname = self.titleChatName
+                                    vc.reportType = 1
+                                    vc.selectedVC = "Present"
+                                    self.present(controller, animated: true)
+                                }
                             }else {
-                                Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                    vc.id = self.chatuserID
+                                    vc.chatimg = self.titleChatImage
+                                    vc.chatname = self.titleChatName
+                                    vc.reportType = 3
+                                    vc.selectedVC = "Present"
+                                    self.present(controller, animated: true)
+                                }
                             }
                         }
                     }))
@@ -978,12 +1105,33 @@ extension ConversationVC {
                 if !self.isChatGroupAdmin {
                     actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                         if self.isEvent == true {
-                            Router().toReportVC(id: self.eventChatID, reportType: 2, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                vc.id = self.eventChatID
+                                vc.chatimg = self.titleChatImage
+                                vc.chatname = self.titleChatName
+                                vc.reportType = 2
+                                vc.selectedVC = "Present"
+                                self.present(controller, animated: true)
+                            }
                         }else {
                             if self.isChatGroup == true {
-                                Router().toReportVC(id: self.groupId, reportType: 1, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                    vc.id = self.groupId
+                                    vc.chatimg = self.titleChatImage
+                                    vc.chatname = self.titleChatName
+                                    vc.reportType = 1
+                                    vc.selectedVC = "Present"
+                                    self.present(controller, animated: true)
+                                }
                             }else {
-                                Router().toReportVC(id: self.chatuserID, reportType: 3, chatimg: self.titleChatImage, chatname: self.titleChatName)
+                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                    vc.id = self.chatuserID
+                                    vc.chatimg = self.titleChatImage
+                                    vc.chatname = self.titleChatName
+                                    vc.reportType = 3
+                                    vc.selectedVC = "Present"
+                                    self.present(controller, animated: true)
+                                }
                             }
                         }
                     }))
@@ -1170,19 +1318,28 @@ extension ConversationVC {
     }
     
     @objc func goToGroupVC() {
-        Router().toGroupVC(groupId: groupId, isGroupAdmin: isChatGroupAdmin)
+        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
+            vc.groupId = self.groupId
+            vc.isGroupAdmin = self.isChatGroupAdmin
+            vc.selectedVC = true
+            self.present(controller, animated: true)
+        }
     }
     
     @objc func goToUserProfileVC() {
-        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-        vc.userID = self.titleID ?? ""
-        self.navigationController?.pushViewController(vc, animated: true)
+        if let controller = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileNC") as? UINavigationController, let vc = controller.viewControllers.first as? FriendProfileViewController {
+            vc.userID = self.titleID ?? ""
+            vc.selectedVC = true
+            self.present(controller, animated: true)
+        }
     }
     
     @objc func goToEventDetailsVC() {
-        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-        vc.eventId = self.titleID ?? ""
-        vc.isEventAdmin = self.isEventAdmin
-        self.navigationController?.pushViewController(vc, animated: true)
+        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+            vc.eventId = self.titleID ?? ""
+            vc.isEventAdmin = self.isEventAdmin
+            vc.selectedVC = true
+            self.present(controller, animated: true)
+        }
     }
 }

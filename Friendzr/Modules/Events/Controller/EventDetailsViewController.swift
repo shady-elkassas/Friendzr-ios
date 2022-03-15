@@ -47,6 +47,7 @@ class EventDetailsViewController: UIViewController {
     var isConv:Bool = false
     
     var isEventAdmin: Bool = false
+    var selectedVC:Bool = false
     
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -75,7 +76,12 @@ class EventDetailsViewController: UIViewController {
         
         initOptionsEventButton()
 
-        initBackButton()
+        if selectedVC {
+            initCloseBarButton()
+        }else {
+            initBackButton()
+        }
+        
         setupViews()
         CancelRequest.currentTask = false
 

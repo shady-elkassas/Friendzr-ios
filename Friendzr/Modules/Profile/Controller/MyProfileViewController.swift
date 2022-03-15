@@ -31,11 +31,17 @@ class MyProfileViewController: UIViewController {
         return control
     }()
     
+    var selectedVC:Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "My Profile".localizedString
-        initBackButton()
+        
+        if selectedVC {
+            initCloseBarButton()
+        }else {
+            initBackButton()
+        }
         clearNavigationBar()
         setupView()
         
