@@ -36,9 +36,31 @@ class UpdateLocationViewModel {
             else {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
+                    self.initProfileCash(user: toAdd)
                     completion(nil, toAdd)
                 }
             }
         }
+    }
+    
+    func initProfileCash(user:ProfileObj) {
+        Defaults.userName = user.userName
+        Defaults.Email = user.email
+        Defaults.Image = user.userImage
+        Defaults.displayedUserName = user.displayedUserName
+        Defaults.bio = user.bio
+        Defaults.gender = user.gender
+        Defaults.birthdate = user.birthdate
+        Defaults.facebook = user.facebook
+        Defaults.instagram = user.instagram
+        Defaults.snapchat = user.snapchat
+        Defaults.tiktok = user.tiktok
+        Defaults.key = user.key
+        Defaults.LocationLng = user.lang
+        Defaults.LocationLat = user.lat
+        Defaults.OtherGenderName = user.otherGenderName
+        Defaults.age = user.age
+        Defaults.userId = user.userid
+        Defaults.needUpdate = user.needUpdate
     }
 }

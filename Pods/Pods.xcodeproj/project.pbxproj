@@ -1759,6 +1759,8 @@
 		435908DAF9EC9EC5F6D91239BAF1AF8D /* GDTCORStorageEventSelector.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F937B59003EE8A7939F62A50EE6E82C /* GDTCORStorageEventSelector.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		4359EA8076E3A7CA23DF71E792FB0190 /* asn1t.h in Headers */ = {isa = PBXBuildFile; fileRef = 94A50D9C8CFB4B67E642A6AB785B9E12 /* asn1t.h */; };
 		436D1CD4219E19227AFF94D56885F296 /* stream_compression_identity.cc in Sources */ = {isa = PBXBuildFile; fileRef = D26D41148816E41F156503B0E0963233 /* stream_compression_identity.cc */; settings = {COMPILER_FLAGS = "-DGRPC_ARES=0 -Wno-comma -DGRPC_SHADOW_BORINGSSL_SYMBOLS -fno-objc-arc"; }; };
+		436DCFB327DF928A00A4A7F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 436DCFB227DF928A00A4A7F7 /* Assets.xcassets */; };
+		436DCFB427DF928A00A4A7F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 436DCFB227DF928A00A4A7F7 /* Assets.xcassets */; };
 		43758BBBFAB489A5B279A688248038CD /* status_conversion.h in Headers */ = {isa = PBXBuildFile; fileRef = 4082B8914D2B7AF14EBD41059E858F55 /* status_conversion.h */; };
 		437E73ADAC8DA8425D823D33F7E37D93 /* FPathIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 6533E9703F4888AFED2AB7291C28A2E9 /* FPathIndex.m */; };
 		43843E063BB2F0291CFDD7229147F8F9 /* GDTCORFlatFileStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E24714C6889845531A66388FEED25CF /* GDTCORFlatFileStorage.m */; };
@@ -12346,6 +12348,7 @@
 		4343ED9CD1C1354CF91AB090DF12D954 /* Google-Mobile-Ads-SDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Google-Mobile-Ads-SDK.debug.xcconfig"; sourceTree = "<group>"; };
 		4344B8FD90033436B385EB3451F1FEFF /* not_in_filter.cc */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = not_in_filter.cc; path = Firestore/core/src/core/not_in_filter.cc; sourceTree = "<group>"; };
 		43631E53D7CA900AA5B28E9FD87CB0A9 /* SDWebImageOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageOperation.h; path = SDWebImage/Core/SDWebImageOperation.h; sourceTree = "<group>"; };
+		436DCFB227DF928A00A4A7F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../Assets.xcassets; sourceTree = "<group>"; };
 		437BC187BB2BE651B87B13DCEFBEE195 /* struct.upb.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = struct.upb.h; path = "src/core/ext/upb-generated/google/protobuf/struct.upb.h"; sourceTree = "<group>"; };
 		438A2A409DDCA9D9FCDE69401929D099 /* spinlock.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = spinlock.h; path = absl/base/internal/spinlock.h; sourceTree = "<group>"; };
 		43B1E4CD7B30B9FD278100133C2AC788 /* FirebaseAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FirebaseAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -19045,6 +19048,7 @@
 		40854F0D6C6305CAD383DFAD6B5B9EE4 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				436DCFB227DF928A00A4A7F7 /* Assets.xcassets */,
 				AC5531EC4A250C079DE90A26F9E5679A /* MessageKit.modulemap */,
 				B9513C34D470E249A02DB162382B7FE4 /* MessageKit-dummy.m */,
 				7EA0633B9BAD2E12D8E24E51A72E6CC8 /* MessageKit-Info.plist */,
@@ -27607,6 +27611,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				436DCFB427DF928A00A4A7F7 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -27678,6 +27683,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				436DCFB327DF928A00A4A7F7 /* Assets.xcassets in Resources */,
 				728B49E1688B67384DA325E925A485CA /* MessageKit.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

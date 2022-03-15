@@ -204,6 +204,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        currentPage = 1
         setup()
         Defaults.availableVC = "FeedVC"
         print("availableVC >> \(Defaults.availableVC)")
@@ -409,6 +410,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             guard let data = data else {return}
             Defaults.LocationLat = data.lat
             Defaults.LocationLng = data.lang
+            Defaults.Image = data.userImage
         }
     }
     

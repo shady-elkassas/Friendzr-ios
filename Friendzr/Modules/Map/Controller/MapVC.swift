@@ -430,9 +430,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         currentLocationBtn.cornerRadiusView(radius: 10)
         topContainerView.cornerRadiusView(radius: 10)
         
-        profileImg.cornerRadiusForHeight()
-        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
-        
+//        profileImg.cornerRadiusForHeight()
+//        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
+        profileImg.isHidden = true
         searchBar.delegate = self
         searchBar.backgroundColor = UIColor.clear
         searchBar.barTintColor = .white
@@ -665,8 +665,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func profileBtn(_ sender: Any) {
-        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
-        self.navigationController?.pushViewController(vc, animated: true)
+//        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func convertMapStyleBtn(_ sender: Any) {
