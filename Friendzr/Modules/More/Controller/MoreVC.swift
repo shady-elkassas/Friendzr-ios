@@ -62,7 +62,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true        
     }
     
     @objc func updateMoreTableView() {

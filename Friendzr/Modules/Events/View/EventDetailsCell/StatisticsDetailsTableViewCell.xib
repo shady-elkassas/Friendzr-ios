@@ -102,7 +102,7 @@
                                                     </label>
                                                     <slider opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Qo7-ea-AIa">
                                                         <rect key="frame" x="18" y="31.5" width="131" height="19.5"/>
-                                                        <color key="minimumTrackTintColor" systemColor="systemBlueColor"/>
+                                                        <color key="minimumTrackTintColor" systemColor="systemRedColor"/>
                                                         <color key="maximumTrackTintColor" red="0.60392156860000001" green="0.602715373" blue="0.602715373" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                                         <color key="thumbTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </slider>
@@ -137,7 +137,7 @@
                                                     </label>
                                                     <slider opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="8KY-rj-t0m">
                                                         <rect key="frame" x="18" y="31.5" width="131" height="19.5"/>
-                                                        <color key="minimumTrackTintColor" systemColor="systemBlueColor"/>
+                                                        <color key="minimumTrackTintColor" systemColor="systemGreenColor"/>
                                                         <color key="maximumTrackTintColor" red="0.60392156860000001" green="0.602715373" blue="0.602715373" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                                         <color key="thumbTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </slider>
@@ -233,7 +233,7 @@
                                                     </label>
                                                     <slider opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="8uU-d4-n5q">
                                                         <rect key="frame" x="18" y="31.5" width="131" height="19.5"/>
-                                                        <color key="minimumTrackTintColor" systemColor="systemBlueColor"/>
+                                                        <color key="minimumTrackTintColor" systemColor="systemRedColor"/>
                                                         <color key="maximumTrackTintColor" red="0.60392156860000001" green="0.602715373" blue="0.602715373" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                                         <color key="thumbTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </slider>
@@ -268,7 +268,7 @@
                                                     </label>
                                                     <slider opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="hfp-OE-5Hq">
                                                         <rect key="frame" x="18" y="31" width="131" height="31"/>
-                                                        <color key="minimumTrackTintColor" systemColor="systemBlueColor"/>
+                                                        <color key="minimumTrackTintColor" systemColor="systemGreenColor"/>
                                                         <color key="maximumTrackTintColor" red="0.60392156860000001" green="0.602715373" blue="0.602715373" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
                                                         <color key="thumbTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </slider>
@@ -364,6 +364,12 @@
         </systemColor>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

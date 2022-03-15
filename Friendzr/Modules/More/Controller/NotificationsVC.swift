@@ -62,7 +62,9 @@ class NotificationsVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
+        
         Defaults.notificationcount = 0
+        NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
     }
     
     //MARK:- APIs

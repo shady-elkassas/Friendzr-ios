@@ -427,37 +427,41 @@ extension EventDetailsViewController: UITableViewDataSource {
             cell.interest2Slider.value = Float(model?.interestStatistic?[1].interestcount ?? 0)
             cell.interest3Slider.value = Float(model?.interestStatistic?[2].interestcount ?? 0)
 
-            if (model?.interestStatistic?[0].interestcount ?? 0) == 0 {
-                cell.interest1Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-            }else if (model?.interestStatistic?[0].interestcount ?? 0) == 100 {
-                cell.interest1Slider.maximumTrackTintColor = .blue
-            }else {
-                cell.interest1Slider.minimumTrackTintColor = .blue
-                cell.interest1Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-            }
-            
-            if (model?.interestStatistic?[1].interestcount ?? 0) == 0 {
-                cell.interest2Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-            }
-            else if (model?.interestStatistic?[1].interestcount ?? 0) == 100 {
-                cell.interest2Slider.maximumTrackTintColor = .red
-            }
-            else {
-                cell.interest2Slider.minimumTrackTintColor = .red
-                cell.interest2Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-
-            }
-            
-            if (model?.interestStatistic?[2].interestcount ?? 0) == 0 {
-                cell.interest3Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-            }
-            else if (model?.interestStatistic?[2].interestcount ?? 0) == 100 {
-                cell.interest3Slider.maximumTrackTintColor = .green
-            }
-            else {
-                cell.interest3Slider.minimumTrackTintColor = .green
-                cell.interest3Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-
+            DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    if (model?.interestStatistic?[0].interestcount ?? 0) == 0 {
+                        cell.interest1Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    }else if (model?.interestStatistic?[0].interestcount ?? 0) == 100 {
+                        cell.interest1Slider.maximumTrackTintColor = .blue
+                    }else {
+                        cell.interest1Slider.minimumTrackTintColor = .blue
+                        cell.interest1Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    if (model?.interestStatistic?[1].interestcount ?? 0) == 0 {
+                        cell.interest2Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    }else if (model?.interestStatistic?[1].interestcount ?? 0) == 100 {
+                        cell.interest2Slider.maximumTrackTintColor = .red
+                    }else {
+                        cell.interest2Slider.minimumTrackTintColor = .red
+                        cell.interest2Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    }
+                }
+                DispatchQueue.main.async {
+                    if (model?.interestStatistic?[2].interestcount ?? 0) == 0 {
+                        cell.interest3Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    }
+                    else if (model?.interestStatistic?[2].interestcount ?? 0) == 100 {
+                        cell.interest3Slider.maximumTrackTintColor = .green
+                    }
+                    else {
+                        cell.interest3Slider.minimumTrackTintColor = .green
+                        cell.interest3Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                        
+                    }
+                }
             }
             
             for itm in model?.genderStatistic ?? [] {

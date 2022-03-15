@@ -18,7 +18,8 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     
     var settingVM:SettingsViewModel = SettingsViewModel()
     var profileVM: ProfileViewModel = ProfileViewModel()
-    
+    var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
+
     var locationManager: CLLocationManager!
     var locationLat = 0.0
     var locationLng = 0.0
@@ -47,6 +48,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         view.layer.addSublayer(gradient)
         view.addSubview(imageView)
         
+        initProfileBarButton()
         DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.7) {
             self.setupAnimation()
         }
@@ -186,22 +188,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel".localizedString, comment: ""), style: .cancel, handler: {_ in
-//            if Defaults.token != "" {
-////                self.settingVM.toggleAllowMyLocation(allowMyLocation: false) { error, data in
-////                    if let error = error {
-////                        DispatchQueue.main.async {
-////                            self.view.makeToast(error)
-////                        }
-////                        return
-////                    }
-////
-////                    guard let data = data else {
-////                        return
-////                    }
-////
-////                    Defaults.allowMyLocation = data.allowmylocation ?? false
-////                }
-//            }
         })
         let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString.localizedString, comment: ""), style: .default) { (UIAlertAction) in
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
