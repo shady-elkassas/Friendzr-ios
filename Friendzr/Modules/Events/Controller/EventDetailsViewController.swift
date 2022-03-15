@@ -362,8 +362,15 @@ extension EventDetailsViewController: UITableViewDataSource {
                         DispatchQueue.main.async {
                             cell.leaveBtn.isUserInteractionEnabled = true
                         }
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+                        }
                         
-                        NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+                        DispatchQueue.main.async {
+                            if self.selectedVC {
+                                Router().toHome()
+                            }
+                        }
                     }
                 }else {
                     return

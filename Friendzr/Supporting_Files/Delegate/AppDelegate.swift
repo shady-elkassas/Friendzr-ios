@@ -633,7 +633,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             }else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
-        }       
+        }
         if action == "Friend_Request" || action == "Accept_Friend_Request" || action == "Friend_request_cancelled" {
             if Defaults.availableVC == "RequestVC" {
                 NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)

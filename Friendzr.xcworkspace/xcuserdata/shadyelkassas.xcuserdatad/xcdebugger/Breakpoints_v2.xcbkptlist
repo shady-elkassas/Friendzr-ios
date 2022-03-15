@@ -238,8 +238,8 @@
             filePath = "Friendzr/Modules/Main/Extensions + ConversationVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1315"
-            endingLineNumber = "1315"
+            startingLineNumber = "1320"
+            endingLineNumber = "1320"
             landmarkName = "handleLinkPreviewOptionsTapped(ById:IsInEvent:)"
             landmarkType = "7">
          </BreakpointContent>
