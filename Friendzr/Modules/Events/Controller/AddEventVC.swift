@@ -48,7 +48,7 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var bottomFriendsViewLayoutConstaint: NSLayoutConstraint!
     @IBOutlet weak var eventTypesView: UIView!
     @IBOutlet weak var eventTypesTV: UITableView!
-//    @IBOutlet weak var saveEventTypeBtn: UIButton!
+    //    @IBOutlet weak var saveEventTypeBtn: UIButton!
     
     
     //MARK: - Properties
@@ -56,7 +56,7 @@ class AddEventVC: UIViewController {
     lazy var timeAlertView = Bundle.main.loadNibNamed("EventTimeCalenderView", owner: self, options: nil)?.first as? EventTimeCalenderView
     
     private var layout: UICollectionViewFlowLayout!
-
+    
     var dayname = ""
     var monthname = ""
     var nday = ""
@@ -76,17 +76,18 @@ class AddEventVC: UIViewController {
     var viewmodel:AddEventViewModel = AddEventViewModel()
     var locationLat:Double = 0.0
     var locationLng:Double = 0.0
-
+    
     let cellId = "CategoryCollectionViewCell"
     let eventTypeCellId = "ProblemTableViewCell"
     var catsVM:AllCategoriesViewModel = AllCategoriesViewModel()
     var catID = ""
     var catselectedID:String = ""
     var catSelectedName:String = ""
-
+    var listFriendsIDs:[String] = [String]()
+    
     var eventTypeID = ""
     var eventTypeName = ""
-
+    
     var internetConect:Bool = false
     
     private let formatterDate: DateFormatter = {
@@ -123,11 +124,11 @@ class AddEventVC: UIViewController {
         super.viewWillAppear(animated)
         Defaults.availableVC = "AddEventVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
@@ -199,18 +200,19 @@ class AddEventVC: UIViewController {
         categoriesSuperView.isHidden = false
         eventTypesView.isHidden = false
     }
-
+    
     @IBAction func selectFriendsBtn(_ sender: Any) {
-        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SelectFriendsNC") as? UINavigationController, let _ = controller.viewControllers.first as? SelectFriendsVC {
+        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SelectFriendsNC") as? UINavigationController, let vc = controller.viewControllers.first as? SelectFriendsVC {
+            vc.onListFriendsCallBackResponse = self.onListFriendsCallBack
             self.present(controller, animated: true)
         }
     }
     
-//    @IBAction func saveEventTypeBtn(_ sender: Any) {
-//        eventTypeLbl.text = eventTypeName
-//        categoriesSuperView.isHidden = true
-//        eventTypesView.isHidden = true
-//    }
+    //    @IBAction func saveEventTypeBtn(_ sender: Any) {
+    //        eventTypeLbl.text = eventTypeName
+    //        categoriesSuperView.isHidden = true
+    //        eventTypesView.isHidden = true
+    //    }
     
     @IBAction func saveCategoryBtn(_ sender: Any) {
         categoryLbl.text = catSelectedName
@@ -259,7 +261,7 @@ class AddEventVC: UIViewController {
             self.maximumDate = (self.dateAlertView?.calenderView.calendar.date(byAdding: comps2, to: self.minimumDate))!
             
             print(formatter2.string(from: self.minimumDate),formatter2.string(from: self.maximumDate))
-
+            
             UIView.animate(withDuration: 0.3, animations: {
                 self.dateAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
                 self.dateAlertView?.alpha = 0
@@ -332,9 +334,9 @@ class AddEventVC: UIViewController {
         
         var comps2:DateComponents = DateComponents()
         comps2.day = -1
-
+        
         self.timeAlertView?.timeView.minimumDate = self.timeAlertView?.timeView.calendar.date(from: comps2)
-
+        
         timeAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
             formatter.dateFormat = "HH:mm"
@@ -374,9 +376,9 @@ class AddEventVC: UIViewController {
         
         var comps2:DateComponents = DateComponents()
         comps2.day = -1
-
+        
         self.timeAlertView?.timeView.minimumDate = self.timeAlertView?.timeView.calendar.date(from: comps2)
-
+        
         timeAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
             formatter.dateFormat = "HH:mm"
@@ -422,10 +424,15 @@ class AddEventVC: UIViewController {
                 DispatchQueue.main.async {
                     self.view.makeToast("Please add image to the event".localizedString)
                 }
-            }else {
+            }else if eventTypeName == "Private" && listFriendsIDs.count == 0{
+                DispatchQueue.main.async {
+                    self.view.makeToast("This is the event private, please select friends for it".localizedString)
+                }
+            }
+            else {
                 self.saveBtn.setTitle("Saving...", for: .normal)
                 self.saveBtn.isUserInteractionEnabled = false
-                viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
+                viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime,eventtype:eventTypeName,listOfUserIDs:listFriendsIDs, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
                     
                     DispatchQueue.main.async {
                         self.saveBtn.isUserInteractionEnabled = true
@@ -472,7 +479,7 @@ class AddEventVC: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-
+    
     func updateUserInterfaceBtns() {
         appDelegate.networkReachability()
         
@@ -503,11 +510,11 @@ class AddEventVC: UIViewController {
         limitUsersView.cornerRadiusView(radius: 5)
         descriptionTxtView.cornerRadiusView(radius: 5)
         saveCategoryBtn.cornerRadiusView(radius: 8)
-//        saveEventTypeBtn.cornerRadiusView(radius: 6)
-
+        //        saveEventTypeBtn.cornerRadiusView(radius: 6)
+        
         categoriesView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
         eventTypesView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
-
+        
         descriptionTxtView.delegate = self
         
         let formatter = DateFormatter()
@@ -522,6 +529,12 @@ class AddEventVC: UIViewController {
         
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         eventTypesTV.register(UINib(nibName: eventTypeCellId, bundle: nil), forCellReuseIdentifier: eventTypeCellId)
+    }
+    
+    func onListFriendsCallBack(_ listIDs: [String],_ listNames: [String]) -> () {
+        print("\(listIDs)")
+        print("\(listNames)")
+        listFriendsIDs = listIDs
     }
 }
 
@@ -711,8 +724,6 @@ extension AddEventVC :UITableViewDataSource {
         }
         return cell
     }
-    
-    
 }
 
 extension AddEventVC:UITableViewDelegate {
@@ -723,7 +734,7 @@ extension AddEventVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             eventTypeLbl.text = "Friendzr Event"
-            eventTypeName = "Friendzr Event"
+            eventTypeName = "Friendzr"
             selectFriendsView.isHidden = true
             topFriendsViewLayoutConstraint.constant = 0
             bottomFriendsViewLayoutConstaint.constant = 0
@@ -731,7 +742,7 @@ extension AddEventVC:UITableViewDelegate {
             selectFriendsTopView.isHidden = true
         }else {
             eventTypeLbl.text = "Private Event"
-            eventTypeName = "Private Event"
+            eventTypeName = "Private"
             selectFriendsView.isHidden = false
             topFriendsViewLayoutConstraint.constant = 10
             bottomFriendsViewLayoutConstaint.constant = 10

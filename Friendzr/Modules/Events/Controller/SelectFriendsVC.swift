@@ -32,6 +32,8 @@ class SelectFriendsVC: UIViewController {
     var selectedNames = [String]()
     var selectedFriends:[UserConversationModel] = [UserConversationModel]()
 
+    var onListFriendsCallBackResponse: ((_ listIDs: [String],_ listNames: [String]) -> ())?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -225,6 +227,13 @@ class SelectFriendsVC: UIViewController {
                 let index = IndexPath(row: row, section: 0 )
                 tableView.selectRow(at: index, animated: false, scrollPosition: .none)
             }
+            
+            selectedIDs.removeAll()
+            selectedNames.removeAll()
+            for itm in viewmodel.friends.value?.data ?? [] {
+                selectedIDs.append(itm.userId)
+                selectedNames.append(itm.userName)
+            }
         }else {
             selectImg.image = UIImage(named: "unSelected_ic")
             let totalRows = tableView.numberOfRows(inSection: 0)
@@ -232,11 +241,15 @@ class SelectFriendsVC: UIViewController {
                 let index = IndexPath(row: row, section: 0 )
                 tableView.deselectRow(at: index, animated: false)
             }
+            
+            selectedIDs.removeAll()
+            selectedNames.removeAll()
         }
     }
     
     @IBAction func saveBtn(_ sender: Any) {
-        
+        self.onListFriendsCallBackResponse!(selectedIDs,selectedNames)
+        self.onDismiss()
     }
     
 }

@@ -82,6 +82,8 @@ class EditEventsVC: UIViewController {
     var eventTypeID = ""
     var eventTypeName = ""
 
+    var listFriendsIDs:[String] = [String]()
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -260,6 +262,12 @@ class EditEventsVC: UIViewController {
         eventTypesView.isHidden = true
     }
 
+    func onListFriendsCallBack(_ listIDs: [String],_ listNames: [String]) -> () {
+        print("\(listIDs)")
+        print("\(listNames)")
+        listFriendsIDs = listIDs
+    }
+    
     func onStartDateCallBack(_ dayDate: String, _ date: String,_ minimumDate:Date,_ maximumDate:Date) -> () {
         self.startDayLbl.text = dayDate
         self.startDate = date
@@ -293,7 +301,8 @@ class EditEventsVC: UIViewController {
     }
     
     @IBAction func selectEventAttendeesBtn(_ sender: Any) {
-        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SelectFriendsNC") as? UINavigationController, let _ = controller.viewControllers.first as? SelectFriendsVC {
+        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SelectFriendsNC") as? UINavigationController, let vc = controller.viewControllers.first as? SelectFriendsVC {
+            vc.onListFriendsCallBackResponse = self.onListFriendsCallBack
             self.present(controller, animated: true)
         }
     }
@@ -301,30 +310,35 @@ class EditEventsVC: UIViewController {
     @IBAction func saveBtn(_ sender: Any) {
         updateUserInterface()
         if internetConect == true {
-            self.saveBtn.setTitle("Saving...", for: .normal)
-            self.saveBtn.isUserInteractionEnabled = false
-            viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
-                
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                    }
-                    return
-                }
-                
-                guard let _ = data else {return}
-                
+            if eventTypeName == "Private" && listFriendsIDs.count == 0{
                 DispatchQueue.main.async {
-                    self.saveBtn.setTitle("Save", for: .normal)
-                    self.saveBtn.isUserInteractionEnabled = true
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                    self.onPopup()
+                    self.view.makeToast("This is the event private, please select friends for it".localizedString)
                 }
             }
-        }else {
-            return
+            else {
+                self.saveBtn.setTitle("Saving...", for: .normal)
+                self.saveBtn.isUserInteractionEnabled = false
+                viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime,eventtype:eventTypeName,listOfUserIDs:listFriendsIDs,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
+                    
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard let _ = data else {return}
+                    
+                    DispatchQueue.main.async {
+                        self.saveBtn.setTitle("Save", for: .normal)
+                        self.saveBtn.isUserInteractionEnabled = true
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        self.onPopup()
+                    }
+                }
+            }
         }
     }
     
@@ -656,15 +670,16 @@ extension EditEventsVC: UITableViewDelegate {
         if tableView == eventTypesTV {
             if indexPath.row == 0 {
                 eventTypeLbl.text = "Friendzr Event"
-                eventTypeName = "Friendzr Event"
+                eventTypeName = "Friendzr"
                 selectFriendsView.isHidden = true
                 topFriendsViewLayoutConstraint.constant = 0
                 bottomFriendsViewLayoutConstaint.constant = 0
                 selectFriendsViewHeight.constant = 0
                 selectFriendsTopView.isHidden = true
-            }else {
+            }
+            else {
                 eventTypeLbl.text = "Private Event"
-                eventTypeName = "Private Event"
+                eventTypeName = "Private"
                 selectFriendsView.isHidden = false
                 topFriendsViewLayoutConstraint.constant = 10
                 bottomFriendsViewLayoutConstaint.constant = 10
