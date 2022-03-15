@@ -159,7 +159,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     var groupId:String = ""
     var leaveGroup:Int = 0
     
-    var titleID:String? = ""
+//    var titleID:String? = ""
     
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -951,7 +951,7 @@ extension ConversationVC {
             actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
                     if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = self.titleID ?? ""
+                        vc.eventId = self.eventChatID
                         vc.isEventAdmin = self.isEventAdmin
                         vc.selectedVC = true
                         self.present(controller, animated: true)
@@ -1050,7 +1050,7 @@ extension ConversationVC {
             actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
                     if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = self.titleID ?? ""
+                        vc.eventId = self.eventChatID ?? ""
                         vc.isEventAdmin = self.isEventAdmin
                         vc.selectedVC = true
                         self.present(controller, animated: true)
@@ -1296,9 +1296,7 @@ extension ConversationVC {
             let newX = widthDiff / 2
             imageUser.frame.origin.x = newX
         }
-        
-        self.titleID = titleId
-        
+                
         let btn = UIButton(frame: titleView.frame)
         if isEvent == true {
             btn.addTarget(self, action: #selector(goToEventDetailsVC), for: .touchUpInside)
@@ -1328,7 +1326,7 @@ extension ConversationVC {
     
     @objc func goToUserProfileVC() {
         if let controller = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileNC") as? UINavigationController, let vc = controller.viewControllers.first as? FriendProfileViewController {
-            vc.userID = self.titleID ?? ""
+            vc.userID = self.chatuserID
             vc.selectedVC = true
             self.present(controller, animated: true)
         }
@@ -1336,7 +1334,7 @@ extension ConversationVC {
     
     @objc func goToEventDetailsVC() {
         if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-            vc.eventId = self.titleID ?? ""
+            vc.eventId = self.eventChatID
             vc.isEventAdmin = self.isEventAdmin
             vc.selectedVC = true
             self.present(controller, animated: true)

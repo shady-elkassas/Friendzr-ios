@@ -110,7 +110,7 @@ extension ConversationVC: MessageCellDelegate {
             }
         }else {
             if let controller = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileNC") as? UINavigationController, let vc = controller.viewControllers.first as? FriendProfileViewController {
-                vc.userID = self.titleID ?? ""
+                vc.userID = self.chatuserID
                 vc.selectedVC = true
                 self.present(controller, animated: true)
             }

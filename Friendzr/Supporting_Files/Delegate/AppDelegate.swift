@@ -339,16 +339,16 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             
             let userInfo = response.notification.request.content.userInfo
             
-            let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
-            let title = apsAlert?["title"] as? String
-            let body = apsAlert?["body"] as? String
+//            let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
+//            let title = apsAlert?["title"] as? String
+//            let body = apsAlert?["body"] as? String
             let action = userInfo["Action"] as? String //action transaction
             let actionId = userInfo["Action_code"] as? String //userid
             let chatTitle = userInfo["name"] as? String
             let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
             let imageNotifications = chatTitleImage?["image"] as? String
             let isEventAdmin = userInfo["isAdmin"] as? String
-            let messageType = userInfo["Messagetype"] as? Int
+//            let messageType = userInfo["Messagetype"] as? Int
             
             self.content.sound = UNNotificationSound.default
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
@@ -373,17 +373,82 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             }
             else if action == "event_chat"{
                 if isEventAdmin == "False" {
-                    Router().toConversationVC(isEvent: true, eventChatID: actionId ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: imageNotifications ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: false)
+                    if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
+                       let tabBarController = rootViewController as? UITabBarController,
+                       let navController = tabBarController.selectedViewController as? UINavigationController {
+                        vc.isEvent = true
+                        vc.eventChatID = actionId ?? ""
+                        vc.chatuserID = ""
+                        vc.leavevent = 0
+                        vc.leaveGroup =  0
+                        vc.isFriend = false
+                        vc.titleChatImage = imageNotifications ?? ""
+                        vc.titleChatName = chatTitle ?? ""
+                        vc.isChatGroupAdmin = false
+                        vc.isChatGroup = false
+                        vc.groupId = ""
+                        vc.isEventAdmin = false
+                        navController.pushViewController(vc, animated: true)
+                    }
                 }else {
-                    Router().toConversationVC(isEvent: true, eventChatID: actionId ?? "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: imageNotifications ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: true)
+                    if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
+                       let tabBarController = rootViewController as? UITabBarController,
+                       let navController = tabBarController.selectedViewController as? UINavigationController {
+                        vc.isEvent = true
+                        vc.eventChatID = actionId ?? ""
+                        vc.chatuserID = ""
+                        vc.leavevent = 0
+                        vc.leaveGroup =  0
+                        vc.isFriend = false
+                        vc.titleChatImage = imageNotifications ?? ""
+                        vc.titleChatName = chatTitle ?? ""
+                        vc.isChatGroupAdmin = false
+                        vc.isChatGroup = false
+                        vc.groupId = ""
+                        vc.isEventAdmin = true
+                        navController.pushViewController(vc, animated: true)
+                    }
                 }
             }
             else if action == "user_chat"{
-                Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: actionId ?? "", isFriend: true, titleChatImage: imageNotifications ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1, isEventAdmin: false)
+                if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.isEvent = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = actionId ?? ""
+                    vc.leavevent = 0
+                    vc.leaveGroup =  0
+                    vc.isFriend = true
+                    vc.titleChatImage = imageNotifications ?? ""
+                    vc.titleChatName = chatTitle ?? ""
+                    vc.isChatGroupAdmin = false
+                    vc.isChatGroup = false
+                    vc.groupId = ""
+                    vc.isEventAdmin = false
+                    navController.pushViewController(vc, animated: true)
+                }
             }
             else if action == "user_chatGroup" {
-                Router().toConversationVC(isEvent: false, eventChatID: "", leavevent: 0, chatuserID: "", isFriend: false, titleChatImage: imageNotifications ?? "", titleChatName: chatTitle ?? "", isChatGroupAdmin: true, isChatGroup: true, groupId: actionId ?? "", leaveGroup: 0, isEventAdmin: false)
+                if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.isEvent = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = ""
+                    vc.leavevent = 1
+                    vc.leaveGroup =  0
+                    vc.isFriend = false
+                    vc.titleChatImage = imageNotifications ?? ""
+                    vc.titleChatName = chatTitle ?? ""
+                    vc.isChatGroupAdmin = true
+                    vc.isChatGroup = true
+                    vc.groupId = actionId ?? ""
+                    vc.isEventAdmin = false
+                    navController.pushViewController(vc, animated: true)
+                }
             }
+            
             else if action == "Joined_ChatGroup" {
                 Router().toHome()
             }
@@ -568,9 +633,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             }else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
-        }
-        
-       
+        }       
         if action == "Friend_Request" || action == "Accept_Friend_Request" || action == "Friend_request_cancelled" {
             if Defaults.availableVC == "RequestVC" {
                 NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
