@@ -219,7 +219,8 @@ class EditEventsVC: UIViewController {
             timesview.isHidden = false
             startTimeBtn.isHidden = false
             endTimeBtn.isHidden = false
-        }else {
+        }
+        else {
             switchAllDays.isOn = true
             timesview.isHidden = true
             startTimeBtn.isHidden = true
@@ -254,6 +255,31 @@ class EditEventsVC: UIViewController {
             attendeesViewHeight.constant = CGFloat(160)
         }else {
             attendeesViewHeight.constant = CGFloat(220)
+        }
+        
+        eventTypeLbl.text = eventModel?.eventtype
+        
+        if eventModel?.eventtype == "Friendzr" {
+            eventTypeName = "Friendzr"
+            selectFriendsView.isHidden = true
+            topFriendsViewLayoutConstraint.constant = 0
+            bottomFriendsViewLayoutConstaint.constant = 0
+            selectFriendsViewHeight.constant = 0
+            selectFriendsTopView.isHidden = true
+        }else if eventModel?.eventtype == "Private" {
+            eventTypeName = "Private"
+            selectFriendsView.isHidden = false
+            topFriendsViewLayoutConstraint.constant = 10
+            bottomFriendsViewLayoutConstaint.constant = 10
+            selectFriendsViewHeight.constant = 40
+            selectFriendsTopView.isHidden = false
+        }else {
+            eventTypeName = "Friendzr"
+            selectFriendsView.isHidden = true
+            topFriendsViewLayoutConstraint.constant = 0
+            bottomFriendsViewLayoutConstaint.constant = 0
+            selectFriendsViewHeight.constant = 0
+            selectFriendsTopView.isHidden = true
         }
     }
     
@@ -324,6 +350,12 @@ class EditEventsVC: UIViewController {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)
                         }
+                        
+                        DispatchQueue.main.async {
+                            self.saveBtn.setTitle("Save", for: .normal)
+                            self.saveBtn.isUserInteractionEnabled = true
+                        }
+                        
                         return
                     }
                     

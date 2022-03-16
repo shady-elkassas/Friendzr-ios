@@ -94,7 +94,6 @@ class EventDetailsViewController: UIViewController {
         super.viewWillAppear(animated)
         Defaults.availableVC = "EventDetailsViewController"
         print("availableVC >> \(Defaults.availableVC)")
-        self.title = "Friendzr Event"
         
         DispatchQueue.main.async {
             self.updateUserInterface()
@@ -185,6 +184,10 @@ class EventDetailsViewController: UIViewController {
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
+                
+                DispatchQueue.main.async {
+                    self.title = "\(value.eventtype) Event"
+                }
             }
         }
         
@@ -209,6 +212,10 @@ class EventDetailsViewController: UIViewController {
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
+                
+                DispatchQueue.main.async {
+                    self.title = "\(value.eventtype) Event"
+                }
                 
                 DispatchQueue.main.async {
                     self.hideView.hideLoader()
