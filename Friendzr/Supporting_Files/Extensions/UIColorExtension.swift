@@ -90,20 +90,17 @@ extension UIImage {
     static let names: [String] = ["argentina", "bolivia", "brazil", "chile", "costa rica", "cuba", "dominican republic", "ecuador", "el salvador", "haiti", "honduras", "mexico", "nicaragua", "panama", "paraguay", "peru", "venezuela"]
 }
 
-extension Array {
-    
-    func randomItem() -> Element {
-        let index = Int(arc4random_uniform(UInt32(self.count)))
-        return self[index]
-    }
-}
 
-extension CGPoint {
-    
-//    func distance(from point: CGPoint) -> CGFloat {
-//        return hypot(point.x - x, point.y - y)
-//    }
-//
+extension UIColor {
+    func as1ptImage() -> UIImage {
+        UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
+        let ctx = UIGraphicsGetCurrentContext()!
+        self.setFill()
+        ctx.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
 }
 
 // MARK: - Gradient
@@ -151,42 +148,6 @@ extension CAGradientLayer {
         self.type = type
     }
 }
-
-//@IBDesignable
-//public class Gradient: UIView {
-//    @IBInspectable var startColor:   UIColor = .black { didSet { updateColors() }}
-//    @IBInspectable var endColor:     UIColor = .white { didSet { updateColors() }}
-//    @IBInspectable var startLocation: Double =   0.05 { didSet { updateLocations() }}
-//    @IBInspectable var endLocation:   Double =   0.95 { didSet { updateLocations() }}
-//    @IBInspectable var horizontalMode:  Bool =  false { didSet { updatePoints() }}
-//    @IBInspectable var diagonalMode:    Bool =  false { didSet { updatePoints() }}
-//
-//    override public class var layerClass: AnyClass { CAGradientLayer.self }
-//
-//    var gradientLayer: CAGradientLayer { layer as! CAGradientLayer }
-//
-//    func updatePoints() {
-//        if horizontalMode {
-//            gradientLayer.startPoint = diagonalMode ? .init(x: 1, y: 0) : .init(x: 0, y: 0.5)
-//            gradientLayer.endPoint   = diagonalMode ? .init(x: 0, y: 1) : .init(x: 1, y: 0.5)
-//        } else {
-//            gradientLayer.startPoint = diagonalMode ? .init(x: 0, y: 0) : .init(x: 0.5, y: 0)
-//            gradientLayer.endPoint   = diagonalMode ? .init(x: 1, y: 1) : .init(x: 0.5, y: 1)
-//        }
-//    }
-//    func updateLocations() {
-//        gradientLayer.locations = [startLocation as NSNumber, endLocation as NSNumber]
-//    }
-//    func updateColors() {
-//        gradientLayer.colors = [startColor.cgColor, endColor.cgColor]
-//    }
-//    override public func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-//        super.traitCollectionDidChange(previousTraitCollection)
-//        updatePoints()
-//        updateLocations()
-//        updateColors()
-//    }
-//}
 
 @IBDesignable class GradientView: UIView {
     @IBInspectable var firstColor: UIColor = UIColor.clear
@@ -328,3 +289,13 @@ extension CAGradientLayer {
         #endif
     }
 }
+
+// MARK: - Array
+extension Array {
+    
+    func randomItem() -> Element {
+        let index = Int(arc4random_uniform(UInt32(self.count)))
+        return self[index]
+    }
+}
+

@@ -170,6 +170,9 @@
 		4369F46127994FE000D5E064 /* DeepLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369F46027994FE000D5E064 /* DeepLinks.swift */; };
 		436DCFAE27DF689A00A4A7F7 /* SelectFriendsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DCFAD27DF689A00A4A7F7 /* SelectFriendsVC.swift */; };
 		436DCFB627E0B13D00A4A7F7 /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DCFB527E0B13D00A4A7F7 /* NavController.swift */; };
+		436DD05E27E1285F00A4A7F7 /* AllValidatConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DD05D27E1285F00A4A7F7 /* AllValidatConfigViewModel.swift */; };
+		436DD06027E1287000A4A7F7 /* AllValidatConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DD05F27E1287000A4A7F7 /* AllValidatConfigModel.swift */; };
+		436DD06427E1D15000A4A7F7 /* ConversationVC + Custom Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DD06327E1D15000A4A7F7 /* ConversationVC + Custom Views.swift */; };
 		436E945C27BD153800CB2F1E /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436E945B27BD153800CB2F1E /* CustomSwitch.swift */; };
 		436E945E27BD155100CB2F1E /* CustomThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436E945D27BD155100CB2F1E /* CustomThumbView.swift */; };
 		4371D4212733F46C003B8AFD /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4202733F46C003B8AFD /* CustomCell.swift */; };
@@ -550,6 +553,9 @@
 		4369F46027994FE000D5E064 /* DeepLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinks.swift; sourceTree = "<group>"; };
 		436DCFAD27DF689A00A4A7F7 /* SelectFriendsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectFriendsVC.swift; sourceTree = "<group>"; };
 		436DCFB527E0B13D00A4A7F7 /* NavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavController.swift; sourceTree = "<group>"; };
+		436DD05D27E1285F00A4A7F7 /* AllValidatConfigViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllValidatConfigViewModel.swift; sourceTree = "<group>"; };
+		436DD05F27E1287000A4A7F7 /* AllValidatConfigModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllValidatConfigModel.swift; sourceTree = "<group>"; };
+		436DD06327E1D15000A4A7F7 /* ConversationVC + Custom Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConversationVC + Custom Views.swift"; sourceTree = "<group>"; };
 		436E945B27BD153800CB2F1E /* CustomSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
 		436E945D27BD155100CB2F1E /* CustomThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomThumbView.swift; sourceTree = "<group>"; };
 		4371D40D273127F3003B8AFD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -626,7 +632,7 @@
 		43A332622781AE37001ADB84 /* AddNewTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewTagView.swift; sourceTree = "<group>"; };
 		43A332662781C9B2001ADB84 /* GhostModeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostModeTableViewCell.swift; sourceTree = "<group>"; };
 		43A332672781C9B2001ADB84 /* GhostModeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GhostModeTableViewCell.xib; sourceTree = "<group>"; };
-		43A3326E2782FBF9001ADB84 /* ReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportVC.swift; sourceTree = "<group>"; };
+		43A3326E2782FBF9001ADB84 /* ReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportVC.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		43ACFEBA27B3B065001CD340 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		43ACFEBD27B3B0EB001CD340 /* EventImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventImageTableViewCell.swift; sourceTree = "<group>"; };
 		43ACFEBE27B3B0EB001CD340 /* EventImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventImageTableViewCell.xib; sourceTree = "<group>"; };
@@ -827,6 +833,7 @@
 				4308EB7D26EA34FC00D71379 /* LogoutModel.swift */,
 				4326A8F426F87AD400D471E0 /* SettingsModel.swift */,
 				43375F5727130D94009EBED6 /* NotificationsModel.swift */,
+				436DD05F27E1287000A4A7F7 /* AllValidatConfigModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -839,6 +846,7 @@
 				4320A64926F20E5D003604EE /* AllBlockedViewModel.swift */,
 				4326A8F626F87AE000D471E0 /* SettingsViewModel.swift */,
 				43375F5927130D9E009EBED6 /* NotificationsViewModel.swift */,
+				436DD05D27E1285F00A4A7F7 /* AllValidatConfigViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1305,8 +1313,7 @@
 				4314853A278C42930048EC01 /* AddGroupVC.swift */,
 				433CDE2027CCD90A00A80A40 /* GroupDetailsVC.swift */,
 				4369F4522797278000D5E064 /* AddNewUsersForMyGroupVC.swift */,
-				430D426826D3BEBA00188E42 /* ConversationVC.swift */,
-				431D93E527577A3200A1F780 /* Extensions + ConversationVC.swift */,
+				436DD06527E1D68C00A4A7F7 /* ConversationVC */,
 				430D426F26D3C33B00188E42 /* AudioVC.swift */,
 				43FBA22B26D5330F005F4FBF /* SendLocationChatVC.swift */,
 				4336ACC926D6377E00C8FD33 /* ShowImageVC.swift */,
@@ -1397,6 +1404,16 @@
 				434BCE4727BCE624002DC1DA /* PreferToTableViewCell.xib */,
 			);
 			path = "Profile Cell";
+			sourceTree = "<group>";
+		};
+		436DD06527E1D68C00A4A7F7 /* ConversationVC */ = {
+			isa = PBXGroup;
+			children = (
+				430D426826D3BEBA00188E42 /* ConversationVC.swift */,
+				431D93E527577A3200A1F780 /* Extensions + ConversationVC.swift */,
+				436DD06327E1D15000A4A7F7 /* ConversationVC + Custom Views.swift */,
+			);
+			name = ConversationVC;
 			sourceTree = "<group>";
 		};
 		4371D40F27329535003B8AFD /* Modules */ = {
@@ -2124,6 +2141,7 @@
 				430A350526CA504100477A94 /* EditMyProfileVC.swift in Sources */,
 				4308EB7A26EA0FD500D71379 /* FeedModel.swift in Sources */,
 				43CFB010271C56FC000CB41E /* GenderCollectionViewCell.swift in Sources */,
+				436DD06427E1D15000A4A7F7 /* ConversationVC + Custom Views.swift in Sources */,
 				436850982745008500A62287 /* InstagramWebVC.swift in Sources */,
 				4369F4532797278000D5E064 /* AddNewUsersForMyGroupVC.swift in Sources */,
 				4320A65226F234BF003604EE /* UpdateLocationViewModel.swift in Sources */,
@@ -2164,6 +2182,7 @@
 				43D10EAB271EB6440099A995 /* SearchUserViewModel.swift in Sources */,
 				4308EB7E26EA34FC00D71379 /* LogoutModel.swift in Sources */,
 				434428E927171AE800269444 /* ExtensionDate.swift in Sources */,
+				436DD05E27E1285F00A4A7F7 /* AllValidatConfigViewModel.swift in Sources */,
 				43F473B726E61E7F001E4FAE /* InterestsViewModel.swift in Sources */,
 				4388686B27845BDC004D36B2 /* ReportViewModel.swift in Sources */,
 				4367E47027BA4C4B00FE1880 /* AboutMeTableViewCell.swift in Sources */,
@@ -2188,6 +2207,7 @@
 				4367E47527BA4D3200FE1880 /* FriendProfileViewController.swift in Sources */,
 				430A351226CA8A1200477A94 /* TermsAndConditionsVC.swift in Sources */,
 				43ACFEDB27B3BBA1001CD340 /* AdsTableViewCell.swift in Sources */,
+				436DD06027E1287000A4A7F7 /* AllValidatConfigModel.swift in Sources */,
 				4382ACA826C2843E005C1857 /* KeychainItem.swift in Sources */,
 				4382ACA426C28307005C1857 /* Router.swift in Sources */,
 				4362888126C8FEDE00B51E51 /* MapVC.swift in Sources */,

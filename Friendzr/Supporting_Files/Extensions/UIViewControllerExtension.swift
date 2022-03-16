@@ -185,7 +185,8 @@ extension UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-SemiBold", size: 14) ?? "",NSAttributedString.Key.foregroundColor: UIColor.setColor(lightColor: UIColor.color("#241332")!, darkColor: .white)]
         self.navigationController?.navigationBar.isTranslucent = true
         self.navigationController?.navigationBar.barTintColor = UIColor.setColor(lightColor: .white, darkColor: .black)
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage() , for:UIBarMetrics.default)
+        navigationController?.navigationBar.shadowImage = UIColor.FriendzrColors.primary?.as1ptImage()
+        navigationController?.navigationBar.setBackgroundImage(UIColor.white.as1ptImage(), for: .default)
         self.navigationController?.navigationBar.backgroundColor = .white
         view.backgroundColor = .white
     }

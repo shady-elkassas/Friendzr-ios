@@ -98,10 +98,6 @@ extension ConversationVC {
 class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
     
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
-    
-    @IBOutlet weak var hideView: UIView!
-    @IBOutlet var messagesViews: [UIImageView]!
-    @IBOutlet var iconsViews: [UIImageView]!
 
     // MARK: - Public properties
     var soundRecorder: AVAudioRecorder!
@@ -128,9 +124,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     var keyboardManager = KeyboardManager()
     let subviewInputBar = InputBarAccessoryView()
-    
-    //        lazy var textMessageSizeCalculator: CustomTextLayoutSizeCalculator = CustomTextLayoutSizeCalculator(layout: self.messagesCollectionView.messagesCollectionViewFlowLayout)
-    
+        
     // MARK: - Private properties
     var senderUser = UserSender(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName)
     
@@ -158,9 +152,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     var isChatGroup:Bool = false
     var groupId:String = ""
     var leaveGroup:Int = 0
-    
-//    var titleID:String? = ""
-    
+        
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -198,13 +190,15 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     
     // MARK: - Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: CustomMessagesFlowLayout())
+//        messagesCollectionView.register(CustomCell.self)
+
         configureMessageCollectionView()
-//        initBackChatButton()
-//        showDownView()
+
         setupMessages()
         initBackButton()
         configureMessageInputBar()
@@ -249,6 +243,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         CancelRequest.currentTask = true
     }
     
+    //MARK : - listen To Messages
     @objc func listenToMessages() {
         getUserChatMessages(pageNumber: 1)
         DispatchQueue.main.async {
@@ -274,7 +269,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         messageList.append(message)
         setupNavigationbar()
         
-        //         Reload last section to update header/footer labels and insert a new one
+        //Reload last section to update header/footer labels and insert a new one
         messagesCollectionView.performBatchUpdates({
             messagesCollectionView.insertSections([messageList.count - 1])
             if messageList.count >= 2 {
@@ -287,6 +282,30 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             }
         })
     }
+
+    @objc func updateMessagesChat() {
+        print("POP")
+        setupNavigationbar()
+    }
+    
+    //MARK : - setup
+    func setupMessages() {
+        if isEvent {
+            self.getEventChatMessages(pageNumber: 1)
+        }
+        else {
+            if isChatGroup {
+                self.getGroupChatMessages(pageNumber: 1)
+            }else {
+                self.getUserChatMessages(pageNumber: 1)
+            }
+        }
+    }
+    func isLastSectionVisible() -> Bool {
+        guard !messageList.isEmpty else { return false }
+        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
+        return messagesCollectionView.indexPathsForVisibleItems.contains(lastIndexPath)
+    }
     
     func reloadLastIndexInCollectionView() {
         let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
@@ -298,11 +317,82 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         messagesCollectionView.reloadDataAndKeepOffset()
     }
     
-    @objc func updateMessagesChat() {
-        print("POP")
-        setupNavigationbar()
+    func configureMessageCollectionView() {
+        messagesCollectionView.messagesDataSource = self
+        messagesCollectionView.messagesLayoutDelegate = self
+        messagesCollectionView.messagesDisplayDelegate = self
+        messagesCollectionView.messageCellDelegate = self
+        scrollsToLastItemOnKeyboardBeginsEditing = true // default false
+        maintainPositionOnKeyboardFrameChanged = true // default false
+        showMessageTimestampOnSwipeLeft = false // default false
+        messagesCollectionView.refreshControl = refreshControl
+        
+//        let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout
+//        layout?.sectionInset = UIEdgeInsets(top: 1, left: 8, bottom: 1, right: 8)
+        
+        // Hide the outgoing avatar and adjust the label alignment to line up with the messages
+//        layout?.setMessageOutgoingAvatarSize(.zero)
+//        layout?.setMessageOutgoingMessageTopLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)))
+//        layout?.setMessageOutgoingMessageBottomLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)))
+//
+//        // Set outgoing avatar to overlap with the message bubble
+//        layout?.setMessageIncomingMessageTopLabelAlignment(LabelAlignment(textAlignment: .left, textInsets: UIEdgeInsets(top: 0, left: 18, bottom: outgoingAvatarOverlap, right: 0)))
+//        layout?.setMessageIncomingAvatarSize(CGSize(width: 30, height: 30))
+//        layout?.setMessageIncomingMessagePadding(UIEdgeInsets(top: -outgoingAvatarOverlap, left: -18, bottom: outgoingAvatarOverlap, right: 18))
+//
+//        layout?.setMessageIncomingAccessoryViewSize(CGSize(width: 30, height: 30))
+//        layout?.setMessageIncomingAccessoryViewPadding(HorizontalEdgeInsets(left: 8, right: 0))
+//        layout?.setMessageIncomingAccessoryViewPosition(.messageBottom)
+//        layout?.setMessageOutgoingAccessoryViewSize(CGSize(width: 30, height: 30))
+//        layout?.setMessageOutgoingAccessoryViewPadding(HorizontalEdgeInsets(left: 0, right: 8))
+//
+//        messagesCollectionView.messagesLayoutDelegate = self
+//        messagesCollectionView.messagesDisplayDelegate = self
+
     }
     
+    func configureMessageInputBar() {
+        messageInputBar.delegate = self
+        messageInputBar.inputTextView.tintColor = UIColor.FriendzrColors.primary
+        messageInputBar.sendButton.setTitleColor(UIColor.FriendzrColors.primary, for: .normal)
+        messageInputBar.sendButton.setTitleColor(
+            UIColor.FriendzrColors.primary?.withAlphaComponent(0.3),
+            for: .highlighted
+        )
+        
+        messageInputBar.inputTextView.textColor = UIColor.setColor(lightColor: .black, darkColor: .white)
+        
+        messageInputBar.isTranslucent = true
+        messageInputBar.separatorLine.isHidden = true
+//        messageInputBar.inputTextView.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+        messageInputBar.inputTextView.backgroundColor = .clear
+        messageInputBar.inputTextView.placeholderTextColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
+        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 36)
+        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 36)
+        messageInputBar.inputTextView.layer.borderColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1).cgColor
+        messageInputBar.inputTextView.layer.borderWidth = 1.0
+        messageInputBar.inputTextView.layer.cornerRadius = 16.0
+        messageInputBar.inputTextView.layer.masksToBounds = true
+        messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+        
+        messageInputBar.inputTextView.tintColor = UIColor.FriendzrColors.primary!
+        messageInputBar.sendButton.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
+        messageInputBar.sendButton.setTitleColor(
+            UIColor.FriendzrColors.primary!.withAlphaComponent(0.3),
+            for: .highlighted)
+        
+        configureInputBarItems()
+    }
+    
+    func configureInputBarPadding() {
+        // Entire InputBar padding
+        messageInputBar.padding.bottom = 8
+        // or MiddleContentView padding
+        messageInputBar.middleContentViewPadding.right = -38
+        // or InputTextView padding
+        messageInputBar.inputTextView.textContainerInset.bottom = 8
+    }
+
     func showDownView() {
         if isEvent {
             if leavevent == 0 {
@@ -332,50 +422,32 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             }
         }
     }
-    
-    func configureMessageCollectionView() {
-        messagesCollectionView.messagesDataSource = self
-        messagesCollectionView.messagesLayoutDelegate = self
-        messagesCollectionView.messagesDisplayDelegate = self
-        messagesCollectionView.messageCellDelegate = self
-        scrollsToLastItemOnKeyboardBeginsEditing = true // default false
-        maintainPositionOnKeyboardFrameChanged = true // default false
-        showMessageTimestampOnSwipeLeft = false // default false
-        messagesCollectionView.refreshControl = refreshControl
+
+    //MARK : - Load More Messages
+    @objc func loadMoreMessages() {
+        isRefreshNewMessages = true
+        print("current page == \(self.currentPage)")
+        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
+            
+            self.currentPage += 1
+            
+            if self.isEvent {
+                self.getEventChatMessages(pageNumber: self.currentPage)
+            }
+            else {
+                if self.isChatGroup {
+                    self.getGroupChatMessages(pageNumber: self.currentPage)
+                }else {
+                    self.getUserChatMessages(pageNumber: self.currentPage)
+                }
+            }
+            
+        }
     }
     
-    func configureMessageInputBar() {
-        messageInputBar.delegate = self
-        messageInputBar.inputTextView.tintColor = UIColor.FriendzrColors.primary
-        messageInputBar.sendButton.setTitleColor(UIColor.FriendzrColors.primary, for: .normal)
-        messageInputBar.sendButton.setTitleColor(
-            UIColor.FriendzrColors.primary?.withAlphaComponent(0.3),
-            for: .highlighted
-        )
-        
-        messageInputBar.inputTextView.textColor = UIColor.setColor(lightColor: .black, darkColor: .white)
-        
-        messageInputBar.isTranslucent = true
-        messageInputBar.separatorLine.isHidden = true
-        messageInputBar.inputTextView.backgroundColor = .clear
-        messageInputBar.inputTextView.placeholderTextColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
-        messageInputBar.inputTextView.textContainerInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 36)
-        messageInputBar.inputTextView.placeholderLabelInsets = UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 36)
-        messageInputBar.inputTextView.layer.borderColor = UIColor(red: 200/255, green: 200/255, blue: 200/255, alpha: 1).cgColor
-        messageInputBar.inputTextView.layer.borderWidth = 1.0
-        messageInputBar.inputTextView.layer.cornerRadius = 16.0
-        messageInputBar.inputTextView.layer.masksToBounds = true
-        messageInputBar.inputTextView.scrollIndicatorInsets = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
-        configureInputBarItems()
-    }
-    
-    func configureInputBarPadding() {
-        // Entire InputBar padding
-        messageInputBar.padding.bottom = 8
-        // or MiddleContentView padding
-        messageInputBar.middleContentViewPadding.right = -38
-        // or InputTextView padding
-        messageInputBar.inputTextView.textContainerInset.bottom = 8
+    //MARK : - Help
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
@@ -389,28 +461,28 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
         }
     }
-    
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-    
-    func setupMessages() {
-        if isEvent {
-            self.getEventChatMessages(pageNumber: 1)
-        }
-        else {
-            if isChatGroup {
-                self.getGroupChatMessages(pageNumber: 1)
-            }else {
-                self.getUserChatMessages(pageNumber: 1)
-            }
+
+    func HandleinvalidUrl() {
+        DispatchQueue.main.async {
+            self.view.makeToast("Please try again later".localizedString)
         }
     }
     
-    func isLastSectionVisible() -> Bool {
-        guard !messageList.isEmpty else { return false }
-        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
-        return messagesCollectionView.indexPathsForVisibleItems.contains(lastIndexPath)
+    func HandleInternetConnection() {
+        DispatchQueue.main.async {
+            self.view.makeToast("Network is unavailable, please try again!".localizedString)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                Router().toHome()
+            })
+        }
+    }
+
+    func getDate(dateStr:String,timeStr:String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.timeZone = TimeZone.autoupdatingCurrent
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        return dateFormatter.date(from: "\(dateStr)T\(timeStr):00+0000") // replace Date String
     }
     
     func onLocationCallBack(_ lat: Double, _ lng: Double,_ title:String) -> () {
@@ -422,16 +494,11 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         
         self.messagesCollectionView.reloadData()
     }
-    
-    //MARK: - APIs
-    func getDate(dateStr:String,timeStr:String) -> Date? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        dateFormatter.timeZone = TimeZone.autoupdatingCurrent
-        dateFormatter.locale = Locale.autoupdatingCurrent
-        return dateFormatter.date(from: "\(dateStr)T\(timeStr):00+0000") // replace Date String
-    }
-    
+}
+
+
+//MARK : - APIs
+extension ConversationVC {
     func getUserChatMessages(pageNumber:Int) {
         CancelRequest.currentTask = false
         if pageNumber > viewmodel.messages.value?.totalPages ?? 1 {
@@ -765,579 +832,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                     
                 }
             }
-        }
-    }
-    
-    func HandleinvalidUrl() {
-        DispatchQueue.main.async {
-            self.view.makeToast("Please try again later".localizedString)
-        }
-    }
-    
-    func HandleInternetConnection() {
-        DispatchQueue.main.async {
-            self.view.makeToast("Network is unavailable, please try again!".localizedString)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                Router().toHome()
-            })
-        }
-    }
-    
-    @objc func loadMoreMessages() {
-        isRefreshNewMessages = true
-        print("current page == \(self.currentPage)")
-        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
-            
-            self.currentPage += 1
-            
-            if self.isEvent {
-                self.getEventChatMessages(pageNumber: self.currentPage)
-            }
-            else {
-                if self.isChatGroup {
-                    self.getGroupChatMessages(pageNumber: self.currentPage)
-                }else {
-                    self.getUserChatMessages(pageNumber: self.currentPage)
-                }
-            }
-            
-        }
-    }
-}
-
-extension ConversationVC {
-    func initBackChatButton() {
-        var imageName = ""
-        imageName = "back_icon"
-        let button = UIButton.init(type: .custom)
-        let image = UIImage.init(named: imageName)
-        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        button.setImage(image, for: .normal)
-        image?.withTintColor(UIColor.blue)
-        button.addTarget(self, action:  #selector(backToInbox), for: .touchUpInside)
-        let barButton = UIBarButtonItem(customView: button)
-        self.navigationItem.leftBarButtonItem = barButton
-    }
-    
-    @objc func backToInbox() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            Router().toHome()
-        })
-    }
-    
-    func initOptionsInChatUserButton() {
-        let imageName = "menu_H_ic"
-        let button = UIButton.init(type: .custom)
-        let image = UIImage.init(named: imageName)
-        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        button.setImage(image, for: .normal)
-        image?.withTintColor(UIColor.blue)
-        button.addTarget(self, action:  #selector(handleUserOptionsBtn), for: .touchUpInside)
-        let barButton = UIBarButtonItem(customView: button)
-        self.navigationItem.rightBarButtonItem = barButton
-    }
-    
-    func initOptionsInChatEventButton() {
-        let imageName = "menu_H_ic"
-        let button = UIButton.init(type: .custom)
-        let image = UIImage.init(named: imageName)
-        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        button.setImage(image, for: .normal)
-        image?.withTintColor(UIColor.blue)
-        button.addTarget(self, action:  #selector(handleEventOptionsBtn), for: .touchUpInside)
-        let barButton = UIBarButtonItem(customView: button)
-        self.navigationItem.rightBarButtonItem = barButton
-    }
-    
-    @objc func handleUserOptionsBtn() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Unfriend".localizedString, style: .default, handler: { action in
-                self.unFriendAccount()
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Block".localizedString, style: .default, handler: { action in
-                self.blockFriendAccount()
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                if self.isEvent == true {
-                    if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                        vc.id = self.eventChatID
-                        vc.chatimg = self.titleChatImage
-                        vc.chatname = self.titleChatName
-                        vc.reportType = 2
-                        vc.selectedVC = "Present"
-                        self.present(controller, animated: true)
-                    }
-                }else {
-                    if self.isChatGroup == true {
-                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                            vc.id = self.groupId
-                            vc.chatimg = self.titleChatImage
-                            vc.chatname = self.titleChatName
-                            vc.reportType = 1
-                            vc.selectedVC = "Present"
-                            self.present(controller, animated: true)
-                        }
-                        
-                    }else {
-                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                            vc.id = self.chatuserID
-                            vc.chatimg = self.titleChatImage
-                            vc.chatname = self.titleChatName
-                            vc.reportType = 3
-                            vc.selectedVC = "Present"
-                            self.present(controller, animated: true)
-                        }
-                        
-                    }
-                }
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionAlert, animated: true, completion: nil)
-        }else {
-            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Unfriend".localizedString, style: .default, handler: { action in
-                self.unFriendAccount()
-            }))
-            actionSheet.addAction(UIAlertAction(title: "Block".localizedString, style: .default, handler: { action in
-                self.blockFriendAccount()
-            }))
-            actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                if self.isEvent == true {
-                    if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                        vc.id = self.eventChatID
-                        vc.chatimg = self.titleChatImage
-                        vc.chatname = self.titleChatName
-                        vc.reportType = 2
-                        vc.selectedVC = "Present"
-                        self.present(controller, animated: true)
-                    }
-                    
-                }else {
-                    if self.isChatGroup == true {
-                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                            vc.id = self.groupId
-                            vc.chatimg = self.titleChatImage
-                            vc.chatname = self.titleChatName
-                            vc.reportType = 1
-                            vc.selectedVC = "Present"
-                            self.present(controller, animated: true)
-                        }
-                    }else {
-                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                            vc.id = self.chatuserID
-                            vc.chatimg = self.titleChatImage
-                            vc.chatname = self.titleChatName
-                            vc.reportType = 3
-                            vc.selectedVC = "Present"
-                            self.present(controller, animated: true)
-                        }
-                    }
-                }
-            }))
-            
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionSheet, animated: true, completion: nil)
-        }
-    }
-    
-    @objc func handleEventOptionsBtn() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                if self.isEvent == true {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = self.eventChatID
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
-                    }
-                }else {
-                    if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
-                        vc.groupId = self.groupId
-                        vc.isGroupAdmin = self.isChatGroupAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
-                    }
-                    
-                }
-            }))
-            
-            if self.isEvent {
-                if !self.isEventAdmin {
-                    actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                        if self.isEvent == true {
-                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                vc.id = self.eventChatID
-                                vc.chatimg = self.titleChatImage
-                                vc.chatname = self.titleChatName
-                                vc.reportType = 2
-                                vc.selectedVC = "Present"
-                                self.present(controller, animated: true)
-                            }
-                        }else {
-                            if self.isChatGroup == true {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.groupId
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 1
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                                
-                            }else {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.chatuserID
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 3
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                                
-                            }
-                        }
-                    }))
-                }
-            }else {
-                if !self.isChatGroupAdmin {
-                    actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                        if self.isEvent == true {
-                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                vc.id = self.eventChatID
-                                vc.chatimg = self.titleChatImage
-                                vc.chatname = self.titleChatName
-                                vc.reportType = 2
-                                vc.selectedVC = "Present"
-                                self.present(controller, animated: true)
-                            }
-                        }else {
-                            if self.isChatGroup == true {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.groupId
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 1
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                            }else {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.chatuserID
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 3
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                            }
-                        }
-                    }))
-                }
-            }
-            
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionAlert, animated: true, completion: nil)
-        }else {
-            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                if self.isEvent == true {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = self.eventChatID ?? ""
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
-                    }
-                    
-                }else {
-                    if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
-                        vc.groupId = self.groupId
-                        vc.isGroupAdmin = self.isChatGroupAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
-                    }
-                    
-                }
-            }))
-            if self.isEvent {
-                if !self.isEventAdmin {
-                    actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                        if self.isEvent == true {
-                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                vc.id = self.eventChatID
-                                vc.chatimg = self.titleChatImage
-                                vc.chatname = self.titleChatName
-                                vc.reportType = 2
-                                vc.selectedVC = "Present"
-                                self.present(controller, animated: true)
-                            }
-                        }else {
-                            if self.isChatGroup == true {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.groupId
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 1
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                            }else {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.chatuserID
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 3
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                            }
-                        }
-                    }))
-                }
-            }else {
-                if !self.isChatGroupAdmin {
-                    actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                        if self.isEvent == true {
-                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                vc.id = self.eventChatID
-                                vc.chatimg = self.titleChatImage
-                                vc.chatname = self.titleChatName
-                                vc.reportType = 2
-                                vc.selectedVC = "Present"
-                                self.present(controller, animated: true)
-                            }
-                        }else {
-                            if self.isChatGroup == true {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.groupId
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 1
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                            }else {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.chatuserID
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 3
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                            }
-                        }
-                    }))
-                }
-            }
-            
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            present(actionSheet, animated: true, completion: nil)
-        }
-    }
-    
-    func leaveEvent() {
-        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        
-        alertView?.titleLbl.text = "Confirm?".localizedString
-        alertView?.detailsLbl.text = "Are you sure you want to leave this event chat?".localizedString
-        
-        let actionDate = formatterDate.string(from: Date())
-        let actionTime = formatterTime.string(from: Date())
-        
-        alertView?.HandleConfirmBtn = {
-            self.viewmodel.LeaveChat(ByID: self.eventChatID, ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                self.hideLoading()
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                    }
-                    return
-                }
-                
-                guard let _ = data else {
-                    return
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    Router().toHome()
-                }
-            }
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.alertView?.alpha = 0
-            }) { (success: Bool) in
-                self.alertView?.removeFromSuperview()
-                self.alertView?.alpha = 1
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        self.view.addSubview((alertView)!)
-        
-    }
-    
-    func unFriendAccount() {
-        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        
-        alertView?.titleLbl.text = "Confirm?".localizedString
-        alertView?.detailsLbl.text = "Are you sure you want to unfriend this account?".localizedString
-        
-        let actionDate = formatterUnfriendDate.string(from: Date())
-        let actionTime = formatterTime.string(from: Date())
-
-        alertView?.HandleConfirmBtn = {
-            self.requestFriendVM.requestFriendStatus(withID: self.chatuserID, AndKey: 5,requestdate: "\(actionDate) \(actionTime)") { error, message in
-                self.hideLoading()
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                    }
-                    return
-                }
-                
-                guard let ـ = message else {return}
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    Router().toHome()
-                }
-            }
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.alertView?.alpha = 0
-            }) { (success: Bool) in
-                self.alertView?.removeFromSuperview()
-                self.alertView?.alpha = 1
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        self.view.addSubview((alertView)!)
-    }
-    
-    func blockFriendAccount() {
-        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        
-        let actionDate = formatterUnfriendDate.string(from: Date())
-        let actionTime = formatterTime.string(from: Date())
-
-        alertView?.titleLbl.text = "Confirm?".localizedString
-        alertView?.detailsLbl.text = "Are you sure you want to block this account?".localizedString
-        
-        alertView?.HandleConfirmBtn = {
-            self.requestFriendVM.requestFriendStatus(withID: self.chatuserID, AndKey: 3,requestdate: "\(actionDate) \(actionTime)") { error, message in
-                self.hideLoading()
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                    }
-                    return
-                }
-                
-                guard let message = message else {return}
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    Router().toHome()
-                }
-            }
-            // handling code
-            UIView.animate(withDuration: 0.3, animations: {
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.alertView?.alpha = 0
-            }) { (success: Bool) in
-                self.alertView?.removeFromSuperview()
-                self.alertView?.alpha = 1
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        self.view.addSubview((alertView)!)
-    }
-}
-
-extension ConversationVC {
-    func updateTitleView(image: String, subtitle: String?,titleId:String,isEvent:Bool) {
-        
-        let imageUser = UIImageView(frame: CGRect(x: 0, y: -5, width: 36, height: 36))
-        imageUser.backgroundColor = UIColor.clear
-        imageUser.image = UIImage(named: image)
-        imageUser.contentMode = .scaleToFill
-        imageUser.cornerRadiusForHeight()
-        imageUser.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeHolderApp"))
-        
-        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 31, width: 0, height: 0))
-        subtitleLabel.textColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
-        subtitleLabel.font = UIFont.init(name: "Montserrat-Medium", size: 10)
-        subtitleLabel.text = subtitle
-        subtitleLabel.textAlignment = .center
-        subtitleLabel.adjustsFontSizeToFitWidth = true
-        subtitleLabel.sizeToFit()
-        
-        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(imageUser.frame.size.width, subtitleLabel.frame.size.width), height: 45))
-        titleView.addSubview(imageUser)
-        if subtitle != nil {
-            titleView.addSubview(subtitleLabel)
-        } else {
-            imageUser.frame = titleView.frame
-        }
-        let widthDiff = subtitleLabel.frame.size.width - imageUser.frame.size.width
-        if widthDiff < 0 {
-            let newX = widthDiff / 2
-            subtitleLabel.frame.origin.x = abs(newX)
-        } else {
-            let newX = widthDiff / 2
-            imageUser.frame.origin.x = newX
-        }
-                
-        let btn = UIButton(frame: titleView.frame)
-        if isEvent == true {
-            btn.addTarget(self, action: #selector(goToEventDetailsVC), for: .touchUpInside)
-        }else {
-            if isChatGroup {
-                if self.leaveGroup == 0 {
-                    btn.addTarget(self, action: #selector(goToGroupVC), for: .touchUpInside)
-                }
-            }else {
-                btn.addTarget(self, action: #selector(goToUserProfileVC), for: .touchUpInside)
-            }
-        }
-        
-        titleView.addSubview(btn)
-        
-        navigationItem.titleView = titleView
-    }
-    
-    @objc func goToGroupVC() {
-        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
-            vc.groupId = self.groupId
-            vc.isGroupAdmin = self.isChatGroupAdmin
-            vc.selectedVC = true
-            self.present(controller, animated: true)
-        }
-    }
-    
-    @objc func goToUserProfileVC() {
-        if let controller = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileNC") as? UINavigationController, let vc = controller.viewControllers.first as? FriendProfileViewController {
-            vc.userID = self.chatuserID
-            vc.selectedVC = true
-            self.present(controller, animated: true)
-        }
-    }
-    
-    @objc func goToEventDetailsVC() {
-        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-            vc.eventId = self.eventChatID
-            vc.isEventAdmin = self.isEventAdmin
-            vc.selectedVC = true
-            self.present(controller, animated: true)
         }
     }
 }

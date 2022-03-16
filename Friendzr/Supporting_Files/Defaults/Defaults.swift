@@ -171,7 +171,7 @@ class Defaults {
             return UserDefaults.standard.string(forKey: "OtherGenderName") ?? ""
         }
     }
-
+    
     
     static var LocationLng: String {
         set{
@@ -223,16 +223,6 @@ class Defaults {
             return UserDefaults.standard.integer(forKey: "needUpdate")
         }
     }
-    
-//    static var RequestsBadge: Int {
-//        set{
-//            UserDefaults.standard.set(newValue, forKey: "RequestsBadge")
-//            UserDefaults.standard.synchronize()
-//        }
-//        get{
-//            return UserDefaults.standard.integer(forKey: "RequestsBadge")
-//        }
-//    }
     
     static var facebook: String {
         set{
@@ -341,16 +331,6 @@ class Defaults {
             return UserDefaults.standard.bool(forKey: "ghostModeEveryOne")
         }
     }
-    
-//    static var applicationState: String {
-//        set{
-//            UserDefaults.standard.set(newValue, forKey: "applicationState")
-//            UserDefaults.standard.synchronize()
-//        }
-//        get{
-//            return UserDefaults.standard.string(forKey: "applicationState") ?? ""
-//        }
-//    }
     
     static var ghostMode: Bool {
         set{
@@ -480,7 +460,7 @@ class Defaults {
         defaults.removeObject(forKey: "fcmToken")
         defaults.removeObject(forKey: "pushnotification")
         defaults.removeObject(forKey: "notificationcount")
-
+        
         if let token = AccessToken.current,
            !token.isExpired {
             // User is logged in, do work such as go to next view controller.
@@ -491,4 +471,372 @@ class Defaults {
         defaults.synchronize()
     }
     
+}
+
+//AllValidatConfigObj
+extension Defaults {
+    
+    static var userName_MaxLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "userName_MaxLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "userName_MaxLength")
+        }
+    }
+    static var userName_MinLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "userName_MinLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "userName_MinLength")
+        }
+    }
+    static var userIAM_MaxLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "userIAM_MaxLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "userIAM_MaxLength")
+        }
+    }
+    static var userIAM_MinLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "userIAM_MinLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "userIAM_MinLength")
+        }
+    }
+    static var userIPreferTo_MaxLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "userIPreferTo_MaxLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "userIPreferTo_MaxLength")
+        }
+    }
+    static var userIPreferTo_MinLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "userIPreferTo_MinLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "userIPreferTo_MinLength")
+        }
+    }
+    static var password_MaxLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "password_MaxLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "password_MaxLength")
+        }
+    }
+    static var password_MinLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "password_MinLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "password_MinLength")
+        }
+    }
+    static var password_MinNumbers: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "password_MinNumbers")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "password_MinNumbers")
+        }
+    }
+    static var password_MaxNumbers: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "password_MaxNumbers")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "password_MaxNumbers")
+        }
+    }
+    static var password_MaxSpecialCharacters: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "password_MaxSpecialCharacters")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "password_MaxSpecialCharacters")
+        }
+    }
+    static var password_MinSpecialCharacters: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "password_MinSpecialCharacters")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "password_MinSpecialCharacters")
+        }
+    }
+    static var userMinAge: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "userMinAge")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "userMinAge")
+        }
+    }
+    static var userMaxAge: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "userMaxAge")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "userMaxAge")
+        }
+    }
+    static var userBio_MaxLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "userBio_MaxLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "userBio_MaxLength")
+        }
+    }
+    static var userBio_MinLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "userBio_MinLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "userBio_MinLength")
+        }
+    }
+    static var eventDetailsDescription_MinLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "eventDetailsDescription_MinLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "eventDetailsDescription_MinLength")
+        }
+    }
+    static var eventDetailsDescription_MaxLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "eventDetailsDescription_MaxLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "eventDetailsDescription_MaxLength")
+        }
+    }
+    static var eventTitle_MinLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "eventTitle_MinLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "eventTitle_MinLength")
+        }
+    }
+    static var eventTitle_MaxLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "eventTitle_MaxLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "eventTitle_MaxLength")
+        }
+    }
+    static var eventTimeValidation_MinLength: Double {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "eventTimeValidation_MinLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.double(forKey: "eventTimeValidation_MinLength")
+        }
+    }
+    static var eventTimeValidation_MaxLength: Double {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "eventTimeValidation_MaxLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.double(forKey: "eventTimeValidation_MaxLength")
+        }
+    }
+    static var eventCreationLimitNumber_MinLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "eventCreationLimitNumber_MinLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "eventCreationLimitNumber_MinLength")
+        }
+    }
+    static var eventCreationLimitNumber_MaxLength: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "eventCreationLimitNumber_MaxLength")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "eventCreationLimitNumber_MaxLength")
+        }
+    }
+    static var userTagM_MaxNumber: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "userTagM_MaxNumber")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "userTagM_MaxNumber")
+        }
+    }
+    static var userTagM_MinNumber: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "userTagM_MinNumber")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "userTagM_MinNumber")
+        }
+    }
+    static var ageFiltering_Min: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "ageFiltering_Min")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "ageFiltering_Min")
+        }
+    }
+    static var ageFiltering_Max: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "ageFiltering_Max")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "ageFiltering_Max")
+        }
+    }
+    static var distanceFiltering_Min: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "distanceFiltering_Min")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "distanceFiltering_Min")
+        }
+    }
+    static var distanceFiltering_Max: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "distanceFiltering_Max")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "distanceFiltering_Max")
+        }
+    }
+    static var distanceShowNearbyAccountsInFeed_Min: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "distanceShowNearbyAccountsInFeed_Min")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "distanceShowNearbyAccountsInFeed_Min")
+        }
+    }
+    static var distanceShowNearbyAccountsInFeed_Max: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "distanceShowNearbyAccountsInFeed_Max")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "distanceShowNearbyAccountsInFeed_Max")
+        }
+    }
+    static var distanceShowNearbyEvents_Min: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "distanceShowNearbyEvents_Min")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "distanceShowNearbyEvents_Min")
+        }
+    }
+    static var distanceShowNearbyEvents_Max: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "distanceShowNearbyEvents_Max")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "distanceShowNearbyEvents_Max")
+        }
+    }
+    static var distanceShowNearbyEventsOnMap_Min: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "distanceShowNearbyEventsOnMap_Min")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "distanceShowNearbyEventsOnMap_Min")
+        }
+    }
+    static var distanceShowNearbyEventsOnMap_Max: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "distanceShowNearbyEventsOnMap_Max")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "distanceShowNearbyEventsOnMap_Max")
+        }
+    }
+    
+    static func initValidationConfig(validate:AllValidatConfigObj) {
+        Defaults.userName_MaxLength = validate.userName_MaxLength ?? 0
+        Defaults.userName_MinLength = validate.userName_MinLength ?? 0
+        Defaults.userIAM_MaxLength = validate.userIAM_MaxLength ?? 0
+        Defaults.userIAM_MinLength = validate.userIAM_MinLength ?? 0
+        Defaults.userIPreferTo_MaxLength = validate.userIPreferTo_MaxLength ?? 0
+        Defaults.userIPreferTo_MinLength = validate.userIPreferTo_MinLength ?? 0
+        Defaults.password_MaxLength = validate.password_MaxLength ?? 0
+        Defaults.password_MinLength = validate.password_MinLength ?? 0
+        Defaults.password_MinNumbers = validate.password_MinNumbers ?? 0
+        Defaults.password_MaxNumbers = validate.password_MaxNumbers ?? 0
+        Defaults.password_MaxSpecialCharacters = validate.password_MaxSpecialCharacters ?? 0
+        Defaults.password_MinSpecialCharacters = validate.password_MinSpecialCharacters ?? 0
+        Defaults.userMinAge = validate.userMinAge ?? 0
+        Defaults.userMaxAge = validate.userMaxAge ?? 0
+        Defaults.userBio_MaxLength = validate.userBio_MaxLength ?? 0
+        Defaults.userBio_MinLength = validate.userBio_MinLength ?? 0
+        Defaults.eventDetailsDescription_MinLength = validate.eventDetailsDescription_MinLength ?? 0
+        Defaults.eventDetailsDescription_MaxLength = validate.eventDetailsDescription_MaxLength ?? 0
+        Defaults.eventTitle_MinLength = validate.eventTitle_MinLength ?? 0
+        Defaults.eventTitle_MaxLength = validate.eventTitle_MaxLength ?? 0
+        Defaults.eventTimeValidation_MinLength = validate.eventTimeValidation_MinLength ?? 0
+        Defaults.eventTimeValidation_MaxLength = validate.eventTimeValidation_MaxLength ?? 0
+        Defaults.eventCreationLimitNumber_MinLength = validate.eventCreationLimitNumber_MinLength ?? 0
+        Defaults.eventCreationLimitNumber_MaxLength = validate.eventCreationLimitNumber_MaxLength ?? 0
+        Defaults.userTagM_MaxNumber = validate.userTagM_MaxNumber ?? 0
+        Defaults.userTagM_MinNumber = validate.userTagM_MinNumber ?? 0
+        Defaults.ageFiltering_Min = validate.ageFiltering_Min ?? 0
+        Defaults.ageFiltering_Max = validate.ageFiltering_Max ?? 0
+        Defaults.distanceFiltering_Min = validate.distanceFiltering_Min ?? 0
+        Defaults.distanceFiltering_Max = validate.distanceFiltering_Max ?? 0
+        Defaults.distanceShowNearbyAccountsInFeed_Min = validate.distanceShowNearbyAccountsInFeed_Min ?? 0
+        Defaults.distanceShowNearbyAccountsInFeed_Max = validate.distanceShowNearbyAccountsInFeed_Max ?? 0
+        Defaults.distanceShowNearbyEvents_Min = validate.distanceShowNearbyEvents_Min ?? 0
+        Defaults.distanceShowNearbyEvents_Max = validate.distanceShowNearbyEvents_Max ?? 0
+        Defaults.distanceShowNearbyEventsOnMap_Min = validate.distanceShowNearbyEventsOnMap_Min ?? 0
+        Defaults.distanceShowNearbyEventsOnMap_Max = validate.distanceShowNearbyEventsOnMap_Max ?? 0
+    }
 }

@@ -17,19 +17,7 @@ import Firebase
 import FirebaseDatabase
 import FirebaseFirestore
 
-extension MessagesViewController {
-    
-    func setupNavigationbar() {
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.barTintColor = .white
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        view.backgroundColor = UIColor.white
-    }
-}
+
 
 // MARK: - MessagesDataSource
 extension ConversationVC: MessagesDataSource {
@@ -46,10 +34,25 @@ extension ConversationVC: MessagesDataSource {
         return messageList[indexPath.section]
     }
     
-//    func customCell(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UICollectionViewCell {
-//        cell.layer.shouldRasterize = true
-//        cell.layer.rasterizationScale = UIScreen.main.scale
-//        return UICollectionViewCell
+//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//
+//        guard let messagesDataSource = messagesCollectionView.messagesDataSource else {
+//            fatalError("Ouch. nil data source for messages")
+//        }
+//         
+//        // Very important to check this when overriding `cellForItemAt`
+//        // Super method will handle returning the typing indicator cell
+//        guard !isSectionReservedForTypingIndicator(indexPath.section) else {
+//            return super.collectionView(collectionView, cellForItemAt: indexPath)
+//        }
+//
+//        let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
+//        if case .custom = message.kind {
+//            let cell = messagesCollectionView.dequeueReusableCell(CustomCell.self, for: indexPath)
+//            cell.configure(with: message, at: indexPath, and: messagesCollectionView)
+//            return cell
+//        }
+//        return super.collectionView(collectionView, cellForItemAt: indexPath)
 //    }
     
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
@@ -70,9 +73,12 @@ extension ConversationVC: MessagesDataSource {
         
         let colorlbl = isFromCurrentSender(message: message) ? UIColor.clear : UIColor.darkGray
         
-        return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font:
-                                                                UIFont.init(name: "Montserrat-Medium", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2),
-                                                             NSAttributedString.Key.foregroundColor:colorlbl])
+        if !isPreviousMessageSameSender(at: indexPath) {
+            return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font:
+                                                                    UIFont.init(name: "Montserrat-Medium", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2),
+                                                                 NSAttributedString.Key.foregroundColor:colorlbl])
+        }
+        return nil
     }
     
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
@@ -82,9 +88,15 @@ extension ConversationVC: MessagesDataSource {
         if model.messageType == 4 {
             return nil
         }else {
+            if !isNextMessageSameSender(at: indexPath) && isFromCurrentSender(message: message) {
             return NSAttributedString(string: model.dateandtime, attributes: [NSAttributedString.Key.font:
                                                                                 UIFont(name: "Montserrat-Medium", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2),
                                                                               NSAttributedString.Key.foregroundColor:colorlbl])
+            }else {
+                return NSAttributedString(string: model.dateandtime, attributes: [NSAttributedString.Key.font:
+                                                                                    UIFont(name: "Montserrat-Medium", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2),
+                                                                                  NSAttributedString.Key.foregroundColor:colorlbl])
+            }
         }
     }
     
@@ -276,7 +288,6 @@ extension ConversationVC: MessageCellDelegate {
 }
 
 // MARK: - MessageLabelDelegate
-
 extension ConversationVC: MessageLabelDelegate {
     func didSelectAddress(_ addressComponents: [String: String]) {
         print("Address Selected: \(addressComponents)")
@@ -324,7 +335,6 @@ extension ConversationVC: MessageLabelDelegate {
 
 // MARK: - MessageInputBarDelegate
 extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
-    
     @objc func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         //        processInputBar(setupLeftInputButton(tapMessage: false, Recorder: "play"))
         //1==>message 2==>images 3==>file
@@ -334,9 +344,6 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
         let url:URL? = URL(string: "https://www.apple.com/eg/")
         
         self.insertMessage(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 1,linkPreviewID: "",isJoinEvent: 0))
-        
-//        self.messageList.append(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 1,linkPreviewID: "",isJoinEvent: 0))
-        
         
         DispatchQueue.main.async {
             inputBar.inputTextView.text = ""
@@ -461,12 +468,12 @@ extension ConversationVC: MessagesDisplayDelegate {
     func textColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         switch message.kind {
         case .linkPreview(_):
-            return isFromCurrentSender(message: message) ? UIColor.white : UIColor.white
+            return UIColor.white
         default:
             break
         }
         
-        return isFromCurrentSender(message: message) ? UIColor.white : UIColor.darkGray
+        return isFromCurrentSender(message: message) ? UIColor.white : UIColor.darkText
     }
     
     func detectorAttributes(for detector: DetectorType, and message: MessageType, at indexPath: IndexPath) -> [NSAttributedString.Key: Any] {
@@ -509,17 +516,36 @@ extension ConversationVC: MessagesDisplayDelegate {
     
     func messageStyle(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageStyle {
         
-        let tail: MessageStyle.TailCorner = isFromCurrentSender(message: message) ? .bottomRight : .bottomLeft
-        var borderColor:UIColor = .clear
+        var corners: UIRectCorner = []
         
-        switch message.kind {
-        case .photo(_):
-            borderColor = .gray
-        default:
-            break
+        if isFromCurrentSender(message: message) {
+            corners.formUnion(.topLeft)
+            corners.formUnion(.bottomLeft)
+            if !isPreviousMessageSameSender(at: indexPath) {
+                corners.formUnion(.topRight)
+            }
+            if !isNextMessageSameSender(at: indexPath) {
+                corners.formUnion(.bottomRight)
+            }
+        } else {
+            corners.formUnion(.topRight)
+            corners.formUnion(.bottomRight)
+            if !isPreviousMessageSameSender(at: indexPath) {
+                corners.formUnion(.topLeft)
+            }
+            
+            if !isNextMessageSameSender(at: indexPath) {
+                corners.formUnion(.bottomLeft)
+            }
         }
         
-        return .bubbleTailOutline(borderColor,tail, .curved)
+        return .custom { view in
+            let radius: CGFloat = 16
+            let path = UIBezierPath(roundedRect: view.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+            let mask = CAShapeLayer()
+            mask.path = path.cgPath
+            view.layer.mask = mask
+        }
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
@@ -528,7 +554,26 @@ extension ConversationVC: MessagesDisplayDelegate {
         
         let avatar1 = SimpleDataModel.shared.getAvatarFor(sender: message.sender, imag: model.user.photoURL)
         let avatar2 = SimpleDataModel.shared.getAvatarFor(sender: message.sender, imag: model.user.photoURL) // receive img
+        avatarView.isHidden = isNextMessageSameSender(at: indexPath)
         avatarView.set(avatar: isFromCurrentSender(message: message) ? avatar1 : avatar2)
+    }
+    
+    func configureAccessoryView(_ accessoryView: UIView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
+        // Cells are reused, so only add a button here once. For real use you would need to
+        // ensure any subviews are removed if not needed
+        accessoryView.subviews.forEach { $0.removeFromSuperview() }
+        accessoryView.backgroundColor = .clear
+
+        let shouldShow = Int.random(in: 0...10) == 0
+        guard shouldShow else { return }
+
+        let button = UIButton(type: .infoLight)
+        button.tintColor = UIColor.FriendzrColors.primary!
+        accessoryView.addSubview(button)
+        button.frame = accessoryView.bounds
+        button.isUserInteractionEnabled = false // respond to accessoryView tap through `MessageCellDelegate`
+        accessoryView.layer.cornerRadius = accessoryView.frame.height / 2
+        accessoryView.backgroundColor = UIColor.FriendzrColors.primary!.withAlphaComponent(0.3)
     }
     
     func configureMediaMessageImageView(_ imageView: UIImageView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
@@ -540,7 +585,6 @@ extension ConversationVC: MessagesDisplayDelegate {
     }
     
     // MARK: - Location Messages
-    
     func annotationViewForLocation(message: MessageType, at indexPath: IndexPath, in messageCollectionView: MessagesCollectionView) -> MKAnnotationView? {
         let annotationView = MKAnnotationView(annotation: nil, reuseIdentifier: nil)
         let pinImage = #imageLiteral(resourceName: "ic_map_marker")
@@ -564,349 +608,12 @@ extension ConversationVC: MessagesDisplayDelegate {
     }
     
     // MARK: - Audio Messages
-    
     func audioTintColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
         return isFromCurrentSender(message: message) ? .white : UIColor(red: 15/255, green: 135/255, blue: 255/255, alpha: 1.0)
     }
     
     func configureAudioCell(_ cell: AudioMessageCell, message: MessageType) {
         audioController.configureAudioCell(cell, message: message) // this is needed especially when the cell is reconfigure while is playing sound
-    }
-}
-
-
-//MARK: - Customize View
-extension ConversationVC {
-    //handle Long Press
-    @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {
-        if sender.state == .began {
-            let touchPoint = sender.location(in: self.messagesCollectionView)
-            if let indexPath = self.messagesCollectionView.indexPathForItem(at: touchPoint) {
-                // your code here, get the row for the indexPath or do whatever you want
-                presentActionSheetForLongPress(indexPath: indexPath.section)
-            }
-        }
-    }
-    
-    //setup buttons for chat
-    func configureInputBarItems() {
-        messageInputBar.setRightStackViewWidthConstant(to: 36, animated: false)
-        messageInputBar.sendButton.imageView?.backgroundColor = UIColor(white: 0.85, alpha: 1)
-        messageInputBar.sendButton.contentEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-        //        messageInputBar.sendButton.setSize(CGSize(width: 36, height: 36), animated: false)
-        
-        messageInputBar.sendButton.image = #imageLiteral(resourceName: "send_ic")
-        messageInputBar.sendButton.imageView?.contentMode = .scaleAspectFit
-        messageInputBar.sendButton.title = nil
-        messageInputBar.sendButton.imageView?.layer.cornerRadius = 16
-        
-        
-        let charCountButton = InputBarButtonItem()
-            .configure {
-                $0.title = "0/160"
-                $0.contentHorizontalAlignment = .right
-                $0.setTitleColor(UIColor(white: 0.6, alpha: 1), for: .normal)
-                $0.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .bold)
-                $0.setSize(CGSize(width: 50, height: 25), animated: false)
-            }.onTextViewDidChange { (item, textView) in
-                item.title = "\(textView.text.count)/160"
-                let isOverLimit = textView.text.count > 160
-                item.inputBarAccessoryView?.shouldManageSendButtonEnabledState = !isOverLimit // Disable automated management when over limit
-                if isOverLimit {
-                    item.inputBarAccessoryView?.sendButton.isEnabled = false
-                }
-                let color = isOverLimit ? .red : UIColor(white: 0.6, alpha: 1)
-                item.setTitleColor(color, for: .normal)
-            }
-        
-        
-        let bottomItems = [.flexibleSpace, charCountButton]
-        
-        configureInputBarPadding()
-        
-        messageInputBar.setStackViewItems(bottomItems, forStack: .bottom, animated: false)
-        
-        // This just adds some more flare
-        messageInputBar.sendButton
-            .onEnabled { item in
-                UIView.animate(withDuration: 0.3, animations: {
-                    item.imageView?.backgroundColor = .FriendzrColors.primary
-                })
-            }.onDisabled { item in
-                UIView.animate(withDuration: 0.3, animations: {
-                    item.imageView?.backgroundColor = UIColor(white: 0.85, alpha: 1)
-                })
-            }
-    }
-    
-    func setupLeftInputButton(tapMessage:Bool,Recorder:String) {
-        messageInputBar.inputTextView.delegate = self
-        messageInputBar.inputTextView.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1)
-        messageInputBar.inputTextView.cornerRadiusView(radius: 8)
-        
-        let button = InputBarSendButton()
-        button.setSize(CGSize(width: 36, height: 36), animated: false)
-        button.setImage(UIImage(named: "attach_ic"), for: .normal)
-        button.onTouchUpInside { [weak self] _ in
-            self?.presentInputActionSheet()
-        }
-        
-        let button2 = InputBarSendButton()
-        button2.setSize(CGSize(width: 35, height: 35), animated: false)
-        button2.setImage(UIImage(systemName: Recorder), for: .normal)
-        button2.backgroundColor = UIColor.FriendzrColors.primary!
-        button2.tintColor = .white
-        button2.cornerRadiusView(radius: 17.5)
-        button2.setBorder(color: UIColor.white.cgColor, width: 3)
-        button2.onTouchUpInside { [weak self] _ in
-            self?.recordMessageAction(sender:Recorder)
-        }
-        
-        if tapMessage {
-            messageInputBar.setLeftStackViewWidthConstant(to: 0, animated: false)
-        }else {
-            messageInputBar.setLeftStackViewWidthConstant(to: 36, animated: false)
-        }
-        
-        messageInputBar.leftStackView.spacing = 5
-        messageInputBar.padding.bottom = 8
-        messageInputBar.middleContentViewPadding.left = 8
-        messageInputBar.padding.left = 5
-        messageInputBar.setStackViewItems([button], forStack: .left, animated: false)
-        messageInputBar.inputTextView.font = UIFont(name: "Montserrat-Medium", size: 12)
-        
-        NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
-        NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
-    }
-    
-    func setupDownView(textLbl:String) {
-        messageInputBar.isHidden = true
-        
-        let downView:UIView = UIView()
-        downView.backgroundColor = .white.withAlphaComponent(0.85)
-        downView.setBorder()
-        
-        view.addSubview(downView)
-        let label = UILabel()
-        downView.addSubview(label)
-        
-        label.textColor = .black
-        label.font = UIFont(name: "Montserrat-Medium", size: 12)
-        label.textAlignment = .center
-        label.numberOfLines = 3
-        label.text = textLbl
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        let constraints = [
-            label.bottomAnchor.constraint(equalTo: downView.bottomAnchor, constant: -30),
-            label.topAnchor.constraint(equalTo: downView.topAnchor, constant: 10),
-            label.leftAnchor.constraint(equalTo: downView.leftAnchor, constant: 20),
-            label.rightAnchor.constraint(equalTo: downView.rightAnchor, constant: -20)
-        ]
-        
-        downView.addConstraints(constraints)
-        
-        downView.translatesAutoresizingMaskIntoConstraints = false
-        let bottomConstraint = downView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        let verticalConstraint = downView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        let widthConstraint = downView.widthAnchor.constraint(equalToConstant: view.bounds.width)
-        let heightConstraint = downView.heightAnchor.constraint(equalToConstant: 100)
-        view.addConstraints([bottomConstraint, verticalConstraint, widthConstraint, heightConstraint])
-    }
-    
-    private func recordMessageAction(sender:String) {
-        print("Record Message")
-        
-        if (sender == "play"){
-            soundRecorder.record()
-            setupLeftInputButton(tapMessage: false, Recorder: "pause")
-            //            playButton.isEnabled = false
-        } else {
-            soundRecorder.stop()
-            setupLeftInputButton(tapMessage: false, Recorder: "play")
-            insertMessage(UserMessage(audioURL: getFileURL(), user: senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6,linkPreviewID: "",isJoinEvent: 0))
-            self.messagesCollectionView.reloadData()
-        }
-    }
-    
-    private func presentActionSheetForLongPress(indexPath:Int) {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: "", message: "Choose the action you want to do?".localizedString, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
-                print("\(indexPath)")
-                self.messageList.remove(at: indexPath)
-                self.messagesCollectionView.reloadData()
-            }))
-            
-            actionAlert.addAction(UIAlertAction(title: "Hide".localizedString, style: .default, handler: { action in
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Copy".localizedString, style: .default, handler: { action in
-                let message = self.messageList[indexPath]
-                switch message.kind {
-                case .contact(let contact):
-                    UIPasteboard.general.string = contact.phoneNumbers[0]
-                    self.view.makeToast("Copied".localizedString)
-                    break
-                case .emoji((let text)):
-                    UIPasteboard.general.string = text
-                    self.view.makeToast("Copied".localizedString)
-                    break
-                case .text(let text):
-                    UIPasteboard.general.string = text
-                    self.view.makeToast("Copied".localizedString)
-                    break
-                default: break
-                }
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Replay".localizedString, style: .default, handler: { action in
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            //            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
-            present(actionAlert, animated: true, completion: nil)
-        }else {
-            let actionAlert  = UIAlertController(title: "", message: "Choose the action you want to do?".localizedString, preferredStyle: .actionSheet)
-            
-            actionAlert.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
-                print("\(indexPath)")
-                self.messageList.remove(at: indexPath)
-                self.messagesCollectionView.reloadData()
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Hide".localizedString, style: .default, handler: { action in
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Copy".localizedString, style: .default, handler: { action in
-                let message = self.messageList[indexPath]
-                switch message.kind {
-                case .contact(let contact):
-                    UIPasteboard.general.string = contact.phoneNumbers[0]
-                    self.view.makeToast("Copied".localizedString)
-                    break
-                case .emoji((let text)):
-                    UIPasteboard.general.string = text
-                    self.view.makeToast("Copied".localizedString)
-                    break
-                case .text(let text):
-                    UIPasteboard.general.string = text
-                    self.view.makeToast("Copied".localizedString)
-                    break
-                default: break
-                }
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Replay".localizedString, style: .default, handler: { action in
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            //            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
-            present(actionAlert, animated: true, completion: nil)
-        }
-    }
-    
-    private func presentInputActionSheet() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Photo".localizedString, style: .default, handler: { action in
-                self.presentPhotoInputActionSheet()
-            }))
-            
-            //            actionAlert.addAction(UIAlertAction(title: "Video", style: .default, handler: { action in
-            //                self.presentVideoInputActionSheet()
-            //            }))
-            //            actionAlert.addAction(UIAlertAction(title: "Location", style: .default, handler: { action in
-            //                guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "SendLocationChatVC") as? SendLocationChatVC else {return}
-            //                vc.onLocationCallBackResponse = self.onLocationCallBack
-            //                self.navigationController?.pushViewController(vc, animated: true)
-            //            }))
-            
-            actionAlert.addAction(UIAlertAction(title: "File".localizedString, style: .default, handler: { action in
-                
-            }))
-            
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            //            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
-            present(actionAlert, animated: true, completion: nil)
-        }else {
-            let actionSheet  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Photo".localizedString, style: .default, handler: { action in
-                self.presentPhotoInputActionSheet()
-            }))
-            
-            //            actionSheet.addAction(UIAlertAction(title: "Video", style: .default, handler: { action in
-            //                self.presentVideoInputActionSheet()
-            //            }))
-            //            actionSheet.addAction(UIAlertAction(title: "Location", style: .default, handler: { action in
-            //
-            //                guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "SendLocationChatVC") as? SendLocationChatVC else {return}
-            //                vc.onLocationCallBackResponse = self.onLocationCallBack
-            //                self.navigationController?.pushViewController(vc, animated: true)
-            //            }))
-            
-            actionSheet.addAction(UIAlertAction(title: "File".localizedString, style: .default, handler: { action in
-                self.openFileLibrary()
-            }))
-            
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionSheet, animated: true, completion: nil)
-        }
-    }
-    
-    func presentPhotoInputActionSheet() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsAlert: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-            
-            settingsAlert.addAction(UIAlertAction(title:"Camera".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openCamera()
-            }))
-            settingsAlert.addAction(UIAlertAction(title:"Photo Library".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openLibrary()
-            }))
-            settingsAlert.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsAlert, animated:true, completion:nil)
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-        }
-    }
-
-    func presentVideoInputActionSheet() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsAlert: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-            
-            settingsAlert.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openVideoCamera()
-            }))
-            settingsAlert.addAction(UIAlertAction(title:"Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openVideoLibrary()
-            }))
-            settingsAlert.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsAlert, animated:true, completion:nil)
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openVideoCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openVideoLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-        }
     }
 }
 
@@ -1312,89 +1019,3 @@ extension ConversationVC: UIDocumentPickerDelegate {
     }
 }
 
-extension ConversationVC {
-    
-    func handleLinkPreviewOptionsTapped(ById id:String,IsInEvent:Int) {
-        
-        var joinTitle:String = ""
-        if IsInEvent == 0 {
-            
-        }else {
-            if IsInEvent == 1 {
-                joinTitle = "Exit"
-            }else {
-                joinTitle = "Join"
-            }
-        }
-        
-        if IsInEvent == 0 {
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-                actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = id
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
-                    }
-                }))
-                actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-                }))
-                
-                present(actionAlert, animated: true, completion: nil)
-            }else {
-                let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = id
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
-                    }
-                }))
-                actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-                }))
-                present(actionSheet, animated: true, completion: nil)
-            }
-        }
-        else {
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-                actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = id
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
-                    }
-                    
-                }))
-                
-                actionAlert.addAction(UIAlertAction(title: joinTitle, style: .default, handler: { action in
-                    
-                }))
-
-                actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-                }))
-                
-                present(actionAlert, animated: true, completion: nil)
-            }else {
-                let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = id
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
-                    }
-                }))
-                
-                actionSheet.addAction(UIAlertAction(title: joinTitle, style: .default, handler: { action in
-                }))
-                actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-                }))
-                present(actionSheet, animated: true, completion: nil)
-            }
-        }
-    }
-}
