@@ -1309,11 +1309,11 @@
 			children = (
 				43C97DE927A04CF300D87CBE /* MainTBC.swift */,
 				4382AC1A26C27195005C1857 /* InboxVC.swift */,
+				436DD06527E1D68C00A4A7F7 /* ConversationVC */,
 				4344110126CE63AF00F8233E /* NewConversationVC.swift */,
 				4314853A278C42930048EC01 /* AddGroupVC.swift */,
 				433CDE2027CCD90A00A80A40 /* GroupDetailsVC.swift */,
 				4369F4522797278000D5E064 /* AddNewUsersForMyGroupVC.swift */,
-				436DD06527E1D68C00A4A7F7 /* ConversationVC */,
 				430D426F26D3C33B00188E42 /* AudioVC.swift */,
 				43FBA22B26D5330F005F4FBF /* SendLocationChatVC.swift */,
 				4336ACC926D6377E00C8FD33 /* ShowImageVC.swift */,

@@ -535,39 +535,70 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let isEventAdmin = userInfo["isAdmin"] as? String
         let messageType = userInfo["Messagetype"] as? String
         let _: String = userInfo["sound"] as? String ?? ""
+        let messageTime = userInfo["time"] as? String ?? ""
+        let messagedate = userInfo["date"] as? String ?? ""
 
         self.content.sound = UNNotificationSound.default
         
-        if messageType == "1" {//text
-            self.content.title = title ?? ""
-            self.content.body = body ?? ""
-        }
-        else if messageType == "2" {//image
-            self.content.title = title ?? ""
-//            self.content.body = "Image"
-            
-            if body != nil, let fileUrl = URL(string: imageNotifications!) {
-                print("fileUrl: \(fileUrl)")
-                do {
-                    let attachment = try UNNotificationAttachment(identifier: "", url: fileUrl)
-                    content.attachments = [ attachment ]
-                }
-                catch {
-                    print("error attachment")
-                }
+        if Defaults.availableVC == "ConversationVC" {
+            if messageType == "1" {//text
+                NotificationMessage.action = action ?? ""
+                NotificationMessage.actionCode = actionId ?? ""
+                NotificationMessage.messageType = 1
+                NotificationMessage.messageText = body ?? ""
+                NotificationMessage.messageId = ""
+                NotificationMessage.messageDate = messagedate
+                NotificationMessage.messageTime = messageTime
+                NotificationMessage.senderId = ""
+                NotificationMessage.photoURL = ""
+                NotificationMessage.displayName = ""
+            }
+            else if messageType == "2" {//image
+                NotificationMessage.action = action ?? ""
+                NotificationMessage.actionCode = actionId ?? ""
+                NotificationMessage.messageType = 2
+                NotificationMessage.messsageImageURL = body ?? ""
+                NotificationMessage.messageId = ""
+                NotificationMessage.messageDate = messagedate
+                NotificationMessage.messageTime = messageTime
+                NotificationMessage.senderId = ""
+                NotificationMessage.photoURL = ""
+                NotificationMessage.displayName = ""
+            }
+            else if messageType == "3" {//file
+                NotificationMessage.action = action ?? ""
+                NotificationMessage.actionCode = actionId ?? ""
+                NotificationMessage.messageType = 3
+                NotificationMessage.senderId = "1020"
+                NotificationMessage.messsageImageURL = body ?? ""
+                NotificationMessage.messageId = ""
+                NotificationMessage.messageDate = messagedate
+                NotificationMessage.messageTime = messageTime
+                NotificationMessage.photoURL = ""
+                NotificationMessage.displayName = ""
+            }
+            else if messageType == "4" {//link preview
+                NotificationMessage.action = action ?? ""
+                NotificationMessage.actionCode = actionId ?? ""
+                NotificationMessage.messageType = 4
+                NotificationMessage.senderId = "1020"
+                NotificationMessage.messageId = ""
+                NotificationMessage.messageDate = messagedate
+                NotificationMessage.messageTime = messageTime
+                NotificationMessage.photoURL = ""
+                NotificationMessage.displayName = ""
+                NotificationMessage.isJoinEvent = 0
+                
+                NotificationMessage.messsageLinkTitle = ""
+                NotificationMessage.messsageLinkCategory = ""
+                NotificationMessage.messsageLinkImageURL = ""
+                NotificationMessage.messsageLinkAttendeesJoined = ""
+                NotificationMessage.messsageLinkAttendeesTotalnumbert = ""
+                NotificationMessage.messsageLinkEventDate = ""
+                NotificationMessage.linkPreviewID = ""
             }
         }
-        else if messageType == "3" {//file
-            self.content.title = title ?? ""
-            self.content.body = "File"
-        }
-        else if messageType == "4" {//share link
-            self.content.title = title ?? ""
-            self.content.body = "Link"
-        }
-        else {
-            
-        }
+        
                 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
@@ -698,36 +729,20 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         let action = userInfo["Action"] as? String //action transaction
         let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
-//        let title = apsAlert?["title"] as? String
-//        let body = apsAlert?["body"] as? String
-//        let actionId = userInfo["Action_code"] as? String //userid
-//        let chatTitle = userInfo["name"] as? String
-//        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
-//        let imageNotifications = chatTitleImage?["image"] as? String
-//        let isEventAdmin = userInfo["isAdmin"] as? String
-//        let messageType = userInfo["Messagetype"] as? String
-//        let _: String = userInfo["sound"] as? String ?? ""
+        let title = apsAlert?["title"] as? String
+        let body = apsAlert?["body"] as? String
+        let actionId = userInfo["Action_code"] as? String //userid
+        let chatTitle = userInfo["name"] as? String
+        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
+        let imageNotifications = chatTitleImage?["image"] as? String
+        let isEventAdmin = userInfo["isAdmin"] as? String
+        let messageType = userInfo["Messagetype"] as? String
+        let _: String = userInfo["sound"] as? String ?? ""
 
         self.content.sound = UNNotificationSound.default
 //        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
 //        let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
 //        center.add(request, withCompletionHandler: nil)
-
-//        if messageType == "1" {//text
-//            self.content.title = title ?? ""
-//            self.content.body = body ?? ""
-//        }else if messageType == "2" {//image
-//            self.content.title = title ?? ""
-//            self.content.body = "Image"
-//        }else if messageType == "3" {//file
-//            self.content.title = title ?? ""
-//            self.content.body = "File"
-//        }else if messageType == "4" {//share link
-//            self.content.title = title ?? ""
-//            self.content.body = "Link"
-//        }else {
-//
-//        }
 
         
         if action == "user_chat" {
