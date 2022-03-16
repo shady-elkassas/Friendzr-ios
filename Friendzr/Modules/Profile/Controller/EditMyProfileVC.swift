@@ -1069,7 +1069,7 @@ extension EditMyProfileVC: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
             let newText = (bioTxtView.text as NSString).replacingCharacters(in: range, with: text)
-            return newText.count < 150
+        return newText.count < Defaults.userBio_MaxLength
     }
 }
 

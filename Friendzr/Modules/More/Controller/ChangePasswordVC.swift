@@ -46,6 +46,7 @@ class ChangePasswordVC: UIViewController  {
         self.hideLoading()
         CancelRequest.currentTask = true
     }
+    
     //MARK: - Helpers
     func updateUserInterface() {
         appDelegate.networkReachability()

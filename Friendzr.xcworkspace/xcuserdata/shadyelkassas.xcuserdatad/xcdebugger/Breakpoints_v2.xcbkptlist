@@ -334,8 +334,8 @@
             filePath = "Friendzr/Modules/More/Controller/SettingsVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "895"
-            endingLineNumber = "895"
+            startingLineNumber = "891"
+            endingLineNumber = "891"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -350,8 +350,8 @@
             filePath = "Friendzr/Modules/More/Controller/SettingsVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "983"
-            endingLineNumber = "983"
+            startingLineNumber = "979"
+            endingLineNumber = "979"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -366,8 +366,8 @@
             filePath = "Friendzr/Supporting_Files/Delegate/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "859"
-            endingLineNumber = "859"
+            startingLineNumber = "862"
+            endingLineNumber = "862"
             landmarkName = "locationManager(_:didVisit:)"
             landmarkType = "7">
          </BreakpointContent>

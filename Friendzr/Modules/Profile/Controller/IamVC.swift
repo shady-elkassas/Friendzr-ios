@@ -133,13 +133,13 @@ extension IamVC:UICollectionViewDataSource {
         let model = viewmodel.IAM.value?[indexPath.row]
         cell.tagNameLbl.text = "#\(model?.name ?? "")"
         
-//        if model?.isSharedForAll == true {
-            cell.editBtn.isHidden = true
-            cell.editBtnWidth.constant = 0
-//        }else {
-//            cell.editBtn.isHidden = false
-//            cell.editBtnWidth.constant = 30
-//        }
+        //        if model?.isSharedForAll == true {
+        cell.editBtn.isHidden = true
+        cell.editBtnWidth.constant = 0
+        //        }else {
+        //            cell.editBtn.isHidden = false
+        //            cell.editBtnWidth.constant = 30
+        //        }
         
         if arrSelectedDataIds.contains(model?.id ?? "") {
             cell.containerView.backgroundColor = UIColor.FriendzrColors.primary
@@ -161,11 +161,11 @@ extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let model = viewmodel.IAM.value?[indexPath.row]
         let width = model?.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
-//        if model?.isSharedForAll == true {
-            return CGSize(width: width! + 50, height: 45)
-//        }else {
-//            return CGSize(width: width! + 80, height: 45)
-//        }
+        //        if model?.isSharedForAll == true {
+        return CGSize(width: width! + 50, height: 45)
+        //        }else {
+        //            return CGSize(width: width! + 80, height: 45)
+        //        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -190,13 +190,13 @@ extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
             arrSelectedDataNames = arrSelectedDataNames.filter { $0 != strData?.name}
         }
         else {
-            if arrSelectedDataIds.count < 4 {
+            if arrSelectedDataIds.count < Defaults.userIAM_MaxLength {
                 arrSelectedIndex.append(indexPath)
                 arrSelectedDataIds.append(strData?.id ?? "")
                 arrSelectedDataNames.append(strData?.name ?? "")
             }else {
                 DispatchQueue.main.async {
-                    self.view.makeToast("The number of tags must not exceed 4".localizedString)
+                    self.view.makeToast("The number of tags must not exceed \(Defaults.userIAM_MaxLength)".localizedString)
                 }
             }
         }
@@ -239,18 +239,13 @@ extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.getAllBestDescrips()
                         
-                        if self.arrSelectedDataIds.count < 4 {
+                        if self.arrSelectedDataIds.count < Defaults.userIAM_MaxLength {
                             self.arrSelectedDataIds.append(data.entityId ?? "")
                             self.arrSelectedDataNames.append(data.name ?? "")
                             print(self.arrSelectedDataNames)
                             self.collectionView.reloadData()
                         }
                     }
-                    
-                    
-                    //                    DispatchQueue.main.async {
-                    //                        self.view.makeToast("Added successfully".localizedString)
-                    //                    }
                 }
             }
             
@@ -295,10 +290,6 @@ extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                                 self.getAllBestDescrips()
                             }
-                            
-                            //                            DispatchQueue.main.async {
-                            //                                self.view.makeToast("Edit successfully".localizedString)
-                            //                            }
                         }
                     }
                     
@@ -333,10 +324,6 @@ extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.getAllBestDescrips()
                     }
-                    
-                    //                    DispatchQueue.main.async {
-                    //                        self.view.makeToast("Deleted successfully".localizedString)
-                    //                    }
                 }
             }))
             actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
@@ -403,10 +390,6 @@ extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.getAllBestDescrips()
                     }
-                    
-                    //                    DispatchQueue.main.async {
-                    //                        self.view.makeToast("Deleted successfully".localizedString)
-                    //                    }
                 }
             }))
             actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in

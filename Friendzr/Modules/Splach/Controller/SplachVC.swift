@@ -19,6 +19,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     var settingVM:SettingsViewModel = SettingsViewModel()
     var profileVM: ProfileViewModel = ProfileViewModel()
     var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
+    var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
 
     var locationManager: CLLocationManager!
     var locationLat = 0.0
@@ -55,10 +56,14 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         
         DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1.5) {
             if Defaults.needUpdate == 1 {
-                Router().toSplachOne()
+                self.getAllValidatConfig()
+                
+                DispatchQueue.main.async {
+                    Router().toSplachOne()
+                }
             }else {
                 if Defaults.token != "" {
-                    Router().toFeed()
+                    self.getAllValidatConfig()
                 }else {
                     Router().toOptionsSignUpVC()
                 }
@@ -80,6 +85,25 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         CancelRequest.currentTask = true
     }
     
+    func getAllValidatConfig() {
+        allValidatConfigVM.getAllValidatConfig()
+        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+            DispatchQueue.main.async {
+                Defaults.initValidationConfig(validate: value)
+                DispatchQueue.main.async {
+                    Router().toFeed()
+                }
+            }
+        }
+        
+        // Set View Model Event Listener
+        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                print(error)
+            }
+        }
+    }
+
     var duration: Double = 1.5
     var delay: Double = 2.0
     var minimumBeats: Int = 1

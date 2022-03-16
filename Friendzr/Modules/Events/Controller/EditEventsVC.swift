@@ -465,7 +465,7 @@ extension EditEventsVC : UITextViewDelegate {
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (descriptionTxtView.text as NSString).replacingCharacters(in: range, with: text)
-        return newText.count < 150
+        return newText.count < Defaults.eventDetailsDescription_MaxLength
     }
 }
 

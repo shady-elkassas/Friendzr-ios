@@ -660,26 +660,27 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
         
-        if action == "Friend_request_cancelled" {
+        if Defaults.pushnotification == false {
             completionHandler([[]])
-        }
-        else if Defaults.availableVC == "ConversationVC" {
-            completionHandler([[]])
-        }
-        else if Defaults.pushnotification == false {
-            completionHandler([[]])
-        }
-        else {
-            if isMute == "False" {
-                if #available(iOS 14.0, *) {
-                    completionHandler([[.alert, .badge, .sound,.banner,.list]])
-                } else {
-                    // Fallback on earlier versions
-                    completionHandler([[.alert, .badge, .sound]])
-                }
+        }else {
+            if action == "Friend_request_cancelled" {
+                completionHandler([[]])
+            }
+            else if Defaults.availableVC == "ConversationVC" {
+                completionHandler([[]])
             }
             else {
-                completionHandler([[]])
+                if isMute == "False" {
+                    if #available(iOS 14.0, *) {
+                        completionHandler([[.alert, .badge, .sound,.banner,.list]])
+                    } else {
+                        // Fallback on earlier versions
+                        completionHandler([[.alert, .badge, .sound]])
+                    }
+                }
+                else {
+                    completionHandler([[]])
+                }
             }
         }
     }
@@ -817,28 +818,30 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
         
-        if action == "Friend_request_cancelled" {
+        if Defaults.pushnotification == false {
             completionHandler([[]])
-        }
-        else if Defaults.availableVC == "ConversationVC" {
-            completionHandler([[]])
-        }
-        else if Defaults.pushnotification == false {
-            completionHandler([[]])
-        }
-        else {
-            if isMute == "False" {
-                if #available(iOS 14.0, *) {
-                    completionHandler([[.alert, .badge, .sound,.banner,.list]])
-                } else {
-                    // Fallback on earlier versions
-                    completionHandler([[.alert, .badge, .sound]])
-                }
-            }
-            else {
+        }else {
+            if action == "Friend_request_cancelled" {
                 completionHandler([[]])
             }
+            else if Defaults.availableVC == "ConversationVC" {
+                completionHandler([[]])
+            }
+            else {
+                if isMute == "False" {
+                    if #available(iOS 14.0, *) {
+                        completionHandler([[.alert, .badge, .sound,.banner,.list]])
+                    } else {
+                        // Fallback on earlier versions
+                        completionHandler([[.alert, .badge, .sound]])
+                    }
+                }
+                else {
+                    completionHandler([[]])
+                }
+            }
         }
+
       
     }
 

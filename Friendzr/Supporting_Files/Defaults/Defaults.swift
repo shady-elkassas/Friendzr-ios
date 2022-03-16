@@ -728,22 +728,22 @@ extension Defaults {
             return UserDefaults.standard.integer(forKey: "ageFiltering_Max")
         }
     }
-    static var distanceFiltering_Min: Int {
+    static var distanceFiltering_Min: Double {
         set{
             UserDefaults.standard.set(newValue, forKey: "distanceFiltering_Min")
             UserDefaults.standard.synchronize()
         }
         get{
-            return UserDefaults.standard.integer(forKey: "distanceFiltering_Min")
+            return UserDefaults.standard.double(forKey: "distanceFiltering_Min")
         }
     }
-    static var distanceFiltering_Max: Int {
+    static var distanceFiltering_Max: Double {
         set{
             UserDefaults.standard.set(newValue, forKey: "distanceFiltering_Max")
             UserDefaults.standard.synchronize()
         }
         get{
-            return UserDefaults.standard.integer(forKey: "distanceFiltering_Max")
+            return UserDefaults.standard.double(forKey: "distanceFiltering_Max")
         }
     }
     static var distanceShowNearbyAccountsInFeed_Min: Int {

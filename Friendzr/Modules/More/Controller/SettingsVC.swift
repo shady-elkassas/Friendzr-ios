@@ -84,7 +84,6 @@ class SettingsVC: UIViewController {
         initBackButton()
         
         setupCLLocationManager()
-        
         CancelRequest.currentTask = false
     }
     
@@ -92,7 +91,6 @@ class SettingsVC: UIViewController {
         self.hideLoading()
         CancelRequest.currentTask = true
     }
-    
     
     @objc func updateSettings() {
         DispatchQueue.main.async {
@@ -119,7 +117,7 @@ class SettingsVC: UIViewController {
             }
         }
     }
-    
+        
     func setupData() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -214,7 +212,6 @@ class SettingsVC: UIViewController {
         }
     }
     
-    
     func setupView() {
         tableView.register(UINib(nibName: settingCellID, bundle: nil), forCellReuseIdentifier: settingCellID)
         tableView.register(UINib(nibName: deleteCllID, bundle: nil), forCellReuseIdentifier: deleteCllID)
@@ -227,7 +224,6 @@ class SettingsVC: UIViewController {
         settingSubView.cornerRadiusView(radius: 20)
     }
     
-    
     func createDistanceSlider() {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
             self.transparentView.isHidden = false
@@ -235,8 +231,8 @@ class SettingsVC: UIViewController {
             self.distanceSliderView.isHidden = false
         }
         
-        distanceSlider.minimumValue = 0.2    // default is 0.0
-        distanceSlider.maximumValue = 50    // default is 1.0
+        distanceSlider.minimumValue = CGFloat(Defaults.distanceFiltering_Min)    // default is 0.0
+        distanceSlider.maximumValue = CGFloat(Defaults.distanceFiltering_Max)    // default is 1.0
         
         distanceSlider.value = [CGFloat(self.manualdistancecontrol)]
         
@@ -271,8 +267,8 @@ class SettingsVC: UIViewController {
             self.distanceSliderView.isHidden = true
         }
         
-        ageSlider.minimumValue = 14    // default is 0.0
-        ageSlider.maximumValue = 85   // default is 1.0
+        ageSlider.minimumValue = CGFloat(Defaults.ageFiltering_Min)    // default is 0.0
+        ageSlider.maximumValue = CGFloat(Defaults.ageFiltering_Max)  // default is 1.0
         
         ageSlider.value = [CGFloat(self.ageFrom),CGFloat(self.ageTo)]
         
@@ -994,7 +990,7 @@ extension SettingsVC: UITableViewDataSource {
             
             cell.HandleSwitchBtn = {
                 if self.model?.distanceFilter == true {
-                    self.viewmodel.updateManualdistanceControl(manualdistancecontrol: 50, distanceFilter: false) { error, data in
+                    self.viewmodel.updateManualdistanceControl(manualdistancecontrol: Defaults.distanceFiltering_Max, distanceFilter: false) { error, data in
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -1030,7 +1026,7 @@ extension SettingsVC: UITableViewDataSource {
             
             cell.HandleSwitchBtn = {
                 if self.model?.filteringaccordingtoage == true {
-                    self.viewmodel.filteringAccordingToAge(filteringaccordingtoage: false, agefrom: 14, ageto: 85) { error, data in
+                    self.viewmodel.filteringAccordingToAge(filteringaccordingtoage: false, agefrom: Defaults.ageFiltering_Min, ageto: Defaults.ageFiltering_Max) { error, data in
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)

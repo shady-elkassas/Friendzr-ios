@@ -189,13 +189,13 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
             arrSelectedDataNames = arrSelectedDataNames.filter { $0 != strData?.name}
         }
         else {
-            if arrSelectedDataIds.count < 4 {
+            if arrSelectedDataIds.count < Defaults.userIPreferTo_MaxLength {
                 arrSelectedIndex.append(indexPath)
                 arrSelectedDataIds.append(strData?.id ?? "")
                 arrSelectedDataNames.append(strData?.name ?? "")
             }else {
                 DispatchQueue.main.async {
-                    self.view.makeToast("The number of tags must not exceed 4".localizedString)
+                    self.view.makeToast("The number of tags must not exceed \(Defaults.userIPreferTo_MaxLength)".localizedString)
                 }
             }
         }
@@ -238,7 +238,7 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.getAllTags()
                         
-                        if self.arrSelectedDataIds.count < 4 {
+                        if self.arrSelectedDataIds.count < Defaults.userIPreferTo_MaxLength {
                             self.arrSelectedDataIds.append(data.entityId ?? "")
                             self.arrSelectedDataNames.append(data.name ?? "")
                             print(self.arrSelectedDataNames)

@@ -191,13 +191,13 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
             arrSelectedDataNames = arrSelectedDataNames.filter { $0 != strData?.name}
         }
         else {
-            if arrSelectedDataIds.count < 8 {
+            if arrSelectedDataIds.count < Defaults.userTagM_MaxNumber {
                 arrSelectedIndex.append(indexPath)
                 arrSelectedDataIds.append(strData?.id ?? "")
                 arrSelectedDataNames.append(strData?.name ?? "")
             }else {
                 DispatchQueue.main.async {
-                    self.view.makeToast("The number of tags must not exceed 8".localizedString)
+                    self.view.makeToast("The number of tags must not exceed \(Defaults.userTagM_MaxNumber)".localizedString)
                 }
             }
         }
@@ -240,18 +240,13 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.getAllTags()
                         
-                        if self.arrSelectedDataIds.count < 8 {
+                        if self.arrSelectedDataIds.count < Defaults.userTagM_MaxNumber {
                             self.arrSelectedDataIds.append(data.entityId ?? "")
                             self.arrSelectedDataNames.append(data.name ?? "")
                             print(self.arrSelectedDataNames)
                             self.collectionView.reloadData()
                         }
                     }
-                    
-                    
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast("Added successfully".localizedString)
-//                    }
                 }
             }
             

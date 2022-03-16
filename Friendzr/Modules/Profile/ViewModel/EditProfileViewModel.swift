@@ -14,7 +14,6 @@ class EditProfileViewModel {
     
     // Initialise ViewModel's
     let userNameViewModel = UserNameViewModel()
-//    let emailViewModel = EmailViewModel()
     let genderViewModel = GenderViewModel()
     let bioViewModel = BioViewModel()
     let birthdateViewModel = BirthdateViewModel()

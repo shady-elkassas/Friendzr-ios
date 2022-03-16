@@ -14,7 +14,7 @@ class TitleEventViewModel : ValidationViewModel{
     
     func validateCredentials() -> Bool {
         
-        guard validateLength(text: data, size: (1,60)) else {
+        guard validateLength(text: data, size: (Defaults.eventTitle_MinLength,Defaults.eventTitle_MaxLength)) else {
             errorValue = errorMessage
             return false
         }

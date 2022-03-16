@@ -54,8 +54,8 @@ class AllValidatConfigObj: Mappable {
     var userTagM_MinNumber: Int?
     var ageFiltering_Min: Int?
     var ageFiltering_Max: Int?
-    var distanceFiltering_Min: Int?
-    var distanceFiltering_Max: Int?
+    var distanceFiltering_Min: Double?
+    var distanceFiltering_Max: Double?
     var distanceShowNearbyAccountsInFeed_Min: Int?
     var distanceShowNearbyAccountsInFeed_Max: Int?
     var distanceShowNearbyEvents_Min: Int?

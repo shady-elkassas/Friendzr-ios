@@ -14,7 +14,7 @@ class CategoryEventViewModel : ValidationViewModel{
     
     func validateCredentials() -> Bool {
         
-        guard validateLength(text: data, size: (1,40)) else {
+        guard validateLength(text: data, size: (1,60)) else {
             errorValue = errorMessage
             return false
         }
