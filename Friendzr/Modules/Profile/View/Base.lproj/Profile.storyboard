@@ -532,7 +532,7 @@
                                                                         </connections>
                                                                     </button>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Select your birthdate" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="89G-8i-9jF">
-                                                                        <rect key="frame" x="2" y="2" width="341" height="51"/>
+                                                                        <rect key="frame" x="8" y="2" width="335" height="51"/>
                                                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                                                         <textInputTraits key="textInputTraits"/>
                                                                     </textField>
@@ -544,7 +544,7 @@
                                                                     <constraint firstItem="U7l-ZY-xLG" firstAttribute="leading" secondItem="89G-8i-9jF" secondAttribute="trailing" constant="2" id="E3P-Fe-f3Z"/>
                                                                     <constraint firstItem="9ep-Az-era" firstAttribute="centerY" secondItem="XWW-lg-ilV" secondAttribute="centerY" id="Vsi-LX-vLA"/>
                                                                     <constraint firstItem="9ep-Az-era" firstAttribute="width" secondItem="XWW-lg-ilV" secondAttribute="width" id="Xqn-Ht-Rf9"/>
-                                                                    <constraint firstItem="89G-8i-9jF" firstAttribute="leading" secondItem="XWW-lg-ilV" secondAttribute="leading" constant="2" id="Z6m-ms-FG4"/>
+                                                                    <constraint firstItem="89G-8i-9jF" firstAttribute="leading" secondItem="XWW-lg-ilV" secondAttribute="leading" constant="8" id="Z6m-ms-FG4"/>
                                                                     <constraint firstAttribute="trailing" secondItem="U7l-ZY-xLG" secondAttribute="trailing" constant="5" id="kIa-Rr-s6W"/>
                                                                     <constraint firstItem="9ep-Az-era" firstAttribute="centerX" secondItem="XWW-lg-ilV" secondAttribute="centerX" id="lIV-8M-xhG"/>
                                                                     <constraint firstItem="89G-8i-9jF" firstAttribute="top" secondItem="XWW-lg-ilV" secondAttribute="top" constant="2" id="okm-KF-QHW"/>

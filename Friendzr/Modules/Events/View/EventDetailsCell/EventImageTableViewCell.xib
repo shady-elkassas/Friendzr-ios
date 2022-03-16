@@ -42,10 +42,10 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DPf-0G-o2y">
-                        <rect key="frame" x="200" y="197" width="120" height="30"/>
+                        <rect key="frame" x="187" y="197" width="128" height="30"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attendees : 40/100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r9j-2C-hT6">
-                                <rect key="frame" x="5" y="7.5" width="117.5" height="15"/>
+                                <rect key="frame" x="5.5" y="7.5" width="117.5" height="15"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -53,23 +53,22 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="r9j-2C-hT6" firstAttribute="leading" secondItem="DPf-0G-o2y" secondAttribute="leading" constant="5" id="B9Z-or-cTh"/>
                             <constraint firstItem="r9j-2C-hT6" firstAttribute="centerY" secondItem="DPf-0G-o2y" secondAttribute="centerY" id="MPm-Nb-fFs"/>
                             <constraint firstAttribute="height" constant="30" id="T8q-A4-Wbb"/>
-                            <constraint firstAttribute="width" constant="120" id="kjN-s6-wdx"/>
+                            <constraint firstAttribute="trailing" secondItem="r9j-2C-hT6" secondAttribute="trailing" constant="5" id="b88-Sh-6v0"/>
                         </constraints>
                     </view>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="pDL-oI-ozb">
-                        <rect key="frame" x="25" y="197" width="50" height="30"/>
+                        <rect key="frame" x="25" y="197" width="152" height="30"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xdc-BB-G0O">
-                                <rect key="frame" x="0.0" y="0.0" width="50" height="14.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="152" height="14.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="15"/>
                                 <color key="textColor" name="Color0"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="un0-9O-nDl">
-                                <rect key="frame" x="0.0" y="19.5" width="50" height="10.5"/>
+                                <rect key="frame" x="0.0" y="19.5" width="152" height="10.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                 <color key="textColor" name="Color0"/>
                                 <nil key="highlightedColor"/>
@@ -80,16 +79,17 @@
                 <constraints>
                     <constraint firstItem="Veu-v7-ih4" firstAttribute="bottom" secondItem="2lg-PR-smI" secondAttribute="bottom" id="0dr-bw-eUE"/>
                     <constraint firstItem="2lg-PR-smI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="3Qr-qW-GKD"/>
+                    <constraint firstItem="DPf-0G-o2y" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.4" id="64A-Bn-YZb"/>
                     <constraint firstAttribute="trailing" secondItem="2lg-PR-smI" secondAttribute="trailing" id="Lgo-Wy-xnb"/>
                     <constraint firstItem="pDL-oI-ozb" firstAttribute="leading" secondItem="Veu-v7-ih4" secondAttribute="leading" constant="25" id="Luv-Fv-wZC"/>
                     <constraint firstAttribute="trailing" secondItem="Veu-v7-ih4" secondAttribute="trailing" id="RML-eL-O5J"/>
-                    <constraint firstItem="DPf-0G-o2y" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pDL-oI-ozb" secondAttribute="trailing" constant="10" id="UF2-AB-tCz"/>
                     <constraint firstItem="pDL-oI-ozb" firstAttribute="centerY" secondItem="DPf-0G-o2y" secondAttribute="centerY" id="UpM-PE-vD5"/>
                     <constraint firstItem="DPf-0G-o2y" firstAttribute="bottom" secondItem="Veu-v7-ih4" secondAttribute="bottom" constant="-10" id="VT4-tx-tul"/>
                     <constraint firstItem="Veu-v7-ih4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="bFN-Mg-vcz"/>
                     <constraint firstAttribute="bottom" secondItem="pDL-oI-ozb" secondAttribute="bottom" constant="10" id="l4L-hd-0n5"/>
+                    <constraint firstItem="DPf-0G-o2y" firstAttribute="leading" secondItem="pDL-oI-ozb" secondAttribute="trailing" constant="10" id="onA-0I-NoK"/>
                     <constraint firstAttribute="bottom" secondItem="2lg-PR-smI" secondAttribute="bottom" id="sYS-vj-4JW"/>
-                    <constraint firstAttribute="trailing" secondItem="DPf-0G-o2y" secondAttribute="trailing" id="shO-dp-8LN"/>
+                    <constraint firstAttribute="trailing" secondItem="DPf-0G-o2y" secondAttribute="trailing" constant="5" id="shO-dp-8LN"/>
                     <constraint firstItem="Veu-v7-ih4" firstAttribute="height" secondItem="2lg-PR-smI" secondAttribute="height" multiplier="1:3" id="vh3-X8-xPa"/>
                     <constraint firstItem="2lg-PR-smI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="zOG-9I-z8F"/>
                 </constraints>

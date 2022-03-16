@@ -774,16 +774,16 @@ extension ConversationVC {
 extension ConversationVC {
     func updateTitleView(image: String, subtitle: String?,titleId:String,isEvent:Bool) {
         
-        let imageUser = UIImageView(frame: CGRect(x: 0, y: -5, width: 36, height: 36))
+        let imageUser = UIImageView(frame: CGRect(x: 0, y: 2, width: 30, height: 30))
         imageUser.backgroundColor = UIColor.clear
         imageUser.image = UIImage(named: image)
         imageUser.contentMode = .scaleToFill
         imageUser.cornerRadiusForHeight()
         imageUser.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeHolderApp"))
         
-        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 31, width: 0, height: 0))
+        let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 34, width: 0, height: 0))
         subtitleLabel.textColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
-        subtitleLabel.font = UIFont.init(name: "Montserrat-Medium", size: 10)
+        subtitleLabel.font = UIFont.init(name: "Montserrat-Medium", size: 8)
         subtitleLabel.text = subtitle
         subtitleLabel.textAlignment = .center
         subtitleLabel.adjustsFontSizeToFitWidth = true
@@ -945,7 +945,7 @@ extension MessagesViewController {
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.shadowImage = UIColor.FriendzrColors.primary?.as1ptImage()
+        navigationController?.navigationBar.shadowImage = UIColor.color("#F4F8F3")?.as1ptImage()
         navigationController?.navigationBar.setBackgroundImage(UIColor.white.as1ptImage(), for: .default)
         view.backgroundColor = UIColor.white
     }
