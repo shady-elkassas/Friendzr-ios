@@ -116,6 +116,7 @@ class EventObj: NSObject,Mappable {
     var leveevent:Int? = 0
     var encryptedID:String = ""
     var eventtype:String = ""
+    
     override init() {
         super.init()
     }

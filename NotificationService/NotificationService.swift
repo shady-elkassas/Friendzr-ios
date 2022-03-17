@@ -21,15 +21,10 @@ class NotificationService: UNNotificationServiceExtension {
             bestAttemptContent.title = "\(bestAttemptContent.title)"
             
             var urlString:String? = nil
-            if let aps = request.content.userInfo["aps"] as? [String:Any] {
-                if let alert = aps["alert"] as? [String:Any] {
-                    if let urlImageString = alert["body"] as? String {
-                        urlString = urlImageString
-                    }
-                }
+            if let urlImageString = request.content.userInfo["messsageImageURL"] as? String {
+                    urlString = urlImageString
             }
            
-            
             if urlString != nil, let fileUrl = URL(string: urlString!) {
                 print("fileUrl: \(fileUrl)")
                 
@@ -37,6 +32,7 @@ class NotificationService: UNNotificationServiceExtension {
                     contentHandler(bestAttemptContent)
                     return
                 }
+                
                 guard let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: "image.jpg", data: imageData, options: nil) else {
                     print("error in UNNotificationAttachment.saveImageToDisk()")
                     contentHandler(bestAttemptContent)

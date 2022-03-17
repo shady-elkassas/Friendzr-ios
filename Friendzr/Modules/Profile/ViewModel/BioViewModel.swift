@@ -9,14 +9,22 @@ import Foundation
 
 class BioViewModel : ValidationViewModel{
     var errorValue: String?
-    var errorMessage: String = "Please enter a valid bio with more than \(Defaults.userBio_MinLength) characters and no more than \(Defaults.userBio_MaxLength) characters".localizedString
+    var errorMessage: String = "Please enter a valid bio with more than 10 characters and no more than 100 characters".localizedString
     var data: String = ""
     
     func validateCredentials() -> Bool {
-        guard validateLength(text: data, size: (Defaults.userBio_MinLength,Defaults.userBio_MaxLength)) else {
-            errorValue = errorMessage
-            return false
+        if Defaults.userBio_MinLength != 0 {
+            guard validateLength(text: data, size: (Defaults.userBio_MinLength,Defaults.userBio_MaxLength)) else {
+                errorValue = "Please enter a valid bio with more than \(Defaults.userBio_MinLength) characters and no more than \(Defaults.userBio_MaxLength) characters"
+                return false
+            }
+        }else {
+            guard validateLength(text: data, size: (10,100)) else {
+                errorValue = errorMessage
+                return false
+            }
         }
+
         
         errorValue = ""
         return true

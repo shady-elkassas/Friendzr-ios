@@ -266,11 +266,15 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         currentPage = 1
         setupNavigationbar()
         setupLeftInputButton(tapMessage: false, Recorder: "play")
+        
+        tabBarController?.tabBar.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         CancelRequest.currentTask = true
+        
+        tabBarController?.tabBar.isHidden = false
     }
     
     //MARK : - listen To Messages

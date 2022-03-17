@@ -60,6 +60,8 @@ class RegisterVC: UIViewController {
     var myString:String = "By clicking ‘Sign up’, you agree to our terms of usage see more".localizedString
     var myMutableString = NSMutableAttributedString()
 
+    var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +94,22 @@ class RegisterVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
+    }
+    
+    func getAllValidatConfig() {
+        allValidatConfigVM.getAllValidatConfig()
+        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+            DispatchQueue.main.async {
+                Defaults.initValidationConfig(validate: value)
+            }
+        }
+        
+        // Set View Model Event Listener
+        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                print(error)
+            }
+        }
     }
     
     @objc func handleCheckUserName() {
@@ -222,6 +240,9 @@ class RegisterVC: UIViewController {
                             
                             Defaults.token = data.token
                             Defaults.initUser(user: data)
+                            DispatchQueue.main.async {
+                                self.getAllValidatConfig()
+                            }
                             
                             DispatchQueue.main.async {
                                 if Defaults.needUpdate == 1 {
@@ -371,6 +392,10 @@ extension RegisterVC {
                         Defaults.initUser(user: data)
                         
                         DispatchQueue.main.async {
+                            self.getAllValidatConfig()
+                        }
+                        
+                        DispatchQueue.main.async {
                             if Defaults.needUpdate == 1 {
                                 FirstLoginApp.isFirst = 1
                                 Router().toSplachOne()
@@ -474,6 +499,10 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
                 guard let data = data else {return}
                 Defaults.token = data.token
                 Defaults.initUser(user: data)
+                
+                DispatchQueue.main.async {
+                    self.getAllValidatConfig()
+                }
                 
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {

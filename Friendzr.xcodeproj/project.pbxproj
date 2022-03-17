@@ -173,6 +173,7 @@
 		436DD05E27E1285F00A4A7F7 /* AllValidatConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DD05D27E1285F00A4A7F7 /* AllValidatConfigViewModel.swift */; };
 		436DD06027E1287000A4A7F7 /* AllValidatConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DD05F27E1287000A4A7F7 /* AllValidatConfigModel.swift */; };
 		436DD06427E1D15000A4A7F7 /* ConversationVC + Custom Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DD06327E1D15000A4A7F7 /* ConversationVC + Custom Views.swift */; };
+		436DD06727E3422A00A4A7F7 /* SharePrivateEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DD06627E3422A00A4A7F7 /* SharePrivateEventVC.swift */; };
 		436E945C27BD153800CB2F1E /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436E945B27BD153800CB2F1E /* CustomSwitch.swift */; };
 		436E945E27BD155100CB2F1E /* CustomThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436E945D27BD155100CB2F1E /* CustomThumbView.swift */; };
 		4371D4212733F46C003B8AFD /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4202733F46C003B8AFD /* CustomCell.swift */; };
@@ -556,6 +557,7 @@
 		436DD05D27E1285F00A4A7F7 /* AllValidatConfigViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllValidatConfigViewModel.swift; sourceTree = "<group>"; };
 		436DD05F27E1287000A4A7F7 /* AllValidatConfigModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllValidatConfigModel.swift; sourceTree = "<group>"; };
 		436DD06327E1D15000A4A7F7 /* ConversationVC + Custom Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConversationVC + Custom Views.swift"; sourceTree = "<group>"; };
+		436DD06627E3422A00A4A7F7 /* SharePrivateEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePrivateEventVC.swift; sourceTree = "<group>"; };
 		436E945B27BD153800CB2F1E /* CustomSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
 		436E945D27BD155100CB2F1E /* CustomThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomThumbView.swift; sourceTree = "<group>"; };
 		4371D40D273127F3003B8AFD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -931,6 +933,7 @@
 				433CDE1C27CCBAF200A80A40 /* EventCalendarVC.swift */,
 				433CDE1E27CCC46600A80A40 /* EventTimeVC.swift */,
 				436DCFAD27DF689A00A4A7F7 /* SelectFriendsVC.swift */,
+				436DD06627E3422A00A4A7F7 /* SharePrivateEventVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2206,6 +2209,7 @@
 				4320A64C26F20FF7003604EE /* BlockedListVC.swift in Sources */,
 				4367E47527BA4D3200FE1880 /* FriendProfileViewController.swift in Sources */,
 				430A351226CA8A1200477A94 /* TermsAndConditionsVC.swift in Sources */,
+				436DD06727E3422A00A4A7F7 /* SharePrivateEventVC.swift in Sources */,
 				43ACFEDB27B3BBA1001CD340 /* AdsTableViewCell.swift in Sources */,
 				436DD06027E1287000A4A7F7 /* AllValidatConfigModel.swift in Sources */,
 				4382ACA826C2843E005C1857 /* KeychainItem.swift in Sources */,
@@ -2777,7 +2781,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.15;
+				CURRENT_PROJECT_VERSION = 2.8.16;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2807,7 +2811,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.15;
+				CURRENT_PROJECT_VERSION = 2.8.16;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

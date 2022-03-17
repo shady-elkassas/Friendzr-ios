@@ -190,15 +190,28 @@ extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
             arrSelectedDataNames = arrSelectedDataNames.filter { $0 != strData?.name}
         }
         else {
-            if arrSelectedDataIds.count < Defaults.userIAM_MaxLength {
-                arrSelectedIndex.append(indexPath)
-                arrSelectedDataIds.append(strData?.id ?? "")
-                arrSelectedDataNames.append(strData?.name ?? "")
+            if Defaults.userIAM_MaxLength != 0 {
+                if arrSelectedDataIds.count < Defaults.userIAM_MaxLength {
+                    arrSelectedIndex.append(indexPath)
+                    arrSelectedDataIds.append(strData?.id ?? "")
+                    arrSelectedDataNames.append(strData?.name ?? "")
+                }else {
+                    DispatchQueue.main.async {
+                        self.view.makeToast("The number of tags must not exceed \(Defaults.userIAM_MaxLength)".localizedString)
+                    }
+                }
             }else {
-                DispatchQueue.main.async {
-                    self.view.makeToast("The number of tags must not exceed \(Defaults.userIAM_MaxLength)".localizedString)
+                if arrSelectedDataIds.count < 4 {
+                    arrSelectedIndex.append(indexPath)
+                    arrSelectedDataIds.append(strData?.id ?? "")
+                    arrSelectedDataNames.append(strData?.name ?? "")
+                }else {
+                    DispatchQueue.main.async {
+                        self.view.makeToast("The number of tags must not exceed 4".localizedString)
+                    }
                 }
             }
+
         }
         
         print(arrSelectedDataIds)
@@ -239,12 +252,22 @@ extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.getAllBestDescrips()
                         
-                        if self.arrSelectedDataIds.count < Defaults.userIAM_MaxLength {
-                            self.arrSelectedDataIds.append(data.entityId ?? "")
-                            self.arrSelectedDataNames.append(data.name ?? "")
-                            print(self.arrSelectedDataNames)
-                            self.collectionView.reloadData()
+                        if Defaults.userIAM_MaxLength != 0 {
+                            if self.arrSelectedDataIds.count < Defaults.userIAM_MaxLength {
+                                self.arrSelectedDataIds.append(data.entityId ?? "")
+                                self.arrSelectedDataNames.append(data.name ?? "")
+                                print(self.arrSelectedDataNames)
+                                self.collectionView.reloadData()
+                            }
+                        }else {
+                            if self.arrSelectedDataIds.count < 4 {
+                                self.arrSelectedDataIds.append(data.entityId ?? "")
+                                self.arrSelectedDataNames.append(data.name ?? "")
+                                print(self.arrSelectedDataNames)
+                                self.collectionView.reloadData()
+                            }
                         }
+
                     }
                 }
             }

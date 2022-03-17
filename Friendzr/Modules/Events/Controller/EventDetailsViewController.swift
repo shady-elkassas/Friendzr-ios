@@ -15,7 +15,7 @@ import GoogleMobileAds
 import MapKit
 
 class EventDetailsViewController: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var imagesView: [UIImageView]!
@@ -69,13 +69,13 @@ class EventDetailsViewController: UIViewController {
         viewX.backgroundColor = .red
         return viewX
     }()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initOptionsEventButton()
-
+        
         if selectedVC {
             initCloseBarButton()
         }else {
@@ -84,7 +84,7 @@ class EventDetailsViewController: UIViewController {
         
         setupViews()
         CancelRequest.currentTask = false
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(handleEventDetails), name: Notification.Name("handleEventDetails"), object: nil)
         
         pullToRefresh()
@@ -107,7 +107,7 @@ class EventDetailsViewController: UIViewController {
         self.hideLoading()
         CancelRequest.currentTask = true
     }
-
+    
     
     func updateUserInterface() {
         appDelegate.networkReachability()
@@ -263,7 +263,7 @@ extension EventDetailsViewController: UITableViewDataSource {
         let JoinDate = self.formatterDate.string(from: Date())
         let Jointime = self.formatterTime.string(from: Date())
         
-
+        
         let model = viewmodel.event.value
         
         if indexPath.row == 0 {//image
@@ -369,6 +369,7 @@ extension EventDetailsViewController: UITableViewDataSource {
                         DispatchQueue.main.async {
                             cell.leaveBtn.isUserInteractionEnabled = true
                         }
+                        
                         DispatchQueue.main.async {
                             NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
                         }
@@ -425,7 +426,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             }
             
             return cell
-
+            
         }
         
         else if indexPath.row == 2 {//date&time
@@ -462,15 +463,15 @@ extension EventDetailsViewController: UITableViewDataSource {
             cell.interest1Lbl.text = model?.interestStatistic?[0].name
             cell.interest2Lbl.text = model?.interestStatistic?[1].name
             cell.interest3Lbl.text = model?.interestStatistic?[2].name
-
+            
             cell.interest1PercentageLbl.text = "\(model?.interestStatistic?[0].interestcount ?? 0) %"
             cell.interest2PercentageLbl.text = "\(model?.interestStatistic?[1].interestcount ?? 0) %"
             cell.interest3PercentageLbl.text = "\(model?.interestStatistic?[2].interestcount ?? 0) %"
-
+            
             cell.interest1Slider.value = Float(model?.interestStatistic?[0].interestcount ?? 0)
             cell.interest2Slider.value = Float(model?.interestStatistic?[1].interestcount ?? 0)
             cell.interest3Slider.value = Float(model?.interestStatistic?[2].interestcount ?? 0)
-
+            
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
                     if (model?.interestStatistic?[0].interestcount ?? 0) == 0 {
@@ -534,7 +535,7 @@ extension EventDetailsViewController: UITableViewDataSource {
                     cell.femalePercentageLbl.text = "\(itm.gendercount ?? 0) %"
                 }else {
                     cell.otherSlider.value = Float(itm.gendercount ?? 0)
-
+                    
                     cell.otherSlider.minimumTrackTintColor = .green
                     if itm.gendercount == 0 {
                         cell.otherSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
@@ -545,7 +546,7 @@ extension EventDetailsViewController: UITableViewDataSource {
                     cell.otherPercentageLbl.text = "\(itm.gendercount ?? 0) %"
                 }
             }
-
+            
             return cell
         }
         
@@ -571,7 +572,7 @@ extension EventDetailsViewController: UITableViewDataSource {
                     let options = [
                         MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
                         MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
-                        ]
+                    ]
                     MKMapItem.openMaps(
                         with: [source, destination],
                         launchOptions: options
@@ -604,10 +605,10 @@ extension EventDetailsViewController: UITableViewDataSource {
 
 extension EventDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = view.frame.height
+        let height = tableView.bounds.height
         
         if indexPath.row == 0 {
-            return height/3
+            return height/3.1
         }else if indexPath.row == 1 {
             return 70
         }else if indexPath.row == 2 {
@@ -665,9 +666,16 @@ extension EventDetailsViewController {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
-                    vc.eventID = self.viewmodel.event.value?.id ?? ""
-                    self.present(controller, animated: true)
+                if self.viewmodel.event.value?.eventtype == "Private" {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
+                        vc.eventID = self.viewmodel.event.value?.id ?? ""
+                        self.present(controller, animated: true)
+                    }
+                }else {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
+                        vc.eventID = self.viewmodel.event.value?.id ?? ""
+                        self.present(controller, animated: true)
+                    }
                 }
             }))
             actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
@@ -687,9 +695,16 @@ extension EventDetailsViewController {
         else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
-                    vc.eventID = self.viewmodel.event.value?.id ?? ""
-                    self.present(controller, animated: true)
+                if self.viewmodel.event.value?.eventtype == "Private" {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
+                        vc.eventID = self.viewmodel.event.value?.id ?? ""
+                        self.present(controller, animated: true)
+                    }
+                }else {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
+                        vc.eventID = self.viewmodel.event.value?.id ?? ""
+                        self.present(controller, animated: true)
+                    }
                 }
             }))
             actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
@@ -712,9 +727,16 @@ extension EventDetailsViewController {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
-                    vc.eventID = self.viewmodel.event.value?.id ?? ""
-                    self.present(controller, animated: true)
+                if self.viewmodel.event.value?.eventtype == "Private" {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
+                        vc.eventID = self.viewmodel.event.value?.id ?? ""
+                        self.present(controller, animated: true)
+                    }
+                }else {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
+                        vc.eventID = self.viewmodel.event.value?.id ?? ""
+                        self.present(controller, animated: true)
+                    }
                 }
             }))
             actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
@@ -725,9 +747,16 @@ extension EventDetailsViewController {
         else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
-                    vc.eventID = self.viewmodel.event.value?.id ?? ""
-                    self.present(controller, animated: true)
+                if self.viewmodel.event.value?.eventtype == "Private" {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
+                        vc.eventID = self.viewmodel.event.value?.id ?? ""
+                        self.present(controller, animated: true)
+                    }
+                }else {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
+                        vc.eventID = self.viewmodel.event.value?.id ?? ""
+                        self.present(controller, animated: true)
+                    }
                 }
             }))
             actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
@@ -736,7 +765,7 @@ extension EventDetailsViewController {
             present(actionSheet, animated: true, completion: nil)
         }
     }
-
+    
     func shareEvent() {
         // Setting description
         let encryptedID = viewmodel.event.value?.encryptedID ?? ""

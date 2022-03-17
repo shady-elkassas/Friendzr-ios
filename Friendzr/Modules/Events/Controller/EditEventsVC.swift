@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import ImageCropper
+
 
 class EditEventsVC: UIViewController {
     
@@ -108,6 +110,7 @@ class EditEventsVC: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
 
         CancelRequest.currentTask = false
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -188,7 +191,7 @@ class EditEventsVC: UIViewController {
                     guard let _ = data else {return}
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
-                        Router().toFeed()
+                        Router().toMap()
                     })
                 }
                 
@@ -281,6 +284,10 @@ class EditEventsVC: UIViewController {
             selectFriendsViewHeight.constant = 0
             selectFriendsTopView.isHidden = true
         }
+        
+        listFriendsIDs.removeAll()
+//        for 
+        
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
@@ -336,7 +343,7 @@ class EditEventsVC: UIViewController {
     @IBAction func saveBtn(_ sender: Any) {
         updateUserInterface()
         if internetConect == true {
-            if eventTypeName == "Private" && listFriendsIDs.count == 0{
+            if eventTypeName == "Private" && listFriendsIDs.count == 0 {
                 DispatchQueue.main.async {
                     self.view.makeToast("This is the event private, please select friends for it".localizedString)
                 }
@@ -497,7 +504,7 @@ extension EditEventsVC : UITextViewDelegate {
     }
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (descriptionTxtView.text as NSString).replacingCharacters(in: range, with: text)
-        return newText.count < Defaults.eventDetailsDescription_MaxLength
+        return newText.count < 300
     }
 }
 
@@ -605,15 +612,40 @@ extension EditEventsVC : UIImagePickerControllerDelegate,UINavigationControllerD
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+        let image = info[.originalImage] as! UIImage
+        
+        var config = ImageCropperConfiguration(with: image, and: .rect2x1, cornerRadius: 0)
+        config.maskFillColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
+        config.borderColor = UIColor.black
+        config.showGrid = false
+        config.gridColor = UIColor.white
+        config.doneTitle = "CROP"
+        config.cancelTitle = ""
+        
         picker.dismiss(animated:true, completion: {
-            let size = CGSize(width: screenW, height: screenW)
-            let img = image.crop(to: size)
-            self.eventImg.image = img
-            self.attachedImg = true
+            self.tabBarController?.tabBar.isHidden = true
+            let cropper = ImageCropperViewController.initialize(with: config, completionHandler: { _croppedImage in
+                /*
+                 Code to perform after finishing cropping process
+                 */
+                
+                self.eventImg.image = _croppedImage
+                self.attachedImg = true
+                self.onPopup()
+            }) {
+                /*
+                 Code to perform after dismissing controller
+                 */
+            }
+            
+            self.navigationController?.pushViewController(cropper, animated: true)
         })
+        
     }
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.attachedImg = false
+        self.tabBarController?.tabBar.isHidden = false
         picker.dismiss(animated:true, completion: nil)
     }
 }

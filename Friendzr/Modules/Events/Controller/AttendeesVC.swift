@@ -199,11 +199,6 @@ class AttendeesVC: UIViewController {
                 }
                 
                 guard let _ = data else {return}
-                
-//                DispatchQueue.main.async {
-//                    self.view.makeToast("Successfully" )
-//                }
-                
                 DispatchQueue.main.async {
                     self.getAllAttendees(pageNumber: 0, search: searchBar.text ?? "")
                 }

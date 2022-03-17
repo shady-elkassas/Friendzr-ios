@@ -993,10 +993,10 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
 //        self.imgTake = 0
 //        self.attachedImg = true
         
-        var config = ImageCropperConfiguration(with: image, and: .rect4x3, cornerRadius: 0)
+        var config = ImageCropperConfiguration(with: image, and: .rect2x1, cornerRadius: 0)
         config.maskFillColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
         config.borderColor = UIColor.black
-        config.showGrid = true
+        config.showGrid = false
         config.gridColor = UIColor.white
         config.doneTitle = "CROP"
         config.cancelTitle = ""
@@ -1011,7 +1011,6 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
                 self.profileImg.image = _croppedImage
                 self.imgTake = 0
                 self.attachedImg = true
-//                self.tabBarController?.tabBar.isHidden = false
                 self.onPopup()
             }) {
                 /*
@@ -1069,7 +1068,7 @@ extension EditMyProfileVC: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
             let newText = (bioTxtView.text as NSString).replacingCharacters(in: range, with: text)
-        return newText.count < Defaults.userBio_MaxLength
+        return newText.count < 300
     }
 }
 

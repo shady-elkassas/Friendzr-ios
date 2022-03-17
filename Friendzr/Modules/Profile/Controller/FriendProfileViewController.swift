@@ -688,7 +688,7 @@ extension FriendProfileViewController:UITableViewDelegate {
         let height = tableView.bounds.height
         
         if indexPath.row == 0 {
-            return height/2.5
+            return height/2.3
         }
         else {
             return UITableView.automaticDimension

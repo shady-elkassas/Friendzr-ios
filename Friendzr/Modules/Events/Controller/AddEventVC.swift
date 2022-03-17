@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import ImageCropper
 
 class AddEventVC: UIViewController {
     
@@ -127,6 +128,7 @@ class AddEventVC: UIViewController {
         
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -656,14 +658,39 @@ extension AddEventVC : UIImagePickerControllerDelegate,UINavigationControllerDel
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         let image = info[.originalImage] as! UIImage
+        
+        var config = ImageCropperConfiguration(with: image, and: .rect4x3, cornerRadius: 0)
+        config.maskFillColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
+        config.borderColor = UIColor.black
+        config.showGrid = false
+        config.gridColor = UIColor.white
+        config.doneTitle = "CROP"
+        config.cancelTitle = ""
+        
         picker.dismiss(animated:true, completion: {
-            let size = CGSize(width: screenW, height: screenW)
-            let img = image.crop(to: size)
-            self.eventImg.image = img
-            self.attachedImg = true
+            self.tabBarController?.tabBar.isHidden = true
+            let cropper = ImageCropperViewController.initialize(with: config, completionHandler: { _croppedImage in
+                /*
+                 Code to perform after finishing cropping process
+                 */
+                
+                self.eventImg.image = _croppedImage
+                self.attachedImg = true
+                self.onPopup()
+            }) {
+                /*
+                 Code to perform after dismissing controller
+                 */
+            }
+            
+            self.navigationController?.pushViewController(cropper, animated: true)
         })
+        
     }
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.attachedImg = false
+        self.tabBarController?.tabBar.isHidden = false
         picker.dismiss(animated:true, completion: nil)
     }
 }

@@ -461,6 +461,39 @@ class Defaults {
         defaults.removeObject(forKey: "pushnotification")
         defaults.removeObject(forKey: "notificationcount")
         
+        
+        defaults.removeObject(forKey: "userName_MaxLength")
+        defaults.removeObject(forKey: "userName_MinLength")
+        defaults.removeObject(forKey: "userIAM_MaxLength")
+        defaults.removeObject(forKey: "userIAM_MinLength")
+        defaults.removeObject(forKey: "userIPreferTo_MaxLength")
+        defaults.removeObject(forKey: "userIPreferTo_MinLength")
+        defaults.removeObject(forKey: "password_MaxLength")
+        defaults.removeObject(forKey: "password_MinLength")
+        defaults.removeObject(forKey: "userMinAge")
+        defaults.removeObject(forKey: "userMaxAge")
+        defaults.removeObject(forKey: "userBio_MinLength")
+        defaults.removeObject(forKey: "userBio_MaxLength")
+        defaults.removeObject(forKey: "eventDetailsDescription_MinLength")
+        defaults.removeObject(forKey: "eventDetailsDescription_MaxLength")
+        defaults.removeObject(forKey: "eventTitle_MinLength")
+        defaults.removeObject(forKey: "eventTitle_MaxLength")
+        defaults.removeObject(forKey: "eventCreationLimitNumber_MinLength")
+        defaults.removeObject(forKey: "eventCreationLimitNumber_MaxLength")
+        defaults.removeObject(forKey: "ageFiltering_Min")
+        defaults.removeObject(forKey: "userTagM_MinNumber")
+        defaults.removeObject(forKey: "ageFiltering_Max")
+        defaults.removeObject(forKey: "userTagM_MaxNumber")
+        defaults.removeObject(forKey: "distanceFiltering_Min")
+        defaults.removeObject(forKey: "distanceFiltering_Max")
+        defaults.removeObject(forKey: "distanceShowNearbyAccountsInFeed_Min")
+        defaults.removeObject(forKey: "distanceShowNearbyAccountsInFeed_Max")
+        defaults.removeObject(forKey: "distanceShowNearbyEvents_Min")
+        defaults.removeObject(forKey: "distanceShowNearbyEvents_Max")
+        defaults.removeObject(forKey: "distanceShowNearbyEventsOnMap_Min")
+        defaults.removeObject(forKey: "distanceShowNearbyEventsOnMap_Max")
+
+        
         if let token = AccessToken.current,
            !token.isExpired {
             // User is logged in, do work such as go to next view controller.

@@ -49,6 +49,8 @@ class LoginVC: UIViewController {
     
     let socialMediaVM: SocialMediaLoginViewModel = SocialMediaLoginViewModel()
     var loginVM:LoginViewModel = LoginViewModel()
+    var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
+
     
     var internetConect:Bool = false
     
@@ -85,6 +87,23 @@ class LoginVC: UIViewController {
         CancelRequest.currentTask = true
     }
     
+    
+    func getAllValidatConfig() {
+        allValidatConfigVM.getAllValidatConfig()
+        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+            DispatchQueue.main.async {
+                Defaults.initValidationConfig(validate: value)
+            }
+        }
+        
+        // Set View Model Event Listener
+        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                print(error)
+            }
+        }
+    }
+    
     //MARK: - Actions
     @IBAction func loginBtn(_ sender: Any) {
         NotificationCenter.default.post(
@@ -106,6 +125,10 @@ class LoginVC: UIViewController {
                 }
                 guard let data = data else {return}
                 Defaults.initUser(user: data)
+                
+                DispatchQueue.main.async {
+                    self.getAllValidatConfig()
+                }
                 
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {
@@ -202,6 +225,10 @@ class LoginVC: UIViewController {
                             guard let data = data else {return}
                             Defaults.token = data.token
                             Defaults.initUser(user: data)
+                            
+                            DispatchQueue.main.async {
+                                self.getAllValidatConfig()
+                            }
                             
                             DispatchQueue.main.async {
                                 if Defaults.needUpdate == 1 {
@@ -353,6 +380,11 @@ extension LoginVC {
                         guard let data = data else {return}
                         Defaults.token = data.token
                         Defaults.initUser(user: data)
+                        
+                        DispatchQueue.main.async {
+                            self.getAllValidatConfig()
+                        }
+                        
                         DispatchQueue.main.async {
                             if Defaults.needUpdate == 1 {
                                 FirstLoginApp.isFirst = 1
@@ -455,6 +487,10 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                 guard let data = data else {return}
                 Defaults.token = data.token
                 Defaults.initUser(user: data)
+                
+                DispatchQueue.main.async {
+                    self.getAllValidatConfig()
+                }
                 
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {

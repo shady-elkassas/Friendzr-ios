@@ -349,7 +349,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             let imageNotifications = chatTitleImage?["image"] as? String
             let isEventAdmin = userInfo["isAdmin"] as? String
 //            let messageType = userInfo["Messagetype"] as? Int
-            
+            let messsageLinkEvenMyEvent = userInfo["messsageLinkEvenMyEvent"] as? String ?? ""
+
             self.content.sound = UNNotificationSound.default
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
             let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
@@ -524,21 +525,40 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 
         let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
         let alert = apsAlert?["alert"] as? [String:Any]
-        let title = alert?["title"] as? String
+//        let title = alert?["title"] as? String
         let body =  alert?["body"]  as? String
         
         let action = userInfo["Action"] as? String //action transaction
         let actionId = userInfo["Action_code"] as? String //userid
-        let chatTitle = userInfo["name"] as? String
-        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
-        let imageNotifications = chatTitleImage?["image"] as? String
-        let isEventAdmin = userInfo["isAdmin"] as? String
+//        let chatTitle = userInfo["name"] as? String
+//        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
+//        let imageNotifications = chatTitleImage?["image"] as? String
+//        let isEventAdmin = userInfo["isAdmin"] as? String
         let messageType = userInfo["Messagetype"] as? String
         let _: String = userInfo["sound"] as? String ?? ""
         let messageTime = userInfo["time"] as? String ?? ""
         let messagedate = userInfo["date"] as? String ?? ""
 
+        let messsageImageURL = userInfo["messsageImageURL"] as? String ?? ""
+        let messsageLinkEvenImage = userInfo["messsageLinkEvenImage"] as? String ?? ""
+        let messsageLinkEvenTitle = userInfo["messsageLinkEvenTitle"] as? String ?? ""
+        let messsageLinkEvencategorieimage = userInfo["messsageLinkEvencategorieimage"] as? String ?? ""
+        let messsageLinkEventotalnumbert = userInfo["messsageLinkEventotalnumbert"] as? String ?? ""
+        let messsageLinkEvenId = userInfo["messsageLinkEvenId"] as? String ?? ""
+        let senderId = userInfo["senderId"] as? String ?? ""
+        let messsageLinkEvenkey = userInfo["messsageLinkEvenkey"] as? String ?? ""
+        let messageId = userInfo["messageId"] as? String ?? ""
+        let _ = userInfo["messsageLinkEvenMyEvent"] as? String ?? ""
+        let messsageLinkEvenjoined = userInfo["messsageLinkEvenjoined"] as? String ?? ""
+        let messsageLinkEveneventdateto = userInfo["messsageLinkEveneventdateto"] as? String ?? ""
+        let messsageLinkEvencategorie = userInfo["messsageLinkEvencategorie"] as? String ?? ""
+        
+        let senderImage = userInfo["senderImage"] as? String ?? ""
+        let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
+        
+        
         self.content.sound = UNNotificationSound.default
+        
         
         if Defaults.availableVC == "ConversationVC" {
             if messageType == "1" {//text
@@ -546,56 +566,56 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 NotificationMessage.actionCode = actionId ?? ""
                 NotificationMessage.messageType = 1
                 NotificationMessage.messageText = body ?? ""
-                NotificationMessage.messageId = ""
+                NotificationMessage.messageId = messageId
                 NotificationMessage.messageDate = messagedate
                 NotificationMessage.messageTime = messageTime
-                NotificationMessage.senderId = ""
-                NotificationMessage.photoURL = ""
-                NotificationMessage.displayName = ""
+                NotificationMessage.senderId = senderId
+                NotificationMessage.photoURL = senderImage
+                NotificationMessage.displayName = senderDisplayName
             }
             else if messageType == "2" {//image
                 NotificationMessage.action = action ?? ""
                 NotificationMessage.actionCode = actionId ?? ""
                 NotificationMessage.messageType = 2
-                NotificationMessage.messsageImageURL = body ?? ""
-                NotificationMessage.messageId = ""
+                NotificationMessage.messsageImageURL = messsageImageURL
+                NotificationMessage.messageId = messageId
                 NotificationMessage.messageDate = messagedate
                 NotificationMessage.messageTime = messageTime
-                NotificationMessage.senderId = ""
-                NotificationMessage.photoURL = ""
-                NotificationMessage.displayName = ""
+                NotificationMessage.senderId = senderId
+                NotificationMessage.photoURL = senderImage
+                NotificationMessage.displayName = senderDisplayName
             }
             else if messageType == "3" {//file
                 NotificationMessage.action = action ?? ""
                 NotificationMessage.actionCode = actionId ?? ""
                 NotificationMessage.messageType = 3
-                NotificationMessage.senderId = "1020"
-                NotificationMessage.messsageImageURL = body ?? ""
-                NotificationMessage.messageId = ""
+                NotificationMessage.messsageImageURL = messsageImageURL
+                NotificationMessage.messageId = messageId
                 NotificationMessage.messageDate = messagedate
                 NotificationMessage.messageTime = messageTime
-                NotificationMessage.photoURL = ""
-                NotificationMessage.displayName = ""
+                NotificationMessage.photoURL = senderImage
+                NotificationMessage.senderId = senderId
+                NotificationMessage.displayName = senderDisplayName
             }
             else if messageType == "4" {//link preview
                 NotificationMessage.action = action ?? ""
                 NotificationMessage.actionCode = actionId ?? ""
                 NotificationMessage.messageType = 4
-                NotificationMessage.senderId = "1020"
-                NotificationMessage.messageId = ""
+                NotificationMessage.senderId = senderId
+                NotificationMessage.messageId = messageId
                 NotificationMessage.messageDate = messagedate
                 NotificationMessage.messageTime = messageTime
-                NotificationMessage.photoURL = ""
-                NotificationMessage.displayName = ""
-                NotificationMessage.isJoinEvent = 0
+                NotificationMessage.photoURL = senderImage
+                NotificationMessage.displayName = senderDisplayName
+                NotificationMessage.isJoinEvent = Int(messsageLinkEvenkey) ?? 0
                 
-                NotificationMessage.messsageLinkTitle = ""
-                NotificationMessage.messsageLinkCategory = ""
-                NotificationMessage.messsageLinkImageURL = ""
-                NotificationMessage.messsageLinkAttendeesJoined = ""
-                NotificationMessage.messsageLinkAttendeesTotalnumbert = ""
-                NotificationMessage.messsageLinkEventDate = ""
-                NotificationMessage.linkPreviewID = ""
+                NotificationMessage.messsageLinkTitle = messsageLinkEvenTitle
+                NotificationMessage.messsageLinkCategory = messsageLinkEvencategorie
+                NotificationMessage.messsageLinkImageURL = messsageLinkEvenImage
+                NotificationMessage.messsageLinkAttendeesJoined = messsageLinkEvenjoined
+                NotificationMessage.messsageLinkAttendeesTotalnumbert = messsageLinkEventotalnumbert
+                NotificationMessage.messsageLinkEventDate = messsageLinkEveneventdateto
+                NotificationMessage.linkPreviewID = messsageLinkEvenId
             }
         }
         
@@ -728,22 +748,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         print(userInfo)
         
         let action = userInfo["Action"] as? String //action transaction
-        let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
-        let title = apsAlert?["title"] as? String
-        let body = apsAlert?["body"] as? String
-        let actionId = userInfo["Action_code"] as? String //userid
-        let chatTitle = userInfo["name"] as? String
-        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
-        let imageNotifications = chatTitleImage?["image"] as? String
-        let isEventAdmin = userInfo["isAdmin"] as? String
-        let messageType = userInfo["Messagetype"] as? String
         let _: String = userInfo["sound"] as? String ?? ""
 
         self.content.sound = UNNotificationSound.default
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-//        let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
-//        center.add(request, withCompletionHandler: nil)
-
         
         if action == "user_chat" {
         }else if action == "event_chat" {

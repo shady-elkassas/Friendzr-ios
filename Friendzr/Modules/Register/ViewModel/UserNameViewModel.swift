@@ -10,13 +10,22 @@ import Foundation
 
 class UserNameViewModel : ValidationViewModel {
     var errorValue: String?
-    var errorMessage: String = "Please enter a valid user name should not be less than \(Defaults.userName_MinLength) character or more than \(Defaults.userName_MaxLength) characters".localizedString
+    var errorMessage: String = "Please enter a valid user name should not be less than 3 character or more than 32 characters".localizedString
     var data: String = ""
     
     func validateCredentials() -> Bool {
-        guard validateLength(text: data, size: (Defaults.userName_MinLength,Defaults.userName_MaxLength)) else {
-            errorValue = errorMessage
-            return false
+        if Defaults.userName_MinLength != 0 {
+            guard validateLength(text: data, size: (Defaults.userName_MinLength,Defaults.userName_MaxLength)) else {
+                errorValue = "Please enter a valid user name should not be less than \(Defaults.userName_MinLength) character or more than \(Defaults.userName_MaxLength) characters"
+                return false
+            }
+
+        }else {
+            guard validateLength(text: data, size: (3,32)) else {
+                errorValue = errorMessage
+                return false
+            }
+
         }
         
         errorValue = ""

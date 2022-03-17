@@ -39,10 +39,12 @@ class SplachOneVC: UIViewController {
         //        hideNavigationBar(NavigationBar: true, BackButton: true)
         
         if selectVC == "MoreVC" {
+            startBtn.setTitle("NEXT", for: .normal)
             initBackButton()
             hideNavigationBar(NavigationBar: false, BackButton: false)
         }
         else {
+            startBtn.setTitle("GET STARTED", for: .normal)
             hideNavigationBar(NavigationBar: true, BackButton: true)
         }
     }

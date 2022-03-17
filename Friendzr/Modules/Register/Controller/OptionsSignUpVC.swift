@@ -45,6 +45,8 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
     var UserG_userName = ""
     var socialMediaImge = ""
 
+    var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
+
 //    var socailMediaRegisterVM:SocialMediaRegisterViewModel = SocialMediaRegisterViewModel()
     let socialMediaLoginVM: SocialMediaLoginViewModel = SocialMediaLoginViewModel()
 
@@ -86,8 +88,25 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
 //        performExistingAccountSetupFlows()
     }
     
+    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+    
+    func getAllValidatConfig() {
+        allValidatConfigVM.getAllValidatConfig()
+        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+            DispatchQueue.main.async {
+                Defaults.initValidationConfig(validate: value)
+            }
+        }
+        
+        // Set View Model Event Listener
+        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                print(error)
+            }
+        }
     }
     
     //MARK: - Helper
@@ -216,6 +235,10 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
                             Defaults.initUser(user: data)
                             
                             DispatchQueue.main.async {
+                                self.getAllValidatConfig()
+                            }
+                            
+                            DispatchQueue.main.async {
                                 if Defaults.needUpdate == 1 {
                                     FirstLoginApp.isFirst = 1
                                     Router().toSplachOne()
@@ -319,6 +342,11 @@ extension OptionsSignUpVC {
                         guard let data = data else {return}
                         Defaults.token = data.token
                         Defaults.initUser(user: data)
+                        
+                        DispatchQueue.main.async {
+                            self.getAllValidatConfig()
+                        }
+                        
                         DispatchQueue.main.async {
                             if Defaults.needUpdate == 1 {
                                 FirstLoginApp.isFirst = 1
@@ -423,6 +451,10 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
                 Defaults.token = data.token
                 Defaults.initUser(user: data)
 
+                DispatchQueue.main.async {
+                    self.getAllValidatConfig()
+                }
+                
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {
                         FirstLoginApp.isFirst = 1
