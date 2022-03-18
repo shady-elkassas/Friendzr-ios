@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import ImageCropper
+import QCropper
 
 class AddEventVC: UIViewController {
     
@@ -658,40 +658,37 @@ extension AddEventVC : UIImagePickerControllerDelegate,UINavigationControllerDel
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         let image = info[.originalImage] as! UIImage
+        let originImg = image.fixOrientation()
         
-        var config = ImageCropperConfiguration(with: image, and: .rect4x3, cornerRadius: 0)
-        config.maskFillColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
-        config.borderColor = UIColor.black
-        config.showGrid = false
-        config.gridColor = UIColor.white
-        config.doneTitle = "CROP"
-        config.cancelTitle = ""
-        
-        picker.dismiss(animated:true, completion: {
-            self.tabBarController?.tabBar.isHidden = true
-            let cropper = ImageCropperViewController.initialize(with: config, completionHandler: { _croppedImage in
-                /*
-                 Code to perform after finishing cropping process
-                 */
-                
-                self.eventImg.image = _croppedImage
-                self.attachedImg = true
-                self.onPopup()
-            }) {
-                /*
-                 Code to perform after dismissing controller
-                 */
-            }
-            
-            self.navigationController?.pushViewController(cropper, animated: true)
-        })
-        
+        let cropper = CustomCropperViewController(originalImage: originImg)
+        cropper.delegate = self
+        picker.dismiss(animated: true) {
+            self.present(cropper, animated: true, completion: nil)
+        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.attachedImg = false
         self.tabBarController?.tabBar.isHidden = false
         picker.dismiss(animated:true, completion: nil)
+    }
+}
+
+extension AddEventVC: CropperViewControllerDelegate {
+    
+    func aspectRatioPickerDidSelectedAspectRatio(_ aspectRatio: AspectRatio) {
+        print("\(String(describing: aspectRatio.dictionary))")
+    }
+    
+    func cropperDidConfirm(_ cropper: CropperViewController, state: CropperState?) {
+        cropper.dismiss(animated: true, completion: nil)
+        if let state = state,
+            let image = cropper.originalImage.cropped(withCropperState: state) {
+            eventImg.image = image
+            self.attachedImg = true
+            print(cropper.isCurrentlyInInitialState)
+            print(image)
+        }
     }
 }
 

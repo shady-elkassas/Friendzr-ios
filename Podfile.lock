@@ -543,7 +543,6 @@ PODS:
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.6.1)
-  - ImageCropper (0.1.5.1)
   - InputBarAccessoryView (5.3.1):
     - InputBarAccessoryView/Core (= 5.3.1)
   - InputBarAccessoryView/Core (5.3.1)
@@ -562,6 +561,7 @@ PODS:
   - nanopb/encode (2.30908.0)
   - ObjectMapper (4.2.0)
   - PromisesObjC (2.0.0)
+  - QCropper (0.1.7)
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
@@ -582,12 +582,12 @@ DEPENDENCIES:
   - GoogleMaps
   - GooglePlaces
   - GoogleSignIn
-  - ImageCropper
   - IQKeyboardManager
   - ListPlaceholder
   - MessageKit (~> 3.5.1)
   - MultiSlider
   - ObjectMapper
+  - QCropper
   - SDWebImage
 
 SPEC REPOS:
@@ -624,7 +624,6 @@ SPEC REPOS:
     - gRPC-Core
     - GTMAppAuth
     - GTMSessionFetcher
-    - ImageCropper
     - InputBarAccessoryView
     - IQKeyboardManager
     - leveldb-library
@@ -634,6 +633,7 @@ SPEC REPOS:
     - nanopb
     - ObjectMapper
     - PromisesObjC
+    - QCropper
     - SDWebImage
     - SweeterSwift
 
@@ -670,7 +670,6 @@ SPEC CHECKSUMS:
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
   GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
-  ImageCropper: 031f4dc49908419529d56cdedaea7111cd823c3d
   InputBarAccessoryView: 1f75d8c9f75e5e57f3ffac36ed58635a8005e0bc
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
@@ -680,9 +679,10 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
+  QCropper: aef6bad1e683e62b501fb8258359ccd10c68b4f2
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SweeterSwift: 8a90cf3156f5a1b6f39785c479369a16633b5ea9
 
-PODFILE CHECKSUM: c71196435c7ed2103d723da80a4715e536afa8dc
+PODFILE CHECKSUM: 2dab45d742eda1e5611acf488163e3fce5a1ea52
 
 COCOAPODS: 1.10.2

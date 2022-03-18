@@ -605,10 +605,10 @@ extension EventDetailsViewController: UITableViewDataSource {
 
 extension EventDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = tableView.bounds.height
+        let height = view.bounds.height
         
         if indexPath.row == 0 {
-            return height/3.1
+            return height/3
         }else if indexPath.row == 1 {
             return 70
         }else if indexPath.row == 2 {

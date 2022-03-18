@@ -11,8 +11,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 import ListPlaceholder
-import ImageCropper
-
+import QCropper
 
 class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate {
     
@@ -114,6 +113,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var faceImgTwo: UIImage = UIImage()
     var firstLogin:Int? = 0
     var imgTake: Int = 0
+    
+    var cropperState:CropperState?
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -988,38 +989,18 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-        
+      
+        let originImg = image.fixOrientation()
 //        self.profileImg.image = image
 //        self.imgTake = 0
 //        self.attachedImg = true
-        
-        var config = ImageCropperConfiguration(with: image, and: .rect2x1, cornerRadius: 0)
-        config.maskFillColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
-        config.borderColor = UIColor.black
-        config.showGrid = false
-        config.gridColor = UIColor.white
-        config.doneTitle = "CROP"
-        config.cancelTitle = ""
-        
-        picker.dismiss(animated:true, completion: {
-            self.tabBarController?.tabBar.isHidden = true
-            let cropper = ImageCropperViewController.initialize(with: config, completionHandler: { _croppedImage in
-                /*
-                 Code to perform after finishing cropping process
-                 */
                 
-                self.profileImg.image = _croppedImage
-                self.imgTake = 0
-                self.attachedImg = true
-                self.onPopup()
-            }) {
-                /*
-                 Code to perform after dismissing controller
-                 */
-            }
-            
-            self.navigationController?.pushViewController(cropper, animated: true)
-        })
+//        let cropper = CropperViewController(originalImage: originImg)
+         let cropper = CustomCropperViewController(originalImage: originImg)
+        cropper.delegate = self
+        picker.dismiss(animated: true) {
+            self.present(cropper, animated: true, completion: nil)
+        }
         
         
         //        if imgTake == 1 {
@@ -1060,6 +1041,27 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
     }
 }
 
+extension EditMyProfileVC: CropperViewControllerDelegate {
+    
+    func aspectRatioPickerDidSelectedAspectRatio(_ aspectRatio: AspectRatio) {
+        print("\(String(describing: aspectRatio.dictionary))")
+    }
+    
+    func cropperDidConfirm(_ cropper: CropperViewController, state: CropperState?) {
+        cropper.dismiss(animated: true, completion: nil)
+        if let state = state,
+            let image = cropper.originalImage.cropped(withCropperState: state) {
+            cropperState = state
+            profileImg.image = image
+            self.attachedImg = true
+            
+            imgTake = 0
+            print(cropper.isCurrentlyInInitialState)
+            print(image)
+        }
+    }
+}
+//(20.0, 274.0, 388.0, 291.0)
 //text view delegate
 extension EditMyProfileVC: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {

@@ -106,11 +106,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         pullToRefresh()
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadChatList), name: Notification.Name("reloadChatList"), object: nil)
-        
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
-        
+
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
@@ -125,6 +121,12 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         hideNavigationBar(NavigationBar: false, BackButton: true)
         CancelRequest.currentTask = false
         seyupAds()
+        currentPage = 0
+        
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
         
         setupHideView()
     }

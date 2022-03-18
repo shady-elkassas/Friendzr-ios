@@ -174,6 +174,8 @@
 		436DD06027E1287000A4A7F7 /* AllValidatConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DD05F27E1287000A4A7F7 /* AllValidatConfigModel.swift */; };
 		436DD06427E1D15000A4A7F7 /* ConversationVC + Custom Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DD06327E1D15000A4A7F7 /* ConversationVC + Custom Views.swift */; };
 		436DD06727E3422A00A4A7F7 /* SharePrivateEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DD06627E3422A00A4A7F7 /* SharePrivateEventVC.swift */; };
+		436DD06C27E489A500A4A7F7 /* CustomOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DD06B27E489A500A4A7F7 /* CustomOverlay.swift */; };
+		436DD06E27E489B600A4A7F7 /* CustomCropperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436DD06D27E489B600A4A7F7 /* CustomCropperViewController.swift */; };
 		436E945C27BD153800CB2F1E /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436E945B27BD153800CB2F1E /* CustomSwitch.swift */; };
 		436E945E27BD155100CB2F1E /* CustomThumbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436E945D27BD155100CB2F1E /* CustomThumbView.swift */; };
 		4371D4212733F46C003B8AFD /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4202733F46C003B8AFD /* CustomCell.swift */; };
@@ -558,6 +560,8 @@
 		436DD05F27E1287000A4A7F7 /* AllValidatConfigModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllValidatConfigModel.swift; sourceTree = "<group>"; };
 		436DD06327E1D15000A4A7F7 /* ConversationVC + Custom Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConversationVC + Custom Views.swift"; sourceTree = "<group>"; };
 		436DD06627E3422A00A4A7F7 /* SharePrivateEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharePrivateEventVC.swift; sourceTree = "<group>"; };
+		436DD06B27E489A500A4A7F7 /* CustomOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOverlay.swift; sourceTree = "<group>"; };
+		436DD06D27E489B600A4A7F7 /* CustomCropperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCropperViewController.swift; sourceTree = "<group>"; };
 		436E945B27BD153800CB2F1E /* CustomSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwitch.swift; sourceTree = "<group>"; };
 		436E945D27BD155100CB2F1E /* CustomThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomThumbView.swift; sourceTree = "<group>"; };
 		4371D40D273127F3003B8AFD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1446,6 +1450,7 @@
 				2E46D04BCE75F82D975E85B7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
+			wrapsLines = 1;
 		};
 		4382AC1426C27195005C1857 /* Products */ = {
 			isa = PBXGroup;
@@ -1729,6 +1734,8 @@
 				436E945B27BD153800CB2F1E /* CustomSwitch.swift */,
 				436E945D27BD155100CB2F1E /* CustomThumbView.swift */,
 				43DAF9DD27D62A9A00D16462 /* ImageDownloader.swift */,
+				436DD06B27E489A500A4A7F7 /* CustomOverlay.swift */,
+				436DD06D27E489B600A4A7F7 /* CustomCropperViewController.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2230,6 +2237,7 @@
 				43BDFADD27B5454E005302CD /* FriendsShareTableViewCell.swift in Sources */,
 				434BCE4B27BCEB5E002DC1DA /* PreferToVC.swift in Sources */,
 				430A350F26CA7A2200477A94 /* MoreTableViewCell.swift in Sources */,
+				436DD06E27E489B600A4A7F7 /* CustomCropperViewController.swift in Sources */,
 				4336D13B26DB96C20093C7A6 /* ProfileViewModel.swift in Sources */,
 				43ACFED727B3B7F0001CD340 /* EventDetailsAttendeesTableViewCell.swift in Sources */,
 				4308EB7226E9FC5600D71379 /* RequestsViewModel.swift in Sources */,
@@ -2277,6 +2285,7 @@
 				43E7EC43279C341900631AA0 /* FaceRecognitionVC.swift in Sources */,
 				4367E46427BA4A0E00FE1880 /* ProfileUserNameTableViewCell.swift in Sources */,
 				436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */,
+				436DD06C27E489A500A4A7F7 /* CustomOverlay.swift in Sources */,
 				4382ACBC26C2AFE9005C1857 /* SplachThreeVC.swift in Sources */,
 				4368509A274500DD00A62287 /* structAPI.swift in Sources */,
 				43FC3CA727280BD500D94ABB /* SettingsTableViewCell.swift in Sources */,
@@ -2781,7 +2790,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.16;
+				CURRENT_PROJECT_VERSION = 2.8.17;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2811,7 +2820,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.16;
+				CURRENT_PROJECT_VERSION = 2.8.17;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;
