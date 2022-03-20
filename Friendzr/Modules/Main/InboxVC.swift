@@ -59,7 +59,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet var hidesImg: [UIImageView]!
     
     
-    
     //MARK: - Properties
     let cellID = "InboxTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
@@ -132,7 +131,8 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.hideLoading()
+        super.viewWillDisappear(animated)
+        
         CancelRequest.currentTask = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
@@ -205,6 +205,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func loadAllchatList(pageNumber:Int) {
+        hideView.isHidden = false
         hideView.showLoader()
         viewmodel.getChatList(pageNumber: pageNumber)
         viewmodel.listChat.bind { [unowned self] value in
@@ -349,6 +350,52 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
             self.emptyView.isHidden = true
             self.hideView.isHidden = false
             loadAllchatList(pageNumber: 1)
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func updateUserInterfaceActions() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+        case .wifi:
+            internetConect = true
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func updateUserInterfaceNavigationsBtn() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            self.emptyView.isHidden = false
+            self.hideView.isHidden = true
+            internetConect = false
+            self.view.makeToast("")
+        case .wwan:
+            internetConect = true
+            self.emptyView.isHidden = true
+            self.hideView.isHidden = false
+        case .wifi:
+            internetConect = true
+            self.emptyView.isHidden = true
+            self.hideView.isHidden = false
         }
         
         print("Reachability Summary")
@@ -550,63 +597,71 @@ extension InboxVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if searchVM.usersinChat.value?.data?.count != 0 || viewmodel.listChat.value?.data?.count != 0  {
-            let vc = ConversationVC()
-            
-            var model = viewmodel.listChat.value?.data?[indexPath.row]
-            if isSearch {
-                model = searchVM.usersinChat.value?.data?[indexPath.row]
-            }
-            
-            if model?.isevent == true {
-                vc.isEvent = true
-                vc.eventChatID = model?.id ?? ""
-                vc.chatuserID = ""
-                vc.leavevent = model?.leavevent ?? 0
-                vc.leaveGroup = 1
-                vc.isFriend = false
-                vc.titleChatImage = model?.image ?? ""
-                vc.titleChatName = model?.chatName ?? ""
-                vc.isChatGroupAdmin = false
-                vc.isChatGroup = false
-                vc.groupId = ""
-                vc.isEventAdmin = model?.myevent ?? false
-            }else {
-                if (model?.isChatGroup ?? false) == true {
-                    vc.isEvent = false
-                    vc.eventChatID = ""
+        updateUserInterfaceActions()
+        if internetConect {
+            if searchVM.usersinChat.value?.data?.count != 0 || viewmodel.listChat.value?.data?.count != 0  {
+                let vc = ConversationVC()
+                
+                var model = viewmodel.listChat.value?.data?[indexPath.row]
+                if isSearch {
+                    model = searchVM.usersinChat.value?.data?[indexPath.row]
+                }
+                
+                if model?.isevent == true {
+                    vc.isEvent = true
+                    vc.eventChatID = model?.id ?? ""
                     vc.chatuserID = ""
-                    vc.leavevent = 1
-                    vc.leaveGroup = model?.leaveGroup ?? 0
-                    vc.isFriend = false
-                    vc.titleChatImage = model?.image ?? ""
-                    vc.titleChatName = model?.chatName ?? ""
-                    vc.isChatGroupAdmin = model?.isChatGroupAdmin ?? false
-                    vc.isChatGroup = model?.isChatGroup ?? false
-                    vc.groupId = model?.id ?? ""
-                    vc.isEventAdmin = false
-                }else {
-                    vc.isEvent = false
-                    vc.eventChatID = ""
-                    vc.chatuserID = model?.id ?? ""
-                    vc.leaveGroup = 1
-                    vc.isFriend = model?.isfrind ?? false
                     vc.leavevent = model?.leavevent ?? 0
+                    vc.leaveGroup = 1
+                    vc.isFriend = false
                     vc.titleChatImage = model?.image ?? ""
                     vc.titleChatName = model?.chatName ?? ""
                     vc.isChatGroupAdmin = false
                     vc.isChatGroup = false
                     vc.groupId = ""
-                    vc.isEventAdmin = false
+                    vc.isEventAdmin = model?.myevent ?? false
+                }else {
+                    if (model?.isChatGroup ?? false) == true {
+                        vc.isEvent = false
+                        vc.eventChatID = ""
+                        vc.chatuserID = ""
+                        vc.leavevent = 1
+                        vc.leaveGroup = model?.leaveGroup ?? 0
+                        vc.isFriend = false
+                        vc.titleChatImage = model?.image ?? ""
+                        vc.titleChatName = model?.chatName ?? ""
+                        vc.isChatGroupAdmin = model?.isChatGroupAdmin ?? false
+                        vc.isChatGroup = model?.isChatGroup ?? false
+                        vc.groupId = model?.id ?? ""
+                        vc.isEventAdmin = false
+                    }
+                    else {
+                        vc.isEvent = false
+                        vc.eventChatID = ""
+                        vc.chatuserID = model?.id ?? ""
+                        vc.leaveGroup = 1
+                        vc.isFriend = model?.isfrind ?? false
+                        vc.leavevent = model?.leavevent ?? 0
+                        vc.titleChatImage = model?.image ?? ""
+                        vc.titleChatName = model?.chatName ?? ""
+                        vc.isChatGroupAdmin = false
+                        vc.isChatGroup = false
+                        vc.groupId = ""
+                        vc.isEventAdmin = false
+                    }
                 }
+                
+                vc.titleChatImage = model?.image ?? ""
+                vc.titleChatName = model?.chatName ?? ""
+                CancelRequest.currentTask = false
+                
+                navigationController?.pushViewController(vc, animated: true)
             }
-            
-            vc.titleChatImage = model?.image ?? ""
-            vc.titleChatName = model?.chatName ?? ""
-            CancelRequest.currentTask = false
-            
-            navigationController?.pushViewController(vc, animated: true)
         }
+        else {
+            self.view.makeToast("Network is unavailable, please try again!")
+        }
+
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -651,40 +706,48 @@ extension InboxVC:UITableViewDelegate {
                     let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                     
                     settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                        if model?.isChatGroup == true {
-                            self.groupVM.clearGroupChat(ByID: model?.id ?? "", registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
+                        self.updateUserInterfaceActions()
+                        if self.internetConect {
+                            if model?.isChatGroup == true {
+                                self.groupVM.clearGroupChat(ByID: model?.id ?? "", registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
                                     }
-                                    return
-                                }
-                                
-                                guard let _ = data else {
-                                    return
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    self.getAllChatList(pageNumber: 1)
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.getAllChatList(pageNumber: 1)
+                                    }
                                 }
                             }
-                        }else {
-                            self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
+                            else {
+                                self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
                                     }
-                                    return
-                                }
-                                
-                                guard let _ = data else {
-                                    return
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    self.getAllChatList(pageNumber: 1)
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.getAllChatList(pageNumber: 1)
+                                    }
                                 }
                             }
+
+                        }
+                        else {
+                            self.view.makeToast("Network is unavailable, please try again!")
                         }
                     }))
                     settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -695,40 +758,48 @@ extension InboxVC:UITableViewDelegate {
                     let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                     
                     settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                        if model?.isChatGroup == true {
-                            self.groupVM.clearGroupChat(ByID: model?.id ?? "", registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
+                        self.updateUserInterfaceActions()
+                        if self.internetConect {
+                            if model?.isChatGroup == true {
+                                self.groupVM.clearGroupChat(ByID: model?.id ?? "", registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
                                     }
-                                    return
-                                }
-                                
-                                guard let _ = data else {
-                                    return
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    self.getAllChatList(pageNumber: 1)
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.getAllChatList(pageNumber: 1)
+                                    }
                                 }
                             }
-                        }else {
-                            self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
+                            else {
+                                self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
+                                    if let error = error {
+                                        DispatchQueue.main.async {
+                                            self.view.makeToast(error)
+                                        }
+                                        return
                                     }
-                                    return
-                                }
-                                
-                                guard let _ = data else {
-                                    return
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    self.getAllChatList(pageNumber: 1)
+                                    
+                                    guard let _ = data else {
+                                        return
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.getAllChatList(pageNumber: 1)
+                                    }
                                 }
                             }
+
+                        }
+                        else {
+                            self.view.makeToast("Network is unavailable, please try again!")
                         }
                     }))
                     settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -746,20 +817,27 @@ extension InboxVC:UITableViewDelegate {
                             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                             
                             settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
+                                self.updateUserInterfaceActions()
+                                if self.internetConect {
+                                    self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
                                         }
-                                        return
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        DispatchQueue.main.async {
+                                            self.getAllChatList(pageNumber: 1)
+                                        }
                                     }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    DispatchQueue.main.async {
-                                        self.getAllChatList(pageNumber: 1)
-                                    }
+
+                                }
+                                else {
+                                    self.view.makeToast("Network is unavailable, please try again!")
                                 }
                             }))
                             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -770,20 +848,26 @@ extension InboxVC:UITableViewDelegate {
                             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                             
                             settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
+                                self.updateUserInterfaceActions()
+                                if self.internetConect {
+                                    self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
                                         }
-                                        return
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        DispatchQueue.main.async {
+                                            self.getAllChatList(pageNumber: 1)
+                                        }
                                     }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    DispatchQueue.main.async {
-                                        self.getAllChatList(pageNumber: 1)
-                                    }
+                                }
+                                else {
+                                    self.view.makeToast("Network is unavailable, please try again!")
                                 }
                             }))
                             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -796,21 +880,27 @@ extension InboxVC:UITableViewDelegate {
                             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                             
                             settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
+                                self.updateUserInterfaceActions()
+                                if self.internetConect {
+                                    self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
                                         }
-                                        return
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        DispatchQueue.main.async {
+                                            self.getAllChatList(pageNumber: 1)
+                                        }
                                     }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    DispatchQueue.main.async {
-                                        self.getAllChatList(pageNumber: 1)
-                                    }
+                                }else {
+                                    self.view.makeToast("Network is unavailable, please try again!")
                                 }
+
                             }))
                             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                             
@@ -820,25 +910,26 @@ extension InboxVC:UITableViewDelegate {
                             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                             
                             settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
+                                self.updateUserInterfaceActions()
+                                if self.internetConect {
+                                    self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
                                         }
-                                        return
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        DispatchQueue.main.async {
+                                            self.getAllChatList(pageNumber: 1)
+                                        }
                                     }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    
-    //                                DispatchQueue.main.async {
-    //                                    self.view.makeToast("You have joined the chat".localizedString)
-    //                                }
-                                    
-                                    DispatchQueue.main.async {
-                                        self.getAllChatList(pageNumber: 1)
-                                    }
+                                }else {
+                                    self.view.makeToast("Network is unavailable, please try again!")
+
                                 }
                             }))
                             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -854,20 +945,26 @@ extension InboxVC:UITableViewDelegate {
                             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                             
                             settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                self.groupVM.leaveGroupChat(ByID: model?.id ?? "", registrationDateTime: actionDate) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
+                                
+                                self.updateUserInterfaceActions()
+                                if self.internetConect {
+                                    self.groupVM.leaveGroupChat(ByID: model?.id ?? "", registrationDateTime: actionDate) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
                                         }
-                                        return
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        DispatchQueue.main.async {
+                                            self.getAllChatList(pageNumber: 1)
+                                        }
                                     }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    DispatchQueue.main.async {
-                                        self.getAllChatList(pageNumber: 1)
-                                    }
+                                }else {
+                                    self.view.makeToast("Network is unavailable, please try again!")
                                 }
                             }))
                             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -878,21 +975,27 @@ extension InboxVC:UITableViewDelegate {
                             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                             
                             settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                self.groupVM.leaveGroupChat(ByID: model?.id ?? "", registrationDateTime: actionDate) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
+                                self.updateUserInterfaceActions()
+                                if self.internetConect {
+                                    self.groupVM.leaveGroupChat(ByID: model?.id ?? "", registrationDateTime: actionDate) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
                                         }
-                                        return
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        DispatchQueue.main.async {
+                                            self.getAllChatList(pageNumber: 1)
+                                        }
                                     }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    DispatchQueue.main.async {
-                                        self.getAllChatList(pageNumber: 1)
-                                    }
+                                }else {
+                                    self.view.makeToast("Network is unavailable, please try again!")
                                 }
+
                             }))
                             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                             
@@ -910,43 +1013,52 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            if model?.isChatGroup == true {
-                                self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: false) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
+                            
+                            self.updateUserInterfaceActions()
+                            if self.internetConect {
+                                if model?.isChatGroup == true {
+                                    self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: false) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
                                         }
-                                        return
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        
+                                        DispatchQueue.main.async {
+                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            tableView.reloadData()
+                                        }
                                     }
                                     
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                        tableView.reloadData()
+                                }
+                                else {
+                                    self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
+                                        }
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        
+                                        DispatchQueue.main.async {
+                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            tableView.reloadData()
+                                        }
                                     }
                                 }
-                                
-                            }else {
-                                self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
-                                        }
-                                        return
-                                    }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                        tableView.reloadData()
-                                    }
-                                }
+
+                            }
+                            else {
+                                self.view.makeToast("Network is unavailable, please try again!")
                             }
                         }))
                         settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -957,43 +1069,51 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            if model?.isChatGroup == true {
-                                self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: false) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
+                            self.updateUserInterfaceActions()
+                            if self.internetConect {
+                                if model?.isChatGroup == true {
+                                    self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: false) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
                                         }
-                                        return
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        
+                                        DispatchQueue.main.async {
+                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            tableView.reloadData()
+                                        }
                                     }
                                     
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                        tableView.reloadData()
+                                }
+                                else {
+                                    self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
+                                        }
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        
+                                        DispatchQueue.main.async {
+                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            tableView.reloadData()
+                                        }
                                     }
                                 }
-                                
-                            }else {
-                                self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
-                                        }
-                                        return
-                                    }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                        tableView.reloadData()
-                                    }
-                                }
+
+                            }
+                            else {
+                                self.view.makeToast("Network is unavailable, please try again!")
                             }
                         }))
                         settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -1006,43 +1126,50 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            if model?.isChatGroup == true {
-                                self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: true) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
+                            self.updateUserInterfaceActions()
+                            if self.internetConect {
+                                if model?.isChatGroup == true {
+                                    self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: true) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
                                         }
-                                        return
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        
+                                        DispatchQueue.main.async {
+                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            tableView.reloadData()
+                                        }
                                     }
                                     
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                        tableView.reloadData()
+                                }
+                                else {
+                                    self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
+                                        }
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        
+                                        DispatchQueue.main.async {
+                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            tableView.reloadData()
+                                        }
                                     }
                                 }
-                                
-                            }else {
-                                self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
-                                        }
-                                        return
-                                    }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                        tableView.reloadData()
-                                    }
-                                }
+                            }
+                            else {
+                                self.view.makeToast("Network is unavailable, please try again!")
                             }
                         }))
                         settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -1053,43 +1180,52 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            if model?.isChatGroup == true {
-                                self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: true) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
+                            
+                            self.updateUserInterfaceActions()
+                            if self.internetConect {
+                                if model?.isChatGroup == true {
+                                    self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: true) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
                                         }
-                                        return
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        
+                                        DispatchQueue.main.async {
+                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            tableView.reloadData()
+                                        }
                                     }
                                     
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                        tableView.reloadData()
+                                }
+                                else {
+                                    self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
+                                        if let error = error {
+                                            DispatchQueue.main.async {
+                                                self.view.makeToast(error)
+                                            }
+                                            return
+                                        }
+                                        
+                                        guard let _ = data else {
+                                            return
+                                        }
+                                        
+                                        DispatchQueue.main.async {
+                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            tableView.reloadData()
+                                        }
                                     }
                                 }
-                                
-                            }else {
-                                self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
-                                        }
-                                        return
-                                    }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                        tableView.reloadData()
-                                    }
-                                }
+
+                            }
+                            else {
+                                self.view.makeToast("Network is unavailable, please try again!")
                             }
                         }))
                         settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
@@ -1157,12 +1293,18 @@ extension InboxVC: UISearchBarDelegate{
     @objc func updateSearchResult() {
         guard let text = searchBar.text else {return}
         print(text)
-        if text != "" {
-            isSearch = true
-            getSearchUsers(text: text)
+        
+        updateUserInterfaceActions()
+        if internetConect {
+            if text != "" {
+                isSearch = true
+                getSearchUsers(text: text)
+            }else {
+                isSearch = false
+                getAllChatList(pageNumber: 1)
+            }
         }else {
-            isSearch = false
-            getAllChatList(pageNumber: 1)
+            HandleInternetConnection()
         }
     }
     
@@ -1180,8 +1322,15 @@ extension InboxVC: UISearchBarDelegate{
     
     @objc func PresentNewConversation() {
         print("PresentNewConversation")
-        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "NewConversationNC") as? UINavigationController, let _ = controller.viewControllers.first as? NewConversationVC {
-            self.present(controller, animated: true)
+        
+        updateUserInterfaceActions()
+        if internetConect {
+            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "NewConversationNC") as? UINavigationController, let _ = controller.viewControllers.first as? NewConversationVC {
+                self.present(controller, animated: true)
+            }
+        }
+        else {
+            HandleInternetConnection()
         }
     }
 }

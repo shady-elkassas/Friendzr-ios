@@ -318,6 +318,11 @@ extension NotificationsVC: UITableViewDelegate {
                     vc.eventId = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
+                else if model?.action == "Check_private_events" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else { return}
+                    vc.eventId = model?.action_code ?? ""
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
         }
     }

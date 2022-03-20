@@ -237,6 +237,8 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
                         Router().toOptionsSignUpVC()
                     })
                 }
+            }else {
+                self.HandleInternetConnection()
             }
             
             // handling code
@@ -371,7 +373,9 @@ extension MoreVC : UITableViewDelegate {
             }
             break
         case 11://logout
-            logout()
+            if internetConect {
+                logout()
+            }
             break
         default:
             break

@@ -24,8 +24,13 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     var locationManager: CLLocationManager!
     var locationLat = 0.0
     var locationLng = 0.0
-    var x = 0
     
+    var duration: Double = 1.5
+    var delay: Double = 2.0
+    var minimumBeats: Int = 1
+
+    var internetConect:Bool = false
+
     private lazy var imageView: UIImageView = {
         let image = UIImageView()
         image.frame = CGRect(x: 0, y: 0, width: 70 , height: 70)
@@ -56,14 +61,14 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         
         DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1.5) {
             if Defaults.needUpdate == 1 {
-                self.getAllValidatConfig()
+                self.updateUserInterface()
                 
                 DispatchQueue.main.async {
                     Router().toSplachOne()
                 }
             }else {
                 if Defaults.token != "" {
-                    self.getAllValidatConfig()
+                    self.updateUserInterface()
                 }else {
                     Router().toOptionsSignUpVC()
                 }
@@ -85,6 +90,29 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         CancelRequest.currentTask = true
     }
     
+    
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+            getAllValidatConfig()
+        case .wifi:
+            internetConect = true
+            getAllValidatConfig()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
     func getAllValidatConfig() {
         allValidatConfigVM.getAllValidatConfig()
         allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
@@ -103,10 +131,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
             }
         }
     }
-
-    var duration: Double = 1.5
-    var delay: Double = 2.0
-    var minimumBeats: Int = 1
     
     func animateLayer(_ animation: AnimationExecution, completion: AnimationCompletion? = nil) {
         
@@ -188,6 +212,9 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         self.checkLocationPermission()
     }
     
+    func HandleInternetConnection() {
+        self.view.makeToast("Network is unavailable, please try again!".localizedString)
+    }
     
     func checkLocationPermission() {
         if CLLocationManager.locationServicesEnabled() {

@@ -558,6 +558,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @objc func didPullToRefresh() {
         print("Refersh")
         currentPage = 1
+        btnsSelected = false
         checkLocationPermission()
         self.refreshControl.endRefreshing()
     }
@@ -587,14 +588,23 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK: - Actions
     @IBAction func nextBtn(_ sender: Any) {
-        filterHideView.isHidden = true
-        Defaults.isFirstFilter = true
-        
-        createLocationManager()
-        filterDir = true
-        filterBtn.isHidden = false
-        compassContanierView.isHidden = false
-        compassContainerViewHeight.constant = 320
+        updateNetworkForBtns()
+        if internetConnect {
+            filterHideView.isHidden = true
+            Defaults.isFirstFilter = true
+            
+            createLocationManager()
+            filterDir = true
+            filterBtn.isHidden = false
+            compassContanierView.isHidden = false
+            
+            if Defaults.isIPhoneSmall {
+                compassContainerViewHeight.constant = 200
+            }else {
+                compassContainerViewHeight.constant = 320
+            }
+            
+        }
     }
     
     
@@ -603,12 +613,18 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func filterBtn(_ sender: Any) {
-        filterFeedsBy(degree: compassDegree, pageNumber: 1)
+        updateNetworkForBtns()
+        if internetConnect {
+            filterFeedsBy(degree: compassDegree, pageNumber: 1)
+        }
     }
     
     @IBAction func allowLocationBtn(_ sender: Any) {
-        self.refreshControl.endRefreshing()
-        self.checkLocationPermission()
+        updateNetworkForBtns()
+        if internetConnect {
+            self.refreshControl.endRefreshing()
+            self.checkLocationPermission()
+        }
     }
 }
 
@@ -1261,66 +1277,71 @@ extension FeedVC {
     @objc func handleCompassSwitchBtn() {
         print("\(switchCompassBarButton.isOn)")
         
-        // Azimuth
-        if Defaults.allowMyLocationSettings == true {
-            if switchCompassBarButton.isOn {
-                self.isCompassOpen = true
-                bannerViewHeight.constant = 50
-                if !Defaults.isFirstFilter {
-                    filterHideView.isHidden = false
-                    Defaults.isFirstFilter = true
-                }else {
-                    filterHideView.isHidden = true
-                    Defaults.isFirstFilter = true
-                    
-                    createLocationManager()
-                    filterDir = true
-                    filterBtn.isHidden = false
-                    compassContanierView.isHidden = false
-                    if Defaults.isIPhoneSmall {
-                        compassContainerViewHeight.constant = 200
+        updateNetworkForBtns()
+        
+        if internetConnect {
+            // Azimuth
+            if Defaults.allowMyLocationSettings == true {
+                if switchCompassBarButton.isOn {
+                    self.isCompassOpen = true
+                    bannerViewHeight.constant = 50
+                    if !Defaults.isFirstFilter {
+                        filterHideView.isHidden = false
+                        Defaults.isFirstFilter = true
                     }else {
-                        compassContainerViewHeight.constant = 320
-                    }
-                    
-                    compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
-                }
-            }else {
-                self.isCompassOpen = false
-                filterHideView.isHidden = true
-                Defaults.isFirstFilter = true
-                bannerViewHeight.constant = 100
-                
-                locationManager.stopUpdatingLocation()
-                locationManager.stopUpdatingHeading()
-                filterDir = false
-                compassContanierView.isHidden = true
-                
-                
-                filterBtn.isHidden = true
-                compassContainerViewHeight.constant = 0
-                
-                if Defaults.allowMyLocationSettings == true {
-                    DispatchQueue.main.async {
-                        if self.isCompassOpen {
-                            self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                        filterHideView.isHidden = true
+                        Defaults.isFirstFilter = true
+                        
+                        createLocationManager()
+                        filterDir = true
+                        filterBtn.isHidden = false
+                        compassContanierView.isHidden = false
+                        if Defaults.isIPhoneSmall {
+                            compassContainerViewHeight.constant = 200
                         }else {
-                            self.getAllFeeds(pageNumber: 0)
+                            compassContainerViewHeight.constant = 320
                         }
                         
+                        compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
                     }
-                    self.allowLocView.isHidden = true
                 }else {
-                    self.emptyView.isHidden = true
-                    self.allowLocView.isHidden = false
+                    self.isCompassOpen = false
+                    filterHideView.isHidden = true
+                    Defaults.isFirstFilter = true
+                    bannerViewHeight.constant = 100
+                    
+                    locationManager.stopUpdatingLocation()
+                    locationManager.stopUpdatingHeading()
+                    filterDir = false
+                    compassContanierView.isHidden = true
+                    
+                    
+                    filterBtn.isHidden = true
+                    compassContainerViewHeight.constant = 0
+                    
+                    if Defaults.allowMyLocationSettings == true {
+                        DispatchQueue.main.async {
+                            if self.isCompassOpen {
+                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                            }else {
+                                self.getAllFeeds(pageNumber: 0)
+                            }
+                            
+                        }
+                        self.allowLocView.isHidden = true
+                    }else {
+                        self.emptyView.isHidden = true
+                        self.allowLocView.isHidden = false
+                    }
                 }
             }
-        }
-        else {
-            self.isCompassOpen = false
-            switchCompassBarButton.isOn = false
-            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-            bannerViewHeight.constant = 100
+            else {
+                self.isCompassOpen = false
+                switchCompassBarButton.isOn = false
+                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                bannerViewHeight.constant = 100
+            }
+
         }
     }
     
@@ -1342,79 +1363,85 @@ extension FeedVC {
         case .down:
             break
         case .left:
-            if Defaults.allowMyLocationSettings == true {
-                switchCompassBarButton.isOn = false
-                self.isCompassOpen = false
-                filterHideView.isHidden = true
-                Defaults.isFirstFilter = true
-                bannerViewHeight.constant = 100
-                
-                locationManager.stopUpdatingLocation()
-                locationManager.stopUpdatingHeading()
-                filterDir = false
-                compassContanierView.isHidden = true
-                
-                
-                filterBtn.isHidden = true
-                compassContainerViewHeight.constant = 0
-                
+            updateNetworkForBtns()
+            if internetConnect {
                 if Defaults.allowMyLocationSettings == true {
-                    DispatchQueue.main.async {
-                        if self.isCompassOpen {
-                            self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
-                        }else {
-                            self.getAllFeeds(pageNumber: 0)
-                        }
-                        
-                    }
-                    self.allowLocView.isHidden = true
-                }else {
-                    self.emptyView.isHidden = true
-                    self.allowLocView.isHidden = false
-                }
-            }
-            else {
-                self.isCompassOpen = false
-                switchCompassBarButton.isOn = false
-                //                self.showAlert(withMessage: "Please allow your location".localizedString)
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-                initCompassSwitchBarButton()
-                bannerViewHeight.constant = 100
-            }
-            //            break
-        case .right:
-            if Defaults.allowMyLocationSettings == true {
-                switchCompassBarButton.isOn = true
-                
-                self.isCompassOpen = true
-                bannerViewHeight.constant = 50
-                if !Defaults.isFirstFilter {
-                    filterHideView.isHidden = false
-                    Defaults.isFirstFilter = true
-                }else {
+                    switchCompassBarButton.isOn = false
+                    self.isCompassOpen = false
                     filterHideView.isHidden = true
                     Defaults.isFirstFilter = true
+                    bannerViewHeight.constant = 100
                     
-                    createLocationManager()
-                    filterDir = true
-                    filterBtn.isHidden = false
-                    compassContanierView.isHidden = false
-                    if Defaults.isIPhoneSmall {
-                        compassContainerViewHeight.constant = 200
+                    locationManager.stopUpdatingLocation()
+                    locationManager.stopUpdatingHeading()
+                    filterDir = false
+                    compassContanierView.isHidden = true
+                    
+                    
+                    filterBtn.isHidden = true
+                    compassContainerViewHeight.constant = 0
+                    
+                    if Defaults.allowMyLocationSettings == true {
+                        DispatchQueue.main.async {
+                            if self.isCompassOpen {
+                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                            }else {
+                                self.getAllFeeds(pageNumber: 0)
+                            }
+                            
+                        }
+                        self.allowLocView.isHidden = true
                     }else {
-                        compassContainerViewHeight.constant = 320
+                        self.emptyView.isHidden = true
+                        self.allowLocView.isHidden = false
                     }
-                    
-                    compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
                 }
+                else {
+                    self.isCompassOpen = false
+                    switchCompassBarButton.isOn = false
+                    createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                    initCompassSwitchBarButton()
+                    bannerViewHeight.constant = 100
+                }
+
             }
-            else {
-                self.isCompassOpen = false
-                switchCompassBarButton.isOn = false
-                //                self.showAlert(withMessage: "Please allow your location".localizedString)
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-                initCompassSwitchBarButton()
-                bannerViewHeight.constant = 100
+        case .right:
+            updateNetworkForBtns()
+            if internetConnect {
+                if Defaults.allowMyLocationSettings == true {
+                    switchCompassBarButton.isOn = true
+                    
+                    self.isCompassOpen = true
+                    bannerViewHeight.constant = 50
+                    if !Defaults.isFirstFilter {
+                        filterHideView.isHidden = false
+                        Defaults.isFirstFilter = true
+                    }else {
+                        filterHideView.isHidden = true
+                        Defaults.isFirstFilter = true
+                        
+                        createLocationManager()
+                        filterDir = true
+                        filterBtn.isHidden = false
+                        compassContanierView.isHidden = false
+                        if Defaults.isIPhoneSmall {
+                            compassContainerViewHeight.constant = 200
+                        }else {
+                            compassContainerViewHeight.constant = 320
+                        }
+                        
+                        compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
+                    }
+                }
+                else {
+                    self.isCompassOpen = false
+                    switchCompassBarButton.isOn = false
+                    //                self.showAlert(withMessage: "Please allow your location".localizedString)
+                    createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                    initCompassSwitchBarButton()
+                    bannerViewHeight.constant = 100
+                }
+
             }
         default:
             break
@@ -1426,9 +1453,7 @@ extension FeedVC {
 
     func initGhostModeSwitchButton() {
         switchGhostModeBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
-//        if Defaults.isIPhoneSmall {
-//            switchCompassBarButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-//        }
+
         switchGhostModeBarButton.onTintColor = UIColor.FriendzrColors.primary!
         switchGhostModeBarButton.setBorder()
         switchGhostModeBarButton.offTintColor = UIColor.white
@@ -1467,108 +1492,111 @@ extension FeedVC {
         case .down:
             break
         case .left:
-            self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-            
-            self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-            self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
-            
-            self.showAlertView?.HandleConfirmBtn = {
-                self.updateNetworkForBtns()
+            updateNetworkForBtns()
+            if internetConnect {
+                self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 
-                if self.internetConnect {
-                    self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
+                self.showAlertView?.titleLbl.text = "Confirm?".localizedString
+                self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
+                
+                self.showAlertView?.HandleConfirmBtn = {
+                    self.updateNetworkForBtns()
+                    
+                    if self.internetConnect {
+                        self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
+                            if let error = error {
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
+                                return
                             }
-                            return
-                        }
-                        
-                        guard data != nil else {return}
-                        Defaults.ghostMode = false
-                        Defaults.ghostModeEveryOne = false
-                        Defaults.myAppearanceTypes = [0]
-                        self.switchGhostModeBarButton.isOn = false
-                        
-//                        DispatchQueue.main.async {
-//                            self.initGhostModeSwitchButton()
-//                        }
-                        
+                            
+                            guard data != nil else {return}
+                            Defaults.ghostMode = false
+                            Defaults.ghostModeEveryOne = false
+                            Defaults.myAppearanceTypes = [0]
+                            self.switchGhostModeBarButton.isOn = false
+                            
+                            DispatchQueue.main.async {
+                                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+                            }
+                            
+                            DispatchQueue.main.async {
+                                NotificationCenter.default.post(name: Notification.Name("updateSettings"), object: nil, userInfo: nil)
+                            }
+                        })
+                    }
+                    // handling code
+                    UIView.animate(withDuration: 0.3, animations: {
                         DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+                            self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                            self.switchCompassBarButton.isUserInteractionEnabled = true
                         }
                         
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateSettings"), object: nil, userInfo: nil)
-                        }
-                    })
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                        self.showAlertView?.alpha = 0
+                    }) { (success: Bool) in
+                        self.showAlertView?.removeFromSuperview()
+                        self.showAlertView?.alpha = 1
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                    }
                 }
-                // handling code
-                UIView.animate(withDuration: 0.3, animations: {
+                
+                self.showAlertView?.HandleCancelBtn = {
+                    DispatchQueue.main.async {
+                        self.initGhostModeSwitchButton()
+                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                        self.switchCompassBarButton.isUserInteractionEnabled = true
+                    }
+                }
+                
+                self.view.addSubview((self.showAlertView)!)
+
+            }
+            
+        case .right:
+            updateNetworkForBtns()
+            if internetConnect {
+                self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                
+                DispatchQueue.main.async {
+                    self.switchGhostModeBarButton.isUserInteractionEnabled = false
+                    self.switchCompassBarButton.isUserInteractionEnabled = false
+                }
+                
+                self.alertView?.parentVC = self
+                
+                self.alertView?.selectedHideType.removeAll()
+                self.alertView?.typeIDs.removeAll()
+                self.alertView?.typeStrings.removeAll()
+                
+                for item in self.alertView?.hideArray ?? [] {
+                    item.isSelected = false
+                    self.alertView?.tableView.reloadData()
+                }
+                
+                self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
+                
+                //cancel view
+                self.alertView?.HandlehideViewBtn = {
+                    self.initGhostModeSwitchButton()
                     DispatchQueue.main.async {
                         self.switchGhostModeBarButton.isUserInteractionEnabled = true
                         self.switchCompassBarButton.isUserInteractionEnabled = true
                     }
-                    
-                    self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                    self.showAlertView?.alpha = 0
-                }) { (success: Bool) in
-                    self.showAlertView?.removeFromSuperview()
-                    self.showAlertView?.alpha = 1
-                    self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
                 }
-            }
-            
-            self.showAlertView?.HandleCancelBtn = {
-                DispatchQueue.main.async {
-                    self.initGhostModeSwitchButton()
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                    self.switchCompassBarButton.isUserInteractionEnabled = true
+                
+                self.alertView?.HandleSaveBtn = {
+                    DispatchQueue.main.async {
+                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                        self.switchCompassBarButton.isUserInteractionEnabled = true
+                    }
                 }
+                
+                self.view.addSubview((self.alertView)!)
+                
+
             }
-            
-            self.view.addSubview((self.showAlertView)!)
-            
-        case .right:
-            self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-            
-            DispatchQueue.main.async {
-                self.switchGhostModeBarButton.isUserInteractionEnabled = false
-                self.switchCompassBarButton.isUserInteractionEnabled = false
-            }
-            
-            self.alertView?.parentVC = self
-            
-            self.alertView?.selectedHideType.removeAll()
-            self.alertView?.typeIDs.removeAll()
-            self.alertView?.typeStrings.removeAll()
-            
-            for item in self.alertView?.hideArray ?? [] {
-                item.isSelected = false
-                self.alertView?.tableView.reloadData()
-            }
-            
-            self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
-            
-            //cancel view
-            self.alertView?.HandlehideViewBtn = {
-                self.initGhostModeSwitchButton()
-                DispatchQueue.main.async {
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                    self.switchCompassBarButton.isUserInteractionEnabled = true
-                }
-            }
-            
-            self.alertView?.HandleSaveBtn = {
-//                self.initGhostModeSwitchButton()
-                DispatchQueue.main.async {
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                    self.switchCompassBarButton.isUserInteractionEnabled = true
-                }
-            }
-            
-            self.view.addSubview((self.alertView)!)
-            
         default:
             break
         }
@@ -1578,118 +1606,118 @@ extension FeedVC {
     
     @objc func handleGhostModeSwitchBtn() {
         
-        if Defaults.ghostMode == false {
-            self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-            
-            DispatchQueue.main.async {
-                self.switchGhostModeBarButton.isUserInteractionEnabled = false
-                self.switchCompassBarButton.isUserInteractionEnabled = false
-            }
-            
-            self.alertView?.parentVC = self
-            
-            self.alertView?.selectedHideType.removeAll()
-            self.alertView?.typeIDs.removeAll()
-            self.alertView?.typeStrings.removeAll()
-            SelectedSingleTone.isSelected = false
-            
-            for item in self.alertView?.hideArray ?? [] {
-                item.isSelected = false
-                self.alertView?.tableView.reloadData()
-            }
-            
-            self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
-            
-            //cancel view
-            self.alertView?.HandlehideViewBtn = {
-                self.initGhostModeSwitchButton()
-                DispatchQueue.main.async {
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                    self.switchCompassBarButton.isUserInteractionEnabled = true
-                }
-            }
-            
-            self.alertView?.HandleSaveBtn = {
-//                self.initGhostModeSwitchButton()
-                DispatchQueue.main.async {
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                    self.switchCompassBarButton.isUserInteractionEnabled = true
-                }
-            }
-            
-            self.view.addSubview((self.alertView)!)
-        }
-        else {
-            self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-            
-            self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-            self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
-            
-            DispatchQueue.main.async {
-                self.switchGhostModeBarButton.isUserInteractionEnabled = false
-                self.switchCompassBarButton.isUserInteractionEnabled = false
-            }
-            
-            self.showAlertView?.HandleConfirmBtn = {
-                self.updateNetworkForBtns()
+        
+        updateNetworkForBtns()
+        if internetConnect {
+            if Defaults.ghostMode == false {
+                self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 
-                if self.internetConnect {
-                    self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard data != nil else {return}
-                        Defaults.ghostMode = false
-                        Defaults.ghostModeEveryOne = false
-                        Defaults.myAppearanceTypes = [0]
-                        self.switchGhostModeBarButton.isOn = false
-                        
-//                        DispatchQueue.main.async {
-//                            self.initGhostModeSwitchButton()
-//                        }
-                        
-                        DispatchQueue.main.async {
-                            if self.isCompassOpen {
-                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
-                            }else {
-                                self.getAllFeeds(pageNumber: 0)
-                            }
-                        }
-                        
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateSettings"), object: nil, userInfo: nil)
-                        }
-                    })
+                DispatchQueue.main.async {
+                    self.switchGhostModeBarButton.isUserInteractionEnabled = false
+                    self.switchCompassBarButton.isUserInteractionEnabled = false
                 }
-                // handling code
-                UIView.animate(withDuration: 0.3, animations: {
+                
+                self.alertView?.parentVC = self
+                
+                self.alertView?.selectedHideType.removeAll()
+                self.alertView?.typeIDs.removeAll()
+                self.alertView?.typeStrings.removeAll()
+                SelectedSingleTone.isSelected = false
+                
+                for item in self.alertView?.hideArray ?? [] {
+                    item.isSelected = false
+                    self.alertView?.tableView.reloadData()
+                }
+                
+                self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
+                
+                //cancel view
+                self.alertView?.HandlehideViewBtn = {
+                    self.initGhostModeSwitchButton()
                     DispatchQueue.main.async {
                         self.switchGhostModeBarButton.isUserInteractionEnabled = true
                         self.switchCompassBarButton.isUserInteractionEnabled = true
                     }
-                    
-                    self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                    self.showAlertView?.alpha = 0
-                }) { (success: Bool) in
-                    self.showAlertView?.removeFromSuperview()
-                    self.showAlertView?.alpha = 1
-                    self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
                 }
+                
+                self.alertView?.HandleSaveBtn = {
+                    DispatchQueue.main.async {
+                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                        self.switchCompassBarButton.isUserInteractionEnabled = true
+                    }
+                }
+                
+                self.view.addSubview((self.alertView)!)
             }
-            
-            self.showAlertView?.HandleCancelBtn = {
+            else {
+                self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                
+                self.showAlertView?.titleLbl.text = "Confirm?".localizedString
+                self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
+                
                 DispatchQueue.main.async {
-                    self.initGhostModeSwitchButton()
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                    self.switchCompassBarButton.isUserInteractionEnabled = true
+                    self.switchGhostModeBarButton.isUserInteractionEnabled = false
+                    self.switchCompassBarButton.isUserInteractionEnabled = false
                 }
+                
+                self.showAlertView?.HandleConfirmBtn = {
+                    self.updateNetworkForBtns()
+                    
+                    if self.internetConnect {
+                        self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
+                            if let error = error {
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
+                                return
+                            }
+                            
+                            guard data != nil else {return}
+                            Defaults.ghostMode = false
+                            Defaults.ghostModeEveryOne = false
+                            Defaults.myAppearanceTypes = [0]
+                            self.switchGhostModeBarButton.isOn = false
+
+                            DispatchQueue.main.async {
+                                if self.isCompassOpen {
+                                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                                }else {
+                                    self.getAllFeeds(pageNumber: 0)
+                                }
+                            }
+                            
+                            DispatchQueue.main.async {
+                                NotificationCenter.default.post(name: Notification.Name("updateSettings"), object: nil, userInfo: nil)
+                            }
+                        })
+                    }
+                    // handling code
+                    UIView.animate(withDuration: 0.3, animations: {
+                        DispatchQueue.main.async {
+                            self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                            self.switchCompassBarButton.isUserInteractionEnabled = true
+                        }
+                        
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                        self.showAlertView?.alpha = 0
+                    }) { (success: Bool) in
+                        self.showAlertView?.removeFromSuperview()
+                        self.showAlertView?.alpha = 1
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                    }
+                }
+                
+                self.showAlertView?.HandleCancelBtn = {
+                    DispatchQueue.main.async {
+                        self.initGhostModeSwitchButton()
+                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                        self.switchCompassBarButton.isUserInteractionEnabled = true
+                    }
+                }
+                
+                self.view.addSubview((self.showAlertView)!)
             }
-            
-            self.view.addSubview((self.showAlertView)!)
+
         }
     }
     
@@ -1733,7 +1761,6 @@ extension FeedVC {
             }
             
             DispatchQueue.main.async {
-//                self.initGhostModeSwitchButton()
                 self.switchGhostModeBarButton.isUserInteractionEnabled = true
                 self.switchCompassBarButton.isUserInteractionEnabled = true
             }

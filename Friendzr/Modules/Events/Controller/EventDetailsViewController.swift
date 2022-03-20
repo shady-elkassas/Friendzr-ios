@@ -45,7 +45,7 @@ class EventDetailsViewController: UIViewController {
     var encryptedID:String = ""
     lazy var refreshControl: UIRefreshControl = UIRefreshControl()
     var isConv:Bool = false
-    
+
     var isEventAdmin: Bool = false
     var selectedVC:Bool = false
     
@@ -285,13 +285,15 @@ extension EventDetailsViewController: UITableViewDataSource {
                 cell.joinBtn.isHidden = true
                 cell.leaveBtn.isHidden = true
                 self.isEventAdmin = true
-            }else if model?.key == 2 { // not join
+            }
+            else if model?.key == 2 { // not join
                 cell.editBtn.isHidden = true
                 cell.chatBtn.isHidden = true
                 cell.joinBtn.isHidden = false
                 cell.leaveBtn.isHidden = true
                 self.isEventAdmin = false
-            }else { // join
+            }
+            else { // join
                 cell.editBtn.isHidden = true
                 cell.chatBtn.isHidden = false
                 cell.joinBtn.isHidden = true
@@ -371,12 +373,17 @@ extension EventDetailsViewController: UITableViewDataSource {
                         }
                         
                         DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-                        }
-                        
-                        DispatchQueue.main.async {
-                            if self.selectedVC {
-                                Router().toHome()
+                            if model?.eventtype == "Private" {
+                                if self.selectedVC {
+                                    Router().toHome()
+                                }else {
+                                    self.onPopup()
+                                }
+                            }
+                            else {
+                                DispatchQueue.main.async {
+                                    NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+                                }
                             }
                         }
                     }

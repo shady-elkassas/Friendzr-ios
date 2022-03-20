@@ -44,10 +44,6 @@ class NewConversationVC: UIViewController {
         setupSearchBar()
         setupViews()
         initAddGroupBarButton()
-        
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,6 +56,10 @@ class NewConversationVC: UIViewController {
         
         setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -203,6 +203,7 @@ class NewConversationVC: UIViewController {
     }
     
     func LaodAllFriends(pageNumber:Int,search:String) {
+        hideView.isHidden = false
         hideView.showLoader()
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
@@ -220,7 +221,9 @@ class NewConversationVC: UIViewController {
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                showEmptyView()
+                if internetConnect {
+                    showEmptyView()
+                }
             }
         }
         
@@ -269,7 +272,12 @@ extension NewConversationVC : UISearchBarDelegate {
         guard let text = searchbar.text else {return}
         print(text)
         
-        getAllFriends(pageNumber: 1, search: text)
+        updateNetworkForBtns()
+        if internetConnect {
+            getAllFriends(pageNumber: 1, search: text)
+        }else {
+            HandleInternetConnection()
+        }
     }
 }
 
@@ -365,13 +373,19 @@ extension NewConversationVC {
     }
     
     @objc func handleAddGroupVC() {
-        if viewmodel.friends.value?.data?.count == 0 {
-            self.view.makeToast("Please add friends to create a group".localizedString)
-            return
-        }else {
-            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "AddGroupNC") as? UINavigationController, let _ = controller.viewControllers.first as? AddGroupVC {
-                self.present(controller, animated: true)
+        updateNetworkForBtns()
+        if internetConnect {
+            if viewmodel.friends.value?.data?.count == 0 {
+                self.view.makeToast("Please add friends to create a group".localizedString)
+                return
+            }else {
+                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "AddGroupNC") as? UINavigationController, let _ = controller.viewControllers.first as? AddGroupVC {
+                    self.present(controller, animated: true)
+                }
             }
+        }else {
+            HandleInternetConnection()
         }
+
     }
 }

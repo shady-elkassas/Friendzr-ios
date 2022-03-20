@@ -46,6 +46,9 @@ class MyProfileViewController: UIViewController {
         setupView()
         
         tableView.refreshControl = refreshControl
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMyProfile), name: Notification.Name("updateMyProfile"), object: nil)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,6 +72,7 @@ class MyProfileViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         CancelRequest.currentTask = true
+        self.hideView.isHidden = false
     }
     
     
@@ -78,8 +82,15 @@ class MyProfileViewController: UIViewController {
         self.refreshControl.endRefreshing()
     }
     
+    @objc func updateMyProfile() {
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
+    }
+    
     //MARK: - API
     func getProfileInformation() {
+        self.hideView.isHidden = false
         self.hideView.showLoader()
         viewmodel.getProfileInfo()
         viewmodel.userModel.bind { [unowned self]value in
@@ -189,18 +200,8 @@ extension MyProfileViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: imageCellID, for: indexPath) as? ImageProfileTableViewCell else {return UITableViewCell()}
             
             cell.profileImgLoader.isHidden = true
-//            cell.profileImgLoader.startAnimating()
-//            DispatchQueue.global(qos: .default).async {
                 cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
                 cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-                
-//                DispatchQueue.main.async {
-//                    cell.profileImgLoader.stopAnimating()
-//                    cell.profileImgLoader.isHidden = true
-//                }
-//            }
-            
-            
             
             cell.ageLbl.text = "\(model?.age ?? 0)"
             if model?.gender == "other" {

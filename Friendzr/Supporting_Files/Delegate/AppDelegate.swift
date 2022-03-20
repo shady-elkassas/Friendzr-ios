@@ -496,6 +496,14 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                     navController.pushViewController(vc, animated: true)
                 }
             }
+            else if action == "Check_private_events" {
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.eventId = actionId ?? ""
+                    navController.pushViewController(vc, animated: true)
+                }
+            }
             else {
                 print("fail")
             }

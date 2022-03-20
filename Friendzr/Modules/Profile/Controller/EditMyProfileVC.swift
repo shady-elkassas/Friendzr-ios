@@ -939,8 +939,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                                     return
                                 }else {
                                     if FirstLoginApp.isFirst == 0 {//toprofile
-                                        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
-                                        self.navigationController?.pushViewController(vc, animated: true)
+//                                        self.onPopup()
+                                        NotificationCenter.default.post(name: Notification.Name("updateMyProfile"), object: nil, userInfo: nil)
                                     }else if FirstLoginApp.isFirst == 1 {//tofeed if socail media login
                                         Router().toFeed()
                                     }else {//to login

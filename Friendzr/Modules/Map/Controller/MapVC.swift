@@ -155,6 +155,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         checkLocationPermission()
+        
+        markerImg.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -183,7 +185,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         self.subView.isHidden = false
         self.upDownViewBtn.isHidden = false
-//        collectionViewHeight.constant = 0
         
         DispatchQueue.main.async {
             if self.isViewUp == true {
@@ -291,14 +292,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             internetConect = true
             if Defaults.allowMyLocationSettings == true {
                 bindToModel()
-//                getEventsOnlyAroundMe()
             }
         case .wifi:
             internetConect = true
             
             if Defaults.allowMyLocationSettings == true {
                 bindToModel()
-//                getEventsOnlyAroundMe()
             }
         }
         
@@ -330,6 +329,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func HandleInternetConnection() {
+        markerImg.isHidden = true
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
@@ -625,42 +625,52 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Actions
     @IBAction func addEventBtn(_ sender: Any) {
+        updateUserInterfaceBtns()
         checkLocationPermissionBtns()
-        if Defaults.allowMyLocationSettings == true {
-            self.appendNewLocation = true
-            self.view.makeToast("Please pick event's location".localizedString)
-            self.goAddEventBtn.isHidden = false
-            self.addEventBtn.isHidden = true
-            markerImg.isHidden = false
-        }else {
-            markerImg.isHidden = true
-            self.checkLocationPermission()
+        if internetConect {
+            if Defaults.allowMyLocationSettings == true {
+                self.appendNewLocation = true
+                self.view.makeToast("Please pick event's location".localizedString)
+                self.goAddEventBtn.isHidden = false
+                self.addEventBtn.isHidden = true
+                markerImg.isHidden = false
+            }else {
+                markerImg.isHidden = true
+                self.checkLocationPermission()
+            }
+        }
+        else {
+            HandleInternetConnection()
         }
     }
     
     @IBAction func goAddEventBtn(_ sender: Any) {
-        checkLocationPermissionBtns()
-        
-        if Defaults.allowMyLocationSettings {
-            if self.appendNewLocation {
-                self.updateUserInterfaceBtns()
-                if self.internetConect {
-                    self.setupMarkerz(for: self.location!, markerIcon: "eventMarker_ic", typelocation: "event", markerID: "", eventsCount: 0,isEvent: true,peopleCount: 0)
-                    
-                    self.locations.append(EventsLocation(location: self.location!, markerIcon: "eventMarker_ic", typelocation: "event",eventsCount: 0,markerId: "",isEvent: true,peopleCount: 0))
-                    
-                    LocationZooming.locationLat = self.location?.latitude ?? 0.0
-                    LocationZooming.locationLng = self.location?.longitude ?? 0.0
-                    
-                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
-                    vc.locationLat = self.location!.latitude
-                    vc.locationLng = self.location!.longitude
-                    self.addEventBtn.isHidden = false
-                    self.goAddEventBtn.isHidden = true
-                    self.markerImg.isHidden = true
-                    self.navigationController?.pushViewController(vc, animated: true)
+        updateUserInterfaceBtns()
+        if internetConect {
+            checkLocationPermissionBtns()
+            if Defaults.allowMyLocationSettings {
+                if self.appendNewLocation {
+                    self.updateUserInterfaceBtns()
+                    if self.internetConect {
+                        self.setupMarkerz(for: self.location!, markerIcon: "eventMarker_ic", typelocation: "event", markerID: "", eventsCount: 0,isEvent: true,peopleCount: 0)
+                        
+                        self.locations.append(EventsLocation(location: self.location!, markerIcon: "eventMarker_ic", typelocation: "event",eventsCount: 0,markerId: "",isEvent: true,peopleCount: 0))
+                        
+                        LocationZooming.locationLat = self.location?.latitude ?? 0.0
+                        LocationZooming.locationLng = self.location?.longitude ?? 0.0
+                        
+                        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
+                        vc.locationLat = self.location!.latitude
+                        vc.locationLng = self.location!.longitude
+                        self.addEventBtn.isHidden = false
+                        self.goAddEventBtn.isHidden = true
+                        self.markerImg.isHidden = true
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
                 }
             }
+        }else {
+            HandleInternetConnection()
         }
     }
     
@@ -670,61 +680,76 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func convertMapStyleBtn(_ sender: Any) {
-        checkLocationPermissionBtns()
-        if Defaults.allowMyLocationSettings {
-            MapAppType.type = !MapAppType.type
-            if MapAppType.type {
-                mapView.mapType = .normal
-            }else {
-                mapView.mapType = .satellite
+        updateUserInterfaceBtns()
+        if internetConect {
+            checkLocationPermissionBtns()
+            if Defaults.allowMyLocationSettings {
+                MapAppType.type = !MapAppType.type
+                if MapAppType.type {
+                    mapView.mapType = .normal
+                }else {
+                    mapView.mapType = .satellite
+                }
             }
+        }else {
+            HandleInternetConnection()
         }
     }
     
     @IBAction func currentLocationBtn(_ sender: Any) {
-        self.checkLocationPermissionBtns()
         self.updateUserInterfaceBtns()
-        
         if self.internetConect {
+            self.checkLocationPermissionBtns()
+            
             if Defaults.allowMyLocationSettings {
                 setupGoogleMap(zoom1: 14, zoom2: 18)
             }else {
                 createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
             }
+        }else {
+            HandleInternetConnection()
         }
         
         searchBar.text = ""
     }
     
     @IBAction func upDownBtn(_ sender: Any) {
-        isViewUp.toggle()
         
-        if Defaults.allowMyLocationSettings {
-            if isViewUp {
-                print("Up")
-                collectionViewHeight.constant = 140
-                subViewHeight.constant = 190
-                subView.isHidden = false
-                isViewUp = true
-                arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
-                self.getEventsOnlyAroundMe()
-            }else {
+        self.updateUserInterfaceBtns()
+        if self.internetConect {
+            isViewUp.toggle()
+            
+            if Defaults.allowMyLocationSettings {
+                if isViewUp {
+                    print("Up")
+                    collectionViewHeight.constant = 140
+                    subViewHeight.constant = 190
+                    subView.isHidden = false
+                    isViewUp = true
+                    arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
+                    self.getEventsOnlyAroundMe()
+                }else {
+                    print("Down")
+                    collectionViewHeight.constant = 0
+                    subViewHeight.constant = 50
+                    subView.isHidden = false
+                    isViewUp = false
+                    arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+                }
+            }
+            else {
                 print("Down")
                 collectionViewHeight.constant = 0
                 subViewHeight.constant = 50
                 subView.isHidden = false
                 isViewUp = false
                 arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
             }
+
         }
         else {
-            print("Down")
-            collectionViewHeight.constant = 0
-            subViewHeight.constant = 50
-            subView.isHidden = false
-            isViewUp = false
-            arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+            HandleInternetConnection()
         }
     }
     
@@ -1239,31 +1264,41 @@ extension MapVC {
         
         switch sender.direction {
         case .up:
-            print("Up")
-            if Defaults.allowMyLocationSettings {
-                collectionViewHeight.constant = 140
-                subViewHeight.constant = 190
-                subView.isHidden = false
-                isViewUp = true
-                arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
-                self.getEventsOnlyAroundMe()
+            updateUserInterfaceBtns()
+            if internetConect{
+                print("Up")
+                if Defaults.allowMyLocationSettings {
+                    collectionViewHeight.constant = 140
+                    subViewHeight.constant = 190
+                    subView.isHidden = false
+                    isViewUp = true
+                    arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
+                    self.getEventsOnlyAroundMe()
+                }
+                else {
+                    collectionViewHeight.constant = 0
+                    subViewHeight.constant = 50
+                    subView.isHidden = false
+                    isViewUp = false
+                    arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+                    
+                    createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                }
+            }else {
+                HandleInternetConnection()
             }
-            else {
+        case .down:
+            updateUserInterfaceBtns()
+            if internetConect {
+                print("Down")
                 collectionViewHeight.constant = 0
                 subViewHeight.constant = 50
                 subView.isHidden = false
                 isViewUp = false
                 arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-                
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+            }else {
+                HandleInternetConnection()
             }
-        case .down:
-            print("Down")
-            collectionViewHeight.constant = 0
-            subViewHeight.constant = 50
-            subView.isHidden = false
-            isViewUp = false
-            arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
         case .left: break
         case .right: break
         default:

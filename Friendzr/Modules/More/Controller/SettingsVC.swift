@@ -673,7 +673,6 @@ extension SettingsVC: UITableViewDataSource {
                                 self.model = data
                                 
                                 DispatchQueue.main.async {
-//                                    self.setupData()
                                     cell.switchBtn.isOn = false
                                     cell.ghostModeTypeLbl.isHidden = true
                                     cell.ghostModeTypeLbl.text = ""
@@ -695,7 +694,6 @@ extension SettingsVC: UITableViewDataSource {
                     
                     self.deleteAlertView?.HandleCancelBtn = {
                         DispatchQueue.main.async {
-//                            self.setupData()
                             cell.switchBtn.isOn = true
                             cell.ghostModeTypeLbl.isHidden = false
                             Defaults.ghostMode = self.model?.ghostmode ?? false

@@ -465,8 +465,13 @@ extension FriendProfileViewController:UITableViewDataSource {
                             }
                             
                             guard let _ = message else {return}
-                            DispatchQueue.main.async {
-                                self.getFriendProfileInformation()
+                            
+                            if self.selectedVC {
+                                Router().toHome()
+                            }else {
+                                DispatchQueue.main.async {
+                                    self.getFriendProfileInformation()
+                                }
                             }
                         }
                     }else {
@@ -507,8 +512,12 @@ extension FriendProfileViewController:UITableViewDataSource {
                             
                             guard let _ = message else {return}
                             
-                            DispatchQueue.main.async {
-                                self.getFriendProfileInformation()
+                            if self.selectedVC {
+                                Router().toHome()
+                            }else {
+                                DispatchQueue.main.async {
+                                    self.getFriendProfileInformation()
+                                }
                             }
                         }
                     }
