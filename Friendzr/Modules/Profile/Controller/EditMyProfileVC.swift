@@ -114,8 +114,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var firstLogin:Int? = 0
     var imgTake: Int = 0
     
-    var cropperState:CropperState?
-    
+    let datePicker = UIDatePicker()
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -417,7 +417,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         tagsListView.removeAllTags()
         tagsNames.removeAll()
         for item in value {
-            tagsListView.addTag(tagId: "", title: "#\(item)")
+            tagsListView.addTag(tagId: "", title: "#" + (item).capitalizingFirstLetter())
             tagsNames.append(item)
         }
         
@@ -452,6 +452,9 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }else if tagsListView.rows == 4 {
             tagsTopSpaceLayout.constant = 10
             tagsBottomSpaceLayout.constant = 17
+        }else {
+            tagsTopSpaceLayout.constant = 8
+            tagsBottomSpaceLayout.constant = 20
         }
         
     }
@@ -463,7 +466,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         bestDescribesListView.removeAllTags()
         iamNames.removeAll()
         for item in value {
-            bestDescribesListView.addTag(tagId: "", title: "#\(item)")
+            bestDescribesListView.addTag(tagId: "", title: "#" + (item).capitalizingFirstLetter())
             iamNames.append(item)
         }
         
@@ -498,6 +501,9 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }else if bestDescribesListView.rows == 4 {
             bestDescribessTopSpaceLayout.constant = 10
             bestDescribesBottomSpaceLayout.constant = 17
+        }else {
+            bestDescribessTopSpaceLayout.constant = 8
+            bestDescribesBottomSpaceLayout.constant = 20
         }
         
     }
@@ -505,11 +511,11 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     func OnPreferToCallBack(_ data: [String], _ value: [String]) -> () {
         print(data, value)
         
-        selectbestDescribesLbl.isHidden = true
+        selectPreferToLbl.isHidden = true
         preferToListView.removeAllTags()
         preferToNames.removeAll()
         for item in value {
-            preferToListView.addTag(tagId: "", title: "#\(item)")
+            preferToListView.addTag(tagId: "", title: "#" + (item).capitalizingFirstLetter())
             preferToNames.append(item)
         }
         
@@ -544,6 +550,9 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }else if preferToListView.rows == 4 {
             preferToTopSpaceLayout.constant = 10
             preferToBottomSpaceLayout.constant = 17
+        }else {
+            preferToTopSpaceLayout.constant = 8
+            preferToBottomSpaceLayout.constant = 20
         }
         
     }
@@ -746,8 +755,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }
 
     }
-    
-    let datePicker = UIDatePicker()
 
     func showDatePicker(){
         //Formate Date
@@ -759,12 +766,17 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             // Fallback on earlier versions
         }
         
+        datePicker.maximumDate = Date()
+        
         //ToolBar
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker));
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker));
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        
+        doneButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.FriendzrColors.primary!
         
         toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
         
@@ -939,8 +951,10 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                                     return
                                 }else {
                                     if FirstLoginApp.isFirst == 0 {//toprofile
-//                                        self.onPopup()
-                                        NotificationCenter.default.post(name: Notification.Name("updateMyProfile"), object: nil, userInfo: nil)
+//                                        NotificationCenter.default.post(name: Notification.Name("updateMyProfile"), object: nil, userInfo: nil)
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                            self.onPopup()
+                                        }
                                     }else if FirstLoginApp.isFirst == 1 {//tofeed if socail media login
                                         Router().toFeed()
                                     }else {//to login
@@ -1051,7 +1065,6 @@ extension EditMyProfileVC: CropperViewControllerDelegate {
         cropper.dismiss(animated: true, completion: nil)
         if let state = state,
             let image = cropper.originalImage.cropped(withCropperState: state) {
-            cropperState = state
             profileImg.image = image
             self.attachedImg = true
             

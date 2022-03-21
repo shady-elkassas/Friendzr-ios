@@ -233,7 +233,7 @@ extension MyProfileViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: interestsCellId, for: indexPath) as? InterestsProfileTableViewCell else {return UITableViewCell()}
             cell.tagsListView.removeAllTags()
             for item in model?.listoftagsmodel ?? [] {
-                cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
+                cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
             }
             print("tagListView.rows \(cell.tagsListView.rows)")
             cell.tagsListViewHeight.constant = CGFloat(cell.tagsListView.rows * 25)
@@ -259,7 +259,7 @@ extension MyProfileViewController: UITableViewDataSource {
             
             cell.tagsListView.removeAllTags()
             for item in model?.iamList ?? [] {
-                cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
+                cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
             }
             
             print("tagListView.rows \(cell.tagsListView.rows)")
@@ -287,7 +287,7 @@ extension MyProfileViewController: UITableViewDataSource {
             
             cell.tagsListView.removeAllTags()
             for item in model?.prefertoList ?? [] {
-                cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
+                cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
             }
             
             print("tagListView.rows \(cell.tagsListView.rows)")

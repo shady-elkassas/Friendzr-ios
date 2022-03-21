@@ -339,6 +339,7 @@ extension EventsVC: UITableViewDelegate {
                 let model = viewmodel.events.value?.data?[indexPath.row]
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
                 vc.eventId = model?.id ?? ""
+                
                 if model?.key == 1 {
                     vc.isEventAdmin = true
                 }else {

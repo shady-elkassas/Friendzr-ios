@@ -35,7 +35,7 @@ class PreferToVC: UIViewController {
         
         initBackButton()
 //        initAddTagButton()
-        title = "I Perfer To".localizedString
+        title = "I perfer to".localizedString
         
         setupView()
         loadAllTags()
@@ -130,7 +130,7 @@ extension PreferToVC:UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? TagCollectionViewCell else {return UICollectionViewCell()}
         let model = viewmodel.PreferTo.value?[indexPath.row]
-        cell.tagNameLbl.text = "#\(model?.name ?? "")"
+        cell.tagNameLbl.text = "#" + (model?.name ?? "").capitalizingFirstLetter()
         
 //        if model?.isSharedForAll == true {
             cell.editBtn.isHidden = true

@@ -35,8 +35,10 @@ class SplachFourVC: UIViewController {
         if selectVC == "MoreVC" {
             initBackButton()
             hideNavigationBar(NavigationBar: false, BackButton: false)
-            nextBtn.isHidden = true
+            nextBtn.isHidden = false
             skipBtn.isHidden = true
+            
+            nextBtn.setTitle("Exit", for: .normal)
         }
         else {
             hideNavigationBar(NavigationBar: true, BackButton: true)
@@ -46,7 +48,11 @@ class SplachFourVC: UIViewController {
     }
     
     @IBAction func nextBtn(_ sender: Any) {
-        Router().toEditProfileVC(needUpdate: true)
+        if selectVC == "MoreVC" {
+            Router().toMore()
+        }else {
+            Router().toEditProfileVC(needUpdate: true)
+        }
     }
     
     @IBAction func skipBtn(_ sender: Any) {

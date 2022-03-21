@@ -74,7 +74,7 @@ class EventDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initOptionsEventButton()
+//        initOptionsEventButton()
         
         if selectedVC {
             initCloseBarButton()
@@ -221,6 +221,18 @@ class EventDetailsViewController: UIViewController {
                     self.hideView.hideLoader()
                     self.hideView.isHidden = true
                 }
+                
+                DispatchQueue.main.async {
+                    if value.key == 1 {
+                        isEventAdmin = true
+                    }else {
+                        isEventAdmin = false
+                    }
+                    
+                    self.initOptionsEventButton()
+                }
+                
+                
             }
         }
         

@@ -95,11 +95,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         center.add(request, withCompletionHandler: nil)
         
-        networkReachability()
+//        networkReachability()
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateBadgeApp), name: Notification.Name("updateBadgeApp"), object: nil)
         application.applicationIconBadgeNumber = 0
-        
         
         center.requestAuthorization(options: [.alert, .sound]) { granted, error in
         }

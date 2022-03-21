@@ -16,10 +16,10 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var addImg: UIButton!
     @IBOutlet weak var addTitleTxt: UITextField!
     @IBOutlet weak var switchAllDays: UISwitch!
-    @IBOutlet weak var startDayLbl: UILabel!
-    @IBOutlet weak var endDayLbl: UILabel!
-    @IBOutlet weak var startTimeLbl: UILabel!
-    @IBOutlet weak var endTimeLbl: UILabel!
+//    @IBOutlet weak var startDayLbl: UILabel!
+//    @IBOutlet weak var endDayLbl: UILabel!
+//    @IBOutlet weak var startTimeLbl: UILabel!
+//    @IBOutlet weak var endTimeLbl: UILabel!
     @IBOutlet weak var hiddenLbl: UILabel!
     @IBOutlet weak var descriptionTxtView: UITextView!
     @IBOutlet weak var limitUsersView: UIView!
@@ -51,6 +51,11 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var eventTypesTV: UITableView!
     //    @IBOutlet weak var saveEventTypeBtn: UIButton!
     
+    
+    @IBOutlet weak var selectStartDateTxt: UITextField!
+    @IBOutlet weak var selectEndDateTxt: UITextField!
+    @IBOutlet weak var selectStartTimeTxt: UITextField!
+    @IBOutlet weak var selectEndTimeTxt: UITextField!
     
     //MARK: - Properties
     lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
@@ -91,6 +96,13 @@ class AddEventVC: UIViewController {
     
     var internetConect:Bool = false
     
+    let datePicker1 = UIDatePicker()
+    let datePicker2 = UIDatePicker()
+    let timePicker1 = UIDatePicker()
+    let timePicker2 = UIDatePicker()
+
+    
+    
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -119,6 +131,9 @@ class AddEventVC: UIViewController {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         categoriesSuperView?.addGestureRecognizer(tap)
+        
+//        setupDatePickerForEndDate()
+     
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -248,7 +263,7 @@ class AddEventVC: UIViewController {
         dateAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
-            self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+//            self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
             
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "yyyy-MM-dd"
@@ -299,7 +314,7 @@ class AddEventVC: UIViewController {
         dateAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
-            self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+//            self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
             
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "yyyy-MM-dd"
@@ -342,7 +357,7 @@ class AddEventVC: UIViewController {
         timeAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
             formatter.dateFormat = "HH:mm"
-            self.startTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
+//            self.startTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
             
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "HH:mm"
@@ -384,7 +399,7 @@ class AddEventVC: UIViewController {
         timeAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
             formatter.dateFormat = "HH:mm"
-            self.endTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
+//            self.endTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
             
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "HH:mm"
@@ -519,15 +534,21 @@ class AddEventVC: UIViewController {
         
         descriptionTxtView.delegate = self
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
-        self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+        DispatchQueue.main.async {
+            self.setupDatePickerForStartDate()
+            self.setupDatePickerForStartTime()
+            self.setupDatePickerForEndTime()
+        }
         
-        let formattrTime = DateFormatter()
-        formattrTime.dateFormat = "HH:mm"
-        self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
-        self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "yyyy-MM-dd"
+//        self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+//        self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+//
+//        let formattrTime = DateFormatter()
+//        formattrTime.dateFormat = "HH:mm"
+//        self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
+//        self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
         
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         eventTypesTV.register(UINib(nibName: eventTypeCellId, bundle: nil), forCellReuseIdentifier: eventTypeCellId)
@@ -777,4 +798,165 @@ extension AddEventVC:UITableViewDelegate {
         categoriesSuperView.isHidden = true
         eventTypesView.isHidden = true
     }
+}
+
+extension AddEventVC {
+    func setupDatePickerForStartDate(){
+        //Formate Date
+        datePicker1.datePickerMode = .date
+        if #available(iOS 13.4, *) {
+            datePicker1.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        datePicker1.minimumDate = Date()
+
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker1))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        
+        doneButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        
+        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        
+        selectStartDateTxt.inputAccessoryView = toolbar
+        selectStartDateTxt.inputView = datePicker1
+        
+    }
+    @objc func donedatePicker1(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        selectStartDateTxt.text = formatter.string(from: datePicker1.date)
+        self.startDate = formatter.string(from: self.datePicker1.date)
+        
+        var comps2:DateComponents = DateComponents()
+        comps2.month = 1
+        comps2.day = -1
+        
+        self.minimumDate = (self.datePicker1.date)
+        self.maximumDate = self.datePicker1.calendar.date(byAdding: comps2, to: self.minimumDate)!
+        
+        print(formatter.string(from: self.minimumDate),formatter.string(from: self.maximumDate))
+
+        setupDatePickerForEndDate()
+        self.view.endEditing(true)
+    }
+    
+    func setupDatePickerForEndDate(){
+        //Formate Date
+        datePicker2.datePickerMode = .date
+        if #available(iOS 13.4, *) {
+            datePicker2.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        datePicker2.minimumDate = self.minimumDate
+        datePicker2.maximumDate = self.maximumDate
+        
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker2))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        
+        doneButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        
+        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        
+        selectEndDateTxt.inputAccessoryView = toolbar
+        selectEndDateTxt.inputView = datePicker2
+        
+    }
+    @objc func donedatePicker2(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        selectEndDateTxt.text = formatter.string(from: datePicker2.date)
+        self.endDate = formatter.string(from: datePicker2.date)
+
+        self.view.endEditing(true)
+    }
+    
+
+    func setupDatePickerForStartTime(){
+        //Formate Date
+        timePicker1.datePickerMode = .time
+        if #available(iOS 13.4, *) {
+            timePicker1.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+                
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker3))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        
+        doneButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        
+        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        
+        selectStartTimeTxt.inputAccessoryView = toolbar
+        selectStartTimeTxt.inputView = timePicker1
+        
+    }
+    @objc func donedatePicker3(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        selectStartTimeTxt.text = formatter.string(from: timePicker1.date)
+        self.startTime = formatter.string(from: timePicker1.date)
+        self.view.endEditing(true)
+    }
+    
+    func setupDatePickerForEndTime(){
+        //Formate Date
+        timePicker2.datePickerMode = .time
+        if #available(iOS 13.4, *) {
+            timePicker2.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker4))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        
+        doneButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        
+        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        
+        selectEndTimeTxt.inputAccessoryView = toolbar
+        selectEndTimeTxt.inputView = timePicker2
+        
+    }
+    @objc func donedatePicker4(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        selectEndTimeTxt.text = formatter.string(from: timePicker2.date)
+        self.endTime = formatter.string(from: timePicker2.date)
+        self.view.endEditing(true)
+    }
+
+    @objc func cancelDatePicker(){
+        self.view.endEditing(true)
+    }
+
 }

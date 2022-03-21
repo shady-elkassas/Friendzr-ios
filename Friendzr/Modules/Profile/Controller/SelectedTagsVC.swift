@@ -35,7 +35,7 @@ class SelectedTagsVC: UIViewController {
         
         initBackButton()
 //        initAddTagButton()
-        title = "I Enjoy".localizedString
+        title = "I enjoy".localizedString
         
         setupView()
         loadAllTags()
@@ -132,7 +132,7 @@ extension SelectedTagsVC:UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? TagCollectionViewCell else {return UICollectionViewCell()}
         let model = viewmodel.interests.value?[indexPath.row]
-        cell.tagNameLbl.text = "#\(model?.name ?? "")"
+        cell.tagNameLbl.text = "#" + (model?.name ?? "").capitalizingFirstLetter()
         
 //        if model?.isSharedForAll == true {
             cell.editBtn.isHidden = true

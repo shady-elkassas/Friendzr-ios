@@ -45,7 +45,7 @@ class EventsLocation {
     var markerId:String = ""
     var isEvent:Bool = false
     var peopleCount:Int = 0
-    
+
     init(location:CLLocationCoordinate2D,markerIcon:String,typelocation:String,eventsCount:Int,markerId:String,isEvent:Bool,peopleCount:Int) {
         self.location = location
         self.markerIcon = markerIcon
@@ -93,7 +93,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var currentPlaceMark : CLPlacemark? = nil
     var selectVC:String = ""
     var locationName = ""
-    
+
     var appendNewLocation:Bool = false
     var viewmodel:EventsAroundMeViewModel = EventsAroundMeViewModel()
     var settingVM:SettingsViewModel = SettingsViewModel()
@@ -287,15 +287,17 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             collectionViewHeight.constant = 0
             subView.isHidden = false
             upDownViewBtn.isHidden = true
+            zoomingStatisticsView.isHidden = true
             HandleInternetConnection()
         case .wwan:
             internetConect = true
+            zoomingStatisticsView.isHidden = false
             if Defaults.allowMyLocationSettings == true {
                 bindToModel()
             }
         case .wifi:
             internetConect = true
-            
+            zoomingStatisticsView.isHidden = false
             if Defaults.allowMyLocationSettings == true {
                 bindToModel()
             }
@@ -343,6 +345,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         subViewHeight.constant = 50
     }
     
+    var isEventAdmin :Bool = false
+    
     // locations markers
     func setupMarkers() {
         mapView.clear()
@@ -378,7 +382,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         marker.snippet = typelocation
         marker.title = markerID
         marker.opacity = Float(eventsCount)
-        
+
         if typelocation == "event" {
             if LocationZooming.locationLat == position.latitude && LocationZooming.locationLng == position.longitude {
                 marker.appearAnimation = .pop
@@ -646,8 +650,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @IBAction func goAddEventBtn(_ sender: Any) {
         updateUserInterfaceBtns()
+        checkLocationPermissionBtns()
         if internetConect {
-            checkLocationPermissionBtns()
             if Defaults.allowMyLocationSettings {
                 if self.appendNewLocation {
                     self.updateUserInterfaceBtns()
@@ -669,7 +673,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     }
                 }
             }
-        }else {
+        }
+        else {
             HandleInternetConnection()
         }
     }
@@ -811,6 +816,13 @@ extension MapVC : GMSMapViewDelegate {
                     DispatchQueue.main.async {
                         guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
                         vc.eventId = marker.title!
+                        
+//                        if model?.key == 1 {
+//                            vc.isEventAdmin = true
+//                        }else {
+//                            vc.isEventAdmin = false
+//                        }
+//
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }else {
@@ -1071,6 +1083,13 @@ extension MapVC:UITableViewDelegate {
             let model = viewmodel.events.value?[indexPath.row]
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
             vc.eventId = model?.id ?? ""
+            
+            if model?.key == 1 {
+                vc.isEventAdmin = true
+            }else {
+                vc.isEventAdmin = false
+            }
+            
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -1100,6 +1119,13 @@ extension MapVC:UICollectionViewDataSource {
         cell.HandledetailsBtn = {
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
             vc.eventId = model?.id ?? ""
+            
+            if model?.key == 1 {
+                vc.isEventAdmin = true
+            }else {
+                vc.isEventAdmin = false
+            }
+
             self.navigationController?.pushViewController(vc, animated: true)
         }
         return cell

@@ -402,7 +402,7 @@
 		4309E73826EF813A001B227D /* SocialMediaLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaLoginViewModel.swift; sourceTree = "<group>"; };
 		4309E73C26EF89FE001B227D /* SocialMediaRegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaRegisterViewModel.swift; sourceTree = "<group>"; };
 		430A350226CA4A3600477A94 /* BlockAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockAlertView.swift; sourceTree = "<group>"; };
-		430A350426CA504100477A94 /* EditMyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyProfileVC.swift; sourceTree = "<group>"; };
+		430A350426CA504100477A94 /* EditMyProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMyProfileVC.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		430A350A26CA5C9D00477A94 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		430A350D26CA7A2200477A94 /* MoreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreTableViewCell.swift; sourceTree = "<group>"; };
 		430A350E26CA7A2200477A94 /* MoreTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MoreTableViewCell.xib; sourceTree = "<group>"; };

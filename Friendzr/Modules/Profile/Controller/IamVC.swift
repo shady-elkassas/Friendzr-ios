@@ -35,7 +35,7 @@ class IamVC: UIViewController {
         
         initBackButton()
         //        initAddTagButton()
-        title = "I Am".localizedString
+        title = "I am".localizedString
         
         setupView()
         loadAllTags()
@@ -131,7 +131,7 @@ extension IamVC:UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? TagCollectionViewCell else {return UICollectionViewCell()}
         let model = viewmodel.IAM.value?[indexPath.row]
-        cell.tagNameLbl.text = "#\(model?.name ?? "")"
+        cell.tagNameLbl.text = "#" + (model?.name ?? "").capitalizingFirstLetter()
         
         //        if model?.isSharedForAll == true {
         cell.editBtn.isHidden = true
@@ -197,7 +197,7 @@ extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
                     arrSelectedDataNames.append(strData?.name ?? "")
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast("The number of tags must not exceed \(Defaults.userIAM_MaxLength)".localizedString)
+                        self.view.makeToast("please select what you are \(Defaults.userIAM_MaxLength)".localizedString)
                     }
                 }
             }else {
@@ -207,7 +207,7 @@ extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
                     arrSelectedDataNames.append(strData?.name ?? "")
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast("The number of tags must not exceed 4".localizedString)
+                        self.view.makeToast("please select what you are 4".localizedString)
                     }
                 }
             }

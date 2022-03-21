@@ -607,7 +607,7 @@ extension FriendProfileViewController:UITableViewDataSource {
 //                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
 //            }else {
                 for item in model?.listoftagsmodel ?? [] {
-                    cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
+                    cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
                 }
 //            }
             
@@ -635,7 +635,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             
             cell.tagsListView.removeAllTags()
             for item in model?.iamList ?? [] {
-                cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
+                cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
             }
             
             print("tagListView.rows \(cell.tagsListView.rows)")
@@ -660,7 +660,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: preferCellId, for: indexPath) as? PreferToTableViewCell else {return UITableViewCell()}
             cell.tagsListView.removeAllTags()
             for item in model?.prefertoList ?? [] {
-                cell.tagsListView.addTag(tagId: item.tagID, title: "#\(item.tagname)")
+                cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname))
             }
             
             print("tagListView.rows \(cell.tagsListView.rows)")

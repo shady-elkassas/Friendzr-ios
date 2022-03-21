@@ -14,7 +14,7 @@ public typealias AnimationCompletion = () -> Void
 public typealias AnimationExecution = () -> Void
 
 
-class SplachVC: UIViewController , CLLocationManagerDelegate{
+class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegate{
     
     var settingVM:SettingsViewModel = SettingsViewModel()
     var profileVM: ProfileViewModel = ProfileViewModel()
@@ -30,6 +30,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     var minimumBeats: Int = 1
 
     var internetConect:Bool = false
+    var mask: CALayer? = CALayer()
 
     private lazy var imageView: UIImageView = {
         let image = UIImageView()
@@ -55,24 +56,8 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         view.addSubview(imageView)
         
         initProfileBarButton()
-        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.7) {
+        DispatchQueue.main.async {
             self.setupAnimation()
-        }
-        
-        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1.5) {
-            if Defaults.needUpdate == 1 {
-                self.updateUserInterface()
-                
-                DispatchQueue.main.async {
-                    Router().toSplachOne()
-                }
-            }else {
-                if Defaults.token != "" {
-                    self.updateUserInterface()
-                }else {
-                    Router().toOptionsSignUpVC()
-                }
-            }
         }
     }
     
@@ -90,10 +75,9 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         CancelRequest.currentTask = true
     }
     
-    
     func updateUserInterface() {
         appDelegate.networkReachability()
-        
+
         switch Network.reachability.status {
         case .unreachable:
             internetConect = false
@@ -105,7 +89,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
             internetConect = true
             getAllValidatConfig()
         }
-        
+
         print("Reachability Summary")
         print("Status:", Network.reachability.status)
         print("HostName:", Network.reachability.hostname ?? "nil")
@@ -142,6 +126,25 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         CATransaction.commit()
     }
     
+
+//    func animateMask() {
+//        let keyFrameAnimation = CAKeyframeAnimation(keyPath: "bounds")
+//        keyFrameAnimation.delegate = self
+//        keyFrameAnimation.duration = 1
+//        keyFrameAnimation.beginTime = CACurrentMediaTime() + 1 //add delay of 1 second
+//        let initalBounds = NSValue(cgRect: mask!.bounds)
+//        let secondBounds = NSValue(cgRect: CGRect(x: 0, y: 0, width: 90, height: 90))
+//        let finalBounds = NSValue(cgRect: CGRect(x: 0, y: 0, width: 1500, height: 1500))
+//        keyFrameAnimation.values = [initalBounds, secondBounds, finalBounds]
+//        keyFrameAnimation.keyTimes = [0, 0.3, 1]
+//        keyFrameAnimation.timingFunctions = [CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut), CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)]
+//        self.mask!.add(keyFrameAnimation, forKey: "bounds")
+//    }
+
+//    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+//        self.imageView.layer.mask = nil //remove mask when animation completes
+//    }
+
     func setupAnimation() {
         UIView.animate(withDuration: 1) {
             let size = self.view.frame.size.width * 3
@@ -153,6 +156,22 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
         
         UIView.animate(withDuration: 1.5) {
             self.imageView.alpha = 0
+            
+            DispatchQueue.main.asyncAfter(wallDeadline: .now()) {
+                if Defaults.needUpdate == 1 {
+                    self.updateUserInterface()
+                    
+                    DispatchQueue.main.async {
+                        Router().toSplachOne()
+                    }
+                }else {
+                    if Defaults.token != "" {
+                        self.updateUserInterface()
+                    }else {
+                        Router().toOptionsSignUpVC()
+                    }
+                }
+            }
         }
     }
     
@@ -213,7 +232,19 @@ class SplachVC: UIViewController , CLLocationManagerDelegate{
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("Network is unavailable, please try again!".localizedString)
+        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.5) {
+            if Defaults.needUpdate == 1 {
+                DispatchQueue.main.async {
+                    Router().toSplachOne()
+                }
+            }else {
+                if Defaults.token != "" {
+                    Router().toFeed()
+                }else {
+                    Router().toOptionsSignUpVC()
+                }
+            }
+        }
     }
     
     func checkLocationPermission() {

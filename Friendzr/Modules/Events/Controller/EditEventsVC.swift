@@ -15,10 +15,10 @@ class EditEventsVC: UIViewController {
     @IBOutlet weak var addImg: UIButton!
     @IBOutlet weak var addTitleTxt: UITextField!
     @IBOutlet weak var switchAllDays: UISwitch!
-    @IBOutlet weak var startDayLbl: UILabel!
-    @IBOutlet weak var endDayLbl: UILabel!
-    @IBOutlet weak var startTimeLbl: UILabel!
-    @IBOutlet weak var endTimeLbl: UILabel!
+//    @IBOutlet weak var startDayLbl: UILabel!
+//    @IBOutlet weak var endDayLbl: UILabel!
+//    @IBOutlet weak var startTimeLbl: UILabel!
+//    @IBOutlet weak var endTimeLbl: UILabel!
     @IBOutlet weak var hiddenLbl: UILabel!
     @IBOutlet weak var descriptionTxtView: UITextView!
     @IBOutlet weak var limitUsersView: UIView!
@@ -47,6 +47,12 @@ class EditEventsVC: UIViewController {
     @IBOutlet weak var bottomFriendsViewLayoutConstaint: NSLayoutConstraint!
     @IBOutlet weak var eventTypesView: UIView!
     @IBOutlet weak var eventTypesTV: UITableView!
+
+    
+    @IBOutlet weak var selectStartDateTxt: UITextField!
+    @IBOutlet weak var selectEndDateTxt: UITextField!
+    @IBOutlet weak var selectStartTimeTxt: UITextField!
+    @IBOutlet weak var selectEndTimeTxt: UITextField!
 
     
     //MARK: - Properties
@@ -85,6 +91,11 @@ class EditEventsVC: UIViewController {
 
     var listFriendsIDs:[String] = [String]()
 
+    let datePicker1 = UIDatePicker()
+    let datePicker2 = UIDatePicker()
+    let timePicker1 = UIDatePicker()
+    let timePicker2 = UIDatePicker()
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,6 +166,12 @@ class EditEventsVC: UIViewController {
         
         eventTypesView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
         eventTypesTV.register(UINib(nibName: eventTypeCellId, bundle: nil), forCellReuseIdentifier: eventTypeCellId)
+        
+        DispatchQueue.main.async {
+            self.setupDatePickerForStartDate()
+            self.setupDatePickerForStartTime()
+            self.setupDatePickerForEndTime()
+        }
     }
     
     func initDeleteEventButton(btnColor: UIColor? = .red) {
@@ -229,10 +246,10 @@ class EditEventsVC: UIViewController {
             endTimeBtn.isHidden = true
         }
         
-        startDayLbl.text = eventModel?.eventdate
-        endDayLbl.text = eventModel?.eventdateto
-        startTimeLbl.text = eventModel?.timefrom
-        endTimeLbl.text = eventModel?.timeto
+        selectStartDateTxt.text = eventModel?.eventdate
+        selectEndDateTxt.text = eventModel?.eventdateto
+        selectStartTimeTxt.text = eventModel?.timefrom
+        selectEndTimeTxt.text = eventModel?.timeto
         
         if eventModel?.descriptionEvent == "" {
             hiddenLbl.isHidden = false
@@ -301,24 +318,24 @@ class EditEventsVC: UIViewController {
     }
     
     func onStartDateCallBack(_ dayDate: String, _ date: String,_ minimumDate:Date,_ maximumDate:Date) -> () {
-        self.startDayLbl.text = dayDate
+//        self.startDayLbl.text = dayDate
         self.startDate = date
         self.minimumDate = minimumDate
         self.maximumDate = maximumDate
     }
     
     func onEndDateCallBack(_ dayDate: String, _ date: String,_ minimumDate:Date,_ maximumDate:Date) -> () {
-        self.endDayLbl.text = dayDate
+//        self.endDayLbl.text = dayDate
         self.endDate = date
     }
     
     func onStartTimeCallBack(_ timeDateLbl: String, _ timeDate: String) -> () {
-        self.startTimeLbl.text = timeDateLbl
+//        self.startTimeLbl.text = timeDateLbl
         self.startTime = timeDate
     }
     
     func onEndTimeCallBack(_ timeDateLbl: String, _ timeDate: String) -> () {
-        self.endTimeLbl.text = timeDateLbl
+//        self.endTimeLbl.text = timeDateLbl
         self.endTime = timeDate
     }
     
@@ -418,13 +435,13 @@ class EditEventsVC: UIViewController {
             
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
-            self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
-            self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+//            self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+//            self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
             
             let formattrTime = DateFormatter()
             formattrTime.dateFormat = "HH:mm"
-            self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
-            self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
+//            self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
+//            self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
         }else {
             timesview.isHidden = true
             startTimeBtn.isHidden = true
@@ -766,6 +783,165 @@ extension EditEventsVC: UITableViewDelegate {
     }
 }
 
-extension EditEventsVC : UIPopoverPresentationControllerDelegate{
+extension EditEventsVC : UIPopoverPresentationControllerDelegate{}
+
+extension EditEventsVC {
+    func setupDatePickerForStartDate(){
+        //Formate Date
+        datePicker1.datePickerMode = .date
+        if #available(iOS 13.4, *) {
+            datePicker1.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        datePicker1.minimumDate = Date()
+
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker1))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        
+        doneButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        
+        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        
+        selectStartDateTxt.inputAccessoryView = toolbar
+        selectStartDateTxt.inputView = datePicker1
+        
+    }
+    @objc func donedatePicker1(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        selectStartDateTxt.text = formatter.string(from: datePicker1.date)
+        self.startDate = formatter.string(from: self.datePicker1.date)
+        
+        var comps2:DateComponents = DateComponents()
+        comps2.month = 1
+        comps2.day = -1
+        
+        self.minimumDate = (self.datePicker1.date)
+        self.maximumDate = self.datePicker1.calendar.date(byAdding: comps2, to: self.minimumDate)!
+        
+        print(formatter.string(from: self.minimumDate),formatter.string(from: self.maximumDate))
+
+        setupDatePickerForEndDate()
+        self.view.endEditing(true)
+    }
     
+    func setupDatePickerForEndDate(){
+        //Formate Date
+        datePicker2.datePickerMode = .date
+        if #available(iOS 13.4, *) {
+            datePicker2.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        datePicker2.minimumDate = self.minimumDate
+        datePicker2.maximumDate = self.maximumDate
+        
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker2))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        
+        doneButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        
+        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        
+        selectEndDateTxt.inputAccessoryView = toolbar
+        selectEndDateTxt.inputView = datePicker2
+        
+    }
+    @objc func donedatePicker2(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        selectEndDateTxt.text = formatter.string(from: datePicker2.date)
+        self.endDate = formatter.string(from: datePicker2.date)
+
+        self.view.endEditing(true)
+    }
+    
+
+    func setupDatePickerForStartTime(){
+        //Formate Date
+        timePicker1.datePickerMode = .time
+        if #available(iOS 13.4, *) {
+            timePicker1.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+                
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker3))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        
+        doneButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        
+        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        
+        selectStartTimeTxt.inputAccessoryView = toolbar
+        selectStartTimeTxt.inputView = timePicker1
+        
+    }
+    @objc func donedatePicker3(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        selectStartTimeTxt.text = formatter.string(from: timePicker1.date)
+        self.startTime = formatter.string(from: timePicker1.date)
+        self.view.endEditing(true)
+    }
+    
+    func setupDatePickerForEndTime(){
+        //Formate Date
+        timePicker2.datePickerMode = .time
+        if #available(iOS 13.4, *) {
+            timePicker2.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker4))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        
+        doneButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        
+        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
+        
+        selectEndTimeTxt.inputAccessoryView = toolbar
+        selectEndTimeTxt.inputView = timePicker2
+        
+    }
+    @objc func donedatePicker4(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        selectEndTimeTxt.text = formatter.string(from: timePicker2.date)
+        self.endTime = formatter.string(from: timePicker2.date)
+        self.view.endEditing(true)
+    }
+
+    @objc func cancelDatePicker(){
+        self.view.endEditing(true)
+    }
+
 }
