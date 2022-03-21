@@ -1483,7 +1483,7 @@
                                                     <constraint firstAttribute="height" constant="2" id="zyh-Of-HjM"/>
                                                 </constraints>
                                             </view>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="pjQ-tY-T1l">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="pjQ-tY-T1l">
                                                 <rect key="frame" x="25" y="22" width="364" height="150"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="150" id="L1w-Jj-28W"/>
@@ -3319,6 +3319,7 @@
         <image name="feednodata_img" width="583.5" height="529"/>
         <image name="myEventnodata_img" width="583.5" height="529"/>
         <image name="people_ic" width="20" height="14"/>
+        <image name="placeHolderApp" width="2583" height="2479"/>
         <image name="placeholder" width="1000" height="1000"/>
         <image name="unSelected_ic" width="25" height="25"/>
         <namedColor name="BGColor">

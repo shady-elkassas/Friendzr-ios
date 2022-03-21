@@ -29,7 +29,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zRe-HT-RTM">
                         <rect key="frame" x="20" y="5" width="280" height="91"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="1ir-mG-mm4">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="1ir-mG-mm4">
                                 <rect key="frame" x="10" y="10" width="71" height="71"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="1ir-mG-mm4" secondAttribute="height" multiplier="1:1" id="rwg-Om-pSU"/>
@@ -116,7 +116,7 @@
     </objects>
     <resources>
         <image name="direction_ic" width="32" height="32"/>
-        <image name="placeholder" width="1000" height="1000"/>
+        <image name="placeHolderApp" width="2583" height="2479"/>
         <namedColor name="Color0">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

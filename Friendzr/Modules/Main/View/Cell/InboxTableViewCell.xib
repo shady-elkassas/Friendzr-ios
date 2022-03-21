@@ -26,7 +26,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="129"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Vca-hl-6gq">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="Vca-hl-6gq">
                         <rect key="frame" x="20" y="37" width="55" height="55"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="55" id="5lz-L1-sxC"/>
@@ -58,7 +58,7 @@
                         <color key="textColor" name="ColorLbl3"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="8ph-kw-rIW">
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="8ph-kw-rIW">
                         <rect key="frame" x="85" y="62.5" width="25" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="7Iv-7R-d8M"/>
@@ -108,7 +108,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="placeholder" width="1000" height="1000"/>
+        <image name="placeHolderApp" width="2583" height="2479"/>
         <namedColor name="BGColor">
             <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

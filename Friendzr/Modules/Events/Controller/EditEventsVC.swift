@@ -301,9 +301,7 @@ class EditEventsVC: UIViewController {
             selectFriendsTopView.isHidden = true
         }
         
-        listFriendsIDs.removeAll()
-//        for 
-        
+        listFriendsIDs.removeAll()        
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
@@ -349,6 +347,8 @@ class EditEventsVC: UIViewController {
         eventTypesView.isHidden = false
     }
     
+    var selectedFriends:[UserConversationModel] = [UserConversationModel]()
+
     @IBAction func selectEventAttendeesBtn(_ sender: Any) {
         if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SelectFriendsNC") as? UINavigationController, let vc = controller.viewControllers.first as? SelectFriendsVC {
             vc.onListFriendsCallBackResponse = self.onListFriendsCallBack

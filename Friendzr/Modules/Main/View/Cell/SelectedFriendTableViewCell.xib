@@ -36,7 +36,7 @@
                             <constraint firstAttribute="height" constant="1" id="Zqv-nl-rdZ"/>
                         </constraints>
                     </view>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="adw-Tq-3T1">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="adw-Tq-3T1">
                         <rect key="frame" x="20" y="8.5" width="50" height="50"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="ibV-u2-iYB"/>
@@ -75,7 +75,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="placeholder" width="1000" height="1000"/>
+        <image name="placeHolderApp" width="2583" height="2479"/>
         <image name="unSelected_ic" width="25" height="25"/>
         <namedColor name="BGColor">
             <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

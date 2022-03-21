@@ -39,7 +39,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Ik-au-9Lj">
                                         <rect key="frame" x="19" y="0.0" width="376" height="0.0"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="FZl-vM-xh3">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="FZl-vM-xh3">
                                                 <rect key="frame" x="10" y="-18" width="36" height="36"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="36" id="G6w-Iy-syZ"/>
@@ -510,7 +510,7 @@
         <image name="ic_map_marker" width="48" height="48"/>
         <image name="map_selected_ic" width="27" height="27"/>
         <image name="map_unselected_ic" width="27" height="27"/>
-        <image name="placeholder" width="1000" height="1000"/>
+        <image name="placeHolderApp" width="2583" height="2479"/>
         <image name="satellite_ic" width="256" height="256"/>
         <namedColor name="Color0">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -66,8 +66,7 @@ class SettingsVC: UIViewController {
         }
         
         setupView()
-        self.title = "Settings".localizedString
-        
+
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         transparentView.addGestureRecognizer(tap)
         
@@ -82,7 +81,10 @@ class SettingsVC: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
         
         initBackButton()
-        
+        setupNavBar()
+        hideNavigationBar(NavigationBar: false, BackButton: false)
+        self.title = "Settings".localizedString
+
         setupCLLocationManager()
         CancelRequest.currentTask = false
     }

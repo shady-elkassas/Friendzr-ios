@@ -230,9 +230,11 @@ class SelectFriendsVC: UIViewController {
             
             selectedIDs.removeAll()
             selectedNames.removeAll()
+            selectedFriends.removeAll()
             for itm in viewmodel.friends.value?.data ?? [] {
                 selectedIDs.append(itm.userId)
                 selectedNames.append(itm.userName)
+                selectedFriends.append(itm)
             }
         }else {
             selectImg.image = UIImage(named: "unSelected_ic")
@@ -244,6 +246,7 @@ class SelectFriendsVC: UIViewController {
             
             selectedIDs.removeAll()
             selectedNames.removeAll()
+            selectedFriends.removeAll()
         }
     }
     
@@ -251,7 +254,6 @@ class SelectFriendsVC: UIViewController {
         self.onListFriendsCallBackResponse!(selectedIDs,selectedNames)
         self.onDismiss()
     }
-    
 }
 
 //MARK: - Extensions
@@ -289,6 +291,9 @@ extension SelectFriendsVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath){
+        selectImg.image = UIImage(named: "unSelected_ic")
+        selectAllBtn.isSelected = false
+
         let type = viewmodel.friends.value?.data?[indexPath.row]
         if selectedFriends.contains(where: { $0.userId == type?.userId }) {
             // found
@@ -318,6 +323,9 @@ extension SelectFriendsVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        selectImg.image = UIImage(named: "unSelected_ic")
+        selectAllBtn.isSelected = false
+        
         let type = viewmodel.friends.value?.data![indexPath.row]
         if selectedFriends.contains(where: { $0.userId == type?.userId }) {
             // found

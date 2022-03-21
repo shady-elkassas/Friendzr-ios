@@ -120,7 +120,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         hideNavigationBar(NavigationBar: false, BackButton: true)
         CancelRequest.currentTask = false
         seyupAds()
-        currentPage = 0
+        currentPage = 1
         
         
         DispatchQueue.main.async {
@@ -298,9 +298,10 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-
+        currentPage = 1
+        
         DispatchQueue.main.async {
-            self.updateUserInterface()
+            self.getAllChatList(pageNumber: self.currentPage)
         }
         
         self.refreshControl.endRefreshing()
@@ -485,7 +486,7 @@ extension InboxVC:UITableViewDataSource {
                     cell.attachImg.isHidden = false
                     cell.attachTypeLbl.isHidden = false
                     cell.lastMessageLbl.isHidden = true
-                    cell.attachImg.image = UIImage(named: "placeholder")
+                    cell.attachImg.image = UIImage(named: "placeHolderApp")
                     cell.attachTypeLbl.text = "Photo".localizedString
                 }
                 else if model?.messagestype == 3 {
@@ -549,7 +550,7 @@ extension InboxVC:UITableViewDataSource {
                     cell.attachImg.isHidden = false
                     cell.attachTypeLbl.isHidden = false
                     cell.lastMessageLbl.isHidden = true
-                    cell.attachImg.image = UIImage(named: "placeholder")
+                    cell.attachImg.image = UIImage(named: "placeHolderApp")
                     cell.attachTypeLbl.text = "Photo".localizedString
                 }
                 else if model?.messagestype == 3 {

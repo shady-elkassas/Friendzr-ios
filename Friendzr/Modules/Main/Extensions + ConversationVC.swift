@@ -930,7 +930,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
                 let imgView:UIImageView = UIImageView()
                 self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0))
                 
-                imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
+                imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeHolderApp"))
                 self.sendingImageView  = imgView.image
                 
                 viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in
@@ -955,7 +955,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
                 if isChatGroup {
                     let imgView:UIImageView = UIImageView()
                     self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime:messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0))
-                    imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
+                    imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeHolderApp"))
                     self.sendingImageView  = imgView.image
 
                     viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in
@@ -980,7 +980,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
                 }else {
                     let imgView:UIImageView = UIImageView()
                     self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0))
-                    imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeholder"))
+                    imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeHolderApp"))
                     self.sendingImageView  = imgView.image
                     
                     viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in

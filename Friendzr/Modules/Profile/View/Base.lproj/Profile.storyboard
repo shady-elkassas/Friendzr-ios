@@ -458,7 +458,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zxh-ag-YVP">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="901"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="eGr-IB-vIz">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="eGr-IB-vIz">
                                                 <rect key="frame" x="157" y="16" width="100" height="100"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="100" id="SPf-Pe-Snm"/>
@@ -2055,7 +2055,6 @@ yourself with a one-time selfie</string>
         <image name="ellipse_ic" width="11" height="11"/>
         <image name="feednodata_img" width="583.5" height="529"/>
         <image name="placeHolderApp" width="2583" height="2479"/>
-        <image name="placeholder" width="1000" height="1000"/>
         <image name="select_ic" width="24" height="24"/>
         <image name="splash4" width="360" height="99"/>
         <image name="unSelect_ic" width="24" height="24"/>

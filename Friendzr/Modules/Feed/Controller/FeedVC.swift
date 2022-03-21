@@ -22,10 +22,12 @@ extension FeedVC {
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:
                 //open setting app when location services are disabled
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+//                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                 Defaults.allowMyLocationSettings = false
                 hideView.isHidden = true
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+                switchCompassBarButton.isUserInteractionEnabled = false
+                switchGhostModeBarButton.isUserInteractionEnabled = false
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
                 Defaults.allowMyLocationSettings = true
@@ -33,6 +35,9 @@ extension FeedVC {
                 DispatchQueue.main.async {
                     self.updateUserInterface()
                 }
+                
+                switchCompassBarButton.isUserInteractionEnabled = true
+                switchGhostModeBarButton.isUserInteractionEnabled = true
             default:
                 break
             }
@@ -41,8 +46,10 @@ extension FeedVC {
             print("Location in not allow")
             Defaults.allowMyLocationSettings = false
             hideView.isHidden = true
+            switchCompassBarButton.isUserInteractionEnabled = false
+            switchGhostModeBarButton.isUserInteractionEnabled = false
             NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+//            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
         }
     }
     
@@ -71,10 +78,14 @@ extension FeedVC {
                 createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                 Defaults.allowMyLocationSettings = false
                 hideView.isHidden = true
+                switchCompassBarButton.isUserInteractionEnabled = false
+                switchGhostModeBarButton.isUserInteractionEnabled = false
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
                 Defaults.allowMyLocationSettings = true
                 hideView.isHidden = true
+                switchCompassBarButton.isUserInteractionEnabled = true
+                switchGhostModeBarButton.isUserInteractionEnabled = true
             default:
                 break
             }
@@ -83,6 +94,8 @@ extension FeedVC {
             print("Location in not allow")
             Defaults.allowMyLocationSettings = false
             hideView.isHidden = true
+            switchCompassBarButton.isUserInteractionEnabled = false
+            switchGhostModeBarButton.isUserInteractionEnabled = false
             createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
         }
     }
@@ -190,13 +203,13 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         
         self.title = "Feed".localizedString
-        initCompassSwitchBarButton()
         pullToRefresh()
         addCompassView()
-        
+        initCompassSwitchBarButton()
+
+        seyupAds()
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
         
-        seyupAds()
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
@@ -265,6 +278,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK:- APIs
     @objc func updateFeeds() {
+//        checkLocationPermissionBtns()
+        
         if Defaults.allowMyLocationSettings == true {
             DispatchQueue.main.async {
                 if self.isCompassOpen {
@@ -274,9 +289,13 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
             self.allowLocView.isHidden = true
+            switchCompassBarButton.isUserInteractionEnabled = true
+            switchGhostModeBarButton.isUserInteractionEnabled = true
         }else {
             self.emptyView.isHidden = true
             self.allowLocView.isHidden = false
+            switchCompassBarButton.isUserInteractionEnabled = false
+            switchGhostModeBarButton.isUserInteractionEnabled = false
         }
         
         initGhostModeSwitchButton()
@@ -623,7 +642,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         updateNetworkForBtns()
         if internetConnect {
             self.refreshControl.endRefreshing()
-            self.checkLocationPermission()
+//            self.checkLocationPermission()
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
         }
     }
 }
@@ -1357,6 +1377,7 @@ extension FeedVC {
     
     @objc private func didCompassSwipe(_ sender: UISwipeGestureRecognizer) {
         // Current Frame
+        
         switch sender.direction {
         case .up:
             break
