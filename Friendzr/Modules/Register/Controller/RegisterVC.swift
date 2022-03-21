@@ -127,6 +127,7 @@ class RegisterVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func registerBtn(_ sender: Any) {
+        hideKeyboard()
         updateUserInterface()
         if internetConect {
             self.showLoading()

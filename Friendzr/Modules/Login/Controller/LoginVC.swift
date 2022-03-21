@@ -112,6 +112,7 @@ class LoginVC: UIViewController {
             userInfo: nil
         )
         
+        hideKeyboard()
         updateUserInterface()
         if internetConect {
             self.showLoading()

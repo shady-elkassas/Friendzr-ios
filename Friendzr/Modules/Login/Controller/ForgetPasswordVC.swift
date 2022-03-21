@@ -50,6 +50,7 @@ class ForgetPasswordVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func resetBtn(_ sender: Any) {
+        hideKeyboard()
         updateUserInterface()
         if internetConect {
             self.resetBtn.setTitle("Sending...", for: .normal)

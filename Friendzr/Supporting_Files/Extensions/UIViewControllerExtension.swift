@@ -130,7 +130,7 @@ extension UIViewController {
         
         let imgView = UIImageView()
         imgView.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
-        imgView.contentMode = .scaleAspectFit
+        imgView.contentMode = .scaleToFill
         
         let btn = UIButton(type: .custom)
         btn.addTarget(self, action: #selector(goToMyProfile), for: .touchUpInside)
@@ -301,6 +301,9 @@ extension UIViewController {
         view.endEditing(true)
     }
     
+    func hideKeyboard() {
+        view.endEditing(true)
+    }
     
     //    func updateTextField(iView:UIView,txtField:SkyFloatingLabelTextField,placeholder:String,titleLbl:String) {
     //        txtField.placeholder = placeholder

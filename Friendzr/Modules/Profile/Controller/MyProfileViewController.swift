@@ -15,6 +15,12 @@ class MyProfileViewController: UIViewController {
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var hideImgs: [UIImageView]!
     
+    @IBOutlet weak var emptyImg: UIImageView!
+    @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var emptyMessageLbl: UILabel!
+    @IBOutlet weak var triAgainBtn: UIButton!
+    
+    
     var viewmodel: ProfileViewModel = ProfileViewModel()
     var internetConnection:Bool = false
     
@@ -31,7 +37,9 @@ class MyProfileViewController: UIViewController {
         return control
     }()
     
+    var btnSelect:Bool = false
     var selectedVC:Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -78,6 +86,7 @@ class MyProfileViewController: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
+        btnSelect = false
         updateUserInterface()
         self.refreshControl.endRefreshing()
     }
@@ -134,11 +143,17 @@ class MyProfileViewController: UIViewController {
         switch Network.reachability.status {
         case .unreachable:
             internetConnection = false
+            self.hideView.isHidden = true
+            self.emptyView.isHidden = false
             HandleInternetConnection()
         case .wwan:
+            self.emptyView.isHidden = true
+            self.hideView.isHidden = false
             internetConnection = true
             getProfileInformation()
         case .wifi:
+            self.emptyView.isHidden = true
+            self.hideView.isHidden = false
             internetConnection = true
             getProfileInformation()
         }
@@ -170,7 +185,15 @@ class MyProfileViewController: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("Network is unavailable, please try again!".localizedString)
+        if btnSelect {
+            emptyView.isHidden = true
+            self.view.makeToast("Network is unavailable, please try again!".localizedString)
+        }else {
+            emptyView.isHidden = false
+            emptyImg.image = UIImage.init(named: "feednodata_img")
+            emptyMessageLbl.text = "Network is unavailable, please try again!".localizedString
+            triAgainBtn.alpha = 1.0
+        }
     }
     
     func setupView() {
@@ -184,8 +207,16 @@ class MyProfileViewController: UIViewController {
         for itm in hideImgs {
             itm.cornerRadiusView(radius: 10)
         }
+        
+        triAgainBtn.cornerRadiusView(radius: 8)
     }
     
+    
+    @IBAction func tryAgainBtn(_ sender: Any) {
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
+    }
 }
 
 extension MyProfileViewController: UITableViewDataSource {
@@ -211,6 +242,7 @@ extension MyProfileViewController: UITableViewDataSource {
             }
             
             cell.HandleEditBtn = {
+                self.btnSelect = true
                 self.updateUserInterfaceBtns()
                 if self.internetConnection {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC else {return}

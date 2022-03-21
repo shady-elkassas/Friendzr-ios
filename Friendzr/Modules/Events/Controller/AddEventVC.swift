@@ -441,7 +441,13 @@ class AddEventVC: UIViewController {
                 DispatchQueue.main.async {
                     self.view.makeToast("Please add image to the event".localizedString)
                 }
-            }else if eventTypeName == "Private" && listFriendsIDs.count == 0{
+            }
+            else if eventTypeName == "" {
+                DispatchQueue.main.async {
+                    self.view.makeToast("Please select the type of event first".localizedString)
+                }
+            }
+            else if eventTypeName == "Private" && listFriendsIDs.count == 0 {
                 DispatchQueue.main.async {
                     self.view.makeToast("This is the event private, please select friends for it".localizedString)
                 }
@@ -683,8 +689,8 @@ extension AddEventVC : UIImagePickerControllerDelegate,UINavigationControllerDel
         
         let cropper = CustomCropperViewController(originalImage: originImg)
         cropper.delegate = self
+        self.navigationController?.pushViewController(cropper, animated: true)
         picker.dismiss(animated: true) {
-            self.present(cropper, animated: true, completion: nil)
         }
     }
     
@@ -702,7 +708,7 @@ extension AddEventVC: CropperViewControllerDelegate {
     }
     
     func cropperDidConfirm(_ cropper: CropperViewController, state: CropperState?) {
-        cropper.dismiss(animated: true, completion: nil)
+        cropper.onPopup()
         if let state = state,
             let image = cropper.originalImage.cropped(withCropperState: state) {
             eventImg.image = image
@@ -710,6 +716,10 @@ extension AddEventVC: CropperViewControllerDelegate {
             print(cropper.isCurrentlyInInitialState)
             print(image)
         }
+    }
+    
+    func cropperDidCancel(_ cropper: CropperViewController) {
+        cropper.onPopup()
     }
 }
 

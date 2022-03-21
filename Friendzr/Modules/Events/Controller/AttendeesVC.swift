@@ -275,7 +275,7 @@ class AttendeesVC: UIViewController {
     
     func HandleInternetConnection() {
         emptyView.isHidden = false
-        emptyImg.image = UIImage.init(named: "nointernet")
+        emptyImg.image = UIImage.init(named: "feednodata_img")
         emptyLbl.text = "No available network, please try again!".localizedString
         tryAgainBtn.alpha = 1.0
     }

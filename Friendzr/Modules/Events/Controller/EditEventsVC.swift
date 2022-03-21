@@ -635,8 +635,8 @@ extension EditEventsVC : UIImagePickerControllerDelegate,UINavigationControllerD
         let cropper = CustomCropperViewController(originalImage: originImg)
 
         cropper.delegate = self
+        self.navigationController?.pushViewController(cropper, animated: true)
         picker.dismiss(animated: true) {
-            self.present(cropper, animated: true, completion: nil)
         }
     }
     
@@ -654,7 +654,7 @@ extension EditEventsVC: CropperViewControllerDelegate {
     }
     
     func cropperDidConfirm(_ cropper: CropperViewController, state: CropperState?) {
-        cropper.dismiss(animated: true, completion: nil)
+        cropper.onPopup()
         if let state = state,
             let image = cropper.originalImage.cropped(withCropperState: state) {
             eventImg.image = image
@@ -662,6 +662,10 @@ extension EditEventsVC: CropperViewControllerDelegate {
             print(cropper.isCurrentlyInInitialState)
             print(image)
         }
+    }
+    
+    func cropperDidCancel(_ cropper: CropperViewController) {
+        cropper.onPopup()
     }
 }
 extension EditEventsVC: UITableViewDataSource {

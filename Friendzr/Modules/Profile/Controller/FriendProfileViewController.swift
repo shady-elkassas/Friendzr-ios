@@ -14,6 +14,11 @@ class FriendProfileViewController: UIViewController {
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var hideImgs: [UIImageView]!
     
+    @IBOutlet weak var emptyImg: UIImageView!
+    @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var emptyMessageLbl: UILabel!
+    @IBOutlet weak var triAgainBtn: UIButton!
+
     let imageCellId = "FriendImageProfileTableViewCell"
     let userNameCellId = "ProfileUserNameTableViewCell"
     let interestsCellId = "InterestsProfileTableViewCell"
@@ -35,7 +40,8 @@ class FriendProfileViewController: UIViewController {
     
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var internetConect:Bool = false
-    
+    var btnSelect:Bool = false
+
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -95,6 +101,7 @@ class FriendProfileViewController: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
+        btnSelect = false
         updateUserInterface()
         self.refreshControl.endRefreshing()
     }
@@ -191,11 +198,17 @@ class FriendProfileViewController: UIViewController {
         switch Network.reachability.status {
         case .unreachable:
             internetConect = false
+            self.emptyView.isHidden = false
+            self.hideView.isHidden = true
             HandleInternetConnection()
         case .wwan:
+            self.emptyView.isHidden = true
+            self.hideView.isHidden = false
             internetConect = true
             loadUserData()
         case .wifi:
+            self.emptyView.isHidden = true
+            self.hideView.isHidden = false
             internetConect = true
             loadUserData()
         }
@@ -228,14 +241,27 @@ class FriendProfileViewController: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast( "Network is unavailable, please try again!".localizedString)
+        if btnSelect {
+            emptyView.isHidden = true
+            self.view.makeToast("Network is unavailable, please try again!".localizedString)
+        }
+        else {
+            emptyView.isHidden = false
+            emptyImg.image = UIImage.init(named: "feednodata_img")
+            emptyMessageLbl.text = "Network is unavailable, please try again!".localizedString
+            triAgainBtn.alpha = 1.0
+        }
     }
     
     func changeTitleBtns(btn:UIButton,title:String) {
         btn.setTitle(title, for: .normal)
     }
     
-    
+    @IBAction func tryAgainBtn(_ sender: Any) {
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
+    }
 }
 
 extension FriendProfileViewController:UITableViewDataSource {
@@ -323,6 +349,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             }
             
             cell.HandleSendRequestBtn = {
+                self.btnSelect = true
                 self.updateUserInterfaceBtns()
                 if self.internetConect == true {
                     self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
@@ -349,6 +376,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             }
             
             cell.HandleCancelBtn = {
+                self.btnSelect = true
                 self.updateUserInterfaceBtns()
                 if self.internetConect == true {
                     self.changeTitleBtns(btn: cell.cancelBtn, title: "Canceling...".localizedString)
@@ -374,6 +402,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             }
             
             cell.HandleRefuseBtn = {
+                self.btnSelect = true
                 self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 
                 self.alertView?.titleLbl.text = "Confirm?".localizedString
@@ -418,6 +447,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             }
             
             cell.HandleAcceptBtn = {
+                self.btnSelect = true
                 self.updateUserInterfaceBtns()
                 if self.internetConect == true {
                     self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 2,requestdate: "\(actionDate) \(actionTime)") { error, message in
@@ -443,6 +473,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             }
             
             cell.HandleUnFriendBtn = {
+                self.btnSelect = true
                 self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 
                 self.alertView?.titleLbl.text = "Confirm?".localizedString
@@ -493,6 +524,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             }
             
             cell.HandleBlockBtn = {
+                self.btnSelect = true
                 self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 self.alertView?.titleLbl.text = "Confirm?".localizedString
                 self.alertView?.detailsLbl.text = "Are you sure you want to block this account?".localizedString
@@ -536,6 +568,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             }
             
             cell.HandleUnblockBtn = {
+                self.btnSelect = true
                 self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 
                 self.alertView?.titleLbl.text = "Confirm?".localizedString
@@ -577,8 +610,6 @@ extension FriendProfileViewController:UITableViewDataSource {
                 
                 self.view.addSubview((self.alertView)!)
             }
-            
-            
             
             cell.sendRequestBtn.setTitle("Send Request".localizedString, for: .normal)
             cell.cancelBtn.setTitle("Cancel Request".localizedString, for: .normal)

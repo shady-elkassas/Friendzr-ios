@@ -238,7 +238,7 @@ class BlockedListVC: UIViewController {
             self.view.makeToast("Network is unavailable, please try again!".localizedString)
         }else {
             emptyView.isHidden = false
-            emptyImg.image = UIImage.init(named: "nointernet")
+            emptyImg.image = UIImage.init(named: "feednodata_img")
             emptyLbl.text = "Network is unavailable, please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }

@@ -1012,8 +1012,10 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
 //        let cropper = CropperViewController(originalImage: originImg)
          let cropper = CustomCropperViewController(originalImage: originImg)
         cropper.delegate = self
+        self.navigationController?.pushViewController(cropper, animated: true)
+
         picker.dismiss(animated: true) {
-            self.present(cropper, animated: true, completion: nil)
+//            self.present(cropper, animated: true, completion: nil)
         }
         
         
@@ -1062,7 +1064,7 @@ extension EditMyProfileVC: CropperViewControllerDelegate {
     }
     
     func cropperDidConfirm(_ cropper: CropperViewController, state: CropperState?) {
-        cropper.dismiss(animated: true, completion: nil)
+        cropper.onPopup()
         if let state = state,
             let image = cropper.originalImage.cropped(withCropperState: state) {
             profileImg.image = image
@@ -1072,6 +1074,10 @@ extension EditMyProfileVC: CropperViewControllerDelegate {
             print(cropper.isCurrentlyInInitialState)
             print(image)
         }
+    }
+    
+    func cropperDidCancel(_ cropper: CropperViewController) {
+        cropper.onPopup()
     }
 }
 //(20.0, 274.0, 388.0, 291.0)

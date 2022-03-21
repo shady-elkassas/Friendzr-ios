@@ -284,7 +284,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
             self.view.makeToast("Network is unavailable, please try again!".localizedString)
         }else {
             emptyView.isHidden = false
-            emptyImg.image = UIImage.init(named: "nointernet")
+            emptyImg.image = UIImage.init(named: "feednodata_img")
             emptyLbl.text = "Network is unavailable, please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }
@@ -298,10 +298,18 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        currentPage = 1
         
-        DispatchQueue.main.async {
-            self.getAllChatList(pageNumber: self.currentPage)
+        updateUserInterfaceActions()
+        
+        cellSelect = false
+        
+        if internetConect {
+            currentPage = 1
+            DispatchQueue.main.async {
+                self.getAllChatList(pageNumber: self.currentPage)
+            }
+        }else {
+            HandleInternetConnection()
         }
         
         self.refreshControl.endRefreshing()
