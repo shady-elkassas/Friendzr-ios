@@ -654,7 +654,7 @@ extension EventDetailsViewController: UITableViewDelegate {
         let height = view.bounds.height
         
         if indexPath.row == 0 {
-            return height/3
+            return screenH/3
         }else if indexPath.row == 1 {
             return 70
         }else if indexPath.row == 2 {

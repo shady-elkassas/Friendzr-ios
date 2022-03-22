@@ -481,7 +481,7 @@ class AddEventVC: UIViewController {
             else {
                 self.saveBtn.setTitle("Saving...", for: .normal)
                 self.saveBtn.isUserInteractionEnabled = false
-                viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime,eventtype:eventTypeID,listOfUserIDs:listFriendsIDs, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
+                viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime, eventTypeName: eventTypeName,eventtype:eventTypeID,listOfUserIDs:listFriendsIDs, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
                     
                     DispatchQueue.main.async {
                         self.saveBtn.isUserInteractionEnabled = true

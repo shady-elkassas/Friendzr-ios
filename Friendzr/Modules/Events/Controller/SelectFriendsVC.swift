@@ -117,6 +117,12 @@ class SelectFriendsVC: UIViewController {
         tableView.allowsMultipleSelection = true
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         saveBtn.cornerRadiusView(radius: 8)
+        
+        if selectedIDs.count == viewmodel.friends.value?.data?.count {
+            selectAllBtn.isSelected = true
+        }else {
+            selectAllBtn.isSelected = false
+        }
     }
     
     func HandleInternetConnection() {
@@ -248,6 +254,8 @@ class SelectFriendsVC: UIViewController {
             selectedNames.removeAll()
             selectedFriends.removeAll()
         }
+        
+        tableView.reloadData()
     }
     
     @IBAction func saveBtn(_ sender: Any) {
@@ -277,9 +285,18 @@ extension SelectFriendsVC :UITableViewDataSource {
         cell.titleLbl.text = model?.userName
         cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
-        if indexPath.row == ((viewmodel.friends.value?.data?.count ?? 0) - 1 ) {
+        if selectedIDs.contains(model?.userId ?? "") {
+            cell.selectedImg.image = UIImage(named: "selected_ic")
+        }
+        else {
+            cell.selectedImg.image = UIImage(named: "unSelected_ic")
+        }
+        
+        if indexPath.row == ((viewmodel.friends.value?.data?.count ?? 0) - 1) {
             cell.bottomView.isHidden = true
         }
+        
+        cell.layoutSubviews()
         
         return cell
     }
@@ -320,6 +337,7 @@ extension SelectFriendsVC:UITableViewDelegate {
         
         print("selectedIDs = \(selectedIDs)")
         print("selectedNames = \(selectedNames)")
+        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -345,6 +363,8 @@ extension SelectFriendsVC:UITableViewDelegate {
         
         print("selectedIDs = \(selectedIDs)")
         print("selectedNames = \(selectedNames)")
+        
+        tableView.reloadData()
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

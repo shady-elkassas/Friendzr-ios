@@ -158,7 +158,12 @@ class UserConversationModel: NSObject,Mappable {
     var email:String = ""
     var displayedUserName:String = ""
 
+    var joinDate:String? = ""
+    var myEventO:Bool? = false
+    var stutus: Int? = 0
+
     var isSelected:Bool = false
+    
     override init() {
         super.init()
     }
@@ -177,6 +182,9 @@ class UserConversationModel: NSObject,Mappable {
         image    <- map["image"]
         email    <- map["email"]
         displayedUserName    <- map["displayedUserName"]
+        stutus <- map["stutus"]
+        joinDate <- map["joinDate"]
+        myEventO <- map["myEvent"]
     }
 }
 

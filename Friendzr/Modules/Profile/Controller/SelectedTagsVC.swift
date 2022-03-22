@@ -18,7 +18,6 @@ class SelectedTagsVC: UIViewController {
     
     private var layout: UICollectionViewFlowLayout!
     var viewmodel = InterestsViewModel()
-    var selectedInterests:[InterestObj]!
     
     var onInterestsCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
     
@@ -26,7 +25,6 @@ class SelectedTagsVC: UIViewController {
     var arrSelectedIndex = [IndexPath]() // This is selected cell Index array
     var arrSelectedDataIds = [String]() // This is selected cell id array
     var arrSelectedDataNames = [String]() // This is selected cell name array
-    var isSelected:Bool = false
     
     let cellId = "TagCollectionViewCell"
     

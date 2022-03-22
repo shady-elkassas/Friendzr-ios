@@ -33,7 +33,7 @@ class AttendeesModel: Mappable {
     var totalRecords: Int?
     var totalPages: Int?
     var pageNumber: Int?
-    var data: [AttendeesObj]? = nil
+    var data: [UserConversationModel]? = nil
     
     required init?(map: Map) {
     }
@@ -48,32 +48,5 @@ class AttendeesModel: Mappable {
         pageSize  <- map["pageSize"]
         totalRecords  <- map["totalRecords"]
         totalPages  <- map["totalPages"]
-    }
-}
-
-class AttendeesObj: NSObject,Mappable {
-    
-    var userId: String? = ""
-    var stutus: Int? = 0
-    var userName: String? = ""
-    var image:String? = ""
-    var joinDate:String? = ""
-    var myEventO:Bool? = false
-    
-    required init?(map: Map) {
-    }
-    
-    override init() {
-        super.init()
-    }
-    
-    // Mappable
-    func mapping(map: Map) {
-        userId    <- map["userId"]
-        userName   <- map["userName"]
-        stutus <- map["stutus"]
-        image <- map["image"]
-        joinDate <- map["joinDate"]
-        myEventO <- map["myEvent"]
     }
 }

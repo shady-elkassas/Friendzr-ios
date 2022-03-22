@@ -102,7 +102,7 @@ class EventObj: NSObject,Mappable {
     var interestStatistic:[InterestsObj]?
     var genderStatistic:[GenderObj]?
     var joined: Int? = 0
-    var attendees: [AttendeesObj]? = [AttendeesObj]()
+    var attendees: [UserConversationModel]? = [UserConversationModel]()
     var categorie:String? = ""
     var category:String? = ""
     var descriptionEvent:String? = ""
@@ -116,7 +116,9 @@ class EventObj: NSObject,Mappable {
     var leveevent:Int? = 0
     var encryptedID:String = ""
     var eventtype:String = ""
-    
+    var eventtypecolor:String = ""
+    var eventtypeid:String = ""
+
     override init() {
         super.init()
     }
@@ -126,6 +128,8 @@ class EventObj: NSObject,Mappable {
     // Mappable
     func mapping(map: Map) {
         eventdate    <- map["eventdate"]
+        eventtypeid    <- map["eventtypeid"]
+        eventtypecolor    <- map["eventtypecolor"]
         category    <- map["category"]
         datetext    <- map["datetext"]
         categorieimage    <- map["categorieimage"]

@@ -82,7 +82,8 @@ class EditEventsVC: UIViewController {
     var eventModel:EventObj? = nil
     var viewmodel:EditEventViewModel = EditEventViewModel()
     var deleteEventVM:DeleteEventViewModel = DeleteEventViewModel()
-    
+    var typesVM:EventTypeViewModel = EventTypeViewModel()
+
     var minimumDate:Date = Date()
     var maximumDate:Date = Date()
     
@@ -138,8 +139,10 @@ class EditEventsVC: UIViewController {
             HandleInternetConnection()
         case .wwan:
             internetConect = true
+            getEventTypes()
         case .wifi:
             internetConect = true
+            getEventTypes()
         }
         
         print("Reachability Summary")
@@ -174,6 +177,26 @@ class EditEventsVC: UIViewController {
         }
     }
     
+    func getEventTypes() {
+        typesVM.getAllEventType()
+        typesVM.types.bind { [unowned self] value in
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
+                eventTypesTV.dataSource = self
+                eventTypesTV.delegate = self
+                eventTypesTV.reloadData()
+            }
+        }
+        
+        // Set View Model Event Listener
+        typesVM.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+            }
+        }
+    }
     func initDeleteEventButton(btnColor: UIColor? = .red) {
         let button = UIButton.init(type: .custom)
         button.setTitle("Delete Event".localizedString, for: .normal)
@@ -276,24 +299,17 @@ class EditEventsVC: UIViewController {
             attendeesViewHeight.constant = CGFloat(220)
         }
         
-        eventTypeLbl.text = eventModel?.eventtype
+        eventTypeLbl.text = (eventModel?.eventtype ?? "") + " Event"
+        eventTypeName = eventModel?.eventtype ?? ""
+        eventTypeID = eventModel?.eventtypeid ?? ""
         
-        if eventModel?.eventtype == "Friendzr" {
-            eventTypeName = "Friendzr"
-            selectFriendsView.isHidden = true
-            topFriendsViewLayoutConstraint.constant = 0
-            bottomFriendsViewLayoutConstaint.constant = 0
-            selectFriendsViewHeight.constant = 0
-            selectFriendsTopView.isHidden = true
-        }else if eventModel?.eventtype == "Private" {
-            eventTypeName = "Private"
+        if eventModel?.eventtype == "Private" {
             selectFriendsView.isHidden = false
             topFriendsViewLayoutConstraint.constant = 10
             bottomFriendsViewLayoutConstaint.constant = 10
             selectFriendsViewHeight.constant = 40
             selectFriendsTopView.isHidden = false
         }else {
-            eventTypeName = "Friendzr"
             selectFriendsView.isHidden = true
             topFriendsViewLayoutConstraint.constant = 0
             bottomFriendsViewLayoutConstaint.constant = 0
@@ -301,7 +317,17 @@ class EditEventsVC: UIViewController {
             selectFriendsTopView.isHidden = true
         }
         
-        listFriendsIDs.removeAll()        
+        listFriendsIDs.removeAll()
+        selectedFriends.removeAll()
+        for itm in eventModel?.attendees ?? [] {
+            listFriendsIDs.append(itm.userId)
+            selectedFriends.append(itm)
+        }
+        
+        listFriendsIDs.removeFirst()
+        selectedFriends.removeFirst()
+        
+        print("listFriendsIDs>> \(listFriendsIDs.count)")
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
@@ -351,6 +377,8 @@ class EditEventsVC: UIViewController {
 
     @IBAction func selectEventAttendeesBtn(_ sender: Any) {
         if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SelectFriendsNC") as? UINavigationController, let vc = controller.viewControllers.first as? SelectFriendsVC {
+            vc.selectedFriends = selectedFriends
+            vc.selectedIDs = listFriendsIDs
             vc.onListFriendsCallBackResponse = self.onListFriendsCallBack
             self.present(controller, animated: true)
         }
@@ -367,7 +395,7 @@ class EditEventsVC: UIViewController {
             else {
                 self.saveBtn.setTitle("Saving...", for: .normal)
                 self.saveBtn.isUserInteractionEnabled = false
-                viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime,eventtype:eventTypeName,listOfUserIDs:listFriendsIDs,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
+                viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime, eventTypeName: eventTypeName,eventtype:eventTypeID,listOfUserIDs:listFriendsIDs,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
                     
                     if let error = error {
                         DispatchQueue.main.async {
@@ -671,7 +699,7 @@ extension EditEventsVC: CropperViewControllerDelegate {
 extension EditEventsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == eventTypesTV {
-            return 2
+            return typesVM.types.value?.count ?? 0
         }
         else {
             return eventModel?.attendees?.count ?? 0
@@ -681,12 +709,10 @@ extension EditEventsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == eventTypesTV {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: eventTypeCellId, for: indexPath) as? ProblemTableViewCell else {return UITableViewCell()}
-            if indexPath.row == 0 {
-                cell.titleLbl.text = "Friendzr Event"
-            }else {
-                cell.titleLbl.text = "Private Event"
-                cell.bottomView.isHidden = true
-            }
+            let model = typesVM.types.value?[indexPath.row]
+            
+            cell.titleLbl.text = (model?.name ?? "") + " Event"
+
             return cell
         }
         else {
@@ -749,24 +775,26 @@ extension EditEventsVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         if tableView == eventTypesTV {
-            if indexPath.row == 0 {
-                eventTypeLbl.text = "Friendzr Event"
-                eventTypeName = "Friendzr"
-                selectFriendsView.isHidden = true
-                topFriendsViewLayoutConstraint.constant = 0
-                bottomFriendsViewLayoutConstaint.constant = 0
-                selectFriendsViewHeight.constant = 0
-                selectFriendsTopView.isHidden = true
-            }
-            else {
-                eventTypeLbl.text = "Private Event"
-                eventTypeName = "Private"
+            let model = typesVM.types.value?[indexPath.row]
+
+            eventTypeLbl.text = (model?.name ?? "") + " Event"
+            eventTypeID = model?.entityId ?? ""
+            eventTypeName = model?.name ?? ""
+            
+            if model?.name == "Private" {
                 selectFriendsView.isHidden = false
                 topFriendsViewLayoutConstraint.constant = 10
                 bottomFriendsViewLayoutConstaint.constant = 10
                 selectFriendsViewHeight.constant = 40
                 selectFriendsTopView.isHidden = false
+            }else {
+                selectFriendsView.isHidden = true
+                topFriendsViewLayoutConstraint.constant = 0
+                bottomFriendsViewLayoutConstaint.constant = 0
+                selectFriendsViewHeight.constant = 0
+                selectFriendsTopView.isHidden = true
             }
             
             hideTypesView.isHidden = true

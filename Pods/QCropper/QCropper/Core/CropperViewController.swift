@@ -222,9 +222,15 @@ open class CropperViewController: UIViewController, Rotatable, StateRestorable, 
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationController?.navigationBar.isHidden = true
-        view.clipsToBounds = true
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationItem.hidesBackButton = true
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.backgroundColor = .clear
 
+        view.clipsToBounds = true
+        
         // TODO: transition
 
         if originalImage.size.width < 1 || originalImage.size.height < 1 {

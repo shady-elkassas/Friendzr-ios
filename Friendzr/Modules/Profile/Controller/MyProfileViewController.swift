@@ -357,10 +357,10 @@ extension MyProfileViewController: UITableViewDataSource {
 
 extension MyProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = tableView.bounds.height
+//        let height = tableView.bounds.height
         
         if indexPath.row == 0 {
-            return height/2.3
+            return screenH/3
         }
         else {
             return UITableView.automaticDimension

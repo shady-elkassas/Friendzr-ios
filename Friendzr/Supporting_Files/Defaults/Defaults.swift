@@ -373,6 +373,16 @@ class Defaults {
         }
     }
     
+    static var ConversationID: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "ConversationID")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "ConversationID") ?? ""
+        }
+    }
+    
     static var isFirstFilter: Bool {
         set{
             UserDefaults.standard.set(newValue, forKey: "isFirstFilter")

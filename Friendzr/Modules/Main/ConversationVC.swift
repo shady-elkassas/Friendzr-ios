@@ -153,7 +153,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     var keyboardManager = KeyboardManager()
     let subviewInputBar = InputBarAccessoryView()
-        
+
     // MARK: - Private properties
     var senderUser = UserSender(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName)
     
@@ -226,11 +226,9 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
 //        messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: CustomMessagesFlowLayout())
 //        messagesCollectionView.register(CustomCell.self)
 
-        configureMessageCollectionView()
 
         setupMessages()
         initBackButton()
-        configureMessageInputBar()
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessages), name: Notification.Name("listenToMessages"), object: nil)
         
@@ -238,8 +236,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessagesForGroup), name: Notification.Name("listenToMessagesForGroup"), object: nil)
         
-        subviewInputBar.delegate = self
-        additionalBottomInset = 88
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateMessagesChat), name: UIResponder.keyboardDidShowNotification, object: nil)
         
@@ -260,12 +256,26 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        subviewInputBar.delegate = self
+        additionalBottomInset = 88
+        
+        configureMessageCollectionView()
+
+        if isEvent {
+            Defaults.ConversationID = eventChatID
+        }else if isChatGroup {
+            Defaults.ConversationID = groupId
+        }else {
+            Defaults.ConversationID = chatuserID
+        }
+        
         Defaults.availableVC = "ConversationVC"
         print("availableVC >> \(Defaults.availableVC)")
 
         currentPage = 1
         setupNavigationbar()
         setupLeftInputButton(tapMessage: false, Recorder: "play")
+        configureMessageInputBar()
         
         tabBarController?.tabBar.isHidden = true
     }
@@ -275,6 +285,8 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         CancelRequest.currentTask = true
         
         tabBarController?.tabBar.isHidden = false
+        
+        Defaults.ConversationID = ""
     }
     
     //MARK : - listen To Messages

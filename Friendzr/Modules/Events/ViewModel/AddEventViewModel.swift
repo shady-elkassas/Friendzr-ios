@@ -37,7 +37,7 @@ class AddEventViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Add event
-    func addNewEvent(withTitle title:String,AndDescription description:String,AndStatus status: String,AndCategory categoryId:String,lang:Double,lat:Double,totalnumbert:String,allday:Bool,eventdateFrom:String,eventDateto:String,eventfrom:String,eventto:String,creatDate:String,creattime:String,eventtype:String,listOfUserIDs:[String],attachedImg:Bool,AndImage image:UIImage,completion: @escaping (_ error: String?, _ data: EventObj?) -> ()) {
+    func addNewEvent(withTitle title:String,AndDescription description:String,AndStatus status: String,AndCategory categoryId:String,lang:Double,lat:Double,totalnumbert:String,allday:Bool,eventdateFrom:String,eventDateto:String,eventfrom:String,eventto:String,creatDate:String,creattime:String,eventTypeName:String,eventtype:String,listOfUserIDs:[String],attachedImg:Bool,AndImage image:UIImage,completion: @escaping (_ error: String?, _ data: EventObj?) -> ()) {
         
         CancelRequest.currentTask = false
         
@@ -55,7 +55,7 @@ class AddEventViewModel {
         let url = URLs.baseURLFirst + "Events/AddEventData"
         var parameters:[String : Any] = ["Title": title,"description":description,"status":status,"categoryid":categoryId,"lang":lang,"lat":lat,"totalnumbert": totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto,"CreatDate":creatDate,"Creattime":creattime,"eventtype":eventtype]
         
-        if eventtype == "Private" {
+        if eventTypeName == "Private" {
             if allday == true {
                 parameters = ["Title": title,"description":description,"status":status,"categoryid":categoryId,"lang":lang,"lat":lat,"totalnumbert": totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"CreatDate":creatDate,"Creattime":creattime,"eventtype":eventtype,"ListOfUserIDs":listOfUserIDs]
             }else {

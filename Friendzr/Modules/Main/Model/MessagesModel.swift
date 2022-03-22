@@ -130,7 +130,7 @@ class EventChatMessagesResponse: Mappable {
 
 class EventMessagesModel: Mappable {
     
-    var attendees: [AttendeesObj]?
+    var attendees: [UserConversationModel]?
     var pagedModel: MessagesDataModel?
     
     required init?(map: Map) {

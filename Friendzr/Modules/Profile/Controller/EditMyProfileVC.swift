@@ -145,12 +145,13 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             initBackButton()
         }
         
-        clearNavigationBar()
+//        clearNavigationBar()
         
         CancelRequest.currentTask = false
         
+        setupNavBar()
+        hideNavigationBar(NavigationBar: false, BackButton: false)
         self.tabBarController?.tabBar.isHidden = false
-
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1012,10 +1013,13 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
 //        let cropper = CropperViewController(originalImage: originImg)
          let cropper = CustomCropperViewController(originalImage: originImg)
         cropper.delegate = self
+
         self.navigationController?.pushViewController(cropper, animated: true)
 
         picker.dismiss(animated: true) {
 //            self.present(cropper, animated: true, completion: nil)
+//            setupNavBar()
+//            hideNavigationBar(NavigationBar: false, BackButton: false)
         }
         
         

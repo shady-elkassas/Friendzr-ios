@@ -72,9 +72,8 @@
                                     <constraint firstAttribute="height" constant="30" id="cms-bT-jxo"/>
                                     <constraint firstAttribute="width" constant="30" id="eKg-mt-umQ"/>
                                 </constraints>
-                                <color key="tintColor" red="0.043137254899999998" green="0.74500000479999995" blue="0.63099998239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="arrow_white_left" title=" "/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="arrow_white_left"/>
                                 <connections>
                                     <action selector="detailsBtn:" destination="gTV-IL-0wX" eventType="touchUpInside" id="3N5-1W-T7f"/>
                                 </connections>
@@ -118,7 +117,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="arrow_white_left" width="12" height="12"/>
+        <image name="arrow_white_left" width="20" height="20"/>
         <image name="placeHolderApp" width="2583" height="2479"/>
         <namedColor name="Color0">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

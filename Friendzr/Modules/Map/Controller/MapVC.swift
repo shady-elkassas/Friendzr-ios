@@ -1113,7 +1113,8 @@ extension MapVC:UICollectionViewDataSource {
         
         cell.eventColorView.backgroundColor = UIColor.color((model?.color ?? ""))
         
-        cell.detailsBtn.backgroundColor = UIColor.color((model?.color ?? ""))
+//        cell.detailsBtn.backgroundColor = UIColor.color((model?.color ?? ""))
+        cell.detailsBtn.tintColor = UIColor.color((model?.color ?? ""))
         
         cell.HandledetailsBtn = {
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
