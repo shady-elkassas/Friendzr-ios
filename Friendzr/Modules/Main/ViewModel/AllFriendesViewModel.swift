@@ -22,7 +22,7 @@ class AllFriendesViewModel {
     func getAllFriendes(pageNumber:Int,search:String) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/AllFriendes"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         
         let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10,"search":search]
 

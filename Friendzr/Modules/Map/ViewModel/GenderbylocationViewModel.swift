@@ -21,7 +21,7 @@ class GenderbylocationViewModel {
     func getGenderbylocation(ByLat lat:Double,AndLng lng:Double) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/Genderbylocation"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let params:[String:Any] = ["lat":lat,"lang":lng]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: params, andHeaders: headers) { (data,error) in

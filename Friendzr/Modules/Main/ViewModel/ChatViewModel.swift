@@ -38,8 +38,8 @@ class ChatViewModel {
     func getChatList(pageNumber:Int) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/UsersinChat"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -424,8 +424,8 @@ class ChatViewModel {
     
     func getChatMessages(ByUserId userid:String,pageNumber:Int) {
         let url = URLs.baseURLFirst + "Messages/Chatdata"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         let parameters:[String : Any] = ["userid":userid,"pageNumber": pageNumber,"pageSize":10]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -461,8 +461,8 @@ class ChatViewModel {
     func getChatMessages(ByEventId eventid:String,pageNumber:Int) {
 //        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/EventChat"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         let parameters:[String : Any] = ["Eventid":eventid,"pageNumber": pageNumber,"pageSize":10]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -674,8 +674,8 @@ class ChatViewModel {
     func getChatMessages(BygroupId groupId:String,pageNumber:Int) {
 //        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "ChatGroup/GetChat"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         let parameters:[String : Any] = ["ID":groupId,"pageNumber": pageNumber,"pageSize":10]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -712,7 +712,7 @@ class ChatViewModel {
     func muteChat(ByID id:String,isevent:Bool,mute:Bool, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/muitchat"
-        let headers = RequestComponent.headerComponent([.type,.authorization])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["id":id,"isevent":isevent,"muit": mute]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -739,7 +739,7 @@ class ChatViewModel {
     func deleteChat(ByID id:String,isevent:Bool,deleteDateTime:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/Deletchat"
-        let headers = RequestComponent.headerComponent([.type,.authorization])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["id":id,"isevent":isevent,"DeleteDateTime":deleteDateTime]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -766,7 +766,7 @@ class ChatViewModel {
     func LeaveChat(ByID id:String,ActionDate:String,Actiontime:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/leaveeventchat"
-        let headers = RequestComponent.headerComponent([.type,.authorization])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["EventDataid":id,"ActionDate":ActionDate,"Actiontime":Actiontime]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -793,7 +793,7 @@ class ChatViewModel {
     func joinChat(ByID id:String,ActionDate:String,Actiontime:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/joineventchat"
-        let headers = RequestComponent.headerComponent([.type,.authorization])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["EventDataid":id,"ActionDate":ActionDate,"Actiontime":Actiontime]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

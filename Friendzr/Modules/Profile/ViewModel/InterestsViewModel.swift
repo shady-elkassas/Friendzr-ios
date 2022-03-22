@@ -21,8 +21,8 @@ class InterestsViewModel {
     func getAllInterests(completion: @escaping (_ error: String?, _ data: [InterestObj]?) -> ())  {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Interests/GetAllInterests"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
             guard let interestResponse = Mapper<InterestsModel>().map(JSON: data!) else {
@@ -48,8 +48,8 @@ class InterestsViewModel {
     func getAllInterests()  {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Interests/GetAllInterests"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
             guard let interestResponse = Mapper<InterestsModel>().map(JSON: data!) else {
@@ -73,7 +73,7 @@ class InterestsViewModel {
     func addMyNewInterest(name:String,completion: @escaping (_ error: String?, _ data: NewTagAddedObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Interests/userTag"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["name": name]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -100,7 +100,7 @@ class InterestsViewModel {
     func deleteInterest(ById id:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Interests/DeleteInterest"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["interestID": id]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -127,7 +127,7 @@ class InterestsViewModel {
     func EditInterest(ByID id:String,name:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Interests/updateInterest"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["name": name,"entityId":id]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

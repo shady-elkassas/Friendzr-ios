@@ -24,6 +24,7 @@ class InboxTableViewCell: UITableViewCell {
         profileImg.cornerRadiusForHeight()
         profileImg.setBorder()
         attachImg.cornerRadiusView(radius: 4)
+        attachImg.setBorder()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -44,7 +44,7 @@ class ChangePasswordViewModel {
         }
         
         let url = URLs.baseURLFirst + "Account/changepass"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["oldPassword": oldPassword,"newPassword":newPassword]
 
         if confirmNewPassword != newPassword {

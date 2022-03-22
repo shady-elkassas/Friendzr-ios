@@ -70,7 +70,11 @@ class GroupDetailsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        Defaults.availableVC = "GroupDetailsVC"
+        if selectedVC {
+            Defaults.availableVC = "PresentGroupDetailsVC"
+        }else {
+            Defaults.availableVC = "GroupDetailsVC"
+        }
         print("availableVC >> \(Defaults.availableVC)")
         
         title = "Group Details"

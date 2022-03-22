@@ -272,6 +272,8 @@
 		43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */; };
 		43B2241A274D16B5004C6912 /* CategoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B22418274D16B5004C6912 /* CategoryCollectionViewCell.xib */; };
 		43B22436274E82B6004C6912 /* TagsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22435274E82B6004C6912 /* TagsLayout.swift */; };
+		43B8287D27E9C53F005FF1D1 /* EventTypeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B8287C27E9C53F005FF1D1 /* EventTypeViewModel.swift */; };
+		43B8287F27E9C565005FF1D1 /* EventTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B8287E27E9C565005FF1D1 /* EventTypeModel.swift */; };
 		43BA37992700A121003F28FA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BA37982700A121003F28FA /* Reachability.swift */; };
 		43BDFADD27B5454E005302CD /* FriendsShareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDFADB27B5454E005302CD /* FriendsShareTableViewCell.swift */; };
 		43BDFADE27B5454E005302CD /* FriendsShareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BDFADC27B5454E005302CD /* FriendsShareTableViewCell.xib */; };
@@ -662,6 +664,8 @@
 		43B22417274D16B5004C6912 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		43B22418274D16B5004C6912 /* CategoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCollectionViewCell.xib; sourceTree = "<group>"; };
 		43B22435274E82B6004C6912 /* TagsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsLayout.swift; sourceTree = "<group>"; };
+		43B8287C27E9C53F005FF1D1 /* EventTypeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTypeViewModel.swift; sourceTree = "<group>"; };
+		43B8287E27E9C565005FF1D1 /* EventTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTypeModel.swift; sourceTree = "<group>"; };
 		43BA37982700A121003F28FA /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		43BDFADB27B5454E005302CD /* FriendsShareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsShareTableViewCell.swift; sourceTree = "<group>"; };
 		43BDFADC27B5454E005302CD /* FriendsShareTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsShareTableViewCell.xib; sourceTree = "<group>"; };
@@ -1746,6 +1750,7 @@
 				43FED20926DE3FCF00255B96 /* EventModel.swift */,
 				43F473B426E61791001E4FAE /* CategoriesModel.swift */,
 				437EE47326E8BC1C00765089 /* AttendeesModel.swift */,
+				43B8287E27E9C565005FF1D1 /* EventTypeModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1757,6 +1762,7 @@
 				43119D7D26E4F6D100AD2260 /* AddEventViewModel.swift */,
 				43F473BA26E63FAE001E4FAE /* EditEventViewModel.swift */,
 				43F473B226E6175F001E4FAE /* AllCategoriesViewModel.swift */,
+				43B8287C27E9C53F005FF1D1 /* EventTypeViewModel.swift */,
 				4330757B26E79299002940DF /* JoinEventViewModel.swift */,
 				437EE47126E8B39700765089 /* LeaveEventViewModel.swift */,
 				4325E20F26F0AF34008F73C4 /* DeleteEventViewModel.swift */,
@@ -2152,6 +2158,7 @@
 				4308EB7A26EA0FD500D71379 /* FeedModel.swift in Sources */,
 				43CFB010271C56FC000CB41E /* GenderCollectionViewCell.swift in Sources */,
 				436DD06427E1D15000A4A7F7 /* ConversationVC + Custom Views.swift in Sources */,
+				43B8287D27E9C53F005FF1D1 /* EventTypeViewModel.swift in Sources */,
 				436850982745008500A62287 /* InstagramWebVC.swift in Sources */,
 				4369F4532797278000D5E064 /* AddNewUsersForMyGroupVC.swift in Sources */,
 				4320A65226F234BF003604EE /* UpdateLocationViewModel.swift in Sources */,
@@ -2335,6 +2342,7 @@
 				43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */,
 				4369F4592797546300D5E064 /* ShareVC.swift in Sources */,
 				4344110426CE796300F8233E /* ForgetPasswordVC.swift in Sources */,
+				43B8287F27E9C565005FF1D1 /* EventTypeModel.swift in Sources */,
 				43CBA9C827DA2D13006020FC /* StatisticsDetailsTableViewCell.swift in Sources */,
 				431D739727BBA08900EC8F7B /* IamVC.swift in Sources */,
 				4336D11026DB7F410093C7A6 /* Constants.swift in Sources */,

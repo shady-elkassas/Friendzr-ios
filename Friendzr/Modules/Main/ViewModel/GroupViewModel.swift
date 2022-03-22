@@ -159,7 +159,7 @@ class GroupViewModel {
     func addUsersGroup(withGroupId id:String,AndListOfUserIDs listOfUserIDs:[String],AndRegistrationDateTime registrationDateTime: String,completion: @escaping (_ error: String?, _ data: GroupModel?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "ChatGroup/AddUsers"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["ID": id,"RegistrationDateTime":registrationDateTime,"ListOfUserIDs":listOfUserIDs]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -186,7 +186,7 @@ class GroupViewModel {
     func muteGroupChat(ByID id:String,mute:Bool, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "ChatGroup/MuteChatGroup"
-        let headers = RequestComponent.headerComponent([.type,.authorization])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["ID":id,"IsMuted": mute]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -213,7 +213,7 @@ class GroupViewModel {
     func deleteUsersGroup(withGroupId id:String,AndListOfUserIDs listOfUserIDs:[String],AndRegistrationDateTime registrationDateTime: String,completion: @escaping (_ error: String?, _ data: GroupModel?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "ChatGroup/kickOutUser"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["ID": id,"RegistrationDateTime":registrationDateTime,"ListOfUserIDs":listOfUserIDs]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -240,7 +240,7 @@ class GroupViewModel {
     func leaveGroupChat(ByID id:String,registrationDateTime:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "ChatGroup/Leave"
-        let headers = RequestComponent.headerComponent([.type,.authorization])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["ID":id,"RegistrationDateTime":registrationDateTime]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -267,7 +267,7 @@ class GroupViewModel {
     func clearGroupChat(ByID id:String,registrationDateTime:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "ChatGroup/ClearChatGroup"
-        let headers = RequestComponent.headerComponent([.type,.authorization])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["ID":id,"RegistrationDateTime":registrationDateTime]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -414,7 +414,7 @@ class GroupViewModel {
     func deleteGroup(withGroupId id:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "ChatGroup/Remove"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["ID": id]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -441,7 +441,7 @@ class GroupViewModel {
     func getGroupDetails(id:String,search:String) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "ChatGroup/GetChatGroup"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["ID": id,"search":search]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -465,8 +465,8 @@ class GroupViewModel {
     func getAllGroupChat(pageNumber:Int,search:String) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "ChatGroup/GetAllChats"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10,"search":search]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

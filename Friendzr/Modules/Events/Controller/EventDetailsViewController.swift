@@ -48,6 +48,7 @@ class EventDetailsViewController: UIViewController {
 
     var isEventAdmin: Bool = false
     var selectedVC:Bool = false
+    var isprivateEvent:Bool = false
     
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -92,7 +93,12 @@ class EventDetailsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Defaults.availableVC = "EventDetailsViewController"
+        
+        if selectedVC {
+            Defaults.availableVC = "PresentEventDetailsViewController"
+        }else {
+            Defaults.availableVC = "EventDetailsViewController"
+        }
         print("availableVC >> \(Defaults.availableVC)")
         
         DispatchQueue.main.async {
@@ -188,6 +194,23 @@ class EventDetailsViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.title = "\(value.eventtype) Event"
                 }
+                
+                DispatchQueue.main.async {
+                    if value.key == 1 {
+                        isEventAdmin = true
+                    }else {
+                        isEventAdmin = false
+                    }
+                    
+                    if value.eventtype == "Private" {
+                        isprivateEvent = true
+                    }else {
+                        isprivateEvent = false
+                    }
+                    
+                    self.initOptionsEventButton()
+                }
+                
             }
         }
         
@@ -229,10 +252,14 @@ class EventDetailsViewController: UIViewController {
                         isEventAdmin = false
                     }
                     
+                    if value.eventtype == "Private" {
+                        isprivateEvent = true
+                    }else {
+                        isprivateEvent = false
+                    }
+                    
                     self.initOptionsEventButton()
                 }
-                
-                
             }
         }
         
@@ -675,7 +702,11 @@ extension EventDetailsViewController {
         if self.isEventAdmin {
             button.addTarget(self, action:  #selector(handleShareOptionsBtn), for: .touchUpInside)
         }else {
-            button.addTarget(self, action:  #selector(handleEventOptionsBtn), for: .touchUpInside)
+            if isprivateEvent {
+                button.addTarget(self, action:  #selector(handleEventReportBtn), for: .touchUpInside)
+            }else {
+                button.addTarget(self, action:  #selector(handleEventOptionsBtn), for: .touchUpInside)
+            }
         }
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.rightBarButtonItem = barButton
@@ -701,7 +732,7 @@ extension EventDetailsViewController {
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.id = self.eventId
                     vc.isEvent = true
-                    vc.selectedVC = "Present"
+                    vc.selectedVC = "PresentC"
                     vc.reportType = 2
                     self.present(controller, animated: true)
                 }
@@ -730,7 +761,43 @@ extension EventDetailsViewController {
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                     vc.id = self.eventId
                     vc.isEvent = true
-                    vc.selectedVC = "Present"
+                    vc.selectedVC = "PresentC"
+                    vc.reportType = 2
+                    self.present(controller, animated: true)
+                }
+            }))
+            
+            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionSheet, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func handleEventReportBtn() {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+            actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
+                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                    vc.id = self.eventId
+                    vc.isEvent = true
+                    vc.selectedVC = "PresentC"
+                    vc.reportType = 2
+                    self.present(controller, animated: true)
+                }
+            }))
+            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+            }))
+            
+            present(actionAlert, animated: true, completion: nil)
+        }
+        else {
+            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
+                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                    vc.id = self.eventId
+                    vc.isEvent = true
+                    vc.selectedVC = "PresentC"
                     vc.reportType = 2
                     self.present(controller, animated: true)
                 }

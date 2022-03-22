@@ -21,8 +21,8 @@ class PreferToViewModel {
     func getAllPreferTo(completion: @escaping (_ error: String?, _ data: [PreferToObj]?) -> ())  {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "prefertoLISTES/GETpreferto"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<PreferToModel>().map(JSON: data!) else {
@@ -48,8 +48,8 @@ class PreferToViewModel {
     func getAllPreferTo()  {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "prefertoLISTES/GETpreferto"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<PreferToModel>().map(JSON: data!) else {
@@ -100,7 +100,7 @@ class PreferToViewModel {
     func deletePreferTo(ById id:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "prefertoLISTES/Deletepreferto"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["interestID": id]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -127,7 +127,7 @@ class PreferToViewModel {
     func EditPreferTo(ByID id:String,name:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "prefertoLISTES/updatepreferto"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["name": name,"entityId":id]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

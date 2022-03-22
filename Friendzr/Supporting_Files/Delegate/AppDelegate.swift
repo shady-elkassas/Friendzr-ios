@@ -567,7 +567,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         self.content.sound = UNNotificationSound.default
         
         
-        if Defaults.availableVC == "ConversationVC" {
+        if Defaults.availableVC == "ConversationVC" || Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
+            
             if messageType == "1" {//text
                 NotificationMessage.action = action ?? ""
                 NotificationMessage.actionCode = actionId ?? ""
@@ -625,7 +626,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 NotificationMessage.linkPreviewID = messsageLinkEvenId
             }
         }
-        
                 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
@@ -672,21 +672,21 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         
         if action == "user_chat" {
-            if Defaults.availableVC == "ConversationVC" {
+            if Defaults.availableVC == "ConversationVC" || Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
             }else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
         }
         else if action == "event_chat" {
-            if Defaults.availableVC == "ConversationVC" {
+            if Defaults.availableVC == "ConversationVC" || Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
             }else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
         }
         else if action == "user_chatGroup" {
-            if Defaults.availableVC == "ConversationVC" {
+            if Defaults.availableVC == "ConversationVC" || Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForGroup"), object: nil, userInfo: nil)
             }else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
@@ -724,7 +724,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             if action == "Friend_request_cancelled" {
                 completionHandler([[]])
             }
-            else if Defaults.availableVC == "ConversationVC" {
+            else if Defaults.availableVC == "ConversationVC" || Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
+
                 completionHandler([[]])
             }
             else {
@@ -800,21 +801,21 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         
         if action == "user_chat" {
-            if Defaults.availableVC == "ConversationVC" {
+            if Defaults.availableVC == "ConversationVC" || Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
             }else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
         }
         else if action == "event_chat" {
-            if Defaults.availableVC == "ConversationVC" {
+            if Defaults.availableVC == "ConversationVC" || Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
             }else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
         }
         else if action == "user_chatGroup" {
-            if Defaults.availableVC == "ConversationVC" {
+            if Defaults.availableVC == "ConversationVC" || Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForGroup"), object: nil, userInfo: nil)
             }else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
@@ -853,7 +854,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             if action == "Friend_request_cancelled" {
                 completionHandler([[]])
             }
-            else if Defaults.availableVC == "ConversationVC" {
+            else if Defaults.availableVC == "ConversationVC" || Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
                 completionHandler([[]])
             }
             else {

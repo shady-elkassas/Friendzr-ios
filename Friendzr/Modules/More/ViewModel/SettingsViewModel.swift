@@ -22,8 +22,8 @@ class SettingsViewModel {
     func getUserSetting() {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/UserSetting"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
             guard let settingsResponse = Mapper<SettingsModel>().map(JSON: data!) else {
@@ -48,7 +48,7 @@ class SettingsViewModel {
     func updatUserSetting(withPushNotification pushNotification:Bool, AndAllowMyLocation allowMyLocation: Bool,AndGhostMode ghostMode :Bool,allowmylocationtype:Int ,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["pushnotification": pushNotification,"allowmylocation":allowMyLocation,"ghostmode":ghostMode,"allowmylocationtype":allowmylocationtype]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -77,8 +77,8 @@ class SettingsViewModel {
     func deleteAccount(_ completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/DeleteAccount"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
             guard let settingsResponse = Mapper<DeleteAccountModel>().map(JSON: data!) else {
@@ -104,7 +104,7 @@ class SettingsViewModel {
     func togglePushNotification(pushNotification:Bool,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["pushnotification":pushNotification]//"allowmylocation":allowMyLocation,"ghostmode":ghostMode,"allowmylocationtype":allowmylocationtype,"Manualdistancecontrol":12,"agefrom":10,"ageto":122,"Filteringaccordingtoage":true]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -132,7 +132,7 @@ class SettingsViewModel {
     func togglePersonalSpace(personalSpace:Bool,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["personalSpace":personalSpace]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -159,7 +159,7 @@ class SettingsViewModel {
     func toggleAllowMyLocation(allowMyLocation: Bool,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["allowmylocation":allowMyLocation]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -187,8 +187,8 @@ class SettingsViewModel {
     func toggleGhostMode(ghostMode :Bool,myAppearanceTypes:[Int],completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         let parameters:[String : Any] = ["ghostmode":ghostMode,"MyAppearanceTypes":myAppearanceTypes]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -216,7 +216,7 @@ class SettingsViewModel {
     func updateManualdistanceControl(manualdistancecontrol: Double,distanceFilter:Bool ,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["Manualdistancecontrol": manualdistancecontrol,"distanceFilter":distanceFilter]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -244,7 +244,7 @@ class SettingsViewModel {
     func filteringAccordingToAge(filteringaccordingtoage : Bool, agefrom: Int,ageto :Int,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/updatSetting"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["agefrom":agefrom,"ageto":ageto,"Filteringaccordingtoage":filteringaccordingtoage]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

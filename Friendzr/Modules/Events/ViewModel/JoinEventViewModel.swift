@@ -23,7 +23,7 @@ class JoinEventViewModel {
     func joinEvent(ByEventid eventid:String,JoinDate:String,Jointime:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/joinEvent"
-        let headers = RequestComponent.headerComponent([.type,.authorization])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["EventDataid": eventid,"JoinDate":JoinDate,"Jointime":Jointime]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

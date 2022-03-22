@@ -63,7 +63,12 @@ class MyProfileViewController: UIViewController {
         super.viewWillAppear(animated)
         
         self.hideView.isHidden = false
-        Defaults.availableVC = "MyProfileViewController"
+        if selectedVC {
+            Defaults.availableVC = "PresentMyProfileViewController"
+        }else {
+            Defaults.availableVC = "MyProfileViewController"
+        }
+        
         print("availableVC >> \(Defaults.availableVC)")
         
         CancelRequest.currentTask = false

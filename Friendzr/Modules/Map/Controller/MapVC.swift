@@ -643,39 +643,36 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.checkLocationPermission()
             }
         }
-        else {
-            HandleInternetConnection()
-        }
     }
     
     @IBAction func goAddEventBtn(_ sender: Any) {
-        updateUserInterfaceBtns()
         checkLocationPermissionBtns()
-        if internetConect {
-            if Defaults.allowMyLocationSettings {
-                if self.appendNewLocation {
-                    self.updateUserInterfaceBtns()
-                    if self.internetConect {
-                        self.setupMarkerz(for: self.location!, markerIcon: "eventMarker_ic", typelocation: "event", markerID: "", eventsCount: 0,isEvent: true,peopleCount: 0)
-                        
-                        self.locations.append(EventsLocation(location: self.location!, markerIcon: "eventMarker_ic", typelocation: "event",eventsCount: 0,markerId: "",isEvent: true,peopleCount: 0))
-                        
-                        LocationZooming.locationLat = self.location?.latitude ?? 0.0
-                        LocationZooming.locationLng = self.location?.longitude ?? 0.0
-                        
-                        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
-                        vc.locationLat = self.location!.latitude
-                        vc.locationLng = self.location!.longitude
-                        self.addEventBtn.isHidden = false
-                        self.goAddEventBtn.isHidden = true
-                        self.markerImg.isHidden = true
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
+        if Defaults.allowMyLocationSettings {
+            if self.appendNewLocation {
+                
+                //                    DispatchQueue.main.async {
+                //                        self.setupMarkerz(for: self.location!, markerIcon: "eventMarker_ic", typelocation: "event", markerID: "", eventsCount: 0,isEvent: true,peopleCount: 0)
+                //                    }
+                
+                //                    DispatchQueue.main.async {
+                //                        self.locations.append(EventsLocation(location: self.location!, markerIcon: "eventMarker_ic", typelocation: "event",eventsCount: 0,markerId: "",isEvent: true,peopleCount: 0))
+                //                    }
+                
+                DispatchQueue.main.async {
+                    LocationZooming.locationLat = self.location?.latitude ?? 0.0
+                    LocationZooming.locationLng = self.location?.longitude ?? 0.0
+                }
+                
+                DispatchQueue.main.async {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AddEventVC") as? AddEventVC else {return}
+                    vc.locationLat = self.location!.latitude
+                    vc.locationLng = self.location!.longitude
+                    self.addEventBtn.isHidden = false
+                    self.goAddEventBtn.isHidden = true
+                    self.markerImg.isHidden = true
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
-        }
-        else {
-            HandleInternetConnection()
         }
     }
     
@@ -1114,7 +1111,9 @@ extension MapVC:UICollectionViewDataSource {
         
         cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
-        //        cell.eventColorView.backgroundColor = UIColor.color("#0BBEA1")
+        cell.eventColorView.backgroundColor = UIColor.color((model?.color ?? ""))
+        
+        cell.detailsBtn.backgroundColor = UIColor.color((model?.color ?? ""))
         
         cell.HandledetailsBtn = {
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}

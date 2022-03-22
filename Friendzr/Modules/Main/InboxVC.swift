@@ -496,6 +496,7 @@ extension InboxVC:UITableViewDataSource {
                     cell.lastMessageLbl.isHidden = true
                     cell.attachImg.image = UIImage(named: "placeHolderApp")
                     cell.attachTypeLbl.text = "Photo".localizedString
+                    cell.attachImg.sd_setImage(with: URL(string: model?.messagesattach ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 }
                 else if model?.messagestype == 3 {
                     cell.attachImg.isHidden = false
@@ -503,6 +504,7 @@ extension InboxVC:UITableViewDataSource {
                     cell.lastMessageLbl.isHidden = true
                     cell.attachImg.image = UIImage(named: "attachFile_ic")
                     cell.attachTypeLbl.text = "File".localizedString
+                    cell.attachImg.sd_setImage(with: URL(string: model?.messagesattach ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 }
                 else {
                     print("\(model?.messagestype ?? 0)")
@@ -560,6 +562,7 @@ extension InboxVC:UITableViewDataSource {
                     cell.lastMessageLbl.isHidden = true
                     cell.attachImg.image = UIImage(named: "placeHolderApp")
                     cell.attachTypeLbl.text = "Photo".localizedString
+                    cell.attachImg.sd_setImage(with: URL(string: model?.messagesattach ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 }
                 else if model?.messagestype == 3 {
                     cell.attachImg.isHidden = false
@@ -567,6 +570,7 @@ extension InboxVC:UITableViewDataSource {
                     cell.lastMessageLbl.isHidden = true
                     cell.attachImg.image = UIImage(named: "attachFile_ic")
                     cell.attachTypeLbl.text = "File".localizedString
+                    cell.attachImg.sd_setImage(with: URL(string: model?.messagesattach ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 }
                 else {
                     print("\(model?.messagestype ?? 0)")

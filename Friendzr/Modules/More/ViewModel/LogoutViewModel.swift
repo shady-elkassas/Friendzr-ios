@@ -21,7 +21,7 @@ class LogoutViewModel {
     func logoutRequest( completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/logout"
-        let headers = RequestComponent.headerComponent([.authorization,.lang])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<LogoutModel>().map(JSON: data!) else {
                 self.errorMsg = error!

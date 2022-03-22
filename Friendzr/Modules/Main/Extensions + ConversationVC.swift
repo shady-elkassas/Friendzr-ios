@@ -87,7 +87,8 @@ extension ConversationVC: MessagesDataSource {
 
         if model.messageType == 4 {
             return nil
-        }else {
+        }
+        else {
             if !isNextMessageSameSender(at: indexPath) && isFromCurrentSender(message: message) {
             return NSAttributedString(string: model.dateandtime, attributes: [NSAttributedString.Key.font:
                                                                                 UIFont(name: "Montserrat-Medium", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2),

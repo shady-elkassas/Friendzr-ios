@@ -64,7 +64,7 @@ class RegisterViewModel {
         }
         
         let url = URLs.baseURLFirst + "Authenticat/register"
-        let headers = RequestComponent.headerComponent([.type])
+        let headers = RequestComponent.headerComponent([.type,.lang])
         
         var parameters:[String : Any] = ["UserName": userName,"Email":email,"Password":password,"registertype": 0 ,"FcmToken":Defaults.fcmToken,"platform":2]
 

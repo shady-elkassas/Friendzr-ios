@@ -28,7 +28,7 @@ class SocialMediaRegisterViewModel {
         parameters = ["UserId":socialMediaId,"email": email,"registertype":1,"username":username,"Password":"Password1234","platform":2,"SocialUser":socialUser]
         }
         
-        let headers = RequestComponent.headerComponent([.type])
+        let headers = RequestComponent.headerComponent([.type,.lang])
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { data, error in
             guard let userResponse = Mapper<LoginModel>().map(JSON: data!) else {
                 self.errorMsg = error!

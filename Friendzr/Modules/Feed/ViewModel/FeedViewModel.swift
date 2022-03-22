@@ -24,7 +24,7 @@ class FeedViewModel {
     func getAllUsers(pageNumber:Int) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/AllUsers"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["userlat":Defaults.LocationLat,"userlang":Defaults.LocationLng,"pageNumber": pageNumber,"pageSize":20]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -60,7 +60,7 @@ class FeedViewModel {
     func filterFeeds(Bydegree degree:Double,pageNumber:Int) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/AllUsers"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["userlat":Defaults.LocationLat,"userlang":Defaults.LocationLng,"degree":degree,"pageNumber": pageNumber,"pageSize":20]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

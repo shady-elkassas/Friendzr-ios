@@ -1,20 +1,20 @@
 //
-//  CategoriesModel.swift
+//  EventTypeModel.swift
 //  Friendzr
 //
-//  Created by Muhammad Sabri Saad on 06/09/2021.
+//  Created by Shady Elkassas on 22/03/2022.
 //
 
 import Foundation
 import ObjectMapper
 
-typealias CategoriesList = [CategoryObj]
+typealias EventTypeList = [EventTypeObj]
 
-class CategoriesModel: Mappable {
+class EventTypeModel: Mappable {
     
     var isSuccessful: Bool?
     var message: String?
-    var data: [CategoryObj]? = nil
+    var data: [EventTypeObj]? = nil
     
     required init?(map: Map) {
     }
@@ -26,17 +26,20 @@ class CategoriesModel: Mappable {
     }
 }
 
-class CategoryObj: Mappable {
+class EventTypeObj: Mappable {
     
-    var id: String? = ""
+    var entityId: String? = ""
     var name: String? = ""
-    
+    var color: String? = ""
+    var privtekey: String? = ""
+
     required init?(map: Map) {
     }
     // Mappable
     func mapping(map: Map) {
-        id    <- map["id"]
+        entityId    <- map["entityId"]
         name   <- map["name"]
+        color   <- map["color"]
+        privtekey   <- map["privtekey"]
     }
 }
-

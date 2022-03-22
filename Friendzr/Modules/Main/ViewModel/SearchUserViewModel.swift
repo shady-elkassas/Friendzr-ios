@@ -27,8 +27,8 @@ class SearchUserViewModel {
     func SearshUsersinChat(ByUserName username:String) {
         
         let url = URLs.baseURLFirst + "Messages/SearshUsersinChat"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         let parameters:[String : Any] = ["username":username]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

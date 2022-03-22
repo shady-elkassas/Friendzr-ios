@@ -26,7 +26,7 @@ class AttendeesViewModel {
     func editAttendees(ByUserAttendId userAttendId:String,AndEventid eventid:String,AndStutus stutus:Int,Actiontime:String,ActionDate:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/Clickoutevent"
-        let headers = RequestComponent.headerComponent([.type,.authorization])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
 
         let parameters:[String : Any] = ["UserattendId": userAttendId,"EventDataid":eventid,"stutus":stutus,"ActionDate":ActionDate,"Actiontime":Actiontime]
 
@@ -53,7 +53,7 @@ class AttendeesViewModel {
     func getEventAttendees(ByEventID eventid:String,pageNumber:Int,search:String) {
         
         let url = URLs.baseURLFirst + "Events/getEventAttende"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["id": eventid,"pageNumber": pageNumber,"pageSize":10,"search":search]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

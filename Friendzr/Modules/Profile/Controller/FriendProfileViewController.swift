@@ -83,7 +83,12 @@ class FriendProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        Defaults.availableVC = "FriendProfileViewController"
+        if selectedVC {
+            Defaults.availableVC = "PresentFriendProfileViewController"
+        }else {
+            Defaults.availableVC = "FriendProfileViewController"
+
+        }
         print("availableVC >> \(Defaults.availableVC)")
         
         CancelRequest.currentTask = false
@@ -755,7 +760,7 @@ extension FriendProfileViewController {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                    vc.selectedVC = "Present"
+                    vc.selectedVC = "PresentC"
                     vc.isEvent = false
                     vc.id = self.userID
                     vc.reportType = 3
@@ -771,7 +776,7 @@ extension FriendProfileViewController {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                    vc.selectedVC = "Present"
+                    vc.selectedVC = "PresentC"
                     vc.isEvent = false
                     vc.id = self.userID
                     vc.reportType = 3

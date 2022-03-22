@@ -20,7 +20,7 @@ class RequestFriendStatusViewModel {
     func requestFriendStatus(withID id:String,AndKey key:Int,requestdate:String,completion: @escaping (_ error: String?, _ data: Bool?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/RequestFriendStatus"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["userid": id,"key":key,"Requestdate":requestdate]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

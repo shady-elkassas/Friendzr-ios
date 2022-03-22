@@ -24,8 +24,8 @@ class EventsViewModel {
     func getMyEvents(pageNumber:Int,search:String) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/getMyEvent"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10,"Search":search]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -60,7 +60,7 @@ class EventsViewModel {
     func getEventByID(id:String) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/getEvent"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["id": id]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

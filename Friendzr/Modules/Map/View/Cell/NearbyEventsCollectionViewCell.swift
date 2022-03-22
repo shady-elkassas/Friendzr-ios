@@ -26,12 +26,11 @@ class NearbyEventsCollectionViewCell: UICollectionViewCell {
         eventImg.cornerRadiusView(radius: 10)
         containerView.cornerRadiusView(radius: 10)
         eventColorView.setCornerforTop()
+        detailsBtn.cornerRadiusForHeight()
         eventImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 0.5)
     }
     
     @IBAction func detailsBtn(_ sender: Any) {
         HandledetailsBtn?()
     }
-    
-    
 }

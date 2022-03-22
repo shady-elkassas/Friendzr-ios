@@ -23,7 +23,7 @@ class NotificationsViewModel {
     func getNotifications(pageNumber:Int) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/NotificationData"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in

@@ -86,6 +86,7 @@ class AddEventVC: UIViewController {
     let cellId = "CategoryCollectionViewCell"
     let eventTypeCellId = "ProblemTableViewCell"
     var catsVM:AllCategoriesViewModel = AllCategoriesViewModel()
+    var typesVM:EventTypeViewModel = EventTypeViewModel()
     var catID = ""
     var catselectedID:String = ""
     var catSelectedName:String = ""
@@ -183,6 +184,29 @@ class AddEventVC: UIViewController {
         }
     }
     
+    func getEventTypes() {
+        hideView.isHidden = false
+        typesVM.getAllEventType()
+        typesVM.types.bind { [unowned self] value in
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
+                hideView.isHidden = true
+                eventTypesTV.dataSource = self
+                eventTypesTV.delegate = self
+                eventTypesTV.reloadData()
+            }
+        }
+        
+        // Set View Model Event Listener
+        typesVM.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+            }
+        }
+    }
+    
     //MARK: - Actions
     @IBAction func addImgBtn(_ sender: Any) {
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -214,8 +238,10 @@ class AddEventVC: UIViewController {
     }
     
     @IBAction func selectEventTypeBtn(_ sender: Any) {
-        categoriesSuperView.isHidden = false
-        eventTypesView.isHidden = false
+        DispatchQueue.main.async {
+            self.categoriesSuperView.isHidden = false
+            self.eventTypesView.isHidden = false
+        }
     }
     
     @IBAction func selectFriendsBtn(_ sender: Any) {
@@ -442,7 +468,7 @@ class AddEventVC: UIViewController {
                     self.view.makeToast("Please add image to the event".localizedString)
                 }
             }
-            else if eventTypeName == "" {
+            else if eventTypeID == "" {
                 DispatchQueue.main.async {
                     self.view.makeToast("Please select the type of event first".localizedString)
                 }
@@ -455,7 +481,7 @@ class AddEventVC: UIViewController {
             else {
                 self.saveBtn.setTitle("Saving...", for: .normal)
                 self.saveBtn.isUserInteractionEnabled = false
-                viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime,eventtype:eventTypeName,listOfUserIDs:listFriendsIDs, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
+                viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime,eventtype:eventTypeID,listOfUserIDs:listFriendsIDs, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
                     
                     DispatchQueue.main.async {
                         self.saveBtn.isUserInteractionEnabled = true
@@ -491,9 +517,12 @@ class AddEventVC: UIViewController {
         case .wwan:
             internetConect = true
             getCats()
+            getEventTypes()
         case .wifi:
             internetConect = true
             getCats()
+            getEventTypes()
+
         }
         
         print("Reachability Summary")
@@ -766,17 +795,13 @@ extension AddEventVC: UICollectionViewDelegate,UICollectionViewDelegateFlowLayou
 
 extension AddEventVC :UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return typesVM.types.value?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: eventTypeCellId, for: indexPath) as? ProblemTableViewCell else {return UITableViewCell()}
-        if indexPath.row == 0 {
-            cell.titleLbl.text = "Friendzr Event"
-        }else {
-            cell.titleLbl.text = "Private Event"
-            cell.bottomView.isHidden = true
-        }
+        let model = typesVM.types.value?[indexPath.row]
+        cell.titleLbl.text = (model?.name ?? "") + " Event"
         return cell
     }
 }
@@ -787,22 +812,25 @@ extension AddEventVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
-            eventTypeLbl.text = "Friendzr Event"
-            eventTypeName = "Friendzr"
-            selectFriendsView.isHidden = true
-            topFriendsViewLayoutConstraint.constant = 0
-            bottomFriendsViewLayoutConstaint.constant = 0
-            selectFriendsViewHeight.constant = 0
-            selectFriendsTopView.isHidden = true
-        }else {
-            eventTypeLbl.text = "Private Event"
-            eventTypeName = "Private"
+        
+        let model = typesVM.types.value?[indexPath.row]
+
+        eventTypeLbl.text = (model?.name ?? "") + " Event"
+        eventTypeID = model?.entityId ?? ""
+        eventTypeName = model?.name ?? ""
+        
+        if model?.name == "Private" {
             selectFriendsView.isHidden = false
             topFriendsViewLayoutConstraint.constant = 10
             bottomFriendsViewLayoutConstaint.constant = 10
             selectFriendsViewHeight.constant = 40
             selectFriendsTopView.isHidden = false
+        }else {
+            selectFriendsView.isHidden = true
+            topFriendsViewLayoutConstraint.constant = 0
+            bottomFriendsViewLayoutConstaint.constant = 0
+            selectFriendsViewHeight.constant = 0
+            selectFriendsTopView.isHidden = true
         }
         
         categoriesSuperView.isHidden = true

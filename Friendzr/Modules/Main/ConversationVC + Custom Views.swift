@@ -246,7 +246,7 @@ extension ConversationVC {
             actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
                     if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = self.eventChatID ?? ""
+                        vc.eventId = self.eventChatID
                         vc.isEventAdmin = self.isEventAdmin
                         vc.selectedVC = true
                         self.present(controller, animated: true)

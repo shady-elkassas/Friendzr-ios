@@ -21,7 +21,7 @@ class CheckUserNameViewModel {
     func checkUserName(withUserName userName:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Authenticat/CheckUserName?UserName=\(userName)"
-        let headers = RequestComponent.headerComponent([.type])
+        let headers = RequestComponent.headerComponent([.type,.lang])
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<LoginModel>().map(JSON: data!) else {

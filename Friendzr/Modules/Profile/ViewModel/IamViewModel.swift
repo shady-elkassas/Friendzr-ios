@@ -21,8 +21,8 @@ class IamViewModel {
     func getAllIam(completion: @escaping (_ error: String?, _ data: [IamObj]?) -> ())  {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Interests/GETIam"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<IamModel>().map(JSON: data!) else {
@@ -48,8 +48,8 @@ class IamViewModel {
     func getAllIam()  {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Interests/GETIam"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
-        
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
+
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<IamModel>().map(JSON: data!) else {
@@ -73,7 +73,7 @@ class IamViewModel {
     func addMyNewIam(name:String,completion: @escaping (_ error: String?, _ data: NewIamAddedObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Interests/ADDIam"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["name": name]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -100,7 +100,7 @@ class IamViewModel {
     func deleteIam(ById id:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Interests/DeleteIam"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["interestID": id]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -127,7 +127,7 @@ class IamViewModel {
     func EditIam(ByID id:String,name:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Interests/updateIam"
-        let headers = RequestComponent.headerComponent([.authorization,.type])
+        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["name": name,"entityId":id]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
