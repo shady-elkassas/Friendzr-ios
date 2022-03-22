@@ -246,6 +246,9 @@ class AddEventVC: UIViewController {
     
     @IBAction func selectFriendsBtn(_ sender: Any) {
         if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SelectFriendsNC") as? UINavigationController, let vc = controller.viewControllers.first as? SelectFriendsVC {
+            vc.selectedIDs = self.listFriendsIDs
+            vc.selectedFriends = self.selectFriends
+            vc.selectedNames = self.listNamesSelected
             vc.onListFriendsCallBackResponse = self.onListFriendsCallBack
             self.present(controller, animated: true)
         }
@@ -589,10 +592,15 @@ class AddEventVC: UIViewController {
         eventTypesTV.register(UINib(nibName: eventTypeCellId, bundle: nil), forCellReuseIdentifier: eventTypeCellId)
     }
     
-    func onListFriendsCallBack(_ listIDs: [String],_ listNames: [String]) -> () {
+    var selectFriends:[UserConversationModel] = [UserConversationModel]()
+    var listNamesSelected:[String] = [String]()
+    
+    func onListFriendsCallBack(_ listIDs: [String],_ listNames: [String],_ selectFriends:[UserConversationModel]) -> () {
         print("\(listIDs)")
         print("\(listNames)")
-        listFriendsIDs = listIDs
+        self.listFriendsIDs = listIDs
+        self.listNamesSelected = listNames
+        self.selectFriends = selectFriends
     }
 }
 

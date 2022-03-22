@@ -862,7 +862,7 @@ extension SettingsVC: UITableViewDataSource {
             }
             
             cell.titleLbl.text = "Personal Space".localizedString
-            cell.settingIcon.image = UIImage(named: "filterAccourdingAge_ic")
+            cell.settingIcon.image = UIImage(named: "personal-space_ic")
             
             cell.HandleSwitchBtn = {
                 if self.model?.personalSpace == true {

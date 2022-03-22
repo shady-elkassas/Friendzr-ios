@@ -32,7 +32,7 @@ class SelectFriendsVC: UIViewController {
     var selectedNames = [String]()
     var selectedFriends:[UserConversationModel] = [UserConversationModel]()
 
-    var onListFriendsCallBackResponse: ((_ listIDs: [String],_ listNames: [String]) -> ())?
+    var onListFriendsCallBackResponse: ((_ listIDs: [String],_ listNames: [String],_ selectFriends:[UserConversationModel]) -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,12 +117,6 @@ class SelectFriendsVC: UIViewController {
         tableView.allowsMultipleSelection = true
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         saveBtn.cornerRadiusView(radius: 8)
-        
-        if selectedIDs.count == viewmodel.friends.value?.data?.count {
-            selectAllBtn.isSelected = true
-        }else {
-            selectAllBtn.isSelected = false
-        }
     }
     
     func HandleInternetConnection() {
@@ -147,6 +141,14 @@ class SelectFriendsVC: UIViewController {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
+                
+                DispatchQueue.main.async {
+                    if selectedIDs.count == value.data?.count {
+                        selectAllBtn.isSelected = true
+                    }else {
+                        selectAllBtn.isSelected = false
+                    }
+                }
             }
         }
         
@@ -259,7 +261,7 @@ class SelectFriendsVC: UIViewController {
     }
     
     @IBAction func saveBtn(_ sender: Any) {
-        self.onListFriendsCallBackResponse!(selectedIDs,selectedNames)
+        self.onListFriendsCallBackResponse!(selectedIDs,selectedNames,selectedFriends)
         self.onDismiss()
     }
 }

@@ -91,6 +91,8 @@ class EditEventsVC: UIViewController {
     var eventTypeName = ""
 
     var listFriendsIDs:[String] = [String]()
+    var selectFriends:[UserConversationModel] = [UserConversationModel]()
+    var listNamesSelected:[String] = [String]()
 
     let datePicker1 = UIDatePicker()
     let datePicker2 = UIDatePicker()
@@ -335,10 +337,12 @@ class EditEventsVC: UIViewController {
         eventTypesView.isHidden = true
     }
 
-    func onListFriendsCallBack(_ listIDs: [String],_ listNames: [String]) -> () {
+    func onListFriendsCallBack(_ listIDs: [String],_ listNames: [String],_ selectFriends:[UserConversationModel]) -> () {
         print("\(listIDs)")
         print("\(listNames)")
         listFriendsIDs = listIDs
+        self.listNamesSelected = listNames
+        self.selectedFriends = selectFriends
     }
     
     func onStartDateCallBack(_ dayDate: String, _ date: String,_ minimumDate:Date,_ maximumDate:Date) -> () {
@@ -379,6 +383,7 @@ class EditEventsVC: UIViewController {
         if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SelectFriendsNC") as? UINavigationController, let vc = controller.viewControllers.first as? SelectFriendsVC {
             vc.selectedFriends = selectedFriends
             vc.selectedIDs = listFriendsIDs
+            vc.selectedNames = self.listNamesSelected
             vc.onListFriendsCallBackResponse = self.onListFriendsCallBack
             self.present(controller, animated: true)
         }
