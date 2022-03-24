@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import QCropper
 
 class GroupDetailsVC: UIViewController {
 
@@ -43,7 +44,7 @@ class GroupDetailsVC: UIViewController {
     var groupId:String = ""
     var isGroupAdmin:Bool = false
     
-    //    var attachedImg:Bool = false
+    var attachedImg:Bool = false
     let imagePicker = UIImagePickerController()
     var selectedVC:Bool = false
     var viewmodel:GroupViewModel = GroupViewModel()
@@ -156,28 +157,46 @@ class GroupDetailsVC: UIViewController {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
             
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
                 self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            }
+            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
                 self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            }
+            
+            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+            
+            settingsActionSheet.addAction(cameraBtn)
+            settingsActionSheet.addAction(libraryBtn)
+            settingsActionSheet.addAction(cancelBtn)
             
             present(settingsActionSheet, animated:true, completion:nil)
             
         }else {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
             
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
                 self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            }
+            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
                 self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            }
             
-            present(settingsActionSheet, animated:true, completion:nil)
+            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+            
+            settingsActionSheet.addAction(cameraBtn)
+            settingsActionSheet.addAction(libraryBtn)
+            settingsActionSheet.addAction(cancelBtn)
+            
+            present(settingsActionSheet, animated: true, completion: nil)
         }
     }
     
@@ -276,7 +295,7 @@ extension GroupDetailsVC {
     }
     
     @objc func handleSaveBtn() {
-        self.viewmodel.updateGroup(ByID: self.groupId, AndName: nameTxt.text!, attachedImg: true, AndImage: groupImg.image ?? UIImage()) { error, data in
+        self.viewmodel.updateGroup(ByID: self.groupId, AndName: nameTxt.text!, attachedImg: self.attachedImg, AndImage: groupImg.image ?? UIImage()) { error, data in
             
             if let error = error {
                 DispatchQueue.main.async {
@@ -437,42 +456,6 @@ extension GroupDetailsVC {
     }
     
 }
-
-extension GroupDetailsVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-    //MARK:- Take Picture
-    func openCamera(){
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerController.SourceType.camera;
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
-        }
-    }
-    //MARK:- Open Library
-    func openLibrary(){
-        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-            imagePicker.delegate = self
-            imagePicker.sourceType = .photoLibrary
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
-        }
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        let image = info[.originalImage] as! UIImage
-        picker.dismiss(animated:true, completion: {
-            let size = CGSize(width: screenW, height: screenW)
-            let img = image.crop(to: size)
-            self.groupImg.image = img
-        })
-    }
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated:true, completion: nil)
-    }
-}
-
 extension GroupDetailsVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.groupMembers.value?.chatGroupSubscribers?.count ?? 0
@@ -544,6 +527,48 @@ extension GroupDetailsVC : UITableViewDelegate{
     }
 }
 
+extension GroupDetailsVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+    //MARK:- Take Picture
+    func openCamera(){
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = UIImagePickerController.SourceType.camera;
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    //MARK:- Open Library
+    func openLibrary(){
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let image = info[.originalImage] as! UIImage
+        let originImg = image.fixOrientation()
+
+         let cropper = CropperViewController(originalImage: originImg, isCircular: true)
+        cropper.delegate = self
+        self.navigationController?.pushViewController(cropper, animated: true)
+        
+        picker.dismiss(animated: true) {
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.attachedImg = false
+        self.tabBarController?.tabBar.isHidden = false
+        picker.dismiss(animated:true, completion: nil)
+    }
+}
+
+
 extension GroupDetailsVC : UISearchBarDelegate {
     @objc func updateSearchResult() {
         guard let text = searchbar.text else {return}
@@ -593,5 +618,27 @@ extension GroupDetailsVC {
         }
         
         self.view.addSubview((self.alertView)!)
+    }
+}
+
+extension GroupDetailsVC: CropperViewControllerDelegate {
+    
+    func aspectRatioPickerDidSelectedAspectRatio(_ aspectRatio: AspectRatio) {
+        print("\(String(describing: aspectRatio.dictionary))")
+    }
+    
+    func cropperDidConfirm(_ cropper: CropperViewController, state: CropperState?) {
+        cropper.onPopup()
+        if let state = state,
+           let image = cropper.originalImage.cropped(withCropperState: state) {
+            groupImg.image = image
+            self.attachedImg = true
+            print(cropper.isCurrentlyInInitialState)
+            print(image)
+        }
+    }
+    
+    func cropperDidCancel(_ cropper: CropperViewController) {
+        cropper.onPopup()
     }
 }

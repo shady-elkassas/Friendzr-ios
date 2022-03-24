@@ -118,7 +118,8 @@ class EventObj: NSObject,Mappable {
     var eventtype:String = ""
     var eventtypecolor:String = ""
     var eventtypeid:String = ""
-
+    var showAttendees:Bool = false
+    
     override init() {
         super.init()
     }
@@ -156,6 +157,7 @@ class EventObj: NSObject,Mappable {
         leveevent <- map["leveevent"]
         encryptedID <- map["encryptedID"]
         eventtype <- map["eventtype"]
+        showAttendees <- map["showAttendees"]
     }
 }
 

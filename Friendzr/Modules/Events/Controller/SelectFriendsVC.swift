@@ -18,7 +18,7 @@ class SelectFriendsVC: UIViewController {
     @IBOutlet weak var saveBtn: UIButton!
     
     
-    let cellID = "SelectedFriendTableViewCell"
+    let cellID = "AddFriendsToPrivateEventTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
 
     var viewmodel:AllFriendesViewModel = AllFriendesViewModel()
@@ -282,7 +282,7 @@ extension SelectFriendsVC :UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? SelectedFriendTableViewCell else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? AddFriendsToPrivateEventTableViewCell else {return UITableViewCell()}
         let model = viewmodel.friends.value?.data?[indexPath.row]
         cell.titleLbl.text = model?.userName
         cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))

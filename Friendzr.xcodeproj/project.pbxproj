@@ -274,6 +274,8 @@
 		43B22436274E82B6004C6912 /* TagsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B22435274E82B6004C6912 /* TagsLayout.swift */; };
 		43B8287D27E9C53F005FF1D1 /* EventTypeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B8287C27E9C53F005FF1D1 /* EventTypeViewModel.swift */; };
 		43B8287F27E9C565005FF1D1 /* EventTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B8287E27E9C565005FF1D1 /* EventTypeModel.swift */; };
+		43B8288227EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B8288027EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.swift */; };
+		43B8288327EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43B8288127EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.xib */; };
 		43BA37992700A121003F28FA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BA37982700A121003F28FA /* Reachability.swift */; };
 		43BDFADD27B5454E005302CD /* FriendsShareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDFADB27B5454E005302CD /* FriendsShareTableViewCell.swift */; };
 		43BDFADE27B5454E005302CD /* FriendsShareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BDFADC27B5454E005302CD /* FriendsShareTableViewCell.xib */; };
@@ -666,6 +668,8 @@
 		43B22435274E82B6004C6912 /* TagsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagsLayout.swift; sourceTree = "<group>"; };
 		43B8287C27E9C53F005FF1D1 /* EventTypeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTypeViewModel.swift; sourceTree = "<group>"; };
 		43B8287E27E9C565005FF1D1 /* EventTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTypeModel.swift; sourceTree = "<group>"; };
+		43B8288027EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendsToPrivateEventTableViewCell.swift; sourceTree = "<group>"; };
+		43B8288127EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddFriendsToPrivateEventTableViewCell.xib; sourceTree = "<group>"; };
 		43BA37982700A121003F28FA /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		43BDFADB27B5454E005302CD /* FriendsShareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsShareTableViewCell.swift; sourceTree = "<group>"; };
 		43BDFADC27B5454E005302CD /* FriendsShareTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsShareTableViewCell.xib; sourceTree = "<group>"; };
@@ -969,6 +973,8 @@
 				43967DB827944E15005B1F5D /* StatisticsCollectionViewCell.xib */,
 				4369F45A2797553D00D5E064 /* ShareTableViewCell.swift */,
 				4369F45B2797553D00D5E064 /* ShareTableViewCell.xib */,
+				43B8288027EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.swift */,
+				43B8288127EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1912,6 +1918,7 @@
 				43CBA9C927DA2D13006020FC /* StatisticsDetailsTableViewCell.xib in Resources */,
 				43BDFADE27B5454E005302CD /* FriendsShareTableViewCell.xib in Resources */,
 				43FC3C9E2726F7BA00D94ABB /* LoadingView.xib in Resources */,
+				43B8288327EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.xib in Resources */,
 				43ACFEC027B3B0EB001CD340 /* EventImageTableViewCell.xib in Resources */,
 				4319612C27A811530057FDC2 /* TabsCollectionViewCell.xib in Resources */,
 				436288A626C9334900B51E51 /* ChatListTableViewCell.xib in Resources */,
@@ -2352,6 +2359,7 @@
 				43EA53B027DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift in Sources */,
 				43C64A042795806400C35FA8 /* TitleGroupViewModel.swift in Sources */,
 				43A332682781C9B2001ADB84 /* GhostModeTableViewCell.swift in Sources */,
+				43B8288227EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.swift in Sources */,
 				4309E73726EF422F001B227D /* RequestFriendStatusViewModel.swift in Sources */,
 				43D545AF26CBD76E0064660A /* TagsVC.swift in Sources */,
 			);
@@ -2798,7 +2806,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.19;
+				CURRENT_PROJECT_VERSION = 2.8.20;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2828,7 +2836,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.8.19;
+				CURRENT_PROJECT_VERSION = 2.8.20;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

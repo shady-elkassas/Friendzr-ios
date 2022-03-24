@@ -293,7 +293,11 @@ extension EventDetailsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if viewmodel.event.value?.key == 1 {
             return 8
-        }else {
+        }
+        else if  viewmodel.event.value?.eventtype == "Private" && viewmodel.event.value?.showAttendees == true {
+            return 8
+        }
+        else {
             return 7
         }
     }

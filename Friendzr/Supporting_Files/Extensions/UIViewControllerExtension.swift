@@ -131,18 +131,22 @@ extension UIViewController {
         let imgView = UIImageView()
         imgView.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
         imgView.contentMode = .scaleAspectFill
+        imgView.frame = view.bounds
+        imgView.cornerRadiusView(radius: 22)
         
         let btn = UIButton(type: .custom)
         btn.addTarget(self, action: #selector(goToMyProfile), for: .touchUpInside)
         btn.frame = view.bounds
         btn.tintColor = .clear
-        btn.setImage(imgView.image, for: .normal)
+        
+//        btn.setImage(imgView.image, for: .normal)
         btn.cornerRadiusView(radius: 22)
         
         view.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         imgView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         btn.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         
+        view.addSubview(imgView)
         view.addSubview(btn)
         
         let barButton = UIBarButtonItem(customView: view)

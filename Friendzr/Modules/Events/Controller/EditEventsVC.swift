@@ -48,7 +48,14 @@ class EditEventsVC: UIViewController {
     @IBOutlet weak var eventTypesView: UIView!
     @IBOutlet weak var eventTypesTV: UITableView!
 
+    @IBOutlet weak var showAttendeesViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var showAttendeesBtn: UIButton!
+    @IBOutlet weak var showAttendeesFriendsTopView: UIView!
+    @IBOutlet weak var topShowAttendeesViewLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomShowAttendeesViewLayoutConstaint: NSLayoutConstraint!
     
+    @IBOutlet weak var showAttendeesTopView: UIView!
+
     @IBOutlet weak var selectStartDateTxt: UITextField!
     @IBOutlet weak var selectEndDateTxt: UITextField!
     @IBOutlet weak var selectStartTimeTxt: UITextField!
@@ -98,6 +105,8 @@ class EditEventsVC: UIViewController {
     let datePicker2 = UIDatePicker()
     let timePicker1 = UIDatePicker()
     let timePicker2 = UIDatePicker()
+    
+    var showAttendeesForAll:Bool = false
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -311,12 +320,25 @@ class EditEventsVC: UIViewController {
             bottomFriendsViewLayoutConstaint.constant = 10
             selectFriendsViewHeight.constant = 40
             selectFriendsTopView.isHidden = false
-        }else {
+            
+            showAttendeesTopView.isHidden = false
+            showAttendeesViewHeight.constant = 40
+            showAttendeesFriendsTopView.isHidden = false
+            topShowAttendeesViewLayoutConstraint.constant = 10
+            bottomShowAttendeesViewLayoutConstaint.constant = 10
+        }
+        else {
             selectFriendsView.isHidden = true
             topFriendsViewLayoutConstraint.constant = 0
             bottomFriendsViewLayoutConstaint.constant = 0
             selectFriendsViewHeight.constant = 0
             selectFriendsTopView.isHidden = true
+            
+            showAttendeesTopView.isHidden = true
+            showAttendeesViewHeight.constant = 0
+            showAttendeesFriendsTopView.isHidden = true
+            topShowAttendeesViewLayoutConstraint.constant = 0
+            bottomShowAttendeesViewLayoutConstaint.constant = 0
         }
         
         listFriendsIDs.removeAll()
@@ -372,6 +394,18 @@ class EditEventsVC: UIViewController {
     }
     //MARK: - Actions
     
+    @IBAction func showAttendeesBtn(_ sender: Any) {
+        showAttendeesBtn.isSelected = !showAttendeesBtn.isSelected
+        
+        if showAttendeesBtn.isSelected {
+            showAttendeesForAll = true
+        }else {
+            showAttendeesForAll = false
+        }
+        
+        print("showAttendeesForAll >>> \(showAttendeesForAll)")
+    }
+    
     @IBAction func selectEventTypeBtn(_ sender: Any) {
         hideTypesView.isHidden = false
         eventTypesView.isHidden = false
@@ -400,7 +434,7 @@ class EditEventsVC: UIViewController {
             else {
                 self.saveBtn.setTitle("Saving...", for: .normal)
                 self.saveBtn.isUserInteractionEnabled = false
-                viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime, eventTypeName: eventTypeName,eventtype:eventTypeID,listOfUserIDs:listFriendsIDs,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
+                viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime, eventTypeName: eventTypeName,eventtype:eventTypeID, showAttendees: showAttendeesForAll,listOfUserIDs:listFriendsIDs,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
                     
                     if let error = error {
                         DispatchQueue.main.async {
@@ -434,28 +468,46 @@ class EditEventsVC: UIViewController {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
             
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
                 self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            }
+            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
                 self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            }
+            
+            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+            
+            settingsActionSheet.addAction(cameraBtn)
+            settingsActionSheet.addAction(libraryBtn)
+            settingsActionSheet.addAction(cancelBtn)
             
             present(settingsActionSheet, animated:true, completion:nil)
             
         }else {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
             
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
                 self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            }
+            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
                 self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            }
             
-            present(settingsActionSheet, animated:true, completion:nil)
+            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+            
+            settingsActionSheet.addAction(cameraBtn)
+            settingsActionSheet.addAction(libraryBtn)
+            settingsActionSheet.addAction(cancelBtn)
+            
+            present(settingsActionSheet, animated: true, completion: nil)
         }
     }
     
@@ -794,12 +846,25 @@ extension EditEventsVC: UITableViewDelegate {
                 bottomFriendsViewLayoutConstaint.constant = 10
                 selectFriendsViewHeight.constant = 40
                 selectFriendsTopView.isHidden = false
+                
+                showAttendeesViewHeight.constant = 40
+                showAttendeesFriendsTopView.isHidden = false
+                topShowAttendeesViewLayoutConstraint.constant = 10
+                bottomShowAttendeesViewLayoutConstaint.constant = 10
+                showAttendeesTopView.isHidden = false
+
             }else {
                 selectFriendsView.isHidden = true
                 topFriendsViewLayoutConstraint.constant = 0
                 bottomFriendsViewLayoutConstaint.constant = 0
                 selectFriendsViewHeight.constant = 0
                 selectFriendsTopView.isHidden = true
+                
+                showAttendeesTopView.isHidden = true
+                showAttendeesViewHeight.constant = 0
+                showAttendeesFriendsTopView.isHidden = true
+                topShowAttendeesViewLayoutConstraint.constant = 0
+                bottomShowAttendeesViewLayoutConstaint.constant = 0
             }
             
             hideTypesView.isHidden = true
@@ -842,7 +907,7 @@ extension EditEventsVC {
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
         
         doneButton.tintColor = UIColor.FriendzrColors.primary!
-        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.red
         
         toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
         
@@ -890,8 +955,7 @@ extension EditEventsVC {
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
         
         doneButton.tintColor = UIColor.FriendzrColors.primary!
-        cancelButton.tintColor = UIColor.FriendzrColors.primary!
-        
+        cancelButton.tintColor = UIColor.red
         toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
         
         selectEndDateTxt.inputAccessoryView = toolbar
@@ -926,7 +990,7 @@ extension EditEventsVC {
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
         
         doneButton.tintColor = UIColor.FriendzrColors.primary!
-        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.red
         
         toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
         
@@ -960,7 +1024,7 @@ extension EditEventsVC {
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
         
         doneButton.tintColor = UIColor.FriendzrColors.primary!
-        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.red
         
         toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
         

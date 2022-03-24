@@ -36,7 +36,7 @@ class EditEventViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Edit event
-    func editEvent(withID eventid:String,AndTitle title:String,AndDescription description:String,AndStatus status: String,AndCategory categoryId:String,lang:String,lat:String,totalnumbert:String,allday:Bool,eventdateFrom:String,eventDateto:String,eventfrom:String,eventto:String,eventTypeName:String,eventtype:String,listOfUserIDs:[String],attachedImg:Bool,AndImage image:UIImage,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+    func editEvent(withID eventid:String,AndTitle title:String,AndDescription description:String,AndStatus status: String,AndCategory categoryId:String,lang:String,lat:String,totalnumbert:String,allday:Bool,eventdateFrom:String,eventDateto:String,eventfrom:String,eventto:String,eventTypeName:String,eventtype:String,showAttendees:Bool,listOfUserIDs:[String],attachedImg:Bool,AndImage image:UIImage,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         
         CancelRequest.currentTask = false
         titleEventViewModel.data = title
@@ -52,14 +52,14 @@ class EditEventViewModel {
         }
         
         let url = URLs.baseURLFirst + "Events/updateEventData"
-        var parameters:[String : Any] = ["eventId":eventid,"Title": title,"description":description,"status":status,"categorieId":categoryId,"lang":lang,"lat":lat,"totalnumbert":totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto,"eventtype":eventtype]
+        var parameters:[String : Any] = ["eventId":eventid,"Title": title,"description":description,"status":status,"categorieId":categoryId,"lang":lang,"lat":lat,"totalnumbert":totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto,"eventtype":eventtype,"showAttendees":showAttendees]
         
         
         if eventTypeName == "Private" {
             if allday == true {
-                parameters = ["eventId":eventid,"Title": title,"description":description,"status":status,"categorieId":categoryId,"lang":lang,"lat":lat,"totalnumbert":totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventtype":eventtype,"ListOfUserIDs":listOfUserIDs]
+                parameters = ["eventId":eventid,"Title": title,"description":description,"status":status,"categorieId":categoryId,"lang":lang,"lat":lat,"totalnumbert":totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventtype":eventtype,"ListOfUserIDs":listOfUserIDs,"showAttendees":showAttendees]
             }else {
-            parameters = ["eventId":eventid,"Title": title,"description":description,"status":status,"categorieId":categoryId,"lang":lang,"lat":lat,"totalnumbert":totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto,"eventtype":eventtype,"ListOfUserIDs":listOfUserIDs]
+                parameters = ["eventId":eventid,"Title": title,"description":description,"status":status,"categorieId":categoryId,"lang":lang,"lat":lat,"totalnumbert":totalnumbert,"allday":allday,"eventdate":eventdateFrom,"eventdateto":eventDateto,"eventfrom":eventfrom,"eventto":eventto,"eventtype":eventtype,"ListOfUserIDs":listOfUserIDs,"showAttendees":showAttendees]
             }
         }else {
             if allday == true {

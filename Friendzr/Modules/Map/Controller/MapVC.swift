@@ -45,8 +45,9 @@ class EventsLocation {
     var markerId:String = ""
     var isEvent:Bool = false
     var peopleCount:Int = 0
-
-    init(location:CLLocationCoordinate2D,markerIcon:String,typelocation:String,eventsCount:Int,markerId:String,isEvent:Bool,peopleCount:Int) {
+    var eventType:String
+    
+    init(location:CLLocationCoordinate2D,markerIcon:String,typelocation:String,eventsCount:Int,markerId:String,isEvent:Bool,peopleCount:Int,eventType:String) {
         self.location = location
         self.markerIcon = markerIcon
         self.typelocation = typelocation
@@ -54,6 +55,7 @@ class EventsLocation {
         self.markerId = markerId
         self.isEvent = isEvent
         self.peopleCount = peopleCount
+        self.eventType = eventType
     }
 }
 
@@ -353,25 +355,35 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         let model = viewmodel.locations.value
         locations.removeAll()
+        var iconMarker = ""
         for item in model?.eventlocationDataMV ?? [] {
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "eventMarker_ic", typelocation: "event", eventsCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : "",isEvent: true,peopleCount: 0))
+            if item.event_Type == "Private" {
+                iconMarker = "markerPrivateEvent_ic"
+            }else if item.event_Type == "External" {
+                iconMarker = "external_event_ic"
+            }else {
+                iconMarker = "eventMarker_ic"
+            }
+            
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: iconMarker, typelocation: "event", eventsCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : "",isEvent: true,peopleCount: 0, eventType: item.event_Type))
         }
         
         DispatchQueue.main.async {
             for item in model?.peoplocationDataMV ?? [] {
-                self.locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "markerLocations_ic", typelocation: "people", eventsCount: 1, markerId: "1",isEvent: false,peopleCount: item.totalUsers ?? 0))
+                self.locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "markerLocations_ic", typelocation: "people", eventsCount: 1, markerId: "1",isEvent: false,peopleCount: item.totalUsers ?? 0, eventType: ""))
             }
         }
         
         DispatchQueue.main.async {
             for item in self.locations {
-                self.setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, eventsCount: item.eventsCount,isEvent: item.isEvent,peopleCount: item.peopleCount)
+                self.setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, eventsCount: item.eventsCount,isEvent: item.isEvent,peopleCount: item.peopleCount, eventTypee: item.eventType)
+                print("item.eventType ?? \(item.eventType)")
             }
         }
     }
     
     //create markers for locations events
-    func setupMarkerz(for position:CLLocationCoordinate2D , markerIcon:String?,typelocation:String,markerID:String,eventsCount:Int,isEvent: Bool,peopleCount: Int)  {
+    func setupMarkerz(for position:CLLocationCoordinate2D , markerIcon:String?,typelocation:String,markerID:String,eventsCount:Int,isEvent: Bool,peopleCount: Int,eventTypee:String)  {
      
         if appendNewLocation {
             mapView.clear()
@@ -391,14 +403,14 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             }
         }
         
-        let xview:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
+        let xview:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         let labl = UILabel()
         labl.frame = xview.frame
         xview.backgroundColor = .clear
         labl.text = "\(eventsCount)"
         labl.textColor = .black
         labl.textAlignment = .center
-        labl.font = UIFont(name: "Montserrat-Medium", size: 14)
+        labl.font = UIFont(name: "Montserrat-Medium", size: 10)
         let imag:UIImageView = UIImageView()
         imag.frame = xview.frame
         imag.image = UIImage(named: markerIcon ?? "")
@@ -411,13 +423,13 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         labl.translatesAutoresizingMaskIntoConstraints = false
         
         let horizontalConstraint = labl.centerXAnchor.constraint(equalTo: xview.centerXAnchor)
-        let verticalConstraint = labl.centerYAnchor.constraint(equalTo: xview.centerYAnchor, constant: -5)
+        let verticalConstraint = labl.centerYAnchor.constraint(equalTo: xview.centerYAnchor, constant: -2)
         let widthConstraint = labl.widthAnchor.constraint(equalToConstant: xview.bounds.width)
         let heightConstraint = labl.heightAnchor.constraint(equalToConstant: xview.bounds.height)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         
         
-        if isEvent {
+        if isEvent && eventTypee != "Private" {
             marker.iconView = xview
         }else {
             marker.icon = UIImage(named: markerIcon!)

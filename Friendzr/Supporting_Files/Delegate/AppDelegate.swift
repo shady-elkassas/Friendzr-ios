@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         IQKeyboardManager.shared().isEnabled = true
-        IQKeyboardManager.shared().toolbarTintColor = UIColor.red
+        IQKeyboardManager.shared().toolbarTintColor = UIColor.FriendzrColors.primary
         IQKeyboardManager.shared().isEnableAutoToolbar = true
         
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!], for: .normal)

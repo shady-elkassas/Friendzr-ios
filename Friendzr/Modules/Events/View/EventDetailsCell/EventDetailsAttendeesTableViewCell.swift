@@ -88,14 +88,42 @@ extension EventDetailsAttendeesTableViewCell: UITableViewDataSource {
             cell.underView.isHidden = false
         }
 
-        if model?.myEventO == true {
-            cell.adminLbl.isHidden = false
-            cell.dropDownBtn.isHidden = true
-            cell.btnWidth.constant = 0
+
+        
+//        if eventKey == 1 {
+//            cell.adminLbl.isHidden = false
+//            cell.dropDownBtn.isHidden = true
+//            cell.btnWidth.constant = 0
+//        }else {
+//            cell.adminLbl.isHidden = true
+//            cell.dropDownBtn.isHidden = false
+//            cell.btnWidth.constant = 20
+//        }
+//
+        if eventModel?.key == 1 {
+            if model?.myEventO == true {
+                cell.adminLbl.isHidden = false
+                cell.dropDownBtn.isHidden = true
+                cell.btnWidth.constant = 0
+            }else {
+                cell.adminLbl.isHidden = true
+                cell.dropDownBtn.isHidden = false
+                cell.btnWidth.constant = 20
+            }
         }else {
-            cell.adminLbl.isHidden = true
-            cell.dropDownBtn.isHidden = false
-            cell.btnWidth.constant = 20
+            if model?.myEventO == true {
+                cell.adminLbl.isHidden = false
+                cell.dropDownBtn.isHidden = true
+                cell.btnWidth.constant = 0
+            }else {
+                cell.adminLbl.isHidden = true
+                cell.dropDownBtn.isHidden = true
+                cell.btnWidth.constant = 0
+            }
+            
+//            cell.adminLbl.isHidden = true
+//            cell.dropDownBtn.isHidden = true
+//            cell.btnWidth.constant = 0
         }
 
         cell.HandleDropDownBtn = {
@@ -136,6 +164,7 @@ extension EventDetailsAttendeesTableViewCell: UITableViewDataSource {
         footerView.HandleSeeMoreBtn = {
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AttendeesVC") as? AttendeesVC else {return}
             vc.eventID = self.eventModel?.id ?? ""
+            vc.eventKey = self.eventModel?.key ?? 0
             self.parentvc.navigationController?.pushViewController(vc, animated: true)
         }
         if (eventModel?.attendees?.count ?? 0) == 1 {
@@ -197,7 +226,6 @@ extension EventDetailsAttendeesTableViewCell {
                 
                 
                 DispatchQueue.main.async {
-//                    self.parentvc.getEventDetails()
                     NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
                 }
             }

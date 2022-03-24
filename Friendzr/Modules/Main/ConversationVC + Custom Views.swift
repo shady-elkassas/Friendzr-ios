@@ -685,38 +685,54 @@ extension ConversationVC {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .alert)
             
-            actionAlert.addAction(UIAlertAction(title:"Camera".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
                 self.openCamera()
-            }))
-            actionAlert.addAction(UIAlertAction(title:"Photo Library".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            }
+            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
                 self.openLibrary()
-            }))
-            actionAlert.addAction(UIAlertAction(title: "File".localizedString, style: .default, handler: { action in
-                
-            }))
+            }
+            let fileBtn = UIAlertAction(title: "File", style: .default) {_ in
+                self.openFileLibrary()
+            }
             
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
+            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
-            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
+            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+
+            actionAlert.addAction(cameraBtn)
+            actionAlert.addAction(libraryBtn)
+            actionAlert.addAction(fileBtn)
+            actionAlert.addAction(cancelBtn)
+            
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionSheet  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .actionSheet)
             
-            actionSheet.addAction(UIAlertAction(title:"Camera".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
                 self.openCamera()
-            }))
-            actionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            }
+            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
                 self.openLibrary()
-            }))
-            actionSheet.addAction(UIAlertAction(title: "File".localizedString, style: .default, handler: { action in
+            }
+            let fileBtn = UIAlertAction(title: "File", style: .default) {_ in
                 self.openFileLibrary()
-            }))
+            }
             
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
+            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
-            actionSheet.view.tintColor = UIColor.FriendzrColors.primary
+            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+
+            actionSheet.addAction(cameraBtn)
+            actionSheet.addAction(libraryBtn)
+            actionSheet.addAction(fileBtn)
+            actionSheet.addAction(cancelBtn)
+            
             present(actionSheet, animated: true, completion: nil)
         }
     }

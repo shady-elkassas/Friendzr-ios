@@ -23,7 +23,8 @@ class AttendeesVC: UIViewController {
     var eventID:String = ""
     var currentPage : Int = 1
     var isLoadingList : Bool = false
-
+    var eventKey:Int = 0
+    
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
     private let formatterDate: DateFormatter = {
@@ -319,16 +320,28 @@ extension AttendeesVC:UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? AttendeesTableViewCell else {return UITableViewCell()}
         let model = viewmodel.attendees.value?.data?[indexPath.row]
         
-        
-        if model?.myEventO == true {
-            cell.dropDownBtn.isHidden = true
-            cell.adminLbl.isHidden = false
-            cell.btnWidth.constant = 0
+        if eventKey == 1 {
+            if model?.myEventO == true {
+                cell.dropDownBtn.isHidden = true
+                cell.adminLbl.isHidden = false
+                cell.btnWidth.constant = 0
+            }else {
+                cell.dropDownBtn.isHidden = false
+                cell.adminLbl.isHidden = true
+                cell.btnWidth.constant = 20
+            }
         }else {
-            cell.dropDownBtn.isHidden = false
-            cell.adminLbl.isHidden = true
-            cell.btnWidth.constant = 20
+            if model?.myEventO == true {
+                cell.dropDownBtn.isHidden = true
+                cell.adminLbl.isHidden = false
+                cell.btnWidth.constant = 0
+            }else {
+                cell.dropDownBtn.isHidden = false
+                cell.adminLbl.isHidden = false
+                cell.btnWidth.constant = 0
+            }
         }
+       
         
         cell.friendNameLbl.text = model?.userName
         cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))

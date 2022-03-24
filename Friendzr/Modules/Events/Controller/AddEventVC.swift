@@ -16,10 +16,10 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var addImg: UIButton!
     @IBOutlet weak var addTitleTxt: UITextField!
     @IBOutlet weak var switchAllDays: UISwitch!
-//    @IBOutlet weak var startDayLbl: UILabel!
-//    @IBOutlet weak var endDayLbl: UILabel!
-//    @IBOutlet weak var startTimeLbl: UILabel!
-//    @IBOutlet weak var endTimeLbl: UILabel!
+    //    @IBOutlet weak var startDayLbl: UILabel!
+    //    @IBOutlet weak var endDayLbl: UILabel!
+    //    @IBOutlet weak var startTimeLbl: UILabel!
+    //    @IBOutlet weak var endTimeLbl: UILabel!
     @IBOutlet weak var hiddenLbl: UILabel!
     @IBOutlet weak var descriptionTxtView: UITextView!
     @IBOutlet weak var limitUsersView: UIView!
@@ -47,6 +47,14 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var selectFirendsBtn: UIButton!
     @IBOutlet weak var topFriendsViewLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomFriendsViewLayoutConstaint: NSLayoutConstraint!
+    
+    @IBOutlet weak var showAttendeesViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var showAttendeesBtn: UIButton!
+    @IBOutlet weak var showAttendeesFriendsTopView: UIView!
+    @IBOutlet weak var topShowAttendeesViewLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomShowAttendeesViewLayoutConstaint: NSLayoutConstraint!
+    
+    @IBOutlet weak var showAttendeesTopView: UIView!
     @IBOutlet weak var eventTypesView: UIView!
     @IBOutlet weak var eventTypesTV: UITableView!
     //    @IBOutlet weak var saveEventTypeBtn: UIButton!
@@ -101,8 +109,9 @@ class AddEventVC: UIViewController {
     let datePicker2 = UIDatePicker()
     let timePicker1 = UIDatePicker()
     let timePicker2 = UIDatePicker()
-
     
+    
+    var showAttendeesForAll:Bool = false
     
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -133,8 +142,8 @@ class AddEventVC: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         categoriesSuperView?.addGestureRecognizer(tap)
         
-//        setupDatePickerForEndDate()
-     
+        //        setupDatePickerForEndDate()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -208,32 +217,63 @@ class AddEventVC: UIViewController {
     }
     
     //MARK: - Actions
+    
+    @IBAction func showAttendeesAllBtn(_ sender: Any) {
+        showAttendeesBtn.isSelected = !showAttendeesBtn.isSelected
+        
+        if showAttendeesBtn.isSelected {
+            showAttendeesForAll = true
+        }else {
+            showAttendeesForAll = false
+        }
+        
+        print("showAttendeesForAll >>> \(showAttendeesForAll)")
+    }
+    
     @IBAction func addImgBtn(_ sender: Any) {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
             
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
                 self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            }
+            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
                 self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            }
+            
+            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+            
+            settingsActionSheet.addAction(cameraBtn)
+            settingsActionSheet.addAction(libraryBtn)
+            settingsActionSheet.addAction(cancelBtn)
             
             present(settingsActionSheet, animated:true, completion:nil)
             
         }else {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
             
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
                 self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            }
+            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
                 self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            }
             
-            present(settingsActionSheet, animated:true, completion:nil)
+            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+            
+            settingsActionSheet.addAction(cameraBtn)
+            settingsActionSheet.addAction(libraryBtn)
+            settingsActionSheet.addAction(cancelBtn)
+            
+            present(settingsActionSheet, animated: true, completion: nil)
         }
     }
     
@@ -292,7 +332,7 @@ class AddEventVC: UIViewController {
         dateAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
-//            self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+            //            self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
             
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "yyyy-MM-dd"
@@ -343,7 +383,7 @@ class AddEventVC: UIViewController {
         dateAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
-//            self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+            //            self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
             
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "yyyy-MM-dd"
@@ -386,7 +426,7 @@ class AddEventVC: UIViewController {
         timeAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
             formatter.dateFormat = "HH:mm"
-//            self.startTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
+            //            self.startTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
             
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "HH:mm"
@@ -428,7 +468,7 @@ class AddEventVC: UIViewController {
         timeAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
             formatter.dateFormat = "HH:mm"
-//            self.endTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
+            //            self.endTimeLbl.text = formatter.string(from: (self.timeAlertView?.timeView.date)!)
             
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "HH:mm"
@@ -484,7 +524,7 @@ class AddEventVC: UIViewController {
             else {
                 self.saveBtn.setTitle("Saving...", for: .normal)
                 self.saveBtn.isUserInteractionEnabled = false
-                viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime, eventTypeName: eventTypeName,eventtype:eventTypeID,listOfUserIDs:listFriendsIDs, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
+                viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime, eventTypeName: eventTypeName,eventtype:eventTypeID, showAttendees: showAttendeesForAll,listOfUserIDs:listFriendsIDs, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
                     
                     DispatchQueue.main.async {
                         self.saveBtn.isUserInteractionEnabled = true
@@ -525,7 +565,7 @@ class AddEventVC: UIViewController {
             internetConect = true
             getCats()
             getEventTypes()
-
+            
         }
         
         print("Reachability Summary")
@@ -578,15 +618,15 @@ class AddEventVC: UIViewController {
             self.setupDatePickerForEndTime()
         }
         
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "yyyy-MM-dd"
-//        self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
-//        self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
-//
-//        let formattrTime = DateFormatter()
-//        formattrTime.dateFormat = "HH:mm"
-//        self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
-//        self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
+        //        let formatter = DateFormatter()
+        //        formatter.dateFormat = "yyyy-MM-dd"
+        //        self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+        //        self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
+        //
+        //        let formattrTime = DateFormatter()
+        //        formattrTime.dateFormat = "HH:mm"
+        //        self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
+        //        self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
         
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         eventTypesTV.register(UINib(nibName: eventTypeCellId, bundle: nil), forCellReuseIdentifier: eventTypeCellId)
@@ -747,7 +787,7 @@ extension AddEventVC: CropperViewControllerDelegate {
     func cropperDidConfirm(_ cropper: CropperViewController, state: CropperState?) {
         cropper.onPopup()
         if let state = state,
-            let image = cropper.originalImage.cropped(withCropperState: state) {
+           let image = cropper.originalImage.cropped(withCropperState: state) {
             eventImg.image = image
             self.attachedImg = true
             print(cropper.isCurrentlyInInitialState)
@@ -822,7 +862,7 @@ extension AddEventVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let model = typesVM.types.value?[indexPath.row]
-
+        
         eventTypeLbl.text = (model?.name ?? "") + " Event"
         eventTypeID = model?.entityId ?? ""
         eventTypeName = model?.name ?? ""
@@ -833,12 +873,25 @@ extension AddEventVC:UITableViewDelegate {
             bottomFriendsViewLayoutConstaint.constant = 10
             selectFriendsViewHeight.constant = 40
             selectFriendsTopView.isHidden = false
+            
+            showAttendeesViewHeight.constant = 40
+            showAttendeesFriendsTopView.isHidden = false
+            topShowAttendeesViewLayoutConstraint.constant = 10
+            bottomShowAttendeesViewLayoutConstaint.constant = 10
+            showAttendeesTopView.isHidden = false
         }else {
             selectFriendsView.isHidden = true
             topFriendsViewLayoutConstraint.constant = 0
             bottomFriendsViewLayoutConstaint.constant = 0
             selectFriendsViewHeight.constant = 0
             selectFriendsTopView.isHidden = true
+         
+            showAttendeesTopView.isHidden = true
+            showAttendeesViewHeight.constant = 0
+            showAttendeesFriendsTopView.isHidden = true
+            topShowAttendeesViewLayoutConstraint.constant = 0
+            bottomShowAttendeesViewLayoutConstaint.constant = 0
+            
         }
         
         categoriesSuperView.isHidden = true
@@ -857,7 +910,7 @@ extension AddEventVC {
         }
         
         datePicker1.minimumDate = Date()
-
+        
         //ToolBar
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
@@ -866,7 +919,7 @@ extension AddEventVC {
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
         
         doneButton.tintColor = UIColor.FriendzrColors.primary!
-        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.red
         
         toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
         
@@ -889,7 +942,7 @@ extension AddEventVC {
         self.maximumDate = self.datePicker1.calendar.date(byAdding: comps2, to: self.minimumDate)!
         
         print(formatter.string(from: self.minimumDate),formatter.string(from: self.maximumDate))
-
+        
         setupDatePickerForEndDate()
         self.view.endEditing(true)
     }
@@ -914,7 +967,7 @@ extension AddEventVC {
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
         
         doneButton.tintColor = UIColor.FriendzrColors.primary!
-        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.red
         
         toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
         
@@ -928,11 +981,11 @@ extension AddEventVC {
         formatter.dateFormat = "dd-MM-yyyy"
         selectEndDateTxt.text = formatter.string(from: datePicker2.date)
         self.endDate = formatter.string(from: datePicker2.date)
-
+        
         self.view.endEditing(true)
     }
     
-
+    
     func setupDatePickerForStartTime(){
         //Formate Date
         timePicker1.datePickerMode = .time
@@ -941,7 +994,7 @@ extension AddEventVC {
         } else {
             // Fallback on earlier versions
         }
-                
+        
         //ToolBar
         let toolbar = UIToolbar();
         toolbar.sizeToFit()
@@ -950,7 +1003,7 @@ extension AddEventVC {
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
         
         doneButton.tintColor = UIColor.FriendzrColors.primary!
-        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.red
         
         toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
         
@@ -984,7 +1037,7 @@ extension AddEventVC {
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
         
         doneButton.tintColor = UIColor.FriendzrColors.primary!
-        cancelButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.red
         
         toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
         
@@ -1000,9 +1053,9 @@ extension AddEventVC {
         self.endTime = formatter.string(from: timePicker2.date)
         self.view.endEditing(true)
     }
-
+    
     @objc func cancelDatePicker(){
         self.view.endEditing(true)
     }
-
+    
 }

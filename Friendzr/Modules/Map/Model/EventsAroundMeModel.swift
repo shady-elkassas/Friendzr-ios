@@ -89,7 +89,10 @@ class EventsAroundMeObj: Mappable {
     var count: Int? = 0
     var color:String? = ""
     var eventData: [EventObj]? = nil
-    
+    var event_TypeId:String = ""
+    var event_Type:String = ""
+    var event_TypeColor:String = ""
+
     required init?(map: Map) {
     }
     // Mappable
@@ -99,5 +102,8 @@ class EventsAroundMeObj: Mappable {
         count   <- map["count"]
         color   <- map["color"]
         eventData  <- map["eventData"]
+        event_TypeId  <- map["event_TypeId"]
+        event_Type  <- map["event_Type"]
+        event_TypeColor  <- map["event_TypeColor"]
     }
 }
