@@ -123,11 +123,15 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                 tableView.dataSource = self
                 tableView.reloadData()
                 
-                self.isLoadingList = false
-                self.tableView.tableFooterView = nil
+                DispatchQueue.main.async {
+                    self.isLoadingList = false
+                    self.tableView.tableFooterView = nil
+                }
                 
                 if RequestesType.type == 2 {
                     Defaults.frindRequestNumber = value.data?.count ?? 0
+                }else {
+                    Defaults.frindRequestNumber = Defaults.frindRequestNumber
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -421,7 +425,8 @@ extension RequestVC:UITableViewDataSource {
                         guard let message = message else {return}
                         
                         DispatchQueue.main.async {
-                            self.updateUserInterface()
+//                            self.updateUserInterface()
+                            self.getAllUserRequests(pageNumber: 1)
                         }
                         
                         DispatchQueue.main.async {
@@ -449,10 +454,11 @@ extension RequestVC:UITableViewDataSource {
                             return
                         }
                         
-                        guard let message = message else {return}
+                        guard let _ = message else {return}
                         
                         DispatchQueue.main.async {
-                            self.updateUserInterface()
+//                            self.updateUserInterface()
+                            self.getAllUserRequests(pageNumber: 1)
                         }
                         
                         DispatchQueue.main.async {

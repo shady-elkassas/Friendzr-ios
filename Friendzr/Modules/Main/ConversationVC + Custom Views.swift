@@ -698,7 +698,7 @@ extension ConversationVC {
             actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
-            //            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
+            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionSheet  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .actionSheet)
@@ -716,6 +716,7 @@ extension ConversationVC {
             actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
             }))
             
+            actionSheet.view.tintColor = UIColor.FriendzrColors.primary
             present(actionSheet, animated: true, completion: nil)
         }
     }

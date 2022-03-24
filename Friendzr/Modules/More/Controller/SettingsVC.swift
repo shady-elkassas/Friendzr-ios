@@ -578,12 +578,12 @@ extension SettingsVC: UITableViewDataSource {
         case 1://ghostmode
             guard let cell = tableView.dequeueReusableCell(withIdentifier: settingCellID, for: indexPath) as? SettingsTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Private Mode".localizedString
-            cell.settingIcon.image = UIImage(named: "ghostModeSwitch_ic")
             
             if model?.ghostmode == true {
                 cell.switchBtn.isOn = true
                 cell.ghostModeTypeLbl.isHidden = false
                 
+                cell.settingIcon.image = UIImage(named: "privatemode-on-ic")
                 
                 var mtypsInt:[Int] = []
                 for itm in model?.myAppearanceTypes ?? [] {
@@ -609,6 +609,7 @@ extension SettingsVC: UITableViewDataSource {
                 }
             }
             else{
+                cell.settingIcon.image = UIImage(named: "privatemode-off-ic")
                 cell.switchBtn.isOn = false
                 cell.ghostModeTypeLbl.isHidden = true
             }
@@ -640,6 +641,7 @@ extension SettingsVC: UITableViewDataSource {
                         cell.switchBtn.isOn = false
                         cell.ghostModeTypeLbl.isHidden = true
                         Defaults.ghostMode = self.model?.ghostmode ?? false
+                        cell.settingIcon.image = UIImage(named: "privatemode-off-ic")
                     }
                     
                     self.alertView?.HandleSaveBtn = {
@@ -647,6 +649,7 @@ extension SettingsVC: UITableViewDataSource {
                         cell.switchBtn.isOn = true
                         cell.ghostModeTypeLbl.isHidden = false
                         Defaults.ghostMode = self.model?.ghostmode ?? false
+                        cell.settingIcon.image = UIImage(named: "privatemode-off-ic")
                     }
                     
                     self.view.addSubview((self.alertView)!)
@@ -679,6 +682,7 @@ extension SettingsVC: UITableViewDataSource {
                                     cell.ghostModeTypeLbl.isHidden = true
                                     cell.ghostModeTypeLbl.text = ""
                                     Defaults.ghostMode = self.model?.ghostmode ?? false
+                                    cell.settingIcon.image = UIImage(named: "privatemode-off-ic")
                                 }
                                 
                             })

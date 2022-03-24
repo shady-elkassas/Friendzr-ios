@@ -44,7 +44,7 @@ class CustomCropperViewController: CropperViewController {
         if Defaults.isIPhoneSmall {
             setAspectRatioValue(1.7)
         }else {
-            setAspectRatioValue(1.35)
+            setAspectRatioValue(1.37)
         }
     }
 }

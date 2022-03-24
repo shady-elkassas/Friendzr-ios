@@ -39,11 +39,11 @@ class SplachTwoVC: UIViewController {
         if selectVC == "MoreVC" {
             initBackButton()
             hideNavigationBar(NavigationBar: false, BackButton: false)
-            skipBtn.isHidden = true
+            skipBtn.setTitle("Exit", for: .normal)
         }
         else {
             hideNavigationBar(NavigationBar: true, BackButton: true)
-            skipBtn.isHidden = false
+            skipBtn.setTitle("SKIP", for: .normal)
         }
     }
     
@@ -61,6 +61,11 @@ class SplachTwoVC: UIViewController {
     }
     
     @IBAction func skipBtn(_ sender: Any) {
-        Router().toEditProfileVC(needUpdate: true)
+        if selectVC == "MoreVC" {
+            Router().toMore()
+        }
+        else {
+            Router().toEditProfileVC(needUpdate: true)
+        }
     }
 }

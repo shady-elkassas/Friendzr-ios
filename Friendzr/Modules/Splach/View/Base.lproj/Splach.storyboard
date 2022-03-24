@@ -36,16 +36,16 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="878"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JDe-h6-F20">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="484.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="436"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="List of Friendzrs near you" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UIF-GO-rwU">
-                                                <rect key="frame" x="48" y="30" width="318" height="63.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Feed" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UIF-GO-rwU">
+                                                <rect key="frame" x="48" y="30" width="318" height="32"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="26"/>
                                                 <color key="textColor" name="ColorLbl2"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HbK-E5-0nK">
-                                                <rect key="frame" x="190.5" y="99.5" width="33" height="0.5"/>
+                                                <rect key="frame" x="190.5" y="68" width="33" height="0.5"/>
                                                 <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="33" id="KiE-ye-hdg"/>
@@ -53,20 +53,20 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HyY-8Q-xMa">
-                                                <rect key="frame" x="20" y="116" width="374" height="85.5"/>
-                                                <string key="text">The list of Friendzrs will only display a photo and a name. The Friendzrs nearest you will always be at the top of the list. To engage with someone specific from the list you can either message them or toggle on the directional filter.</string>
+                                                <rect key="frame" x="20" y="84.5" width="374" height="68.5"/>
+                                                <string key="text">Your feed lists the name and photo of local Friendzrs’ who are online - those nearest to you will always be at the top. Message someone from the list or toggle on the directional filter to connect.</string>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                                                 <color key="textColor" name="ColorLbl2"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash1" translatesAutoresizingMaskIntoConstraints="NO" id="cCu-sp-QLe">
-                                                <rect key="frame" x="20" y="231.5" width="374" height="187"/>
+                                                <rect key="frame" x="20" y="183" width="374" height="187"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="cCu-sp-QLe" secondAttribute="height" multiplier="2:1" id="Vuv-nL-zQ0"/>
                                                 </constraints>
                                             </imageView>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="9bm-BJ-IDP">
-                                                <rect key="frame" x="121" y="448.5" width="172.5" height="16"/>
+                                                <rect key="frame" x="121" y="400" width="172.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="D8T-u8-RhD"/>
                                                 </constraints>
@@ -209,7 +209,7 @@
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHm-zf-wih">
                                                 <rect key="frame" x="20" y="84.5" width="374" height="68.5"/>
-                                                <string key="text">By using the map you will be able to easily see local Friendzr and Events where Friendzers congregate and pinned on the map within your proximity. From the map you can navigate and get more information.</string>
+                                                <string key="text">Our map lets you easily locate Friendzrs and events around you, in real-time. Pins show where events are planned or Friendzrs are hanging out. Then you can navigate around and find out more.</string>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                                                 <color key="textColor" name="ColorLbl2"/>
                                                 <nil key="highlightedColor"/>
@@ -365,7 +365,7 @@
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="msK-5W-vyS">
                                                 <rect key="frame" x="20" y="84.5" width="374" height="68.5"/>
-                                                <string key="text">It’s easy to set up your own event or join other Friendzrs events in your area. Events can be based on mutual interests or simply an opportunity to enjoy a great party.</string>
+                                                <string key="text">It’s easy to set up your own event, or join other events in your area. An event can be a group or one-to-one experience, based on mutual interests, or simply an excuse for a great party!</string>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                                                 <color key="textColor" name="ColorLbl2"/>
                                                 <nil key="highlightedColor"/>
@@ -503,10 +503,10 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="878"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dQD-bH-0JT">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="496"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="406"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="11D-6r-cVW">
-                                                <rect key="frame" x="28.5" y="30" width="357" height="400"/>
+                                                <rect key="frame" x="28.5" y="30" width="357" height="310"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash4" translatesAutoresizingMaskIntoConstraints="NO" id="Qeu-ha-VsS">
                                                         <rect key="frame" x="0.0" y="0.0" width="357" height="100"/>
@@ -521,7 +521,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="G5Q-9Q-QWE">
-                                                        <rect key="frame" x="16" y="120" width="325" height="260"/>
+                                                        <rect key="frame" x="16" y="120" width="325" height="170"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zw2-P7-9Qc">
                                                                 <rect key="frame" x="0.0" y="0.0" width="325" height="35"/>
@@ -533,8 +533,8 @@
                                                                             <constraint firstAttribute="height" constant="10" id="flg-ES-DCJ"/>
                                                                         </constraints>
                                                                     </imageView>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Treat other Friendzrs with respect and dignity." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FA3-4L-jZr">
-                                                                        <rect key="frame" x="23" y="10" width="294" height="15"/>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be kind, respectful and considerate. People are more likely to want to connect with you!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FA3-4L-jZr">
+                                                                        <rect key="frame" x="23" y="3" width="294" height="29.5"/>
                                                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                                                         <color key="textColor" name="ColorLbl2"/>
                                                                         <nil key="highlightedColor"/>
@@ -560,7 +560,7 @@
                                                                             <constraint firstAttribute="height" constant="10" id="t5w-fx-JyP"/>
                                                                         </constraints>
                                                                     </imageView>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Respect other Friendzr’s privacy and personal information." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zmk-g4-Suh">
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be real! Friendzr is an authentic community for people seeking to connect with new friends through real-life experiences." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zmk-g4-Suh">
                                                                         <rect key="frame" x="23" y="3" width="294" height="29.5"/>
                                                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                                                         <color key="textColor" name="ColorLbl2"/>
@@ -587,7 +587,7 @@
                                                                             <constraint firstAttribute="height" constant="10" id="0Eq-Sd-LtJ"/>
                                                                         </constraints>
                                                                     </imageView>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Communicate and engage with courtesy and respect." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jb7-wZ-cgc">
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be genuine in your approaches, and actively participate in events and in-person meet-ups." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jb7-wZ-cgc">
                                                                         <rect key="frame" x="23" y="3" width="294" height="29.5"/>
                                                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                                                         <color key="textColor" name="ColorLbl2"/>
@@ -614,8 +614,8 @@
                                                                             <constraint firstAttribute="height" constant="10" id="ZeP-W9-ZIz"/>
                                                                         </constraints>
                                                                     </imageView>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adhere to any event guidelines." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6JN-A6-wRP">
-                                                                        <rect key="frame" x="23" y="10" width="294" height="15"/>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No definitely means no! Respect others’ privacy and personal space as they request." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6JN-A6-wRP">
+                                                                        <rect key="frame" x="23" y="3" width="294" height="29.5"/>
                                                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                                                         <color key="textColor" name="ColorLbl2"/>
                                                                         <nil key="highlightedColor"/>
@@ -631,8 +631,8 @@
                                                                     <constraint firstItem="6JN-A6-wRP" firstAttribute="leading" secondItem="fTS-O2-CkS" secondAttribute="trailing" constant="8" id="uTA-wg-wgN"/>
                                                                 </constraints>
                                                             </view>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LkO-cq-7vc">
-                                                                <rect key="frame" x="0.0" y="180" width="325" height="35"/>
+                                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LkO-cq-7vc">
+                                                                <rect key="frame" x="0.0" y="170" width="325" height="35"/>
                                                                 <subviews>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="hRL-T9-4aL">
                                                                         <rect key="frame" x="5" y="12.5" width="10" height="10"/>
@@ -658,8 +658,8 @@
                                                                     <constraint firstItem="hRL-T9-4aL" firstAttribute="leading" secondItem="LkO-cq-7vc" secondAttribute="leading" constant="5" id="tja-q6-eGL"/>
                                                                 </constraints>
                                                             </view>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HuX-ox-ox2">
-                                                                <rect key="frame" x="0.0" y="225" width="325" height="35"/>
+                                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HuX-ox-ox2">
+                                                                <rect key="frame" x="0.0" y="170" width="325" height="35"/>
                                                                 <subviews>
                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="IKl-i4-PpR">
                                                                         <rect key="frame" x="5" y="12.5" width="10" height="10"/>
@@ -704,7 +704,7 @@
                                                 </constraints>
                                             </view>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="BGB-Ce-TMi">
-                                                <rect key="frame" x="121" y="460" width="172.5" height="16"/>
+                                                <rect key="frame" x="121" y="370" width="172.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="TWQ-zM-3G3"/>
                                                 </constraints>

@@ -130,7 +130,7 @@ extension UIViewController {
         
         let imgView = UIImageView()
         imgView.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
-        imgView.contentMode = .scaleToFill
+        imgView.contentMode = .scaleAspectFill
         
         let btn = UIButton(type: .custom)
         btn.addTarget(self, action: #selector(goToMyProfile), for: .touchUpInside)

@@ -1481,9 +1481,14 @@ extension FeedVC {
         switchGhostModeBarButton.cornerRadius = 0.5
         switchGhostModeBarButton.thumbCornerRadius = 0.5
         switchGhostModeBarButton.animationDuration = 0.25
-        switchGhostModeBarButton.thumbImage = UIImage(named: "ghostModeSwitch_ic")
         
         switchGhostModeBarButton.isOn = Defaults.ghostMode
+        
+        if switchGhostModeBarButton.isOn {
+            self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-on-ic")
+        }else {
+            self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-off-ic")
+        }
         
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .up))
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .down))
@@ -1533,10 +1538,13 @@ extension FeedVC {
                             }
                             
                             guard data != nil else {return}
-                            Defaults.ghostMode = false
-                            Defaults.ghostModeEveryOne = false
-                            Defaults.myAppearanceTypes = [0]
-                            self.switchGhostModeBarButton.isOn = false
+                            DispatchQueue.main.async {
+                                Defaults.ghostMode = false
+                                Defaults.ghostModeEveryOne = false
+                                Defaults.myAppearanceTypes = [0]
+                                self.switchGhostModeBarButton.isOn = false
+                                self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-off-ic")
+                            }
                             
                             DispatchQueue.main.async {
                                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
@@ -1626,8 +1634,6 @@ extension FeedVC {
     }
     
     @objc func handleGhostModeSwitchBtn() {
-        
-        
         updateNetworkForBtns()
         if internetConnect {
             if Defaults.ghostMode == false {
@@ -1694,11 +1700,14 @@ extension FeedVC {
                             }
                             
                             guard data != nil else {return}
-                            Defaults.ghostMode = false
-                            Defaults.ghostModeEveryOne = false
-                            Defaults.myAppearanceTypes = [0]
-                            self.switchGhostModeBarButton.isOn = false
-
+                            DispatchQueue.main.async {
+                                Defaults.ghostMode = false
+                                Defaults.ghostModeEveryOne = false
+                                Defaults.myAppearanceTypes = [0]
+                                self.switchGhostModeBarButton.isOn = false
+                                self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-off-ic")
+                            }
+                            
                             DispatchQueue.main.async {
                                 if self.isCompassOpen {
                                     self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
@@ -1774,10 +1783,12 @@ extension FeedVC {
                         Defaults.ghostModeEveryOne = false
                     }
                     self.switchGhostModeBarButton.isOn = true
+                    self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-on-ic")
                 }else {
                     Defaults.ghostModeEveryOne = false
                     Defaults.ghostMode = false
                     self.switchGhostModeBarButton.isOn = false
+                    self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-off-ic")
                 }
             }
             
