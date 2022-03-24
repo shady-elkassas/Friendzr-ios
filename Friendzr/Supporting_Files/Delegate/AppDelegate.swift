@@ -941,7 +941,7 @@ extension AppDelegate: CLLocationManagerDelegate {
                 let description = "Fake visit: \(place)"
                 
                 let fakeVisit = FakeVisit(coordinates: location.coordinate, arrivalDate: Date(), departureDate: Date())
-                self.newVisitReceived(fakeVisit, description: description)
+//                self.newVisitReceived(fakeVisit, description: description)
             }
         }
     }

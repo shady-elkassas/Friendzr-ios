@@ -45,7 +45,7 @@ class EventsAroundMeViewModel {
     }
     
     
-    func getAllEventsOnlyAroundMe(lat:Double,lng:Double,pageNumber:Int) {
+    func getAllEventsOnlyAroundMe(lat:String,lng:String,pageNumber:Int) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/OnlyEventsAround"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])

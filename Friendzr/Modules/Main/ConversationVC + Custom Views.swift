@@ -212,7 +212,8 @@ extension ConversationVC {
                                 vc.selectedVC = "Present"
                                 self.present(controller, animated: true)
                             }
-                        }else {
+                        }
+                        else {
                             if self.isChatGroup == true {
                                 if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                                     vc.id = self.groupId
@@ -241,7 +242,8 @@ extension ConversationVC {
             }))
             
             present(actionAlert, animated: true, completion: nil)
-        }else {
+        }
+        else {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
@@ -601,7 +603,8 @@ extension ConversationVC {
             soundRecorder.record()
             setupLeftInputButton(tapMessage: false, Recorder: "pause")
             //            playButton.isEnabled = false
-        } else {
+        }
+        else {
             soundRecorder.stop()
             setupLeftInputButton(tapMessage: false, Recorder: "play")
             insertMessage(UserMessage(audioURL: getFileURL(), user: senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6,linkPreviewID: "",isJoinEvent: 0))
@@ -708,7 +711,8 @@ extension ConversationVC {
             actionAlert.addAction(cancelBtn)
             
             present(actionAlert, animated: true, completion: nil)
-        }else {
+        }
+        else {
             let actionSheet  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .actionSheet)
             
             let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in

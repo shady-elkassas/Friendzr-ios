@@ -13,6 +13,7 @@ import SwiftUI
 public typealias AnimationCompletion = () -> Void
 public typealias AnimationExecution = () -> Void
 
+//(ByLat: "\(51.509865)", AndLng: "\(-0.118092)") london
 
 class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegate{
     

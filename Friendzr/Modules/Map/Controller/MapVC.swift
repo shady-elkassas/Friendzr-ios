@@ -197,7 +197,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         self.hideCollectionView.showLoader()
-        viewmodel.getAllEventsOnlyAroundMe(lat: location?.latitude ?? 0.0, lng: location?.longitude ?? 0.0, pageNumber: 1)
+        viewmodel.getAllEventsOnlyAroundMe(lat: Defaults.LocationLat, lng: Defaults.LocationLng, pageNumber: 1)
         viewmodel.eventsOnlyMe.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 DispatchQueue.main.async {
@@ -226,7 +226,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-//                self.hideLoading()
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                 }
