@@ -684,8 +684,12 @@ extension ConversationVC {
     private func presentInputActionSheet() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Photo".localizedString, style: .default, handler: { action in
-                self.presentPhotoInputActionSheet()
+            
+            actionAlert.addAction(UIAlertAction(title:"Camera".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openCamera()
+            }))
+            actionAlert.addAction(UIAlertAction(title:"Photo Library".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openLibrary()
             }))
             actionAlert.addAction(UIAlertAction(title: "File".localizedString, style: .default, handler: { action in
                 
@@ -698,10 +702,13 @@ extension ConversationVC {
             present(actionAlert, animated: true, completion: nil)
         }else {
             let actionSheet  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Photo".localizedString, style: .default, handler: { action in
-                self.presentPhotoInputActionSheet()
-            }))
             
+            actionSheet.addAction(UIAlertAction(title:"Camera".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openCamera()
+            }))
+            actionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.openLibrary()
+            }))
             actionSheet.addAction(UIAlertAction(title: "File".localizedString, style: .default, handler: { action in
                 self.openFileLibrary()
             }))
@@ -710,34 +717,6 @@ extension ConversationVC {
             }))
             
             present(actionSheet, animated: true, completion: nil)
-        }
-    }
-    
-    func presentPhotoInputActionSheet() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsAlert: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-            
-            settingsAlert.addAction(UIAlertAction(title:"Camera".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openCamera()
-            }))
-            settingsAlert.addAction(UIAlertAction(title:"Photo Library".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openLibrary()
-            }))
-            settingsAlert.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsAlert, animated:true, completion:nil)
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Photo Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
         }
     }
 

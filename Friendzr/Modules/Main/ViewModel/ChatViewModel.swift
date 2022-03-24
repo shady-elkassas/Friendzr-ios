@@ -26,8 +26,8 @@ class ChatViewModel {
     
     var groupmessages:DynamicType<GroupChatMessages> = DynamicType<GroupChatMessages>()
     var groupmessagesTemp: GroupChatMessages = GroupMessagesModel()
-
-
+    
+    
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var isLoading : Bool = false
@@ -39,7 +39,7 @@ class ChatViewModel {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/UsersinChat"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-
+        
         let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -101,7 +101,7 @@ class ChatViewModel {
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
-//                    print(httpResponse!)
+                    //                    print(httpResponse!)
                     print("statusCode: \(code ?? 0)")
                     print("**MD** response: \(String(describing: response))")
                     
@@ -156,7 +156,7 @@ class ChatViewModel {
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
-//                    print(httpResponse!)
+                    //                    print(httpResponse!)
                     print("statusCode: \(code ?? 0)")
                     print("**MD** response: \(String(describing: response))")
                     
@@ -276,7 +276,7 @@ class ChatViewModel {
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
-//                    print(httpResponse!)
+                    //                    print(httpResponse!)
                     print("statusCode: \(code ?? 0)")
                     print("**MD** response: \(String(describing: response))")
                     
@@ -330,7 +330,7 @@ class ChatViewModel {
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
-//                    print(httpResponse!)
+                    //                    print(httpResponse!)
                     print("statusCode: \(code ?? 0)")
                     print("**MD** response: \(String(describing: response))")
                     
@@ -364,7 +364,7 @@ class ChatViewModel {
                 }else {
                     task.resume()
                 }
-
+                
             }
         }else {
             guard let urlRequest = URL(string: url) else { return }
@@ -384,7 +384,7 @@ class ChatViewModel {
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
-//                print(httpResponse)
+                //                print(httpResponse)
                 print("statusCode: \(code ?? 0)")
                 print("**MD** response: \(String(describing: response))")
                 
@@ -425,7 +425,7 @@ class ChatViewModel {
     func getChatMessages(ByUserId userid:String,pageNumber:Int) {
         let url = URLs.baseURLFirst + "Messages/Chatdata"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-
+        
         let parameters:[String : Any] = ["userid":userid,"pageNumber": pageNumber,"pageSize":10]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -459,10 +459,10 @@ class ChatViewModel {
     }
     
     func getChatMessages(ByEventId eventid:String,pageNumber:Int) {
-//        CancelRequest.currentTask = false
+        //        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/EventChat"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-
+        
         let parameters:[String : Any] = ["Eventid":eventid,"pageNumber": pageNumber,"pageSize":10]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -523,7 +523,7 @@ class ChatViewModel {
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
-//                    print(httpResponse!)
+                    //                    print(httpResponse!)
                     print("statusCode: \(code ?? 0)")
                     print("**MD** response: \(String(describing: response))")
                     
@@ -578,7 +578,7 @@ class ChatViewModel {
                     
                     let httpResponse = response as? HTTPURLResponse
                     let code  = httpResponse?.statusCode
-//                    print(httpResponse!)
+                    //                    print(httpResponse!)
                     print("statusCode: \(code ?? 0)")
                     print("**MD** response: \(String(describing: response))")
                     
@@ -612,7 +612,7 @@ class ChatViewModel {
                 }else {
                     task.resume()
                 }
-
+                
             }
         }
         else {
@@ -633,7 +633,7 @@ class ChatViewModel {
                 
                 let httpResponse = response as? HTTPURLResponse
                 let code  = httpResponse?.statusCode
-//                print(httpResponse!)
+                //                print(httpResponse!)
                 print("statusCode: \(code ?? 0)")
                 print("**MD** response: \(String(describing: response))")
                 
@@ -672,10 +672,10 @@ class ChatViewModel {
     }
     
     func getChatMessages(BygroupId groupId:String,pageNumber:Int) {
-//        CancelRequest.currentTask = false
+        //        CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "ChatGroup/GetChat"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-
+        
         let parameters:[String : Any] = ["ID":groupId,"pageNumber": pageNumber,"pageSize":10]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
@@ -714,7 +714,7 @@ class ChatViewModel {
         let url = URLs.baseURLFirst + "Messages/muitchat"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["id":id,"isevent":isevent,"muit": mute]
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<ChatsListModel>().map(JSON: data!) else {
                 self.error.value = error!
@@ -741,7 +741,7 @@ class ChatViewModel {
         let url = URLs.baseURLFirst + "Messages/Deletchat"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["id":id,"isevent":isevent,"DeleteDateTime":deleteDateTime]
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<ChatsListModel>().map(JSON: data!) else {
                 self.error.value = error!
@@ -768,7 +768,7 @@ class ChatViewModel {
         let url = URLs.baseURLFirst + "Events/leaveeventchat"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["EventDataid":id,"ActionDate":ActionDate,"Actiontime":Actiontime]
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<EventModel>().map(JSON: data!) else {
                 self.error.value = error!
@@ -788,14 +788,14 @@ class ChatViewModel {
             }
         }
     }
-
+    
     //MARK:- join event chat
     func joinChat(ByID id:String,ActionDate:String,Actiontime:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/joineventchat"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["EventDataid":id,"ActionDate":ActionDate,"Actiontime":Actiontime]
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             guard let userResponse = Mapper<EventModel>().map(JSON: data!) else {
                 self.error.value = error!
@@ -888,7 +888,7 @@ extension ChatViewModel {
         
         return body
     }
-
+    
     func generateBoundary() -> String {
         return "Boundary-\(UUID().uuidString)"
     }

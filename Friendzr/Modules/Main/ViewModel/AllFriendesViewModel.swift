@@ -14,7 +14,7 @@ class AllFriendesViewModel {
     
     var friends : DynamicType<ConversationList> = DynamicType<ConversationList>()
     var friendsTemp : ConversationList = ConversationsDataModel()
-
+    
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
@@ -25,7 +25,7 @@ class AllFriendesViewModel {
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         
         let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10,"search":search]
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<ConversationsResponse>().map(JSON: data!) else {
