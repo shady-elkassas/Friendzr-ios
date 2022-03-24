@@ -30,8 +30,9 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kQ8-8a-btW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="236"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="oRC-l4-8rf">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oRC-l4-8rf">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="236"/>
+                                <color key="backgroundColor" systemColor="systemGray4Color"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Om-o2-pgM" customClass="GradientView" customModule="Friendzr" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="118" width="320" height="118"/>
@@ -142,12 +143,14 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="placeHolderApp" width="2583" height="2479"/>
         <namedColor name="primaryColor">
             <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

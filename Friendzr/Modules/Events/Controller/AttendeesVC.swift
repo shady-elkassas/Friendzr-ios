@@ -336,8 +336,8 @@ extension AttendeesVC:UITableViewDataSource {
                 cell.adminLbl.isHidden = false
                 cell.btnWidth.constant = 0
             }else {
-                cell.dropDownBtn.isHidden = false
-                cell.adminLbl.isHidden = false
+                cell.dropDownBtn.isHidden = true
+                cell.adminLbl.isHidden = true
                 cell.btnWidth.constant = 0
             }
         }
@@ -360,7 +360,8 @@ extension AttendeesVC:UITableViewDataSource {
                 settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString.localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                 
                 self.present(settingsActionSheet, animated:true, completion:nil)
-            }else {
+            }
+            else {
                 let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                 
                 settingsActionSheet.addAction(UIAlertAction(title:"Remove".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
