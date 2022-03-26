@@ -134,6 +134,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         collectionViewHeight.constant = 0
         subViewHeight.constant = 50
         isViewUp = false
+        self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -147,6 +148,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         addEventBtn.isHidden = false
         CancelRequest.currentTask = false
         isViewUp = false
+        self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
         initProfileBarButton()
         
         seyupAds()
@@ -342,6 +344,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         subView.isHidden = false
         upDownViewBtn.isHidden = false
         isViewUp = false
+        self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
         collectionViewHeight.constant = 0
         subViewHeight.constant = 50
     }
@@ -597,6 +600,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         let cancelAction = UIAlertAction(title: "Cancel".localizedString, style: .cancel) { (UIAlertAction) in
             self.upDownBtn.isUserInteractionEnabled = false
             self.isViewUp = false
+            self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
             Defaults.allowMyLocationSettings = false
             self.removeGestureSwipeSubView()
             NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
@@ -896,6 +900,7 @@ extension MapVC : CLLocationManagerDelegate {
                 createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                 self.upDownBtn.isUserInteractionEnabled = false
                 self.isViewUp = false
+                self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
                 Defaults.allowMyLocationSettings = false
                 self.removeGestureSwipeSubView()
                 NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
@@ -912,6 +917,7 @@ extension MapVC : CLLocationManagerDelegate {
                 
                 DispatchQueue.main.async {
                     self.isViewUp = false
+                    self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
                     self.upDownBtn.isUserInteractionEnabled = true
                     self.setupSwipeSubView()
                     self.zoomingStatisticsView.isHidden = false
@@ -924,6 +930,7 @@ extension MapVC : CLLocationManagerDelegate {
             print("Location services are not enabled")
             self.upDownBtn.isUserInteractionEnabled = false
             self.isViewUp = false
+            self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
             Defaults.allowMyLocationSettings = false
             self.removeGestureSwipeSubView()
             self.zoomingStatisticsView.isHidden = true
@@ -1122,16 +1129,20 @@ extension MapVC:UICollectionViewDataSource {
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
-        
-        cell.eventDateLbl.textColor = UIColor.color("#0BBEA1")
-        
+                
         cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
-        cell.eventColorView.backgroundColor = UIColor.color((model?.color ?? ""))
+        if model?.eventtype == "External" {
+            cell.eventColorView.backgroundColor = UIColor.color("#00284c")
+        }else {
+            cell.eventColorView.backgroundColor = UIColor.FriendzrColors.primary!
+        }
         
 //        cell.detailsBtn.backgroundColor = UIColor.color((model?.color ?? ""))
         cell.detailsBtn.tintColor = UIColor.color((model?.color ?? ""))
-        
+        cell.expandLbl.textColor = UIColor.color((model?.color ?? ""))
+        cell.eventDateLbl.textColor = UIColor.color((model?.color ?? ""))
+
         cell.HandledetailsBtn = {
             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
             vc.eventId = model?.id ?? ""
@@ -1171,7 +1182,8 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
         let model = viewmodel.eventsOnlyMe.value?.data
         
         for (index,item) in model!.enumerated() {
-            let locitm = CLLocationCoordinate2DMake(Double(item.lat!)!, Double(item.lang!)!)
+            let locitm = CLLocationCoordinate2DMake(item.lat?.toDouble() ?? 0.0, item.lang?.toDouble() ?? 0.0)
+//            (Double(item.lat!)!, Double(item.lang!)!)
             
             if index == indexPath.row {
                 if LocationZooming.locationLat != locitm.latitude && LocationZooming.locationLng != locitm.longitude {

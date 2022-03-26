@@ -287,6 +287,11 @@ class EventDetailsViewController: UIViewController {
             item.cornerRadiusView(radius: 10)
         }
     }
+    
+    //change title for any btns
+    func changeTitleBtns(btn:UIButton,title:String) {
+        btn.setTitle(title, for: .normal)
+    }
 }
 
 extension EventDetailsViewController: UITableViewDataSource {
@@ -396,11 +401,10 @@ extension EventDetailsViewController: UITableViewDataSource {
             cell.HandleLeaveBtn = {
                 self.showNewtworkConnected()
                 if self.internetConect == true {
+                    self.changeTitleBtns(btn: cell.leaveBtn, title: "Leaving...".localizedString)
                     cell.leaveBtn.isUserInteractionEnabled = false
+
                     self.leaveVM.leaveEvent(ByEventid: self.eventId,leaveeventDate: JoinDate,leaveeventtime: Jointime) { error, data in
-                        DispatchQueue.main.async {
-                            cell.leaveBtn.isUserInteractionEnabled = true
-                        }
                         
                         if let error = error {
                             DispatchQueue.main.async {
@@ -411,23 +415,29 @@ extension EventDetailsViewController: UITableViewDataSource {
                         
                         guard let _ = data else {return}
                         
-                        DispatchQueue.main.async {
-                            cell.leaveBtn.isUserInteractionEnabled = true
-                        }
+//                        DispatchQueue.main.async {
+//                            cell.leaveBtn.isHidden = true
+//                            cell.leaveBtn.setTitle("Leave", for: .normal)
+//                            cell.joinBtn.isHidden = false
+//                            cell.leaveBtn.isUserInteractionEnabled = true
+//                        }
                         
                         DispatchQueue.main.async {
-                            if model?.eventtype == "Private" {
-                                if self.selectedVC {
-                                    Router().toHome()
-                                }else {
-                                    self.onPopup()
-                                }
+                            if self.selectedVC {
+                                Router().toHome()
+                            }else {
+                                self.onPopup()
                             }
-                            else {
-                                DispatchQueue.main.async {
-                                    NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-                                }
-                            }
+                            //                            if model?.eventtype == "Private" {
+                            //                                if self.selectedVC {
+                            //                                    Router().toHome()
+                            //                                }else {
+                            //                                    self.onPopup()
+                            //                                }
+                            //                            }
+                            //                            else {
+                            //                                self.onPopup()
+                            //                            }
                         }
                     }
                 }else {
@@ -442,11 +452,11 @@ extension EventDetailsViewController: UITableViewDataSource {
                 let Jointime = self.formatterTime.string(from: Date())
                 
                 if self.internetConect == true {
+                    self.changeTitleBtns(btn: cell.joinBtn, title: "Joining...".localizedString)
                     cell.joinBtn.isUserInteractionEnabled = false
+                    
                     self.joinVM.joinEvent(ByEventid: self.eventId,JoinDate:JoinDate ,Jointime:Jointime) { error, data in
-                        DispatchQueue.main.async {
-                            cell.joinBtn.isUserInteractionEnabled = true
-                        }
+
                         
                         if let error = error {
                             self.hideLoading()
@@ -457,7 +467,17 @@ extension EventDetailsViewController: UITableViewDataSource {
                         }
                         
                         guard let _ = data else {return}
-                        NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+                        
+                        DispatchQueue.main.async {
+                            cell.joinBtn.isHidden = true
+                            cell.joinBtn.setTitle("Join", for: .normal)
+                            cell.joinBtn.isUserInteractionEnabled = true
+                            cell.leaveBtn.isHidden = false
+                            
+                            DispatchQueue.main.async {
+                                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+                            }
+                        }
                     }
                 }else {
                     return

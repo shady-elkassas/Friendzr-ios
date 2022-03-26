@@ -19,14 +19,13 @@ class LoginVC: UIViewController {
     @IBOutlet weak var passwordView: UIView!
     @IBOutlet weak var emailTxt: UITextField!
     @IBOutlet weak var passwordTxt: UITextField!
-    @IBOutlet weak var loginBtnView: UIView!
     @IBOutlet weak var facebookView: UIView!
     @IBOutlet weak var googleView: UIView!
     @IBOutlet weak var appleView: UIView!
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var registerBtn: UIButton!
     @IBOutlet weak var showPasswordBtn: UIButton!
-    
+    @IBOutlet weak var loginBtnView: GradientView2!
     
     //MARK: - Properties
     let signInConfig = GIDConfiguration.init(clientID: "43837105804-he5jci75mbf7jrhush4cps45plripdvp.apps.googleusercontent.com")
@@ -318,12 +317,12 @@ class LoginVC: UIViewController {
         googleView.setBorder()
         
         
-        //Create Gradient in login Btn
-        let fistColor = UIColor.color("#7BE495")!
-        let lastColor = UIColor.color("#329D9C")!
-        let gradient = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [fistColor.cgColor,lastColor.cgColor], type: .radial)
-        gradient.frame = loginBtn.frame
-        loginBtn.layer.addSublayer(gradient)
+//        //Create Gradient in login Btn
+//        let fistColor = UIColor.color("#7BE495")!
+//        let lastColor = UIColor.color("#329D9C")!
+//        let gradient = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [fistColor.cgColor,lastColor.cgColor], type: .radial)
+//        gradient.frame = loginBtn.frame
+//        loginBtn.layer.addSublayer(gradient)
         loginBtn.cornerRadiusView(radius: 8)
         loginBtnView.cornerRadiusView(radius: 8)
     }

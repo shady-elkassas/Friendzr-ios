@@ -202,6 +202,59 @@ extension CAGradientLayer {
     }
 }
 
+@IBDesignable class GradientView2: UIView {
+    @IBInspectable var firstColor: UIColor = UIColor.color("#7BE495")!
+    @IBInspectable var secondColor: UIColor = UIColor.color("#329D9C")!
+
+    @IBInspectable var vertical: Bool = true
+
+    lazy var gradientLayer: CAGradientLayer = {
+        let layer = CAGradientLayer()
+        layer.colors = [firstColor.cgColor, secondColor.cgColor]
+        layer.startPoint = CGPoint.zero
+        return layer
+    }()
+
+    //MARK: -
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
+        applyGradient()
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        applyGradient()
+    }
+
+    override func prepareForInterfaceBuilder() {
+        super.prepareForInterfaceBuilder()
+        applyGradient()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateGradientFrame()
+    }
+
+    //MARK: -
+
+    func applyGradient() {
+        updateGradientDirection()
+        layer.sublayers = [gradientLayer]
+    }
+
+    func updateGradientFrame() {
+        gradientLayer.frame = bounds
+    }
+
+    func updateGradientDirection() {
+        gradientLayer.endPoint = vertical ? CGPoint(x: 0, y: 1) : CGPoint(x: 1, y: 0)
+    }
+}
+
 @IBDesignable class ThreeColorsGradientView: UIView {
     @IBInspectable var firstColor: UIColor = UIColor.red
     @IBInspectable var secondColor: UIColor = UIColor.green

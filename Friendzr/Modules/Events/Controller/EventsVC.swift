@@ -375,7 +375,7 @@ extension EventsVC: UITableViewDelegate {
 extension EventsVC {
     func initAddNewEventBarButton(total:Int) {
         let button = UIButton.init(type: .custom)
-        button.setTitle("Total Event: \(total)".localizedString, for: .normal)
+        button.setTitle("Total: \(total)".localizedString, for: .normal)
         button.setTitleColor(UIColor.setColor(lightColor: UIColor.color("#141414")!, darkColor: .white), for: .normal)
         button.titleLabel?.font = UIFont.init(name: "Montserrat-SemiBold", size: 12)
         let barButton = UIBarButtonItem(customView: button)

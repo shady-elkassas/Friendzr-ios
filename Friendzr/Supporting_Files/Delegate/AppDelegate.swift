@@ -134,10 +134,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIView.appearance().semanticContentAttribute = .forceLeftToRight
         self.window?.makeKeyAndVisible()
         
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         
         return true
     }
     
+    @objc func appMovedToBackground() {
+        print("appMovedToBackground")
+    }
+
+    @objc func appMovedToForeground() {
+        print("appMovedToForeground")
+    }
+
     // MARK: UISceneSession Lifecycle    }
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
@@ -338,18 +349,18 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             
             let userInfo = response.notification.request.content.userInfo
             
-//            let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
-//            let title = apsAlert?["title"] as? String
-//            let body = apsAlert?["body"] as? String
+            //            let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
+            //            let title = apsAlert?["title"] as? String
+            //            let body = apsAlert?["body"] as? String
             let action = userInfo["Action"] as? String //action transaction
             let actionId = userInfo["Action_code"] as? String //userid
             let chatTitle = userInfo["name"] as? String
             let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
             let imageNotifications = chatTitleImage?["image"] as? String
             let isEventAdmin = userInfo["isAdmin"] as? String
-//            let messageType = userInfo["Messagetype"] as? Int
-            let messsageLinkEvenMyEvent = userInfo["messsageLinkEvenMyEvent"] as? String ?? ""
-
+            //            let messageType = userInfo["Messagetype"] as? Int
+            _ = userInfo["messsageLinkEvenMyEvent"] as? String ?? ""
+            
             self.content.sound = UNNotificationSound.default
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
             let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
@@ -550,7 +561,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let messsageImageURL = userInfo["messsageImageURL"] as? String ?? ""
         let messsageLinkEvenImage = userInfo["messsageLinkEvenImage"] as? String ?? ""
         let messsageLinkEvenTitle = userInfo["messsageLinkEvenTitle"] as? String ?? ""
-        let messsageLinkEvencategorieimage = userInfo["messsageLinkEvencategorieimage"] as? String ?? ""
+        _ = userInfo["messsageLinkEvencategorieimage"] as? String ?? ""
         let messsageLinkEventotalnumbert = userInfo["messsageLinkEventotalnumbert"] as? String ?? ""
         let messsageLinkEvenId = userInfo["messsageLinkEvenId"] as? String ?? ""
         let senderId = userInfo["senderId"] as? String ?? ""
@@ -745,7 +756,14 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        //        process(notification)
+        //        completionHandler([[.banner, .sound]])
+        
         let userInfo = response.notification.request.content.userInfo
+        
+        // With swizzling disabled you must let Messaging know about the message, for Analytics
+        // Messaging.messaging().appDidReceiveMessage(userInfo)
         
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
@@ -755,11 +773,106 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
         
+        let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
+        let alert = apsAlert?["alert"] as? [String:Any]
+        //        let title = alert?["title"] as? String
+        let body =  alert?["body"]  as? String
+        
         let action = userInfo["Action"] as? String //action transaction
-        let _: String = userInfo["sound"] as? String ?? ""
         let actionId = userInfo["Action_code"] as? String //userid
-
+        //        let chatTitle = userInfo["name"] as? String
+        //        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
+        //        let imageNotifications = chatTitleImage?["image"] as? String
+        //        let isEventAdmin = userInfo["isAdmin"] as? String
+        let messageType = userInfo["Messagetype"] as? String
+        let _: String = userInfo["sound"] as? String ?? ""
+        let messageTime = userInfo["time"] as? String ?? ""
+        let messagedate = userInfo["date"] as? String ?? ""
+        
+        let messsageImageURL = userInfo["messsageImageURL"] as? String ?? ""
+        let messsageLinkEvenImage = userInfo["messsageLinkEvenImage"] as? String ?? ""
+        let messsageLinkEvenTitle = userInfo["messsageLinkEvenTitle"] as? String ?? ""
+        _ = userInfo["messsageLinkEvencategorieimage"] as? String ?? ""
+        let messsageLinkEventotalnumbert = userInfo["messsageLinkEventotalnumbert"] as? String ?? ""
+        let messsageLinkEvenId = userInfo["messsageLinkEvenId"] as? String ?? ""
+        let senderId = userInfo["senderId"] as? String ?? ""
+        let messsageLinkEvenkey = userInfo["messsageLinkEvenkey"] as? String ?? ""
+        let messageId = userInfo["messageId"] as? String ?? ""
+        let _ = userInfo["messsageLinkEvenMyEvent"] as? String ?? ""
+        let messsageLinkEvenjoined = userInfo["messsageLinkEvenjoined"] as? String ?? ""
+        let messsageLinkEveneventdateto = userInfo["messsageLinkEveneventdateto"] as? String ?? ""
+        let messsageLinkEvencategorie = userInfo["messsageLinkEvencategorie"] as? String ?? ""
+        
+        let senderImage = userInfo["senderImage"] as? String ?? ""
+        let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
+        
+        
         self.content.sound = UNNotificationSound.default
+        
+        
+        if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId //|| Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
+        {
+            if messageType == "1" {//text
+                NotificationMessage.action = action ?? ""
+                NotificationMessage.actionCode = actionId ?? ""
+                NotificationMessage.messageType = 1
+                NotificationMessage.messageText = body ?? ""
+                NotificationMessage.messageId = messageId
+                NotificationMessage.messageDate = messagedate
+                NotificationMessage.messageTime = messageTime
+                NotificationMessage.senderId = senderId
+                NotificationMessage.photoURL = senderImage
+                NotificationMessage.displayName = senderDisplayName
+            }
+            else if messageType == "2" {//image
+                NotificationMessage.action = action ?? ""
+                NotificationMessage.actionCode = actionId ?? ""
+                NotificationMessage.messageType = 2
+                NotificationMessage.messsageImageURL = messsageImageURL
+                NotificationMessage.messageId = messageId
+                NotificationMessage.messageDate = messagedate
+                NotificationMessage.messageTime = messageTime
+                NotificationMessage.senderId = senderId
+                NotificationMessage.photoURL = senderImage
+                NotificationMessage.displayName = senderDisplayName
+            }
+            else if messageType == "3" {//file
+                NotificationMessage.action = action ?? ""
+                NotificationMessage.actionCode = actionId ?? ""
+                NotificationMessage.messageType = 3
+                NotificationMessage.messsageImageURL = messsageImageURL
+                NotificationMessage.messageId = messageId
+                NotificationMessage.messageDate = messagedate
+                NotificationMessage.messageTime = messageTime
+                NotificationMessage.photoURL = senderImage
+                NotificationMessage.senderId = senderId
+                NotificationMessage.displayName = senderDisplayName
+            }
+            else if messageType == "4" {//link preview
+                NotificationMessage.action = action ?? ""
+                NotificationMessage.actionCode = actionId ?? ""
+                NotificationMessage.messageType = 4
+                NotificationMessage.senderId = senderId
+                NotificationMessage.messageId = messageId
+                NotificationMessage.messageDate = messagedate
+                NotificationMessage.messageTime = messageTime
+                NotificationMessage.photoURL = senderImage
+                NotificationMessage.displayName = senderDisplayName
+                NotificationMessage.isJoinEvent = Int(messsageLinkEvenkey) ?? 0
+                
+                NotificationMessage.messsageLinkTitle = messsageLinkEvenTitle
+                NotificationMessage.messsageLinkCategory = messsageLinkEvencategorie
+                NotificationMessage.messsageLinkImageURL = messsageLinkEvenImage
+                NotificationMessage.messsageLinkAttendeesJoined = messsageLinkEvenjoined
+                NotificationMessage.messsageLinkAttendeesTotalnumbert = messsageLinkEventotalnumbert
+                NotificationMessage.messsageLinkEventDate = messsageLinkEveneventdateto
+                NotificationMessage.linkPreviewID = messsageLinkEvenId
+            }
+        }
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
+        center.add(request, withCompletionHandler: nil)
         
         if action == "user_chat" {
         }else if action == "event_chat" {
@@ -802,8 +915,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         
         if action == "user_chat" {
-            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
-                NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {                NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
             }else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
@@ -822,8 +934,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
         }
-        
-       
         if action == "Friend_Request" || action == "Accept_Friend_Request" || action == "Friend_request_cancelled" {
             if Defaults.availableVC == "RequestVC" {
                 NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
@@ -839,13 +949,14 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         }
         
-        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled" {
+        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled"{
             print("user_chat OR event_chat OR user_chatGroup")
         }
         else {
             Defaults.notificationcount = UIApplication.shared.applicationIconBadgeNumber
         }
-
+        
+        
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
         
@@ -855,7 +966,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             if action == "Friend_request_cancelled" {
                 completionHandler([[]])
             }
-            else if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId //|| Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
+            else if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId // || Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
             {
                 completionHandler([[]])
             }
@@ -873,12 +984,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 }
             }
         }
-
-      
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
-        
     }
 }
 
@@ -941,7 +1049,7 @@ extension AppDelegate: CLLocationManagerDelegate {
                 let description = "Fake visit: \(place)"
                 
                 let fakeVisit = FakeVisit(coordinates: location.coordinate, arrivalDate: Date(), departureDate: Date())
-//                self.newVisitReceived(fakeVisit, description: description)
+                self.newVisitReceived(fakeVisit, description: description)
             }
         }
     }

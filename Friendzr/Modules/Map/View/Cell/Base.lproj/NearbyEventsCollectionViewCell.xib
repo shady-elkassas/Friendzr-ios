@@ -44,22 +44,22 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="B2s-Zj-8wh">
-                                <rect key="frame" x="70" y="38.5" width="154" height="60"/>
+                                <rect key="frame" x="70" y="38.5" width="159" height="60"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lL9-ok-926">
-                                        <rect key="frame" x="0.0" y="0.0" width="154" height="21.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="159" height="21.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <color key="textColor" name="ColorLbl1"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Joined : 12/20" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="noZ-w2-CnB">
-                                        <rect key="frame" x="0.0" y="24.5" width="154" height="15.5"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="159" height="15.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="10"/>
                                         <color key="textColor" name="thirdryColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jul 22, 2021 2:30 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3R-Eo-NEq">
-                                        <rect key="frame" x="0.0" y="43" width="154" height="17"/>
+                                        <rect key="frame" x="0.0" y="43" width="159" height="17"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="10"/>
                                         <color key="textColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -67,10 +67,10 @@
                                 </subviews>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xvg-GD-Pvb">
-                                <rect key="frame" x="229" y="7" width="30" height="30"/>
+                                <rect key="frame" x="234" y="7" width="25" height="25"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="cms-bT-jxo"/>
-                                    <constraint firstAttribute="width" constant="30" id="eKg-mt-umQ"/>
+                                    <constraint firstAttribute="height" constant="25" id="cms-bT-jxo"/>
+                                    <constraint firstAttribute="width" constant="25" id="eKg-mt-umQ"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="arrow_white_left"/>
@@ -78,20 +78,39 @@
                                     <action selector="detailsBtn:" destination="gTV-IL-0wX" eventType="touchUpInside" id="3N5-1W-T7f"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="expand" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4u5-3D-cCw">
+                                <rect key="frame" x="196" y="13.5" width="38" height="12.5"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="psq-xW-LFm">
+                                <rect key="frame" x="196" y="6" width="63" height="27.5"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <connections>
+                                    <action selector="expandBtn:" destination="gTV-IL-0wX" eventType="touchUpInside" id="kd2-ie-JQb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" name="Color0"/>
                         <constraints>
                             <constraint firstItem="hxv-cw-Tmd" firstAttribute="centerY" secondItem="XCb-Ge-HiL" secondAttribute="centerY" id="4e6-dn-Udu"/>
                             <constraint firstItem="Hl7-Y7-OsA" firstAttribute="top" secondItem="XCb-Ge-HiL" secondAttribute="top" id="DwX-Qo-clG"/>
+                            <constraint firstItem="psq-xW-LFm" firstAttribute="height" secondItem="xvg-GD-Pvb" secondAttribute="height" multiplier="1.1" id="Idz-jV-9dF"/>
                             <constraint firstItem="Hl7-Y7-OsA" firstAttribute="leading" secondItem="XCb-Ge-HiL" secondAttribute="leading" id="KCg-WJ-8bq"/>
                             <constraint firstItem="B2s-Zj-8wh" firstAttribute="height" secondItem="hxv-cw-Tmd" secondAttribute="height" id="ODh-3J-njD"/>
+                            <constraint firstItem="psq-xW-LFm" firstAttribute="trailing" secondItem="xvg-GD-Pvb" secondAttribute="trailing" id="OKP-1P-Xbe"/>
                             <constraint firstItem="B2s-Zj-8wh" firstAttribute="leading" secondItem="hxv-cw-Tmd" secondAttribute="trailing" constant="5" id="WnK-f3-7AA"/>
+                            <constraint firstItem="xvg-GD-Pvb" firstAttribute="leading" secondItem="4u5-3D-cCw" secondAttribute="trailing" id="egv-gZ-9ai"/>
+                            <constraint firstItem="psq-xW-LFm" firstAttribute="leading" secondItem="4u5-3D-cCw" secondAttribute="leading" id="hbe-br-4Pj"/>
                             <constraint firstAttribute="trailing" secondItem="xvg-GD-Pvb" secondAttribute="trailing" constant="2" id="iA5-YT-Eyp"/>
+                            <constraint firstItem="psq-xW-LFm" firstAttribute="centerY" secondItem="xvg-GD-Pvb" secondAttribute="centerY" id="ib4-lm-Q2A"/>
                             <constraint firstItem="xvg-GD-Pvb" firstAttribute="leading" secondItem="B2s-Zj-8wh" secondAttribute="trailing" constant="5" id="jRE-wA-HCj"/>
                             <constraint firstItem="hxv-cw-Tmd" firstAttribute="leading" secondItem="XCb-Ge-HiL" secondAttribute="leading" constant="5" id="kRO-o7-YWm"/>
                             <constraint firstAttribute="trailing" secondItem="Hl7-Y7-OsA" secondAttribute="trailing" id="l3O-Pp-yjz"/>
                             <constraint firstItem="xvg-GD-Pvb" firstAttribute="top" secondItem="Hl7-Y7-OsA" secondAttribute="bottom" constant="2" id="p5C-DT-UFl"/>
                             <constraint firstItem="B2s-Zj-8wh" firstAttribute="centerY" secondItem="XCb-Ge-HiL" secondAttribute="centerY" id="xII-QY-xzw"/>
+                            <constraint firstItem="4u5-3D-cCw" firstAttribute="centerY" secondItem="xvg-GD-Pvb" secondAttribute="centerY" id="y7r-Y3-fau"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -111,6 +130,8 @@
                 <outlet property="eventDateLbl" destination="k3R-Eo-NEq" id="VUh-gi-9xQ"/>
                 <outlet property="eventImg" destination="hxv-cw-Tmd" id="eHo-hH-3ce"/>
                 <outlet property="eventTitleLbl" destination="lL9-ok-926" id="hrW-R1-2it"/>
+                <outlet property="expandBtn" destination="psq-xW-LFm" id="Gav-IN-d09"/>
+                <outlet property="expandLbl" destination="4u5-3D-cCw" id="aSb-dj-WSY"/>
                 <outlet property="joinedLbl" destination="noZ-w2-CnB" id="KM2-Fq-nfz"/>
             </connections>
             <point key="canvasLocation" x="297.82608695652175" y="132.92410714285714"/>

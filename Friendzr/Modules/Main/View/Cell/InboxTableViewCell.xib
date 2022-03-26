@@ -46,8 +46,8 @@
                         <color key="textColor" name="ColorLbl1"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hey Cody, you should definitely check out Yoga Six for hot yoga! They have…" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RTh-pQ-CMi">
-                        <rect key="frame" x="85" y="62.5" width="215" height="24.5"/>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RTh-pQ-CMi">
+                        <rect key="frame" x="85" y="62.5" width="185" height="0.0"/>
                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="10"/>
                         <color key="textColor" name="ColorLbl2"/>
                         <nil key="highlightedColor"/>
@@ -71,6 +71,13 @@
                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mute_ic" translatesAutoresizingMaskIntoConstraints="NO" id="zGL-jE-m7X">
+                        <rect key="frame" x="280" y="60" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="gSF-hc-Aeg"/>
+                            <constraint firstAttribute="width" constant="20" id="vhQ-Rw-XKe"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="1CV-2V-m8i" firstAttribute="leading" secondItem="Vca-hl-6gq" secondAttribute="trailing" constant="10" id="0CQ-jg-iet"/>
@@ -78,6 +85,7 @@
                     <constraint firstItem="8ph-kw-rIW" firstAttribute="top" secondItem="1CV-2V-m8i" secondAttribute="bottom" constant="5" id="6l3-lt-Ymb"/>
                     <constraint firstItem="LKO-jZ-n28" firstAttribute="top" relation="greaterThanOrEqual" secondItem="RTh-pQ-CMi" secondAttribute="bottom" constant="5" id="CHR-eY-i9c"/>
                     <constraint firstItem="RTh-pQ-CMi" firstAttribute="top" secondItem="1CV-2V-m8i" secondAttribute="bottom" constant="5" id="HI1-VI-Wy8"/>
+                    <constraint firstItem="zGL-jE-m7X" firstAttribute="trailing" secondItem="5y3-Dl-xhs" secondAttribute="trailing" id="HTU-QD-YzG"/>
                     <constraint firstItem="1CV-2V-m8i" firstAttribute="top" secondItem="Vca-hl-6gq" secondAttribute="top" constant="3" id="Oa8-qg-epj"/>
                     <constraint firstAttribute="trailing" secondItem="LKO-jZ-n28" secondAttribute="trailing" constant="20" id="RhM-gi-FBS"/>
                     <constraint firstItem="v3B-hz-WlP" firstAttribute="leading" secondItem="8ph-kw-rIW" secondAttribute="trailing" constant="4" id="SZ1-Ot-3nr"/>
@@ -86,12 +94,13 @@
                     <constraint firstItem="5y3-Dl-xhs" firstAttribute="centerY" secondItem="1CV-2V-m8i" secondAttribute="centerY" id="Y7t-89-ZOc"/>
                     <constraint firstAttribute="trailing" secondItem="5y3-Dl-xhs" secondAttribute="trailing" constant="20" id="Zm5-b7-49g"/>
                     <constraint firstItem="Vca-hl-6gq" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fRU-K4-Drh"/>
+                    <constraint firstItem="zGL-jE-m7X" firstAttribute="top" secondItem="5y3-Dl-xhs" secondAttribute="bottom" constant="5" id="g26-gO-g08"/>
                     <constraint firstItem="RTh-pQ-CMi" firstAttribute="leading" secondItem="Vca-hl-6gq" secondAttribute="trailing" constant="10" id="hBl-NT-KpR"/>
+                    <constraint firstItem="zGL-jE-m7X" firstAttribute="leading" secondItem="RTh-pQ-CMi" secondAttribute="trailing" constant="10" id="m1w-m4-IUU"/>
                     <constraint firstItem="5y3-Dl-xhs" firstAttribute="leading" secondItem="1CV-2V-m8i" secondAttribute="trailing" constant="10" id="nSx-wG-XSt"/>
                     <constraint firstAttribute="bottom" secondItem="LKO-jZ-n28" secondAttribute="bottom" id="oUj-NJ-qHA"/>
                     <constraint firstItem="8ph-kw-rIW" firstAttribute="leading" secondItem="1CV-2V-m8i" secondAttribute="leading" id="t7v-yh-LQh"/>
                     <constraint firstItem="5y3-Dl-xhs" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="0.25" id="uek-d5-iW6"/>
-                    <constraint firstAttribute="trailing" secondItem="RTh-pQ-CMi" secondAttribute="trailing" constant="20" id="vfR-gn-s5x"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -101,6 +110,7 @@
                 <outlet property="downView" destination="LKO-jZ-n28" id="pZr-lv-acO"/>
                 <outlet property="lastMessageDateLbl" destination="5y3-Dl-xhs" id="Og6-yG-Cr4"/>
                 <outlet property="lastMessageLbl" destination="RTh-pQ-CMi" id="W2P-Kb-pxW"/>
+                <outlet property="muteImg" destination="zGL-jE-m7X" id="NW2-nX-8YI"/>
                 <outlet property="nameLbl" destination="1CV-2V-m8i" id="jk0-pK-GzE"/>
                 <outlet property="profileImg" destination="Vca-hl-6gq" id="xfP-s2-C6P"/>
             </connections>
@@ -108,6 +118,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="mute_ic" width="20" height="20"/>
         <image name="placeHolderApp" width="2583" height="2479"/>
         <namedColor name="BGColor">
             <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

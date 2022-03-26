@@ -16,7 +16,8 @@ class NearbyEventsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var eventTitleLbl: UILabel!
     @IBOutlet weak var joinedLbl: UILabel!
     @IBOutlet weak var detailsBtn: UIButton!
-    
+    @IBOutlet weak var expandLbl: UILabel!
+    @IBOutlet weak var expandBtn: UIButton!
     
     var HandledetailsBtn: (()->())?
 
@@ -30,6 +31,9 @@ class NearbyEventsCollectionViewCell: UICollectionViewCell {
         eventImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 0.5)
     }
     
+    @IBAction func expandBtn(_ sender: Any) {
+        HandledetailsBtn?()
+    }
     @IBAction func detailsBtn(_ sender: Any) {
         HandledetailsBtn?()
     }

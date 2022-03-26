@@ -22,7 +22,6 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var emailTxt: UITextField!
     @IBOutlet weak var passwordTxt: UITextField!
     @IBOutlet weak var confirmPasswordTxt: UITextField!
-    @IBOutlet weak var registerBtnView: UIView!
     @IBOutlet weak var facebookView: UIView!
     @IBOutlet weak var googleView: UIView!
     @IBOutlet weak var appleView: UIView!
@@ -30,6 +29,7 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var showConfirmPasswordBtn: UIButton!
     @IBOutlet weak var showPasswordBtn: UIButton!
     @IBOutlet weak var termsLbl: UILabel!
+    @IBOutlet weak var registerBtnView: GradientView2!
     
     //MARK: - Properties
     var checkUserNameVM:CheckUserNameViewModel = CheckUserNameViewModel()
@@ -300,11 +300,11 @@ class RegisterVC: UIViewController {
         googleView.setBorder()
         
         //Create gradient for registerBtn
-        let fistColor = UIColor.color("#7BE495")!
-        let lastColor = UIColor.color("#329D9C")!
-        let gradient = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [fistColor.cgColor,lastColor.cgColor], type: .radial)
-        gradient.frame = registerBtn.frame
-        registerBtn.layer.addSublayer(gradient)
+//        let fistColor = UIColor.color("#7BE495")!
+//        let lastColor = UIColor.color("#329D9C")!
+//        let gradient = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [fistColor.cgColor,lastColor.cgColor], type: .radial)
+//        gradient.frame = registerBtn.frame
+//        registerBtn.layer.addSublayer(gradient)
         registerBtn.cornerRadiusView(radius: 8)
         registerBtnView.cornerRadiusView(radius: 8)
         

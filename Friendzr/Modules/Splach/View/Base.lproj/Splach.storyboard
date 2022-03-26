@@ -503,10 +503,10 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="878"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dQD-bH-0JT">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="406"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="386.5"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="11D-6r-cVW">
-                                                <rect key="frame" x="28.5" y="30" width="357" height="310"/>
+                                                <rect key="frame" x="28.5" y="30" width="357" height="290.5"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash4" translatesAutoresizingMaskIntoConstraints="NO" id="Qeu-ha-VsS">
                                                         <rect key="frame" x="0.0" y="0.0" width="357" height="100"/>
@@ -514,197 +514,99 @@
                                                             <constraint firstAttribute="height" constant="100" id="NJs-Yq-Ypz"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Community Guidelines" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="II2-3n-tiy">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Community Guidelines" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="20" translatesAutoresizingMaskIntoConstraints="NO" id="II2-3n-tiy">
                                                         <rect key="frame" x="12" y="34" width="333" height="32"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="26"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="G5Q-9Q-QWE">
-                                                        <rect key="frame" x="16" y="120" width="325" height="170"/>
-                                                        <subviews>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zw2-P7-9Qc">
-                                                                <rect key="frame" x="0.0" y="0.0" width="325" height="35"/>
-                                                                <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="5lA-Ez-HCA">
-                                                                        <rect key="frame" x="5" y="12.5" width="10" height="10"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="width" constant="10" id="W08-0p-8CK"/>
-                                                                            <constraint firstAttribute="height" constant="10" id="flg-ES-DCJ"/>
-                                                                        </constraints>
-                                                                    </imageView>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be kind, respectful and considerate. People are more likely to want to connect with you!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FA3-4L-jZr">
-                                                                        <rect key="frame" x="23" y="3" width="294" height="29.5"/>
-                                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
-                                                                        <color key="textColor" name="ColorLbl2"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                </subviews>
-                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <constraints>
-                                                                    <constraint firstItem="FA3-4L-jZr" firstAttribute="leading" secondItem="5lA-Ez-HCA" secondAttribute="trailing" constant="8" id="0JZ-eV-t1Z"/>
-                                                                    <constraint firstAttribute="height" constant="35" id="1Aa-vQ-1hT"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="FA3-4L-jZr" secondAttribute="trailing" constant="8" id="8bh-ed-A0f"/>
-                                                                    <constraint firstItem="5lA-Ez-HCA" firstAttribute="leading" secondItem="Zw2-P7-9Qc" secondAttribute="leading" constant="5" id="JKN-qH-8M2"/>
-                                                                    <constraint firstItem="FA3-4L-jZr" firstAttribute="centerY" secondItem="5lA-Ez-HCA" secondAttribute="centerY" id="W7R-Wt-tzo"/>
-                                                                    <constraint firstItem="5lA-Ez-HCA" firstAttribute="centerY" secondItem="Zw2-P7-9Qc" secondAttribute="centerY" id="gDq-m8-Zbv"/>
-                                                                </constraints>
-                                                            </view>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SO9-hL-Hv7">
-                                                                <rect key="frame" x="0.0" y="45" width="325" height="35"/>
-                                                                <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="Hqc-Dc-Yd8">
-                                                                        <rect key="frame" x="5" y="12.5" width="10" height="10"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="width" constant="10" id="YbU-An-vbA"/>
-                                                                            <constraint firstAttribute="height" constant="10" id="t5w-fx-JyP"/>
-                                                                        </constraints>
-                                                                    </imageView>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be real! Friendzr is an authentic community for people seeking to connect with new friends through real-life experiences." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zmk-g4-Suh">
-                                                                        <rect key="frame" x="23" y="3" width="294" height="29.5"/>
-                                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
-                                                                        <color key="textColor" name="ColorLbl2"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                </subviews>
-                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <constraints>
-                                                                    <constraint firstItem="zmk-g4-Suh" firstAttribute="leading" secondItem="Hqc-Dc-Yd8" secondAttribute="trailing" constant="8" id="2up-5D-M0x"/>
-                                                                    <constraint firstItem="Hqc-Dc-Yd8" firstAttribute="leading" secondItem="SO9-hL-Hv7" secondAttribute="leading" constant="5" id="8zF-bA-1hd"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="zmk-g4-Suh" secondAttribute="trailing" constant="8" id="CpN-e7-QYt"/>
-                                                                    <constraint firstItem="Hqc-Dc-Yd8" firstAttribute="centerY" secondItem="SO9-hL-Hv7" secondAttribute="centerY" id="hbH-8Q-lN8"/>
-                                                                    <constraint firstAttribute="height" constant="35" id="iab-jZ-IQq"/>
-                                                                    <constraint firstItem="zmk-g4-Suh" firstAttribute="centerY" secondItem="Hqc-Dc-Yd8" secondAttribute="centerY" id="ycH-08-Wum"/>
-                                                                </constraints>
-                                                            </view>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z0U-LC-viW">
-                                                                <rect key="frame" x="0.0" y="90" width="325" height="35"/>
-                                                                <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="ju8-UR-55C">
-                                                                        <rect key="frame" x="5" y="12.5" width="10" height="10"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="width" constant="10" id="01K-yx-ilY"/>
-                                                                            <constraint firstAttribute="height" constant="10" id="0Eq-Sd-LtJ"/>
-                                                                        </constraints>
-                                                                    </imageView>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be genuine in your approaches, and actively participate in events and in-person meet-ups." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jb7-wZ-cgc">
-                                                                        <rect key="frame" x="23" y="3" width="294" height="29.5"/>
-                                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
-                                                                        <color key="textColor" name="ColorLbl2"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                </subviews>
-                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="trailing" secondItem="Jb7-wZ-cgc" secondAttribute="trailing" constant="8" id="EjC-WF-Zmm"/>
-                                                                    <constraint firstItem="ju8-UR-55C" firstAttribute="leading" secondItem="Z0U-LC-viW" secondAttribute="leading" constant="5" id="RrP-oU-670"/>
-                                                                    <constraint firstAttribute="height" constant="35" id="YU1-G2-Y4E"/>
-                                                                    <constraint firstItem="Jb7-wZ-cgc" firstAttribute="leading" secondItem="ju8-UR-55C" secondAttribute="trailing" constant="8" id="lwp-KJ-KvS"/>
-                                                                    <constraint firstItem="ju8-UR-55C" firstAttribute="centerY" secondItem="Z0U-LC-viW" secondAttribute="centerY" id="tKB-ar-Rvb"/>
-                                                                    <constraint firstItem="Jb7-wZ-cgc" firstAttribute="centerY" secondItem="ju8-UR-55C" secondAttribute="centerY" id="zr1-Kn-EYL"/>
-                                                                </constraints>
-                                                            </view>
-                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SPA-d9-aV6">
-                                                                <rect key="frame" x="0.0" y="135" width="325" height="35"/>
-                                                                <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="fTS-O2-CkS">
-                                                                        <rect key="frame" x="5" y="12.5" width="10" height="10"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="width" constant="10" id="3eJ-e9-2Or"/>
-                                                                            <constraint firstAttribute="height" constant="10" id="ZeP-W9-ZIz"/>
-                                                                        </constraints>
-                                                                    </imageView>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No definitely means no! Respect others’ privacy and personal space as they request." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6JN-A6-wRP">
-                                                                        <rect key="frame" x="23" y="3" width="294" height="29.5"/>
-                                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
-                                                                        <color key="textColor" name="ColorLbl2"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                </subviews>
-                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <constraints>
-                                                                    <constraint firstItem="fTS-O2-CkS" firstAttribute="centerY" secondItem="SPA-d9-aV6" secondAttribute="centerY" id="1Cr-pB-4cv"/>
-                                                                    <constraint firstAttribute="height" constant="35" id="5oh-CP-FJ5"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="6JN-A6-wRP" secondAttribute="trailing" constant="8" id="Evc-EF-rUI"/>
-                                                                    <constraint firstItem="6JN-A6-wRP" firstAttribute="centerY" secondItem="fTS-O2-CkS" secondAttribute="centerY" id="b3b-Xx-EYO"/>
-                                                                    <constraint firstItem="fTS-O2-CkS" firstAttribute="leading" secondItem="SPA-d9-aV6" secondAttribute="leading" constant="5" id="cqK-2r-7GR"/>
-                                                                    <constraint firstItem="6JN-A6-wRP" firstAttribute="leading" secondItem="fTS-O2-CkS" secondAttribute="trailing" constant="8" id="uTA-wg-wgN"/>
-                                                                </constraints>
-                                                            </view>
-                                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LkO-cq-7vc">
-                                                                <rect key="frame" x="0.0" y="170" width="325" height="35"/>
-                                                                <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="hRL-T9-4aL">
-                                                                        <rect key="frame" x="5" y="12.5" width="10" height="10"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="width" constant="10" id="ESU-M3-TOy"/>
-                                                                            <constraint firstAttribute="height" constant="10" id="f2z-E6-E2L"/>
-                                                                        </constraints>
-                                                                    </imageView>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Actively participate in events and respect other participants." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fVa-gr-Czf">
-                                                                        <rect key="frame" x="23" y="3" width="294" height="29.5"/>
-                                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
-                                                                        <color key="textColor" name="ColorLbl2"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                </subviews>
-                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <constraints>
-                                                                    <constraint firstItem="fVa-gr-Czf" firstAttribute="centerY" secondItem="hRL-T9-4aL" secondAttribute="centerY" id="1FO-kE-e9F"/>
-                                                                    <constraint firstItem="hRL-T9-4aL" firstAttribute="centerY" secondItem="LkO-cq-7vc" secondAttribute="centerY" id="3Mj-54-laK"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="fVa-gr-Czf" secondAttribute="trailing" constant="8" id="GNo-Tg-CEm"/>
-                                                                    <constraint firstAttribute="height" constant="35" id="gCG-UF-9n9"/>
-                                                                    <constraint firstItem="fVa-gr-Czf" firstAttribute="leading" secondItem="hRL-T9-4aL" secondAttribute="trailing" constant="8" id="nsN-iP-4Ka"/>
-                                                                    <constraint firstItem="hRL-T9-4aL" firstAttribute="leading" secondItem="LkO-cq-7vc" secondAttribute="leading" constant="5" id="tja-q6-eGL"/>
-                                                                </constraints>
-                                                            </view>
-                                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HuX-ox-ox2">
-                                                                <rect key="frame" x="0.0" y="170" width="325" height="35"/>
-                                                                <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="IKl-i4-PpR">
-                                                                        <rect key="frame" x="5" y="12.5" width="10" height="10"/>
-                                                                        <constraints>
-                                                                            <constraint firstAttribute="height" constant="10" id="HzD-pc-GY4"/>
-                                                                            <constraint firstAttribute="width" constant="10" id="QC7-ad-k6n"/>
-                                                                        </constraints>
-                                                                    </imageView>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No bullying, profanity or stalking Won't be tolerated on Friendzr." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YBO-Az-xdt">
-                                                                        <rect key="frame" x="23" y="3" width="294" height="29.5"/>
-                                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
-                                                                        <color key="textColor" name="ColorLbl2"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                </subviews>
-                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                <constraints>
-                                                                    <constraint firstItem="IKl-i4-PpR" firstAttribute="centerY" secondItem="HuX-ox-ox2" secondAttribute="centerY" id="D05-fa-6AK"/>
-                                                                    <constraint firstItem="YBO-Az-xdt" firstAttribute="centerY" secondItem="IKl-i4-PpR" secondAttribute="centerY" id="Fdi-3D-sX0"/>
-                                                                    <constraint firstItem="YBO-Az-xdt" firstAttribute="leading" secondItem="IKl-i4-PpR" secondAttribute="trailing" constant="8" id="ViT-7g-eIt"/>
-                                                                    <constraint firstAttribute="trailing" secondItem="YBO-Az-xdt" secondAttribute="trailing" constant="8" id="d0i-mB-Y7Z"/>
-                                                                    <constraint firstItem="IKl-i4-PpR" firstAttribute="leading" secondItem="HuX-ox-ox2" secondAttribute="leading" constant="5" id="fUt-Tc-ZIF"/>
-                                                                    <constraint firstAttribute="height" constant="35" id="nYD-QQ-a1n"/>
-                                                                </constraints>
-                                                            </view>
-                                                        </subviews>
-                                                    </stackView>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="5lA-Ez-HCA">
+                                                        <rect key="frame" x="16" y="120" width="10" height="10"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="10" id="W08-0p-8CK"/>
+                                                            <constraint firstAttribute="height" constant="10" id="flg-ES-DCJ"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be kind, respectful and considerate. People are more likely to want to connect with you!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FA3-4L-jZr">
+                                                        <rect key="frame" x="31" y="117" width="310" height="29.5"/>
+                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                                        <color key="textColor" name="ColorLbl2"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="Hqc-Dc-Yd8">
+                                                        <rect key="frame" x="16" y="156.5" width="10" height="10"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="10" id="YbU-An-vbA"/>
+                                                            <constraint firstAttribute="height" constant="10" id="t5w-fx-JyP"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be real! Friendzr is an authentic community for people seeking to connect with new friends through real-life experiences." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zmk-g4-Suh">
+                                                        <rect key="frame" x="31" y="153.5" width="310" height="44"/>
+                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                                        <color key="textColor" name="ColorLbl2"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="ju8-UR-55C">
+                                                        <rect key="frame" x="16" y="207.5" width="10" height="10"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="10" id="01K-yx-ilY"/>
+                                                            <constraint firstAttribute="height" constant="10" id="0Eq-Sd-LtJ"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be genuine in your approaches, and actively participate in events and in-person meet-ups." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jb7-wZ-cgc">
+                                                        <rect key="frame" x="31" y="204.5" width="310" height="29.5"/>
+                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                                        <color key="textColor" name="ColorLbl2"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="fTS-O2-CkS">
+                                                        <rect key="frame" x="16" y="244" width="10" height="10"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="10" id="3eJ-e9-2Or"/>
+                                                            <constraint firstAttribute="height" constant="10" id="ZeP-W9-ZIz"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No definitely means no! Respect others’ privacy and personal space as they request." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6JN-A6-wRP">
+                                                        <rect key="frame" x="31" y="241" width="310" height="29.5"/>
+                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                                        <color key="textColor" name="ColorLbl2"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" name="bgColorContainers"/>
                                                 <constraints>
                                                     <constraint firstItem="II2-3n-tiy" firstAttribute="centerY" secondItem="Qeu-ha-VsS" secondAttribute="centerY" id="1lY-GH-PTJ"/>
-                                                    <constraint firstAttribute="trailing" secondItem="G5Q-9Q-QWE" secondAttribute="trailing" constant="16" id="2DE-B0-F9z"/>
                                                     <constraint firstItem="II2-3n-tiy" firstAttribute="leading" secondItem="11D-6r-cVW" secondAttribute="leading" constant="12" id="4hp-Lf-1OZ"/>
+                                                    <constraint firstItem="FA3-4L-jZr" firstAttribute="leading" secondItem="5lA-Ez-HCA" secondAttribute="trailing" constant="5" id="5JN-X6-WNU"/>
+                                                    <constraint firstItem="FA3-4L-jZr" firstAttribute="top" secondItem="5lA-Ez-HCA" secondAttribute="top" constant="-3" id="7h9-oN-SS9"/>
+                                                    <constraint firstItem="6JN-A6-wRP" firstAttribute="top" secondItem="fTS-O2-CkS" secondAttribute="top" constant="-3" id="82M-pu-k5p"/>
                                                     <constraint firstAttribute="trailing" secondItem="Qeu-ha-VsS" secondAttribute="trailing" id="8UL-hC-pDP"/>
+                                                    <constraint firstAttribute="trailing" secondItem="FA3-4L-jZr" secondAttribute="trailing" constant="16" id="Hcs-F5-mud"/>
+                                                    <constraint firstItem="zmk-g4-Suh" firstAttribute="top" secondItem="Hqc-Dc-Yd8" secondAttribute="top" constant="-3" id="KJR-RA-Dkl"/>
+                                                    <constraint firstItem="ju8-UR-55C" firstAttribute="leading" secondItem="5lA-Ez-HCA" secondAttribute="leading" id="NTc-af-hiQ"/>
+                                                    <constraint firstItem="Hqc-Dc-Yd8" firstAttribute="leading" secondItem="5lA-Ez-HCA" secondAttribute="leading" id="NiX-Bs-Z3r"/>
                                                     <constraint firstItem="II2-3n-tiy" firstAttribute="centerX" secondItem="Qeu-ha-VsS" secondAttribute="centerX" id="Qhr-PY-ukM"/>
+                                                    <constraint firstItem="fTS-O2-CkS" firstAttribute="leading" secondItem="5lA-Ez-HCA" secondAttribute="leading" id="S9h-Bh-hKj"/>
+                                                    <constraint firstItem="6JN-A6-wRP" firstAttribute="leading" secondItem="FA3-4L-jZr" secondAttribute="leading" id="T93-LE-vgT"/>
                                                     <constraint firstAttribute="trailing" secondItem="II2-3n-tiy" secondAttribute="trailing" constant="12" id="Ush-MV-y09"/>
-                                                    <constraint firstItem="G5Q-9Q-QWE" firstAttribute="top" secondItem="Qeu-ha-VsS" secondAttribute="bottom" constant="20" id="bpP-UJ-GOM"/>
-                                                    <constraint firstItem="G5Q-9Q-QWE" firstAttribute="leading" secondItem="11D-6r-cVW" secondAttribute="leading" constant="16" id="et8-9A-tzL"/>
+                                                    <constraint firstItem="6JN-A6-wRP" firstAttribute="trailing" secondItem="FA3-4L-jZr" secondAttribute="trailing" id="Y28-5H-5RF"/>
+                                                    <constraint firstItem="ju8-UR-55C" firstAttribute="top" secondItem="zmk-g4-Suh" secondAttribute="bottom" constant="10" id="Z2c-WO-0Ur"/>
+                                                    <constraint firstItem="zmk-g4-Suh" firstAttribute="trailing" secondItem="FA3-4L-jZr" secondAttribute="trailing" id="etP-w7-8Uq"/>
+                                                    <constraint firstItem="5lA-Ez-HCA" firstAttribute="top" secondItem="Qeu-ha-VsS" secondAttribute="bottom" constant="20" id="fsf-gp-hlW"/>
                                                     <constraint firstItem="Qeu-ha-VsS" firstAttribute="leading" secondItem="11D-6r-cVW" secondAttribute="leading" id="hff-N0-p6k"/>
-                                                    <constraint firstAttribute="bottom" secondItem="G5Q-9Q-QWE" secondAttribute="bottom" constant="20" id="ika-so-z4r"/>
+                                                    <constraint firstAttribute="bottom" secondItem="6JN-A6-wRP" secondAttribute="bottom" constant="20" id="hhY-DU-n3G"/>
+                                                    <constraint firstItem="Jb7-wZ-cgc" firstAttribute="leading" secondItem="FA3-4L-jZr" secondAttribute="leading" id="jQ8-6n-2AJ"/>
+                                                    <constraint firstItem="fTS-O2-CkS" firstAttribute="top" secondItem="Jb7-wZ-cgc" secondAttribute="bottom" constant="10" id="lYh-1z-j66"/>
+                                                    <constraint firstItem="5lA-Ez-HCA" firstAttribute="leading" secondItem="11D-6r-cVW" secondAttribute="leading" constant="16" id="poh-hO-HXi"/>
+                                                    <constraint firstItem="Hqc-Dc-Yd8" firstAttribute="top" secondItem="FA3-4L-jZr" secondAttribute="bottom" constant="10" id="rX4-Wd-rWy"/>
                                                     <constraint firstItem="Qeu-ha-VsS" firstAttribute="top" secondItem="11D-6r-cVW" secondAttribute="top" id="tCO-jr-zC3"/>
+                                                    <constraint firstItem="Jb7-wZ-cgc" firstAttribute="top" secondItem="ju8-UR-55C" secondAttribute="top" constant="-3" id="u9R-g4-yHE"/>
+                                                    <constraint firstItem="zmk-g4-Suh" firstAttribute="leading" secondItem="FA3-4L-jZr" secondAttribute="leading" id="w9K-R9-acO"/>
+                                                    <constraint firstItem="Jb7-wZ-cgc" firstAttribute="trailing" secondItem="FA3-4L-jZr" secondAttribute="trailing" id="xYx-kB-wza"/>
                                                 </constraints>
                                             </view>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="BGB-Ce-TMi">
-                                                <rect key="frame" x="121" y="370" width="172.5" height="16"/>
+                                                <rect key="frame" x="121" y="350.5" width="172.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="TWQ-zM-3G3"/>
                                                 </constraints>
@@ -788,7 +690,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UE9-tv-1tE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8805.7971014492759" y="879.91071428571422"/>
+            <point key="canvasLocation" x="8811.5942028985519" y="929.46428571428567"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="iHK-bQ-2AJ">

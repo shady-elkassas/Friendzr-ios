@@ -16,6 +16,7 @@ class InboxTableViewCell: UITableViewCell {
     @IBOutlet weak var lastMessageDateLbl: UILabel!
     @IBOutlet weak var attachImg: UIImageView!
     @IBOutlet weak var attachTypeLbl: UILabel!
+    @IBOutlet weak var muteImg: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -475,6 +475,12 @@ extension InboxVC:UITableViewDataSource {
                     }
                 }
                 
+                if model?.isMute == true {
+                    cell.muteImg.isHidden = false
+                }else {
+                    cell.muteImg.isHidden = true
+                }
+                
                 cell.lastMessageDateLbl.text = lastMessageDateTime(date: model?.latestdate ?? "", time: model?.latesttime ?? "")
                 
                 //handle type message
@@ -540,6 +546,11 @@ extension InboxVC:UITableViewDataSource {
                     }
                 }
                 
+                if model?.isMute == true {
+                    cell.muteImg.isHidden = false
+                }else {
+                    cell.muteImg.isHidden = true
+                }
                 
                 cell.lastMessageDateLbl.text = lastMessageDateTime(date: model?.latestdate ?? "", time: model?.latesttime ?? "")
                 

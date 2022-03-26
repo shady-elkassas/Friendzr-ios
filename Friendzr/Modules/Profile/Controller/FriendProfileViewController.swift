@@ -503,7 +503,9 @@ extension FriendProfileViewController:UITableViewDataSource {
                             guard let _ = message else {return}
                             
                             if self.selectedVC {
-                                Router().toHome()
+                                DispatchQueue.main.async {
+                                    Router().toHome()
+                                }
                             }else {
                                 DispatchQueue.main.async {
                                     self.getFriendProfileInformation()

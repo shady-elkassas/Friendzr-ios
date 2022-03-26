@@ -465,30 +465,32 @@
                                                     <constraint firstItem="0eT-2a-PIp" firstAttribute="trailing" secondItem="boN-7Z-gNs" secondAttribute="trailing" id="rwr-nM-5c6"/>
                                                 </constraints>
                                             </stackView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fii-Sf-SAL">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fii-Sf-SAL" customClass="GradientView2" customModule="Friendzr" customModuleProvider="target">
                                                 <rect key="frame" x="25" y="335" width="364" height="44"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zBg-me-iMs">
-                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="44"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
-                                                        <state key="normal" title="SIGN UP">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="registerBtn:" destination="gdT-Rc-TNH" eventType="touchUpInside" id="WLm-2s-jOT"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="0Lj-Td-ni5"/>
-                                                    <constraint firstItem="zBg-me-iMs" firstAttribute="leading" secondItem="fii-Sf-SAL" secondAttribute="leading" id="3XL-No-gGP"/>
-                                                    <constraint firstAttribute="trailing" secondItem="zBg-me-iMs" secondAttribute="trailing" id="rAJ-of-Fp1"/>
-                                                    <constraint firstItem="zBg-me-iMs" firstAttribute="top" secondItem="fii-Sf-SAL" secondAttribute="top" id="z4b-uY-0hA"/>
-                                                    <constraint firstAttribute="bottom" secondItem="zBg-me-iMs" secondAttribute="bottom" id="z7f-af-eRS"/>
                                                 </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
+                                                        <color key="value" red="0.4823529412" green="0.89411764709999997" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="secondColor">
+                                                        <color key="value" red="0.1960784314" green="0.61568627450000002" blue="0.61176470589999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
                                             </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zBg-me-iMs">
+                                                <rect key="frame" x="25" y="335" width="364" height="44"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                                <state key="normal" title="SIGN UP">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="registerBtn:" destination="gdT-Rc-TNH" eventType="touchUpInside" id="WLm-2s-jOT"/>
+                                                </connections>
+                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvx-sp-lPu">
                                                 <rect key="frame" x="197.5" y="399" width="19" height="15"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
@@ -634,6 +636,7 @@
                                             <constraint firstItem="8CP-hQ-VJd" firstAttribute="top" secondItem="nRa-cr-UlE" secondAttribute="top" constant="16" id="4GO-MN-yGE"/>
                                             <constraint firstItem="4dg-tB-0Vk" firstAttribute="leading" secondItem="nRa-cr-UlE" secondAttribute="leading" constant="25" id="4MR-BK-ukO"/>
                                             <constraint firstItem="g2q-Ig-xY7" firstAttribute="centerX" secondItem="3cR-qN-mQA" secondAttribute="centerX" id="9v6-7b-AZf"/>
+                                            <constraint firstItem="zBg-me-iMs" firstAttribute="centerX" secondItem="fii-Sf-SAL" secondAttribute="centerX" id="AzH-cj-4M5"/>
                                             <constraint firstItem="eNh-F3-esW" firstAttribute="height" secondItem="cZt-3B-TlD" secondAttribute="height" id="CWd-vy-ahT"/>
                                             <constraint firstItem="fii-Sf-SAL" firstAttribute="trailing" secondItem="4dg-tB-0Vk" secondAttribute="trailing" id="Ebv-Ra-HCU"/>
                                             <constraint firstItem="K4S-Op-wIr" firstAttribute="leading" secondItem="4dg-tB-0Vk" secondAttribute="leading" id="EvH-oU-D4y"/>
@@ -654,6 +657,8 @@
                                             <constraint firstItem="cvx-sp-lPu" firstAttribute="centerX" secondItem="nRa-cr-UlE" secondAttribute="centerX" id="U6t-Y6-aSB"/>
                                             <constraint firstItem="g2q-Ig-xY7" firstAttribute="height" secondItem="3cR-qN-mQA" secondAttribute="height" id="Xqp-Bt-8SY"/>
                                             <constraint firstItem="cZt-3B-TlD" firstAttribute="centerX" secondItem="nRa-cr-UlE" secondAttribute="centerX" id="ZOK-JH-L59"/>
+                                            <constraint firstItem="zBg-me-iMs" firstAttribute="width" secondItem="fii-Sf-SAL" secondAttribute="width" id="aUf-qF-Lfw"/>
+                                            <constraint firstItem="zBg-me-iMs" firstAttribute="centerY" secondItem="fii-Sf-SAL" secondAttribute="centerY" id="bB5-Mg-Zjk"/>
                                             <constraint firstItem="K4S-Op-wIr" firstAttribute="top" secondItem="cvx-sp-lPu" secondAttribute="bottom" constant="20" id="bPd-dp-Wq1"/>
                                             <constraint firstItem="aBf-7x-ciR" firstAttribute="leading" secondItem="fii-Sf-SAL" secondAttribute="leading" id="bjK-xU-urw"/>
                                             <constraint firstItem="8CP-hQ-VJd" firstAttribute="width" secondItem="nRa-cr-UlE" secondAttribute="width" multiplier="1:1.8" id="c3i-Kh-BsN"/>
@@ -669,6 +674,7 @@
                                             <constraint firstItem="fii-Sf-SAL" firstAttribute="top" secondItem="4dg-tB-0Vk" secondAttribute="bottom" constant="30" id="pBa-b7-bvn"/>
                                             <constraint firstItem="cvx-sp-lPu" firstAttribute="top" secondItem="fii-Sf-SAL" secondAttribute="bottom" constant="20" id="rur-RD-YxX"/>
                                             <constraint firstItem="fii-Sf-SAL" firstAttribute="leading" secondItem="4dg-tB-0Vk" secondAttribute="leading" id="ui4-Is-nXA"/>
+                                            <constraint firstItem="zBg-me-iMs" firstAttribute="height" secondItem="fii-Sf-SAL" secondAttribute="height" id="yh5-fh-kGg"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -706,7 +712,7 @@
                         <outlet property="passwordTxt" destination="br8-gt-j03" id="j2u-xl-kCI"/>
                         <outlet property="passwordView" destination="0zB-Az-kv9" id="6ZQ-6e-2e6"/>
                         <outlet property="registerBtn" destination="zBg-me-iMs" id="Hf0-Ii-pZE"/>
-                        <outlet property="registerBtnView" destination="fii-Sf-SAL" id="wRU-1M-zXV"/>
+                        <outlet property="registerBtnView" destination="fii-Sf-SAL" id="VGm-JG-3eW"/>
                         <outlet property="showConfirmPasswordBtn" destination="boN-7Z-gNs" id="RWn-pV-XOw"/>
                         <outlet property="showPasswordBtn" destination="0eT-2a-PIp" id="c2N-IK-Uax"/>
                         <outlet property="termsLbl" destination="cZt-3B-TlD" id="LzP-kG-51E"/>
