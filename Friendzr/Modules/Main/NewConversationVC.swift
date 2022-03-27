@@ -260,6 +260,7 @@ class NewConversationVC: UIViewController {
             itm.cornerRadiusView(radius: 6)
         }
     }
+    
     //MARK:- Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         updateUserInterface()

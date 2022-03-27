@@ -36,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
     let content = UNMutableNotificationContent()
     let fcmToken:String = ""
+    var userInfoo: [AnyHashable: Any] = [AnyHashable: Any]()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -134,22 +135,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIView.appearance().semanticContentAttribute = .forceLeftToRight
         self.window?.makeKeyAndVisible()
         
-        let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-        nc.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleEvent), name: UIApplication.didBecomeActiveNotification, object: nil)
+
         return true
     }
     
     @objc func appMovedToBackground() {
         print("appMovedToBackground")
+        Defaults.appState = "Background"
+        print(Defaults.appState)
+        
+        content.sound = nil
     }
-
+    
     @objc func appMovedToForeground() {
         print("appMovedToForeground")
+        Defaults.appState = "Foreground"
+        print(Defaults.appState)
     }
 
-    // MARK: UISceneSession Lifecycle    }
+//    @objc func handleEvent() {
+//        print("handleEvent")
+//
+//    }
+    
+    // MARK: UISceneSession Lifecycle
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
@@ -264,14 +276,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Print full message.
         print(userInfo)
-        content.sound = UNNotificationSound.default
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
         
-        center.add(request, withCompletionHandler: nil)
-        
+//        content.sound = UNNotificationSound.default
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+//        let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
+//
+//        center.add(request, withCompletionHandler: nil)
+//        Defaults.appState = "Background"
+//        NotificationCenter.default.post(name: UIApplication.didEnterBackgroundNotification, object: nil, userInfo: nil)
+
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
+        
         completionHandler(UIBackgroundFetchResult.newData)
     }
     
@@ -306,7 +322,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             break
         }
         
-        content.sound = UNNotificationSound.default
+        content.sound = nil
     }
 }
 
@@ -525,14 +541,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 
     // Receive displayed notifications for iOS 10 devices.
     func userNotificationCenter(_ center: UNUserNotificationCenter,willPresent notification: UNNotification,withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
-//        process(notification)
-//        completionHandler([[.banner, .sound]])
 
         let userInfo = notification.request.content.userInfo
-        
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
         
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
@@ -731,12 +741,12 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         if Defaults.pushnotification == false {
             completionHandler([[]])
-        }else {
-            if action == "Friend_request_cancelled" {
+        }
+        else {
+            if action == "Friend_request_cancelled" || action == "Friend_block" {
                 completionHandler([[]])
             }
-            else if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId // || Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
-            {
+            else if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
                 completionHandler([[]])
             }
             else {
@@ -756,14 +766,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        
-        //        process(notification)
-        //        completionHandler([[.banner, .sound]])
-        
+                
         let userInfo = response.notification.request.content.userInfo
-        
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
         
         // Print message ID.
         if let messageID = userInfo[gcmMessageIDKey] {
@@ -810,7 +814,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         self.content.sound = UNNotificationSound.default
         
         
-        if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId //|| Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
+        if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId
         {
             if messageType == "1" {//text
                 NotificationMessage.action = action ?? ""
@@ -963,10 +967,10 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         if Defaults.pushnotification == false {
             completionHandler([[]])
         }else {
-            if action == "Friend_request_cancelled" {
+            if action == "Friend_request_cancelled" || action == "Friend_block" {
                 completionHandler([[]])
             }
-            else if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId // || Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
+            else if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId
             {
                 completionHandler([[]])
             }
@@ -1102,7 +1106,6 @@ final class FakeVisit: CLVisit {
 //            }
 //        }
 
-
 extension AppDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application, and it begins the transition to the background state.
@@ -1114,6 +1117,7 @@ extension AppDelegate {
     func applicationDidEnterBackground(_UIApplicationDidBecomeActiveNotification application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {

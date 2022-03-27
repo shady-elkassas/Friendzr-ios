@@ -45,7 +45,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //            UIView.appearance().semanticContentAttribute = .forceLeftToRight
 //        }
         
-        self.content.sound = UNNotificationSound.default
+//        self.content.sound = UNNotificationSound.default
         
         guard let _ = (scene as? UIWindowScene) else { return }
         Router().toSplach()

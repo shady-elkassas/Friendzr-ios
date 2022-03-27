@@ -38,6 +38,8 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         super.viewDidLoad()
         
         setupView()
+        
+        setupUserData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,10 +99,8 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
             HandleInternetConnection()
         case .wwan:
             internetConect = true
-            setupUserData()
         case .wifi:
             internetConect = true
-            setupUserData()
         }
         
         print("Reachability Summary")

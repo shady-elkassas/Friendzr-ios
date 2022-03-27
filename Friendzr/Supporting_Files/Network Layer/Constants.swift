@@ -8,7 +8,7 @@
 import Foundation
 
 class URLs {
-    static let baseURLFirst = "http://frindzr-001-site1.itempurl.com/api/"
+    static let baseURLFirst = "https://friendzsocialmedia.com/api/"
     static let adUnitBanner = "ca-app-pub-3940256099942544/2934735716"
     static let adUnitVedio = "ca-app-pub-7917057038053337/7021771981"
 

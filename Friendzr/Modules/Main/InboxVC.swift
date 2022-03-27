@@ -25,11 +25,11 @@ extension InboxVC {
         // "Jan 18, 2018"
 
         let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
-        let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
+        let normalDateString = dateFormatterToString(nonRelativeFormatter, date ?? Date())
         // "Jan 18, 2018"
 
         let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
-        let customDateString = dateFormatterToString(customFormatter, date!)
+        let customDateString = dateFormatterToString(customFormatter, date ?? Date())
         // "18 January"
 
         if relativeDateString == normalDateString {
@@ -644,7 +644,8 @@ extension InboxVC:UITableViewDelegate {
                     vc.isChatGroup = false
                     vc.groupId = ""
                     vc.isEventAdmin = model?.myevent ?? false
-                }else {
+                }
+                else {
                     if (model?.isChatGroup ?? false) == true {
                         vc.isEvent = false
                         vc.eventChatID = ""

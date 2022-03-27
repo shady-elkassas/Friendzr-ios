@@ -100,6 +100,15 @@ class Defaults {
         }
     }
     
+    static var appState: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "appState")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "appState") ?? ""
+        }
+    }
     
     static var Email: String {
         set{

@@ -519,7 +519,7 @@
                                                     </view>
                                                 </subviews>
                                             </stackView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ziK-Sb-L2e">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ziK-Sb-L2e" customClass="GradientView2" customModule="Friendzr" customModuleProvider="target">
                                                 <rect key="frame" x="25" y="357.5" width="364" height="44"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0YD-TI-UhQ">
@@ -542,6 +542,14 @@
                                                     <constraint firstItem="0YD-TI-UhQ" firstAttribute="leading" secondItem="ziK-Sb-L2e" secondAttribute="leading" id="jyS-xv-bCN"/>
                                                     <constraint firstAttribute="bottom" secondItem="0YD-TI-UhQ" secondAttribute="bottom" id="odz-aT-TWY"/>
                                                 </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
+                                                        <color key="value" red="0.4823529412" green="0.89411764709999997" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="color" keyPath="secondColor">
+                                                        <color key="value" red="0.1960784314" green="0.61568627450000002" blue="0.61176470589999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" name="Color0"/>
@@ -587,7 +595,6 @@
                         <outlet property="newPasswordTxt" destination="c2l-3B-bfa" id="N0a-yQ-ZwM"/>
                         <outlet property="oldPasswordTxt" destination="l7b-Ec-1G0" id="lAd-59-Zw7"/>
                         <outlet property="saveBtn" destination="0YD-TI-UhQ" id="fse-rW-BT8"/>
-                        <outlet property="saveBtnView" destination="ziK-Sb-L2e" id="7lt-JQ-Y1C"/>
                         <outlet property="showConfirmNewPasswordBtn" destination="YWP-Nw-cmI" id="1o3-Cf-XA4"/>
                         <outlet property="showNewPasswordBtn" destination="u42-Pd-ZVc" id="LLS-09-uky"/>
                         <outlet property="showPasswordBtn" destination="KPB-BP-lhI" id="CLW-Um-hcj"/>

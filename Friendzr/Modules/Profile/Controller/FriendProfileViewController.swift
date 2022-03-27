@@ -554,9 +554,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                             if self.selectedVC {
                                 Router().toHome()
                             }else {
-                                DispatchQueue.main.async {
-                                    self.getFriendProfileInformation()
-                                }
+                                self.onPopup()
                             }
                         }
                     }
