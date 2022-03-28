@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -106,6 +106,7 @@
                             <constraint firstAttribute="bottom" secondItem="q9y-9f-959" secondAttribute="bottom" id="qRp-se-JUg"/>
                             <constraint firstItem="mAu-0K-KnC" firstAttribute="top" secondItem="49f-aS-wFT" secondAttribute="top" constant="10" id="sWH-I2-fJA"/>
                             <constraint firstAttribute="bottom" secondItem="p6U-Ed-4ym" secondAttribute="bottom" id="tzP-DQ-X0R"/>
+                            <constraint firstItem="xTA-gR-aaQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1Iy-dx-cQb" secondAttribute="trailing" constant="10" id="wqQ-Ab-N6t"/>
                             <constraint firstItem="1Iy-dx-cQb" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" constant="20" id="y1j-KA-GKp"/>
                             <constraint firstItem="xTA-gR-aaQ" firstAttribute="centerY" secondItem="1Iy-dx-cQb" secondAttribute="centerY" id="y5V-62-K3i"/>
                         </constraints>

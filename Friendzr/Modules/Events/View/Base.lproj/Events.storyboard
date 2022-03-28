@@ -2076,6 +2076,20 @@
                                     <constraint firstItem="vIm-rv-KH9" firstAttribute="leading" secondItem="GD8-1z-4uP" secondAttribute="leading" constant="10" id="hcl-Ze-mLe"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qo9-af-VYm">
+                                <rect key="frame" x="358.5" y="167" width="30" height="30"/>
+                                <color key="backgroundColor" name="primaryColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="JNd-GU-y8S"/>
+                                    <constraint firstAttribute="height" constant="30" id="LSa-Sp-5aj"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="close_ic"/>
+                                <connections>
+                                    <action selector="closeBtn:" destination="vtF-fe-aFJ" eventType="touchUpInside" id="zVe-Qq-9z3"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="n9b-vu-WUA"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2083,6 +2097,8 @@
                             <constraint firstItem="GD8-1z-4uP" firstAttribute="width" secondItem="u1X-uX-nos" secondAttribute="width" multiplier="0.9" id="2eA-7U-LDd"/>
                             <constraint firstItem="GD8-1z-4uP" firstAttribute="centerX" secondItem="n9b-vu-WUA" secondAttribute="centerX" id="4cO-zg-IGr"/>
                             <constraint firstAttribute="bottom" secondItem="hqO-3v-v2F" secondAttribute="bottom" id="KNj-Gu-cSg"/>
+                            <constraint firstItem="qo9-af-VYm" firstAttribute="trailing" secondItem="GD8-1z-4uP" secondAttribute="trailing" constant="-5" id="L0q-eE-u8x"/>
+                            <constraint firstItem="qo9-af-VYm" firstAttribute="top" secondItem="GD8-1z-4uP" secondAttribute="top" constant="5" id="QKg-q6-1hf"/>
                             <constraint firstItem="GD8-1z-4uP" firstAttribute="centerY" secondItem="n9b-vu-WUA" secondAttribute="centerY" id="Thi-dh-O1u"/>
                             <constraint firstItem="GD8-1z-4uP" firstAttribute="height" secondItem="u1X-uX-nos" secondAttribute="height" multiplier="0.65" id="UHc-Rw-ZaP"/>
                             <constraint firstItem="hqO-3v-v2F" firstAttribute="top" secondItem="u1X-uX-nos" secondAttribute="top" id="erB-5B-mDw"/>
@@ -2091,10 +2107,12 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="closeBtn" destination="qo9-af-VYm" id="fmu-W1-lJQ"/>
                         <outlet property="discView" destination="GD8-1z-4uP" id="3dB-lZ-W5z"/>
                         <outlet property="dismissBtn" destination="k9m-G6-ohi" id="kyc-Mb-i1w"/>
                         <outlet property="hideView" destination="hqO-3v-v2F" id="Hfk-hd-NWe"/>
                         <outlet property="textView" destination="vIm-rv-KH9" id="Dd7-Sf-QJ7"/>
+                        <outlet property="viewHeightLayoutConstraint" destination="UHc-Rw-ZaP" id="Muj-MU-R5i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9HP-PK-avi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3708,6 +3726,7 @@
         <image name="Group19072" width="16" height="16"/>
         <image name="arrow_left" width="6.5" height="11"/>
         <image name="camera_ic" width="60" height="60"/>
+        <image name="close_ic" width="15" height="15"/>
         <image name="description_ic" width="13.5" height="16.5"/>
         <image name="feednodata_img" width="583.5" height="529"/>
         <image name="myEventnodata_img" width="583.5" height="529"/>
