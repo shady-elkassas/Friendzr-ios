@@ -2,7 +2,7 @@
 //  EventTypeViewModel.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 22/03/2022.
+//  Created by Muhammad Sabri Saad on 22/03/2022.
 //
 
 import Foundation

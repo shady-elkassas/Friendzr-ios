@@ -344,7 +344,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
         let messageTime = formatterTime.string(from: Date())
         let url:URL? = URL(string: "https://www.apple.com/eg/")
         
-        self.insertMessage(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 1,linkPreviewID: "",isJoinEvent: 0))
+        self.insertMessage(UserMessage(text: text, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 1,linkPreviewID: "",isJoinEvent: 0,eventType: ""))
         
         DispatchQueue.main.async {
             inputBar.inputTextView.text = ""
@@ -686,13 +686,13 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
             print(videoURL)
             picker.dismiss(animated:true, completion: {
                 
-                self.insertMessage(UserMessage(videoURL: videoURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6,linkPreviewID: "",isJoinEvent: 0))
+                self.insertMessage(UserMessage(videoURL: videoURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6,linkPreviewID: "",isJoinEvent: 0, eventType: ""))
                 self.messagesCollectionView.reloadData()
             })
         }else {
             let image = info[.originalImage] as! UIImage
             
-            self.insertMessage(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 2,linkPreviewID: "",isJoinEvent: 0))
+            self.insertMessage(UserMessage(image: image, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 2,linkPreviewID: "",isJoinEvent: 0, eventType: ""))
             self.sendingImageView = image
             
             if isEvent {
@@ -929,7 +929,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
 
             if isEvent {
                 let imgView:UIImageView = UIImageView()
-                self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0))
+                self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0, eventType: ""))
                 
                 imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeHolderApp"))
                 self.sendingImageView  = imgView.image
@@ -955,7 +955,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
             }else {
                 if isChatGroup {
                     let imgView:UIImageView = UIImageView()
-                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime:messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0))
+                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime:messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0, eventType: ""))
                     imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeHolderApp"))
                     self.sendingImageView  = imgView.image
 
@@ -980,7 +980,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
                     }
                 }else {
                     let imgView:UIImageView = UIImageView()
-                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0))
+                    self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0,eventType: ""))
                     imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeHolderApp"))
                     self.sendingImageView  = imgView.image
                     

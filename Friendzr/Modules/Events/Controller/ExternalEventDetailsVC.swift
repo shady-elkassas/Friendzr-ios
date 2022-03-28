@@ -1,8 +1,8 @@
 //
-//  EventDetailsViewController.swift
+//  ExternalEventDetailsVC.swift
 //  Friendzr
 //
-//  Created by Muhammad Sabri Saad on 09/02/2022.
+//  Created by Muhammad Sabri Saad on 27/03/2022.
 //
 
 import UIKit
@@ -14,14 +14,13 @@ import ListPlaceholder
 import GoogleMobileAds
 import MapKit
 
-class EventDetailsViewController: UIViewController {
-    
+class ExternalEventDetailsVC: UIViewController {
+
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var imagesView: [UIImageView]!
     
-    
-    let eventImgCellId = "EventImageTableViewCell"
+    let eventImgCellId = "ExternalImageTableViewCell"
     let btnsCellId = "EventButtonsTableViewCell"
     let eventDateCellId = "EventDateAndTimeTableViewCell"
     let detailsCellId = "EventDetailsTableViewCell"
@@ -29,8 +28,7 @@ class EventDetailsViewController: UIViewController {
     let mapCellId = "EventMapTableViewCell"
     let attendeesCellId = "EventDetailsAttendeesTableViewCell"
     let adsCellId = "AdsTableViewCell"
-    
-    
+
     var eventId:String = ""
     var viewmodel:EventsViewModel = EventsViewModel()
     var joinVM:JoinEventViewModel = JoinEventViewModel()
@@ -71,29 +69,26 @@ class EventDetailsViewController: UIViewController {
         return viewX
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        initOptionsEventButton()
-        
+
         if selectedVC {
             initCloseBarButton()
         }else {
             initBackButton()
         }
         
+        self.title = "External Event"
+
         setupViews()
         CancelRequest.currentTask = false
         
-        NotificationCenter.default.addObserver(self, selector: #selector(handleEventDetails), name: Notification.Name("handleEventDetails"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleExternalEventDetails), name: Notification.Name("handleExternalEventDetails"), object: nil)
         
         pullToRefresh()
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         if selectedVC {
             Defaults.availableVC = "PresentEventDetailsViewController"
         }else {
@@ -114,30 +109,26 @@ class EventDetailsViewController: UIViewController {
         CancelRequest.currentTask = true
     }
     
-    
-    func updateUserInterface() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-            loadEventDataDetails()
-        case .wifi:
-            internetConect = true
-            loadEventDataDetails()
+    //MARK: - Helper
+    func setupViews() {
+        tableView.register(UINib(nibName: eventImgCellId, bundle: nil), forCellReuseIdentifier: eventImgCellId)
+        tableView.register(UINib(nibName: btnsCellId, bundle: nil), forCellReuseIdentifier: btnsCellId)
+        tableView.register(UINib(nibName: eventDateCellId, bundle: nil), forCellReuseIdentifier: eventDateCellId)
+        tableView.register(UINib(nibName: detailsCellId, bundle: nil), forCellReuseIdentifier: detailsCellId)
+        tableView.register(UINib(nibName: statisticsCellId, bundle: nil), forCellReuseIdentifier: statisticsCellId)
+        tableView.register(UINib(nibName: mapCellId, bundle: nil), forCellReuseIdentifier: mapCellId)
+        tableView.register(UINib(nibName: adsCellId, bundle: nil), forCellReuseIdentifier: adsCellId)
+
+        for item in imagesView {
+            item.cornerRadiusView(radius: 10)
         }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
-    //MARK: - Helper
+    //change title for any btns
+    func changeTitleBtns(btn:UIButton,title:String) {
+        btn.setTitle(title, for: .normal)
+    }
+    
     func pullToRefresh() {
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -179,7 +170,30 @@ class EventDetailsViewController: UIViewController {
     }
     
     //MARK:- APIs
-    @objc func handleEventDetails() {
+    
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConect = true
+            loadEventDataDetails()
+        case .wifi:
+            internetConect = true
+            loadEventDataDetails()
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    @objc func handleExternalEventDetails() {
         self.getEventDetails()
     }
     
@@ -192,20 +206,10 @@ class EventDetailsViewController: UIViewController {
                 tableView.reloadData()
                 
                 DispatchQueue.main.async {
-                    self.title = "\(value.eventtype) Event"
-                }
-                
-                DispatchQueue.main.async {
                     if value.key == 1 {
                         isEventAdmin = true
                     }else {
                         isEventAdmin = false
-                    }
-                    
-                    if value.eventtype == "Private" {
-                        isprivateEvent = true
-                    }else {
-                        isprivateEvent = false
                     }
                     
                     self.initOptionsEventButton()
@@ -237,10 +241,6 @@ class EventDetailsViewController: UIViewController {
                 tableView.reloadData()
                 
                 DispatchQueue.main.async {
-                    self.title = "\(value.eventtype) Event"
-                }
-                
-                DispatchQueue.main.async {
                     self.hideView.hideLoader()
                     self.hideView.isHidden = true
                 }
@@ -250,12 +250,6 @@ class EventDetailsViewController: UIViewController {
                         isEventAdmin = true
                     }else {
                         isEventAdmin = false
-                    }
-                    
-                    if value.eventtype == "Private" {
-                        isprivateEvent = true
-                    }else {
-                        isprivateEvent = false
                     }
                     
                     self.initOptionsEventButton()
@@ -272,39 +266,11 @@ class EventDetailsViewController: UIViewController {
             }
         }
     }
-    
-    func setupViews() {
-        tableView.register(UINib(nibName: eventImgCellId, bundle: nil), forCellReuseIdentifier: eventImgCellId)
-        tableView.register(UINib(nibName: btnsCellId, bundle: nil), forCellReuseIdentifier: btnsCellId)
-        tableView.register(UINib(nibName: eventDateCellId, bundle: nil), forCellReuseIdentifier: eventDateCellId)
-        tableView.register(UINib(nibName: detailsCellId, bundle: nil), forCellReuseIdentifier: detailsCellId)
-        tableView.register(UINib(nibName: statisticsCellId, bundle: nil), forCellReuseIdentifier: statisticsCellId)
-        tableView.register(UINib(nibName: mapCellId, bundle: nil), forCellReuseIdentifier: mapCellId)
-        tableView.register(UINib(nibName: attendeesCellId, bundle: nil), forCellReuseIdentifier: attendeesCellId)
-        tableView.register(UINib(nibName: adsCellId, bundle: nil), forCellReuseIdentifier: adsCellId)
-        
-        for item in imagesView {
-            item.cornerRadiusView(radius: 10)
-        }
-    }
-    
-    //change title for any btns
-    func changeTitleBtns(btn:UIButton,title:String) {
-        btn.setTitle(title, for: .normal)
-    }
 }
 
-extension EventDetailsViewController: UITableViewDataSource {
+extension ExternalEventDetailsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if viewmodel.event.value?.key == 1 {
-            return 8
-        }
-        else if  viewmodel.event.value?.eventtype == "Private" && viewmodel.event.value?.showAttendees == true {
-            return 8
-        }
-        else {
-            return 7
-        }
+        return 7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -315,11 +281,9 @@ extension EventDetailsViewController: UITableViewDataSource {
         let model = viewmodel.event.value
         
         if indexPath.row == 0 {//image
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: eventImgCellId, for: indexPath) as?  EventImageTableViewCell else {return UITableViewCell()}
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: eventImgCellId, for: indexPath) as?  ExternalImageTableViewCell else {return UITableViewCell()}
             cell.eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.titleLbl.text = model?.title
-            cell.categoryLbl.text = model?.categorie
-            cell.attendeesLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
             return cell
         }
         
@@ -475,7 +439,7 @@ extension EventDetailsViewController: UITableViewDataSource {
                             cell.leaveBtn.isHidden = false
                             
                             DispatchQueue.main.async {
-                                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+                                NotificationCenter.default.post(name: Notification.Name("handleExternalEventDetails"), object: nil, userInfo: nil)
                             }
                         }
                     }
@@ -514,6 +478,7 @@ extension EventDetailsViewController: UITableViewDataSource {
         else if indexPath.row == 3 {//desc
             guard let cell = tableView.dequeueReusableCell(withIdentifier: detailsCellId, for: indexPath) as? EventDetailsTableViewCell else {return UITableViewCell()}
             cell.detailsLbl.text = model?.descriptionEvent
+//            cell.detailsLbl.addTrailing(with: model?.descriptionEvent ?? "", moreText: " ...see more", moreTextFont: UIFont(name: "Montserrat-Medium", size: 12) ?? UIFont.systemFont(ofSize: 12), moreTextColor: UIColor.FriendzrColors.primary!)
             return cell
         }
         
@@ -526,11 +491,11 @@ extension EventDetailsViewController: UITableViewDataSource {
         else if indexPath.row == 5 {//statistics
             guard let cell = tableView.dequeueReusableCell(withIdentifier: statisticsCellId, for: indexPath) as? StatisticsDetailsTableViewCell else {return UITableViewCell()}
             
-            cell.titleView.isHidden = true
-            cell.titleViewHeight.constant = 0
+            cell.titleView.isHidden = false
+            cell.titleViewHeight.constant = 35
             cell.bottomTitleViewLayoutConstraint.constant = 0
-            
-            cell.containerView.cornerRadiusView(radius: 12)
+            cell.titleView.setCornerforTop()
+            cell.containerView.setCornerforBottom()
             
             cell.femaleLbl.text = "Female"
             cell.maleLbl.text = "Male"
@@ -626,7 +591,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             return cell
         }
         
-        else if indexPath.row == 6 {//map
+        else {//map
             guard let cell = tableView.dequeueReusableCell(withIdentifier: mapCellId, for: indexPath) as? EventMapTableViewCell else {return UITableViewCell()}
             
             cell.parentvc = self
@@ -657,31 +622,11 @@ extension EventDetailsViewController: UITableViewDataSource {
             }
             return cell
         }
-        
-        else {//attendees
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: attendeesCellId, for: indexPath) as? EventDetailsAttendeesTableViewCell else {return UITableViewCell()}
-            cell.parentvc = self
-            cell.eventModel = model
-            cell.tableView.reloadData()
-            
-            if model?.attendees?.count == 0 {
-                cell.tableViewHeight.constant = 0
-            }else if model?.attendees?.count == 1 {
-                cell.tableViewHeight.constant = CGFloat(60)
-            }else if model?.attendees?.count == 2 {
-                cell.tableViewHeight.constant = CGFloat(160)
-            }else {
-                cell.tableViewHeight.constant = CGFloat(220)
-            }
-            
-            return cell
-        }
     }
 }
 
-extension EventDetailsViewController: UITableViewDelegate {
+extension ExternalEventDetailsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = view.bounds.height
         
         if indexPath.row == 0 {
             return screenH/3
@@ -694,16 +639,41 @@ extension EventDetailsViewController: UITableViewDelegate {
         }else if indexPath.row == 4 {//ads
             return UITableView.automaticDimension
         }else if indexPath.row == 5 {
-            return 250
-        }else if indexPath.row == 6 {
-            return 200
+            return 290
         }else {
-            return UITableView.automaticDimension
+            return 200
         }
     }
 }
 
-extension EventDetailsViewController {
+extension ExternalEventDetailsVC:GADBannerViewDelegate {
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print(error)
+    }
+    
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("Receive Ad")
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+        print("bannerViewDidRecordImpression")
+    }
+    
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillPresentScreen")
+        bannerView.load(GADRequest())
+    }
+    
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillDIsmissScreen")
+    }
+    
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewDidDismissScreen")
+    }
+}
+
+extension ExternalEventDetailsVC {
     
     func initOptionsEventButton() {
         let imageName = "menu_H_ic"
@@ -906,32 +876,5 @@ extension EventDetailsViewController {
         
         activityViewController.isModalInPresentation = true
         self.present(activityViewController, animated: true, completion: nil)
-    }
-}
-
-extension EventDetailsViewController:GADBannerViewDelegate {
-    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-        print(error)
-    }
-    
-    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-        print("Receive Ad")
-    }
-    
-    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-        print("bannerViewDidRecordImpression")
-    }
-    
-    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-        print("bannerViewWillPresentScreen")
-        bannerView.load(GADRequest())
-    }
-    
-    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-        print("bannerViewWillDIsmissScreen")
-    }
-    
-    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-        print("bannerViewDidDismissScreen")
     }
 }

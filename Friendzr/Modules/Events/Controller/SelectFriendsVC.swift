@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ListPlaceholder
 
 class SelectFriendsVC: UIViewController {
 
@@ -17,6 +18,11 @@ class SelectFriendsVC: UIViewController {
     @IBOutlet weak var selectAllBtn: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
     
+    @IBOutlet weak var hideViews: UIView!
+    @IBOutlet var profileImgViews: [UIImageView]!
+    @IBOutlet var namesFirendsViews: [UIImageView]!
+    @IBOutlet var selectImgsView: [UIImageView]!
+
     
     let cellID = "AddFriendsToPrivateEventTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
@@ -46,6 +52,8 @@ class SelectFriendsVC: UIViewController {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        setupHideView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,6 +63,21 @@ class SelectFriendsVC: UIViewController {
     }
         
     //MARK: - Helper
+    
+    func setupHideView() {
+        for itm in profileImgViews {
+            itm.cornerRadiusForHeight()
+        }
+        
+        for item in namesFirendsViews {
+            item.cornerRadiusView(radius: 6)
+        }
+        
+        for itmm in selectImgsView {
+            itmm.cornerRadiusView(radius: 6)
+        }
+    }
+    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -131,6 +154,7 @@ class SelectFriendsVC: UIViewController {
     }
     
     func getAllFriends(pageNumber:Int,search:String) {
+        hideViews.isHidden = true
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -168,7 +192,8 @@ class SelectFriendsVC: UIViewController {
     }
     
     func LaodAllFriends(pageNumber:Int,search:String) {
-        
+        hideViews.isHidden = false
+        hideViews.showLoader()
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -182,6 +207,11 @@ class SelectFriendsVC: UIViewController {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.tableView.hideLoader()
                     }
+                }
+                
+                DispatchQueue.main.async {
+                    hideViews.isHidden = true
+                    hideViews.hideLoader()
                 }
                 
                 self.isLoadingList = false

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ListPlaceholder
 
 class ShareEventVC: UIViewController {
     
@@ -27,7 +28,12 @@ class ShareEventVC: UIViewController {
     @IBOutlet weak var eventsSearchView: UIView!
     @IBOutlet weak var groupsSearchView: UIView!
     @IBOutlet weak var friendsSearchView: UIView!
-    
+        
+    @IBOutlet var hideView: [UIView]!
+    @IBOutlet var profileImgViews: [UIImageView]!
+    @IBOutlet var namesFirendsViews: [UIImageView]!
+    @IBOutlet var selectImgsView: [UIImageView]!
+
     
     var cellID = "ShareTableViewCell"
     var eventID:String = ""
@@ -55,9 +61,9 @@ class ShareEventVC: UIViewController {
         
         title = "Share".localizedString
         setupViews()
-        getAllMyEvents(pageNumber: 1,search:"")
-        getAllMyGroups(pageNumber: 1, search: "")
-        getAllMyFriends(pageNumber: 1, search: "")
+        LoadAllMyEvents(pageNumber: 1,search:"")
+        LoadAllMyGroups(pageNumber: 1, search: "")
+        LoadAllMyFriends(pageNumber: 1, search: "")
         initCloseBarButton()
         setupNavBar()
     }
@@ -69,6 +75,10 @@ class ShareEventVC: UIViewController {
     
     //MARK:- APIs
     func getAllMyEvents(pageNumber:Int,search:String) {
+        for item in hideView {
+            item.isHidden = true
+        }
+        
         myEventsVM.getMyEvents(pageNumber: pageNumber, search: search)
         myEventsVM.events.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -103,6 +113,10 @@ class ShareEventVC: UIViewController {
         }
     }
     func getAllMyGroups(pageNumber:Int,search:String) {
+        for item in hideView {
+            item.isHidden = true
+        }
+        
         myGroupsVM.getAllGroupChat(pageNumber: pageNumber, search: search)
         myGroupsVM.listChat.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -137,6 +151,9 @@ class ShareEventVC: UIViewController {
         }
     }
     func getAllMyFriends(pageNumber:Int,search:String) {
+        for item in hideView {
+            item.isHidden = true
+        }
         myFriendsVM.getAllFriendes(pageNumber: pageNumber, search: search)
         myFriendsVM.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -172,6 +189,145 @@ class ShareEventVC: UIViewController {
         }
     }
     
+    func LoadAllMyEvents(pageNumber:Int,search:String) {
+        for item in hideView {
+            item.isHidden = false
+            item.showLoader()
+        }
+        myEventsVM.getMyEvents(pageNumber: pageNumber, search: search)
+        myEventsVM.events.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                
+                DispatchQueue.main.async {
+                    self.eventsTV.delegate = self
+                    self.eventsTV.dataSource = self
+                    self.eventsTV.reloadData()
+                }
+                
+                DispatchQueue.main.async {
+                    for item in hideView {
+                        item.isHidden = true
+                        item.hideLoader()
+                    }
+                }
+                
+                if value.data?.count == 0 {
+                    eventsEmptyView.isHidden = false
+                    if search != "" {
+                        emptyFriendslbl.text = "No events match your search"
+                    }else {
+                        emptyFriendslbl.text = "You have no events yet"
+                    }
+                }else {
+                    eventsEmptyView.isHidden = true
+                }
+            }
+        }
+        
+        // Set View Model Event Listener
+        myEventsVM.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+            }
+        }
+    }
+    func LoadAllMyGroups(pageNumber:Int,search:String) {
+        for item in hideView {
+            item.isHidden = false
+            item.showLoader()
+        }
+        myGroupsVM.getAllGroupChat(pageNumber: pageNumber, search: search)
+        myGroupsVM.listChat.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    self.groupsTV.delegate = self
+                    self.groupsTV.dataSource = self
+                    self.groupsTV.reloadData()
+                }
+                
+                DispatchQueue.main.async {
+                    for item in hideView {
+                        item.isHidden = true
+                        item.hideLoader()
+                    }
+                }
+                
+                if value.data?.count == 0 {
+                    groupsEmptyView.isHidden = false
+                    if search != "" {
+                        emptyFriendslbl.text = "No groups match your search"
+                    }else {
+                        emptyFriendslbl.text = "You have no groups yet"
+                    }
+                }else {
+                    groupsEmptyView.isHidden = true
+                }
+            }
+        }
+        
+        // Set View Model Event Listener
+        myGroupsVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+            }
+        }
+    }
+    func LoadAllMyFriends(pageNumber:Int,search:String) {
+        for item in hideView {
+            item.isHidden = false
+            item.showLoader()
+        }
+        
+        myFriendsVM.getAllFriendes(pageNumber: pageNumber, search: search)
+        myFriendsVM.friends.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                
+                DispatchQueue.main.async {
+                    self.friendsTV.delegate = self
+                    self.friendsTV.dataSource = self
+                    self.friendsTV.reloadData()
+                }
+                
+                DispatchQueue.main.async {
+                    for item in hideView {
+                        item.isHidden = true
+                        item.hideLoader()
+                    }
+                }
+                
+                if value.data?.count == 0 {
+                    friendsEmptyView.isHidden = false
+                    if search != "" {
+                        emptyFriendslbl.text = "No friends match your search"
+                    }else {
+                        emptyFriendslbl.text = "you have no friends yet"
+                    }
+                }else {
+                    friendsEmptyView.isHidden = true
+                }
+            }
+        }
+        
+        // Set View Model Event Listener
+        myFriendsVM.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+            }
+        }
+    }
+
     func shareEvent() {
         // Setting description
         let firstActivityItem = "https://friendzr.com/about-us/"
@@ -219,6 +375,18 @@ class ShareEventVC: UIViewController {
         groupsTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         eventsTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         setupSearchBar()
+        
+        for item in profileImgViews {
+            item.cornerRadiusForHeight()
+        }
+        
+        for itm in namesFirendsViews {
+            itm.cornerRadiusView(radius: 6)
+        }
+        
+        for itmm in selectImgsView {
+            itmm.cornerRadiusView(radius: 6)
+        }
     }
     
     

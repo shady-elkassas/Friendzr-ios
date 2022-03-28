@@ -334,19 +334,34 @@ extension EventsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cellSelect = true
         updateUserInterfaceBtns()
+        let model = viewmodel.events.value?.data?[indexPath.row]
+        
         if internetConect == true {
             if viewmodel.events.value?.data?.count != 0 {
-                let model = viewmodel.events.value?.data?[indexPath.row]
-                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-                vc.eventId = model?.id ?? ""
-                
-                if model?.key == 1 {
-                    vc.isEventAdmin = true
+                if model?.eventtype == "External" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+                    vc.eventId = model?.id ?? ""
+                    
+                    if model?.key == 1 {
+                        vc.isEventAdmin = true
+                    }else {
+                        vc.isEventAdmin = false
+                    }
+                    
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }else {
-                    vc.isEventAdmin = false
+                    let model = viewmodel.events.value?.data?[indexPath.row]
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                    vc.eventId = model?.id ?? ""
+                    
+                    if model?.key == 1 {
+                        vc.isEventAdmin = true
+                    }else {
+                        vc.isEventAdmin = false
+                    }
+                    
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
-               
-                self.navigationController?.pushViewController(vc, animated: true)
             }
         }
     }

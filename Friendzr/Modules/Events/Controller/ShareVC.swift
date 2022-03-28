@@ -11,6 +11,8 @@ class ShareVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    
+    
     var cellID = "ShareTableViewCell"
     
     var myGroupCellId = "GroupsShareTableViewCell"
@@ -20,7 +22,7 @@ class ShareVC: UIViewController {
     var myFriendsVM:AllFriendesViewModel = AllFriendesViewModel()
     var myEventsVM:EventsViewModel = EventsViewModel()
     var myGroupsVM:GroupViewModel = GroupViewModel()
-    
+     
     var encryptedID:String = ""
     var isSearch:Bool = false
     

@@ -396,7 +396,13 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         marker.snippet = typelocation
         marker.title = markerID
         marker.opacity = Float(eventsCount)
-
+        
+        if eventTypee == "External" {
+            marker.isFlat = true
+        }else {
+            marker.isFlat = false
+        }
+        
         if typelocation == "event" {
             if LocationZooming.locationLat == position.latitude && LocationZooming.locationLng == position.longitude {
                 marker.appearAnimation = .pop
@@ -830,17 +836,18 @@ extension MapVC : GMSMapViewDelegate {
             if marker.snippet == "event" {
                 //Events by location
                 if marker.title != "" {
-                    DispatchQueue.main.async {
-                        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-                        vc.eventId = marker.title!
-                        
-//                        if model?.key == 1 {
-//                            vc.isEventAdmin = true
-//                        }else {
-//                            vc.isEventAdmin = false
-//                        }
-//
-                        self.navigationController?.pushViewController(vc, animated: true)
+                    if marker.isFlat {
+                        DispatchQueue.main.async {
+                            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+                            vc.eventId = marker.title!
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
+                    }else {
+                        DispatchQueue.main.async {
+                            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                            vc.eventId = marker.title!
+                            self.navigationController?.pushViewController(vc, animated: true)
+                        }
                     }
                 }else {
                     getEvents(By: pos?.latitude ?? 0.0, lng: pos?.longitude ?? 0.0)
@@ -1101,16 +1108,28 @@ extension MapVC:UITableViewDelegate {
             }
             
             let model = viewmodel.events.value?[indexPath.row]
-            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-            vc.eventId = model?.id ?? ""
-            
-            if model?.key == 1 {
-                vc.isEventAdmin = true
+            if model?.eventtype == "External" {
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+                vc.eventId = model?.id ?? ""
+                if model?.key == 1 {
+                    vc.isEventAdmin = true
+                }else {
+                    vc.isEventAdmin = false
+                }
+                self.navigationController?.pushViewController(vc, animated: true)
+
             }else {
-                vc.isEventAdmin = false
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                vc.eventId = model?.id ?? ""
+                
+                if model?.key == 1 {
+                    vc.isEventAdmin = true
+                }else {
+                    vc.isEventAdmin = false
+                }
+                
+                self.navigationController?.pushViewController(vc, animated: true)
             }
-            
-            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }
@@ -1144,16 +1163,29 @@ extension MapVC:UICollectionViewDataSource {
         cell.eventDateLbl.textColor = UIColor.color((model?.color ?? ""))
 
         cell.HandledetailsBtn = {
-            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-            vc.eventId = model?.id ?? ""
-            
-            if model?.key == 1 {
-                vc.isEventAdmin = true
+            if model?.eventtype == "External" {
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+                vc.eventId = model?.id ?? ""
+                
+                if model?.key == 1 {
+                    vc.isEventAdmin = true
+                }else {
+                    vc.isEventAdmin = false
+                }
+                
+                self.navigationController?.pushViewController(vc, animated: true)
             }else {
-                vc.isEventAdmin = false
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                vc.eventId = model?.id ?? ""
+                
+                if model?.key == 1 {
+                    vc.isEventAdmin = true
+                }else {
+                    vc.isEventAdmin = false
+                }
+                
+                self.navigationController?.pushViewController(vc, animated: true)
             }
-
-            self.navigationController?.pushViewController(vc, animated: true)
         }
         return cell
     }

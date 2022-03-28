@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ListPlaceholder
 
 class SharePrivateEventVC: UIViewController {
     
@@ -17,6 +18,10 @@ class SharePrivateEventVC: UIViewController {
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var emptyLbl: UILabel!
     
+    @IBOutlet weak var hideViews: UIView!
+    @IBOutlet var profileImgViews: [UIImageView]!
+    @IBOutlet var namesFirendsViews: [UIImageView]!
+    @IBOutlet var btnImgsView: [UIImageView]!
     
     var shareEventMessageVM:ChatViewModel = ChatViewModel()
     var viewmodel:AttendeesViewModel = AttendeesViewModel()
@@ -24,6 +29,8 @@ class SharePrivateEventVC: UIViewController {
     var eventID:String = ""
     var currentPage : Int = 1
     var isLoadingList : Bool = false
+    var cellSelected:Bool = false
+    var internetConnect:Bool = false
     
     var cellID = "ShareTableViewCell"
     
@@ -51,8 +58,11 @@ class SharePrivateEventVC: UIViewController {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         
         setupSearchBar()
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
         
-        getAllAttendees(pageNumber: 1, search: "")
+        setupHideView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,6 +77,17 @@ class SharePrivateEventVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
+    }
+    
+    
+    func setupHideView() {
+        for itm in profileImgViews {
+            itm.cornerRadiusForHeight()
+        }
+        
+        for item in btnImgsView {
+            item.cornerRadiusView(radius: 6)
+        }
     }
     
     func setupSearchBar() {
@@ -84,18 +105,94 @@ class SharePrivateEventVC: UIViewController {
         searchBar.searchTextField.attributedPlaceholder = placeHolder
         searchBar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
     }
+    
     func loadMoreItemsForList(){
         currentPage += 1
         getAllAttendees(pageNumber: currentPage, search: searchBar.text ?? "")
     }
     
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConnect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConnect = true
+            LaodAllAttendees(pageNumber: 1, search: searchBar.text ?? "")
+        case .wifi:
+            internetConnect = true
+            LaodAllAttendees(pageNumber: 1, search: searchBar.text ?? "")
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func updateNetworkForBtns() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            internetConnect = false
+            HandleInternetConnection()
+        case .wwan:
+            internetConnect = true
+        case .wifi:
+            internetConnect = true
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
     func getAllAttendees(pageNumber:Int,search:String) {
+        hideViews.isHidden = true
         viewmodel.getEventAttendees(ByEventID: eventID, pageNumber: pageNumber, search: search)
         viewmodel.attendees.bind { [unowned self] value in
             DispatchQueue.main.async {
                 tableView.delegate = self
                 tableView.dataSource = self
                 tableView.reloadData()
+                
+                self.isLoadingList = false
+                self.tableView.tableFooterView = nil
+                
+                showEmptyView()
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                self.view.makeToast(error)
+            }
+        }
+    }
+    
+    func LaodAllAttendees(pageNumber:Int,search:String) {
+        hideViews.isHidden = false
+        hideViews.showLoader()
+        
+        viewmodel.getEventAttendees(ByEventID: eventID, pageNumber: pageNumber, search: search)
+        viewmodel.attendees.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                tableView.delegate = self
+                tableView.dataSource = self
+                tableView.reloadData()
+                
+                DispatchQueue.main.async {
+                    hideViews.hideLoader()
+                    hideViews.isHidden = true
+                }
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
@@ -130,6 +227,10 @@ class SharePrivateEventVC: UIViewController {
         indicatorView.startAnimating()
         return footerview
     }
+    
+    func HandleInternetConnection() {
+        self.view.makeToast("Network is unavailable, please try again!".localizedString)
+    }
 }
 
 extension SharePrivateEventVC: UITableViewDataSource {
@@ -144,7 +245,7 @@ extension SharePrivateEventVC: UITableViewDataSource {
         let messageTime = formatterTime.string(from: Date())
         let url:URL? = URL(string: "https://www.apple.com/eg/")
         
- 
+        
         
         let model = viewmodel.attendees.value?.data?[indexPath.row]
         
@@ -156,35 +257,39 @@ extension SharePrivateEventVC: UITableViewDataSource {
         cell.titleLbl.text = model?.userName
         
         cell.HandleSendBtn = {
-            cell.sendBtn.setTitle("Sending...", for: .normal)
-            cell.sendBtn.isUserInteractionEnabled = false
-            self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "oo", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,eventShareid: self.eventID) { error, data in
-                
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                        cell.sendBtn.setTitle("Send", for: .normal)
+            self.updateNetworkForBtns()
+            if self.internetConnect {
+                cell.sendBtn.setTitle("Sending...", for: .normal)
+                cell.sendBtn.isUserInteractionEnabled = false
+                self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "oo", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,eventShareid: self.eventID) { error, data in
+                    
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                            cell.sendBtn.setTitle("Send", for: .normal)
+                        }
+                        return
                     }
-                    return
-                }
-                
-                guard let _ = data else {
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    cell.sendBtn.isUserInteractionEnabled = false
-                    cell.sendBtn.setTitle("Sent", for: .normal)
-                    cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
-                    cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
-                    cell.sendBtn.backgroundColor = .white
-                }
-                
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
-                    NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+                    
+                    guard let _ = data else {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        cell.sendBtn.isUserInteractionEnabled = false
+                        cell.sendBtn.setTitle("Sent", for: .normal)
+                        cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+                        cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
+                        cell.sendBtn.backgroundColor = .white
+                    }
+                    
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+                    }
                 }
             }
+            
         }
         return cell
     }
@@ -196,18 +301,18 @@ extension SharePrivateEventVC:UITableViewDelegate {
     }
     
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let model = viewmodel.attendees.value?.data?[indexPath.row]
-//
-//        if model?.myEventO == true {
-//            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }else {
-//            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-//            vc.userID = model?.userId ?? ""
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
-//    }
+    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //        let model = viewmodel.attendees.value?.data?[indexPath.row]
+    //
+    //        if model?.myEventO == true {
+    //            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
+    //            self.navigationController?.pushViewController(vc, animated: true)
+    //        }else {
+    //            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+    //            vc.userID = model?.userId ?? ""
+    //            self.navigationController?.pushViewController(vc, animated: true)
+    //        }
+    //    }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
@@ -235,6 +340,11 @@ extension SharePrivateEventVC: UISearchBarDelegate{
     @objc func updateSearchResult() {
         guard let text = searchBar.text else {return}
         print(text)
-        getAllAttendees(pageNumber: 0, search: text)
+        
+        self.updateNetworkForBtns()
+        
+        if self.internetConnect {
+            self.getAllAttendees(pageNumber: 0, search: text)
+        }
     }
 }

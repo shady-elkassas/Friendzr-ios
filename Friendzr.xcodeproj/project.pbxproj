@@ -134,6 +134,9 @@
 		43526916276A144A00540726 /* ScrollableBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43526914276A144A00540726 /* ScrollableBottomSheetViewController.swift */; };
 		43526917276A144A00540726 /* ScrollableBottomSheetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43526915276A144A00540726 /* ScrollableBottomSheetViewController.xib */; };
 		43526919276A1D6D00540726 /* Extensions + MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43526918276A1D6D00540726 /* Extensions + MapVC.swift */; };
+		4360CD0427F07A39009A51C7 /* ExternalEventDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4360CD0327F07A39009A51C7 /* ExternalEventDetailsVC.swift */; };
+		4360CD0827F07CDE009A51C7 /* ExternalImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4360CD0627F07CDE009A51C7 /* ExternalImageTableViewCell.swift */; };
+		4360CD0927F07CDE009A51C7 /* ExternalImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4360CD0727F07CDE009A51C7 /* ExternalImageTableViewCell.xib */; };
 		4362888126C8FEDE00B51E51 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362888026C8FEDE00B51E51 /* MapVC.swift */; };
 		4362888626C8FF3A00B51E51 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362888526C8FF3A00B51E51 /* FeedVC.swift */; };
 		4362888D26C8FF6500B51E51 /* RequestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362888C26C8FF6500B51E51 /* RequestVC.swift */; };
@@ -524,6 +527,9 @@
 		43526914276A144A00540726 /* ScrollableBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableBottomSheetViewController.swift; sourceTree = "<group>"; };
 		43526915276A144A00540726 /* ScrollableBottomSheetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScrollableBottomSheetViewController.xib; sourceTree = "<group>"; };
 		43526918276A1D6D00540726 /* Extensions + MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions + MapVC.swift"; sourceTree = "<group>"; };
+		4360CD0327F07A39009A51C7 /* ExternalEventDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalEventDetailsVC.swift; sourceTree = "<group>"; };
+		4360CD0627F07CDE009A51C7 /* ExternalImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalImageTableViewCell.swift; sourceTree = "<group>"; };
+		4360CD0727F07CDE009A51C7 /* ExternalImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExternalImageTableViewCell.xib; sourceTree = "<group>"; };
 		4362888026C8FEDE00B51E51 /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		4362888526C8FF3A00B51E51 /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
 		4362888C26C8FF6500B51E51 /* RequestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestVC.swift; sourceTree = "<group>"; };
@@ -922,6 +928,7 @@
 		430A351B26CAB00500477A94 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4360CD0527F07C72009A51C7 /* externalCells */,
 				43BDFADA27B54529005302CD /* ShareCells */,
 				43967D8627944442005B1F5D /* Events.storyboard */,
 				43ACFEBC27B3B0CB001CD340 /* EventDetailsCell */,
@@ -936,6 +943,7 @@
 			children = (
 				430A351F26CAB02700477A94 /* EventsVC.swift */,
 				43ACFEBA27B3B065001CD340 /* EventDetailsViewController.swift */,
+				4360CD0327F07A39009A51C7 /* ExternalEventDetailsVC.swift */,
 				43D545A326CB9DDD0064660A /* AddEventVC.swift */,
 				430A351D26CAB01A00477A94 /* EditEventsVC.swift */,
 				4330756F26E75EDC002940DF /* AttendeesVC.swift */,
@@ -1144,6 +1152,15 @@
 				43C97DE7279D7DA100D87CBE /* FaceRecognitionModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		4360CD0527F07C72009A51C7 /* externalCells */ = {
+			isa = PBXGroup;
+			children = (
+				4360CD0627F07CDE009A51C7 /* ExternalImageTableViewCell.swift */,
+				4360CD0727F07CDE009A51C7 /* ExternalImageTableViewCell.xib */,
+			);
+			path = externalCells;
 			sourceTree = "<group>";
 		};
 		4362887B26C8FEAD00B51E51 /* Map */ = {
@@ -1966,6 +1983,7 @@
 				43D008D32794383900370E2C /* FeedsTableViewCell.xib in Resources */,
 				43967D9227944D33005B1F5D /* EventTimeCalenderView.xib in Resources */,
 				43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */,
+				4360CD0927F07CDE009A51C7 /* ExternalImageTableViewCell.xib in Resources */,
 				4367E46927BA4ACE00FE1880 /* InterestsProfileTableViewCell.xib in Resources */,
 				4369F45D2797553D00D5E064 /* ShareTableViewCell.xib in Resources */,
 				43ACFECC27B3B597001CD340 /* EventDetailsTableViewCell.xib in Resources */,
@@ -2272,6 +2290,7 @@
 				4367E47327BA4D0B00FE1880 /* MyProfileViewController.swift in Sources */,
 				4344110726CE885F00F8233E /* ContactsTableViewCell.swift in Sources */,
 				43B22419274D16B5004C6912 /* CategoryCollectionViewCell.swift in Sources */,
+				4360CD0427F07A39009A51C7 /* ExternalEventDetailsVC.swift in Sources */,
 				430D426926D3BEBA00188E42 /* ConversationVC.swift in Sources */,
 				433CDE2527CE0E0900A80A40 /* FacialRecognitionPopUpView.swift in Sources */,
 				43ACFEC727B3B464001CD340 /* EventDateAndTimeTableViewCell.swift in Sources */,
@@ -2357,6 +2376,7 @@
 				437EE47426E8BC1C00765089 /* AttendeesModel.swift in Sources */,
 				4382ACA626C28327005C1857 /* Initializer.swift in Sources */,
 				43EA53B027DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift in Sources */,
+				4360CD0827F07CDE009A51C7 /* ExternalImageTableViewCell.swift in Sources */,
 				43C64A042795806400C35FA8 /* TitleGroupViewModel.swift in Sources */,
 				43A332682781C9B2001ADB84 /* GhostModeTableViewCell.swift in Sources */,
 				43B8288227EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.swift in Sources */,

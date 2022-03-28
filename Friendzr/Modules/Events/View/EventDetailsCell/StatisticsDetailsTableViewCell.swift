@@ -8,8 +8,12 @@
 import UIKit
 
 class StatisticsDetailsTableViewCell: UITableViewCell {
-    @IBOutlet weak var containerView: UIView!
     
+    @IBOutlet weak var titleViewHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var titleView: UIView!
+    @IBOutlet weak var bottomTitleViewLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var maleLbl: UILabel!
     @IBOutlet weak var malePercentageLbl: UILabel!
     @IBOutlet weak var maleSlider: UISlider!
@@ -35,8 +39,7 @@ class StatisticsDetailsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
-        containerView.cornerRadiusView(radius: 12)
+                
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

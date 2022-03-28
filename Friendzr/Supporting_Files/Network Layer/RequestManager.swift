@@ -108,6 +108,20 @@ class RequestManager  {
                         print(error)
                     }
                 }
+                
+                else if code == 405 {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                        print(json)
+                        completion([:],"Unable to parse empty data")
+                        
+                        DispatchQueue.main.async {
+                            Router().toOptionsSignUpVC()
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
                 //500 network handling
                 else if code == 500 || code == 501 || code == 502 || code == 503 {
                     do {

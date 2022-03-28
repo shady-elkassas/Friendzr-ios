@@ -146,11 +146,20 @@ extension ConversationVC {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
             actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = self.eventChatID
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
+                    if self.eventType == "External" {
+                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
+                            vc.eventId = self.eventChatID
+                            vc.isEventAdmin = self.isEventAdmin
+                            vc.selectedVC = true
+                            self.present(controller, animated: true)
+                        }
+                    }else {
+                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+                            vc.eventId = self.eventChatID
+                            vc.isEventAdmin = self.isEventAdmin
+                            vc.selectedVC = true
+                            self.present(controller, animated: true)
+                        }
                     }
                 }else {
                     if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
@@ -247,13 +256,21 @@ extension ConversationVC {
             let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
                 if self.isEvent == true {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = self.eventChatID
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
+                    if self.eventType == "External" {
+                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
+                            vc.eventId = self.eventChatID
+                            vc.isEventAdmin = self.isEventAdmin
+                            vc.selectedVC = true
+                            self.present(controller, animated: true)
+                        }
+                    }else {
+                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+                            vc.eventId = self.eventChatID
+                            vc.isEventAdmin = self.isEventAdmin
+                            vc.selectedVC = true
+                            self.present(controller, animated: true)
+                        }
                     }
-                    
                 }else {
                     if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
                         vc.groupId = self.groupId
@@ -607,7 +624,7 @@ extension ConversationVC {
         else {
             soundRecorder.stop()
             setupLeftInputButton(tapMessage: false, Recorder: "play")
-            insertMessage(UserMessage(audioURL: getFileURL(), user: senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6,linkPreviewID: "",isJoinEvent: 0))
+            insertMessage(UserMessage(audioURL: getFileURL(), user: senderUser, messageId: "1", date: Date(), dateandtime: "", messageType: 6,linkPreviewID: "",isJoinEvent: 0,eventType: ""))
             self.messagesCollectionView.reloadData()
         }
     }
@@ -842,11 +859,20 @@ extension ConversationVC {
     }
     
     @objc func goToEventDetailsVC() {
-        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-            vc.eventId = self.eventChatID
-            vc.isEventAdmin = self.isEventAdmin
-            vc.selectedVC = true
-            self.present(controller, animated: true)
+        if self.eventType == "" {
+            if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
+                vc.eventId = self.eventChatID
+                vc.isEventAdmin = self.isEventAdmin
+                vc.selectedVC = true
+                self.present(controller, animated: true)
+            }
+        }else {
+            if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+                vc.eventId = self.eventChatID
+                vc.isEventAdmin = self.isEventAdmin
+                vc.selectedVC = true
+                self.present(controller, animated: true)
+            }
         }
     }
 }
@@ -869,11 +895,20 @@ extension ConversationVC {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
                 actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = id
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
+                    if self.eventType == "External" {
+                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
+                            vc.eventId = id
+                            vc.isEventAdmin = self.isEventAdmin
+                            vc.selectedVC = true
+                            self.present(controller, animated: true)
+                        }
+                    }else {
+                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+                            vc.eventId = id
+                            vc.isEventAdmin = self.isEventAdmin
+                            vc.selectedVC = true
+                            self.present(controller, animated: true)
+                        }
                     }
                 }))
                 actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
@@ -883,11 +918,21 @@ extension ConversationVC {
             }else {
                 let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = id
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
+                    
+                    if self.eventType == "External" {
+                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
+                            vc.eventId = id
+                            vc.isEventAdmin = self.isEventAdmin
+                            vc.selectedVC = true
+                            self.present(controller, animated: true)
+                        }
+                    }else {
+                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+                            vc.eventId = id
+                            vc.isEventAdmin = self.isEventAdmin
+                            vc.selectedVC = true
+                            self.present(controller, animated: true)
+                        }
                     }
                 }))
                 actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
@@ -899,13 +944,21 @@ extension ConversationVC {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
                 actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = id
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
+                    if self.eventType == "External" {
+                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
+                            vc.eventId = id
+                            vc.isEventAdmin = self.isEventAdmin
+                            vc.selectedVC = true
+                            self.present(controller, animated: true)
+                        }
+                    }else {
+                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+                            vc.eventId = id
+                            vc.isEventAdmin = self.isEventAdmin
+                            vc.selectedVC = true
+                            self.present(controller, animated: true)
+                        }
                     }
-                    
                 }))
                 
                 actionAlert.addAction(UIAlertAction(title: joinTitle, style: .default, handler: { action in
@@ -919,11 +972,20 @@ extension ConversationVC {
             }else {
                 let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = id
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
+                    if self.eventType == "External" {
+                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
+                            vc.eventId = id
+                            vc.isEventAdmin = self.isEventAdmin
+                            vc.selectedVC = true
+                            self.present(controller, animated: true)
+                        }
+                    }else {
+                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+                            vc.eventId = id
+                            vc.isEventAdmin = self.isEventAdmin
+                            vc.selectedVC = true
+                            self.present(controller, animated: true)
+                        }
                     }
                 }))
                 
