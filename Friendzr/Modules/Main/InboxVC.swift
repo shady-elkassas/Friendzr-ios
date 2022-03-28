@@ -1348,15 +1348,15 @@ extension InboxVC: UISearchBarDelegate{
     @objc func PresentNewConversation() {
         print("PresentNewConversation")
         
-        updateUserInterfaceActions()
-        if internetConect {
-            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "NewConversationNC") as? UINavigationController, let _ = controller.viewControllers.first as? NewConversationVC {
-                self.present(controller, animated: true)
-            }
+//        updateUserInterfaceActions()
+//        if internetConect {
+        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "NewConversationNC") as? UINavigationController, let _ = controller.viewControllers.first as? NewConversationVC {
+            self.present(controller, animated: true)
         }
-        else {
-            HandleInternetConnection()
-        }
+//        }
+//        else {
+//            HandleInternetConnection()
+//        }
     }
 }
 

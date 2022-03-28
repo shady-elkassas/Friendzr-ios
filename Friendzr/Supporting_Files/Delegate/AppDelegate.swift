@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
-//        self.configureNotification()
+
         Messaging.messaging().delegate = self
         application.registerForRemoteNotifications()
         
@@ -95,9 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
         
         center.add(request, withCompletionHandler: nil)
-        
-//        networkReachability()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(updateBadgeApp), name: Notification.Name("updateBadgeApp"), object: nil)
         application.applicationIconBadgeNumber = 0
         
@@ -146,8 +144,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("appMovedToBackground")
         Defaults.appState = "Background"
         print(Defaults.appState)
-        
-        content.sound = nil
     }
     
     @objc func appMovedToForeground() {
@@ -261,7 +257,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         center.add(request, withCompletionHandler: nil)
         
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
-        NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -286,7 +283,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        NotificationCenter.default.post(name: UIApplication.didEnterBackgroundNotification, object: nil, userInfo: nil)
 
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
-        NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
         
         completionHandler(UIBackgroundFetchResult.newData)
     }
@@ -516,12 +514,13 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 }
             }
             else if action == "Check_events_near_you" {
-                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
-                   let tabBarController = rootViewController as? UITabBarController,
-                   let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.eventId = actionId ?? ""
-                    navController.pushViewController(vc, animated: true)
-                }
+//                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
+//                   let tabBarController = rootViewController as? UITabBarController,
+//                   let navController = tabBarController.selectedViewController as? UINavigationController {
+//                    vc.eventId = actionId ?? ""
+//                    navController.pushViewController(vc, animated: true)
+//                }
+                Router().toMap()
             }
             else if action == "Check_private_events" {
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
@@ -724,7 +723,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 NotificationCenter.default.post(name: Notification.Name("updateFriendVC"), object: nil, userInfo: nil)
             }
             
-            NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         }
         
@@ -949,7 +949,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 NotificationCenter.default.post(name: Notification.Name("updateFriendVC"), object: nil, userInfo: nil)
             }
             
-            NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         }
         

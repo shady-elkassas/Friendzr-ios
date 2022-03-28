@@ -19,7 +19,7 @@ class NotificationsVC: UIViewController {
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var prosImg: [UIImageView]!
     @IBOutlet var hidesImg: [UIImageView]!
-
+    
     //MARK: - Properties
     var viewmodel:NotificationsViewModel = NotificationsViewModel()
     let cellID = "NotificationTableViewCell"
@@ -41,10 +41,7 @@ class NotificationsVC: UIViewController {
         setupNavBar()
         pullToRefresh()
         initBackButton()
-        
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
+        setupHideView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,9 +51,12 @@ class NotificationsVC: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
         
         CancelRequest.currentTask = false
-        setupHideView()
         
         Defaults.notificationcount = 0
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.updateUserInterface()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -64,7 +64,8 @@ class NotificationsVC: UIViewController {
         CancelRequest.currentTask = true
         
         Defaults.notificationcount = 0
-        NotificationCenter.default.post(name: Notification.Name("updateMoreTableView"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
     }
     
     //MARK:- APIs
@@ -82,9 +83,9 @@ class NotificationsVC: UIViewController {
                     self.hideView.hideLoader()
                     self.hideView.isHidden = true
                 }
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
@@ -96,9 +97,9 @@ class NotificationsVC: UIViewController {
             DispatchQueue.main.async {
                 self.hideLoading()
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    HandleinvalidUrl()
+                    self.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -110,6 +111,7 @@ class NotificationsVC: UIViewController {
     }
     
     func LoadAllNotifications(pageNumber:Int) {
+        hideView.isHidden = false
         hideView.showLoader()
         viewmodel.getNotifications(pageNumber: pageNumber)
         viewmodel.notifications.bind { [unowned self] value in
@@ -118,10 +120,10 @@ class NotificationsVC: UIViewController {
                     self.hideView.hideLoader()
                     self.hideView.isHidden = true
                 }
-
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
@@ -133,9 +135,9 @@ class NotificationsVC: UIViewController {
             DispatchQueue.main.async {
                 self.hideLoading()
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    HandleinvalidUrl()
+                    self.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -313,7 +315,7 @@ extension NotificationsVC: UITableViewDelegate {
                     vc.eventId = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else if model?.action == "Check_events_near_you" {
-//                    Router().toMap()
+                    //                    Router().toMap()
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else { return}
                     vc.eventId = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)

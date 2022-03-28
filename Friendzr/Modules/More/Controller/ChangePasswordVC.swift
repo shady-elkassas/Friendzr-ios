@@ -15,10 +15,10 @@ class ChangePasswordVC: UIViewController  {
     @IBOutlet weak var newPasswordTxt: UITextField!
     @IBOutlet weak var confirmNewPasswordTxt: UITextField!
     @IBOutlet weak var saveBtn: UIButton!
-    @IBOutlet weak var saveBtnView: UIView!
     @IBOutlet weak var showConfirmNewPasswordBtn: UIButton!
     @IBOutlet weak var showNewPasswordBtn: UIButton!
     @IBOutlet weak var showPasswordBtn: UIButton!
+    @IBOutlet weak var saveBtnView: GradientView2!
     
     //MARK: - Properties
     var viewmodel:ChangePasswordViewModel = ChangePasswordViewModel()
@@ -79,11 +79,6 @@ class ChangePasswordVC: UIViewController  {
             item.cornerRadiusView(radius: 6)
         }
         
-        let fistColor = UIColor.color("#7BE495")!
-        let lastColor = UIColor.color("#329D9C")!
-        let gradient = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [fistColor.cgColor,lastColor.cgColor], type: .radial)
-        gradient.frame = saveBtn.frame
-        saveBtn.layer.addSublayer(gradient)
         saveBtn.cornerRadiusView(radius: 8)
         saveBtnView.cornerRadiusView(radius: 8)
     }

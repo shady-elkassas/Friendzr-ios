@@ -117,7 +117,6 @@ class EventsVC: UIViewController {
     
     
     func LoadAllEvents(pageNumber:Int) {
-//        self.view.makeToast("Please wait for the data to load...")
         hideView.showLoader()
         viewmodel.getMyEvents(pageNumber: pageNumber, search: "")
         viewmodel.events.bind { [unowned self] value in
@@ -128,14 +127,19 @@ class EventsVC: UIViewController {
                     self.hideView.isHidden = true
                 }
 
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
-                initAddNewEventBarButton(total: value.totalRecords ?? 0)
+                DispatchQueue.main.async {
+                    self.tableView.delegate = self
+                    self.tableView.dataSource = self
+                    self.tableView.reloadData()
+                }
                 
-                self.isLoadingList = false
-                self.tableView.tableFooterView = nil
-
+                
+                
+                DispatchQueue.main.async {
+                    self.initAddNewEventBarButton(total: value.totalRecords ?? 0)
+                    self.isLoadingList = false
+                    self.tableView.tableFooterView = nil
+                }
             }
         }
         
@@ -144,9 +148,9 @@ class EventsVC: UIViewController {
             DispatchQueue.main.async {
                 self.hideLoading()
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    HandleinvalidUrl()
+                    self.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)

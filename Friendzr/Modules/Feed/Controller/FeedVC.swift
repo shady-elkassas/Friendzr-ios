@@ -11,6 +11,7 @@ import CoreLocation
 import Contacts
 import ListPlaceholder
 import GoogleMobileAds
+import SDWebImage
 
 let screenH: CGFloat = UIScreen.main.bounds.height
 let screenW: CGFloat = UIScreen.main.bounds.width
@@ -22,7 +23,7 @@ extension FeedVC {
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:
                 //open setting app when location services are disabled
-//                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                //                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                 Defaults.allowMyLocationSettings = false
                 hideView.isHidden = true
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
@@ -49,7 +50,7 @@ extension FeedVC {
             switchCompassBarButton.isUserInteractionEnabled = false
             switchGhostModeBarButton.isUserInteractionEnabled = false
             NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-//            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+            //            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
         }
     }
     
@@ -206,7 +207,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         pullToRefresh()
         addCompassView()
         initCompassSwitchBarButton()
-
+        
         seyupAds()
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
         
@@ -221,13 +222,13 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         setup()
         Defaults.availableVC = "FeedVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         filterDir = switchCompassBarButton.isOn
         CancelRequest.currentTask = false
         initGhostModeSwitchButton()
         setupHideView()
         setupNavBar()
-
+        
         self.checkLocationPermission()
     }
     
@@ -278,7 +279,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK:- APIs
     @objc func updateFeeds() {
-//        checkLocationPermissionBtns()
+        //        checkLocationPermissionBtns()
         
         if Defaults.allowMyLocationSettings == true {
             DispatchQueue.main.async {
@@ -317,17 +318,14 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func getAllFeeds(pageNumber:Int) {
-        hideView.hideLoader()
+        hideView.isHidden = true
         viewmodel.getAllUsers(pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                DispatchQueue.main.async {
-                    hideView.hideLoader()
-                }
                 
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
@@ -341,7 +339,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         // Set View Model Event Listener
         viewmodel.error.bind { error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 print(error)
             }
         }
@@ -355,13 +352,13 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                 
                 DispatchQueue.main.async {
-                    hideView.hideLoader()
-                    hideView.isHidden = true
+                    self.hideView.hideLoader()
+                    self.hideView.isHidden = true
                 }
                 
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 DispatchQueue.main.async {
                     self.isLoadingList = false
@@ -395,13 +392,13 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                     self.hideView.hideLoader()
                 }
                 
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 self.tableView.tableFooterView = nil
                 
-                isSendRequest = false
+                self.isSendRequest = false
                 
                 DispatchQueue.main.async {
                     self.initGhostModeSwitchButton()
@@ -457,11 +454,15 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             }else {
                 self.allowLocView.isHidden = false
             }
+            switchGhostModeBarButton.isUserInteractionEnabled = false
+            switchCompassBarButton.isUserInteractionEnabled = false
             internetConnect = false
             HandleInternetConnection()
         case .wwan:
             self.emptyView.isHidden = true
             self.hideView.isHidden = false
+            switchGhostModeBarButton.isUserInteractionEnabled = true
+            switchCompassBarButton.isUserInteractionEnabled = true
             internetConnect = true
             
             if isCompassOpen {
@@ -482,6 +483,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         case .wifi:
             self.emptyView.isHidden = true
             self.hideView.isHidden = false
+            switchGhostModeBarButton.isUserInteractionEnabled = true
+            switchCompassBarButton.isUserInteractionEnabled = true
             if Defaults.allowMyLocationSettings == true {
                 self.allowLocView.isHidden = true
             }else {
@@ -516,13 +519,19 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             self.hideView.isHidden = true
             internetConnect = false
             HandleInternetConnection()
+            switchGhostModeBarButton.isUserInteractionEnabled = false
+            switchCompassBarButton.isUserInteractionEnabled = false
         case .wwan:
             self.emptyView.isHidden = true
             self.hideView.isHidden = true
+            switchGhostModeBarButton.isUserInteractionEnabled = true
+            switchCompassBarButton.isUserInteractionEnabled = true
             internetConnect = true
         case .wifi:
             self.emptyView.isHidden = true
             self.hideView.isHidden = true
+            switchGhostModeBarButton.isUserInteractionEnabled = true
+            switchCompassBarButton.isUserInteractionEnabled = true
             internetConnect = true
         }
         
@@ -546,6 +555,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func HandleInternetConnection() {
+        self.hideView.isHidden = true
+        
         if btnsSelected {
             emptyView.isHidden = true
             if Defaults.allowMyLocationSettings == true {
@@ -563,7 +574,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             }
             
             emptyImg.image = UIImage.init(named: "feednodata_img")
-            emptyLbl.text = "No available network, please try again!".localizedString
+            emptyLbl.text = "Network is unavailable, please try again!".localizedString
             tryAgainBtn.alpha = 1.0
         }
     }
@@ -607,6 +618,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK: - Actions
     @IBAction func nextBtn(_ sender: Any) {
+        self.btnsSelected = true
         updateNetworkForBtns()
         if internetConnect {
             filterHideView.isHidden = true
@@ -632,6 +644,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func filterBtn(_ sender: Any) {
+        self.btnsSelected = true
         updateNetworkForBtns()
         if internetConnect {
             filterFeedsBy(degree: compassDegree, pageNumber: 1)
@@ -639,10 +652,11 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func allowLocationBtn(_ sender: Any) {
+        self.btnsSelected = true
         updateNetworkForBtns()
         if internetConnect {
             self.refreshControl.endRefreshing()
-//            self.checkLocationPermission()
+            //            self.checkLocationPermission()
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
         }
     }
@@ -726,7 +740,7 @@ extension FeedVC:UITableViewDataSource {
         
         let actionDate = formatterDate.string(from: Date())
         let actionTime = formatterTime.string(from: Date())
-
+        
         if viewmodel.feeds.value?.data?.count != 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? UsersFeedTableViewCell else {return UITableViewCell()}
             let model = viewmodel.feeds.value?.data?[indexPath.row]
@@ -736,6 +750,9 @@ extension FeedVC:UITableViewDataSource {
             
             cell.loaderImg.isHidden = false
             cell.loaderImg.startAnimating()
+            
+            cell.friendRequestImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+
             cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.loaderImg.stopAnimating()
             cell.loaderImg.isHidden = true
@@ -1263,6 +1280,8 @@ extension FeedVC:GADBannerViewDelegate {
 
 extension FeedVC {
     func initCompassSwitchBarButton() {
+//        btnsSelected = true
+//        updateNetworkForBtns()
         switchCompassBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
         switchCompassBarButton.onTintColor = UIColor.FriendzrColors.primary!
         switchCompassBarButton.setBorder()
@@ -1296,8 +1315,8 @@ extension FeedVC {
     
     @objc func handleCompassSwitchBtn() {
         print("\(switchCompassBarButton.isOn)")
-        
-        updateNetworkForBtns()
+        btnsSelected = true
+//        updateNetworkForBtns()
         
         if internetConnect {
             // Azimuth
@@ -1361,7 +1380,7 @@ extension FeedVC {
                 createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                 bannerViewHeight.constant = 100
             }
-
+            
         }
     }
     
@@ -1384,7 +1403,8 @@ extension FeedVC {
         case .down:
             break
         case .left:
-            updateNetworkForBtns()
+            btnsSelected = true
+//            updateNetworkForBtns()
             if internetConnect {
                 if Defaults.allowMyLocationSettings == true {
                     switchCompassBarButton.isOn = false
@@ -1424,10 +1444,11 @@ extension FeedVC {
                     initCompassSwitchBarButton()
                     bannerViewHeight.constant = 100
                 }
-
+                
             }
         case .right:
-            updateNetworkForBtns()
+            btnsSelected = true
+//            updateNetworkForBtns()
             if internetConnect {
                 if Defaults.allowMyLocationSettings == true {
                     switchCompassBarButton.isOn = true
@@ -1462,7 +1483,7 @@ extension FeedVC {
                     initCompassSwitchBarButton()
                     bannerViewHeight.constant = 100
                 }
-
+                
             }
         default:
             break
@@ -1471,10 +1492,13 @@ extension FeedVC {
         print("\(switchCompassBarButton.isOn)")
     }
     
-
+    
     func initGhostModeSwitchButton() {
+//        btnsSelected = true
+//        updateNetworkForBtns()
+        
         switchGhostModeBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
-
+        
         switchGhostModeBarButton.onTintColor = UIColor.FriendzrColors.primary!
         switchGhostModeBarButton.setBorder()
         switchGhostModeBarButton.offTintColor = UIColor.white
@@ -1490,12 +1514,14 @@ extension FeedVC {
             self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-off-ic")
         }
         
+        
+        switchGhostModeBarButton.addTarget(self, action:  #selector(handleGhostModeSwitchBtn), for: .touchUpInside)
+        
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .up))
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .down))
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .left))
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .right))
-        
-        switchGhostModeBarButton.addTarget(self, action:  #selector(handleGhostModeSwitchBtn), for: .touchUpInside)
+
         let barButton = UIBarButtonItem(customView: switchGhostModeBarButton)
         self.navigationItem.leftBarButtonItem = barButton
     }
@@ -1518,7 +1544,8 @@ extension FeedVC {
         case .down:
             break
         case .left:
-            updateNetworkForBtns()
+            btnsSelected = true
+//            updateNetworkForBtns()
             if internetConnect {
                 self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 
@@ -1526,7 +1553,8 @@ extension FeedVC {
                 self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
                 
                 self.showAlertView?.HandleConfirmBtn = {
-                    self.updateNetworkForBtns()
+                    self.btnsSelected = true
+//                    self.updateNetworkForBtns()
                     
                     if self.internetConnect {
                         self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
@@ -1580,11 +1608,11 @@ extension FeedVC {
                 }
                 
                 self.view.addSubview((self.showAlertView)!)
-
+                
             }
-            
         case .right:
-            updateNetworkForBtns()
+            self.btnsSelected = true
+//            updateNetworkForBtns()
             if internetConnect {
                 self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 
@@ -1624,7 +1652,7 @@ extension FeedVC {
                 
                 self.view.addSubview((self.alertView)!)
                 
-
+                
             }
         default:
             break
@@ -1634,7 +1662,9 @@ extension FeedVC {
     }
     
     @objc func handleGhostModeSwitchBtn() {
-        updateNetworkForBtns()
+        btnsSelected = true
+//        updateNetworkForBtns()
+        
         if internetConnect {
             if Defaults.ghostMode == false {
                 self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -1688,9 +1718,11 @@ extension FeedVC {
                 }
                 
                 self.showAlertView?.HandleConfirmBtn = {
-                    self.updateNetworkForBtns()
+                    self.btnsSelected = true
+//                    self.updateNetworkForBtns()
                     
                     if self.internetConnect {
+                        
                         self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
                             if let error = error {
                                 DispatchQueue.main.async {
@@ -1747,7 +1779,10 @@ extension FeedVC {
                 
                 self.view.addSubview((self.showAlertView)!)
             }
-
+        }
+        else {
+            HandleInternetConnection()
+            self.switchGhostModeBarButton.isOn = Defaults.ghostMode
         }
     }
     

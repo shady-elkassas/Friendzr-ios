@@ -68,13 +68,18 @@ class EventsOnlyAroundMeModel: Mappable {
     }
 }
 
-class EventsAroundMeDataModel: Mappable {
+class EventsAroundMeDataModel: NSObject, Mappable {
     
     var eventlocationDataMV: [EventsAroundMeObj]? = nil
     var peoplocationDataMV: [PeopleAroundMeObj]? = nil
     
     required init?(map: Map) {
     }
+    
+    override init() {
+        
+    }
+    
     // Mappable
     func mapping(map: Map) {
         eventlocationDataMV    <- map["eventlocationDataMV"]

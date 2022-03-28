@@ -44,6 +44,9 @@ class ExternalEventDetailsVC: UIViewController {
     lazy var refreshControl: UIRefreshControl = UIRefreshControl()
     var isConv:Bool = false
 
+    var myString:String = ""
+    var myMutableString = NSMutableAttributedString()
+
     var isEventAdmin: Bool = false
     var selectedVC:Bool = false
     var isprivateEvent:Bool = false
@@ -478,7 +481,6 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
         else if indexPath.row == 3 {//desc
             guard let cell = tableView.dequeueReusableCell(withIdentifier: detailsCellId, for: indexPath) as? EventDetailsTableViewCell else {return UITableViewCell()}
             cell.detailsLbl.text = model?.descriptionEvent
-//            cell.detailsLbl.addTrailing(with: model?.descriptionEvent ?? "", moreText: " ...see more", moreTextFont: UIFont(name: "Montserrat-Medium", size: 12) ?? UIFont.systemFont(ofSize: 12), moreTextColor: UIColor.FriendzrColors.primary!)
             return cell
         }
         
@@ -625,7 +627,7 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
     }
 }
 
-extension ExternalEventDetailsVC: UITableViewDelegate {
+extension ExternalEventDetailsVC: UITableViewDelegate,UIPopoverPresentationControllerDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if indexPath.row == 0 {
@@ -642,6 +644,22 @@ extension ExternalEventDetailsVC: UITableViewDelegate {
             return 290
         }else {
             return 200
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = viewmodel.event.value
+        
+        if indexPath.row == 3 {
+            guard let popupVC = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExpandDescriptionVC") as? ExpandDescriptionVC else {return}
+            popupVC.modalPresentationStyle = .overCurrentContext
+            popupVC.modalTransitionStyle = .crossDissolve
+            let pVC = popupVC.popoverPresentationController
+            pVC?.permittedArrowDirections = .any
+            pVC?.delegate = self
+            pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+            popupVC.myString = model?.descriptionEvent ?? ""
+            present(popupVC, animated: true, completion: nil)
         }
     }
 }

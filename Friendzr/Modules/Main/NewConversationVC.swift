@@ -7,6 +7,7 @@
 
 import UIKit
 import ListPlaceholder
+import SDWebImage
 
 class NewConversationVC: UIViewController {
     
@@ -148,6 +149,7 @@ class NewConversationVC: UIViewController {
     }
     
     func HandleInternetConnection() {
+        hideView.isHidden = true
         if cellSelected {
             emptyView.isHidden = true
             self.view.makeToast("Network is unavailable, please try again!".localizedString)
@@ -167,23 +169,18 @@ class NewConversationVC: UIViewController {
     }
     
     func getAllFriends(pageNumber:Int,search:String) {
+        hideView.isHidden = true
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
-                
-                DispatchQueue.main.async {
-                    self.hideView.hideLoader()
-                    self.hideView.isHidden = true
-                }
-
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                showEmptyView()
+                self.showEmptyView()
             }
         }
         
@@ -191,7 +188,7 @@ class NewConversationVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -214,16 +211,14 @@ class NewConversationVC: UIViewController {
                     self.hideView.isHidden = true
                 }
                 
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                if internetConnect {
-                    showEmptyView()
-                }
+                self.showEmptyView()
             }
         }
         
@@ -231,7 +226,7 @@ class NewConversationVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -291,6 +286,7 @@ extension NewConversationVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ContactsTableViewCell else {return UITableViewCell()}
         let model = viewmodel.friends.value?.data?[indexPath.row]
         cell.nameLbl.text = model?.userName
+        cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
         cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
         if indexPath.row == ((viewmodel.friends.value?.data?.count ?? 0) - 1 ) {

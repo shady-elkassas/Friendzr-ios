@@ -33,7 +33,7 @@ class IsMoreEventAtMarker {
 class LocationZooming {
     static var locationLat: Double = 0.0
     static var locationLng: Double = 0.0
-//    static var didSelected: Double = 0.0
+    //    static var didSelected: Double = 0.0
 }
 
 //create location
@@ -83,10 +83,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var arrowUpDownImg: UIImageView!
     @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var upDownBtn: UIButton!
-    
+    @IBOutlet weak var noeventNearbyLbl: UILabel!
     @IBOutlet weak var hideCollectionView: UIView!
     @IBOutlet var hideImgs: [UIImageView]!
-
+    
     //MARK: - Properties
     var locations:[EventsLocation] = [EventsLocation]()
     var location: CLLocationCoordinate2D? = nil
@@ -95,11 +95,13 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var currentPlaceMark : CLPlacemark? = nil
     var selectVC:String = ""
     var locationName = ""
-
+    
     var appendNewLocation:Bool = false
     var viewmodel:EventsAroundMeViewModel = EventsAroundMeViewModel()
     var settingVM:SettingsViewModel = SettingsViewModel()
     var genderbylocationVM: GenderbylocationViewModel = GenderbylocationViewModel()
+    
+    var locationsModel:EventsAroundMeDataModel = EventsAroundMeDataModel()
     
     var transparentView = UIView()
     var eventsTableView = UITableView()
@@ -132,6 +134,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         mapView.clear()
         CancelRequest.currentTask = true
         collectionViewHeight.constant = 0
+        self.hideCollectionView.isHidden = true
+        self.noeventNearbyLbl.isHidden = true
         subViewHeight.constant = 50
         isViewUp = false
         self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
@@ -140,9 +144,14 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        locationsModel.peoplocationDataMV?.removeAll()
+        locationsModel.eventlocationDataMV?.removeAll()
+        locations.removeAll()
+        mapView.clear()
+        
         Defaults.availableVC = "MapVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         appendNewLocation = false
         goAddEventBtn.isHidden = true
         addEventBtn.isHidden = false
@@ -209,12 +218,20 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 }
                 
                 DispatchQueue.main.async {
-                    if isViewUp == true {
-                        collectionViewHeight.constant = 140
-                        subViewHeight.constant = 190
+                    if self.isViewUp == true {
+                        self.collectionViewHeight.constant = 140
+                        self.subViewHeight.constant = 190
+                        
+                        if value.data?.count == 0 {
+                            self.noeventNearbyLbl.isHidden = false
+                        }else {
+                            self.noeventNearbyLbl.isHidden = true
+                        }
                     }else {
-                        collectionViewHeight.constant = 0
-                        subViewHeight.constant = 50
+                        self.collectionViewHeight.constant = 0
+                        self.subViewHeight.constant = 50
+                        self.noeventNearbyLbl.isHidden = true
+                        self.hideCollectionView.isHidden = true
                     }
                 }
                 
@@ -236,13 +253,18 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func bindToModel() {
+        self.mapView.clear()
         viewmodel.getAllEventsAroundMe()
         viewmodel.locations.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 print("peoplocationDataCount>> \(value.peoplocationDataMV?.count ?? 0)")
                 print("eventlocationDataCount>> \(value.eventlocationDataMV?.count ?? 0)")
                 
-                self.setupMarkers()
+                self.locationsModel = value
+                
+                DispatchQueue.main.async {
+                    self.setupMarkers(model: self.locationsModel)
+                }
             }
         }
         
@@ -292,6 +314,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             upDownViewBtn.isHidden = true
             zoomingStatisticsView.isHidden = true
             HandleInternetConnection()
+            self.noeventNearbyLbl.isHidden = true
+            self.hideCollectionView.isHidden = true
         case .wwan:
             internetConect = true
             zoomingStatisticsView.isHidden = false
@@ -346,19 +370,21 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         isViewUp = false
         self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
         collectionViewHeight.constant = 0
+        self.noeventNearbyLbl.isHidden = true
+        self.hideCollectionView.isHidden = true
         subViewHeight.constant = 50
     }
     
     var isEventAdmin :Bool = false
     
     // locations markers
-    func setupMarkers() {
+    func setupMarkers(model:EventsAroundList) {
+        
+        locations.removeAll()
         mapView.clear()
         
-        let model = viewmodel.locations.value
-        locations.removeAll()
         var iconMarker = ""
-        for item in model?.eventlocationDataMV ?? [] {
+        for item in model.eventlocationDataMV ?? [] {
             if item.event_Type == "Private" {
                 iconMarker = "markerPrivateEvent_ic"
             }else if item.event_Type == "External" {
@@ -371,7 +397,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         DispatchQueue.main.async {
-            for item in model?.peoplocationDataMV ?? [] {
+            for item in model.peoplocationDataMV ?? [] {
                 self.locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "markerLocations_ic", typelocation: "people", eventsCount: 1, markerId: "1",isEvent: false,peopleCount: item.totalUsers ?? 0, eventType: ""))
             }
         }
@@ -386,7 +412,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //create markers for locations events
     func setupMarkerz(for position:CLLocationCoordinate2D , markerIcon:String?,typelocation:String,markerID:String,eventsCount:Int,isEvent: Bool,peopleCount: Int,eventTypee:String)  {
-     
+        
         if appendNewLocation {
             mapView.clear()
         }
@@ -459,8 +485,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         currentLocationBtn.cornerRadiusView(radius: 10)
         topContainerView.cornerRadiusView(radius: 10)
         
-//        profileImg.cornerRadiusForHeight()
-//        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
+        //        profileImg.cornerRadiusForHeight()
+        //        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
         profileImg.isHidden = true
         searchBar.delegate = self
         searchBar.backgroundColor = UIColor.clear
@@ -535,6 +561,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
         }else {
             collectionViewHeight.constant = 0
+            self.hideCollectionView.isHidden = true
+            self.noeventNearbyLbl.isHidden = true
             subViewHeight.constant = 50
             subView.isHidden = false
             isViewUp = false
@@ -703,8 +731,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func profileBtn(_ sender: Any) {
-//        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
-//        self.navigationController?.pushViewController(vc, animated: true)
+        //        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
+        //        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func convertMapStyleBtn(_ sender: Any) {
@@ -713,10 +741,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             checkLocationPermissionBtns()
             if Defaults.allowMyLocationSettings {
                 MapAppType.type = !MapAppType.type
-                if MapAppType.type {
-                    mapView.mapType = .normal
-                }else {
+                
+                if MapAppType.type == true {
                     mapView.mapType = .satellite
+                }else {
+                    mapView.mapType = .normal
                 }
             }
         }else {
@@ -759,6 +788,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 }else {
                     print("Down")
                     collectionViewHeight.constant = 0
+                    self.hideCollectionView.isHidden = true
+                    self.noeventNearbyLbl.isHidden = true
                     subViewHeight.constant = 50
                     subView.isHidden = false
                     isViewUp = false
@@ -768,13 +799,15 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             else {
                 print("Down")
                 collectionViewHeight.constant = 0
+                self.hideCollectionView.isHidden = true
+                self.noeventNearbyLbl.isHidden = true
                 subViewHeight.constant = 50
                 subView.isHidden = false
                 isViewUp = false
                 arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
                 createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
             }
-
+            
         }
         else {
             HandleInternetConnection()
@@ -1080,7 +1113,7 @@ extension MapVC:UITableViewDataSource {
                 let options = [
                     MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
                     MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
-                    ]
+                ]
                 MKMapItem.openMaps(
                     with: [source, destination],
                     launchOptions: options
@@ -1117,7 +1150,7 @@ extension MapVC:UITableViewDelegate {
                     vc.isEventAdmin = false
                 }
                 self.navigationController?.pushViewController(vc, animated: true)
-
+                
             }else {
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
                 vc.eventId = model?.id ?? ""
@@ -1148,7 +1181,7 @@ extension MapVC:UICollectionViewDataSource {
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
-                
+        
         cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
         if model?.eventtype == "External" {
@@ -1157,11 +1190,11 @@ extension MapVC:UICollectionViewDataSource {
             cell.eventColorView.backgroundColor = UIColor.FriendzrColors.primary!
         }
         
-//        cell.detailsBtn.backgroundColor = UIColor.color((model?.color ?? ""))
+        //        cell.detailsBtn.backgroundColor = UIColor.color((model?.color ?? ""))
         cell.detailsBtn.tintColor = UIColor.color((model?.color ?? ""))
         cell.expandLbl.textColor = UIColor.color((model?.color ?? ""))
         cell.eventDateLbl.textColor = UIColor.color((model?.color ?? ""))
-
+        
         cell.HandledetailsBtn = {
             if model?.eventtype == "External" {
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
@@ -1215,7 +1248,7 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
         
         for (index,item) in model!.enumerated() {
             let locitm = CLLocationCoordinate2DMake(item.lat?.toDouble() ?? 0.0, item.lang?.toDouble() ?? 0.0)
-//            (Double(item.lat!)!, Double(item.lang!)!)
+            //            (Double(item.lat!)!, Double(item.lang!)!)
             
             if index == indexPath.row {
                 if LocationZooming.locationLat != locitm.latitude && LocationZooming.locationLng != locitm.longitude {
@@ -1223,7 +1256,7 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
                 }
                 else {
                     self.mapView.clear()
-                    self.setupMarkers()
+                    self.setupMarkers(model: self.locationsModel)
                 }
             }
         }
@@ -1282,10 +1315,10 @@ extension MapVC {
         LocationZooming.locationLat = lat
         LocationZooming.locationLng = lng
         
-//        delay(seconds: 2.5) { () -> () in
-//            self.mapView.clear()
-//            self.setupMarkers()
-//        }
+        //        delay(seconds: 2.5) { () -> () in
+        //            self.mapView.clear()
+        //            self.setupMarkers()
+        //        }
     }
 }
 
@@ -1363,6 +1396,8 @@ extension MapVC {
                 }
                 else {
                     collectionViewHeight.constant = 0
+                    self.hideCollectionView.isHidden = true
+                    self.noeventNearbyLbl.isHidden = true
                     subViewHeight.constant = 50
                     subView.isHidden = false
                     isViewUp = false
@@ -1378,6 +1413,8 @@ extension MapVC {
             if internetConect {
                 print("Down")
                 collectionViewHeight.constant = 0
+                self.hideCollectionView.isHidden = true
+                self.noeventNearbyLbl.isHidden = true
                 subViewHeight.constant = 50
                 subView.isHidden = false
                 isViewUp = false

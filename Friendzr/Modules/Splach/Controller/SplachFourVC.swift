@@ -43,7 +43,7 @@ class SplachFourVC: UIViewController {
         else {
             hideNavigationBar(NavigationBar: true, BackButton: true)
             nextBtn.isHidden = false
-            skipBtn.isHidden = false
+            skipBtn.isHidden = true
             nextBtn.setTitle("NEXT", for: .normal)
         }
     }

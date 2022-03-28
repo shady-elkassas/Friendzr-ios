@@ -61,9 +61,13 @@ class RequestManager  {
             if (error != nil) {
                 print(error!)
                 do {
-                    let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-                    print(json)
-                    completion([:],"Internal Server Error")
+                    if data != nil {
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                        print(json)
+                        completion([:],"Internal Server Error")
+                    }else {
+                        print("data is nil now")
+                    }
                 } catch {
                     print(error)
                 }

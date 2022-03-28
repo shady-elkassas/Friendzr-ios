@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2bk-1x-d5r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="2bk-1x-d5r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -174,6 +174,12 @@
                                             <outlet property="delegate" destination="Y6W-OH-hqX" id="5iG-TA-VgX"/>
                                         </connections>
                                     </collectionView>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No events as yet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5q2-4g-L6Q">
+                                        <rect key="frame" x="149" y="41" width="116" height="18"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mJn-4p-DI1">
                                         <rect key="frame" x="0.0" y="-22.5" width="414" height="145"/>
                                         <subviews>
@@ -207,9 +213,11 @@
                                     <constraint firstItem="rkR-nL-HY2" firstAttribute="centerX" secondItem="wUG-6d-BKB" secondAttribute="centerX" id="6xU-30-i9b"/>
                                     <constraint firstItem="mJn-4p-DI1" firstAttribute="centerX" secondItem="9VD-SG-N5s" secondAttribute="centerX" id="E5m-hz-Hh2"/>
                                     <constraint firstItem="HWv-wk-juQ" firstAttribute="centerX" secondItem="wUG-6d-BKB" secondAttribute="centerX" id="I6I-S7-Auo"/>
+                                    <constraint firstItem="5q2-4g-L6Q" firstAttribute="centerX" secondItem="9VD-SG-N5s" secondAttribute="centerX" id="PIm-oj-MhR"/>
                                     <constraint firstItem="mJn-4p-DI1" firstAttribute="centerY" secondItem="9VD-SG-N5s" secondAttribute="centerY" id="PPn-uf-hGd"/>
                                     <constraint firstItem="9VD-SG-N5s" firstAttribute="leading" secondItem="wUG-6d-BKB" secondAttribute="leading" id="QLX-Lq-6Mh"/>
                                     <constraint firstAttribute="bottom" secondItem="9VD-SG-N5s" secondAttribute="bottom" id="SSk-PQ-XsO"/>
+                                    <constraint firstItem="5q2-4g-L6Q" firstAttribute="centerY" secondItem="9VD-SG-N5s" secondAttribute="centerY" id="SWF-JW-5PR"/>
                                     <constraint firstItem="HWv-wk-juQ" firstAttribute="top" secondItem="wUG-6d-BKB" secondAttribute="top" constant="3" id="Yqz-qb-plR"/>
                                     <constraint firstItem="rkR-nL-HY2" firstAttribute="top" secondItem="HWv-wk-juQ" secondAttribute="bottom" constant="3" id="Zy2-8b-fG0"/>
                                     <constraint firstAttribute="trailing" secondItem="9VD-SG-N5s" secondAttribute="trailing" id="kZk-Cm-e2Q"/>
@@ -332,6 +340,7 @@
                         <outlet property="hideCollectionView" destination="mJn-4p-DI1" id="i8d-0T-bPo"/>
                         <outlet property="mapView" destination="F46-IT-SF3" id="0AR-39-33u"/>
                         <outlet property="markerImg" destination="yKF-cx-bWi" id="EHI-Vo-TC3"/>
+                        <outlet property="noeventNearbyLbl" destination="5q2-4g-L6Q" id="D2M-zZ-E4S"/>
                         <outlet property="profileImg" destination="FZl-vM-xh3" id="vKG-S7-SWd"/>
                         <outlet property="radiusKMLbl" destination="u3m-tk-o2w" id="v2M-2I-fBO"/>
                         <outlet property="radiusMLbl" destination="qR3-xK-COz" id="MdN-NZ-KRY"/>

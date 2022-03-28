@@ -57,8 +57,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateMoreTableView), name: Notification.Name("updateMoreTableView"), object: nil)
-
+        NotificationCenter.default.addObserver(self, selector: #selector(updateNotificationBadge), name: Notification.Name("updateNotificationBadge"), object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -67,7 +66,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true        
     }
     
-    @objc func updateMoreTableView() {
+    @objc func updateNotificationBadge() {
         tableView.reloadData()
     }
 
