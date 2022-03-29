@@ -466,9 +466,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                         self.allowLocView.isHidden = false
                     }
                     
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
-                        self.updateMyLocation()
-                    }
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5 ) {
+//                        self.updateMyLocation()
+//                    }
                 }
             }else {
                 DispatchQueue.main.async {

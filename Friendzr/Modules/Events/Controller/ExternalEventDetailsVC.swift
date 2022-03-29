@@ -366,7 +366,6 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             }
             
             cell.HandleLeaveBtn = {
-//                self.showNewtworkConnected()
                 if self.internetConect == true {
                     self.changeTitleBtns(btn: cell.leaveBtn, title: "Leaving...".localizedString)
                     cell.leaveBtn.isUserInteractionEnabled = false
@@ -413,8 +412,6 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             }
             
             cell.HandleJoinBtn = {
-//                self.showNewtworkConnected()
-                
                 let JoinDate = self.formatterDate.string(from: Date())
                 let Jointime = self.formatterTime.string(from: Date())
                 
@@ -452,14 +449,7 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             }
             
             cell.HandleEditBtn = {
-//                self.showNewtworkConnected()
-                if self.internetConect == true {
-                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
-                    vc.eventModel = self.viewmodel.event.value
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }else {
-                    return
-                }
+                
             }
             
             return cell
@@ -482,9 +472,6 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: detailsCellId, for: indexPath) as? EventDetailsTableViewCell else {return UITableViewCell()}
             cell.detailsLbl.text = model?.descriptionEvent
             
-            if (model?.descriptionEvent?.count ?? 0) > 150 {
-                cell.detailsLbl.addTrailing(with: "...", moreText: "see more", moreTextFont: UIFont(name: "Montserrat-Medium", size: 14)!, moreTextColor: .red)
-            }
             return cell
         }
         

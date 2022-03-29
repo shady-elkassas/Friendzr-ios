@@ -178,6 +178,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return googleDidHandle || facebookDidHandle //|| snapDidHandle || TikTokDidHandle
     }
     
+    func networkReachability() {
+        do {
+            try Network.reachability = Reachability(hostname: URLs.baseURLFirst)
+        }
+        catch {
+            switch error as? Network.Error {
+            case let .failedToCreateWith(hostname)?:
+                print("Network error:\nFailed to create reachability object With host named:", hostname)
+            case let .failedToInitializeWith(address)?:
+                print("Network error:\nFailed to initialize reachability object With address:", address)
+            case .failedToSetCallout?:
+                print("Network error:\nFailed to set callout")
+            case .failedToSetDispatchQueue?:
+                print("Network error:\nFailed to set DispatchQueue")
+            case .none:
+                print(error)
+            }
+        }
+    }
     // MARK: - Core Data stack
     
     lazy var persistentContainer: NSPersistentContainer = {
