@@ -10,6 +10,7 @@ import MessageUI
 import AuthenticationServices
 import Firebase
 import FirebaseMessaging
+import Network
 
 class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRecognizerDelegate,UIPopoverPresentationControllerDelegate {
     
@@ -19,7 +20,6 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var showProfileImg: UIButton!
-    
     @IBOutlet weak var profileImgH: NSLayoutConstraint!
     @IBOutlet weak var profileImgW: NSLayoutConstraint!
     
@@ -47,7 +47,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         
         Defaults.availableVC = "MoreVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         clearNavigationBar()
         DispatchQueue.main.async {
             self.updateUserInterface()
@@ -63,11 +63,13 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true        
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     @objc func updateNotificationBadge() {
         tableView.reloadData()
+        print("\(Defaults.notificationcount)")
+        
     }
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -90,23 +92,24 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     //MARK: - Helpers
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-        case .wifi:
-            internetConect = true
+        let monitor = NWPathMonitor()
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func HandleInternetConnection() {
@@ -208,7 +211,6 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         self.present(activityViewController, animated: true, completion: nil)
     }
     
-    
     func logout() {
         alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
@@ -216,7 +218,6 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         alertView?.detailsLbl.text = "Are you sure you want to logout?".localizedString
         
         alertView?.HandleConfirmBtn = {
-            self.updateUserInterface()
             if self.internetConect {
                 self.logoutVM.logoutRequest { error, data in
                     self.hideLoading()
@@ -254,6 +255,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         self.view.addSubview((alertView)!)
     }
 }
+
 //MARK: - Extensions
 extension MoreVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -277,6 +279,10 @@ extension MoreVC : UITableViewDataSource {
             cell.badgeView.isHidden = true
         }
         
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
+        }
+        
         return cell
     }
 }
@@ -287,7 +293,6 @@ extension MoreVC : UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        updateUserInterface()
         switch indexPath.row {
         case 0: //my profile
             if internetConect {

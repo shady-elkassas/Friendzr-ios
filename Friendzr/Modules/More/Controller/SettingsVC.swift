@@ -10,6 +10,7 @@ import CoreLocation
 import SwiftUI
 import MultiSlider
 import ListPlaceholder
+import Network
 
 class SettingsVC: UIViewController {
     
@@ -153,45 +154,24 @@ class SettingsVC: UIViewController {
     }
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-            getUserSettings()
-        case .wifi:
-            internetConect = true
-            getUserSettings()
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                    self.getUserSettings()
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func updateUserInterfaceForBtns() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-        case .wifi:
-            internetConect = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func HandleInternetConnection() {
@@ -481,8 +461,6 @@ extension SettingsVC: UITableViewDataSource {
                     self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off notifications?".localizedString
                     
                     self.deleteAlertView?.HandleConfirmBtn = {
-                        self.updateUserInterfaceForBtns()
-                        
                         if self.internetConect {
                             self.viewmodel.togglePushNotification(pushNotification: false) { error, data in
                                 if let error = error {
@@ -530,8 +508,6 @@ extension SettingsVC: UITableViewDataSource {
                     self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn on notifications?".localizedString
                     
                     self.deleteAlertView?.HandleConfirmBtn = {
-                        self.updateUserInterfaceForBtns()
-                        
                         if self.internetConect {
                             self.viewmodel.togglePushNotification(pushNotification: true) { error, data in
                                 if let error = error {
@@ -663,8 +639,6 @@ extension SettingsVC: UITableViewDataSource {
                     self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
                     
                     self.deleteAlertView?.HandleConfirmBtn = {
-                        self.updateUserInterfaceForBtns()
-                        
                         if self.internetConect {
                             self.viewmodel.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
                                 if let error = error {
@@ -730,8 +704,6 @@ extension SettingsVC: UITableViewDataSource {
             //                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn on your location?"
             //
             //                    self.deleteAlertView?.HandleConfirmBtn = {
-            //                        self.updateUserInterfaceForBtns()
-            //
             //                        if self.internetConect {
             //                            self.viewmodel.toggleAllowMyLocation(allowMyLocation: true) { error, data in
             //                                if let error = error {
@@ -780,7 +752,6 @@ extension SettingsVC: UITableViewDataSource {
             //                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off your location??"
             //
             //                    self.deleteAlertView?.HandleConfirmBtn = {
-            //                        self.updateUserInterfaceForBtns()
             //
             //                        if self.internetConect {
             //                            self.viewmodel.toggleAllowMyLocation(allowMyLocation: false) { error, data in
@@ -876,8 +847,6 @@ extension SettingsVC: UITableViewDataSource {
                     self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off personal Space?".localizedString
                     
                     self.deleteAlertView?.HandleConfirmBtn = {
-                        self.updateUserInterfaceForBtns()
-                        
                         if self.internetConect {
                             self.viewmodel.togglePersonalSpace(personalSpace: false) { error, data in
                                 if let error = error {
@@ -929,8 +898,6 @@ extension SettingsVC: UITableViewDataSource {
                     self.deleteAlertView?.detailsLbl.text = "Randomly offset your map pin to hide exact location.".localizedString
                     
                     self.deleteAlertView?.HandleConfirmBtn = {
-                        self.updateUserInterfaceForBtns()
-                        
                         if self.internetConect {
                             self.viewmodel.togglePersonalSpace(personalSpace: true) { error, data in
                                 if let error = error {
@@ -1123,7 +1090,6 @@ extension SettingsVC: UITableViewDelegate {
             deleteAlertView?.detailsLbl.text = "Are you sure you want to delete your account?".localizedString
             
             deleteAlertView?.HandleConfirmBtn = {
-                self.updateUserInterfaceForBtns()
                 if self.internetConect {
                     self.viewmodel.deleteAccount { error, data in
                         if let error = error {

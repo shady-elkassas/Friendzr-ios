@@ -7,6 +7,7 @@
 
 import UIKit
 import ListPlaceholder
+import Network
 
 class BlockedListVC: UIViewController {
     
@@ -103,9 +104,9 @@ class BlockedListVC: UIViewController {
                     self.hideView.hideLoader()
                     self.hideView.isHidden = true
                 }
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
@@ -117,9 +118,9 @@ class BlockedListVC: UIViewController {
             DispatchQueue.main.async {
                 self.hideLoading()
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    HandleinvalidUrl()
+                    self.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -141,9 +142,9 @@ class BlockedListVC: UIViewController {
                     self.hideView.isHidden = true
                 }
 
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
              
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
@@ -155,9 +156,9 @@ class BlockedListVC: UIViewController {
             DispatchQueue.main.async {
                 self.hideLoading()
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    HandleinvalidUrl()
+                    self.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -201,28 +202,28 @@ class BlockedListVC: UIViewController {
     }
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            self.emptyView.isHidden = false
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-            self.emptyView.isHidden = true
-            LoadBlockedList(pageNumber: 1,search: searchbar.text ?? "")
-        case .wifi:
-            internetConect = true
-            self.emptyView.isHidden = true
-            LoadBlockedList(pageNumber: 1,search: searchbar.text ?? "")
+        let monitor = NWPathMonitor()
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                    self.emptyView.isHidden = true
+                    self.LoadBlockedList(pageNumber: 1,search: self.searchbar.text ?? "")
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.emptyView.isHidden = false
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
+
     }
     
     func HandleinvalidUrl() {
@@ -280,7 +281,6 @@ class BlockedListVC: UIViewController {
     //MARK:- Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         btnsSelect = false
-        updateUserInterface()
     }
     
 }
@@ -384,7 +384,6 @@ extension BlockedListVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         btnsSelect = true
-        updateUserInterface()
         if internetConect {
             if viewmodel.blocklist.value?.data?.count != 0 {
                 let model = viewmodel.blocklist.value?.data?[indexPath.row]

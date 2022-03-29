@@ -7,6 +7,7 @@
 
 import UIKit
 import ListPlaceholder
+import Network
 
 class AttendeesVC: UIViewController {
     
@@ -24,7 +25,8 @@ class AttendeesVC: UIViewController {
     var currentPage : Int = 1
     var isLoadingList : Bool = false
     var eventKey:Int = 0
-    
+    var internetConnect:Bool = false
+
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
     private let formatterDate: DateFormatter = {
@@ -101,14 +103,14 @@ class AttendeesVC: UIViewController {
         viewmodel.getEventAttendees(ByEventID: eventID, pageNumber: pageNumber, search: search)
         viewmodel.attendees.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                showEmptyView()
+                self.showEmptyView()
             }
         }
         
@@ -117,9 +119,9 @@ class AttendeesVC: UIViewController {
             DispatchQueue.main.async {
                 self.hideLoading()
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    HandleinvalidUrl()
+                    self.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -129,26 +131,20 @@ class AttendeesVC: UIViewController {
             }
         }
     }
-    
-    
+
     func loadAllAttendees(pageNumber:Int,search:String) {
+        
         viewmodel.getEventAttendees(ByEventID: eventID, pageNumber: pageNumber, search: search)
         viewmodel.attendees.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
-                
-                self.tableView.showLoader()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.tableView.hideLoader()
-                }
-                
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
+
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                showEmptyView()
-                
+                self.showEmptyView()
             }
         }
         
@@ -156,9 +152,9 @@ class AttendeesVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    HandleinvalidUrl()
+                    self.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -201,7 +197,7 @@ class AttendeesVC: UIViewController {
                 
                 guard let _ = data else {return}
                 DispatchQueue.main.async {
-                    self.getAllAttendees(pageNumber: 0, search: searchBar.text ?? "")
+                    self.getAllAttendees(pageNumber: 0, search: self.searchBar.text ?? "")
                 }
             }
             
@@ -235,25 +231,27 @@ class AttendeesVC: UIViewController {
     }
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            self.emptyView.isHidden = false
-            HandleInternetConnection()
-        case .wwan:
-            self.emptyView.isHidden = true
-            loadAllAttendees(pageNumber: 0, search: searchBar.text ?? "")
-        case .wifi:
-            self.emptyView.isHidden = true
-            loadAllAttendees(pageNumber: 0, search: searchBar.text ?? "")
+        let monitor = NWPathMonitor()
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConnect = true
+                    self.emptyView.isHidden = true
+                    self.loadAllAttendees(pageNumber: 0, search: self.searchBar.text ?? "")
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConnect = false
+                    self.emptyView.isHidden = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func showEmptyView() {
@@ -287,7 +285,9 @@ extension AttendeesVC: UISearchBarDelegate{
     @objc func updateSearchResult() {
         guard let text = searchBar.text else {return}
         print(text)
-        getAllAttendees(pageNumber: 0, search: text)
+        if self.internetConnect {
+            getAllAttendees(pageNumber: 0, search: text)
+        }
     }
     
     func initNewConversationBarButton() {

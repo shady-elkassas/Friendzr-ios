@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import QCropper
+import Network
 
 class AddEventVC: UIViewController {
     
@@ -173,12 +174,12 @@ class AddEventVC: UIViewController {
         catsVM.getAllCategories()
         catsVM.cats.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
-                hideView.isHidden = true
-                collectionView.dataSource = self
-                collectionView.delegate = self
-                collectionView.reloadData()
+                self.hideView.isHidden = true
+                self.collectionView.dataSource = self
+                self.collectionView.delegate = self
+                self.collectionView.reloadData()
                 
-                layout = TagsLayout()
+                self.layout = TagsLayout()
             }
         }
         
@@ -198,10 +199,10 @@ class AddEventVC: UIViewController {
         typesVM.getAllEventType()
         typesVM.types.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
-                hideView.isHidden = true
-                eventTypesTV.dataSource = self
-                eventTypesTV.delegate = self
-                eventTypesTV.reloadData()
+                self.hideView.isHidden = true
+                self.eventTypesTV.dataSource = self
+                self.eventTypesTV.delegate = self
+                self.eventTypesTV.reloadData()
             }
         }
         
@@ -503,8 +504,7 @@ class AddEventVC: UIViewController {
         
         let eventDate = self.formatterDate.string(from: Date())
         let eventTime = self.formatterTime.string(from: Date())
-        
-        updateUserInterfaceBtns()
+
         if internetConect == true {
             if attachedImg == false {
                 DispatchQueue.main.async {
@@ -551,48 +551,25 @@ class AddEventVC: UIViewController {
     
     //MARK: - Helper
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-            getCats()
-            getEventTypes()
-        case .wifi:
-            internetConect = true
-            getCats()
-            getEventTypes()
-            
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                    self.getCats()
+                    self.getEventTypes()
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func updateUserInterfaceBtns() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-        case .wifi:
-            internetConect = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func HandleInternetConnection() {
@@ -605,7 +582,6 @@ class AddEventVC: UIViewController {
         limitUsersView.cornerRadiusView(radius: 5)
         descriptionTxtView.cornerRadiusView(radius: 5)
         saveCategoryBtn.cornerRadiusView(radius: 8)
-        //        saveEventTypeBtn.cornerRadiusView(radius: 6)
         
         categoriesView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
         eventTypesView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)

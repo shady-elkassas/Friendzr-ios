@@ -10,6 +10,7 @@ import SwiftUI
 import ListPlaceholder
 import GoogleMobileAds
 import SDWebImage
+import Network
 
 extension InboxVC {
     func lastMessageDateTime(date:String,time:String) -> String {
@@ -191,9 +192,9 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    HandleinvalidUrl()
+                    self.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -233,9 +234,9 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    HandleinvalidUrl()
+                    self.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -249,9 +250,9 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         searchVM.SearshUsersinChat(ByUserName: text)
         searchVM.usersinChat.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
             }
         }
         
@@ -259,9 +260,9 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         searchVM.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    HandleinvalidUrl()
+                    self.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -298,8 +299,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        
-        updateUserInterfaceActions()
         
         cellSelect = false
         
@@ -341,77 +340,28 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         
     }
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            self.emptyView.isHidden = false
-            self.hideView.isHidden = true
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-            self.emptyView.isHidden = true
-            self.hideView.isHidden = false
-            loadAllchatList(pageNumber: 1)
-        case .wifi:
-            internetConect = true
-            self.emptyView.isHidden = true
-            self.hideView.isHidden = false
-            loadAllchatList(pageNumber: 1)
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                    self.emptyView.isHidden = true
+                    self.hideView.isHidden = false
+                    self.loadAllchatList(pageNumber: 1)
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.emptyView.isHidden = false
+                    self.hideView.isHidden = true
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func updateUserInterfaceActions() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-        case .wifi:
-            internetConect = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func updateUserInterfaceNavigationsBtn() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            self.emptyView.isHidden = false
-            self.hideView.isHidden = true
-            internetConect = false
-            self.view.makeToast("")
-        case .wwan:
-            internetConect = true
-            self.emptyView.isHidden = true
-            self.hideView.isHidden = false
-        case .wifi:
-            internetConect = true
-            self.emptyView.isHidden = true
-            self.hideView.isHidden = false
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func setupView() {
@@ -621,7 +571,6 @@ extension InboxVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        updateUserInterfaceActions()
         if internetConect {
             if searchVM.usersinChat.value?.data?.count != 0 || viewmodel.listChat.value?.data?.count != 0  {
                 let vc = ConversationVC()
@@ -731,7 +680,6 @@ extension InboxVC:UITableViewDelegate {
                     let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                     
                     settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                        self.updateUserInterfaceActions()
                         if self.internetConect {
                             if model?.isChatGroup == true {
                                 self.groupVM.clearGroupChat(ByID: model?.id ?? "", registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
@@ -783,7 +731,6 @@ extension InboxVC:UITableViewDelegate {
                     let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                     
                     settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                        self.updateUserInterfaceActions()
                         if self.internetConect {
                             if model?.isChatGroup == true {
                                 self.groupVM.clearGroupChat(ByID: model?.id ?? "", registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
@@ -842,7 +789,6 @@ extension InboxVC:UITableViewDelegate {
                             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                             
                             settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                self.updateUserInterfaceActions()
                                 if self.internetConect {
                                     self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
                                         if let error = error {
@@ -873,7 +819,6 @@ extension InboxVC:UITableViewDelegate {
                             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                             
                             settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                self.updateUserInterfaceActions()
                                 if self.internetConect {
                                     self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
                                         if let error = error {
@@ -905,7 +850,6 @@ extension InboxVC:UITableViewDelegate {
                             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                             
                             settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                self.updateUserInterfaceActions()
                                 if self.internetConect {
                                     self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
                                         if let error = error {
@@ -935,7 +879,6 @@ extension InboxVC:UITableViewDelegate {
                             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                             
                             settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                self.updateUserInterfaceActions()
                                 if self.internetConect {
                                     self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
                                         if let error = error {
@@ -970,8 +913,6 @@ extension InboxVC:UITableViewDelegate {
                             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                             
                             settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                
-                                self.updateUserInterfaceActions()
                                 if self.internetConect {
                                     self.groupVM.leaveGroupChat(ByID: model?.id ?? "", registrationDateTime: actionDate) { error, data in
                                         if let error = error {
@@ -1000,7 +941,6 @@ extension InboxVC:UITableViewDelegate {
                             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                             
                             settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                self.updateUserInterfaceActions()
                                 if self.internetConect {
                                     self.groupVM.leaveGroupChat(ByID: model?.id ?? "", registrationDateTime: actionDate) { error, data in
                                         if let error = error {
@@ -1038,8 +978,6 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            
-                            self.updateUserInterfaceActions()
                             if self.internetConect {
                                 if model?.isChatGroup == true {
                                     self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: false) { error, data in
@@ -1094,7 +1032,6 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.updateUserInterfaceActions()
                             if self.internetConect {
                                 if model?.isChatGroup == true {
                                     self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: false) { error, data in
@@ -1151,7 +1088,6 @@ extension InboxVC:UITableViewDelegate {
                         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            self.updateUserInterfaceActions()
                             if self.internetConect {
                                 if model?.isChatGroup == true {
                                     self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: true) { error, data in
@@ -1206,7 +1142,6 @@ extension InboxVC:UITableViewDelegate {
                         
                         settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
                             
-                            self.updateUserInterfaceActions()
                             if self.internetConect {
                                 if model?.isChatGroup == true {
                                     self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: true) { error, data in
@@ -1319,7 +1254,6 @@ extension InboxVC: UISearchBarDelegate{
         guard let text = searchBar.text else {return}
         print(text)
         
-        updateUserInterfaceActions()
         if internetConect {
             if text != "" {
                 isSearch = true
@@ -1348,15 +1282,9 @@ extension InboxVC: UISearchBarDelegate{
     @objc func PresentNewConversation() {
         print("PresentNewConversation")
         
-//        updateUserInterfaceActions()
-//        if internetConect {
         if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "NewConversationNC") as? UINavigationController, let _ = controller.viewControllers.first as? NewConversationVC {
             self.present(controller, animated: true)
         }
-//        }
-//        else {
-//            HandleInternetConnection()
-//        }
     }
 }
 

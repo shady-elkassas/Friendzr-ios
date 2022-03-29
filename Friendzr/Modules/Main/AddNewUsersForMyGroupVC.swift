@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Network
 
 class AddNewUsersForMyGroupVC: UIViewController {
     
@@ -70,45 +71,24 @@ class AddNewUsersForMyGroupVC: UIViewController {
     
     //MARK: - Helper
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConnect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConnect = true
-            LaodAllFriends(pageNumber: 1, search: searchbar.text ?? "")
-        case .wifi:
-            internetConnect = true
-            LaodAllFriends(pageNumber: 1, search: searchbar.text ?? "")
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConnect = true
+                    self.LaodAllFriends(pageNumber: 1, search: self.searchbar.text ?? "")
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConnect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func updateNetworkForBtns() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConnect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConnect = true
-        case .wifi:
-            internetConnect = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func setupSearchBar() {
@@ -270,7 +250,9 @@ extension AddNewUsersForMyGroupVC : UISearchBarDelegate {
         guard let text = searchbar.text else {return}
         print(text)
         
-        getAllFriends(pageNumber: 1, search: text)
+        if internetConnect {
+            getAllFriends(pageNumber: 1, search: text)
+        }
     }
 }
 

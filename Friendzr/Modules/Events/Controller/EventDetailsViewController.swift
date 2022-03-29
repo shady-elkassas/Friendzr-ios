@@ -13,6 +13,7 @@ import Alamofire
 import ListPlaceholder
 import GoogleMobileAds
 import MapKit
+import Network
 
 class EventDetailsViewController: UIViewController {
     
@@ -116,25 +117,24 @@ class EventDetailsViewController: UIViewController {
     
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-            loadEventDataDetails()
-        case .wifi:
-            internetConect = true
-            loadEventDataDetails()
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                    self.loadEventDataDetails()
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     //MARK: - Helper
@@ -158,26 +158,6 @@ class EventDetailsViewController: UIViewController {
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
-    func showNewtworkConnected() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-        case .wifi:
-            internetConect = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
     //MARK:- APIs
     @objc func handleEventDetails() {
         self.getEventDetails()
@@ -187,9 +167,9 @@ class EventDetailsViewController: UIViewController {
         viewmodel.getEventByID(id: eventId)
         viewmodel.event.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now()) {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 DispatchQueue.main.async {
                     self.title = "\(value.eventtype) Event"
@@ -197,15 +177,15 @@ class EventDetailsViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     if value.key == 1 {
-                        isEventAdmin = true
+                        self.isEventAdmin = true
                     }else {
-                        isEventAdmin = false
+                        self.isEventAdmin = false
                     }
                     
                     if value.eventtype == "Private" {
-                        isprivateEvent = true
+                        self.isprivateEvent = true
                     }else {
-                        isprivateEvent = false
+                        self.isprivateEvent = false
                     }
                     
                     self.initOptionsEventButton()
@@ -232,9 +212,9 @@ class EventDetailsViewController: UIViewController {
         viewmodel.event.bind { [unowned self] value in
             
             DispatchQueue.main.async {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 DispatchQueue.main.async {
                     self.title = "\(value.eventtype) Event"
@@ -247,15 +227,15 @@ class EventDetailsViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     if value.key == 1 {
-                        isEventAdmin = true
+                        self.isEventAdmin = true
                     }else {
-                        isEventAdmin = false
+                        self.isEventAdmin = false
                     }
                     
                     if value.eventtype == "Private" {
-                        isprivateEvent = true
+                        self.isprivateEvent = true
                     }else {
-                        isprivateEvent = false
+                        self.isprivateEvent = false
                     }
                     
                     self.initOptionsEventButton()
@@ -399,7 +379,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             }
             
             cell.HandleLeaveBtn = {
-                self.showNewtworkConnected()
+//                self.showNewtworkConnected()
                 if self.internetConect == true {
                     self.changeTitleBtns(btn: cell.leaveBtn, title: "Leaving...".localizedString)
                     cell.leaveBtn.isUserInteractionEnabled = false
@@ -446,7 +426,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             }
             
             cell.HandleJoinBtn = {
-                self.showNewtworkConnected()
+//                self.showNewtworkConnected()
                 
                 let JoinDate = self.formatterDate.string(from: Date())
                 let Jointime = self.formatterTime.string(from: Date())
@@ -485,7 +465,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             }
             
             cell.HandleEditBtn = {
-                self.showNewtworkConnected()
+//                self.showNewtworkConnected()
                 if self.internetConect == true {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
                     vc.eventModel = self.viewmodel.event.value

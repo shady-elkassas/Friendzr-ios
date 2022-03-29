@@ -7,6 +7,7 @@
 
 import UIKit
 import QCropper
+import Network
 
 class EditEventsVC: UIViewController {
     
@@ -142,25 +143,24 @@ class EditEventsVC: UIViewController {
     
     //MARK: - Helper
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-            getEventTypes()
-        case .wifi:
-            internetConect = true
-            getEventTypes()
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                    self.getEventTypes()
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func HandleInternetConnection() {
@@ -192,9 +192,9 @@ class EditEventsVC: UIViewController {
         typesVM.getAllEventType()
         typesVM.types.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
-                eventTypesTV.dataSource = self
-                eventTypesTV.delegate = self
-                eventTypesTV.reloadData()
+                self.eventTypesTV.dataSource = self
+                self.eventTypesTV.delegate = self
+                self.eventTypesTV.reloadData()
             }
         }
         
@@ -219,8 +219,6 @@ class EditEventsVC: UIViewController {
     }
     
     @objc func handleDeleteEvent() {
-        
-        updateUserInterface()
         
         if internetConect == true {
             

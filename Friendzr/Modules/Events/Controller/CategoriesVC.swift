@@ -48,9 +48,9 @@ class CategoriesVC: UIViewController {
         catsVM.getAllCategories()
         catsVM.cats.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
-                collecetionView.dataSource = self
-                collecetionView.delegate = self
-                collecetionView.reloadData()
+                self.collecetionView.dataSource = self
+                self.collecetionView.delegate = self
+                self.collecetionView.reloadData()
             }
         }
         

@@ -28,9 +28,9 @@ class ExpandDescriptionVC: UIViewController {
         
         textView.text = myString
         
-//        let height = myString.height(withConstrainedWidth: discView.frame.width, font: UIFont(name: "Montserrat-Medium", size: 14)!)
-//
-//        viewHeightLayoutConstraint.constant = height + 20
+        let height = myString.height(withConstrainedWidth: textView.frame.width, font: UIFont(name: "Montserrat-Medium", size: 14)!)
+        
+        viewHeightLayoutConstraint.constant = height + 20
         
         closeBtn.tintColor = .white
         closeBtn.cornerRadiusForHeight()

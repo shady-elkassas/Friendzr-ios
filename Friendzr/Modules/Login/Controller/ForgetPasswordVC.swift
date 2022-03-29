@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Network
 
 class ForgetPasswordVC: UIViewController {
     
@@ -29,6 +30,7 @@ class ForgetPasswordVC: UIViewController {
         clearNavigationBar()
         removeNavigationBorder()
         
+        updateUserInterface()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,7 +53,6 @@ class ForgetPasswordVC: UIViewController {
     //MARK: - Actions
     @IBAction func resetBtn(_ sender: Any) {
         hideKeyboard()
-        updateUserInterface()
         if internetConect {
             self.resetBtn.setTitle("Sending...", for: .normal)
             self.resetBtn.isUserInteractionEnabled = false
@@ -98,23 +99,23 @@ class ForgetPasswordVC: UIViewController {
     }
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-        case .wifi:
-            internetConect = true
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func HandleInternetConnection() {

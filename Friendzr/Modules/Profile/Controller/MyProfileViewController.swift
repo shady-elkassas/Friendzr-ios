@@ -8,6 +8,7 @@
 import UIKit
 import SDWebImage
 import ListPlaceholder
+import Network
 
 class MyProfileViewController: UIViewController {
     
@@ -143,50 +144,29 @@ class MyProfileViewController: UIViewController {
     //MARK: - Helper
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConnection = false
-            self.hideView.isHidden = true
-            self.emptyView.isHidden = false
-            HandleInternetConnection()
-        case .wwan:
-            self.emptyView.isHidden = true
-            self.hideView.isHidden = false
-            internetConnection = true
-            getProfileInformation()
-        case .wifi:
-            self.emptyView.isHidden = true
-            self.hideView.isHidden = false
-            internetConnection = true
-            getProfileInformation()
+        let monitor = NWPathMonitor()
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.emptyView.isHidden = true
+                    self.hideView.isHidden = false
+                    self.internetConnection = true
+                    self.getProfileInformation()
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConnection = false
+                    self.hideView.isHidden = true
+                    self.emptyView.isHidden = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func updateUserInterfaceBtns() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConnection = false
-        case .wwan:
-            internetConnection = true
-        case .wifi:
-            internetConnection = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func HandleInternetConnection() {
@@ -248,7 +228,6 @@ extension MyProfileViewController: UITableViewDataSource {
             
             cell.HandleEditBtn = {
                 self.btnSelect = true
-                self.updateUserInterfaceBtns()
                 if self.internetConnection {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC else {return}
                     vc.profileModel = self.viewmodel.userModel.value

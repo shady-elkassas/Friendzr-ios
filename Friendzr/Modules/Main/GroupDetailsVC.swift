@@ -129,14 +129,14 @@ class GroupDetailsVC: UIViewController {
         viewmodel.getGroupDetails(id: groupId, search: search)
         viewmodel.groupMembers.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
-                tableViewHeight.constant = CGFloat((value.chatGroupSubscribers?.count ?? 0) * 75)
+                self.tableViewHeight.constant = CGFloat((value.chatGroupSubscribers?.count ?? 0) * 75)
                 
-                groupImg.sd_setImage(with: URL(string: value.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-                nameTxt.text = value.name
+                self.groupImg.sd_setImage(with: URL(string: value.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+                self.nameTxt.text = value.name
                 
                 self.superView.hideLoader()
             }
@@ -145,10 +145,7 @@ class GroupDetailsVC: UIViewController {
         // Set View Model Event Listener
         viewmodel.errorMsg.bind { [unowned self]error in
             DispatchQueue.main.async {
-                DispatchQueue.main.async {
 //                    self.view.makeToast(error)
-                }
-                
             }
         }
     }

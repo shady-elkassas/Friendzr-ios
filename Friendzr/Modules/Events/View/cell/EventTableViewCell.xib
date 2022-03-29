@@ -45,7 +45,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="1Iy-dx-cQb">
-                                <rect key="frame" x="20" y="150" width="99.5" height="33"/>
+                                <rect key="frame" x="16" y="150" width="99.5" height="33"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Soccer Match" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o8l-NP-JFX">
                                         <rect key="frame" x="0.0" y="0.0" width="99.5" height="17.5"/>
@@ -62,17 +62,17 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="xTA-gR-aaQ">
-                                <rect key="frame" x="199.5" y="152" width="110.5" height="29"/>
+                                <rect key="frame" x="231.5" y="153" width="82.5" height="27"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aug 23,2021 2:30 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aCf-Qy-pcA">
-                                        <rect key="frame" x="0.0" y="0.0" width="110.5" height="13.5"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="11"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="82.5" height="12.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="10"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attendees: 30/40" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dlw-Fb-7WJ">
-                                        <rect key="frame" x="0.0" y="15.5" width="110.5" height="13.5"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="11"/>
+                                        <rect key="frame" x="0.0" y="14.5" width="82.5" height="12.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="10"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -98,16 +98,17 @@
                             <constraint firstAttribute="trailing" secondItem="mAu-0K-KnC" secondAttribute="trailing" constant="10" id="3US-BB-Gf6"/>
                             <constraint firstItem="p6U-Ed-4ym" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" id="8T1-v0-k1b"/>
                             <constraint firstItem="q9y-9f-959" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" id="Ktp-Ub-oO8"/>
-                            <constraint firstAttribute="trailing" secondItem="xTA-gR-aaQ" secondAttribute="trailing" constant="20" id="cMK-yI-gJY"/>
+                            <constraint firstAttribute="trailing" secondItem="xTA-gR-aaQ" secondAttribute="trailing" constant="16" id="cMK-yI-gJY"/>
                             <constraint firstItem="p6U-Ed-4ym" firstAttribute="top" secondItem="49f-aS-wFT" secondAttribute="top" id="hGB-dk-yDh"/>
                             <constraint firstItem="q9y-9f-959" firstAttribute="height" secondItem="p6U-Ed-4ym" secondAttribute="height" multiplier="1:1.5" id="kK7-B2-mhU"/>
                             <constraint firstItem="1Iy-dx-cQb" firstAttribute="bottom" secondItem="q9y-9f-959" secondAttribute="bottom" constant="-10" id="lUC-sh-OPC"/>
                             <constraint firstAttribute="trailing" secondItem="p6U-Ed-4ym" secondAttribute="trailing" id="pV6-ss-eCn"/>
+                            <constraint firstItem="xTA-gR-aaQ" firstAttribute="width" secondItem="q9y-9f-959" secondAttribute="width" multiplier="0.25" id="qQ9-Mb-63N"/>
                             <constraint firstAttribute="bottom" secondItem="q9y-9f-959" secondAttribute="bottom" id="qRp-se-JUg"/>
                             <constraint firstItem="mAu-0K-KnC" firstAttribute="top" secondItem="49f-aS-wFT" secondAttribute="top" constant="10" id="sWH-I2-fJA"/>
                             <constraint firstAttribute="bottom" secondItem="p6U-Ed-4ym" secondAttribute="bottom" id="tzP-DQ-X0R"/>
                             <constraint firstItem="xTA-gR-aaQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1Iy-dx-cQb" secondAttribute="trailing" constant="10" id="wqQ-Ab-N6t"/>
-                            <constraint firstItem="1Iy-dx-cQb" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" constant="20" id="y1j-KA-GKp"/>
+                            <constraint firstItem="1Iy-dx-cQb" firstAttribute="leading" secondItem="49f-aS-wFT" secondAttribute="leading" constant="16" id="y1j-KA-GKp"/>
                             <constraint firstItem="xTA-gR-aaQ" firstAttribute="centerY" secondItem="1Iy-dx-cQb" secondAttribute="centerY" id="y5V-62-K3i"/>
                         </constraints>
                     </view>

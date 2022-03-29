@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Network
 
 class ChangePasswordVC: UIViewController  {
     
@@ -38,7 +39,8 @@ class ChangePasswordVC: UIViewController  {
         super.viewWillAppear(animated)
         Defaults.availableVC = "ChangePasswordVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
+        updateUserInterface()
         CancelRequest.currentTask = false
     }
     
@@ -49,23 +51,23 @@ class ChangePasswordVC: UIViewController  {
     
     //MARK: - Helpers
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-        case .wifi:
-            internetConect = true
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func HandleInternetConnection() {
@@ -85,7 +87,6 @@ class ChangePasswordVC: UIViewController  {
     
     //MARK:- Actions
     @IBAction func saveBtn(_ sender: Any) {
-        updateUserInterface()
         if internetConect {
             self.saveBtn.setTitle("Saving...", for: .normal)
             self.saveBtn.isUserInteractionEnabled = false

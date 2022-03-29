@@ -123,25 +123,25 @@ class TagsVC: UIViewController {
     //MARK: - Helper
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            self.emptyView.isHidden = false
-            HandleInternetConnection()
-        case .wwan:
-            self.emptyView.isHidden = true
-            getAllTags()
-        case .wifi:
-            self.emptyView.isHidden = true
-            getAllTags()
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+//        appDelegate.networkReachability()
+//
+//        switch Network.reachability.status {
+//        case .unreachable:
+//            self.emptyView.isHidden = false
+//            HandleInternetConnection()
+//        case .wwan:
+//            self.emptyView.isHidden = true
+//            getAllTags()
+//        case .wifi:
+//            self.emptyView.isHidden = true
+//            getAllTags()
+//        }
+//
+//        print("Reachability Summary")
+//        print("Status:", Network.reachability.status)
+//        print("HostName:", Network.reachability.hostname ?? "nil")
+//        print("Reachable:", Network.reachability.isReachable)
+//        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleinvalidUrl() {

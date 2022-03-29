@@ -13,6 +13,7 @@ import ObjectMapper
 import MapKit
 import GoogleMobileAds
 import ListPlaceholder
+import Network
 
 let googleApiKey = "AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY"
 
@@ -281,6 +282,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func getEvents(By lat:Double,lng:Double) {
+        
         viewmodel.getEventsByLoction(lat: lat, lng: lng)
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -304,57 +306,36 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Helpers
     func updateUserInterface() {
-        appDelegate.networkReachability()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            collectionViewHeight.constant = 0
-            subView.isHidden = false
-            upDownViewBtn.isHidden = true
-            zoomingStatisticsView.isHidden = true
-            HandleInternetConnection()
-            self.noeventNearbyLbl.isHidden = true
-            self.hideCollectionView.isHidden = true
-        case .wwan:
-            internetConect = true
-            zoomingStatisticsView.isHidden = false
-            if Defaults.allowMyLocationSettings == true {
-                bindToModel()
-            }
-        case .wifi:
-            internetConect = true
-            zoomingStatisticsView.isHidden = false
-            if Defaults.allowMyLocationSettings == true {
-                bindToModel()
+        
+        let monitor = NWPathMonitor()
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                    self.zoomingStatisticsView.isHidden = false
+                    if Defaults.allowMyLocationSettings == true {
+                        self.bindToModel()
+                    }
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.mapView.clear()
+                    self.internetConect = false
+                    self.collectionViewHeight.constant = 0
+                    self.subView.isHidden = false
+                    self.upDownViewBtn.isHidden = true
+                    self.zoomingStatisticsView.isHidden = true
+                    self.HandleInternetConnection()
+                    self.noeventNearbyLbl.isHidden = true
+                    self.hideCollectionView.isHidden = true
+                }
             }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func updateUserInterfaceBtns() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-        case .wifi:
-            internetConect = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func HandleInternetConnection() {
@@ -683,7 +664,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Actions
     @IBAction func addEventBtn(_ sender: Any) {
-        updateUserInterfaceBtns()
         checkLocationPermissionBtns()
         if internetConect {
             if Defaults.allowMyLocationSettings == true {
@@ -736,7 +716,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func convertMapStyleBtn(_ sender: Any) {
-        updateUserInterfaceBtns()
         if internetConect {
             checkLocationPermissionBtns()
             if Defaults.allowMyLocationSettings {
@@ -754,7 +733,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func currentLocationBtn(_ sender: Any) {
-        self.updateUserInterfaceBtns()
         if self.internetConect {
             self.checkLocationPermissionBtns()
             
@@ -771,8 +749,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func upDownBtn(_ sender: Any) {
-        
-        self.updateUserInterfaceBtns()
         if self.internetConect {
             isViewUp.toggle()
             
@@ -859,8 +835,6 @@ extension MapVC : GMSMapViewDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        updateUserInterfaceBtns()
-        
         if internetConect {
             var pos: CLLocationCoordinate2D? = nil
             pos = marker.position
@@ -915,7 +889,6 @@ extension MapVC : GMSMapViewDelegate {
 //MARK: - CLLocation manager delegate
 extension MapVC : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        updateUserInterfaceBtns()
         if internetConect {
             self.location = manager.location?.coordinate
             locationManager.stopUpdatingLocation()
@@ -1132,8 +1105,6 @@ extension MapVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        updateUserInterfaceBtns()
-        
         if internetConect {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
                 self.transparentView.alpha = 0.0
@@ -1383,7 +1354,6 @@ extension MapVC {
         
         switch sender.direction {
         case .up:
-            updateUserInterfaceBtns()
             if internetConect{
                 print("Up")
                 if Defaults.allowMyLocationSettings {
@@ -1409,7 +1379,6 @@ extension MapVC {
                 HandleInternetConnection()
             }
         case .down:
-            updateUserInterfaceBtns()
             if internetConect {
                 print("Down")
                 collectionViewHeight.constant = 0

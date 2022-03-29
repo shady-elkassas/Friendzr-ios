@@ -7,6 +7,7 @@
 
 import UIKit
 import ListPlaceholder
+import Network
 
 class FriendProfileViewController: UIViewController {
     
@@ -118,6 +119,7 @@ class FriendProfileViewController: UIViewController {
         tableView.register(UINib(nibName: bestDescribesCellId, bundle: nil), forCellReuseIdentifier: bestDescribesCellId)
         tableView.register(UINib(nibName: aboutmeCellId, bundle: nil), forCellReuseIdentifier: aboutmeCellId)
         tableView.register(UINib(nibName: preferCellId, bundle: nil), forCellReuseIdentifier: preferCellId)
+        triAgainBtn.cornerRadiusView(radius: 6)
         
         for itm in hideImgs {
             itm.cornerRadiusView(radius: 10)
@@ -198,51 +200,28 @@ class FriendProfileViewController: UIViewController {
     }
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            self.emptyView.isHidden = false
-            self.hideView.isHidden = true
-            HandleInternetConnection()
-        case .wwan:
-            self.emptyView.isHidden = true
-            self.hideView.isHidden = false
-            internetConect = true
-            loadUserData()
-        case .wifi:
-            self.emptyView.isHidden = true
-            self.hideView.isHidden = false
-            internetConect = true
-            loadUserData()
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.emptyView.isHidden = true
+                    self.hideView.isHidden = false
+                    self.internetConect = true
+                    self.loadUserData()
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConect = false
+                    self.emptyView.isHidden = false
+                    self.hideView.isHidden = true
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func updateUserInterfaceBtns() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-        case .wifi:
-            internetConect = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func HandleInternetConnection() {
@@ -355,7 +334,6 @@ extension FriendProfileViewController:UITableViewDataSource {
             
             cell.HandleSendRequestBtn = {
                 self.btnSelect = true
-                self.updateUserInterfaceBtns()
                 if self.internetConect == true {
                     self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
                     self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1,requestdate: "\(actionDate) \(actionTime)") { error, message in
@@ -382,7 +360,6 @@ extension FriendProfileViewController:UITableViewDataSource {
             
             cell.HandleCancelBtn = {
                 self.btnSelect = true
-                self.updateUserInterfaceBtns()
                 if self.internetConect == true {
                     self.changeTitleBtns(btn: cell.cancelBtn, title: "Canceling...".localizedString)
                     self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6,requestdate: "\(actionDate) \(actionTime)") { error, message in
@@ -414,7 +391,6 @@ extension FriendProfileViewController:UITableViewDataSource {
                 self.alertView?.detailsLbl.text = "Are you sure you want to refuse this request?".localizedString
                 
                 self.alertView?.HandleConfirmBtn = {
-                    self.updateUserInterfaceBtns()
                     if self.internetConect == true {
                         self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6,requestdate: "\(actionDate) \(actionTime)") { error, message in
                             self.hideLoading()
@@ -453,7 +429,6 @@ extension FriendProfileViewController:UITableViewDataSource {
             
             cell.HandleAcceptBtn = {
                 self.btnSelect = true
-                self.updateUserInterfaceBtns()
                 if self.internetConect == true {
                     self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 2,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
@@ -485,7 +460,6 @@ extension FriendProfileViewController:UITableViewDataSource {
                 self.alertView?.detailsLbl.text = "Are you sure you want to unfriend this account?".localizedString
                 
                 self.alertView?.HandleConfirmBtn = {
-                    self.updateUserInterfaceBtns()
                     if self.internetConect == true {
                         
                         cell.sendRequestBtn.isHidden = false
@@ -538,7 +512,6 @@ extension FriendProfileViewController:UITableViewDataSource {
                 
                 self.alertView?.HandleConfirmBtn = {
                     // handling code
-                    self.updateUserInterfaceBtns()
                     if self.internetConect == true {
                         self.changeTitleBtns(btn: cell.blockBtn, title: "Sending...".localizedString)
                         self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 3,requestdate: "\(actionDate) \(actionTime)") { error, message in
@@ -581,7 +554,6 @@ extension FriendProfileViewController:UITableViewDataSource {
                 
                 self.alertView?.HandleConfirmBtn = { [self] in
                     // handling code
-                    self.updateUserInterfaceBtns()
                     if self.internetConect == true {
                         
                         self.changeTitleBtns(btn: cell.unblockBtn, title: "Sending...")

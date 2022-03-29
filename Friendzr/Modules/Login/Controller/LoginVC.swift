@@ -10,7 +10,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import GoogleSignIn
 import AuthenticationServices
-
+import Network
 
 class LoginVC: UIViewController {
     
@@ -78,6 +78,10 @@ class LoginVC: UIViewController {
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
         
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
+        
         NotificationCenter.default.post(name: Notification.Name("registrationFCM"), object: nil, userInfo: nil)
     }
     
@@ -112,7 +116,6 @@ class LoginVC: UIViewController {
         )
         
         hideKeyboard()
-        updateUserInterface()
         if internetConect {
             self.showLoading()
             loginVM.LoginUser(withEmail: emailTxt.text!, password: passwordTxt.text!) { error, data in
@@ -162,7 +165,6 @@ class LoginVC: UIViewController {
     
     @IBAction func facebookBtn(_ sender: Any) {
         
-        updateUserInterface()
         if internetConect {
             if let token = AccessToken.current,
                !token.isExpired {
@@ -191,7 +193,6 @@ class LoginVC: UIViewController {
     }
     
     @IBAction func googleBtn(_ sender: Any) {
-        updateUserInterface()
         if internetConect {
             GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
                 guard error == nil else { return }
@@ -250,7 +251,6 @@ class LoginVC: UIViewController {
     }
     
     @IBAction func appleBtn(_ sender: Any) {
-        updateUserInterface()
         if internetConect {
             let appleIDProvider = ASAuthorizationAppleIDProvider()
             let request = appleIDProvider.createRequest()
@@ -282,23 +282,24 @@ class LoginVC: UIViewController {
     
     //MARK: - Helper
     func updateUserInterface() {
-        appDelegate.networkReachability()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-        case .wifi:
-            internetConect = true
+        let monitor = NWPathMonitor()
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func HandleInternetConnection() {

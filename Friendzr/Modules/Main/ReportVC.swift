@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Network
 
 class ReportVC: UIViewController {
     
@@ -74,59 +75,36 @@ class ReportVC: UIViewController {
     
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConnect = false
-            DispatchQueue.main.async {
-                self.view.makeToast("Network is unavailable, please try again!".localizedString)
+        let monitor = NWPathMonitor()
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConnect = true
+                    self.getAllProblems()
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConnect = false
+                    DispatchQueue.main.async {
+                        self.view.makeToast("Network is unavailable, please try again!".localizedString)
+                    }
+                }
             }
-        case .wwan:
-            internetConnect = true
-            getAllProblems()
-        case .wifi:
-            internetConnect = true
-            getAllProblems()
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
-    
-    func updateNetworkForBtns() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConnect = false
-            DispatchQueue.main.async {
-                self.view.makeToast("Network is unavailable, please try again!".localizedString)
-            }
-        case .wwan:
-            internetConnect = true
-        case .wifi:
-            internetConnect = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
     
     func getAllProblems() {
         viewmodel.getAllProblems()
         viewmodel.model.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 DispatchQueue.main.async {
                     self.hideView.isHidden = true
@@ -191,7 +169,7 @@ extension ReportVC: UITableViewDataSource {
         else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: confirmBtnCellID, for: indexPath) as? ConfirmReportButtonTableViewCell else {return UITableViewCell()}
             cell.HandleConfirmBtn = {
-                self.updateNetworkForBtns()
+//                self.updateNetworkForBtns()
                 if self.id != "" {
                     if self.internetConnect {
                         cell.confirmBtn.setTitle("Submitting...", for: .normal)

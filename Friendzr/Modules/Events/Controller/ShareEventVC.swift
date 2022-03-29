@@ -7,6 +7,7 @@
 
 import UIKit
 import ListPlaceholder
+import Network
 
 class ShareEventVC: UIViewController {
     
@@ -36,7 +37,11 @@ class ShareEventVC: UIViewController {
     @IBOutlet weak var hideView2: UIView!
     @IBOutlet weak var hideView3: UIView!
 
-    
+    @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var tryAgainBtn: UIButton!
+    @IBOutlet weak var emptyLbl: UILabel!
+    @IBOutlet weak var emptyImg: UIImageView!
+
     var cellID = "ShareTableViewCell"
     var eventID:String = ""
     var myFriendsVM:AllFriendesViewModel = AllFriendesViewModel()
@@ -44,6 +49,8 @@ class ShareEventVC: UIViewController {
     var myGroupsVM:GroupViewModel = GroupViewModel()
     var shareEventMessageVM:ChatViewModel = ChatViewModel()
     
+    var internetConnect:Bool = false
+
     let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -63,9 +70,11 @@ class ShareEventVC: UIViewController {
         
         title = "Share".localizedString
         setupViews()
-        LoadAllMyEvents(pageNumber: 1,search:"")
-        LoadAllMyGroups(pageNumber: 1, search: "")
-        LoadAllMyFriends(pageNumber: 1, search: "")
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
+        
         initCloseBarButton()
         setupNavBar()
     }
@@ -74,6 +83,33 @@ class ShareEventVC: UIViewController {
         Defaults.availableVC = "ShareEventVC"
         print("availableVC >> \(Defaults.availableVC)")
     }
+    
+    func updateUserInterface() {
+        
+        let monitor = NWPathMonitor()
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.emptyView.isHidden = true
+                    self.internetConnect = true
+                    self.LoadAllMyEvents(pageNumber: 1,search:"")
+                    self.LoadAllMyGroups(pageNumber: 1, search: "")
+                    self.LoadAllMyFriends(pageNumber: 1, search: "")
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.emptyView.isHidden = false
+                    self.internetConnect = false
+                    self.HandleInternetConnection()
+                }
+            }
+        }
+        
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
+    }
+    
     
     //MARK:- APIs
     func getAllMyEvents(pageNumber:Int,search:String) {
@@ -365,7 +401,13 @@ class ShareEventVC: UIViewController {
             itmm.cornerRadiusView(radius: 6)
         }
     }
-    
+
+    func HandleInternetConnection() {
+        emptyView.isHidden = false
+        emptyImg.image = UIImage.init(named: "feednodata_img")
+        emptyLbl.text = "No available network, please try again!".localizedString
+        tryAgainBtn.alpha = 1.0
+    }
     
     func setupSearchBar() {
         var placeHolder = NSMutableAttributedString()
@@ -570,23 +612,29 @@ extension ShareEventVC: UISearchBarDelegate{
         guard let text3 = eventsSearchBar.text else {return}
         print(text1,text2,text3)
         
-        if text1 != "" {
-            getAllMyFriends(pageNumber: 1, search: text1)
-        }else {
-            getAllMyFriends(pageNumber: 1, search: "")
+        if internetConnect {
+            if text1 != "" {
+                self.getAllMyFriends(pageNumber: 1, search: text1)
+            }else {
+                self.getAllMyFriends(pageNumber: 1, search: "")
+            }
+        }
+        
+        if internetConnect {
+            if text2 != "" {
+                self.getAllMyGroups(pageNumber: 1, search: text2)
+            }else {
+                self.getAllMyGroups(pageNumber: 1, search: "")
+            }
             
         }
         
-        if text2 != "" {
-            getAllMyGroups(pageNumber: 1, search: text2)
-        }else {
-            getAllMyGroups(pageNumber: 1, search: "")
-        }
-        
-        if text3 != "" {
-            getAllMyEvents(pageNumber: 1, search: text3)
-        }else {
-            getAllMyEvents(pageNumber: 1, search: "")
+        if internetConnect {
+            if text3 != "" {
+                self.getAllMyEvents(pageNumber: 1, search: text3)
+            }else {
+                self.getAllMyEvents(pageNumber: 1, search: "")
+            }
         }
     }
 }

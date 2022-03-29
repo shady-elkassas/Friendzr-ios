@@ -8,6 +8,7 @@
 import UIKit
 import ListPlaceholder
 import SDWebImage
+import Network
 
 class NewConversationVC: UIViewController {
     
@@ -41,7 +42,6 @@ class NewConversationVC: UIViewController {
         
         self.title = "New Conversation".localizedString
         initCancelBarButton()
-//        setupNavBar()
         setupSearchBar()
         setupViews()
         initAddGroupBarButton()
@@ -69,51 +69,26 @@ class NewConversationVC: UIViewController {
     
     //MARK: - Helper
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            self.emptyView.isHidden = false
-            internetConnect = false
-            HandleInternetConnection()
-        case .wwan:
-            self.emptyView.isHidden = true
-            internetConnect = true
-            LaodAllFriends(pageNumber: 1, search: searchbar.text ?? "")
-        case .wifi:
-            self.emptyView.isHidden = true
-            internetConnect = true
-            LaodAllFriends(pageNumber: 1, search: searchbar.text ?? "")
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.emptyView.isHidden = true
+                    self.internetConnect = true
+                    self.LaodAllFriends(pageNumber: 1, search: self.searchbar.text ?? "")
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.emptyView.isHidden = false
+                    self.internetConnect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func updateNetworkForBtns() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            self.emptyView.isHidden = false
-            internetConnect = false
-            HandleInternetConnection()
-        case .wwan:
-            self.emptyView.isHidden = true
-            internetConnect = true
-        case .wifi:
-            self.emptyView.isHidden = true
-            internetConnect = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func showEmptyView() {
@@ -268,7 +243,7 @@ extension NewConversationVC : UISearchBarDelegate {
         guard let text = searchbar.text else {return}
         print(text)
         
-        updateNetworkForBtns()
+//        updateNetworkForBtns()
         if internetConnect {
             getAllFriends(pageNumber: 1, search: text)
         }else {
@@ -304,7 +279,7 @@ extension NewConversationVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cellSelected = true
-        updateNetworkForBtns()
+//        updateNetworkForBtns()
         
         if internetConnect {
             let vc = ConversationVC()
@@ -370,7 +345,7 @@ extension NewConversationVC {
     }
     
     @objc func handleAddGroupVC() {
-        updateNetworkForBtns()
+//        updateNetworkForBtns()
         if internetConnect {
             if viewmodel.friends.value?.data?.count == 0 {
                 self.view.makeToast("Please add friends to create a group".localizedString)

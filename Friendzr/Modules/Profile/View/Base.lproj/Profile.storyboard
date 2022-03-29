@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -492,6 +492,50 @@
                                     <action selector="saveBtn:" destination="srb-jf-OWV" eventType="touchUpInside" id="Kr5-co-PCx"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cCI-RM-Yr4">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feednodata_img" translatesAutoresizingMaskIntoConstraints="NO" id="bZM-9J-uYf">
+                                        <rect key="frame" x="113" y="233" width="188" height="188"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="bZM-9J-uYf" secondAttribute="height" multiplier="1:1" id="v8M-eL-jOl"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No messages sent or received as yet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V8Y-7E-qrX">
+                                        <rect key="frame" x="113" y="441" width="188" height="34.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
+                                        <color key="textColor" name="ColorLbl1"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nJv-ga-DCM">
+                                        <rect key="frame" x="124" y="495.5" width="166" height="42"/>
+                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="42" id="eqq-zA-iiX"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Try Again!">
+                                            <fontDescription key="titleFontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="triAgain:" destination="srb-jf-OWV" eventType="touchUpInside" id="paJ-S4-o18"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" name="BGColor"/>
+                                <constraints>
+                                    <constraint firstItem="V8Y-7E-qrX" firstAttribute="centerX" secondItem="cCI-RM-Yr4" secondAttribute="centerX" id="07A-Vq-ozk"/>
+                                    <constraint firstItem="bZM-9J-uYf" firstAttribute="width" secondItem="cCI-RM-Yr4" secondAttribute="width" multiplier="1:2.2" id="0rL-4a-KD7"/>
+                                    <constraint firstItem="bZM-9J-uYf" firstAttribute="centerY" secondItem="cCI-RM-Yr4" secondAttribute="centerY" constant="-60" id="6C3-XM-UpG"/>
+                                    <constraint firstItem="bZM-9J-uYf" firstAttribute="centerX" secondItem="cCI-RM-Yr4" secondAttribute="centerX" id="97a-pu-XgI"/>
+                                    <constraint firstItem="V8Y-7E-qrX" firstAttribute="top" secondItem="bZM-9J-uYf" secondAttribute="bottom" constant="20" id="9Lb-v0-oMb"/>
+                                    <constraint firstItem="nJv-ga-DCM" firstAttribute="width" secondItem="cCI-RM-Yr4" secondAttribute="width" multiplier="1:2.5" id="KIy-5x-hzg"/>
+                                    <constraint firstItem="nJv-ga-DCM" firstAttribute="top" secondItem="V8Y-7E-qrX" secondAttribute="bottom" constant="20" id="Ptb-vM-Eze"/>
+                                    <constraint firstItem="nJv-ga-DCM" firstAttribute="centerX" secondItem="cCI-RM-Yr4" secondAttribute="centerX" id="e9L-04-Nac"/>
+                                    <constraint firstItem="V8Y-7E-qrX" firstAttribute="width" secondItem="bZM-9J-uYf" secondAttribute="width" id="ngn-Be-QgH"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fWs-Sm-akJ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -501,6 +545,10 @@
                             <constraint firstItem="bej-cn-nDb" firstAttribute="width" secondItem="ezn-CD-SXy" secondAttribute="width" multiplier="1:3" id="Gsg-az-xw4"/>
                             <constraint firstItem="bej-cn-nDb" firstAttribute="centerX" secondItem="fWs-Sm-akJ" secondAttribute="centerX" id="N6C-Ot-NN2"/>
                             <constraint firstItem="jnA-t1-X7I" firstAttribute="centerX" secondItem="ezn-CD-SXy" secondAttribute="centerX" id="Ofn-aa-yfT"/>
+                            <constraint firstItem="fWs-Sm-akJ" firstAttribute="bottom" secondItem="cCI-RM-Yr4" secondAttribute="bottom" id="U6a-wa-Fv8"/>
+                            <constraint firstItem="cCI-RM-Yr4" firstAttribute="leading" secondItem="fWs-Sm-akJ" secondAttribute="leading" id="lad-my-dNE"/>
+                            <constraint firstItem="cCI-RM-Yr4" firstAttribute="trailing" secondItem="fWs-Sm-akJ" secondAttribute="trailing" id="qLD-e9-i3r"/>
+                            <constraint firstItem="cCI-RM-Yr4" firstAttribute="top" secondItem="fWs-Sm-akJ" secondAttribute="top" id="rad-S1-ez7"/>
                             <constraint firstItem="bej-cn-nDb" firstAttribute="top" secondItem="jnA-t1-X7I" secondAttribute="bottom" constant="16" id="yH6-Ah-aZ3"/>
                             <constraint firstItem="fWs-Sm-akJ" firstAttribute="bottom" secondItem="bej-cn-nDb" secondAttribute="bottom" constant="20" id="zqr-7I-UCd"/>
                         </constraints>
@@ -508,12 +556,16 @@
                     <navigationItem key="navigationItem" id="h84-v4-e4j"/>
                     <connections>
                         <outlet property="collectionView" destination="jnA-t1-X7I" id="Yf3-Pq-T0d"/>
+                        <outlet property="emptyImg" destination="bZM-9J-uYf" id="nMb-wN-8DV"/>
+                        <outlet property="emptyMessageLbl" destination="V8Y-7E-qrX" id="HV9-Xx-TQG"/>
+                        <outlet property="emptyView" destination="cCI-RM-Yr4" id="2ms-cq-HiS"/>
                         <outlet property="saveBtn" destination="bej-cn-nDb" id="GpE-0l-6zz"/>
+                        <outlet property="triAgainBtn" destination="nJv-ga-DCM" id="Erx-Ss-hzU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UNW-PU-tM3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3071" y="1042"/>
+            <point key="canvasLocation" x="3069.5652173913045" y="1041.9642857142858"/>
         </scene>
         <!--Instagram WebVC-->
         <scene sceneID="3AT-RD-zYi">
@@ -681,7 +733,7 @@
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="80G-nI-0l5">
                                                                         <rect key="frame" x="0.0" y="0.0" width="68.5" height="50"/>
                                                                         <subviews>
-                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="select_ic" translatesAutoresizingMaskIntoConstraints="NO" id="ozJ-eL-T5j">
+                                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="unSelect_ic" translatesAutoresizingMaskIntoConstraints="NO" id="ozJ-eL-T5j">
                                                                                 <rect key="frame" x="2" y="15" width="20" height="20"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" constant="20" id="CeI-JO-0eZ"/>
@@ -1685,23 +1737,75 @@ yourself with a one-time selfie</string>
                                     <action selector="saveBtn:" destination="qf3-bd-nog" eventType="touchUpInside" id="vLu-AI-VUb"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="irZ-Bf-1wd">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feednodata_img" translatesAutoresizingMaskIntoConstraints="NO" id="sP9-Mk-saq">
+                                        <rect key="frame" x="113" y="233" width="188" height="188"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="sP9-Mk-saq" secondAttribute="height" multiplier="1:1" id="gL2-xb-ipt"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No messages sent or received as yet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iPN-ou-OKC">
+                                        <rect key="frame" x="113" y="441" width="188" height="34.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
+                                        <color key="textColor" name="ColorLbl1"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s8o-Aa-Yzf">
+                                        <rect key="frame" x="124" y="495.5" width="166" height="42"/>
+                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="42" id="Lfn-TV-TSb"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Try Again!">
+                                            <fontDescription key="titleFontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="triAgainBtn:" destination="qf3-bd-nog" eventType="touchUpInside" id="6sO-VJ-tuS"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" name="BGColor"/>
+                                <constraints>
+                                    <constraint firstItem="iPN-ou-OKC" firstAttribute="width" secondItem="sP9-Mk-saq" secondAttribute="width" id="2XW-In-ivc"/>
+                                    <constraint firstItem="sP9-Mk-saq" firstAttribute="centerY" secondItem="irZ-Bf-1wd" secondAttribute="centerY" constant="-60" id="AI9-lZ-FcB"/>
+                                    <constraint firstItem="iPN-ou-OKC" firstAttribute="centerX" secondItem="irZ-Bf-1wd" secondAttribute="centerX" id="BMA-ML-6a7"/>
+                                    <constraint firstItem="s8o-Aa-Yzf" firstAttribute="width" secondItem="irZ-Bf-1wd" secondAttribute="width" multiplier="1:2.5" id="G5Q-zx-Kf8"/>
+                                    <constraint firstItem="iPN-ou-OKC" firstAttribute="top" secondItem="sP9-Mk-saq" secondAttribute="bottom" constant="20" id="RKR-Xh-E6O"/>
+                                    <constraint firstItem="sP9-Mk-saq" firstAttribute="width" secondItem="irZ-Bf-1wd" secondAttribute="width" multiplier="1:2.2" id="Tfp-f0-MBx"/>
+                                    <constraint firstItem="s8o-Aa-Yzf" firstAttribute="top" secondItem="iPN-ou-OKC" secondAttribute="bottom" constant="20" id="hr5-uM-8xw"/>
+                                    <constraint firstItem="sP9-Mk-saq" firstAttribute="centerX" secondItem="irZ-Bf-1wd" secondAttribute="centerX" id="mGq-EV-nd9"/>
+                                    <constraint firstItem="s8o-Aa-Yzf" firstAttribute="centerX" secondItem="irZ-Bf-1wd" secondAttribute="centerX" id="uyD-uc-8Zu"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="FV1-xk-gQf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="irZ-Bf-1wd" firstAttribute="top" secondItem="FV1-xk-gQf" secondAttribute="top" id="1KW-yp-fDO"/>
                             <constraint firstItem="FV1-xk-gQf" firstAttribute="bottom" secondItem="Pe0-tt-LNE" secondAttribute="bottom" constant="20" id="JsY-Wf-yGD"/>
+                            <constraint firstItem="irZ-Bf-1wd" firstAttribute="leading" secondItem="FV1-xk-gQf" secondAttribute="leading" id="KNK-9Q-hC7"/>
                             <constraint firstItem="Pe0-tt-LNE" firstAttribute="width" secondItem="A31-Kg-XdG" secondAttribute="width" multiplier="1:3" id="KgT-TK-T8o"/>
+                            <constraint firstItem="FV1-xk-gQf" firstAttribute="bottom" secondItem="irZ-Bf-1wd" secondAttribute="bottom" id="T7I-ym-M5E"/>
                             <constraint firstItem="RUG-2A-LXd" firstAttribute="top" secondItem="FV1-xk-gQf" secondAttribute="top" id="ZZq-2h-0QA"/>
                             <constraint firstItem="Pe0-tt-LNE" firstAttribute="centerX" secondItem="FV1-xk-gQf" secondAttribute="centerX" id="Zqp-jD-iW0"/>
                             <constraint firstItem="RUG-2A-LXd" firstAttribute="width" secondItem="A31-Kg-XdG" secondAttribute="width" multiplier="1:1.1" id="bGV-2l-JGo"/>
                             <constraint firstItem="Pe0-tt-LNE" firstAttribute="top" secondItem="RUG-2A-LXd" secondAttribute="bottom" constant="16" id="dMg-6j-6iW"/>
                             <constraint firstItem="RUG-2A-LXd" firstAttribute="centerX" secondItem="A31-Kg-XdG" secondAttribute="centerX" id="ksR-sy-vyy"/>
+                            <constraint firstItem="irZ-Bf-1wd" firstAttribute="trailing" secondItem="FV1-xk-gQf" secondAttribute="trailing" id="uEJ-QQ-vYQ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bf0-db-mlm"/>
                     <connections>
                         <outlet property="collectionView" destination="RUG-2A-LXd" id="yf4-em-cgg"/>
+                        <outlet property="emptyImg" destination="sP9-Mk-saq" id="PEf-yi-sxS"/>
+                        <outlet property="emptyMessageLbl" destination="iPN-ou-OKC" id="PqV-mC-e9n"/>
+                        <outlet property="emptyView" destination="irZ-Bf-1wd" id="Rom-Ol-gon"/>
                         <outlet property="saveBtn" destination="Pe0-tt-LNE" id="ymP-It-cgP"/>
+                        <outlet property="triAgainBtn" destination="s8o-Aa-Yzf" id="IoM-4z-Eda"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hyq-n5-9Jl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1930,6 +2034,50 @@ yourself with a one-time selfie</string>
                                     <action selector="saveBtn:" destination="qjk-nz-3zN" eventType="touchUpInside" id="KbJ-cQ-Lez"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Agj-vz-HsA">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="feednodata_img" translatesAutoresizingMaskIntoConstraints="NO" id="HRE-mM-Vfl">
+                                        <rect key="frame" x="113" y="233" width="188" height="188"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="HRE-mM-Vfl" secondAttribute="height" multiplier="1:1" id="3ev-tk-P0q"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No messages sent or received as yet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ug-jy-C4O">
+                                        <rect key="frame" x="113" y="441" width="188" height="34.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
+                                        <color key="textColor" name="ColorLbl1"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="39q-EJ-FOc">
+                                        <rect key="frame" x="124" y="495.5" width="166" height="42"/>
+                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="42" id="31g-o7-95M"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Try Again!">
+                                            <fontDescription key="titleFontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="triAgainBtn:" destination="qjk-nz-3zN" eventType="touchUpInside" id="wwb-oR-0sM"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" name="BGColor"/>
+                                <constraints>
+                                    <constraint firstItem="HRE-mM-Vfl" firstAttribute="width" secondItem="Agj-vz-HsA" secondAttribute="width" multiplier="1:2.2" id="7St-7d-UEe"/>
+                                    <constraint firstItem="1ug-jy-C4O" firstAttribute="width" secondItem="HRE-mM-Vfl" secondAttribute="width" id="Ome-Jw-uMs"/>
+                                    <constraint firstItem="HRE-mM-Vfl" firstAttribute="centerX" secondItem="Agj-vz-HsA" secondAttribute="centerX" id="Orh-4U-Hh9"/>
+                                    <constraint firstItem="HRE-mM-Vfl" firstAttribute="centerY" secondItem="Agj-vz-HsA" secondAttribute="centerY" constant="-60" id="Z0R-dN-2l1"/>
+                                    <constraint firstItem="1ug-jy-C4O" firstAttribute="centerX" secondItem="Agj-vz-HsA" secondAttribute="centerX" id="dr6-Ou-gsJ"/>
+                                    <constraint firstItem="39q-EJ-FOc" firstAttribute="top" secondItem="1ug-jy-C4O" secondAttribute="bottom" constant="20" id="hhU-nC-wSQ"/>
+                                    <constraint firstItem="1ug-jy-C4O" firstAttribute="top" secondItem="HRE-mM-Vfl" secondAttribute="bottom" constant="20" id="lkB-7t-pec"/>
+                                    <constraint firstItem="39q-EJ-FOc" firstAttribute="centerX" secondItem="Agj-vz-HsA" secondAttribute="centerX" id="wEv-7l-qGa"/>
+                                    <constraint firstItem="39q-EJ-FOc" firstAttribute="width" secondItem="Agj-vz-HsA" secondAttribute="width" multiplier="1:2.5" id="xuX-UB-MXo"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qbP-eW-AuY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1939,19 +2087,27 @@ yourself with a one-time selfie</string>
                             <constraint firstItem="ahX-XA-6TK" firstAttribute="centerX" secondItem="0LY-38-Qb1" secondAttribute="centerX" id="5CB-sh-VV3"/>
                             <constraint firstItem="a9S-dG-ecL" firstAttribute="top" secondItem="ahX-XA-6TK" secondAttribute="bottom" constant="16" id="Dme-9u-0Iz"/>
                             <constraint firstItem="ahX-XA-6TK" firstAttribute="width" secondItem="0LY-38-Qb1" secondAttribute="width" multiplier="1:1.1" id="EPg-9a-QkV"/>
+                            <constraint firstItem="Agj-vz-HsA" firstAttribute="trailing" secondItem="qbP-eW-AuY" secondAttribute="trailing" id="SFr-l4-vJ6"/>
                             <constraint firstItem="ahX-XA-6TK" firstAttribute="top" secondItem="qbP-eW-AuY" secondAttribute="top" id="VSc-el-lUU"/>
                             <constraint firstItem="qbP-eW-AuY" firstAttribute="bottom" secondItem="a9S-dG-ecL" secondAttribute="bottom" constant="20" id="Vcc-t3-wEj"/>
+                            <constraint firstItem="Agj-vz-HsA" firstAttribute="top" secondItem="qbP-eW-AuY" secondAttribute="top" id="cOy-q2-huE"/>
+                            <constraint firstItem="qbP-eW-AuY" firstAttribute="bottom" secondItem="Agj-vz-HsA" secondAttribute="bottom" id="hVR-9U-lbw"/>
+                            <constraint firstItem="Agj-vz-HsA" firstAttribute="leading" secondItem="qbP-eW-AuY" secondAttribute="leading" id="qVc-7W-zci"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="neV-tD-vAg"/>
                     <connections>
                         <outlet property="collectionView" destination="ahX-XA-6TK" id="Sdl-Kz-Ceq"/>
+                        <outlet property="emptyImg" destination="HRE-mM-Vfl" id="SBI-GO-Ed0"/>
+                        <outlet property="emptyMessageLbl" destination="1ug-jy-C4O" id="40c-Gi-5J0"/>
+                        <outlet property="emptyView" destination="Agj-vz-HsA" id="pn2-IS-mlL"/>
                         <outlet property="saveBtn" destination="a9S-dG-ecL" id="OUS-18-umI"/>
+                        <outlet property="triAgainBtn" destination="39q-EJ-FOc" id="lIj-mR-PuI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="63t-iz-kBr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3070" y="2533"/>
+            <point key="canvasLocation" x="3069.5652173913045" y="2532.5892857142858"/>
         </scene>
         <!--Facial Recognition Pop Up View2-->
         <scene sceneID="Il6-8G-sdF">
@@ -2160,7 +2316,6 @@ yourself with a one-time selfie</string>
         <image name="ellipse_ic" width="11" height="11"/>
         <image name="feednodata_img" width="583.5" height="529"/>
         <image name="placeHolderApp" width="2583" height="2479"/>
-        <image name="select_ic" width="24" height="24"/>
         <image name="splash4" width="360" height="99"/>
         <image name="unSelect_ic" width="24" height="24"/>
         <namedColor name="BGColor">

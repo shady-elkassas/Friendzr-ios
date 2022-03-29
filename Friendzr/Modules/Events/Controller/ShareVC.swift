@@ -12,9 +12,7 @@ class ShareVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     
-    
     var cellID = "ShareTableViewCell"
-    
     var myGroupCellId = "GroupsShareTableViewCell"
     var myEventsCellId = "EventsShareTableViewCell"
     var myFriendsCellId = "FriendsShareTableViewCell"

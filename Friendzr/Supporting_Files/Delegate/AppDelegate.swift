@@ -178,25 +178,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return googleDidHandle || facebookDidHandle //|| snapDidHandle || TikTokDidHandle
     }
     
-    func networkReachability() {
-        do {
-            try Network.reachability = Reachability(hostname: URLs.baseURLFirst)
-        }
-        catch {
-            switch error as? Network.Error {
-            case let .failedToCreateWith(hostname)?:
-                print("Network error:\nFailed to create reachability object With host named:", hostname)
-            case let .failedToInitializeWith(address)?:
-                print("Network error:\nFailed to initialize reachability object With address:", address)
-            case .failedToSetCallout?:
-                print("Network error:\nFailed to set callout")
-            case .failedToSetDispatchQueue?:
-                print("Network error:\nFailed to set DispatchQueue")
-            case .none:
-                print(error)
-            }
-        }
-    }
     // MARK: - Core Data stack
     
     lazy var persistentContainer: NSPersistentContainer = {
@@ -283,10 +264,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        NotificationCenter.default.post(name: UIApplication.didEnterBackgroundNotification, object: nil, userInfo: nil)
 
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
-        NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
         
-        completionHandler(UIBackgroundFetchResult.newData)
+        completionHandler(UIBackgroundFetchResult.noData)
     }
     
     func application(_ application: UIApplication,
@@ -320,7 +301,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             break
         }
         
-        content.sound = nil
+        content.sound = .default
     }
 }
 
@@ -514,13 +495,13 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 }
             }
             else if action == "Check_events_near_you" {
-//                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
-//                   let tabBarController = rootViewController as? UITabBarController,
-//                   let navController = tabBarController.selectedViewController as? UINavigationController {
-//                    vc.eventId = actionId ?? ""
-//                    navController.pushViewController(vc, animated: true)
-//                }
-                Router().toMap()
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.eventId = actionId ?? ""
+                    navController.pushViewController(vc, animated: true)
+                }
+//                Router().toMap()
             }
             else if action == "Check_private_events" {
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
@@ -722,17 +703,13 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             else if Defaults.availableVC == "FriendProfileViewController" {
                 NotificationCenter.default.post(name: Notification.Name("updateFriendVC"), object: nil, userInfo: nil)
             }
-            
-            NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
-            NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         }
         
-        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled"{
-            print("user_chat OR event_chat OR user_chatGroup")
-        }
-        else {
+        if action != "user_chat" || action != "event_chat" || action != "user_chatGroup" || action == "Friend_request_cancelled"{
+            NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
             Defaults.notificationcount = UIApplication.shared.applicationIconBadgeNumber
+            NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
         }
         
 
@@ -948,17 +925,13 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             else if Defaults.availableVC == "FriendProfileViewController" {
                 NotificationCenter.default.post(name: Notification.Name("updateFriendVC"), object: nil, userInfo: nil)
             }
-            
-            NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
-            NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         }
         
-        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled"{
-            print("user_chat OR event_chat OR user_chatGroup")
-        }
-        else {
+        if action != "user_chat" || action != "event_chat" || action != "user_chatGroup" || action == "Friend_request_cancelled" {
+            NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
             Defaults.notificationcount = UIApplication.shared.applicationIconBadgeNumber
+            NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
         }
         
         

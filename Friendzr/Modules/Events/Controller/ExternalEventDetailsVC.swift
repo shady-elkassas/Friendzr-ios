@@ -13,6 +13,25 @@ import Alamofire
 import ListPlaceholder
 import GoogleMobileAds
 import MapKit
+import Network
+
+class DynamicLabel: UILabel {
+    
+    var fullText: String?
+    var truncatedLength = 100
+    var isTruncated = true
+    
+    func collapse(){
+        let index = fullText!.index(fullText!.startIndex, offsetBy: truncatedLength)
+        self.text = fullText![...index].description + "... More"
+        isTruncated = true
+    }
+    
+    func expand(){
+        self.text = fullText
+        isTruncated = false
+    }
+}
 
 class ExternalEventDetailsVC: UIViewController {
 
@@ -152,48 +171,29 @@ class ExternalEventDetailsVC: UIViewController {
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
-    func showNewtworkConnected() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-        case .wifi:
-            internetConect = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
     //MARK:- APIs
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-            loadEventDataDetails()
-        case .wifi:
-            internetConect = true
-            loadEventDataDetails()
+        let monitor = NWPathMonitor()
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                    self.loadEventDataDetails()
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
+
     }
     
     @objc func handleExternalEventDetails() {
@@ -204,15 +204,15 @@ class ExternalEventDetailsVC: UIViewController {
         viewmodel.getEventByID(id: eventId)
         viewmodel.event.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now()) {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 DispatchQueue.main.async {
                     if value.key == 1 {
-                        isEventAdmin = true
+                        self.isEventAdmin = true
                     }else {
-                        isEventAdmin = false
+                        self.isEventAdmin = false
                     }
                     
                     self.initOptionsEventButton()
@@ -239,9 +239,9 @@ class ExternalEventDetailsVC: UIViewController {
         viewmodel.event.bind { [unowned self] value in
             
             DispatchQueue.main.async {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 DispatchQueue.main.async {
                     self.hideView.hideLoader()
@@ -250,9 +250,9 @@ class ExternalEventDetailsVC: UIViewController {
                 
                 DispatchQueue.main.async {
                     if value.key == 1 {
-                        isEventAdmin = true
+                        self.isEventAdmin = true
                     }else {
-                        isEventAdmin = false
+                        self.isEventAdmin = false
                     }
                     
                     self.initOptionsEventButton()
@@ -366,7 +366,7 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             }
             
             cell.HandleLeaveBtn = {
-                self.showNewtworkConnected()
+//                self.showNewtworkConnected()
                 if self.internetConect == true {
                     self.changeTitleBtns(btn: cell.leaveBtn, title: "Leaving...".localizedString)
                     cell.leaveBtn.isUserInteractionEnabled = false
@@ -413,7 +413,7 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             }
             
             cell.HandleJoinBtn = {
-                self.showNewtworkConnected()
+//                self.showNewtworkConnected()
                 
                 let JoinDate = self.formatterDate.string(from: Date())
                 let Jointime = self.formatterTime.string(from: Date())
@@ -452,7 +452,7 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             }
             
             cell.HandleEditBtn = {
-                self.showNewtworkConnected()
+//                self.showNewtworkConnected()
                 if self.internetConect == true {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
                     vc.eventModel = self.viewmodel.event.value
@@ -481,6 +481,10 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
         else if indexPath.row == 3 {//desc
             guard let cell = tableView.dequeueReusableCell(withIdentifier: detailsCellId, for: indexPath) as? EventDetailsTableViewCell else {return UITableViewCell()}
             cell.detailsLbl.text = model?.descriptionEvent
+            
+            if (model?.descriptionEvent?.count ?? 0) > 150 {
+                cell.detailsLbl.addTrailing(with: "...", moreText: "see more", moreTextFont: UIFont(name: "Montserrat-Medium", size: 14)!, moreTextColor: .red)
+            }
             return cell
         }
         

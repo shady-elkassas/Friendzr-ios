@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 import ListPlaceholder
+import Network
 
 class EventsVC: UIViewController {
     
@@ -46,8 +47,6 @@ class EventsVC: UIViewController {
         initBackButton()
         pullToRefresh()
         NotificationCenter.default.addObserver(self, selector: #selector(refreshAllEvents), name: Notification.Name("refreshAllEvents"), object: nil)
-        
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,10 +87,10 @@ class EventsVC: UIViewController {
                     self.hideView.isHidden = true
                 }
 
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
-                initAddNewEventBarButton(total: value.totalRecords ?? 0)
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
+                self.initAddNewEventBarButton(total: value.totalRecords ?? 0)
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
             }
@@ -102,9 +101,9 @@ class EventsVC: UIViewController {
             DispatchQueue.main.async {
                 self.hideLoading()
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    HandleinvalidUrl()
+                    self.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -163,51 +162,26 @@ class EventsVC: UIViewController {
     
     //MARK: - Helper
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            self.emptyView.isHidden = false
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-            self.emptyView.isHidden = true
-            LoadAllEvents(pageNumber: 1)
-        case .wifi:
-            internetConect = true
-            self.emptyView.isHidden = true
-            LoadAllEvents(pageNumber: 1)
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                    self.emptyView.isHidden = true
+                    self.LoadAllEvents(pageNumber: 1)
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.emptyView.isHidden = false
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func updateUserInterfaceBtns() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            self.emptyView.isHidden = false
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-            self.emptyView.isHidden = true
-        case .wifi:
-            internetConect = true
-            self.emptyView.isHidden = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func HandleinvalidUrl() {
@@ -308,7 +282,6 @@ extension EventsVC: UITableViewDataSource {
             }
             
             cell.HandleEditBtn = {
-                self.updateUserInterfaceBtns()
                 if self.internetConect == true {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
                     vc.eventModel = model
@@ -337,7 +310,6 @@ extension EventsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cellSelect = true
-        updateUserInterfaceBtns()
         let model = viewmodel.events.value?.data?[indexPath.row]
         
         if internetConect == true {

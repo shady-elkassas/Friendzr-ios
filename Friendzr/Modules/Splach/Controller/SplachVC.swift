@@ -8,7 +8,7 @@
 import UIKit
 import CoreLocation
 import SwiftUI
-
+import Network
 
 public typealias AnimationCompletion = () -> Void
 public typealias AnimationExecution = () -> Void
@@ -77,25 +77,24 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     }
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
-
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-            getAllValidatConfig()
-        case .wifi:
-            internetConect = true
-            getAllValidatConfig()
+        let monitor = NWPathMonitor()
+        
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                    self.getAllValidatConfig()
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
-
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func getAllValidatConfig() {

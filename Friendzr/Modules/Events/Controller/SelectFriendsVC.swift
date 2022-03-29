@@ -7,10 +7,10 @@
 
 import UIKit
 import ListPlaceholder
+import Network
 
 class SelectFriendsVC: UIViewController {
 
-    
     @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var selectImg: UIImageView!
@@ -22,6 +22,11 @@ class SelectFriendsVC: UIViewController {
     @IBOutlet var profileImgViews: [UIImageView]!
     @IBOutlet var namesFirendsViews: [UIImageView]!
     @IBOutlet var selectImgsView: [UIImageView]!
+
+    @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var tryAgainBtn: UIButton!
+    @IBOutlet weak var emptyLbl: UILabel!
+    @IBOutlet weak var emptyImg: UIImageView!
 
     
     let cellID = "AddFriendsToPrivateEventTableViewCell"
@@ -79,45 +84,25 @@ class SelectFriendsVC: UIViewController {
     }
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConnect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConnect = true
-            LaodAllFriends(pageNumber: 1, search: searchBar.text ?? "")
-        case .wifi:
-            internetConnect = true
-            LaodAllFriends(pageNumber: 1, search: searchBar.text ?? "")
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConnect = true
+                    self.LaodAllFriends(pageNumber: 1, search: self.searchBar.text ?? "")
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConnect = false
+                    self.HandleInternetConnection()
+
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func updateNetworkForBtns() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConnect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConnect = true
-        case .wifi:
-            internetConnect = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func setupSearchBar() {
@@ -140,10 +125,19 @@ class SelectFriendsVC: UIViewController {
         tableView.allowsMultipleSelection = true
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         saveBtn.cornerRadiusView(radius: 8)
+        tryAgainBtn.cornerRadiusView(radius: 8)
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("Network is unavailable, please try again!".localizedString)
+        if cellSelected {
+            emptyView.isHidden = true
+            self.view.makeToast("Network is unavailable, please try again!".localizedString)
+        }else {
+            emptyView.isHidden = false
+            emptyImg.image = UIImage.init(named: "myEventnodata_img")
+            emptyLbl.text = "Network is unavailable, please try again!".localizedString
+            tryAgainBtn.alpha = 1.0
+        }
     }
     
     
@@ -158,19 +152,19 @@ class SelectFriendsVC: UIViewController {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.hideLoader()
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.hideLoader()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
                 DispatchQueue.main.async {
-                    if selectedIDs.count == value.data?.count {
-                        selectAllBtn.isSelected = true
+                    if self.selectedIDs.count == value.data?.count {
+                        self.selectAllBtn.isSelected = true
                     }else {
-                        selectAllBtn.isSelected = false
+                        self.selectAllBtn.isSelected = false
                     }
                 }
             }
@@ -180,7 +174,7 @@ class SelectFriendsVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -197,26 +191,18 @@ class SelectFriendsVC: UIViewController {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
-                
-                
-                if value.data?.count != 0 {
-                    tableView.showLoader()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.tableView.hideLoader()
-                    }
-                }
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 DispatchQueue.main.async {
-                    hideViews.isHidden = true
-                    hideViews.hideLoader()
+                    self.hideViews.isHidden = true
+                    self.hideViews.hideLoader()
                 }
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
-//                showEmptyView()
+                self.showEmptyView()
             }
         }
         
@@ -224,7 +210,7 @@ class SelectFriendsVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -236,14 +222,16 @@ class SelectFriendsVC: UIViewController {
     }
     
     
-//    func showEmptyView() {
-//        let model = viewmodel.friends.value?.data
-//        if model?.count != 0 {
-//            emptyView.isHidden = true
-//        }else {
-//            emptyView.isHidden = false
-//        }
-//    }
+    func showEmptyView() {
+        let model = viewmodel.friends.value?.data
+        tryAgainBtn.alpha = 0.0
+        if model?.count != 0 {
+            emptyView.isHidden = true
+        }else {
+            emptyView.isHidden = false
+            emptyLbl.text = "You haven't any data yet".localizedString
+        }
+    }
     
     func createFooterView() -> UIView {
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
@@ -302,7 +290,9 @@ extension SelectFriendsVC : UISearchBarDelegate {
         guard let text = searchBar.text else {return}
         print(text)
         
-        getAllFriends(pageNumber: 1, search: text)
+        if internetConnect {
+            self.getAllFriends(pageNumber: 1, search: text)
+        }
     }
 }
 

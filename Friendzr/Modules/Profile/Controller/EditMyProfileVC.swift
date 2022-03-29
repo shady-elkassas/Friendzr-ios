@@ -12,6 +12,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import ListPlaceholder
 import QCropper
+import Network
 
 class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate {
     
@@ -161,45 +162,24 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     
     //MARK: - Helpers
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-            setupDate()
-        case .wifi:
-            internetConect = true
-            setupDate()
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = true
+                    self.setupDate()
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func updateUserInterface2() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-        case .wifi:
-            internetConect = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func HandleInternetConnection() {
@@ -683,7 +663,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         logoutAlertView?.detailsLbl.text = "Are you sure you want to logout?".localizedString
         
         logoutAlertView?.HandleConfirmBtn = {
-            self.updateUserInterface2()
             if self.internetConect {
                 self.logoutVM.logoutRequest { error, data in
                     self.hideLoading()
@@ -901,7 +880,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     }
     
     @IBAction func tagsBtn(_ sender: Any) {
-        updateUserInterface2()
         if internetConect {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "SelectedTagsVC") as? SelectedTagsVC else {return}
             vc.arrSelectedDataIds = tagsid
@@ -914,7 +892,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     }
     
     @IBAction func bestDescribesBtn(_ sender: Any) {
-        updateUserInterface2()
         if internetConect {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "IamVC") as? IamVC else {return}
             vc.arrSelectedDataIds = iamid
@@ -926,7 +903,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     
     
     @IBAction func preferToBtn(_ sender: Any) {
-        updateUserInterface2()
         if internetConect {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "PreferToVC") as? PreferToVC else {return}
             vc.arrSelectedDataIds = preferToid
@@ -937,7 +913,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     }
     
     @IBAction func saveBtn(_ sender: Any) {
-        updateUserInterface2()
         print(imgTake)
         if imgTake == 0 {
             if self.attachedImg == false {

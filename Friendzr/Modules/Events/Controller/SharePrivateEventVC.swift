@@ -7,6 +7,7 @@
 
 import UIKit
 import ListPlaceholder
+import Network
 
 class SharePrivateEventVC: UIViewController {
     
@@ -15,13 +16,17 @@ class SharePrivateEventVC: UIViewController {
     
     @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var emptyView: UIView!
-    @IBOutlet weak var emptyLbl: UILabel!
     
     @IBOutlet weak var hideViews: UIView!
     @IBOutlet var namesFirendsViews: [UIImageView]!
     @IBOutlet var btnImgsView: [UIImageView]!
     
+    @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var emptyLbl: UILabel!
+    @IBOutlet weak var tryAgainBtn: UIButton!
+    @IBOutlet weak var emptyImg: UIImageView!
+
+
     var shareEventMessageVM:ChatViewModel = ChatViewModel()
     var viewmodel:AttendeesViewModel = AttendeesViewModel()
     
@@ -83,6 +88,8 @@ class SharePrivateEventVC: UIViewController {
         for item in btnImgsView {
             item.cornerRadiusView(radius: 6)
         }
+        
+        tryAgainBtn.cornerRadiusView(radius: 8)
     }
     
     func setupSearchBar() {
@@ -107,45 +114,25 @@ class SharePrivateEventVC: UIViewController {
     }
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConnect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConnect = true
-            LaodAllAttendees(pageNumber: 1, search: searchBar.text ?? "")
-        case .wifi:
-            internetConnect = true
-            LaodAllAttendees(pageNumber: 1, search: searchBar.text ?? "")
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.internetConnect = true
+                    self.LaodAllAttendees(pageNumber: 1, search: self.searchBar.text ?? "")
+                }
+            }else {
+                DispatchQueue.main.async {
+                    self.internetConnect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func updateNetworkForBtns() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConnect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConnect = true
-        case .wifi:
-            internetConnect = true
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
+
     }
     
     func getAllAttendees(pageNumber:Int,search:String) {
@@ -153,14 +140,14 @@ class SharePrivateEventVC: UIViewController {
         viewmodel.getEventAttendees(ByEventID: eventID, pageNumber: pageNumber, search: search)
         viewmodel.attendees.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                showEmptyView()
+                self.showEmptyView()
             }
         }
         
@@ -180,19 +167,19 @@ class SharePrivateEventVC: UIViewController {
         viewmodel.getEventAttendees(ByEventID: eventID, pageNumber: pageNumber, search: search)
         viewmodel.attendees.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 DispatchQueue.main.async {
-                    hideViews.hideLoader()
-                    hideViews.isHidden = true
+                    self.hideViews.hideLoader()
+                    self.hideViews.isHidden = true
                 }
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                showEmptyView()
+                self.showEmptyView()
             }
         }
         
@@ -212,6 +199,8 @@ class SharePrivateEventVC: UIViewController {
         }else {
             emptyView.isHidden = true
         }
+        
+        tryAgainBtn.alpha = 0.0
     }
     
     func createFooterView() -> UIView {
@@ -224,7 +213,10 @@ class SharePrivateEventVC: UIViewController {
     }
     
     func HandleInternetConnection() {
-        self.view.makeToast("Network is unavailable, please try again!".localizedString)
+        emptyView.isHidden = false
+        emptyImg.image = UIImage.init(named: "feednodata_img")
+        emptyLbl.text = "No available network, please try again!".localizedString
+        tryAgainBtn.alpha = 1.0
     }
 }
 
@@ -252,7 +244,7 @@ extension SharePrivateEventVC: UITableViewDataSource {
         cell.titleLbl.text = model?.userName
         
         cell.HandleSendBtn = {
-            self.updateNetworkForBtns()
+//            self.updateNetworkForBtns()
             if self.internetConnect {
                 cell.sendBtn.setTitle("Sending...", for: .normal)
                 cell.sendBtn.isUserInteractionEnabled = false
@@ -336,7 +328,7 @@ extension SharePrivateEventVC: UISearchBarDelegate{
         guard let text = searchBar.text else {return}
         print(text)
         
-        self.updateNetworkForBtns()
+//        self.updateNetworkForBtns()
         
         if self.internetConnect {
             self.getAllAttendees(pageNumber: 0, search: text)
