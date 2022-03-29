@@ -2,7 +2,7 @@
 //  ExpandDescriptionVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 28/03/2022.
+//  Created by Muhammad Sabri Saad on 28/03/2022.
 //
 
 import UIKit
@@ -28,9 +28,9 @@ class ExpandDescriptionVC: UIViewController {
         
         textView.text = myString
         
-        let height = myString.height(withConstrainedWidth: textView.frame.width, font: UIFont(name: "Montserrat-Medium", size: 14)!)
-        
-        viewHeightLayoutConstraint.constant = height + 20
+//        let height = myString.height(withConstrainedWidth: textView.frame.width, font: UIFont(name: "Montserrat-Medium", size: 14)!)
+//
+//        viewHeightLayoutConstraint.constant = height + 20
         
         closeBtn.tintColor = .white
         closeBtn.cornerRadiusForHeight()

@@ -315,6 +315,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 DispatchQueue.main.async {
                     self.internetConect = true
                     self.zoomingStatisticsView.isHidden = false
+                    
                     if Defaults.allowMyLocationSettings == true {
                         self.bindToModel()
                     }

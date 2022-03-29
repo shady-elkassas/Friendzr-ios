@@ -326,7 +326,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     //MARK: - Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         cellSelect = false
-        updateUserInterface()
+//        updateUserInterface()
     }
     
     //MARK: - Helper

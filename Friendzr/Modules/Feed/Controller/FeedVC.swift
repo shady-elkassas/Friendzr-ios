@@ -587,7 +587,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     
     @IBAction func tryAgainBtn(_ sender: Any) {
-        updateUserInterface()
+//        updateUserInterface()
     }
     
     @IBAction func filterBtn(_ sender: Any) {

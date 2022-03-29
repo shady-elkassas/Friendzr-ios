@@ -472,6 +472,10 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: detailsCellId, for: indexPath) as? EventDetailsTableViewCell else {return UITableViewCell()}
             cell.detailsLbl.text = model?.descriptionEvent
             
+            DispatchQueue.main.async {
+                cell.detailsLbl.addTrailing(with: "... ", moreText: "Read more", moreTextFont: UIFont(name: "Montserrat-Medium", size: 12)!, moreTextColor: UIColor.FriendzrColors.primary!)
+            }
+            
             return cell
         }
         
