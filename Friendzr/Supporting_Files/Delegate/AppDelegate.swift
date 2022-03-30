@@ -728,7 +728,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             }
         }
         
-        if action != "user_chat" || action != "event_chat" || action != "user_chatGroup" || action == "Friend_request_cancelled"{
+        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled" {
+            
+        }else {
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
             Defaults.notificationcount = UIApplication.shared.applicationIconBadgeNumber
             NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
@@ -950,7 +952,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             }
         }
         
-        if action != "user_chat" || action != "event_chat" || action != "user_chatGroup" || action == "Friend_request_cancelled" {
+        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled" {
+            
+        }else {
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
             Defaults.notificationcount = UIApplication.shared.applicationIconBadgeNumber
             NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
