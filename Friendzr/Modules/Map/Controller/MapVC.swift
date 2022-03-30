@@ -125,7 +125,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         setupViews()
         title = "Map".localizedString
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        
+                
         NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
     }
     
@@ -145,14 +145,14 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        mapView.clear()
+        Defaults.availableVC = "MapVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         locationsModel.peoplocationDataMV?.removeAll()
         locationsModel.eventlocationDataMV?.removeAll()
         locations.removeAll()
-        
-        Defaults.availableVC = "MapVC"
-        print("availableVC >> \(Defaults.availableVC)")
-        
+        mapView.clear()
+
         appendNewLocation = false
         goAddEventBtn.isHidden = true
         addEventBtn.isHidden = false
@@ -166,10 +166,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         DispatchQueue.main.async {
             self.updateLocation()
+            self.setupGoogleMap(zoom1: 8, zoom2: 14)
         }
         
         checkLocationPermission()
-        
+
         markerImg.isHidden = true
     }
     
@@ -306,8 +307,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Helpers
     func updateUserInterface() {
-        
-        
         let monitor = NWPathMonitor()
         
         monitor.pathUpdateHandler = { path in
@@ -893,7 +892,9 @@ extension MapVC : CLLocationManagerDelegate {
         if internetConect {
             self.location = manager.location?.coordinate
             locationManager.stopUpdatingLocation()
-            setupGoogleMap(zoom1: -10, zoom2: 14)
+            
+            self.setupGoogleMap(zoom1: 8, zoom2: 14)
+            
         }else {
             print("NOT NETWORK AVILABLE")
         }
@@ -902,7 +903,7 @@ extension MapVC : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             //check  location permissions
-            self.checkLocationPermission()
+//            self.checkLocationPermission()
         }
     }
     
@@ -923,11 +924,11 @@ extension MapVC : CLLocationManagerDelegate {
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
                 Defaults.allowMyLocationSettings = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now()) {
                     self.updateUserInterface()
                 }
                 
-                locationManager.stopUpdatingLocation()
+//                locationManager.stopUpdatingLocation()
                 
                 DispatchQueue.main.async {
                     self.isViewUp = false

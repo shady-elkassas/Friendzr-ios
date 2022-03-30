@@ -794,7 +794,7 @@ extension ConversationVC {
         let imageUser = UIImageView(frame: CGRect(x: 0, y: 2, width: 30, height: 30))
         imageUser.backgroundColor = UIColor.clear
         imageUser.image = UIImage(named: image)
-        imageUser.contentMode = .scaleToFill
+        imageUser.contentMode = .scaleAspectFill
         imageUser.cornerRadiusForHeight()
         imageUser.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeHolderApp"))
         
