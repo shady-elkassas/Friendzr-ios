@@ -265,6 +265,12 @@ class EditEventsVC: UIViewController {
         categoryNameLbl.text = eventModel?.categorie
         addTitleTxt.text = eventModel?.title
         
+        if eventModel?.showAttendees == true {
+            showAttendeesBtn.isSelected = true
+        }else {
+            showAttendeesBtn.isSelected = false
+        }
+        
         if eventModel?.allday == false {
             switchAllDays.isOn = false
             timesview.isHidden = false

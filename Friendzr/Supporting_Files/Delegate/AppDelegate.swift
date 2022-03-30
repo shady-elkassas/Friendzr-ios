@@ -90,17 +90,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Messaging.messaging().delegate = self
         application.registerForRemoteNotifications()
         
-        content.sound = UNNotificationSound.default
+//        content.sound = UNNotificationSound.default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
+        center.requestAuthorization(options: [.alert, .sound]) { granted, error in
+        }
         
         center.add(request, withCompletionHandler: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateBadgeApp), name: Notification.Name("updateBadgeApp"), object: nil)
         application.applicationIconBadgeNumber = 0
         
-        center.requestAuthorization(options: [.alert, .sound]) { granted, error in
-        }
+        
+//        center.getNotificationSettings { settings in
+//            guard (settings.authorizationStatus == .authorized) ||
+//                  (settings.authorizationStatus == .provisional) else { return }
+//
+//            if settings.alertSetting == .enabled {
+//                // Schedule an alert-only notification.
+//            } else {
+//                // Schedule a notification with a badge and sound.
+//            }
+//        }
         
         locationManager.requestAlwaysAuthorization()
         
@@ -120,9 +131,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Defaults.allowMyLocation = true
         }
         
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-        }
+//        DispatchQueue.main.async {
+//            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+//        }
         
         if UIScreen.main.nativeBounds.height < 2500 {
             Defaults.isIPhoneSmall = true
@@ -133,24 +144,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIView.appearance().semanticContentAttribute = .forceLeftToRight
         self.window?.makeKeyAndVisible()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(handleEvent), name: UIApplication.didBecomeActiveNotification, object: nil)
 
         return true
     }
     
-    @objc func appMovedToBackground() {
-        print("appMovedToBackground")
-        Defaults.appState = "Background"
-        print(Defaults.appState)
-    }
-    
-    @objc func appMovedToForeground() {
-        print("appMovedToForeground")
-        Defaults.appState = "Foreground"
-        print(Defaults.appState)
-    }
+//    @objc func appMovedToBackground() {
+//        print("appMovedToBackground")
+//        Defaults.appState = "Background"
+//        print(Defaults.appState)
+//    }
+//
+//    @objc func appMovedToForeground() {
+//        print("appMovedToForeground")
+//        Defaults.appState = "Foreground"
+//        print(Defaults.appState)
+//    }
 
 //    @objc func handleEvent() {
 //        print("handleEvent")
@@ -250,7 +261,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(userInfo)
         
         let _: String = userInfo["sound"] as? String ?? ""
-        content.sound = UNNotificationSound.default
+//        content.sound = UNNotificationSound.default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
         
@@ -320,7 +331,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             break
         }
         
-        content.sound = .default
+//        content.sound = .default
     }
 }
 
@@ -375,7 +386,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             //            let messageType = userInfo["Messagetype"] as? Int
             _ = userInfo["messsageLinkEvenMyEvent"] as? String ?? ""
             
-            self.content.sound = UNNotificationSound.default
+//            self.content.sound = UNNotificationSound.default
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
             let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
             center.add(request, withCompletionHandler: nil)
@@ -540,7 +551,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 
     // Receive displayed notifications for iOS 10 devices.
     func userNotificationCenter(_ center: UNUserNotificationCenter,willPresent notification: UNNotification,withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-
+        
         let userInfo = notification.request.content.userInfo
         
         // Print message ID.
@@ -550,23 +561,23 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // Print full message.
         print(userInfo)
-                
+        
         let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
         let alert = apsAlert?["alert"] as? [String:Any]
-//        let title = alert?["title"] as? String
+        //        let title = alert?["title"] as? String
         let body =  alert?["body"]  as? String
         
         let action = userInfo["Action"] as? String //action transaction
         let actionId = userInfo["Action_code"] as? String //userid
-//        let chatTitle = userInfo["name"] as? String
-//        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
-//        let imageNotifications = chatTitleImage?["image"] as? String
-//        let isEventAdmin = userInfo["isAdmin"] as? String
+        //        let chatTitle = userInfo["name"] as? String
+        //        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
+        //        let imageNotifications = chatTitleImage?["image"] as? String
+        //        let isEventAdmin = userInfo["isAdmin"] as? String
         let messageType = userInfo["Messagetype"] as? String
         let _: String = userInfo["sound"] as? String ?? ""
         let messageTime = userInfo["time"] as? String ?? ""
         let messagedate = userInfo["date"] as? String ?? ""
-
+        
         let messsageImageURL = userInfo["messsageImageURL"] as? String ?? ""
         let messsageLinkEvenImage = userInfo["messsageLinkEvenImage"] as? String ?? ""
         let messsageLinkEvenTitle = userInfo["messsageLinkEvenTitle"] as? String ?? ""
@@ -585,10 +596,10 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
         
-        self.content.sound = UNNotificationSound.default
+        //        self.content.sound = UNNotificationSound.default
         
         
-        if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId //|| Defaults.availableVC == "PresentMyProfileViewController"  || Defaults.availableVC == "PresentFriendProfileViewController"  || Defaults.availableVC == "PresentEventDetailsViewController" || Defaults.availableVC == "PresentReportVC" || Defaults.availableVC == "PresentGroupDetailsVC" {
+        if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId
         {
             if messageType == "1" {//text
                 NotificationMessage.action = action ?? ""
@@ -647,15 +658,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 NotificationMessage.linkPreviewID = messsageLinkEvenId
             }
         }
-                
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
-        center.add(request, withCompletionHandler: nil)
-
-        if action == "user_chat" {
-        }else if action == "event_chat" {
-        }else if action == "user_chatGroup" {
-        }else if action == "Friend_Request" {
+        
+        if action == "Friend_Request" {
             Defaults.frindRequestNumber += 1
             NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
         }else if action == "Accept_Friend_Request" {
@@ -731,7 +735,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
         }
         
-
+        
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
         
@@ -742,7 +746,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             if action == "Friend_request_cancelled" || action == "Friend_block" {
                 completionHandler([[]])
             }
-            else if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
+            else if Defaults.availableVC == "ConversationVC" && Defaults.ConversationID == actionId {
                 completionHandler([[]])
             }
             else {
@@ -759,6 +763,12 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 }
             }
         }
+        
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
+        center.add(request, withCompletionHandler: nil)
+        
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
@@ -807,7 +817,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
         
-        self.content.sound = UNNotificationSound.default
+//        self.content.sound = UNNotificationSound.default
         
         
         if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId
@@ -870,14 +880,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             }
         }
         
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
-        center.add(request, withCompletionHandler: nil)
         
-        if action == "user_chat" {
-        }else if action == "event_chat" {
-        }else if action == "user_chatGroup" {
-        }else if action == "Friend_Request" {
+    if action == "Friend_Request" {
             Defaults.frindRequestNumber += 1
             NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
         }else if action == "Accept_Friend_Request" {
@@ -963,7 +967,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             if action == "Friend_request_cancelled" || action == "Friend_block" {
                 completionHandler([[]])
             }
-            else if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId
+            else if Defaults.availableVC == "ConversationVC" && Defaults.ConversationID == actionId
             {
                 completionHandler([[]])
             }
@@ -981,6 +985,10 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 }
             }
         }
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
+        center.add(request, withCompletionHandler: nil)
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {

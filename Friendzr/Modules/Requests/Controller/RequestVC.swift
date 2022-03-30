@@ -385,7 +385,6 @@ extension RequestVC:UITableViewDataSource {
             
             cell.HandleAcceptBtn = {
                 self.cellSelected = true
-//                self.updateNetworkForBtns()
                 if self.internetConnect {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
@@ -395,11 +394,11 @@ extension RequestVC:UITableViewDataSource {
                             return
                         }
                         
-                        guard let message = message else {return}
+                        guard let ـ = message else {return}
                         
-                        DispatchQueue.main.async {
-                            self.getAllUserRequests(pageNumber: 1)
-                        }
+//                        DispatchQueue.main.async {
+//                            self.getAllUserRequests(pageNumber: 1)
+//                        }
                         
                         DispatchQueue.main.async {
                             cell.stackViewBtns.isHidden = true
@@ -416,7 +415,6 @@ extension RequestVC:UITableViewDataSource {
             
             cell.HandleDeleteBtn = {
                 self.cellSelected = true
-//                self.updateNetworkForBtns()
                 if self.internetConnect {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
@@ -428,9 +426,9 @@ extension RequestVC:UITableViewDataSource {
                         
                         guard let _ = message else {return}
                         
-                        DispatchQueue.main.async {
-                            self.getAllUserRequests(pageNumber: 1)
-                        }
+//                        DispatchQueue.main.async {
+//                            self.getAllUserRequests(pageNumber: 1)
+//                        }
                         
                         DispatchQueue.main.async {
                             cell.stackViewBtns.isHidden = true
@@ -447,7 +445,6 @@ extension RequestVC:UITableViewDataSource {
             
             cell.HandleMessageBtn = {
                 self.cellSelected = true
-//                self.updateNetworkForBtns()
                 if self.internetConnect {
                     let vc = ConversationVC()
                     vc.isEvent = false
@@ -463,7 +460,6 @@ extension RequestVC:UITableViewDataSource {
                     vc.groupId = ""
                     vc.isEventAdmin = false
                     CancelRequest.currentTask = false
-                    
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else {
                     return
@@ -502,7 +498,6 @@ extension RequestVC:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cellSelected = true
-//        updateNetworkForBtns()
         if internetConnect {
             if viewmodel.requests.value?.data?.count != 0 {
                 let model = viewmodel.requests.value?.data?[indexPath.row]

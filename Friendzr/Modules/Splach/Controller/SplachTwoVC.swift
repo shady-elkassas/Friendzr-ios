@@ -26,6 +26,9 @@ class SplachTwoVC: UIViewController {
         nextBtn.layer.applySketchShadow()
         
         
+        if Defaults.isIPhoneSmall {
+            bottomLAyoutConstraint.constant = 55
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

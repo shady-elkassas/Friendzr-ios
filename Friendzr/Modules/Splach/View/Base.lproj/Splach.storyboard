@@ -682,6 +682,7 @@
                     <navigationItem key="navigationItem" id="f5Z-XA-UNF"/>
                     <size key="freeformSize" width="414" height="1000"/>
                     <connections>
+                        <outlet property="bottomLAyoutConstraint" destination="FMP-lA-1Kh" id="MOf-0S-WEP"/>
                         <outlet property="containerView" destination="11D-6r-cVW" id="jjM-YQ-fof"/>
                         <outlet property="nextBtn" destination="9fM-8S-fMa" id="4fr-rc-nex"/>
                         <outlet property="pageControl" destination="BGB-Ce-TMi" id="Awl-YP-iuK"/>

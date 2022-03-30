@@ -46,7 +46,7 @@ class EventDetailsViewController: UIViewController {
     var encryptedID:String = ""
     lazy var refreshControl: UIRefreshControl = UIRefreshControl()
     var isConv:Bool = false
-
+    
     var isEventAdmin: Bool = false
     var selectedVC:Bool = false
     var isprivateEvent:Bool = false
@@ -76,7 +76,7 @@ class EventDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        initOptionsEventButton()
+        //        initOptionsEventButton()
         
         if selectedVC {
             initCloseBarButton()
@@ -246,8 +246,13 @@ class EventDetailsViewController: UIViewController {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
+                self.view.makeToast(error)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                    if self.selectedVC {
+                        self.onDismiss()
+                    }else {
+                        self.onPopup()
+                    }
                 }
             }
         }
@@ -379,11 +384,10 @@ extension EventDetailsViewController: UITableViewDataSource {
             }
             
             cell.HandleLeaveBtn = {
-//                self.showNewtworkConnected()
                 if self.internetConect == true {
                     self.changeTitleBtns(btn: cell.leaveBtn, title: "Leaving...".localizedString)
                     cell.leaveBtn.isUserInteractionEnabled = false
-
+                    
                     self.leaveVM.leaveEvent(ByEventid: self.eventId,leaveeventDate: JoinDate,leaveeventtime: Jointime) { error, data in
                         
                         if let error = error {
@@ -394,30 +398,12 @@ extension EventDetailsViewController: UITableViewDataSource {
                         }
                         
                         guard let _ = data else {return}
-                        
-//                        DispatchQueue.main.async {
-//                            cell.leaveBtn.isHidden = true
-//                            cell.leaveBtn.setTitle("Leave", for: .normal)
-//                            cell.joinBtn.isHidden = false
-//                            cell.leaveBtn.isUserInteractionEnabled = true
-//                        }
-                        
                         DispatchQueue.main.async {
                             if self.selectedVC {
                                 Router().toHome()
                             }else {
                                 self.onPopup()
                             }
-                            //                            if model?.eventtype == "Private" {
-                            //                                if self.selectedVC {
-                            //                                    Router().toHome()
-                            //                                }else {
-                            //                                    self.onPopup()
-                            //                                }
-                            //                            }
-                            //                            else {
-                            //                                self.onPopup()
-                            //                            }
                         }
                     }
                 }else {
@@ -426,8 +412,6 @@ extension EventDetailsViewController: UITableViewDataSource {
             }
             
             cell.HandleJoinBtn = {
-//                self.showNewtworkConnected()
-                
                 let JoinDate = self.formatterDate.string(from: Date())
                 let Jointime = self.formatterTime.string(from: Date())
                 
@@ -436,7 +420,7 @@ extension EventDetailsViewController: UITableViewDataSource {
                     cell.joinBtn.isUserInteractionEnabled = false
                     
                     self.joinVM.joinEvent(ByEventid: self.eventId,JoinDate:JoinDate ,Jointime:Jointime) { error, data in
-
+                        
                         
                         if let error = error {
                             self.hideLoading()
@@ -465,7 +449,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             }
             
             cell.HandleEditBtn = {
-//                self.showNewtworkConnected()
+                //                self.showNewtworkConnected()
                 if self.internetConect == true {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
                     vc.eventModel = self.viewmodel.event.value
@@ -661,7 +645,7 @@ extension EventDetailsViewController: UITableViewDataSource {
 
 extension EventDetailsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = view.bounds.height
+        //        let height = view.bounds.height
         
         if indexPath.row == 0 {
             return screenH/3

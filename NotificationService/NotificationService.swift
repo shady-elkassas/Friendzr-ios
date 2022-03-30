@@ -18,7 +18,7 @@ class NotificationService: UNNotificationServiceExtension {
         
         if let bestAttemptContent = bestAttemptContent {
             // Modify the notification content here...
-            bestAttemptContent.title = "\(bestAttemptContent.title) Friendzr"
+            bestAttemptContent.title = "\(bestAttemptContent.title)"
             
             var urlString:String? = nil
             if let urlImageString = request.content.userInfo["messsageImageURL"] as? String {

@@ -123,7 +123,9 @@ class GroupDetailsVC: UIViewController {
         searchbar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
     }
     
-    
+    var selectedIDs = [String]()
+    var selectedNames = [String]()
+
     func getGroupDetails(search:String) {
         self.superView.showLoader()
         viewmodel.getGroupDetails(id: groupId, search: search)
@@ -138,6 +140,10 @@ class GroupDetailsVC: UIViewController {
                 self.groupImg.sd_setImage(with: URL(string: value.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 self.nameTxt.text = value.name
                 
+                for item in value.chatGroupSubscribers  ?? [] {
+                    self.selectedIDs.append(item.userID ?? "")
+                    self.selectedNames.append(item.userName ?? "")
+                }
                 self.superView.hideLoader()
             }
         }
@@ -200,6 +206,8 @@ class GroupDetailsVC: UIViewController {
     @IBAction func addUsersBtn(_ sender: Any) {
         if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "AddNewUsersForMyGroupNC") as? UINavigationController, let vc = controller.viewControllers.first as? AddNewUsersForMyGroupVC {
             vc.groupId = groupId
+            vc.selectedIDs = selectedIDs
+            vc.selectedNames = selectedNames
             self.present(controller, animated: true)
         }
     }

@@ -27,6 +27,11 @@ class SplachThreeVC: UIViewController {
         pageControl.currentPage = 2
         nextBtn.cornerRadiusForHeight()
         nextBtn.layer.applySketchShadow()
+        
+        
+        if Defaults.isIPhoneSmall {
+            bottomLAyoutConstraint.constant = 55
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -19,7 +19,7 @@ class AddNewUsersForMyGroupVC: UIViewController {
     //MARK: - Properties
     let cellID = "SelectedFriendTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
-
+    
     var viewmodel:AllFriendesViewModel = AllFriendesViewModel()
     var addNewUserGroupVM:GroupViewModel = GroupViewModel()
     
@@ -128,10 +128,10 @@ class AddNewUsersForMyGroupVC: UIViewController {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.hideLoader()
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.hideLoader()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
@@ -142,7 +142,7 @@ class AddNewUsersForMyGroupVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -158,13 +158,13 @@ class AddNewUsersForMyGroupVC: UIViewController {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 
                 if value.data?.count != 0 {
-                    tableView.showLoader()
+                    self.tableView.showLoader()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.tableView.hideLoader()
                     }
@@ -172,7 +172,7 @@ class AddNewUsersForMyGroupVC: UIViewController {
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
-                showEmptyView()
+                self.showEmptyView()
             }
         }
         
@@ -180,12 +180,11 @@ class AddNewUsersForMyGroupVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
-                    
                 }
             }
         }
@@ -230,11 +229,6 @@ class AddNewUsersForMyGroupVC: UIViewController {
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: Notification.Name("updateGroupDetails"), object: nil, userInfo: nil)
                 }
-                
-//                DispatchQueue.main.async {
-//                    self.view.makeToast("New friends have been added to the group successfully".localizedString)
-//                }
-                
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
                     self.onDismiss()
                 }
@@ -266,6 +260,13 @@ extension AddNewUsersForMyGroupVC: UITableViewDataSource {
         let model = viewmodel.friends.value?.data?[indexPath.row]
         cell.titleLbl.text = model?.userName
         cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+        
+        if selectedIDs.contains(model?.userId ?? "") {
+            cell.selectedImg.image = UIImage(named: "selected_ic")
+        }
+        else {
+            cell.selectedImg.image = UIImage(named: "unSelected_ic")
+        }
         
         if indexPath.row == ((viewmodel.friends.value?.data?.count ?? 0) - 1 ) {
             cell.bottomView.isHidden = true

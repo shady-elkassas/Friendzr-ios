@@ -20,7 +20,7 @@ class JoinEventViewModel {
     // create a method for calling api which is return a Observable
     
     //MARK:- Add event
-    func joinEvent(ByEventid eventid:String,JoinDate:String,Jointime:String, completion: @escaping (_ error: String?, _ data: String?) -> ()) {
+    func joinEvent(ByEventid eventid:String,JoinDate:String,Jointime:String, completion: @escaping (_ error: String?, _ data: EventObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Events/joinEvent"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
@@ -39,7 +39,7 @@ class JoinEventViewModel {
             }
             else {
                 // When set the listener (if any) will be notified
-                if let toAdd = userResponse.message {
+                if let toAdd = userResponse.data {
                     completion(nil,toAdd)
                 }
             }

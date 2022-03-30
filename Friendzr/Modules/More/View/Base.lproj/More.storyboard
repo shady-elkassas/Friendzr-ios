@@ -116,7 +116,7 @@
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="J5z-Gx-JQW"/>
-                        <color key="backgroundColor" name="Color0"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="col-s3-Q3u" firstAttribute="centerY" secondItem="PaC-4c-5U4" secondAttribute="centerY" id="PKl-hw-x9p"/>
                             <constraint firstItem="col-s3-Q3u" firstAttribute="centerX" secondItem="PaC-4c-5U4" secondAttribute="centerX" id="azV-C7-GGy"/>

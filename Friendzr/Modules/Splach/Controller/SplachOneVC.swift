@@ -35,8 +35,11 @@ class SplachOneVC: UIViewController {
         
         Defaults.availableVC = "SplachOneVC"
         print("availableVC >> \(Defaults.availableVC)")
+                
         
-        //        hideNavigationBar(NavigationBar: true, BackButton: true)
+        if Defaults.isIPhoneSmall {
+            bottomLAyoutConstraint.constant = 55
+        }
         
         if selectVC == "MoreVC" {
             startBtn.setTitle("NEXT", for: .normal)
@@ -51,16 +54,6 @@ class SplachOneVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func getStartBtn(_ sender: Any) {
-        //        if Defaults.needUpdate == 1 {{
-        //            Router().toEditProfileVC()
-        //        }else {
-        //            if Defaults.token != "" {
-        //                Router().toFeed()
-        //            }else {
-        //                Router().toSplach2()
-        //            }
-        //        }}
-        
         if selectVC == "MoreVC" {
             guard let vc = UIViewController.viewController(withStoryboard: .Splach, AndContollerID: "SplachTwoVC") as? SplachTwoVC else {return}
             vc.selectVC = "MoreVC"

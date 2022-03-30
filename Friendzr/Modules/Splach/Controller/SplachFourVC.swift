@@ -14,6 +14,8 @@ class SplachFourVC: UIViewController {
     @IBOutlet weak var skipBtn: UIButton!
     @IBOutlet weak var containerView: UIView!
     
+    @IBOutlet weak var bottomLAyoutConstraint: NSLayoutConstraint!
+
     var selectVC:String = ""
     
     override func viewDidLoad() {
@@ -23,6 +25,11 @@ class SplachFourVC: UIViewController {
         nextBtn.cornerRadiusForHeight()
         nextBtn.layer.applySketchShadow()
         containerView.layer.applySketchShadow()
+        
+        
+        if Defaults.isIPhoneSmall {
+            bottomLAyoutConstraint.constant = 55
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

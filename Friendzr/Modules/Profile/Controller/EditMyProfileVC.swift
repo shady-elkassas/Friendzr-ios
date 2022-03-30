@@ -20,8 +20,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var superView: UIView!
     @IBOutlet weak var nameTxt: UITextField!
-//    @IBOutlet weak var dateBirthLbl: UILabel!
-    
     @IBOutlet weak var dateBirthdayTxt: UITextField!
     @IBOutlet weak var dateView: UIView!
     @IBOutlet weak var nameView: UIView!
@@ -146,8 +144,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             initBackButton()
         }
         
-//        clearNavigationBar()
-        
         CancelRequest.currentTask = false
         
         setupNavBar()
@@ -224,14 +220,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                 placeHolderLbl.isHidden = false
             }
             
-            //            if profileModel?.birthdate == "" {
-            //                dateBirthLbl.text = "Select your birthdate".localizedString
-            //                dateBirthLbl.textColor = .lightGray
-            //            }
-            //            else {
             dateBirthdayTxt.text = profileModel?.birthdate
-            //            dateBirthdayTxt.textColor = .black
-            //            }
             
             if profileModel?.userImage != "" {
                 profileImg.sd_setImage(with: URL(string: profileModel?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
@@ -813,41 +802,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         self.view.endEditing(true)
     }
     
-
-    @IBAction func dateBtn(_ sender: Any) {
-//        calendarView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-//
-//        calendarView?.HandleOKBtn = {
-//            let formatter = DateFormatter()
-//            formatter.dateFormat = "dd-MM-yyyy"
-//            self.dateBirthdayTxt.text = formatter.string(from: (self.calendarView?.calendarView.date)!)
-//            self.birthDay = formatter.string(from: (self.calendarView?.calendarView.date)!)
-//            self.dateBirthdayTxt.textColor = .black
-//
-//            UIView.animate(withDuration: 0.3, animations: {
-//                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-//                self.calendarView?.alpha = 0
-//            }) { (success: Bool) in
-//                self.calendarView?.removeFromSuperview()
-//                self.calendarView?.alpha = 1
-//                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-//            }
-//        }
-//
-//        calendarView?.HandleCancelBtn = {
-//            // handling code
-//            UIView.animate(withDuration: 0.3, animations: {
-//                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-//                self.calendarView?.alpha = 0
-//            }) { (success: Bool) in
-//                self.calendarView?.removeFromSuperview()
-//                self.calendarView?.alpha = 1
-//                self.calendarView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-//            }
-//        }
-//
-//        self.view.addSubview((calendarView)!)
-    }
     
     @IBAction func maleBtn(_ sender: Any) {
         maleImg.image = UIImage(named: "select_ic")

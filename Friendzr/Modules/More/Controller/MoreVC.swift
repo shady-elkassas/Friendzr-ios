@@ -38,8 +38,6 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         super.viewDidLoad()
         
         setupView()
-        
-        setupUserData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,6 +97,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
             if path.status == .satisfied {
                 DispatchQueue.main.async {
                     self.internetConect = true
+                    self.setupUserData()
                 }
             }else {
                 DispatchQueue.main.async {

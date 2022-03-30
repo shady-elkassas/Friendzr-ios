@@ -286,10 +286,12 @@ class AddGroupVC: UIViewController {
             }
             
             addGroupChat.createGroup(withName: groupNameTxt.text!, AndListOfUserIDs: selectedIDs, AndRegistrationDateTime: "\(actionDate) \(actionTime)", attachedImg: self.attachedImg, AndImage: groupImg.image ?? UIImage()) { error, data in
-                DispatchQueue.main.async {
-                    self.doneBtn.isUserInteractionEnabled = true
-                    self.doneBtn.setTitle("Done", for: .normal)
-                }
+                
+//                DispatchQueue.main.async {
+//                    self.doneBtn.isUserInteractionEnabled = true
+//                    self.doneBtn.setTitle("Done", for: .normal)
+//                }
+                
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)

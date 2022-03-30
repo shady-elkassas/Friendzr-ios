@@ -287,6 +287,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         CancelRequest.currentTask = true
         
         tabBarController?.tabBar.isHidden = false
+        self.hideLoading()
         
         Defaults.ConversationID = ""
     }

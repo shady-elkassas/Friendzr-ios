@@ -169,7 +169,6 @@ extension ReportVC: UITableViewDataSource {
         else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: confirmBtnCellID, for: indexPath) as? ConfirmReportButtonTableViewCell else {return UITableViewCell()}
             cell.HandleConfirmBtn = {
-//                self.updateNetworkForBtns()
                 if self.id != "" {
                     if self.internetConnect {
                         cell.confirmBtn.setTitle("Submitting...", for: .normal)
@@ -184,7 +183,7 @@ extension ReportVC: UITableViewDataSource {
                             
                             guard let _ = data else {return}
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                if self.selectedVC == "Present" {
+                                if self.selectedVC == "Present" || self.selectedVC == "PresentC" {
                                     self.onDismiss()
                                 }else {
                                     self.onPopup()

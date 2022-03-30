@@ -230,7 +230,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         initGhostModeSwitchButton()
         setupHideView()
         setupNavBar()
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

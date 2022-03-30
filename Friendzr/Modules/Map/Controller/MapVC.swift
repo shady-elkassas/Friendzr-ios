@@ -145,10 +145,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        mapView.clear()
         locationsModel.peoplocationDataMV?.removeAll()
         locationsModel.eventlocationDataMV?.removeAll()
         locations.removeAll()
-        mapView.clear()
         
         Defaults.availableVC = "MapVC"
         print("availableVC >> \(Defaults.availableVC)")

@@ -22,7 +22,7 @@ class TermsAndConditionsVC: UIViewController,WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        clearNavigationBar()
+        setupNavBar()
         initBackButton()
         setupWebView()
         self.title = titleVC

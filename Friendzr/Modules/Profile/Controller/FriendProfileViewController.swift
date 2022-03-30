@@ -352,6 +352,10 @@ extension FriendProfileViewController:UITableViewDataSource {
                         }
                         
                         DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+                        }
+                        
+                        DispatchQueue.main.async {
                             self.getFriendProfileInformation()
                         }
                     }
@@ -373,6 +377,10 @@ extension FriendProfileViewController:UITableViewDataSource {
                         guard let _ = message else {return}
                         DispatchQueue.main.async {
                             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                        }
+                        
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                         }
                         
                         DispatchQueue.main.async {
@@ -402,8 +410,13 @@ extension FriendProfileViewController:UITableViewDataSource {
                             }
                             
                             guard let _ = message else {return}
+                            
                             DispatchQueue.main.async {
                                 NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                            }
+                            
+                            DispatchQueue.main.async {
+                                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                             }
                             
                             DispatchQueue.main.async {
@@ -443,6 +456,10 @@ extension FriendProfileViewController:UITableViewDataSource {
                         
                         DispatchQueue.main.async {
                             NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                        }
+                        
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                         }
                         
                         DispatchQueue.main.async {
