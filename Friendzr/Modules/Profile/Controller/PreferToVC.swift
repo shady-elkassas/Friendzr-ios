@@ -44,7 +44,7 @@ class PreferToVC: UIViewController {
         super.viewDidLoad()
         
         initBackButton()
-        title = "I perfer to".localizedString
+        title = "I prefer to".localizedString
         
         setupView()
         DispatchQueue.main.async {
