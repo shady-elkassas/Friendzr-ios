@@ -149,11 +149,19 @@
         <scene sceneID="DRA-nT-Lv2">
             <objects>
                 <viewController storyboardIdentifier="SplachVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="HZK-22-RHD" customClass="SplachVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gSg-zf-tiZ">
+                    <view key="view" contentMode="scaleToFill" id="gSg-zf-tiZ" customClass="GradientView2" customModule="Friendzr" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="FvU-Dy-hhD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
+                                <color key="value" red="0.4823529411764706" green="0.89411764705882346" blue="0.58431372549019611" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="secondColor">
+                                <color key="value" red="0.19607843137254902" green="0.61568627450980395" blue="0.61176470588235299" alpha="1" colorSpace="calibratedRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <navigationItem key="navigationItem" id="05c-Sw-Uvd"/>
                 </viewController>

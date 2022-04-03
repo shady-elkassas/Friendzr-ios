@@ -562,6 +562,7 @@ PODS:
   - ObjectMapper (4.2.0)
   - PromisesObjC (2.0.0)
   - QCropper (0.1.7)
+  - RevealingSplashView (0.6.0)
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
@@ -588,6 +589,7 @@ DEPENDENCIES:
   - MultiSlider
   - ObjectMapper
   - QCropper
+  - RevealingSplashView
   - SDWebImage
 
 SPEC REPOS:
@@ -634,6 +636,7 @@ SPEC REPOS:
     - ObjectMapper
     - PromisesObjC
     - QCropper
+    - RevealingSplashView
     - SDWebImage
     - SweeterSwift
 
@@ -680,9 +683,10 @@ SPEC CHECKSUMS:
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   QCropper: aef6bad1e683e62b501fb8258359ccd10c68b4f2
+  RevealingSplashView: 40c5a770894459736acdc95655eeba0dd30ce91c
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SweeterSwift: 8a90cf3156f5a1b6f39785c479369a16633b5ea9
 
-PODFILE CHECKSUM: 2dab45d742eda1e5611acf488163e3fce5a1ea52
+PODFILE CHECKSUM: 30beebd7fe897c0b01b1b16c46bd4f0e5a8ae9b8
 
 COCOAPODS: 1.10.2

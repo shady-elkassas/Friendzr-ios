@@ -17,7 +17,7 @@ class AddNewUsersForMyGroupVC: UIViewController {
     @IBOutlet weak var emptyView: UIView!
     
     //MARK: - Properties
-    let cellID = "SelectedFriendTableViewCell"
+    let cellID = "AddFriendsToPrivateEventTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
     
     var viewmodel:AllFriendesViewModel = AllFriendesViewModel()
@@ -216,6 +216,7 @@ class AddNewUsersForMyGroupVC: UIViewController {
         if selectedIDs.count == 0 {
             self.view.makeToast("Please select group participants".localizedString)
         }else {
+            doneBtn.setTitle("Sending...", for: .normal)
             addNewUserGroupVM.addUsersGroup(withGroupId: groupId, AndListOfUserIDs: selectedIDs, AndRegistrationDateTime: "\(actionDate) \(actionTime)") { error, data in
                 if let error = error {
                     DispatchQueue.main.async {
@@ -229,7 +230,8 @@ class AddNewUsersForMyGroupVC: UIViewController {
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: Notification.Name("updateGroupDetails"), object: nil, userInfo: nil)
                 }
-                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
+                
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.5) {
                     self.onDismiss()
                 }
             }
@@ -256,7 +258,7 @@ extension AddNewUsersForMyGroupVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? SelectedFriendTableViewCell else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? AddFriendsToPrivateEventTableViewCell else {return UITableViewCell()}
         let model = viewmodel.friends.value?.data?[indexPath.row]
         cell.titleLbl.text = model?.userName
         cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
@@ -308,6 +310,7 @@ extension AddNewUsersForMyGroupVC: UITableViewDelegate {
         
         print("selectedIDs = \(selectedIDs)")
         print("selectedNames = \(selectedNames)")
+        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -330,6 +333,8 @@ extension AddNewUsersForMyGroupVC: UITableViewDelegate {
         
         print("selectedIDs = \(selectedIDs)")
         print("selectedNames = \(selectedNames)")
+        tableView.reloadData()
+
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

@@ -40,7 +40,7 @@ class NewConversationVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "New Conversation".localizedString
+        self.title = "Chat".localizedString
         initCancelBarButton()
         setupSearchBar()
         setupViews()

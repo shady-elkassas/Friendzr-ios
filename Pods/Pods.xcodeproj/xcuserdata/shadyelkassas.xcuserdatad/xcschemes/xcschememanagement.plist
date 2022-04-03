@@ -291,19 +291,26 @@
 			<key>orderHint</key>
 			<integer>47</integer>
 		</dict>
-		<key>SDWebImage.xcscheme</key>
+		<key>RevealingSplashView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>48</integer>
 		</dict>
-		<key>SweeterSwift.xcscheme</key>
+		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>49</integer>
+		</dict>
+		<key>SweeterSwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>50</integer>
 		</dict>
 		<key>abseil.xcscheme</key>
 		<dict>

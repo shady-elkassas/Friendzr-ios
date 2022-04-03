@@ -166,7 +166,7 @@ class GroupChatMessagesResponse: Mappable {
 
 class GroupMessagesModel: Mappable {
     
-    var subscribers: [ChatGroupSubscribersObj]?
+    var subscribers: [UserConversationModel]?
     var pagedModel: MessagesDataModel?
     
     required init?(map: Map) {

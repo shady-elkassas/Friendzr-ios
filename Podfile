@@ -32,7 +32,7 @@ target 'Friendzr' do
   pod 'GooglePlaces'
   pod 'MultiSlider'
   pod 'ListPlaceholder'
-#  pod 'ImageCropper'
+  pod 'RevealingSplashView'
 
   pod 'QCropper'
 

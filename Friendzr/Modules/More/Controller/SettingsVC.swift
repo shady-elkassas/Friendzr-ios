@@ -39,7 +39,8 @@ class SettingsVC: UIViewController {
     var model:SettingsObj? = nil
     
     var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
-    
+    var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
+
     var locationManager: CLLocationManager!
     var locationLat = 0.0
     var locationLng = 0.0
@@ -120,6 +121,19 @@ class SettingsVC: UIViewController {
             }
         }
     }
+    
+    func getAllValidatConfig() {
+        allValidatConfigVM.getAllValidatConfig()
+        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+        }
+        
+        // Set View Model Event Listener
+        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                print(error)
+            }
+        }
+    }
         
     func setupData() {
         tableView.dataSource = self
@@ -161,6 +175,10 @@ class SettingsVC: UIViewController {
                 DispatchQueue.main.async {
                     self.internetConect = true
                     self.getUserSettings()
+                    
+                    DispatchQueue.main.async {
+                        self.getAllValidatConfig()
+                    }
                 }
             }else {
                 DispatchQueue.main.async {

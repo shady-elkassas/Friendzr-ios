@@ -38,6 +38,7 @@ class AllValidatConfigViewModel {
             else {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
+                    Defaults.initValidationConfig(validate: toAdd)
                     self.userValidationConfig.value = toAdd
                 }
             }

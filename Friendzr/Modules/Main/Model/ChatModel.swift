@@ -162,8 +162,16 @@ class UserConversationModel: NSObject,Mappable {
     var myEventO:Bool? = false
     var stutus: Int? = 0
 
+    var chatGroupSubscriberType:Int = 0
+    var clearChatDateTime:String = ""
+    var isAdminGroup:Bool = false
+    var isMuted:String = ""
+    var leaveDateTime:String = ""
+    var leaveGroup: Int? = 0
+    var removedDateTime:String = ""
+
     var isSelected:Bool = false
-    
+
     override init() {
         super.init()
     }
@@ -185,6 +193,15 @@ class UserConversationModel: NSObject,Mappable {
         stutus <- map["stutus"]
         joinDate <- map["joinDate"]
         myEventO <- map["myEvent"]
+        
+        
+        chatGroupSubscriberType <- map["chatGroupSubscriberType"]
+        clearChatDateTime <- map["clearChatDateTime"]
+        isAdminGroup <- map["isAdminGroup"]
+        isMuted <- map["isMuted"]
+        leaveDateTime <- map["leaveDateTime"]
+        leaveGroup <- map["leaveGroup"]
+        removedDateTime <- map["removedDateTime"]
     }
 }
 

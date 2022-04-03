@@ -96,6 +96,8 @@ class AddEventVC: UIViewController {
     let eventTypeCellId = "ProblemTableViewCell"
     var catsVM:AllCategoriesViewModel = AllCategoriesViewModel()
     var typesVM:EventTypeViewModel = EventTypeViewModel()
+    var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
+
     var catID = ""
     var catselectedID:String = ""
     var catSelectedName:String = ""
@@ -557,8 +559,15 @@ class AddEventVC: UIViewController {
             if path.status == .satisfied {
                 DispatchQueue.main.async {
                     self.internetConect = true
-                    self.getCats()
-                    self.getEventTypes()
+                    DispatchQueue.main.async {
+                        self.getCats()
+                    }
+                    DispatchQueue.main.async {
+                        self.getEventTypes()
+                    }
+                    DispatchQueue.main.async {
+                        self.getAllValidatConfig()
+                    }
                 }
             }else {
                 DispatchQueue.main.async {
@@ -574,6 +583,19 @@ class AddEventVC: UIViewController {
     
     func HandleInternetConnection() {
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
+    }
+    
+    func getAllValidatConfig() {
+        allValidatConfigVM.getAllValidatConfig()
+        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+        }
+        
+        // Set View Model Event Listener
+        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                print(error)
+            }
+        }
     }
     
     func setupView() {

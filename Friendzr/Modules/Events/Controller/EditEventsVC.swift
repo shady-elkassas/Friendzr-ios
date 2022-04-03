@@ -91,6 +91,7 @@ class EditEventsVC: UIViewController {
     var viewmodel:EditEventViewModel = EditEventViewModel()
     var deleteEventVM:DeleteEventViewModel = DeleteEventViewModel()
     var typesVM:EventTypeViewModel = EventTypeViewModel()
+    var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
 
     var minimumDate:Date = Date()
     var maximumDate:Date = Date()
@@ -257,6 +258,20 @@ class EditEventsVC: UIViewController {
             self.view.addSubview((deleteAlertView)!)
         }else {
             return
+        }
+    }
+    
+
+    func getAllValidatConfig() {
+        allValidatConfigVM.getAllValidatConfig()
+        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+        }
+        
+        // Set View Model Event Listener
+        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                print(error)
+            }
         }
     }
     

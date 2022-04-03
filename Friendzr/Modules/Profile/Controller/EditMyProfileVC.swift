@@ -79,6 +79,9 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var profileModel:ProfileObj? = nil
     var logoutVM:LogoutViewModel = LogoutViewModel()
     var faceRecognitionVM:FaceRecognitionViewModel = FaceRecognitionViewModel()
+    
+    var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
+
     var tagsid:[String] = [String]()
     var tagsNames:[String] = [String]()
     var iamid:[String] = [String]()
@@ -164,7 +167,13 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             if path.status == .satisfied {
                 DispatchQueue.main.async {
                     self.internetConect = true
-                    self.setupDate()
+                    DispatchQueue.main.async {
+                        self.getAllValidatConfig()
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.setupDate()
+                    }
                 }
             }else {
                 DispatchQueue.main.async {
@@ -204,6 +213,19 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     
     //MARK: - API
 
+    func getAllValidatConfig() {
+        allValidatConfigVM.getAllValidatConfig()
+        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+        }
+        
+        // Set View Model Event Listener
+        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                print(error)
+            }
+        }
+    }
+    
     func setupDate() {
         if needUpdateVC {
             nameTxt.text = Defaults.userName

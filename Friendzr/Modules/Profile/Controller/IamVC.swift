@@ -137,7 +137,6 @@ class IamVC: UIViewController {
     
     @IBAction func triAgainBtn(_ sender: Any) {
     }
-    
 }
 
 extension IamVC:UICollectionViewDataSource {

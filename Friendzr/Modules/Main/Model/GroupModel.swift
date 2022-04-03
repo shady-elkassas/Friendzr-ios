@@ -38,7 +38,7 @@ class GroupModel: Mappable {
     var leaveGroup: Int? = 0
     var listOfUserIDs: [String]? = []
     var registrationDateTime: String? = ""
-    var chatGroupSubscribers:[ChatGroupSubscribersObj]? = []
+    var chatGroupSubscribers:[UserConversationModel]? = []
     
     required init?(map: Map) {
     }
@@ -57,38 +57,38 @@ class GroupModel: Mappable {
 }
 
 
-class ChatGroupSubscribersObj: Mappable {
-    
-    var removedDateTime: String?
-    var clearChatDateTime: String?
-    var isMuted: Bool?
-    var status: Int?
-    var type: Int?
-    var userID: String?
-    var userName:String?
-    var leaveDateTime:String?
-    var joinDateTime:String?
-    var userImage:String? = ""
-    var leaveGroup: Int? = 0
-    var chatGroupSubscriberType:Int = 0
-    var isAdminGroup:Bool = false
-    
-    required init?(map: Map) {
-    }
-    // Mappable
-    func mapping(map: Map) {
-        removedDateTime    <- map["removedDateTime"]
-        clearChatDateTime   <- map["clearChatDateTime"]
-        isMuted  <- map["isMuted"]
-        status  <- map["status"]
-        type  <- map["type"]
-        userID  <- map["userID"]
-        userName  <- map["userName"]
-        leaveDateTime  <- map["leaveDateTime"]
-        joinDateTime  <- map["joinDateTime"]
-        userImage  <- map["userImage"]
-        leaveGroup  <- map["leaveGroup"]
-        chatGroupSubscriberType  <- map["chatGroupSubscriberType"]
-        isAdminGroup  <- map["isAdminGroup"]
-    }
-}
+//class ChatGroupSubscribersObj: Mappable {
+//
+//    var removedDateTime: String?
+//    var clearChatDateTime: String?
+//    var isMuted: Bool?
+//    var status: Int?
+//    var type: Int?
+//    var userID: String?
+//    var userName:String?
+//    var leaveDateTime:String?
+//    var joinDateTime:String?
+//    var userImage:String? = ""
+//    var leaveGroup: Int? = 0
+//    var chatGroupSubscriberType:Int = 0
+//    var isAdminGroup:Bool = false
+//
+//    required init?(map: Map) {
+//    }
+//    // Mappable
+//    func mapping(map: Map) {
+//        removedDateTime    <- map["removedDateTime"]
+//        clearChatDateTime   <- map["clearChatDateTime"]
+//        isMuted  <- map["isMuted"]
+//        status  <- map["status"]
+//        type  <- map["type"]
+//        userID  <- map["userID"]
+//        userName  <- map["userName"]
+//        leaveDateTime  <- map["leaveDateTime"]
+//        joinDateTime  <- map["joinDateTime"]
+//        userImage  <- map["userImage"]
+//        leaveGroup  <- map["leaveGroup"]
+//        chatGroupSubscriberType  <- map["chatGroupSubscriberType"]
+//        isAdminGroup  <- map["isAdminGroup"]
+//    }
+//}

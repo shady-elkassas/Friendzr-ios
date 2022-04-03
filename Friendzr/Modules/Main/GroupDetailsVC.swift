@@ -9,7 +9,7 @@ import UIKit
 import QCropper
 
 class GroupDetailsVC: UIViewController {
-
+    
     @IBOutlet weak var superView: UIView!
     @IBOutlet weak var groupImg: UIImageView!
     @IBOutlet weak var cameraBtn: UIButton!
@@ -20,7 +20,7 @@ class GroupDetailsVC: UIViewController {
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var searchbar: UISearchBar!
     @IBOutlet weak var searchBarView: UIView!
-
+    
     
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
@@ -48,7 +48,7 @@ class GroupDetailsVC: UIViewController {
     let imagePicker = UIImagePickerController()
     var selectedVC:Bool = false
     var viewmodel:GroupViewModel = GroupViewModel()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,7 +125,8 @@ class GroupDetailsVC: UIViewController {
     
     var selectedIDs = [String]()
     var selectedNames = [String]()
-
+    var selectedFrineds = [UserConversationModel]()
+    
     func getGroupDetails(search:String) {
         self.superView.showLoader()
         viewmodel.getGroupDetails(id: groupId, search: search)
@@ -140,10 +141,19 @@ class GroupDetailsVC: UIViewController {
                 self.groupImg.sd_setImage(with: URL(string: value.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 self.nameTxt.text = value.name
                 
+                self.selectedIDs.removeAll()
+                self.selectedNames.removeAll()
+                self.selectedFrineds.removeAll()
                 for item in value.chatGroupSubscribers  ?? [] {
-                    self.selectedIDs.append(item.userID ?? "")
-                    self.selectedNames.append(item.userName ?? "")
+                    self.selectedIDs.append(item.userId)
+                    self.selectedNames.append(item.userName )
+                    self.selectedFrineds.append(item)
                 }
+                
+                self.selectedNames.remove(at: 0)
+                self.selectedIDs.remove(at: 0)
+                self.selectedFrineds.remove(at: 0)
+                
                 self.superView.hideLoader()
             }
         }
@@ -151,11 +161,11 @@ class GroupDetailsVC: UIViewController {
         // Set View Model Event Listener
         viewmodel.errorMsg.bind { [unowned self]error in
             DispatchQueue.main.async {
-//                    self.view.makeToast(error)
+                //                    self.view.makeToast(error)
             }
         }
     }
-
+    
     @IBAction func editImgBtn(_ sender: Any) {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
@@ -208,10 +218,10 @@ class GroupDetailsVC: UIViewController {
             vc.groupId = groupId
             vc.selectedIDs = selectedIDs
             vc.selectedNames = selectedNames
+            vc.selectedFriends = selectedFrineds
             self.present(controller, animated: true)
         }
     }
-
 }
 
 extension GroupDetailsVC {
@@ -488,7 +498,7 @@ extension GroupDetailsVC : UITableViewDataSource {
         
         
         cell.friendNameLbl.text = model?.userName
-        cell.friendImg.sd_setImage(with: URL(string: model?.userImage ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
+        cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
         
         //        cell.joinDateLbl.text = "join date: ".localizedString + "\(model?.joinDateTime ?? "")"
         cell.joinDateLbl.isHidden = true
@@ -498,7 +508,7 @@ extension GroupDetailsVC : UITableViewDataSource {
                 let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                 
                 settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "delete", userID: model?.userID ?? "", Stutus: 1)
+                    self.showAlertView(messageString: "delete", userID: model?.userId ?? "", Stutus: 1)
                 }))
                 //                settingsActionSheet.addAction(UIAlertAction(title:"Make coordinator".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 //                    //                    self.showAlertView(messageString: "Make coordinator".localizedString, userID: model?.userID ?? "", Stutus: 2)
@@ -510,7 +520,7 @@ extension GroupDetailsVC : UITableViewDataSource {
                 let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
                 
                 settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "delete".localizedString, userID: model?.userID ?? "", Stutus: 1)
+                    self.showAlertView(messageString: "delete".localizedString, userID: model?.userId ?? "", Stutus: 1)
                 }))
                 //                settingsActionSheet.addAction(UIAlertAction(title:"Make coordinator".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
                 //                    //                    self.showAlertView(messageString: "Make coordinator".localizedString, userID: model?.userID ?? "", Stutus: 2)
