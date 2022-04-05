@@ -265,9 +265,11 @@ extension AddNewUsersForMyGroupVC: UITableViewDataSource {
         
         if selectedIDs.contains(model?.userId ?? "") {
             cell.selectedImg.image = UIImage(named: "selected_ic")
+            cell.isUserInteractionEnabled = false
         }
         else {
             cell.selectedImg.image = UIImage(named: "unSelected_ic")
+            cell.isUserInteractionEnabled = true
         }
         
         if indexPath.row == ((viewmodel.friends.value?.data?.count ?? 0) - 1 ) {
@@ -334,7 +336,6 @@ extension AddNewUsersForMyGroupVC: UITableViewDelegate {
         print("selectedIDs = \(selectedIDs)")
         print("selectedNames = \(selectedNames)")
         tableView.reloadData()
-
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

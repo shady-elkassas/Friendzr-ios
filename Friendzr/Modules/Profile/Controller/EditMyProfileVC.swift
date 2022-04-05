@@ -13,8 +13,10 @@ import FBSDKLoginKit
 import ListPlaceholder
 import QCropper
 import Network
+import SafariServices
+import AWSRekognition
 
-class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate {
+class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate , SFSafariViewControllerDelegate{
     
     //MARK:- Outlets
     @IBOutlet weak var profileImg: UIImageView!
@@ -117,6 +119,10 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var imgTake: Int = 0
     
     let datePicker = UIDatePicker()
+
+    
+    var infoLinksMap: [Int:String] = [1000:""]
+    var rekognitionObject:AWSRekognition?
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -992,51 +998,57 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         
         let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
       
-        let originImg = image.fixOrientation()
+//        let originImg = image.fixOrientation()
 //        self.profileImg.image = image
 //        self.imgTake = 0
 //        self.attachedImg = true
                 
 //        let cropper = CropperViewController(originalImage: originImg)
-         let cropper = CustomCropperViewController(originalImage: originImg)
-        cropper.delegate = self
+//         let cropper = CustomCropperViewController(originalImage: originImg)
+//        cropper.delegate = self
+//
+//        self.navigationController?.pushViewController(cropper, animated: true)
+//
+//        picker.dismiss(animated: true) {
+////            self.present(cropper, animated: true, completion: nil)
+////            setupNavBar()
+////            hideNavigationBar(NavigationBar: false, BackButton: false)
+//        }
+        
+        
+        if imgTake == 1 {
+            let image1 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+            picker.dismiss(animated:true, completion: {
+                
+                self.faceImgOne = image1
+                self.imgTake = 2
+                print(self.imgTake)
+                
+                guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FacialRecognitionPopUpView2") as? FacialRecognitionPopUpView2 else {return}
+                popupVC.modalPresentationStyle = .overCurrentContext
+                popupVC.modalTransitionStyle = .crossDissolve
+                let pVC = popupVC.popoverPresentationController
+                pVC?.permittedArrowDirections = .any
+                pVC?.delegate = self
+                pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+                popupVC.faceImgOne = self.faceImgOne
+                let celebImage:Data = self.faceImgOne.pngData()!
+                self.sendImageToRekognition(celebImageData: celebImage)
+                popupVC.onVerifyCallBackResponse = self.onVerifyCallBack
+                self.present(popupVC, animated: true, completion: nil)
+            })
+        }else if self.imgTake == 2 {
+            let image2 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+            picker.dismiss(animated:true, completion: {
+                self.attachedImg = true
+                self.faceImgTwo = image2.fixOrientation()
+                
+                let celebImage:Data = self.faceImgOne.pngData()!
+                self.sendImageToRekognition(celebImageData: celebImage)
 
-        self.navigationController?.pushViewController(cropper, animated: true)
-
-        picker.dismiss(animated: true) {
-//            self.present(cropper, animated: true, completion: nil)
-//            setupNavBar()
-//            hideNavigationBar(NavigationBar: false, BackButton: false)
+//                self.FacialRecognitionAPI(imageOne: self.faceImgOne, imageTwo: self.faceImgTwo)
+            })
         }
-        
-        
-        //        if imgTake == 1 {
-        //            let image1 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-        //            picker.dismiss(animated:true, completion: {
-        //
-        //                self.faceImgOne = image1
-        //                self.imgTake = 2
-        //                print(self.imgTake)
-        //
-        //                guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FacialRecognitionPopUpView2") as? FacialRecognitionPopUpView2 else {return}
-        //                popupVC.modalPresentationStyle = .overCurrentContext
-        //                popupVC.modalTransitionStyle = .crossDissolve
-        //                let pVC = popupVC.popoverPresentationController
-        //                pVC?.permittedArrowDirections = .any
-        //                pVC?.delegate = self
-        //                pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
-        //                popupVC.faceImgOne = self.faceImgOne
-        //                popupVC.onVerifyCallBackResponse = self.onVerifyCallBack
-        //                self.present(popupVC, animated: true, completion: nil)
-        //            })
-        //        }else if self.imgTake == 2 {
-        //            let image2 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
-        //            picker.dismiss(animated:true, completion: {
-        //                self.attachedImg = true
-        //                self.faceImgTwo = image2.fixOrientation()
-        //                self.FacialRecognitionAPI(imageOne: self.faceImgOne, imageTwo: self.faceImgTwo)
-        //            })
-        //        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -1119,5 +1131,95 @@ extension EditMyProfileVC {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
         }
+    }
+}
+
+extension EditMyProfileVC {
+    //MARK: - AWS Methods
+    func sendImageToRekognition(celebImageData: Data){
+        
+        //Delete older labels or buttons
+        DispatchQueue.main.async {
+            [weak self] in
+            for subView in (self?.profileImg.subviews)! {
+                subView.removeFromSuperview()
+            }
+        }
+        
+        rekognitionObject = AWSRekognition.default()
+        let celebImageAWS = AWSRekognitionImage()
+        celebImageAWS?.bytes = celebImageData
+        let celebRequest = AWSRekognitionRecognizeCelebritiesRequest()
+        celebRequest?.image = celebImageAWS
+        
+        rekognitionObject?.recognizeCelebrities(celebRequest!){
+            (result, error) in
+            if error != nil{
+                print(error!)
+                return
+            }
+            
+            //1. First we check if there are any celebrities in the response
+            if ((result!.celebrityFaces?.count)! > 0){
+                
+                //2. Celebrities were found. Lets iterate through all of them
+                for (index, celebFace) in result!.celebrityFaces!.enumerated(){
+                    
+                    //Check the confidence value returned by the API for each celebirty identified
+                    if(celebFace.matchConfidence!.intValue > 50){ //Adjust the confidence value to whatever you are comfortable with
+                        
+                        //We are confident this is celebrity. Lets point them out in the image using the main thread
+                        DispatchQueue.main.async {
+                            [weak self] in
+                            
+                            //Create an instance of Celebrity. This class is availabe with the starter application you downloaded
+                            let celebrityInImage = Celebrity()
+                            
+                            celebrityInImage.scene = (self?.profileImg)!
+                            
+                            //Get the coordinates for where this celebrity face is in the image and pass them to the Celebrity instance
+                            celebrityInImage.boundingBox = ["height":celebFace.face?.boundingBox?.height, "left":celebFace.face?.boundingBox?.left, "top":celebFace.face?.boundingBox?.top, "width":celebFace.face?.boundingBox?.width] as? [String : CGFloat]
+                            
+                            //Get the celebrity name and pass it along
+                            celebrityInImage.name = celebFace.name!
+                            //Get the first url returned by the API for this celebrity. This is going to be an IMDb profile link
+                            if (celebFace.urls!.count > 0){
+                                celebrityInImage.infoLink = celebFace.urls![0]
+                            }
+                            //If there are no links direct them to IMDB search page
+                            else{
+                                celebrityInImage.infoLink = "https://www.imdb.com/search/name-text?bio="+celebrityInImage.name
+                            }
+                            //Update the celebrity links map that we will use next to create buttons
+                            self?.infoLinksMap[index] = "https://"+celebFace.urls![0]
+                            
+                            //Create a button that will take users to the IMDb link when tapped
+                            let infoButton:UIButton = celebrityInImage.createInfoButton()
+                            infoButton.tag = index
+                            infoButton.addTarget(self, action: #selector(self?.handleTap), for: .touchUpInside)
+                            self?.profileImg.addSubview(infoButton)
+                        }
+                    }
+                }
+            }
+            //If there were no celebrities in the image, lets check if there were any faces (who, granted, could one day become celebrities)
+            else if ((result!.unrecognizedFaces?.count)! > 0){
+                //Faces are present. Point them out in the Image (left as an exercise for the reader)
+                /**/
+            }
+            else{
+                //No faces were found (presumably no people were found either)
+                print("No faces in this pic")
+            }
+        }
+        
+    }
+    
+    @objc func handleTap(sender:UIButton){
+        print("tap recognized")
+        let celebURL = URL(string: self.infoLinksMap[sender.tag]!)
+        let safariController = SFSafariViewController(url: celebURL!)
+        safariController.delegate = self
+        self.present(safariController, animated:true)
     }
 }

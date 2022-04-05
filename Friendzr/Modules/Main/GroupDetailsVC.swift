@@ -588,7 +588,7 @@ extension GroupDetailsVC : UISearchBarDelegate {
     @objc func updateSearchResult() {
         guard let text = searchbar.text else {return}
         print(text)
-        self.getGroupDetails(search: text)
+//        self.getGroupDetails(search: text)
     }
 }
 

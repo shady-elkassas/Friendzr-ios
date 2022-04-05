@@ -345,6 +345,9 @@ PODS:
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
   - AvailableHapticFeedback (1.0.2)
+  - AWSCore (2.27.6)
+  - AWSRekognition (2.27.6):
+    - AWSCore (= 2.27.6)
   - BoringSSL-GRPC (0.0.7):
     - BoringSSL-GRPC/Implementation (= 0.0.7)
     - BoringSSL-GRPC/Interface (= 0.0.7)
@@ -570,6 +573,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.4)
+  - AWSRekognition
   - FBSDKLoginKit
   - Firebase
   - Firebase/Analytics
@@ -598,6 +602,8 @@ SPEC REPOS:
     - Alamofire
     - AppAuth
     - AvailableHapticFeedback
+    - AWSCore
+    - AWSRekognition
     - BoringSSL-GRPC
     - FBAEMKit
     - FBSDKCoreKit
@@ -645,6 +651,8 @@ SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   AvailableHapticFeedback: 9b21b9f6d3e4566015988b5de35b40abefe6c09a
+  AWSCore: 0b6fa020f5f343a211862d702ba7a067272a60f7
+  AWSRekognition: e55a57b151768a6fc17020ad63320f9f1570d5e7
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   FBAEMKit: 5c8a8d08e5b2c79628490784883e0fcc75b12615
   FBSDKCoreKit: 7ccb8b4bb2b5ee2ad94327b774dc23f03509675d
@@ -687,6 +695,6 @@ SPEC CHECKSUMS:
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SweeterSwift: 8a90cf3156f5a1b6f39785c479369a16633b5ea9
 
-PODFILE CHECKSUM: 30beebd7fe897c0b01b1b16c46bd4f0e5a8ae9b8
+PODFILE CHECKSUM: 218aaf55c29f9985470436f1fabb0addfcc66268
 
 COCOAPODS: 1.10.2

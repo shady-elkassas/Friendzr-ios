@@ -23,6 +23,7 @@ import UserNotifications
 //import TikTokOpenSDK
 import GoogleMobileAds
 import IQKeyboardManager
+import AWSCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -50,6 +51,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!], for: .selected)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .selected)
+        
+        
+        // Initialize Identity Provider //AWS
+        let credentialsProvider = AWSCognitoCredentialsProvider(
+            regionType: .USEast1,
+            identityPoolId: "<YOUR-COGNITO-IDENTITY-POOL-ID-HERE>")
+        let configuration = AWSServiceConfiguration(
+            region: .USEast1,
+            credentialsProvider: credentialsProvider)
+        AWSServiceManager.default().defaultServiceConfiguration = configuration
         
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: launchOptions)
         

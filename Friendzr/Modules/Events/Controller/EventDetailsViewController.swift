@@ -432,16 +432,17 @@ extension EventDetailsViewController: UITableViewDataSource {
                         
                         guard let _ = data else {return}
                         
+                        
                         DispatchQueue.main.async {
-                            cell.joinBtn.isHidden = true
-                            cell.joinBtn.setTitle("Join", for: .normal)
-                            cell.joinBtn.isUserInteractionEnabled = true
-                            cell.leaveBtn.isHidden = false
-                            
-                            DispatchQueue.main.async {
-                                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-                            }
+                            NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
                         }
+                        
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                            cell.joinBtn.isHidden = true
+//                            cell.joinBtn.setTitle("Join", for: .normal)
+//                            cell.joinBtn.isUserInteractionEnabled = true
+//                            cell.leaveBtn.isHidden = false
+//                        }
                     }
                 }else {
                     return
@@ -449,7 +450,6 @@ extension EventDetailsViewController: UITableViewDataSource {
             }
             
             cell.HandleEditBtn = {
-                //                self.showNewtworkConnected()
                 if self.internetConect == true {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
                     vc.eventModel = self.viewmodel.event.value

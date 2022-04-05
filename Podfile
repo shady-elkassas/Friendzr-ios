@@ -36,8 +36,7 @@ target 'Friendzr' do
 
   pod 'QCropper'
 
-  #    pod 'TagsList'
-
+  pod 'AWSRekognition'
 
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|
