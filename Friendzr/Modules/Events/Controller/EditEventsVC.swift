@@ -152,11 +152,13 @@ class EditEventsVC: UIViewController {
                     self.internetConect = true
                     self.getEventTypes()
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.internetConect = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

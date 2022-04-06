@@ -171,12 +171,14 @@ class EventsVC: UIViewController {
                     self.emptyView.isHidden = true
                     self.LoadAllEvents(pageNumber: 1)
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.emptyView.isHidden = false
                     self.internetConect = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

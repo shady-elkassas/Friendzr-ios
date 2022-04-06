@@ -239,6 +239,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.internetConnect = true
                     self.loadAllUserRequests(pageNumber: 1)
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.emptyView.isHidden = false
@@ -246,6 +247,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.internetConnect = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

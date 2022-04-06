@@ -97,12 +97,16 @@ class ShareEventVC: UIViewController {
                     self.LoadAllMyGroups(pageNumber: 1, search: "")
                     self.LoadAllMyFriends(pageNumber: 1, search: "")
                 }
+                
+                return
             }else {
                 DispatchQueue.main.async {
                     self.emptyView.isHidden = false
                     self.internetConnect = false
                     self.HandleInternetConnection()
                 }
+                
+                return
             }
         }
         

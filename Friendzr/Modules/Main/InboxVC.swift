@@ -350,6 +350,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.hideView.isHidden = false
                     self.loadAllchatList(pageNumber: 1)
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.emptyView.isHidden = false
@@ -357,6 +358,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.internetConect = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

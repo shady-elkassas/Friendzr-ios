@@ -34,7 +34,7 @@ class DynamicLabel: UILabel {
 }
 
 class ExternalEventDetailsVC: UIViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var imagesView: [UIImageView]!
@@ -47,13 +47,16 @@ class ExternalEventDetailsVC: UIViewController {
     let mapCellId = "EventMapTableViewCell"
     let attendeesCellId = "EventDetailsAttendeesTableViewCell"
     let adsCellId = "AdsTableViewCell"
-
+    
     var eventId:String = ""
     var viewmodel:EventsViewModel = EventsViewModel()
     var joinVM:JoinEventViewModel = JoinEventViewModel()
     var leaveVM:LeaveEventViewModel = LeaveEventViewModel()
     var joinCahtEventVM:ChatViewModel = ChatViewModel()
     var attendeesVM:AttendeesViewModel = AttendeesViewModel()
+    
+    
+    lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
     var locationTitle = ""
     var internetConect:Bool = false
@@ -62,10 +65,10 @@ class ExternalEventDetailsVC: UIViewController {
     var encryptedID:String = ""
     lazy var refreshControl: UIRefreshControl = UIRefreshControl()
     var isConv:Bool = false
-
+    
     var myString:String = ""
     var myMutableString = NSMutableAttributedString()
-
+    
     var isEventAdmin: Bool = false
     var selectedVC:Bool = false
     var isprivateEvent:Bool = false
@@ -93,7 +96,7 @@ class ExternalEventDetailsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if selectedVC {
             initCloseBarButton()
         }else {
@@ -101,15 +104,19 @@ class ExternalEventDetailsVC: UIViewController {
         }
         
         self.title = "External Event"
-
+        
         setupViews()
         CancelRequest.currentTask = false
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleExternalEventDetails), name: Notification.Name("handleExternalEventDetails"), object: nil)
         
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
+        
         pullToRefresh()
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         if selectedVC {
             Defaults.availableVC = "PresentEventDetailsViewController"
@@ -117,10 +124,6 @@ class ExternalEventDetailsVC: UIViewController {
             Defaults.availableVC = "EventDetailsViewController"
         }
         print("availableVC >> \(Defaults.availableVC)")
-        
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
         
         setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
@@ -140,9 +143,57 @@ class ExternalEventDetailsVC: UIViewController {
         tableView.register(UINib(nibName: statisticsCellId, bundle: nil), forCellReuseIdentifier: statisticsCellId)
         tableView.register(UINib(nibName: mapCellId, bundle: nil), forCellReuseIdentifier: mapCellId)
         tableView.register(UINib(nibName: adsCellId, bundle: nil), forCellReuseIdentifier: adsCellId)
-
+        
         for item in imagesView {
             item.cornerRadiusView(radius: 10)
+        }
+    }
+    
+    func onShowconfirmCallBack(_ back: Bool) -> () {
+        if back == true {
+            self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            
+            self.alertView?.titleLbl.text = "Confirm?".localizedString
+            self.alertView?.detailsLbl.text = "Have you completed the event booking form?".localizedString
+            
+            self.alertView?.HandleConfirmBtn = {
+                if self.internetConect == true {
+                    let JoinDate = self.formatterDate.string(from: Date())
+                    let Jointime = self.formatterTime.string(from: Date())
+                    
+                    if self.internetConect == true {
+                        self.joinVM.joinEvent(ByEventid: self.eventId,JoinDate:JoinDate ,Jointime:Jointime) { error, data in
+                            
+                            
+                            if let error = error {
+                                self.hideLoading()
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
+                                return
+                            }
+                            
+                            guard let _ = data else {return}
+                            
+                            DispatchQueue.main.async {
+                                NotificationCenter.default.post(name: Notification.Name("handleExternalEventDetails"), object: nil, userInfo: nil)
+                            }
+                        }
+                    }
+                }
+                
+                // handling code
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                    self.alertView?.alpha = 0
+                }) { (success: Bool) in
+                    self.alertView?.removeFromSuperview()
+                    self.alertView?.alpha = 1
+                    self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                }
+            }
+            
+            self.view.addSubview((self.alertView)!)
         }
     }
     
@@ -174,26 +225,17 @@ class ExternalEventDetailsVC: UIViewController {
     //MARK:- APIs
     
     func updateUserInterface() {
-        
-        let monitor = NWPathMonitor()
-        
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.internetConect = true
-                    self.loadEventDataDetails()
-                }
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConect = false
-                    self.HandleInternetConnection()
-                }
+        if NetworkMonitor.shared.isConnected {
+            DispatchQueue.main.async {
+                self.internetConect = true
+                self.loadEventDataDetails()
+            }
+        }else {
+            DispatchQueue.main.async {
+                self.internetConect = false
+                self.HandleInternetConnection()
             }
         }
-        
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
-
     }
     
     @objc func handleExternalEventDetails() {
@@ -369,7 +411,7 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
                 if self.internetConect == true {
                     self.changeTitleBtns(btn: cell.leaveBtn, title: "Leaving...".localizedString)
                     cell.leaveBtn.isUserInteractionEnabled = false
-
+                    
                     self.leaveVM.leaveEvent(ByEventid: self.eventId,leaveeventDate: JoinDate,leaveeventtime: Jointime) { error, data in
                         
                         if let error = error {
@@ -381,29 +423,12 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
                         
                         guard let _ = data else {return}
                         
-//                        DispatchQueue.main.async {
-//                            cell.leaveBtn.isHidden = true
-//                            cell.leaveBtn.setTitle("Leave", for: .normal)
-//                            cell.joinBtn.isHidden = false
-//                            cell.leaveBtn.isUserInteractionEnabled = true
-//                        }
-                        
                         DispatchQueue.main.async {
                             if self.selectedVC {
                                 Router().toHome()
                             }else {
                                 self.onPopup()
                             }
-                            //                            if model?.eventtype == "Private" {
-                            //                                if self.selectedVC {
-                            //                                    Router().toHome()
-                            //                                }else {
-                            //                                    self.onPopup()
-                            //                                }
-                            //                            }
-                            //                            else {
-                            //                                self.onPopup()
-                            //                            }
                         }
                     }
                 }else {
@@ -412,43 +437,18 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             }
             
             cell.HandleJoinBtn = {
-                let JoinDate = self.formatterDate.string(from: Date())
-                let Jointime = self.formatterTime.string(from: Date())
-                
-                if self.internetConect == true {
-                    self.changeTitleBtns(btn: cell.joinBtn, title: "Joining...".localizedString)
-                    cell.joinBtn.isUserInteractionEnabled = false
-//
-                    self.joinVM.joinEvent(ByEventid: self.eventId,JoinDate:JoinDate ,Jointime:Jointime) { error, data in
-
-
-                        if let error = error {
-                            self.hideLoading()
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-
-                        guard let _ = data else {return}
-
-                        DispatchQueue.main.async {
-                            cell.joinBtn.isHidden = true
-                            cell.joinBtn.setTitle("Join", for: .normal)
-                            cell.joinBtn.isUserInteractionEnabled = true
-                            cell.leaveBtn.isHidden = false
-
-                            DispatchQueue.main.async {
-                                NotificationCenter.default.post(name: Notification.Name("handleExternalEventDetails"), object: nil, userInfo: nil)
-                            }
-                        }
-                    }
-                    
-//                    guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "") as? else {return}
-//                    self.navigationController?.pushViewController(vc, animated: true)
-                }else {
-                    return
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventWebNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventWebView {
+                    vc.titleVC = model?.title ?? ""
+                    vc.urlString = (model?.checkout_details ?? "").replacingOccurrences(of: "\'", with: "", options: NSString.CompareOptions.literal, range: nil)
+                    vc.onShowconfirmCallBackResponse = self.onShowconfirmCallBack
+                    self.present(controller, animated: true)
                 }
+                
+                //                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventWebView") as? ExternalEventWebView else {return}
+                //                vc.titleVC = model?.title ?? ""
+                //                vc.urlString = model?.checkout_details ?? ""
+                //                vc.onShowconfirmCallBackResponse = self.onShowconfirmCallBack
+                //                self.navigationController?.pushViewController(vc, animated: true)
             }
             
             cell.HandleEditBtn = {

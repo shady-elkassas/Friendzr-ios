@@ -210,6 +210,7 @@ class FriendProfileViewController: UIViewController {
                     self.internetConect = true
                     self.loadUserData()
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.internetConect = false
@@ -217,6 +218,7 @@ class FriendProfileViewController: UIViewController {
                     self.hideView.isHidden = true
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

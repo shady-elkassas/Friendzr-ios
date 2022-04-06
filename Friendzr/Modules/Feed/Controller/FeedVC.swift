@@ -469,6 +469,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                         self.updateMyLocation()
                     }
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.emptyView.isHidden = false
@@ -483,6 +484,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                     self.internetConnect = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         let queue = DispatchQueue(label: "Network")

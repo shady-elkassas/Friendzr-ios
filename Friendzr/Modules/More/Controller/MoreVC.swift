@@ -99,11 +99,13 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
                     self.internetConect = true
                     self.setupUserData()
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.internetConect = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

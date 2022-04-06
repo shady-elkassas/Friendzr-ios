@@ -241,12 +241,14 @@ class AttendeesVC: UIViewController {
                     self.emptyView.isHidden = true
                     self.loadAllAttendees(pageNumber: 0, search: self.searchBar.text ?? "")
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.internetConnect = false
                     self.emptyView.isHidden = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

@@ -76,12 +76,14 @@ class SelectedTagsVC: UIViewController {
                     self.internetConnection = true
                     self.getAllTags()
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.internetConnection = false
                     self.emptyView.isHidden = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

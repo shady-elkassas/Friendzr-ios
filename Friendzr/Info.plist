@@ -53,6 +53,8 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>Enable Background Modes</key>
+	<true/>
 	<key>FacebookAdvertiserIDCollectionEnabled</key>
 	<true/>
 	<key>FacebookAppID</key>
@@ -143,6 +145,8 @@
 	<string>$(PRODUCT_NAME) requires access to the photo library to take a picture for the profile when you need it.</string>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>This application requiers location services to display the nearest friends arround you.</string>
+	<key>Remote notifications</key>
+	<true/>
 	<key>RequestOpenAccess</key>
 	<true/>
 	<key>SKAdNetworkItems</key>

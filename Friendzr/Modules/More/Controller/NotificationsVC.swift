@@ -172,6 +172,7 @@ class NotificationsVC: UIViewController {
                     self.hideView.isHidden = false
                     self.LoadAllNotifications(pageNumber: 1)
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.emptyView.isHidden = false
@@ -179,6 +180,7 @@ class NotificationsVC: UIViewController {
                     self.internetConect = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

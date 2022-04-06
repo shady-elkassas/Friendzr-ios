@@ -84,12 +84,14 @@ class ReportVC: UIViewController {
                     self.internetConnect = true
                     self.getAllProblems()
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.internetConnect = false
                     DispatchQueue.main.async {
                         self.view.makeToast("Network is unavailable, please try again!".localizedString)
                     }
+                    return
                 }
             }
         }

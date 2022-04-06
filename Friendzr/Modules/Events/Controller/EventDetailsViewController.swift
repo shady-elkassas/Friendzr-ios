@@ -125,11 +125,13 @@ class EventDetailsViewController: UIViewController {
                     self.internetConect = true
                     self.loadEventDataDetails()
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.internetConect = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         
@@ -431,18 +433,10 @@ extension EventDetailsViewController: UITableViewDataSource {
                         }
                         
                         guard let _ = data else {return}
-                        
-                        
+
                         DispatchQueue.main.async {
                             NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
                         }
-                        
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                            cell.joinBtn.isHidden = true
-//                            cell.joinBtn.setTitle("Join", for: .normal)
-//                            cell.joinBtn.isUserInteractionEnabled = true
-//                            cell.leaveBtn.isHidden = false
-//                        }
                     }
                 }else {
                     return

@@ -155,6 +155,7 @@ class MyProfileViewController: UIViewController {
                     self.internetConnection = true
                     self.getProfileInformation()
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.internetConnection = false
@@ -162,6 +163,7 @@ class MyProfileViewController: UIViewController {
                     self.emptyView.isHidden = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

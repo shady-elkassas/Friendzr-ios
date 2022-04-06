@@ -2119,6 +2119,34 @@
             </objects>
             <point key="canvasLocation" x="6590" y="-109"/>
         </scene>
+        <!--External Event Web View-->
+        <scene sceneID="JM3-oU-tSq">
+            <objects>
+                <viewController storyboardIdentifier="ExternalEventWebView" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Nkr-xI-IYq" customClass="ExternalEventWebView" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="c27-4r-3yr">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="AN3-Ac-IgF">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="XYE-Sy-FFw"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="AN3-Ac-IgF" firstAttribute="centerY" secondItem="c27-4r-3yr" secondAttribute="centerY" id="3Tu-bZ-nag"/>
+                            <constraint firstItem="AN3-Ac-IgF" firstAttribute="centerX" secondItem="c27-4r-3yr" secondAttribute="centerX" id="o4H-Yl-4yL"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="goa-lS-w1i"/>
+                    <connections>
+                        <outlet property="activity" destination="AN3-Ac-IgF" id="goA-sO-Vhv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MVw-J0-QGl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8834.782608695652" y="-61.607142857142854"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="RTi-e9-fwK">
             <objects>
@@ -3845,6 +3873,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7pU-gE-4qg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4851" y="-72"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Pu4-OW-rh7">
+            <objects>
+                <navigationController storyboardIdentifier="ExternalEventWebNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="gQF-9E-V9g" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="SIo-MT-xPh">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Nkr-xI-IYq" kind="relationship" relationship="rootViewController" id="BLi-uK-ARp"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wOV-mD-Gun" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7924.6376811594209" y="-61.607142857142854"/>
         </scene>
     </scenes>
     <resources>

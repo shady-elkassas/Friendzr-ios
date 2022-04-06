@@ -81,6 +81,7 @@ class IamVC: UIViewController {
                     self.internetConnection = true
                     self.getAllBestDescrips()
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.internetConnection = false

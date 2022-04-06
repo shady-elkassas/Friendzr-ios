@@ -289,6 +289,8 @@
 		43BDFAE527B5473C005302CD /* GroupsShareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BDFAE327B5473C005302CD /* GroupsShareTableViewCell.swift */; };
 		43BDFAE627B5473C005302CD /* GroupsShareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BDFAE427B5473C005302CD /* GroupsShareTableViewCell.xib */; };
 		43C0E18227FB28CD00555023 /* Celebrity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C0E18127FB28CD00555023 /* Celebrity.swift */; };
+		43C0E18F27FDAB1A00555023 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C0E18E27FDAB1A00555023 /* NetworkMonitor.swift */; };
+		43C0E19127FDB97500555023 /* ExternalEventWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C0E19027FDB97500555023 /* ExternalEventWebView.swift */; };
 		43C64A0227957DFE00C35FA8 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A0127957DFE00C35FA8 /* GroupViewModel.swift */; };
 		43C64A042795806400C35FA8 /* TitleGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A032795806400C35FA8 /* TitleGroupViewModel.swift */; };
 		43C64A0C2796C40800C35FA8 /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A0B2796C40800C35FA8 /* GroupModel.swift */; };
@@ -689,6 +691,8 @@
 		43BDFAE327B5473C005302CD /* GroupsShareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsShareTableViewCell.swift; sourceTree = "<group>"; };
 		43BDFAE427B5473C005302CD /* GroupsShareTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GroupsShareTableViewCell.xib; sourceTree = "<group>"; };
 		43C0E18127FB28CD00555023 /* Celebrity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Celebrity.swift; sourceTree = "<group>"; };
+		43C0E18E27FDAB1A00555023 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		43C0E19027FDB97500555023 /* ExternalEventWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalEventWebView.swift; sourceTree = "<group>"; };
 		43C64A0127957DFE00C35FA8 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		43C64A032795806400C35FA8 /* TitleGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleGroupViewModel.swift; sourceTree = "<group>"; };
 		43C64A0B2796C40800C35FA8 /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
@@ -961,6 +965,7 @@
 				436DCFAD27DF689A00A4A7F7 /* SelectFriendsVC.swift */,
 				436DD06627E3422A00A4A7F7 /* SharePrivateEventVC.swift */,
 				4303F1F027F1E60D00221E01 /* ExpandDescriptionVC.swift */,
+				43C0E19027FDB97500555023 /* ExternalEventWebView.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1772,6 +1777,7 @@
 				43DAF9DD27D62A9A00D16462 /* ImageDownloader.swift */,
 				436DD06B27E489A500A4A7F7 /* CustomOverlay.swift */,
 				436DD06D27E489B600A4A7F7 /* CustomCropperViewController.swift */,
+				43C0E18E27FDAB1A00555023 /* NetworkMonitor.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2210,6 +2216,7 @@
 				4309E73D26EF89FE001B227D /* SocialMediaRegisterViewModel.swift in Sources */,
 				4336D12726DB89210093C7A6 /* UserNameViewModel.swift in Sources */,
 				43D545C926CCFBA10064660A /* CircleView.swift in Sources */,
+				43C0E18F27FDAB1A00555023 /* NetworkMonitor.swift in Sources */,
 				43375F5627130D85009EBED6 /* NotificationsVC.swift in Sources */,
 				4303F1F127F1E60D00221E01 /* ExpandDescriptionVC.swift in Sources */,
 				433CDE2727CE132F00A80A40 /* FacialRecognitionPopUpView2.swift in Sources */,
@@ -2242,6 +2249,7 @@
 				4382AC5B26C27B24005C1857 /* LoadingViewExtension.swift in Sources */,
 				43D545B226CBD7E40064660A /* ExtensionsNodes.swift in Sources */,
 				43D545AB26CBB61F0064660A /* EventTimeCalenderView.swift in Sources */,
+				43C0E19127FDB97500555023 /* ExternalEventWebView.swift in Sources */,
 				4333DA8226C3CFEC0029F2B0 /* RegisterVC.swift in Sources */,
 				4315DB41278DBB12005AB950 /* GenderDistributionTableViewCell.swift in Sources */,
 				4382AC6526C27CDF005C1857 /* UILabelExtension.swift in Sources */,
@@ -2838,7 +2846,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.3;
+				CURRENT_PROJECT_VERSION = 1.0.4;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2869,7 +2877,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.3;
+				CURRENT_PROJECT_VERSION = 1.0.4;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

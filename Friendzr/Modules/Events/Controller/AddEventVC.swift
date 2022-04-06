@@ -569,11 +569,13 @@ class AddEventVC: UIViewController {
                         self.getAllValidatConfig()
                     }
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.internetConect = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

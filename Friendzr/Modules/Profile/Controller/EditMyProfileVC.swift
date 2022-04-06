@@ -137,6 +137,10 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }
         
         showDatePicker()
+        
+        DispatchQueue.main.async {
+            self.setupDate()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -170,21 +174,19 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         let monitor = NWPathMonitor()
         
         monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
+            if path.status == .unsatisfied {
+                DispatchQueue.main.async {
+                    self.internetConect = false
+                    self.HandleInternetConnection()
+                    return
+                }
+            }else {
                 DispatchQueue.main.async {
                     self.internetConect = true
                     DispatchQueue.main.async {
                         self.getAllValidatConfig()
                     }
-                    
-                    DispatchQueue.main.async {
-                        self.setupDate()
-                    }
-                }
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConect = false
-                    self.HandleInternetConnection()
+                    return
                 }
             }
         }
@@ -656,6 +658,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
 
                         DispatchQueue.main.async {
                             self.profileImg.image = imageOne
+                            self.imgTake = 0
                         }
                     } else {
                         let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
@@ -664,7 +667,13 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                         DispatchQueue.main.async {
                             self.ProcessingLbl.text = "Not Matched"
                             self.ProcessingLbl.textColor = .green
-                            self.attachedImg = true
+                            
+                            if self.profileModel?.userImage != "" {
+                                self.attachedImg = true
+                            }
+                            else {
+                                self.attachedImg = false
+                            }
                         }
 
                         let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
@@ -674,6 +683,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                             self.ProcessingLbl.isHidden = true
                             self.ProcessingLbl.text = "Processing...".localizedString
                             self.ProcessingLbl.textColor = .blue
+                            self.imgTake = 0
                         }
                     }
                 }
@@ -686,6 +696,14 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                         self.showFailAlert()
                     }
                     
+                    if self.profileModel?.userImage != "" {
+                        self.attachedImg = true
+                    }
+                    else {
+                        self.attachedImg = false
+                    }
+                    
+                    self.imgTake = 0
                     let executionTimeWithSuccessVC3 = Date().timeIntervalSince(startDate)
                     print("executionTimeWithSuccessVC3 \(executionTimeWithSuccessVC3 * 1000) second")
 
@@ -693,57 +711,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                 return
             }
         }
-
-//        faceRecognitionVM.compare(withImage1: imageOne, AndImage2: imageTwo) { error, data in
-//
-//            if error != nil {
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                    self.ProcessingLbl.text = "Failed".localizedString
-//                    self.ProcessingLbl.textColor = .red
-//
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                        self.showFailAlert()
-//                    }
-//                }
-//                return
-//            }
-//
-//            guard let data = data else {return}
-//            print(data)
-//
-//            self.imgTake = 0
-//            print(self.imgTake)
-//
-//            if data == "Matched" {
-//                DispatchQueue.main.async {
-//                    self.ProcessingLbl.text = "Matched"
-//                    self.ProcessingLbl.textColor = .green
-//                    self.attachedImg = true
-//                }
-//
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                    self.ProcessingLbl.isHidden = true
-//                    self.ProcessingLbl.text = "Processing...".localizedString
-//                    self.ProcessingLbl.textColor = .blue
-//                }
-//
-//                DispatchQueue.main.async {
-//                    self.profileImg.image = imageOne
-//                }
-//            } else {
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                    self.ProcessingLbl.text = data
-//                    self.ProcessingLbl.textColor = .red
-//                    self.attachedImg = false
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                        //                        self.showFailAlert()
-//                        self.ProcessingLbl.isHidden = true
-//                        self.ProcessingLbl.text = "Processing...".localizedString
-//                        self.ProcessingLbl.textColor = .blue
-//                    }
-//                }
-//            }
-//        }
     }
     
     func onVerifyCallBack(_ okBtn: Bool) -> () {
@@ -1032,7 +999,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                                     return
                                 }else {
                                     if FirstLoginApp.isFirst == 0 {//toprofile
-//                                        NotificationCenter.default.post(name: Notification.Name("updateMyProfile"), object: nil, userInfo: nil)
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                             self.onPopup()
                                         }
@@ -1089,7 +1055,7 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
 //        self.profileImg.image = image
 //        self.imgTake = 0
 //        self.attachedImg = true
-                
+//
 //        let cropper = CropperViewController(originalImage: originImg)
 //         let cropper = CustomCropperViewController(originalImage: originImg)
 //        cropper.delegate = self
@@ -1105,30 +1071,24 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
         
         if imgTake == 1 {
             let image1 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+            
+            let originImg = image1.fixOrientation()
+                    
+//            let cropper = CropperViewController(originalImage: originImg)
+             let cropper = CustomCropperViewController(originalImage: originImg)
+            cropper.delegate = self
+            self.imgTake = 2
+            print(self.imgTake)
+
+            self.navigationController?.pushViewController(cropper, animated: true)
+
             picker.dismiss(animated:true, completion: {
-                
-                self.faceImgOne = image1
-                self.imgTake = 2
-                print(self.imgTake)
-                
-                guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FacialRecognitionPopUpView2") as? FacialRecognitionPopUpView2 else {return}
-                popupVC.modalPresentationStyle = .overCurrentContext
-                popupVC.modalTransitionStyle = .crossDissolve
-                let pVC = popupVC.popoverPresentationController
-                pVC?.permittedArrowDirections = .any
-                pVC?.delegate = self
-                pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
-                popupVC.faceImgOne = self.faceImgOne
-                popupVC.onVerifyCallBackResponse = self.onVerifyCallBack
-                self.present(popupVC, animated: true, completion: nil)
             })
         }else if self.imgTake == 2 {
             let image2 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
             picker.dismiss(animated:true, completion: {
                 self.attachedImg = true
                 self.faceImgTwo = image2.fixOrientation()
-                
-
                 self.FacialRecognitionAPI(imageOne: self.faceImgOne, imageTwo: self.faceImgTwo)
             })
         }
@@ -1153,10 +1113,22 @@ extension EditMyProfileVC: CropperViewControllerDelegate {
         cropper.onPopup()
         if let state = state,
             let image = cropper.originalImage.cropped(withCropperState: state) {
-            profileImg.image = image
+//            profileImg.image = image
+            self.faceImgOne = image
             self.attachedImg = true
+            imgTake = 2
             
-            imgTake = 0
+            guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FacialRecognitionPopUpView2") as? FacialRecognitionPopUpView2 else {return}
+            popupVC.modalPresentationStyle = .overCurrentContext
+            popupVC.modalTransitionStyle = .crossDissolve
+            let pVC = popupVC.popoverPresentationController
+            pVC?.permittedArrowDirections = .any
+            pVC?.delegate = self
+            pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+            popupVC.faceImgOne = self.faceImgOne
+            popupVC.onVerifyCallBackResponse = self.onVerifyCallBack
+            self.present(popupVC, animated: true, completion: nil)
+
             print(cropper.isCurrentlyInInitialState)
             print(image)
         }

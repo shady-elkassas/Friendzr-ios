@@ -315,35 +315,28 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Helpers
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
-        
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.internetConect = true
-                    self.zoomingStatisticsView.isHidden = false
-                    
-                    if Defaults.allowMyLocationSettings == true {
-                        self.bindToModel()
-                    }
-                }
-            }else {
-                DispatchQueue.main.async {
-                    self.mapView.clear()
-                    self.internetConect = false
-                    self.collectionViewHeight.constant = 0
-                    self.subView.isHidden = false
-                    self.upDownViewBtn.isHidden = true
-                    self.zoomingStatisticsView.isHidden = true
-                    self.HandleInternetConnection()
-                    self.noeventNearbyLbl.isHidden = true
-                    self.hideCollectionView.isHidden = true
+        if NetworkMonitor.shared.isConnected {
+            DispatchQueue.main.async {
+                self.internetConect = true
+                self.zoomingStatisticsView.isHidden = false
+                
+                if Defaults.allowMyLocationSettings == true {
+                    self.bindToModel()
                 }
             }
+        }else {
+            DispatchQueue.main.async {
+                self.mapView.clear()
+                self.internetConect = false
+                self.collectionViewHeight.constant = 0
+                self.subView.isHidden = false
+                self.upDownViewBtn.isHidden = true
+                self.zoomingStatisticsView.isHidden = true
+                self.HandleInternetConnection()
+                self.noeventNearbyLbl.isHidden = true
+                self.hideCollectionView.isHidden = true
+            }
         }
-        
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
     }
     
     func HandleInternetConnection() {

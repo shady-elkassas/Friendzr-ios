@@ -212,12 +212,14 @@ class BlockedListVC: UIViewController {
                     self.emptyView.isHidden = true
                     self.LoadBlockedList(pageNumber: 1,search: self.searchbar.text ?? "")
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.emptyView.isHidden = false
                     self.internetConect = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

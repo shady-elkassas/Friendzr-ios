@@ -95,7 +95,6 @@ extension ConversationVC {
     }
 }
 
-
 //notificationMessage
 class NotificationMessage {
     static var action:String = ""
@@ -227,7 +226,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         
 //        messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: CustomMessagesFlowLayout())
 //        messagesCollectionView.register(CustomCell.self)
-
 
         setupMessages()
         initBackButton()

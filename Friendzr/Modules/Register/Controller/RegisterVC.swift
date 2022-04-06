@@ -324,11 +324,13 @@ class RegisterVC: UIViewController {
                 DispatchQueue.main.async {
                     self.internetConect = true
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.internetConect = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

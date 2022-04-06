@@ -82,12 +82,14 @@ class PreferToVC: UIViewController {
                     self.internetConnection = true
                     self.getAllPreferTo()
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.internetConnection = false
                     self.emptyView.isHidden = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

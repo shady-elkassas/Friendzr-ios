@@ -90,11 +90,13 @@ class AddGroupVC: UIViewController {
                     self.internetConnect = true
                     self.LaodAllFriends(pageNumber: 1, search: self.searchbar.text ?? "")
                 }
+                return
             }else {
                 DispatchQueue.main.async {
                     self.internetConnect = false
                     self.HandleInternetConnection()
                 }
+                return
             }
         }
         

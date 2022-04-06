@@ -100,6 +100,8 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        NetworkMonitor.shared.startMonitoring()
+
         Defaults.availableVC = "SplachVC"
         print("availableVC >> \(Defaults.availableVC)")
         Defaults.isFirstLaunch = true
