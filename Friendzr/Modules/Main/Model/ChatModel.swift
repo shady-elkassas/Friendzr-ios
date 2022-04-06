@@ -71,7 +71,7 @@ class UserChatObj: NSObject,Mappable {
     var isChatGroup:Bool? = false
     var isChatGroupAdmin:Bool? = false
     var leaveGroup:Int? = 0
-    
+    var eventtype:String = ""
     var isSelected:Bool? = false
     
     
@@ -100,6 +100,7 @@ class UserChatObj: NSObject,Mappable {
         isChatGroup  <- map["isChatGroup"]
         isChatGroupAdmin  <- map["isChatGroupAdmin"]
         leaveGroup <- map["leaveGroup"]
+        eventtype <- map["eventtype"]
     }
 }
 

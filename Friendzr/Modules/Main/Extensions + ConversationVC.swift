@@ -156,11 +156,21 @@ extension ConversationVC: MessageCellDelegate {
         case .linkPreview(_):
             if message.messageType == 4 {
                 print("link Preview ")
-                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                    vc.eventId = message.linkPreviewID
-                    vc.isEventAdmin = self.isEventAdmin
-                    vc.selectedVC = true
-                    self.present(controller, animated: true)
+                
+                if message.eventType == "External" {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
+                        vc.eventId = message.linkPreviewID
+                        vc.isEventAdmin = self.isEventAdmin
+                        vc.selectedVC = true
+                        self.present(controller, animated: true)
+                    }
+                }else {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+                        vc.eventId = message.linkPreviewID
+                        vc.isEventAdmin = self.isEventAdmin
+                        vc.selectedVC = true
+                        self.present(controller, animated: true)
+                    }
                 }
             }
         case .photo(_):break

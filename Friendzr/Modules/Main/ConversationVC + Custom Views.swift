@@ -859,7 +859,7 @@ extension ConversationVC {
     }
     
     @objc func goToEventDetailsVC() {
-        if self.eventType == "" {
+        if self.eventType == "External" {
             if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
                 vc.eventId = self.eventChatID
                 vc.isEventAdmin = self.isEventAdmin

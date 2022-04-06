@@ -418,10 +418,10 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
                 if self.internetConect == true {
                     self.changeTitleBtns(btn: cell.joinBtn, title: "Joining...".localizedString)
                     cell.joinBtn.isUserInteractionEnabled = false
-                    
+//
                     self.joinVM.joinEvent(ByEventid: self.eventId,JoinDate:JoinDate ,Jointime:Jointime) { error, data in
 
-                        
+
                         if let error = error {
                             self.hideLoading()
                             DispatchQueue.main.async {
@@ -429,20 +429,23 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
                             }
                             return
                         }
-                        
+
                         guard let _ = data else {return}
-                        
+
                         DispatchQueue.main.async {
                             cell.joinBtn.isHidden = true
                             cell.joinBtn.setTitle("Join", for: .normal)
                             cell.joinBtn.isUserInteractionEnabled = true
                             cell.leaveBtn.isHidden = false
-                            
+
                             DispatchQueue.main.async {
                                 NotificationCenter.default.post(name: Notification.Name("handleExternalEventDetails"), object: nil, userInfo: nil)
                             }
                         }
                     }
+                    
+//                    guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "") as? else {return}
+//                    self.navigationController?.pushViewController(vc, animated: true)
                 }else {
                     return
                 }

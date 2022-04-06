@@ -607,56 +607,143 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         self.ProcessingLbl.isHidden = false
         self.imgTake = 1
         print(imgTake)
-        faceRecognitionVM.compare(withImage1: imageOne, AndImage2: imageTwo) { error, data in
+        
+        let key = "testCompareFaces"
+        let credentialsProvider = AWSStaticCredentialsProvider(accessKey: "AKIA5SBX6UH4VP2R7BWK", secretKey:"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")
+        let configuration = AWSServiceConfiguration(region:.USEast1, credentialsProvider:credentialsProvider)
+        AWSServiceManager.default().defaultServiceConfiguration = configuration
             
-            if error != nil {
+        AWSRekognition.register(with: configuration!, forKey: key)
+        let rekognition = AWSRekognition(forKey: key)
+
+        guard let request = AWSRekognitionCompareFacesRequest() else {
+            puts("Unable to initialize AWSRekognitionDetectLabelsRequest.")
+            return
+        }
+        
+        let sourceImage = AWSRekognitionImage()
+        sourceImage!.bytes = imageOne.jpegData(compressionQuality: 0)// Specify your source image
+        request.sourceImage = sourceImage
+
+        let targetImage = AWSRekognitionImage()
+        targetImage!.bytes = imageTwo.jpegData(compressionQuality: 0) // Specify your target image
+        request.targetImage = targetImage
+
+        let startDate = Date()
+        rekognition.compareFaces(request) { (respone, error) in
+            if error == nil {
+                if let response = respone {
+                    print(response)
+                    let face1 = response.faceMatches?.first
+                    if Double(truncating: face1?.similarity.value ?? 0) > 0.9 {
+                        let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
+                        print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
+
+                        DispatchQueue.main.async {
+                            self.ProcessingLbl.text = "Matched"
+                            self.ProcessingLbl.textColor = .green
+                            self.attachedImg = true
+                        }
+
+                        let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
+                        print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.ProcessingLbl.isHidden = true
+                            self.ProcessingLbl.text = "Processing...".localizedString
+                            self.ProcessingLbl.textColor = .blue
+                        }
+
+                        DispatchQueue.main.async {
+                            self.profileImg.image = imageOne
+                        }
+                    } else {
+                        let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
+                        print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
+
+                        DispatchQueue.main.async {
+                            self.ProcessingLbl.text = "Not Matched"
+                            self.ProcessingLbl.textColor = .green
+                            self.attachedImg = true
+                        }
+
+                        let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
+                        print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
+
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.ProcessingLbl.isHidden = true
+                            self.ProcessingLbl.text = "Processing...".localizedString
+                            self.ProcessingLbl.textColor = .blue
+                        }
+                    }
+                }
+            } else {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.ProcessingLbl.text = "Failed".localizedString
                     self.ProcessingLbl.textColor = .red
-                    
+
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         self.showFailAlert()
                     }
+                    
+                    let executionTimeWithSuccessVC3 = Date().timeIntervalSince(startDate)
+                    print("executionTimeWithSuccessVC3 \(executionTimeWithSuccessVC3 * 1000) second")
+
                 }
                 return
             }
-            
-            guard let data = data else {return}
-            print(data)
-            
-            self.imgTake = 0
-            print(self.imgTake)
-            
-            if data == "Matched" {
-                DispatchQueue.main.async {
-                    self.ProcessingLbl.text = "Matched"
-                    self.ProcessingLbl.textColor = .green
-                    self.attachedImg = true
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.ProcessingLbl.isHidden = true
-                    self.ProcessingLbl.text = "Processing...".localizedString
-                    self.ProcessingLbl.textColor = .blue
-                }
-                
-                DispatchQueue.main.async {
-                    self.profileImg.image = imageOne
-                }
-            } else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.ProcessingLbl.text = data
-                    self.ProcessingLbl.textColor = .red
-                    self.attachedImg = false
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        //                        self.showFailAlert()
-                        self.ProcessingLbl.isHidden = true
-                        self.ProcessingLbl.text = "Processing...".localizedString
-                        self.ProcessingLbl.textColor = .blue
-                    }
-                }
-            }
         }
+
+//        faceRecognitionVM.compare(withImage1: imageOne, AndImage2: imageTwo) { error, data in
+//
+//            if error != nil {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                    self.ProcessingLbl.text = "Failed".localizedString
+//                    self.ProcessingLbl.textColor = .red
+//
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                        self.showFailAlert()
+//                    }
+//                }
+//                return
+//            }
+//
+//            guard let data = data else {return}
+//            print(data)
+//
+//            self.imgTake = 0
+//            print(self.imgTake)
+//
+//            if data == "Matched" {
+//                DispatchQueue.main.async {
+//                    self.ProcessingLbl.text = "Matched"
+//                    self.ProcessingLbl.textColor = .green
+//                    self.attachedImg = true
+//                }
+//
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                    self.ProcessingLbl.isHidden = true
+//                    self.ProcessingLbl.text = "Processing...".localizedString
+//                    self.ProcessingLbl.textColor = .blue
+//                }
+//
+//                DispatchQueue.main.async {
+//                    self.profileImg.image = imageOne
+//                }
+//            } else {
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                    self.ProcessingLbl.text = data
+//                    self.ProcessingLbl.textColor = .red
+//                    self.attachedImg = false
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+//                        //                        self.showFailAlert()
+//                        self.ProcessingLbl.isHidden = true
+//                        self.ProcessingLbl.text = "Processing...".localizedString
+//                        self.ProcessingLbl.textColor = .blue
+//                    }
+//                }
+//            }
+//        }
     }
     
     func onVerifyCallBack(_ okBtn: Bool) -> () {
@@ -1032,8 +1119,6 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
                 pVC?.delegate = self
                 pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
                 popupVC.faceImgOne = self.faceImgOne
-                let celebImage:Data = self.faceImgOne.pngData()!
-                self.sendImageToRekognition(celebImageData: celebImage)
                 popupVC.onVerifyCallBackResponse = self.onVerifyCallBack
                 self.present(popupVC, animated: true, completion: nil)
             })
@@ -1043,10 +1128,8 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
                 self.attachedImg = true
                 self.faceImgTwo = image2.fixOrientation()
                 
-                let celebImage:Data = self.faceImgOne.pngData()!
-                self.sendImageToRekognition(celebImageData: celebImage)
 
-//                self.FacialRecognitionAPI(imageOne: self.faceImgOne, imageTwo: self.faceImgTwo)
+                self.FacialRecognitionAPI(imageOne: self.faceImgOne, imageTwo: self.faceImgTwo)
             })
         }
     }
@@ -1134,92 +1217,92 @@ extension EditMyProfileVC {
     }
 }
 
-extension EditMyProfileVC {
-    //MARK: - AWS Methods
-    func sendImageToRekognition(celebImageData: Data){
-        
-        //Delete older labels or buttons
-        DispatchQueue.main.async {
-            [weak self] in
-            for subView in (self?.profileImg.subviews)! {
-                subView.removeFromSuperview()
-            }
-        }
-        
-        rekognitionObject = AWSRekognition.default()
-        let celebImageAWS = AWSRekognitionImage()
-        celebImageAWS?.bytes = celebImageData
-        let celebRequest = AWSRekognitionRecognizeCelebritiesRequest()
-        celebRequest?.image = celebImageAWS
-        
-        rekognitionObject?.recognizeCelebrities(celebRequest!){
-            (result, error) in
-            if error != nil{
-                print(error!)
-                return
-            }
-            
-            //1. First we check if there are any celebrities in the response
-            if ((result!.celebrityFaces?.count)! > 0){
-                
-                //2. Celebrities were found. Lets iterate through all of them
-                for (index, celebFace) in result!.celebrityFaces!.enumerated(){
-                    
-                    //Check the confidence value returned by the API for each celebirty identified
-                    if(celebFace.matchConfidence!.intValue > 50){ //Adjust the confidence value to whatever you are comfortable with
-                        
-                        //We are confident this is celebrity. Lets point them out in the image using the main thread
-                        DispatchQueue.main.async {
-                            [weak self] in
-                            
-                            //Create an instance of Celebrity. This class is availabe with the starter application you downloaded
-                            let celebrityInImage = Celebrity()
-                            
-                            celebrityInImage.scene = (self?.profileImg)!
-                            
-                            //Get the coordinates for where this celebrity face is in the image and pass them to the Celebrity instance
-                            celebrityInImage.boundingBox = ["height":celebFace.face?.boundingBox?.height, "left":celebFace.face?.boundingBox?.left, "top":celebFace.face?.boundingBox?.top, "width":celebFace.face?.boundingBox?.width] as? [String : CGFloat]
-                            
-                            //Get the celebrity name and pass it along
-                            celebrityInImage.name = celebFace.name!
-                            //Get the first url returned by the API for this celebrity. This is going to be an IMDb profile link
-                            if (celebFace.urls!.count > 0){
-                                celebrityInImage.infoLink = celebFace.urls![0]
-                            }
-                            //If there are no links direct them to IMDB search page
-                            else{
-                                celebrityInImage.infoLink = "https://www.imdb.com/search/name-text?bio="+celebrityInImage.name
-                            }
-                            //Update the celebrity links map that we will use next to create buttons
-                            self?.infoLinksMap[index] = "https://"+celebFace.urls![0]
-                            
-                            //Create a button that will take users to the IMDb link when tapped
-                            let infoButton:UIButton = celebrityInImage.createInfoButton()
-                            infoButton.tag = index
-                            infoButton.addTarget(self, action: #selector(self?.handleTap), for: .touchUpInside)
-                            self?.profileImg.addSubview(infoButton)
-                        }
-                    }
-                }
-            }
-            //If there were no celebrities in the image, lets check if there were any faces (who, granted, could one day become celebrities)
-            else if ((result!.unrecognizedFaces?.count)! > 0){
-                //Faces are present. Point them out in the Image (left as an exercise for the reader)
-                /**/
-            }
-            else{
-                //No faces were found (presumably no people were found either)
-                print("No faces in this pic")
-            }
-        }
-        
-    }
-    
-    @objc func handleTap(sender:UIButton){
-        print("tap recognized")
-        let celebURL = URL(string: self.infoLinksMap[sender.tag]!)
-        let safariController = SFSafariViewController(url: celebURL!)
-        safariController.delegate = self
-        self.present(safariController, animated:true)
-    }
-}
+//extension EditMyProfileVC {
+//    //MARK: - AWS Methods
+//    func sendImageToRekognition(celebImageData: Data){
+//
+//        //Delete older labels or buttons
+//        DispatchQueue.main.async {
+//            [weak self] in
+//            for subView in (self?.profileImg.subviews)! {
+//                subView.removeFromSuperview()
+//            }
+//        }
+//
+//        rekognitionObject = AWSRekognition.default()
+//        let celebImageAWS = AWSRekognitionImage()
+//        celebImageAWS?.bytes = celebImageData
+//        let celebRequest = AWSRekognitionRecognizeCelebritiesRequest()
+//        celebRequest?.image = celebImageAWS
+//
+//        rekognitionObject?.recognizeCelebrities(celebRequest!){
+//            (result, error) in
+//            if error != nil{
+//                print(error!)
+//                return
+//            }
+//
+//            //1. First we check if there are any celebrities in the response
+//            if ((result!.celebrityFaces?.count)! > 0){
+//
+//                //2. Celebrities were found. Lets iterate through all of them
+//                for (index, celebFace) in result!.celebrityFaces!.enumerated(){
+//
+//                    //Check the confidence value returned by the API for each celebirty identified
+//                    if(celebFace.matchConfidence!.intValue > 50){ //Adjust the confidence value to whatever you are comfortable with
+//
+//                        //We are confident this is celebrity. Lets point them out in the image using the main thread
+//                        DispatchQueue.main.async {
+//                            [weak self] in
+//
+//                            //Create an instance of Celebrity. This class is availabe with the starter application you downloaded
+//                            let celebrityInImage = Celebrity()
+//
+//                            celebrityInImage.scene = (self?.profileImg)!
+//
+//                            //Get the coordinates for where this celebrity face is in the image and pass them to the Celebrity instance
+//                            celebrityInImage.boundingBox = ["height":celebFace.face?.boundingBox?.height, "left":celebFace.face?.boundingBox?.left, "top":celebFace.face?.boundingBox?.top, "width":celebFace.face?.boundingBox?.width] as? [String : CGFloat]
+//
+//                            //Get the celebrity name and pass it along
+//                            celebrityInImage.name = celebFace.name!
+//                            //Get the first url returned by the API for this celebrity. This is going to be an IMDb profile link
+//                            if (celebFace.urls!.count > 0){
+//                                celebrityInImage.infoLink = celebFace.urls![0]
+//                            }
+//                            //If there are no links direct them to IMDB search page
+//                            else{
+//                                celebrityInImage.infoLink = "https://www.imdb.com/search/name-text?bio="+celebrityInImage.name
+//                            }
+//                            //Update the celebrity links map that we will use next to create buttons
+//                            self?.infoLinksMap[index] = "https://"+celebFace.urls![0]
+//
+//                            //Create a button that will take users to the IMDb link when tapped
+//                            let infoButton:UIButton = celebrityInImage.createInfoButton()
+//                            infoButton.tag = index
+//                            infoButton.addTarget(self, action: #selector(self?.handleTap), for: .touchUpInside)
+//                            self?.profileImg.addSubview(infoButton)
+//                        }
+//                    }
+//                }
+//            }
+//            //If there were no celebrities in the image, lets check if there were any faces (who, granted, could one day become celebrities)
+//            else if ((result!.unrecognizedFaces?.count)! > 0){
+//                //Faces are present. Point them out in the Image (left as an exercise for the reader)
+//                /**/
+//            }
+//            else{
+//                //No faces were found (presumably no people were found either)
+//                print("No faces in this pic")
+//            }
+//        }
+//
+//    }
+//
+//    @objc func handleTap(sender:UIButton){
+//        print("tap recognized")
+//        let celebURL = URL(string: self.infoLinksMap[sender.tag]!)
+//        let safariController = SFSafariViewController(url: celebURL!)
+//        safariController.delegate = self
+//        self.present(safariController, animated:true)
+//    }
+//}

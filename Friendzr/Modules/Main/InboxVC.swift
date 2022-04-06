@@ -593,6 +593,7 @@ extension InboxVC:UITableViewDelegate {
                     vc.isChatGroup = false
                     vc.groupId = ""
                     vc.isEventAdmin = model?.myevent ?? false
+                    vc.eventType = model?.eventtype ?? ""
                 }
                 else {
                     if (model?.isChatGroup ?? false) == true {

@@ -134,6 +134,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         mapView.clear()
         CancelRequest.currentTask = true
+        
         collectionViewHeight.constant = 0
         self.hideCollectionView.isHidden = true
         self.noeventNearbyLbl.isHidden = true
@@ -256,17 +257,24 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     func bindToModel() {
         self.mapView.clear()
+        let startDate = Date()
+        
         viewmodel.getAllEventsAroundMe()
         viewmodel.locations.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
+                let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
+                print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
+
                 print("peoplocationDataCount>> \(value.peoplocationDataMV?.count ?? 0)")
                 print("eventlocationDataCount>> \(value.eventlocationDataMV?.count ?? 0)")
                 
                 self.locationsModel = value
-                
                 DispatchQueue.main.async {
-                    self.setupMarkers(model: self.locationsModel)
+                    self.setupMarkers(model: value)
                 }
+                
+                let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
+                print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
             }
         }
         
@@ -928,7 +936,7 @@ extension MapVC : CLLocationManagerDelegate {
                     self.updateUserInterface()
                 }
                 
-//                locationManager.stopUpdatingLocation()
+                locationManager.stopUpdatingLocation()
                 
                 DispatchQueue.main.async {
                     self.isViewUp = false

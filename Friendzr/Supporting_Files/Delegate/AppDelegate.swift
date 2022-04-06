@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialize Identity Provider //AWS
         let credentialsProvider = AWSCognitoCredentialsProvider(
             regionType: .USEast1,
-            identityPoolId: "<YOUR-COGNITO-IDENTITY-POOL-ID-HERE>")
+            identityPoolId: "us-east-1:3f882f36-c5be-49a1-aa6f-de424d980388")
         let configuration = AWSServiceConfiguration(
             region: .USEast1,
             credentialsProvider: credentialsProvider)
