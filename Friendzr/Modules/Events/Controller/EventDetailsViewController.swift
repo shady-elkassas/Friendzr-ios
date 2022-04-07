@@ -314,6 +314,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: btnsCellId, for: indexPath) as? EventButtonsTableViewCell else {return UITableViewCell()}
             
             cell.parentvc = self
+            cell.bottomLbl.isHidden = true
             if model?.key == 1 { //my event
                 cell.editBtn.isHidden = false
                 cell.chatBtn.isHidden = false

@@ -63,6 +63,3 @@ class ShowImageVC: UIViewController ,UIScrollViewDelegate {
         self.dismiss(animated: true)
     }
 }
-
-
-

@@ -110,10 +110,6 @@ class ExternalEventDetailsVC: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleExternalEventDetails), name: Notification.Name("handleExternalEventDetails"), object: nil)
         
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
-        
         pullToRefresh()
     }
     
@@ -127,6 +123,10 @@ class ExternalEventDetailsVC: UIViewController {
         
         setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -336,6 +336,8 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: btnsCellId, for: indexPath) as? EventButtonsTableViewCell else {return UITableViewCell()}
             
             cell.parentvc = self
+            cell.bottomLbl.isHidden = false
+            
             if model?.key == 1 { //my event
                 cell.editBtn.isHidden = false
                 cell.chatBtn.isHidden = false
@@ -475,8 +477,10 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: detailsCellId, for: indexPath) as? EventDetailsTableViewCell else {return UITableViewCell()}
             cell.detailsLbl.text = model?.descriptionEvent
             
-            DispatchQueue.main.async {
-                cell.detailsLbl.addTrailing(with: "... ", moreText: "Read more", moreTextFont: UIFont(name: "Montserrat-Medium", size: 12)!, moreTextColor: UIColor.FriendzrColors.primary!)
+            if model?.descriptionEvent != "" {
+                DispatchQueue.main.async {
+                    cell.detailsLbl.addTrailing(with: "... ", moreText: "Read more", moreTextFont: UIFont(name: "Montserrat-Medium", size: 12)!, moreTextColor: UIColor.FriendzrColors.primary!)
+                }
             }
             
             return cell
@@ -631,7 +635,7 @@ extension ExternalEventDetailsVC: UITableViewDelegate,UIPopoverPresentationContr
         if indexPath.row == 0 {
             return screenH/3
         }else if indexPath.row == 1 {
-            return 70
+            return 85
         }else if indexPath.row == 2 {
             return 100
         }else if indexPath.row == 3 {

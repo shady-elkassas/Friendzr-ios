@@ -1815,7 +1815,7 @@ yourself with a one-time selfie</string>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Lj-zs-Hb5">
-                                <rect key="frame" x="34.5" y="250.5" width="345" height="395"/>
+                                <rect key="frame" x="34.5" y="243.5" width="345" height="409.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash4" translatesAutoresizingMaskIntoConstraints="NO" id="Gjv-Zo-RfU">
                                         <rect key="frame" x="0.0" y="0.0" width="345" height="100"/>
@@ -1862,33 +1862,33 @@ yourself with a one-time selfie</string>
                                             <constraint firstAttribute="height" constant="10" id="J00-mo-qC3"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please do not use a cropped image." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ENT-SG-lBP">
-                                        <rect key="frame" x="38" y="210.5" width="287" height="15"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click below to tale a selfie and verify your uploaded photo." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ENT-SG-lBP">
+                                        <rect key="frame" x="38" y="210.5" width="287" height="29.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                         <color key="textColor" name="ColorLbl2"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use an image where your face occupies a large proportion of the image." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z76-A3-k1P">
-                                        <rect key="frame" x="38" y="233.5" width="287" height="29.5"/>
+                                        <rect key="frame" x="38" y="248" width="287" height="29.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                         <color key="textColor" name="ColorLbl2"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Images with a face that occupies a larger portion of the image, are matched with greater accuracy." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vkJ-Rj-OrA">
-                                        <rect key="frame" x="38" y="271" width="287" height="44"/>
+                                        <rect key="frame" x="38" y="285.5" width="287" height="44"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                         <color key="textColor" name="ColorLbl2"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="Wfd-9t-1x4">
-                                        <rect key="frame" x="20" y="275" width="10" height="10"/>
+                                        <rect key="frame" x="20" y="289.5" width="10" height="10"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="10" id="vtf-KU-bdb"/>
                                             <constraint firstAttribute="height" constant="10" id="xo6-QC-ard"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HVb-at-LHd">
-                                        <rect key="frame" x="115" y="335" width="115" height="40"/>
+                                        <rect key="frame" x="115" y="349.5" width="115" height="40"/>
                                         <color key="backgroundColor" name="primaryColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="dw3-ux-cDm"/>
@@ -1903,7 +1903,7 @@ yourself with a one-time selfie</string>
                                         </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="N1X-VV-C2k">
-                                        <rect key="frame" x="20" y="237.5" width="10" height="10"/>
+                                        <rect key="frame" x="20" y="252" width="10" height="10"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="10" id="99A-Pg-aU9"/>
                                             <constraint firstAttribute="height" constant="10" id="AqC-xX-Cdk"/>
@@ -2112,7 +2112,7 @@ yourself with a one-time selfie</string>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nzC-CH-gLM">
-                                <rect key="frame" x="34.5" y="210.5" width="345" height="485"/>
+                                <rect key="frame" x="34.5" y="203.5" width="345" height="499.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="aVh-nU-PNF">
                                         <rect key="frame" x="92.5" y="20" width="160" height="160"/>
@@ -2122,7 +2122,7 @@ yourself with a one-time selfie</string>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WeH-p2-rt2">
-                                        <rect key="frame" x="115" y="425" width="115" height="40"/>
+                                        <rect key="frame" x="115" y="439.5" width="115" height="40"/>
                                         <color key="backgroundColor" name="primaryColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="icT-8i-kH9"/>
@@ -2145,7 +2145,7 @@ yourself with a one-time selfie</string>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use an image where your face occupies a large proportion of the image." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJo-8j-1Br">
-                                        <rect key="frame" x="38" y="323.5" width="287" height="29.5"/>
+                                        <rect key="frame" x="38" y="338" width="287" height="29.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                         <color key="textColor" name="ColorLbl2"/>
                                         <nil key="highlightedColor"/>
@@ -2177,27 +2177,27 @@ yourself with a one-time selfie</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="rtp-V3-fkb">
-                                        <rect key="frame" x="20" y="327.5" width="10" height="10"/>
+                                        <rect key="frame" x="20" y="342" width="10" height="10"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="10" id="NUV-im-n6F"/>
                                             <constraint firstAttribute="width" constant="10" id="gN8-DT-fqs"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Images with a face that occupies a larger portion of the image, are matched with greater accuracy." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVk-YB-wkR">
-                                        <rect key="frame" x="38" y="361" width="287" height="44"/>
+                                        <rect key="frame" x="38" y="375.5" width="287" height="44"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                         <color key="textColor" name="ColorLbl2"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="Iim-bb-0xA">
-                                        <rect key="frame" x="20" y="365" width="10" height="10"/>
+                                        <rect key="frame" x="20" y="379.5" width="10" height="10"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="10" id="TDg-mj-V5X"/>
                                             <constraint firstAttribute="width" constant="10" id="z3K-GY-GTl"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please do not use a cropped image." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYd-qC-bHV">
-                                        <rect key="frame" x="38" y="300.5" width="287" height="15"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click below to tale a selfie and verify your uploaded photo." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYd-qC-bHV">
+                                        <rect key="frame" x="38" y="300.5" width="287" height="29.5"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                         <color key="textColor" name="ColorLbl2"/>
                                         <nil key="highlightedColor"/>

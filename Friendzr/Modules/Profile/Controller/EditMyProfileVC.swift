@@ -666,7 +666,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
 
                         DispatchQueue.main.async {
                             self.ProcessingLbl.text = "Not Matched"
-                            self.ProcessingLbl.textColor = .green
+                            self.ProcessingLbl.textColor = .red
                             
                             if self.profileModel?.userImage != "" {
                                 self.attachedImg = true

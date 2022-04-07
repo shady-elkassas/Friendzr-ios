@@ -13,6 +13,7 @@ class EventButtonsTableViewCell: UITableViewCell {
     @IBOutlet weak var leaveBtn: UIButton!
     @IBOutlet weak var joinBtn: UIButton!
     @IBOutlet weak var chatBtn: UIButton!
+    @IBOutlet weak var bottomLbl: UILabel!
     
     let model:EventObj? = nil
     var parentvc = UIViewController()
