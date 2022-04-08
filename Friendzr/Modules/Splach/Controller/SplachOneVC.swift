@@ -37,7 +37,7 @@ class SplachOneVC: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
                 
         
-        if Defaults.isIPhoneSmall {
+        if Defaults.isIPhoneLessThan1500 {
             bottomLAyoutConstraint.constant = 55
         }
         

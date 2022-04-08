@@ -29,7 +29,7 @@ class SplachThreeVC: UIViewController {
         nextBtn.layer.applySketchShadow()
         
         
-        if Defaults.isIPhoneSmall {
+        if Defaults.isIPhoneLessThan1500 {
             bottomLAyoutConstraint.constant = 55
         }
     }

@@ -41,7 +41,7 @@ class CustomCropperViewController: CropperViewController {
         super.resetToDefaultLayout()
 
         aspectRatioLocked = true
-        if Defaults.isIPhoneSmall {
+        if Defaults.isIPhoneLessThan2500 {
             setAspectRatioValue(1.7)
         }else {
             setAspectRatioValue(1.39)

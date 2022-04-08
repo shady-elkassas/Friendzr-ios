@@ -134,7 +134,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         moreList.append(("Contact Friendzr".localizedString, UIImage(named: "Contactus_ic")!))
         moreList.append(("Log Out".localizedString, UIImage(named: "logout_ic")!))
         
-        if Defaults.isIPhoneSmall {
+        if Defaults.isIPhoneLessThan2500 {
             profileImgH.constant = 150
             profileImgW.constant = 150
             profileImg.cornerRadiusView(radius: 75)

@@ -421,7 +421,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         var xview:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
         
-        if Defaults.isIPhoneSmall {
+        if Defaults.isIPhoneLessThan2500 {
             xview = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
         }
         
@@ -444,7 +444,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         labl.translatesAutoresizingMaskIntoConstraints = false
         
         let horizontalConstraint = labl.centerXAnchor.constraint(equalTo: xview.centerXAnchor)
-        let verticalConstraint = labl.centerYAnchor.constraint(equalTo: xview.centerYAnchor, constant: Defaults.isIPhoneSmall == true ? -2 : -5)
+        let verticalConstraint = labl.centerYAnchor.constraint(equalTo: xview.centerYAnchor, constant: Defaults.isIPhoneLessThan2500 == true ? -2 : -5)
         let widthConstraint = labl.widthAnchor.constraint(equalToConstant: xview.bounds.width)
         let heightConstraint = labl.heightAnchor.constraint(equalToConstant: xview.bounds.height)
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])

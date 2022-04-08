@@ -243,7 +243,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func addCompassView() {
-        if Defaults.isIPhoneSmall {
+        if Defaults.isIPhoneLessThan2500 {
             let child = UIHostingController(rootView: CompassViewSwiftUIForIPhoneSmall())
             compassContanierView.addSubview(child.view)
             
@@ -577,7 +577,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             filterBtn.isHidden = false
             compassContanierView.isHidden = false
             
-            if Defaults.isIPhoneSmall {
+            if Defaults.isIPhoneLessThan2500 {
                 compassContainerViewHeight.constant = 200
             }else {
                 compassContainerViewHeight.constant = 320
@@ -1269,7 +1269,7 @@ extension FeedVC {
                         filterDir = true
                         filterBtn.isHidden = false
                         compassContanierView.isHidden = false
-                        if Defaults.isIPhoneSmall {
+                        if Defaults.isIPhoneLessThan2500 {
                             compassContainerViewHeight.constant = 200
                         }else {
                             compassContainerViewHeight.constant = 320
@@ -1398,7 +1398,7 @@ extension FeedVC {
                         filterDir = true
                         filterBtn.isHidden = false
                         compassContanierView.isHidden = false
-                        if Defaults.isIPhoneSmall {
+                        if Defaults.isIPhoneLessThan2500 {
                             compassContainerViewHeight.constant = 200
                         }else {
                             compassContainerViewHeight.constant = 320

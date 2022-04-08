@@ -147,9 +147,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
         
         if UIScreen.main.nativeBounds.height < 1500 {
-            Defaults.isIPhoneSmall = true
+            Defaults.isIPhoneLessThan1500 = true
         }else {
-            Defaults.isIPhoneSmall = false
+            Defaults.isIPhoneLessThan1500 = false
+        }
+        
+        if UIScreen.main.nativeBounds.height < 2500 {
+            Defaults.isIPhoneLessThan2500 = true
+        }else {
+            Defaults.isIPhoneLessThan2500 = false
         }
         
         UIView.appearance().semanticContentAttribute = .forceLeftToRight

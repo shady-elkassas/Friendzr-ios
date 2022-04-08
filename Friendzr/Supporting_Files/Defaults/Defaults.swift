@@ -402,13 +402,23 @@ class Defaults {
         }
     }
     
-    static var isIPhoneSmall: Bool {
+    static var isIPhoneLessThan1500: Bool {
         set{
-            UserDefaults.standard.set(newValue, forKey: "isIPhoneSmall")
+            UserDefaults.standard.set(newValue, forKey: "isIPhoneLessThan1500")
             UserDefaults.standard.synchronize()
         }
         get{
-            return UserDefaults.standard.bool(forKey: "isIPhoneSmall")
+            return UserDefaults.standard.bool(forKey: "isIPhoneLessThan1500")
+        }
+    }
+    
+    static var isIPhoneLessThan2500: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "isIPhoneLessThan2500")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "isIPhoneLessThan2500")
         }
     }
     
