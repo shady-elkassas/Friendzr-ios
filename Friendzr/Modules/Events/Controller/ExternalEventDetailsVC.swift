@@ -154,7 +154,7 @@ class ExternalEventDetailsVC: UIViewController {
             self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
             self.alertView?.titleLbl.text = "Confirm?".localizedString
-            self.alertView?.detailsLbl.text = "Have you completed the event booking form?".localizedString
+            self.alertView?.detailsLbl.text = "Have you completed the form and booked tickets?".localizedString
             
             self.alertView?.HandleConfirmBtn = {
                 if self.internetConect == true {
