@@ -2,7 +2,7 @@
 //  ExternalEventWebView.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 06/04/2022.
+//  Created by Muhammad Sabri Saad on 06/04/2022.
 //
 
 import UIKit
