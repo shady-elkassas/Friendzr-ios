@@ -645,7 +645,7 @@ extension EventDetailsViewController: UITableViewDelegate {
         if indexPath.row == 0 {
             return screenH/3
         }else if indexPath.row == 1 {
-            return 70
+            return UITableView.automaticDimension
         }else if indexPath.row == 2 {
             return 100
         }else if indexPath.row == 3 {
