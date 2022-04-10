@@ -44,7 +44,6 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     var currentPage : Int = 0
     var isLoadingList : Bool = false
     
-    
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -111,6 +110,8 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         getAllUserRequests(pageNumber: currentPage)
     }
     
+    var xrecieved :[UserFeedObj] = [UserFeedObj]()
+    
     func getAllUserRequests(pageNumber:Int) {
         hideView.hideLoader()
         viewmodel.getAllRequests(requestesType: RequestesType.type, pageNumber: pageNumber)
@@ -129,8 +130,16 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.tableView.tableFooterView = nil
                 }
                 
+                
+                self.xrecieved.removeAll()
+                for itm in value.data ?? [] {
+                    if itm.key == 2 {
+                        self.xrecieved.append(itm)
+                    }
+                }
+                
                 if RequestesType.type == 2 {
-                    Defaults.frindRequestNumber = value.data?.count ?? 0
+                    Defaults.frindRequestNumber = self.xrecieved.count
                 }else {
                     Defaults.frindRequestNumber = Defaults.frindRequestNumber
                 }
@@ -168,8 +177,16 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.tableView.dataSource = self
                 self.tableView.reloadData()
                 
+                
+                self.xrecieved.removeAll()
+                for itm in value.data ?? [] {
+                    if itm.key == 2 {
+                        self.xrecieved.append(itm)
+                    }
+                }
+                
                 if RequestesType.type == 2 {
-                    Defaults.frindRequestNumber = value.data?.count ?? 0
+                    Defaults.frindRequestNumber = self.xrecieved.count
                 }else {
                     Defaults.frindRequestNumber = Defaults.frindRequestNumber
                 }
@@ -358,18 +375,26 @@ extension RequestVC:UITableViewDataSource {
             
             let model = viewmodel.requests.value?.data?[indexPath.row]
             
-            if RequestesType.type == 1 {
+            if RequestesType.type == 1 { // sent
                 cell.acceptBtn.isHidden = true
                 if model?.key == 1 {
                     cell.stackViewBtns.isHidden = false
                     cell.messageBtn.isHidden = true
                     cell.requestRemovedLbl.isHidden = true
+                }else if model?.key == 3 {
+                    cell.stackViewBtns.isHidden = true
+                    cell.messageBtn.isHidden = false
+                    cell.requestRemovedLbl.isHidden = true
                 }
-            }else {
+            }else { // received
                 cell.acceptBtn.isHidden = false
                 if model?.key == 2 {
                     cell.stackViewBtns.isHidden = false
                     cell.messageBtn.isHidden = true
+                    cell.requestRemovedLbl.isHidden = true
+                }else if model?.key == 3 {
+                    cell.stackViewBtns.isHidden = true
+                    cell.messageBtn.isHidden = false
                     cell.requestRemovedLbl.isHidden = true
                 }
             }
@@ -397,11 +422,6 @@ extension RequestVC:UITableViewDataSource {
                         }
                         
                         guard let ـ = message else {return}
-                        
-//                        DispatchQueue.main.async {
-//                            self.getAllUserRequests(pageNumber: 1)
-//                        }
-                        
                         DispatchQueue.main.async {
                             cell.stackViewBtns.isHidden = true
                             cell.messageBtn.isHidden = false
@@ -427,11 +447,6 @@ extension RequestVC:UITableViewDataSource {
                         }
                         
                         guard let _ = message else {return}
-                        
-//                        DispatchQueue.main.async {
-//                            self.getAllUserRequests(pageNumber: 1)
-//                        }
-                        
                         DispatchQueue.main.async {
                             cell.stackViewBtns.isHidden = true
                             cell.messageBtn.isHidden = true

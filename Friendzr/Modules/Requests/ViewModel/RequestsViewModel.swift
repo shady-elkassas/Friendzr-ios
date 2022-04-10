@@ -25,7 +25,7 @@ class RequestsViewModel {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/Allrequest"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-        let parameters:[String : Any] = ["requestesType":requestesType,"pageNumber": pageNumber,"pageSize":10,"search":""]
+        let parameters:[String : Any] = ["requestesType":requestesType,"pageNumber": pageNumber,"pageSize":20,"search":""]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
@@ -48,6 +48,7 @@ class RequestsViewModel {
                                 self.requestsTemp.data?.append(itm)
                             }
                         }
+                        
                         self.requests.value = self.requestsTemp
                     } else {
                         self.requests.value = toAdd

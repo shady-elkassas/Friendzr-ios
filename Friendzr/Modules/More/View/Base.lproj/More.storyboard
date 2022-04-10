@@ -521,26 +521,9 @@
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ziK-Sb-L2e" customClass="GradientView2" customModule="Friendzr" customModuleProvider="target">
                                                 <rect key="frame" x="25" y="357.5" width="364" height="44"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0YD-TI-UhQ">
-                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="44"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
-                                                        <state key="normal" title="SAVE">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="saveBtn:" destination="zlx-iC-tbX" eventType="touchUpInside" id="Thd-5a-WPi"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="44" id="AYT-jj-cyo"/>
-                                                    <constraint firstAttribute="trailing" secondItem="0YD-TI-UhQ" secondAttribute="trailing" id="Hf8-NN-CQN"/>
-                                                    <constraint firstItem="0YD-TI-UhQ" firstAttribute="top" secondItem="ziK-Sb-L2e" secondAttribute="top" id="VGN-R8-f1v"/>
-                                                    <constraint firstItem="0YD-TI-UhQ" firstAttribute="leading" secondItem="ziK-Sb-L2e" secondAttribute="leading" id="jyS-xv-bCN"/>
-                                                    <constraint firstAttribute="bottom" secondItem="0YD-TI-UhQ" secondAttribute="bottom" id="odz-aT-TWY"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
@@ -549,20 +532,36 @@
                                                     <userDefinedRuntimeAttribute type="color" keyPath="secondColor">
                                                         <color key="value" red="0.1960784314" green="0.61568627450000002" blue="0.61176470589999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="vertical" value="YES"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0YD-TI-UhQ">
+                                                <rect key="frame" x="25" y="357.5" width="364" height="44"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                                <state key="normal" title="SAVE">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="saveBtn:" destination="zlx-iC-tbX" eventType="touchUpInside" id="Thd-5a-WPi"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" name="Color0"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="ziK-Sb-L2e" secondAttribute="bottom" constant="20" id="2Jx-kh-7lf"/>
                                             <constraint firstItem="ziK-Sb-L2e" firstAttribute="leading" secondItem="MdS-no-a5l" secondAttribute="leading" id="7em-iQ-Biy"/>
+                                            <constraint firstItem="0YD-TI-UhQ" firstAttribute="height" secondItem="ziK-Sb-L2e" secondAttribute="height" id="Iu9-30-aQE"/>
                                             <constraint firstItem="ziK-Sb-L2e" firstAttribute="top" secondItem="MdS-no-a5l" secondAttribute="bottom" constant="80" id="Jnx-rM-4ma"/>
                                             <constraint firstItem="ziK-Sb-L2e" firstAttribute="trailing" secondItem="MdS-no-a5l" secondAttribute="trailing" id="Jws-ue-wrm"/>
                                             <constraint firstAttribute="trailing" secondItem="MdS-no-a5l" secondAttribute="trailing" constant="25" id="KPO-lu-l0X"/>
+                                            <constraint firstItem="0YD-TI-UhQ" firstAttribute="width" secondItem="ziK-Sb-L2e" secondAttribute="width" id="fiJ-2Y-a74"/>
                                             <constraint firstItem="9gz-hr-NfV" firstAttribute="top" secondItem="pox-XC-s0s" secondAttribute="top" constant="16" id="hmo-v7-icD"/>
                                             <constraint firstItem="9gz-hr-NfV" firstAttribute="leading" secondItem="pox-XC-s0s" secondAttribute="leading" constant="25" id="kH8-og-MDb"/>
+                                            <constraint firstItem="0YD-TI-UhQ" firstAttribute="centerX" secondItem="ziK-Sb-L2e" secondAttribute="centerX" id="pTO-Kz-GKo"/>
                                             <constraint firstItem="MdS-no-a5l" firstAttribute="top" secondItem="9gz-hr-NfV" secondAttribute="bottom" constant="40" id="s36-Sd-Fbf"/>
                                             <constraint firstItem="MdS-no-a5l" firstAttribute="leading" secondItem="pox-XC-s0s" secondAttribute="leading" constant="25" id="tsT-9n-t8U"/>
+                                            <constraint firstItem="0YD-TI-UhQ" firstAttribute="centerY" secondItem="ziK-Sb-L2e" secondAttribute="centerY" id="weA-dw-QLE"/>
                                             <constraint firstItem="9gz-hr-NfV" firstAttribute="width" secondItem="pox-XC-s0s" secondAttribute="width" multiplier="1:1.8" id="zYj-D7-nDX"/>
                                         </constraints>
                                     </view>

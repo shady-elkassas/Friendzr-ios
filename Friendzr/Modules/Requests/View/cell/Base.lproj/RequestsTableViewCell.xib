@@ -115,7 +115,7 @@
                         </subviews>
                     </stackView>
                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gEe-5B-K4O">
-                        <rect key="frame" x="220" y="27.5" width="80" height="30"/>
+                        <rect key="frame" x="215" y="27.5" width="80" height="30"/>
                         <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="80" id="p0x-gM-cP2"/>
@@ -151,12 +151,12 @@
                     <constraint firstItem="2tY-Ly-Wvx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="25" id="IGe-wN-hNz"/>
                     <constraint firstAttribute="trailing" secondItem="yJT-ON-Avd" secondAttribute="trailing" id="Ny7-Wl-Qrj"/>
                     <constraint firstItem="yJT-ON-Avd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="SqB-g8-O39"/>
-                    <constraint firstItem="gEe-5B-K4O" firstAttribute="centerX" secondItem="Qob-NU-vjv" secondAttribute="centerX" id="Ygh-oe-r06"/>
                     <constraint firstItem="Mif-3S-Pj8" firstAttribute="centerY" secondItem="2tY-Ly-Wvx" secondAttribute="centerY" id="aQs-hR-xcH"/>
                     <constraint firstItem="gEe-5B-K4O" firstAttribute="centerY" secondItem="Qob-NU-vjv" secondAttribute="centerY" id="cpB-vK-obO"/>
                     <constraint firstAttribute="bottom" secondItem="yJT-ON-Avd" secondAttribute="bottom" constant="5" id="dLo-nu-fYF"/>
                     <constraint firstItem="2tY-Ly-Wvx" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="eV4-u7-q31"/>
                     <constraint firstItem="Qob-NU-vjv" firstAttribute="centerY" secondItem="Mif-3S-Pj8" secondAttribute="centerY" id="hm7-Tf-NCK"/>
+                    <constraint firstItem="gEe-5B-K4O" firstAttribute="trailing" secondItem="Qob-NU-vjv" secondAttribute="trailing" id="mEx-lB-pSh"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
