@@ -55,7 +55,7 @@ class RegisterVC: UIViewController {
     var UserG_userName = ""
     var socialMediaImge = ""
     
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
     //    var btnsSelect:Bool = false
     
     var myString:String = "By clicking ‘Sign up’, you agree to our terms of usage see more".localizedString
@@ -133,7 +133,7 @@ class RegisterVC: UIViewController {
     //MARK: - Actions
     @IBAction func registerBtn(_ sender: Any) {
         hideKeyboard()
-        if internetConect {
+        if NetworkConected.internetConect {
             self.showLoading()
             registerVM.RegisterNewUser(withUserName: userNameTxt.text!, AndEmail: emailTxt.text!, password: passwordTxt.text!,confirmPassword:confirmPasswordTxt.text!) { error, data in
                 self.hideLoading()
@@ -177,7 +177,7 @@ class RegisterVC: UIViewController {
     }
     
     @IBAction func facebookBtn(_ sender: Any) {
-        if internetConect {
+        if NetworkConected.internetConect {
             if let token = AccessToken.current,
                !token.isExpired {
                 // User is logged in, do work such as go to next view controller.
@@ -208,7 +208,7 @@ class RegisterVC: UIViewController {
     }
     
     @IBAction func googleBtn(_ sender: Any) {
-        if internetConect {
+        if NetworkConected.internetConect {
             GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: self) { user, error in
                 guard error == nil else { return }
                 // If sign in succeeded, display the app's main content View.
@@ -269,7 +269,7 @@ class RegisterVC: UIViewController {
     }
     
     @IBAction func appleBtn(_ sender: Any) {
-        if internetConect {
+        if NetworkConected.internetConect {
             let appleIDProvider = ASAuthorizationAppleIDProvider()
             let request = appleIDProvider.createRequest()
             request.requestedScopes = [.fullName, .email]
@@ -317,25 +317,29 @@ class RegisterVC: UIViewController {
     }
     
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
+        appDelegate.networkReachability()
         
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.internetConect = true
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConect = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleInternetConnection() {

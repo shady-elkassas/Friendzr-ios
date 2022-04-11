@@ -23,7 +23,7 @@ class MyProfileViewController: UIViewController {
     
     
     var viewmodel: ProfileViewModel = ProfileViewModel()
-    var internetConnection:Bool = false
+//    var internetConnection:Bool = false
     
     let imageCellID = "ImageProfileTableViewCell"
     let userNameCellId = "ProfileUserNameTableViewCell"
@@ -130,7 +130,7 @@ class MyProfileViewController: UIViewController {
             DispatchQueue.main.async {
                 self.hideLoading()
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -144,31 +144,37 @@ class MyProfileViewController: UIViewController {
     //MARK: - Helper
     
     func updateUserInterface() {
+        appDelegate.networkReachability()
         
-        let monitor = NWPathMonitor()
-        
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = true
-                    self.hideView.isHidden = false
-                    self.internetConnection = true
-                    self.getProfileInformation()
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConnection = false
-                    self.hideView.isHidden = true
-                    self.emptyView.isHidden = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.hideView.isHidden = true
+                self.emptyView.isHidden = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                self.hideView.isHidden = false
+                NetworkConected.internetConect = true
+                self.getProfileInformation()
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                self.hideView.isHidden = false
+                NetworkConected.internetConect = true
+                self.getProfileInformation()
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleInternetConnection() {
@@ -230,7 +236,7 @@ extension MyProfileViewController: UITableViewDataSource {
             
             cell.HandleEditBtn = {
                 self.btnSelect = true
-                if self.internetConnection {
+                if NetworkConected.internetConect {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC else {return}
                     vc.profileModel = self.viewmodel.userModel.value
                     self.navigationController?.pushViewController(vc, animated: true)
@@ -336,15 +342,28 @@ extension MyProfileViewController: UITableViewDataSource {
     }
 }
 
-extension MyProfileViewController: UITableViewDelegate {
+extension MyProfileViewController: UITableViewDelegate, UIPopoverPresentationControllerDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let height = tableView.bounds.height
-        
         if indexPath.row == 0 {
             return screenH/3
         }
         else {
             return UITableView.automaticDimension
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = viewmodel.userModel.value
+        if indexPath.row == 0 {
+            guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
+            popupVC.modalPresentationStyle = .overCurrentContext
+            popupVC.modalTransitionStyle = .crossDissolve
+            let pVC = popupVC.popoverPresentationController
+            pVC?.permittedArrowDirections = .any
+            pVC?.delegate = self
+            pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+            popupVC.imgURL = model?.userImage
+            present(popupVC, animated: true, completion: nil)
         }
     }
 }

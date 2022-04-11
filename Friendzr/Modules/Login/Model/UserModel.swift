@@ -43,9 +43,8 @@ class UserObj: Mappable {
         OtherGenderName <- map["OtherGenderName"]
         frindRequestNumber <- map["frindRequestNumber"]
         notificationcount <- map["notificationcount"]
-
+        message_Count <- map["message_Count"]
     }
-    
     
     var userid = ""
     var userImage = ""
@@ -76,6 +75,7 @@ class UserObj: Mappable {
     var ghostmode:Bool = false
     var pushnotification:Bool = false
     var notificationcount:Int = 0
+    var message_Count:Int = 0
 }
 
 

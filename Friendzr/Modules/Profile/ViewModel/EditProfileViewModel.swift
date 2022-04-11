@@ -190,6 +190,7 @@ class EditProfileViewModel {
         Defaults.age = user.age
         Defaults.userId = user.userid
         Defaults.needUpdate = user.needUpdate
+        Defaults.message_Count = user.message_Count
     }
     
     

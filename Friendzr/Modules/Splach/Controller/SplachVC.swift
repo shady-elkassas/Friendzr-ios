@@ -9,6 +9,7 @@ import UIKit
 import CoreLocation
 import SwiftUI
 import RevealingSplashView
+import Network
 
 public typealias AnimationCompletion = () -> Void
 public typealias AnimationExecution = () -> Void
@@ -29,7 +30,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     var delay: Double = 2.0
     var minimumBeats: Int = 1
     
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
     var mask: CALayer? = CALayer()
     
     private lazy var imageView: UIImageView = {
@@ -58,8 +59,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         
         hideNavigationBar(NavigationBar: true, BackButton: true)
         let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "splashImg")!, iconInitialSize: CGSize(width: 70, height: 70), backgroundColor: .clear)
@@ -101,7 +100,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         super.viewWillAppear(animated)
         
         NetworkMonitor.shared.startMonitoring()
-
+        
         Defaults.availableVC = "SplachVC"
         print("availableVC >> \(Defaults.availableVC)")
         Defaults.isFirstLaunch = true
@@ -113,25 +112,24 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     }
     
     func updateUserInterface() {
-        appDelegate.networkReachability()
+        let monitor = NWPathMonitor()
         
-        switch Network.reachability.status {
-        case .unreachable:
-            internetConect = false
-            HandleInternetConnection()
-        case .wwan:
-            internetConect = true
-            getAllValidatConfig()
-        case .wifi:
-            internetConect = true
-            getAllValidatConfig()
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    NetworkConected.internetConect = true
+                    self.getAllValidatConfig()
+                }
+            }else {
+                DispatchQueue.main.async {
+                    NetworkConected.internetConect = false
+                    self.HandleInternetConnection()
+                }
+            }
         }
         
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
+        let queue = DispatchQueue(label: "Network")
+        monitor.start(queue: queue)
     }
     
     func getAllValidatConfig() {
@@ -171,8 +169,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         
         UIView.animate(withDuration: 1.5) {
             self.imageView.alpha = 0
-            
-            
         }
     }
     

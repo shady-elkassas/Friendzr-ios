@@ -106,7 +106,7 @@ class AddEventVC: UIViewController {
     var eventTypeID = ""
     var eventTypeName = ""
     
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
     
     let datePicker1 = UIDatePicker()
     let datePicker2 = UIDatePicker()
@@ -507,7 +507,7 @@ class AddEventVC: UIViewController {
         let eventDate = self.formatterDate.string(from: Date())
         let eventTime = self.formatterTime.string(from: Date())
 
-        if internetConect == true {
+        if NetworkConected.internetConect == true {
             if attachedImg == false {
                 DispatchQueue.main.async {
                     self.view.makeToast("Please add image to the event".localizedString)
@@ -553,34 +553,47 @@ class AddEventVC: UIViewController {
     
     //MARK: - Helper
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
+        appDelegate.networkReachability()
         
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
                 DispatchQueue.main.async {
-                    self.internetConect = true
-                    DispatchQueue.main.async {
-                        self.getCats()
-                    }
-                    DispatchQueue.main.async {
-                        self.getEventTypes()
-                    }
-                    DispatchQueue.main.async {
-                        self.getAllValidatConfig()
-                    }
+                    self.getCats()
                 }
-                return
-            }else {
                 DispatchQueue.main.async {
-                    self.internetConect = false
-                    self.HandleInternetConnection()
+                    self.getEventTypes()
                 }
-                return
+                DispatchQueue.main.async {
+                    self.getAllValidatConfig()
+                }
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                DispatchQueue.main.async {
+                    self.getCats()
+                }
+                DispatchQueue.main.async {
+                    self.getEventTypes()
+                }
+                DispatchQueue.main.async {
+                    self.getAllValidatConfig()
+                }
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleInternetConnection() {

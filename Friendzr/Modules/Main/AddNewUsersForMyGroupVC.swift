@@ -71,26 +71,31 @@ class AddNewUsersForMyGroupVC: UIViewController {
     
     //MARK: - Helper
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
+        appDelegate.networkReachability()
         
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.internetConnect = true
-                    self.LaodAllFriends(pageNumber: 1, search: self.searchbar.text ?? "")
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConnect = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.LaodAllFriends(pageNumber: 1, search: self.searchbar.text ?? "")
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.LaodAllFriends(pageNumber: 1, search: self.searchbar.text ?? "")
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func setupSearchBar() {

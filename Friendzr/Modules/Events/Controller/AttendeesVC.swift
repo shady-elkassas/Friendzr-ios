@@ -25,7 +25,7 @@ class AttendeesVC: UIViewController {
     var currentPage : Int = 1
     var isLoadingList : Bool = false
     var eventKey:Int = 0
-    var internetConnect:Bool = false
+//    var internetConnect:Bool = false
 
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
@@ -231,29 +231,34 @@ class AttendeesVC: UIViewController {
     }
     
     func updateUserInterface() {
+        appDelegate.networkReachability()
         
-        let monitor = NWPathMonitor()
-        
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.internetConnect = true
-                    self.emptyView.isHidden = true
-                    self.loadAllAttendees(pageNumber: 0, search: self.searchBar.text ?? "")
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConnect = false
-                    self.emptyView.isHidden = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.emptyView.isHidden = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.emptyView.isHidden = true
+                self.loadAllAttendees(pageNumber: 0, search: self.searchBar.text ?? "")
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.emptyView.isHidden = true
+                self.loadAllAttendees(pageNumber: 0, search: self.searchBar.text ?? "")
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func showEmptyView() {
@@ -287,7 +292,7 @@ extension AttendeesVC: UISearchBarDelegate{
     @objc func updateSearchResult() {
         guard let text = searchBar.text else {return}
         print(text)
-        if self.internetConnect {
+        if NetworkConected.internetConect {
             getAllAttendees(pageNumber: 0, search: text)
         }
     }

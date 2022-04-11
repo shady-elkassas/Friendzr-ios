@@ -1218,6 +1218,13 @@
                                                     <action selector="editImgBtn:" destination="f9n-R4-4SF" eventType="touchUpInside" id="USQ-Cl-Pbx"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQs-ky-UQj">
+                                                <rect key="frame" x="157" y="96" width="100" height="100"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <connections>
+                                                    <action selector="editOrShowImageBtn:" destination="f9n-R4-4SF" eventType="touchUpInside" id="lH3-e4-1yx"/>
+                                                </connections>
+                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Group Name: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3E0-Qt-Bkm">
                                                 <rect key="frame" x="20" y="212" width="86" height="15"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
@@ -1278,6 +1285,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="0HP-Sy-kJE" firstAttribute="top" secondItem="3E0-Qt-Bkm" secondAttribute="bottom" constant="10" id="3Eo-3M-WK3"/>
+                                            <constraint firstItem="NQs-ky-UQj" firstAttribute="centerY" secondItem="sNT-ym-xB9" secondAttribute="centerY" id="3RZ-hh-nJz"/>
                                             <constraint firstItem="aMh-XM-gZq" firstAttribute="centerY" secondItem="F18-eY-Pc4" secondAttribute="centerY" id="5km-FF-jNC"/>
                                             <constraint firstItem="F18-eY-Pc4" firstAttribute="leading" secondItem="3E0-Qt-Bkm" secondAttribute="leading" id="6k0-IV-EIC"/>
                                             <constraint firstItem="BIs-0b-aPL" firstAttribute="bottom" secondItem="sNT-ym-xB9" secondAttribute="bottom" id="7QC-oe-USD"/>
@@ -1285,9 +1293,11 @@
                                             <constraint firstAttribute="bottom" secondItem="bdW-xL-UIS" secondAttribute="bottom" constant="20" id="APC-K6-9S5"/>
                                             <constraint firstAttribute="trailing" secondItem="0HP-Sy-kJE" secondAttribute="trailing" constant="20" id="Aug-dB-1Bu"/>
                                             <constraint firstItem="BIs-0b-aPL" firstAttribute="trailing" secondItem="sNT-ym-xB9" secondAttribute="trailing" id="G0h-Jv-jxV"/>
+                                            <constraint firstItem="NQs-ky-UQj" firstAttribute="centerX" secondItem="sNT-ym-xB9" secondAttribute="centerX" id="GwL-cK-mSR"/>
                                             <constraint firstItem="3E0-Qt-Bkm" firstAttribute="leading" secondItem="GlK-S8-1Hr" secondAttribute="leading" constant="20" id="LVl-pV-OQv"/>
                                             <constraint firstAttribute="trailing" secondItem="aMh-XM-gZq" secondAttribute="trailing" constant="20" id="OVp-P2-zno"/>
                                             <constraint firstItem="bdW-xL-UIS" firstAttribute="top" secondItem="F18-eY-Pc4" secondAttribute="bottom" constant="20" id="Oh2-Rc-6KR"/>
+                                            <constraint firstItem="NQs-ky-UQj" firstAttribute="width" secondItem="sNT-ym-xB9" secondAttribute="width" id="P9e-hD-IUJ"/>
                                             <constraint firstItem="bdW-xL-UIS" firstAttribute="leading" secondItem="GlK-S8-1Hr" secondAttribute="leading" id="RQD-J6-mbN"/>
                                             <constraint firstItem="sNT-ym-xB9" firstAttribute="top" secondItem="6mw-Jh-fDW" secondAttribute="bottom" constant="16" id="SQt-E5-dBi"/>
                                             <constraint firstAttribute="trailing" secondItem="6mw-Jh-fDW" secondAttribute="trailing" id="UI3-NZ-7Ov"/>
@@ -1296,6 +1306,7 @@
                                             <constraint firstAttribute="trailing" secondItem="bdW-xL-UIS" secondAttribute="trailing" id="bwE-Cv-EwN"/>
                                             <constraint firstItem="F18-eY-Pc4" firstAttribute="top" secondItem="0HP-Sy-kJE" secondAttribute="bottom" constant="20" id="iUA-L9-hGG"/>
                                             <constraint firstItem="6mw-Jh-fDW" firstAttribute="leading" secondItem="GlK-S8-1Hr" secondAttribute="leading" id="kF2-py-6EY"/>
+                                            <constraint firstItem="NQs-ky-UQj" firstAttribute="height" secondItem="sNT-ym-xB9" secondAttribute="height" id="tkt-nu-Jgk"/>
                                             <constraint firstItem="0HP-Sy-kJE" firstAttribute="leading" secondItem="GlK-S8-1Hr" secondAttribute="leading" constant="20" id="wfp-JQ-VwE"/>
                                         </constraints>
                                     </view>
@@ -1326,6 +1337,7 @@
                     <connections>
                         <outlet property="addUsersBtn" destination="aMh-XM-gZq" id="ceW-Mc-DGF"/>
                         <outlet property="cameraBtn" destination="BIs-0b-aPL" id="yQE-Ws-MrY"/>
+                        <outlet property="editOrShowImageBtn" destination="NQs-ky-UQj" id="TTG-2s-4eo"/>
                         <outlet property="groupImg" destination="sNT-ym-xB9" id="DVy-DP-ruS"/>
                         <outlet property="nameTxt" destination="0gA-gJ-x8e" id="XX3-e8-hTH"/>
                         <outlet property="nameTxtView" destination="0HP-Sy-kJE" id="HfM-mQ-DFo"/>

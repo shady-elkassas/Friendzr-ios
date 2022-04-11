@@ -8,7 +8,7 @@
 import UIKit
 import QCropper
 
-class GroupDetailsVC: UIViewController {
+class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
     
     @IBOutlet weak var superView: UIView!
     @IBOutlet weak var groupImg: UIImageView!
@@ -20,7 +20,7 @@ class GroupDetailsVC: UIViewController {
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var searchbar: UISearchBar!
     @IBOutlet weak var searchBarView: UIView!
-    
+    @IBOutlet weak var editOrShowImageBtn: UIButton!
     
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
@@ -65,6 +65,8 @@ class GroupDetailsVC: UIViewController {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateGroupDetails), name: Notification.Name("updateGroupDetails"), object: nil)
+        
+        editOrShowImageBtn.isHidden = false
     }
     
     
@@ -138,21 +140,27 @@ class GroupDetailsVC: UIViewController {
                 
                 self.tableViewHeight.constant = CGFloat((value.chatGroupSubscribers?.count ?? 0) * 75)
                 
-                self.groupImg.sd_setImage(with: URL(string: value.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-                self.nameTxt.text = value.name
-                
-                self.selectedIDs.removeAll()
-                self.selectedNames.removeAll()
-                self.selectedFrineds.removeAll()
-                for item in value.chatGroupSubscribers  ?? [] {
-                    self.selectedIDs.append(item.userId)
-                    self.selectedNames.append(item.userName )
-                    self.selectedFrineds.append(item)
+                DispatchQueue.main.async {
+                    self.groupImg.sd_setImage(with: URL(string: value.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+                    self.groupImgStr = value.image ?? ""
+                    
+                    self.nameTxt.text = value.name
                 }
                 
-                self.selectedNames.remove(at: 0)
-                self.selectedIDs.remove(at: 0)
-                self.selectedFrineds.remove(at: 0)
+                DispatchQueue.main.async {
+                    self.selectedIDs.removeAll()
+                    self.selectedNames.removeAll()
+                    self.selectedFrineds.removeAll()
+                    for item in value.chatGroupSubscribers  ?? [] {
+                        self.selectedIDs.append(item.userId)
+                        self.selectedNames.append(item.userName )
+                        self.selectedFrineds.append(item)
+                    }
+                    
+                    self.selectedNames.remove(at: 0)
+                    self.selectedIDs.remove(at: 0)
+                    self.selectedFrineds.remove(at: 0)
+                }
                 
                 self.superView.hideLoader()
             }
@@ -161,7 +169,7 @@ class GroupDetailsVC: UIViewController {
         // Set View Model Event Listener
         viewmodel.errorMsg.bind { [unowned self]error in
             DispatchQueue.main.async {
-                //                    self.view.makeToast(error)
+                //                self.view.makeToast(error)
             }
         }
     }
@@ -222,6 +230,20 @@ class GroupDetailsVC: UIViewController {
             self.present(controller, animated: true)
         }
     }
+    
+    var groupImgStr:String = ""
+    
+    @IBAction func editOrShowImageBtn(_ sender: Any) {
+        guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
+        popupVC.modalPresentationStyle = .overCurrentContext
+        popupVC.modalTransitionStyle = .crossDissolve
+        let pVC = popupVC.popoverPresentationController
+        pVC?.permittedArrowDirections = .any
+        pVC?.delegate = self
+        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+        popupVC.imgURL = groupImgStr
+        present(popupVC, animated: true, completion: nil)
+    }
 }
 
 extension GroupDetailsVC {
@@ -279,6 +301,7 @@ extension GroupDetailsVC {
         btn1.setImage(UIImage(named: "menu_H_ic"), for: .normal)
         btn1.tintColor = .black
         btn1.setTitleColor(.red, for: .normal)
+        
         if isGroupAdmin {
             btn1.addTarget(self, action:  #selector(handleAdminOptionBtn), for: .touchUpInside)
             
@@ -307,6 +330,7 @@ extension GroupDetailsVC {
         self.nameTxt.isUserInteractionEnabled = true
         self.cameraBtn.isHidden = false
         self.initSaveAndOptionButton()
+        self.editOrShowImageBtn.isHidden = true
     }
     
     @objc func handleSaveBtn() {
@@ -325,6 +349,7 @@ extension GroupDetailsVC {
                 self.nameTxt.isUserInteractionEnabled = false
                 self.cameraBtn.isHidden = true
                 self.initEditAndOptionButton()
+                self.editOrShowImageBtn.isHidden = false
             }
         }
     }
@@ -359,26 +384,15 @@ extension GroupDetailsVC {
     }
     
     @objc func handleUserOptionBtn() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Leave".localizedString, style: .default, handler: { action in
-                self.handleLeaveGroup()
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionAlert, animated: true, completion: nil)
-        }else {
-            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Leave".localizedString, style: .default, handler: { action in
-                self.handleLeaveGroup()
-            }))
-            
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionSheet, animated: true, completion: nil)
-        }
+        let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Leave".localizedString, style: .default, handler: { action in
+            self.handleLeaveGroup()
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+        }))
+        
+        present(actionSheet, animated: true, completion: nil)
     }
     
     func handleDeleteGroup() {

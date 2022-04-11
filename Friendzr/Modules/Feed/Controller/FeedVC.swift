@@ -186,7 +186,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     let switchCompassBarButton: CustomSwitch = CustomSwitch()
     var switchGhostModeBarButton: CustomSwitch = CustomSwitch()
     var btnsSelected:Bool = false
-    var internetConnect:Bool = false
+//    var internetConnect:Bool = false
     
     var currentPage : Int = 1
     var isLoadingList : Bool = false
@@ -443,52 +443,78 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = true
-                    self.hideView.isHidden = false
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                    self.switchCompassBarButton.isUserInteractionEnabled = true
-                    self.internetConnect = true
-                    
-                    if self.isCompassOpen {
-                        self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
-                    }else {
-                        self.LoadAllFeeds(pageNumber: 0)
-                    }
-                    
-                    if Defaults.allowMyLocationSettings == true {
-                        self.allowLocView.isHidden = true
-                    }else {
-                        self.allowLocView.isHidden = false
-                    }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now()) {
-                        self.updateMyLocation()
-                    }
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = false
+                self.hideView.isHidden = true
+                if Defaults.allowMyLocationSettings == true {
+                    self.allowLocView.isHidden = true
+                }else {
+                    self.allowLocView.isHidden = false
                 }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = false
-                    self.hideView.isHidden = true
-                    if Defaults.allowMyLocationSettings == true {
-                        self.allowLocView.isHidden = true
-                    }else {
-                        self.allowLocView.isHidden = false
-                    }
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = false
-                    self.switchCompassBarButton.isUserInteractionEnabled = false
-                    self.internetConnect = false
-                    self.HandleInternetConnection()
+                self.switchGhostModeBarButton.isUserInteractionEnabled = false
+                self.switchCompassBarButton.isUserInteractionEnabled = false
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                self.hideView.isHidden = false
+                self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                self.switchCompassBarButton.isUserInteractionEnabled = true
+                NetworkConected.internetConect = true
+                
+                if self.isCompassOpen {
+                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
+                }else {
+                    self.LoadAllFeeds(pageNumber: 0)
                 }
-                return
+                
+                if Defaults.allowMyLocationSettings == true {
+                    self.allowLocView.isHidden = true
+                }else {
+                    self.allowLocView.isHidden = false
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                    self.updateMyLocation()
+                }
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                self.hideView.isHidden = false
+                self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                self.switchCompassBarButton.isUserInteractionEnabled = true
+                NetworkConected.internetConect = true
+                
+                if self.isCompassOpen {
+                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
+                }else {
+                    self.LoadAllFeeds(pageNumber: 0)
+                }
+                
+                if Defaults.allowMyLocationSettings == true {
+                    self.allowLocView.isHidden = true
+                }else {
+                    self.allowLocView.isHidden = false
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                    self.updateMyLocation()
+                }
             }
         }
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleinvalidUrl() {
@@ -568,7 +594,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     //MARK: - Actions
     @IBAction func nextBtn(_ sender: Any) {
         self.btnsSelected = true
-        if internetConnect {
+        if NetworkConected.internetConect {
             filterHideView.isHidden = true
             Defaults.isFirstFilter = true
             
@@ -588,19 +614,19 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     
     @IBAction func tryAgainBtn(_ sender: Any) {
-//        updateUserInterface()
+        updateUserInterface()
     }
     
     @IBAction func filterBtn(_ sender: Any) {
         self.btnsSelected = true
-        if internetConnect {
+        if NetworkConected.internetConect {
             filterFeedsBy(degree: compassDegree, pageNumber: 1)
         }
     }
     
     @IBAction func allowLocationBtn(_ sender: Any) {
         self.btnsSelected = true
-        if internetConnect {
+        if NetworkConected.internetConect {
             self.refreshControl.endRefreshing()
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
         }
@@ -716,7 +742,7 @@ extension FeedVC:UITableViewDataSource {
             
             cell.HandleSendRequestBtn = { //send request
                 self.btnsSelected = true
-                if self.internetConnect {
+                if NetworkConected.internetConect {
                     self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
                     cell.sendRequestBtn.isUserInteractionEnabled = false
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1,requestdate: "\(actionDate) \(actionTime)") { error, message in
@@ -750,7 +776,7 @@ extension FeedVC:UITableViewDataSource {
                 
                 self.showAlertView?.HandleConfirmBtn = {
                     self.btnsSelected = true
-                    if self.internetConnect {
+                    if NetworkConected.internetConect {
                         self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2, requestdate: "\(actionDate) \(actionTime)") { error, message in
                             if let error = error {
                                 DispatchQueue.main.async {
@@ -794,7 +820,7 @@ extension FeedVC:UITableViewDataSource {
                 
                 self.showAlertView?.HandleConfirmBtn = {
                     self.btnsSelected = true
-                    if self.internetConnect {
+                    if NetworkConected.internetConect {
                         self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, requestdate: "\(actionDate) \(actionTime)") { error, message in
                             if let error = error {
                                 DispatchQueue.main.async {
@@ -832,7 +858,7 @@ extension FeedVC:UITableViewDataSource {
             
             cell.HandleMessageBtn = { //messages chat
                 self.btnsSelected = true
-                if self.self.internetConnect {
+                if NetworkConected.internetConect {
                     let vc = ConversationVC()
                     vc.isEvent = false
                     vc.eventChatID = ""
@@ -856,7 +882,7 @@ extension FeedVC:UITableViewDataSource {
             
             cell.HandleUnblocktBtn = { //unblock account
                 self.btnsSelected = true
-                if self.internetConnect {
+                if NetworkConected.internetConect {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4, requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
@@ -879,7 +905,7 @@ extension FeedVC:UITableViewDataSource {
                 
                 self.btnsSelected = true
 
-                if self.internetConnect {
+                if NetworkConected.internetConect {
                     self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Canceling...".localizedString)
                     cell.cancelRequestBtn.isUserInteractionEnabled = false
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, requestdate: "\(actionDate) \(actionTime)") { error, message in
@@ -946,7 +972,7 @@ extension FeedVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         btnsSelected = true
-        if internetConnect {
+        if NetworkConected.internetConect {
             if viewmodel.feeds.value?.data?.count != 0 {
                 guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                 vc.userID = viewmodel.feeds.value?.data?[indexPath.row].userId ?? ""
@@ -1252,7 +1278,7 @@ extension FeedVC {
         print("\(switchCompassBarButton.isOn)")
         btnsSelected = true
         
-        if internetConnect {
+        if NetworkConected.internetConect {
             // Azimuth
             if Defaults.allowMyLocationSettings == true {
                 if switchCompassBarButton.isOn {
@@ -1338,7 +1364,7 @@ extension FeedVC {
             break
         case .left:
             btnsSelected = true
-            if internetConnect {
+            if NetworkConected.internetConect {
                 if Defaults.allowMyLocationSettings == true {
                     switchCompassBarButton.isOn = false
                     self.isCompassOpen = false
@@ -1381,7 +1407,7 @@ extension FeedVC {
             }
         case .right:
             btnsSelected = true
-            if internetConnect {
+            if NetworkConected.internetConect {
                 if Defaults.allowMyLocationSettings == true {
                     switchCompassBarButton.isOn = true
                     
@@ -1474,7 +1500,7 @@ extension FeedVC {
             break
         case .left:
             btnsSelected = true
-            if internetConnect {
+            if NetworkConected.internetConect {
                 self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 
                 self.showAlertView?.titleLbl.text = "Confirm?".localizedString
@@ -1482,7 +1508,7 @@ extension FeedVC {
                 
                 self.showAlertView?.HandleConfirmBtn = {
                     self.btnsSelected = true
-                    if self.internetConnect {
+                    if NetworkConected.internetConect {
                         self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
                             if let error = error {
                                 DispatchQueue.main.async {
@@ -1538,7 +1564,7 @@ extension FeedVC {
             }
         case .right:
             self.btnsSelected = true
-            if internetConnect {
+            if NetworkConected.internetConect {
                 self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 
                 DispatchQueue.main.async {
@@ -1588,7 +1614,7 @@ extension FeedVC {
     
     @objc func handleGhostModeSwitchBtn() {
         btnsSelected = true
-        if internetConnect {
+        if NetworkConected.internetConect {
             if Defaults.ghostMode == false {
                 self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 
@@ -1642,8 +1668,7 @@ extension FeedVC {
                 
                 self.showAlertView?.HandleConfirmBtn = {
                     self.btnsSelected = true
-                    if self.internetConnect {
-                        
+                    if NetworkConected.internetConect {
                         self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
                             if let error = error {
                                 DispatchQueue.main.async {

@@ -311,6 +311,16 @@ class Defaults {
         }
     }
     
+    static var message_Count: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "message_Count")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "message_Count")
+        }
+    }
+    
     static var allowMyLocation: Bool {
         set{
             UserDefaults.standard.set(newValue, forKey: "allowMyLocation")
@@ -456,6 +466,7 @@ class Defaults {
         Defaults.frindRequestNumber = user.frindRequestNumber
         Defaults.pushnotification = user.pushnotification
         Defaults.notificationcount = user.notificationcount
+        Defaults.message_Count = user.message_Count
     }
     
     static func deleteUserData(){
@@ -489,7 +500,8 @@ class Defaults {
         defaults.removeObject(forKey: "fcmToken")
         defaults.removeObject(forKey: "pushnotification")
         defaults.removeObject(forKey: "notificationcount")
-        
+        defaults.removeObject(forKey: "message_Count")
+
         
         defaults.removeObject(forKey: "userName_MaxLength")
         defaults.removeObject(forKey: "userName_MinLength")

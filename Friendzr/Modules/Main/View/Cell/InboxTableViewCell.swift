@@ -18,11 +18,14 @@ class InboxTableViewCell: UITableViewCell {
     @IBOutlet weak var attachTypeLbl: UILabel!
     @IBOutlet weak var muteImg: UIImageView!
     
+    @IBOutlet weak var noMessagesUnreadLbl: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
         profileImg.cornerRadiusForHeight()
+        noMessagesUnreadLbl.cornerRadiusForHeight()
         profileImg.setBorder()
         attachImg.cornerRadiusView(radius: 4)
         attachImg.setBorder()

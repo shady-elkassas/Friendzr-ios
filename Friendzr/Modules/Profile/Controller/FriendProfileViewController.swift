@@ -19,7 +19,7 @@ class FriendProfileViewController: UIViewController {
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var emptyMessageLbl: UILabel!
     @IBOutlet weak var triAgainBtn: UIButton!
-
+    
     let imageCellId = "FriendImageProfileTableViewCell"
     let userNameCellId = "ProfileUserNameTableViewCell"
     let interestsCellId = "InterestsProfileTableViewCell"
@@ -40,9 +40,9 @@ class FriendProfileViewController: UIViewController {
     var userName:String = ""
     
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
     var btnSelect:Bool = false
-
+    
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -78,7 +78,7 @@ class FriendProfileViewController: UIViewController {
         initOptionsUserButton()
         tableView.refreshControl = refreshControl
         NotificationCenter.default.addObserver(self, selector: #selector(updateFriendVC), name: Notification.Name("updateFriendVC"), object: nil)
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,7 +88,7 @@ class FriendProfileViewController: UIViewController {
             Defaults.availableVC = "PresentFriendProfileViewController"
         }else {
             Defaults.availableVC = "FriendProfileViewController"
-
+            
         }
         print("availableVC >> \(Defaults.availableVC)")
         
@@ -188,7 +188,7 @@ class FriendProfileViewController: UIViewController {
             DispatchQueue.main.async {
                 self.hideLoading()
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -200,30 +200,37 @@ class FriendProfileViewController: UIViewController {
     }
     
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
+        appDelegate.networkReachability()
         
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = true
-                    self.hideView.isHidden = false
-                    self.internetConect = true
-                    self.loadUserData()
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConect = false
-                    self.emptyView.isHidden = false
-                    self.hideView.isHidden = true
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.emptyView.isHidden = false
+                self.hideView.isHidden = true
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                self.hideView.isHidden = false
+                NetworkConected.internetConect = true
+                self.loadUserData()
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                self.hideView.isHidden = false
+                NetworkConected.internetConect = true
+                self.loadUserData()
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleInternetConnection() {
@@ -258,7 +265,7 @@ extension FriendProfileViewController:UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let actionDate = formatterDate.string(from: Date())
         let actionTime = formatterTime.string(from: Date())
-
+        
         let model = viewmodel.model.value
         
         if indexPath.row == 0 {//image
@@ -336,7 +343,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             
             cell.HandleSendRequestBtn = {
                 self.btnSelect = true
-                if self.internetConect == true {
+                if NetworkConected.internetConect == true {
                     self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
                     self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         
@@ -366,7 +373,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             
             cell.HandleCancelBtn = {
                 self.btnSelect = true
-                if self.internetConect == true {
+                if NetworkConected.internetConect == true {
                     self.changeTitleBtns(btn: cell.cancelBtn, title: "Canceling...".localizedString)
                     self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
@@ -401,7 +408,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                 self.alertView?.detailsLbl.text = "Are you sure you want to refuse this request?".localizedString
                 
                 self.alertView?.HandleConfirmBtn = {
-                    if self.internetConect == true {
+                    if NetworkConected.internetConect == true {
                         self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6,requestdate: "\(actionDate) \(actionTime)") { error, message in
                             self.hideLoading()
                             if let error = error {
@@ -444,7 +451,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             
             cell.HandleAcceptBtn = {
                 self.btnSelect = true
-                if self.internetConect == true {
+                if NetworkConected.internetConect == true {
                     self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 2,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
@@ -479,7 +486,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                 self.alertView?.detailsLbl.text = "Are you sure you want to unfriend this account?".localizedString
                 
                 self.alertView?.HandleConfirmBtn = {
-                    if self.internetConect == true {
+                    if NetworkConected.internetConect == true {
                         
                         cell.sendRequestBtn.isHidden = false
                         cell.friendStackView.isHidden = true
@@ -531,7 +538,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                 
                 self.alertView?.HandleConfirmBtn = {
                     // handling code
-                    if self.internetConect == true {
+                    if NetworkConected.internetConect == true {
                         self.changeTitleBtns(btn: cell.blockBtn, title: "Sending...".localizedString)
                         self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 3,requestdate: "\(actionDate) \(actionTime)") { error, message in
                             if let error = error {
@@ -573,7 +580,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                 
                 self.alertView?.HandleConfirmBtn = { [self] in
                     // handling code
-                    if self.internetConect == true {
+                    if NetworkConected.internetConect == true {
                         
                         self.changeTitleBtns(btn: cell.unblockBtn, title: "Sending...")
                         self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 4,requestdate: "\(actionDate) \(actionTime)") { error, message in
@@ -627,16 +634,16 @@ extension FriendProfileViewController:UITableViewDataSource {
         else if indexPath.row == 2 {//interests
             guard let cell = tableView.dequeueReusableCell(withIdentifier: interestsCellId, for: indexPath) as? InterestsProfileTableViewCell else {return UITableViewCell()}
             cell.tagsListView.removeAllTags()
-//            if (model?.listoftagsmodel?.count ?? 0) > 4 {
-//                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
-//                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
-//                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
-//                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
-//            }else {
-                for item in model?.listoftagsmodel ?? [] {
-                    cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
-                }
-//            }
+            //            if (model?.listoftagsmodel?.count ?? 0) > 4 {
+            //                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
+            //                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
+            //                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
+            //                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
+            //            }else {
+            for item in model?.listoftagsmodel ?? [] {
+                cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
+            }
+            //            }
             
             print("tagListView.rows \(cell.tagsListView.rows)")
             cell.tagsListViewHeight.constant = CGFloat(cell.tagsListView.rows * 25)
@@ -719,15 +726,28 @@ extension FriendProfileViewController:UITableViewDataSource {
     }
 }
 
-extension FriendProfileViewController:UITableViewDelegate {
+extension FriendProfileViewController:UITableViewDelegate, UIPopoverPresentationControllerDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = tableView.bounds.height
-        
         if indexPath.row == 0 {
             return screenH/3
         }
         else {
             return UITableView.automaticDimension
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = viewmodel.model.value
+        if indexPath.row == 0 {
+            guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
+            popupVC.modalPresentationStyle = .overCurrentContext
+            popupVC.modalTransitionStyle = .crossDissolve
+            let pVC = popupVC.popoverPresentationController
+            pVC?.permittedArrowDirections = .any
+            pVC?.delegate = self
+            pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+            popupVC.imgURL = model?.userImage
+            present(popupVC, animated: true, completion: nil)
         }
     }
 }

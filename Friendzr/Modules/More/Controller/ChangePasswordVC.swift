@@ -23,7 +23,7 @@ class ChangePasswordVC: UIViewController  {
     
     //MARK: - Properties
     var viewmodel:ChangePasswordViewModel = ChangePasswordViewModel()
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -51,25 +51,29 @@ class ChangePasswordVC: UIViewController  {
     
     //MARK: - Helpers
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
+        appDelegate.networkReachability()
         
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.internetConect = true
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConect = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleInternetConnection() {
@@ -89,7 +93,7 @@ class ChangePasswordVC: UIViewController  {
     
     //MARK:- Actions
     @IBAction func saveBtn(_ sender: Any) {
-        if internetConect {
+        if NetworkConected.internetConect {
             self.saveBtn.setTitle("Saving...", for: .normal)
             self.saveBtn.isUserInteractionEnabled = false
             viewmodel.changePasswordRequest(witholdPassword: oldPasswordTxt.text!, AndNewPassword: newPasswordTxt.text!, AndConfirmNewPassword: confirmNewPasswordTxt.text!) { error, data in

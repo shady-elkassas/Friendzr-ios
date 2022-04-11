@@ -20,7 +20,7 @@ class ReportVC: UIViewController {
     let detailsCellID = "WriteProblemTableViewCell"
     var selectedVC = ""
     var viewmodel:ReportViewModel = ReportViewModel()
-    var internetConnect:Bool = false
+//    var internetConnect:Bool = false
     
     
     var id:String = ""
@@ -76,28 +76,33 @@ class ReportVC: UIViewController {
     
     func updateUserInterface() {
         
-        let monitor = NWPathMonitor()
+        appDelegate.networkReachability()
         
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
                 DispatchQueue.main.async {
-                    self.internetConnect = true
-                    self.getAllProblems()
+                    self.view.makeToast("Network is unavailable, please try again!".localizedString)
                 }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConnect = false
-                    DispatchQueue.main.async {
-                        self.view.makeToast("Network is unavailable, please try again!".localizedString)
-                    }
-                    return
-                }
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.getAllProblems()
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.getAllProblems()
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func getAllProblems() {
@@ -172,7 +177,7 @@ extension ReportVC: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: confirmBtnCellID, for: indexPath) as? ConfirmReportButtonTableViewCell else {return UITableViewCell()}
             cell.HandleConfirmBtn = {
                 if self.id != "" {
-                    if self.internetConnect {
+                    if NetworkConected.internetConect {
                         cell.confirmBtn.setTitle("Submitting...", for: .normal)
                         cell.confirmBtn.isUserInteractionEnabled = false
                         self.viewmodel.sendReport(withID: self.id, reportType: self.reportType, message: self.message, reportReasonID: self.problemID) { error, data in

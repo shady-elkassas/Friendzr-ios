@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,30 +16,30 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="EmptyViewTableViewCell" rowHeight="370" id="KGk-i7-Jjw" customClass="EmptyViewTableViewCell" customModule="Friendzr" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="370"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="EmptyViewTableViewCell" rowHeight="341" id="KGk-i7-Jjw" customClass="EmptyViewTableViewCell" customModule="Friendzr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="341"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="370"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="341"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AGX-Uk-mKP">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="370"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="341"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="inboxnodata_img" translatesAutoresizingMaskIntoConstraints="NO" id="JX1-FN-h8X">
-                                <rect key="frame" x="53.5" y="60" width="213" height="213.5"/>
+                                <rect key="frame" x="53.5" y="20" width="213" height="213.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="JX1-FN-h8X" secondAttribute="height" multiplier="1:1" id="pcr-4S-ceT"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You haven't any data yet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="62w-A7-uBx">
-                                <rect key="frame" x="32" y="281.5" width="256" height="26.5"/>
+                                <rect key="frame" x="32" y="238.5" width="256" height="45.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                 <color key="textColor" name="ColorDark0"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tGs-Bf-4pt">
-                                <rect key="frame" x="106.5" y="318" width="107" height="42"/>
+                                <rect key="frame" x="106.5" y="289" width="107" height="42"/>
                                 <color key="backgroundColor" red="0.043137254899999998" green="0.74500000479999995" blue="0.63099998239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="Dfq-0x-Nk8"/>
@@ -58,13 +58,13 @@
                         <constraints>
                             <constraint firstItem="tGs-Bf-4pt" firstAttribute="centerX" secondItem="AGX-Uk-mKP" secondAttribute="centerX" id="0nz-vY-ifO"/>
                             <constraint firstItem="tGs-Bf-4pt" firstAttribute="width" secondItem="AGX-Uk-mKP" secondAttribute="width" multiplier="1:3" id="BLN-jN-tQA"/>
-                            <constraint firstItem="tGs-Bf-4pt" firstAttribute="top" secondItem="62w-A7-uBx" secondAttribute="bottom" constant="10" id="IYL-2e-7nS"/>
+                            <constraint firstItem="tGs-Bf-4pt" firstAttribute="top" secondItem="62w-A7-uBx" secondAttribute="bottom" constant="5" id="IYL-2e-7nS"/>
                             <constraint firstItem="JX1-FN-h8X" firstAttribute="width" secondItem="AGX-Uk-mKP" secondAttribute="width" multiplier="1:1.5" id="QNC-f1-9aO"/>
-                            <constraint firstItem="JX1-FN-h8X" firstAttribute="top" secondItem="AGX-Uk-mKP" secondAttribute="top" constant="60" id="Tpu-8A-XMg"/>
+                            <constraint firstItem="JX1-FN-h8X" firstAttribute="top" secondItem="AGX-Uk-mKP" secondAttribute="top" constant="20" id="Tpu-8A-XMg"/>
                             <constraint firstAttribute="bottom" secondItem="tGs-Bf-4pt" secondAttribute="bottom" constant="10" id="Xpw-ZI-5pP"/>
                             <constraint firstItem="62w-A7-uBx" firstAttribute="width" secondItem="AGX-Uk-mKP" secondAttribute="width" multiplier="0.8" id="adP-Ni-udW"/>
                             <constraint firstItem="62w-A7-uBx" firstAttribute="centerX" secondItem="AGX-Uk-mKP" secondAttribute="centerX" id="dpT-Zm-dvo"/>
-                            <constraint firstItem="62w-A7-uBx" firstAttribute="top" secondItem="JX1-FN-h8X" secondAttribute="bottom" constant="8" id="sbq-Us-0NP"/>
+                            <constraint firstItem="62w-A7-uBx" firstAttribute="top" secondItem="JX1-FN-h8X" secondAttribute="bottom" constant="5" id="sbq-Us-0NP"/>
                             <constraint firstItem="JX1-FN-h8X" firstAttribute="centerX" secondItem="AGX-Uk-mKP" secondAttribute="centerX" id="wLN-H8-9f0"/>
                         </constraints>
                     </view>
@@ -83,7 +83,7 @@
                 <outlet property="emptyImg" destination="JX1-FN-h8X" id="4UJ-d7-rXS"/>
                 <outlet property="titleLbl" destination="62w-A7-uBx" id="9gE-t5-2KB"/>
             </connections>
-            <point key="canvasLocation" x="179.71014492753625" y="182.8125"/>
+            <point key="canvasLocation" x="179.71014492753625" y="173.10267857142856"/>
         </tableViewCell>
     </objects>
     <resources>

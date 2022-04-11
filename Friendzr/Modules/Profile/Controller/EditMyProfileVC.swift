@@ -95,7 +95,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var attachedImg:Bool = false
     var birthDay = ""
     
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
     
     var UserFBID = ""
     var UserFBMobile = ""
@@ -116,7 +116,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var faceImgOne: UIImage = UIImage()
     var faceImgTwo: UIImage = UIImage()
     var firstLogin:Int? = 0
-    var imgTake: Int = 0
+    var imgTake: Int = 1
     
     let datePicker = UIDatePicker()
 
@@ -171,28 +171,35 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     
     //MARK: - Helpers
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
+        appDelegate.networkReachability()
         
-        monitor.pathUpdateHandler = { path in
-            if path.status == .unsatisfied {
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
                 DispatchQueue.main.async {
-                    self.internetConect = false
-                    self.HandleInternetConnection()
-                    return
+                    self.getAllValidatConfig()
                 }
-            }else {
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
                 DispatchQueue.main.async {
-                    self.internetConect = true
-                    DispatchQueue.main.async {
-                        self.getAllValidatConfig()
-                    }
-                    return
+                    self.getAllValidatConfig()
                 }
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleInternetConnection() {
@@ -734,7 +741,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         logoutAlertView?.detailsLbl.text = "Are you sure you want to logout?".localizedString
         
         logoutAlertView?.HandleConfirmBtn = {
-            if self.internetConect {
+            if NetworkConected.internetConect {
                 self.logoutVM.logoutRequest { error, data in
                     self.hideLoading()
                     if let error = error {
@@ -916,7 +923,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     }
     
     @IBAction func tagsBtn(_ sender: Any) {
-        if internetConect {
+        if NetworkConected.internetConect {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "SelectedTagsVC") as? SelectedTagsVC else {return}
             vc.arrSelectedDataIds = tagsid
             vc.arrSelectedDataNames = tagsNames
@@ -928,7 +935,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     }
     
     @IBAction func bestDescribesBtn(_ sender: Any) {
-        if internetConect {
+        if NetworkConected.internetConect {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "IamVC") as? IamVC else {return}
             vc.arrSelectedDataIds = iamid
             vc.arrSelectedDataNames = iamNames
@@ -939,7 +946,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     
     
     @IBAction func preferToBtn(_ sender: Any) {
-        if internetConect {
+        if NetworkConected.internetConect {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "PreferToVC") as? PreferToVC else {return}
             vc.arrSelectedDataIds = preferToid
             vc.arrSelectedDataNames = preferToNames
@@ -975,7 +982,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                     return
                 }
                 else {
-                    if internetConect {
+                    if NetworkConected.internetConect {
                         self.saveBtn.setTitle("Saving...", for: .normal)
                         self.saveBtn.isUserInteractionEnabled = false
                         
@@ -1049,7 +1056,7 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
+//        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
       
 //        let originImg = image.fixOrientation()
 //        self.profileImg.image = image
@@ -1113,7 +1120,6 @@ extension EditMyProfileVC: CropperViewControllerDelegate {
         cropper.onPopup()
         if let state = state,
             let image = cropper.originalImage.cropped(withCropperState: state) {
-//            profileImg.image = image
             self.faceImgOne = image
             self.attachedImg = true
             imgTake = 2

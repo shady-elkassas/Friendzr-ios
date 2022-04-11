@@ -28,7 +28,7 @@ class IamVC: UIViewController {
     var onIamCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
     
     var btnSelect:Bool = false
-    var internetConnection:Bool = false
+//    var internetConnection:Bool = false
 
     var arrData = [String]() // This is your data array
     var arrSelectedIndex = [IndexPath]() // This is selected cell Index array
@@ -71,28 +71,34 @@ class IamVC: UIViewController {
     }
     
     func updateUserInterface() {
+        appDelegate.networkReachability()
         
-        let monitor = NWPathMonitor()
-        
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = true
-                    self.internetConnection = true
-                    self.getAllBestDescrips()
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConnection = false
-                    self.emptyView.isHidden = false
-                    self.HandleInternetConnection()
-                }
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.emptyView.isHidden = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                NetworkConected.internetConect = true
+                self.getAllBestDescrips()
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                NetworkConected.internetConect = true
+                self.getAllBestDescrips()
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func getAllBestDescrips() {
@@ -203,7 +209,7 @@ extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         btnSelect = true
-        if internetConnection {
+        if NetworkConected.internetConect {
             print("You selected cell #\(indexPath.row)!")
             let strData = viewmodel.IAM.value?[indexPath.row]
             

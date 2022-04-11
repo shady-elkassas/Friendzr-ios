@@ -35,7 +35,7 @@ class BlockedListVC: UIViewController {
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     var refreshControl = UIRefreshControl()
     
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
     var btnsSelect:Bool = false
     
     var currentPage : Int = 1
@@ -202,30 +202,34 @@ class BlockedListVC: UIViewController {
     }
     
     func updateUserInterface() {
+        appDelegate.networkReachability()
         
-        let monitor = NWPathMonitor()
-        
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.internetConect = true
-                    self.emptyView.isHidden = true
-                    self.LoadBlockedList(pageNumber: 1,search: self.searchbar.text ?? "")
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = false
-                    self.internetConect = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = false
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.emptyView.isHidden = true
+                self.LoadBlockedList(pageNumber: 1,search: self.searchbar.text ?? "")
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.emptyView.isHidden = true
+                self.LoadBlockedList(pageNumber: 1,search: self.searchbar.text ?? "")
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
-
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleinvalidUrl() {
@@ -329,7 +333,7 @@ extension BlockedListVC: UITableViewDataSource {
                 self.alertView?.HandleConfirmBtn = {
                     // handling code
                     self.btnsSelect = true
-                    if self.internetConect {
+                    if NetworkConected.internetConect {
                         self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4, requestdate: "\(actionDate) \(actionTime)") { error, message in
                             if let error = error {
                                 DispatchQueue.main.async {
@@ -386,7 +390,7 @@ extension BlockedListVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         btnsSelect = true
-        if internetConect {
+        if NetworkConected.internetConect {
             if viewmodel.blocklist.value?.data?.count != 0 {
                 let model = viewmodel.blocklist.value?.data?[indexPath.row]
                 guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}

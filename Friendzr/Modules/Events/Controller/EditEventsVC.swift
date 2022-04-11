@@ -84,7 +84,7 @@ class EditEventsVC: UIViewController {
     
     let imagePicker = UIImagePickerController()
     var attachedImg = false
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
     
     var eventImage:String = ""
     var eventModel:EventObj? = nil
@@ -144,26 +144,31 @@ class EditEventsVC: UIViewController {
     
     //MARK: - Helper
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
+        appDelegate.networkReachability()
         
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.internetConect = true
-                    self.getEventTypes()
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConect = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.getEventTypes()
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.getEventTypes()
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleInternetConnection() {
@@ -223,7 +228,7 @@ class EditEventsVC: UIViewController {
     
     @objc func handleDeleteEvent() {
         
-        if internetConect == true {
+        if NetworkConected.internetConect == true {
             
             deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             
@@ -446,7 +451,7 @@ class EditEventsVC: UIViewController {
     
     @IBAction func saveBtn(_ sender: Any) {
         updateUserInterface()
-        if internetConect == true {
+        if NetworkConected.internetConect == true {
             if eventTypeName == "Private" && listFriendsIDs.count == 0 {
                 DispatchQueue.main.async {
                     self.view.makeToast("This is the event private, please select friends for it".localizedString)

@@ -158,7 +158,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     
     var viewmodel:ChatViewModel = ChatViewModel()
     
-    var internetConect:Bool = false
     var cellSelect:Bool = false
     var currentPage : Int = 1
     var isLoadingList : Bool = false

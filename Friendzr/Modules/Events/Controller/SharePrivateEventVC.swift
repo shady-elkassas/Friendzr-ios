@@ -34,7 +34,7 @@ class SharePrivateEventVC: UIViewController {
     var currentPage : Int = 1
     var isLoadingList : Bool = false
     var cellSelected:Bool = false
-    var internetConnect:Bool = false
+//    var internetConnect:Bool = false
     
     var cellID = "ShareTableViewCell"
     
@@ -114,27 +114,31 @@ class SharePrivateEventVC: UIViewController {
     }
     
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
+        appDelegate.networkReachability()
         
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.internetConnect = true
-                    self.LaodAllAttendees(pageNumber: 1, search: self.searchBar.text ?? "")
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConnect = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.LaodAllAttendees(pageNumber: 1, search: self.searchBar.text ?? "")
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.LaodAllAttendees(pageNumber: 1, search: self.searchBar.text ?? "")
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
-
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func getAllAttendees(pageNumber:Int,search:String) {
@@ -247,7 +251,7 @@ extension SharePrivateEventVC: UITableViewDataSource {
         
         cell.HandleSendBtn = {
 //            self.updateNetworkForBtns()
-            if self.internetConnect {
+            if NetworkConected.internetConect {
                 cell.sendBtn.setTitle("Sending...", for: .normal)
                 cell.sendBtn.isUserInteractionEnabled = false
                 self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "oo", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,eventShareid: self.eventID) { error, data in
@@ -332,7 +336,7 @@ extension SharePrivateEventVC: UISearchBarDelegate{
         
 //        self.updateNetworkForBtns()
         
-        if self.internetConnect {
+        if NetworkConected.internetConect {
             self.getAllAttendees(pageNumber: 0, search: text)
         }
     }

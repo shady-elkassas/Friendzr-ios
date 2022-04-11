@@ -28,7 +28,7 @@ class NotificationsVC: UIViewController {
     
     var refreshControl = UIRefreshControl()
     
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
     var btnsSelect:Bool = false
     
     var currentPage : Int = 1
@@ -161,31 +161,37 @@ class NotificationsVC: UIViewController {
         }
     }
     func updateUserInterface() {
+        appDelegate.networkReachability()
         
-        let monitor = NWPathMonitor()
-        
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.internetConect = true
-                    self.emptyView.isHidden = true
-                    self.hideView.isHidden = false
-                    self.LoadAllNotifications(pageNumber: 1)
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = false
-                    self.hideView.isHidden = true
-                    self.internetConect = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = false
+                self.hideView.isHidden = true
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.emptyView.isHidden = true
+                self.hideView.isHidden = false
+                self.LoadAllNotifications(pageNumber: 1)
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.emptyView.isHidden = true
+                self.hideView.isHidden = false
+                self.LoadAllNotifications(pageNumber: 1)
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleinvalidUrl() {
@@ -283,7 +289,7 @@ extension NotificationsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         btnsSelect = true
-        if internetConect {
+        if NetworkConected.internetConect {
             if viewmodel.notifications.value?.data?.count != 0 {
                 
                 let model = viewmodel.notifications.value?.data?[indexPath.row]

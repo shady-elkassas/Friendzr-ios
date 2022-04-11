@@ -40,7 +40,7 @@ class EventDetailsViewController: UIViewController {
     var attendeesVM:AttendeesViewModel = AttendeesViewModel()
     
     var locationTitle = ""
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
     
     var visibleIndexPath:Int = 0
     var encryptedID:String = ""
@@ -117,26 +117,31 @@ class EventDetailsViewController: UIViewController {
     
     
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
+        appDelegate.networkReachability()
         
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.internetConect = true
-                    self.loadEventDataDetails()
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConect = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.loadEventDataDetails()
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.loadEventDataDetails()
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     //MARK: - Helper
@@ -387,7 +392,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             }
             
             cell.HandleLeaveBtn = {
-                if self.internetConect == true {
+                if NetworkConected.internetConect == true {
                     self.changeTitleBtns(btn: cell.leaveBtn, title: "Leaving...".localizedString)
                     cell.leaveBtn.isUserInteractionEnabled = false
                     
@@ -418,7 +423,7 @@ extension EventDetailsViewController: UITableViewDataSource {
                 let JoinDate = self.formatterDate.string(from: Date())
                 let Jointime = self.formatterTime.string(from: Date())
                 
-                if self.internetConect == true {
+                if NetworkConected.internetConect == true {
                     self.changeTitleBtns(btn: cell.joinBtn, title: "Joining...".localizedString)
                     cell.joinBtn.isUserInteractionEnabled = false
                     
@@ -445,7 +450,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             }
             
             cell.HandleEditBtn = {
-                if self.internetConect == true {
+                if NetworkConected.internetConect == true {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
                     vc.eventModel = self.viewmodel.event.value
                     self.navigationController?.pushViewController(vc, animated: true)
@@ -638,7 +643,7 @@ extension EventDetailsViewController: UITableViewDataSource {
     }
 }
 
-extension EventDetailsViewController: UITableViewDelegate {
+extension EventDetailsViewController: UITableViewDelegate , UIPopoverPresentationControllerDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         //        let height = view.bounds.height
         
@@ -658,6 +663,21 @@ extension EventDetailsViewController: UITableViewDelegate {
             return 200
         }else {
             return UITableView.automaticDimension
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let model = self.viewmodel.event.value
+        if indexPath.row == 0 {
+            guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
+            popupVC.modalPresentationStyle = .overCurrentContext
+            popupVC.modalTransitionStyle = .crossDissolve
+            let pVC = popupVC.popoverPresentationController
+            pVC?.permittedArrowDirections = .any
+            pVC?.delegate = self
+            pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+            popupVC.imgURL = model?.image
+            present(popupVC, animated: true, completion: nil)
         }
     }
 }

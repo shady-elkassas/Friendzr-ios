@@ -85,33 +85,38 @@ class ShareEventVC: UIViewController {
     }
     
     func updateUserInterface() {
+        appDelegate.networkReachability()
         
-        let monitor = NWPathMonitor()
-        
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = true
-                    self.internetConnect = true
-                    self.LoadAllMyEvents(pageNumber: 1,search:"")
-                    self.LoadAllMyGroups(pageNumber: 1, search: "")
-                    self.LoadAllMyFriends(pageNumber: 1, search: "")
-                }
-                
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = false
-                    self.internetConnect = false
-                    self.HandleInternetConnection()
-                }
-                
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = false
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                NetworkConected.internetConect = true
+                self.LoadAllMyEvents(pageNumber: 1,search:"")
+                self.LoadAllMyGroups(pageNumber: 1, search: "")
+                self.LoadAllMyFriends(pageNumber: 1, search: "")
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                NetworkConected.internetConect = true
+                self.LoadAllMyEvents(pageNumber: 1,search:"")
+                self.LoadAllMyGroups(pageNumber: 1, search: "")
+                self.LoadAllMyFriends(pageNumber: 1, search: "")
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     

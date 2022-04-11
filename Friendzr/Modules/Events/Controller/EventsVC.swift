@@ -31,7 +31,7 @@ class EventsVC: UIViewController {
     var viewmodel:EventsViewModel = EventsViewModel()
     var refreshControl = UIRefreshControl()
     
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
     var cellSelect:Bool = false
     
     var currentPage : Int = 1
@@ -162,28 +162,34 @@ class EventsVC: UIViewController {
     
     //MARK: - Helper
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
+        appDelegate.networkReachability()
         
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.internetConect = true
-                    self.emptyView.isHidden = true
-                    self.LoadAllEvents(pageNumber: 1)
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = false
-                    self.internetConect = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = false
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.emptyView.isHidden = true
+                self.LoadAllEvents(pageNumber: 1)
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.emptyView.isHidden = true
+                self.LoadAllEvents(pageNumber: 1)
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleinvalidUrl() {
@@ -220,7 +226,6 @@ class EventsVC: UIViewController {
     @objc func didPullToRefresh() {
         print("Refersh")
         currentPage = 1
-//        getAllEvents(pageNumber: currentPage)
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
@@ -284,7 +289,7 @@ extension EventsVC: UITableViewDataSource {
             }
             
             cell.HandleEditBtn = {
-                if self.internetConect == true {
+                if NetworkConected.internetConect == true {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EditEventsVC") as? EditEventsVC else {return}
                     vc.eventModel = model
                     self.navigationController?.pushViewController(vc, animated: true)
@@ -314,7 +319,7 @@ extension EventsVC: UITableViewDelegate {
         cellSelect = true
         let model = viewmodel.events.value?.data?[indexPath.row]
         
-        if internetConect == true {
+        if NetworkConected.internetConect == true {
             if viewmodel.events.value?.data?.count != 0 {
                 if model?.eventtype == "External" {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}

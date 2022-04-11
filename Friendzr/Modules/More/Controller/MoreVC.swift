@@ -30,7 +30,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
     var btnsSelcted:Bool = false
     
     //MARK: - Life Cycle
@@ -90,27 +90,31 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     //MARK: - Helpers
     
     func updateUserInterface() {
+        appDelegate.networkReachability()
         
-        let monitor = NWPathMonitor()
-        
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.internetConect = true
-                    self.setupUserData()
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConect = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.setupUserData()
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.setupUserData()
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleInternetConnection() {
@@ -219,7 +223,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         alertView?.detailsLbl.text = "Are you sure you want to logout?".localizedString
         
         alertView?.HandleConfirmBtn = {
-            if self.internetConect {
+            if NetworkConected.internetConect {
                 self.logoutVM.logoutRequest { error, data in
                     self.hideLoading()
                     if let error = error {
@@ -296,19 +300,19 @@ extension MoreVC : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0: //my profile
-            if internetConect {
+            if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
         case 1: //Events
-            if internetConect {
+            if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventsVC") as? EventsVC else {return}
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
         case 2://notificationList
-            if internetConect {
+            if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "NotificationsVC") as? NotificationsVC else {return}
                 UIApplication.shared.applicationIconBadgeNumber = 0
                 Defaults.notificationcount = 0
@@ -317,12 +321,12 @@ extension MoreVC : UITableViewDelegate {
             }
             break
         case 3: //share
-            if internetConect {
+            if NetworkConected.internetConect {
                 shareApp()
             }
             break
         case 4: //settings
-            if internetConect {
+            if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC else {return}
                 self.navigationController?.pushViewController(vc, animated: true)
             }
@@ -333,7 +337,7 @@ extension MoreVC : UITableViewDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
             break
         case 6://Tips& Guides
-            if internetConect {
+            if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "Tips and Guidance".localizedString
                 vc.urlString = "https://friendzr.com/tips-and-guidance/"
@@ -341,7 +345,7 @@ extension MoreVC : UITableViewDelegate {
             }
             break
         case 7://aboutus
-            if internetConect {
+            if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "About Us".localizedString
                 vc.urlString = "https://friendzr.com/about-us/"
@@ -349,7 +353,7 @@ extension MoreVC : UITableViewDelegate {
             }
             break
         case 8://terms
-            if internetConect {
+            if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "Terms & Conditions".localizedString
                 vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/EULAOct2021.pdf"
@@ -357,7 +361,7 @@ extension MoreVC : UITableViewDelegate {
             }
             break
         case 9://Privacy Policy
-            if internetConect {
+            if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "Privacy Policy".localizedString
                 vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/Friendzr-Privacy-Policy.pdf"
@@ -365,7 +369,7 @@ extension MoreVC : UITableViewDelegate {
             }
             break
         case 10: //contactus
-            if internetConect {
+            if NetworkConected.internetConect {
                 let subjectTitle = "Suggestions"
                 let messageBody = ""
                 let toRecipents = ["support@friendzr.com"]
@@ -378,7 +382,7 @@ extension MoreVC : UITableViewDelegate {
             }
             break
         case 11://logout
-            if internetConect {
+            if NetworkConected.internetConect {
                 logout()
             }
             break

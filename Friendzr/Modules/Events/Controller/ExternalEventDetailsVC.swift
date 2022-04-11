@@ -59,7 +59,7 @@ class ExternalEventDetailsVC: UIViewController {
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
     var locationTitle = ""
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
     
     var visibleIndexPath:Int = 0
     var encryptedID:String = ""
@@ -157,11 +157,11 @@ class ExternalEventDetailsVC: UIViewController {
             self.alertView?.detailsLbl.text = "Have you completed the form and booked tickets?".localizedString
             
             self.alertView?.HandleConfirmBtn = {
-                if self.internetConect == true {
+                if NetworkConected.internetConect == true {
                     let JoinDate = self.formatterDate.string(from: Date())
                     let Jointime = self.formatterTime.string(from: Date())
                     
-                    if self.internetConect == true {
+                    if NetworkConected.internetConect == true {
                         self.joinVM.joinEvent(ByEventid: self.eventId,JoinDate:JoinDate ,Jointime:Jointime) { error, data in
                             
                             
@@ -225,17 +225,31 @@ class ExternalEventDetailsVC: UIViewController {
     //MARK:- APIs
     
     func updateUserInterface() {
-        if NetworkMonitor.shared.isConnected {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
             DispatchQueue.main.async {
-                self.internetConect = true
-                self.loadEventDataDetails()
-            }
-        }else {
-            DispatchQueue.main.async {
-                self.internetConect = false
+                NetworkConected.internetConect = false
                 self.HandleInternetConnection()
             }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.loadEventDataDetails()
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.loadEventDataDetails()
+            }
         }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     @objc func handleExternalEventDetails() {
@@ -410,7 +424,7 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             }
             
             cell.HandleLeaveBtn = {
-                if self.internetConect == true {
+                if NetworkConected.internetConect == true {
                     self.changeTitleBtns(btn: cell.leaveBtn, title: "Leaving...".localizedString)
                     cell.leaveBtn.isUserInteractionEnabled = false
                     
@@ -651,8 +665,18 @@ extension ExternalEventDetailsVC: UITableViewDelegate,UIPopoverPresentationContr
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = viewmodel.event.value
-        
-        if indexPath.row == 3 {
+        if indexPath.row == 0 {
+            guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
+            popupVC.modalPresentationStyle = .overCurrentContext
+            popupVC.modalTransitionStyle = .crossDissolve
+            let pVC = popupVC.popoverPresentationController
+            pVC?.permittedArrowDirections = .any
+            pVC?.delegate = self
+            pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+            popupVC.imgURL = model?.image
+            present(popupVC, animated: true, completion: nil)
+        }
+        else if indexPath.row == 3 {
             guard let popupVC = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExpandDescriptionVC") as? ExpandDescriptionVC else {return}
             popupVC.modalPresentationStyle = .overCurrentContext
             popupVC.modalTransitionStyle = .crossDissolve

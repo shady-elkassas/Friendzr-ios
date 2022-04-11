@@ -67,6 +67,7 @@ class ProfileViewModel {
         Defaults.frindRequestNumber = user.frindRequestNumber
         Defaults.pushnotification = user.pushnotification
         Defaults.notificationcount = user.notificationcount
+        Defaults.message_Count = user.message_Count
     }
 }
 

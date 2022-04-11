@@ -30,7 +30,7 @@ class NewConversationVC: UIViewController {
     var viewmodel:AllFriendesViewModel = AllFriendesViewModel()
     
     var cellSelected:Bool = false
-    var internetConnect:Bool = false
+//    var internetConnect:Bool = false
     
     var currentPage : Int = 1
     var isLoadingList : Bool = false
@@ -69,28 +69,33 @@ class NewConversationVC: UIViewController {
     
     //MARK: - Helper
     func updateUserInterface() {
-        let monitor = NWPathMonitor()
         
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = true
-                    self.internetConnect = true
-                    self.LaodAllFriends(pageNumber: 1, search: self.searchbar.text ?? "")
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = false
-                    self.internetConnect = false
-                    self.HandleInternetConnection()
-                }
-                return
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            self.emptyView.isHidden = false
+            NetworkConected.internetConect = false
+            self.HandleInternetConnection()
+        case .wwan:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                NetworkConected.internetConect = true
+                self.LaodAllFriends(pageNumber: 1, search: self.searchbar.text ?? "")
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                NetworkConected.internetConect = true
+                self.LaodAllFriends(pageNumber: 1, search: self.searchbar.text ?? "")
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func showEmptyView() {
@@ -246,7 +251,7 @@ extension NewConversationVC : UISearchBarDelegate {
         print(text)
         
 //        updateNetworkForBtns()
-        if internetConnect {
+        if NetworkConected.internetConect {
             getAllFriends(pageNumber: 1, search: text)
         }else {
             HandleInternetConnection()
@@ -283,7 +288,7 @@ extension NewConversationVC: UITableViewDelegate {
         cellSelected = true
 //        updateNetworkForBtns()
         
-        if internetConnect {
+        if NetworkConected.internetConect {
             let vc = ConversationVC()
             let model = viewmodel.friends.value?.data?[indexPath.row]
             vc.isEvent = false
@@ -348,7 +353,7 @@ extension NewConversationVC {
     
     @objc func handleAddGroupVC() {
 //        updateNetworkForBtns()
-        if internetConnect {
+        if NetworkConected.internetConect {
             if viewmodel.friends.value?.data?.count == 0 {
                 self.view.makeToast("Please add friends to create a group".localizedString)
                 return

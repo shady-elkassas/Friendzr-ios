@@ -14,7 +14,7 @@ class CancelRequest {
     static var currentTask: Bool = false
 }
 
-class RequestManager  {
+class RequestManager: NSObject, URLSessionDelegate {
     
     let startDate = Date()
 
@@ -50,9 +50,10 @@ class RequestManager  {
         
         // set up the session
         let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
+        let session = URLSession(configuration: config, delegate: RequestManager(), delegateQueue: .main)
         // vs let session = URLSession.shared
-        
+        config.allowsConstrainedNetworkAccess = false
+
         session.configuration.timeoutIntervalForRequest = 10 // seconds
         session.configuration.timeoutIntervalForResource = 10 // seconds
         

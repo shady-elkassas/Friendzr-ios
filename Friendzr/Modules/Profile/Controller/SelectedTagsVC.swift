@@ -26,7 +26,7 @@ class SelectedTagsVC: UIViewController {
     var viewmodel = InterestsViewModel()
     
     var btnSelect:Bool = false
-    var internetConnection:Bool = false
+//    var internetConnection:Bool = false
 
     var onInterestsCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
     
@@ -66,29 +66,34 @@ class SelectedTagsVC: UIViewController {
     
     
     func updateUserInterface() {
+        appDelegate.networkReachability()
         
-        let monitor = NWPathMonitor()
-        
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = true
-                    self.internetConnection = true
-                    self.getAllTags()
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.internetConnection = false
-                    self.emptyView.isHidden = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.emptyView.isHidden = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                NetworkConected.internetConect = true
+                self.getAllTags()
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                NetworkConected.internetConect = true
+                self.getAllTags()
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func setupView() {
@@ -206,7 +211,7 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         btnSelect = true
-        if internetConnection {
+        if NetworkConected.internetConect {
             print("You selected cell #\(indexPath.row)!")
             let strData = viewmodel.interests.value?[indexPath.row]
             

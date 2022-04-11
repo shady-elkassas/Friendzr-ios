@@ -16,23 +16,36 @@ class MainTBC: UITabBarController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(updatebadgeMore), name: Notification.Name("updatebadgeMore"), object: nil)
         
-        if Defaults.frindRequestNumber != 0 {
+
+        NotificationCenter.default.addObserver(self, selector: #selector(updatebadgeInbox), name: Notification.Name("updatebadgeInbox"), object: nil)
+
+        if Defaults.frindRequestNumber > 0 {
             self.tabBar.items![3].badgeValue = "\(Defaults.frindRequestNumber)"
         }else {
+            Defaults.frindRequestNumber = 0
             self.tabBar.items![3].badgeValue = nil
         }
         
-        if Defaults.notificationcount != 0 {
+        if Defaults.notificationcount > 0 {
             self.tabBar.items![4].badgeValue = "\(Defaults.notificationcount)"
         }else {
+            Defaults.notificationcount = 0
             self.tabBar.items![4].badgeValue = nil
+        }
+        
+        if Defaults.message_Count > 0 {
+            self.tabBar.items![0].badgeValue = "\(Defaults.message_Count)"
+        }else {
+            Defaults.message_Count = 0
+            self.tabBar.items![0].badgeValue = nil
         }
     }
     
     @objc func updatebadgeRequests() {
-        if Defaults.frindRequestNumber != 0 {
+        if Defaults.frindRequestNumber > 0 {
             self.tabBar.items![3].badgeValue = "\(Defaults.frindRequestNumber)"
         }else {
+            Defaults.frindRequestNumber = 0
             self.tabBar.items![3].badgeValue = nil
         }
         
@@ -41,11 +54,20 @@ class MainTBC: UITabBarController {
     }
     
     @objc func updatebadgeMore() {
-        if Defaults.notificationcount != 0 {
+        if Defaults.notificationcount > 0 {
             self.tabBar.items![4].badgeValue = "\(Defaults.notificationcount)"
         }else {
+            Defaults.notificationcount = 0
             self.tabBar.items![4].badgeValue = nil
         }
     }
     
+    @objc func updatebadgeInbox() {
+        if Defaults.message_Count > 0 {
+            self.tabBar.items![0].badgeValue = "\(Defaults.message_Count)"
+        }else {
+            Defaults.message_Count = 0
+            self.tabBar.items![0].badgeValue = nil
+        }
+    }
 }

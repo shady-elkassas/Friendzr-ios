@@ -39,7 +39,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     var refreshControl = UIRefreshControl()
     
     var cellSelected:Bool = false
-    var internetConnect:Bool = false
+//    var internetConnect:Bool = false
     
     var currentPage : Int = 0
     var isLoadingList : Bool = false
@@ -246,30 +246,37 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     
     func updateUserInterface() {
         
-        let monitor = NWPathMonitor()
+        appDelegate.networkReachability()
         
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = true
-                    self.hideView.isHidden = false
-                    self.internetConnect = true
-                    self.loadAllUserRequests(pageNumber: 1)
-                }
-                return
-            }else {
-                DispatchQueue.main.async {
-                    self.emptyView.isHidden = false
-                    self.hideView.isHidden = true
-                    self.internetConnect = false
-                    self.HandleInternetConnection()
-                }
-                return
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = false
+                self.hideView.isHidden = true
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                self.hideView.isHidden = false
+                NetworkConected.internetConect = true
+                self.loadAllUserRequests(pageNumber: 1)
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                self.hideView.isHidden = false
+                NetworkConected.internetConect = true
+                self.loadAllUserRequests(pageNumber: 1)
             }
         }
         
-        let queue = DispatchQueue(label: "Network")
-        monitor.start(queue: queue)
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func HandleinvalidUrl() {
@@ -412,7 +419,7 @@ extension RequestVC:UITableViewDataSource {
             
             cell.HandleAcceptBtn = {
                 self.cellSelected = true
-                if self.internetConnect {
+                if NetworkConected.internetConect {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
@@ -437,7 +444,7 @@ extension RequestVC:UITableViewDataSource {
             
             cell.HandleDeleteBtn = {
                 self.cellSelected = true
-                if self.internetConnect {
+                if NetworkConected.internetConect {
                     self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6,requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
@@ -462,7 +469,7 @@ extension RequestVC:UITableViewDataSource {
             
             cell.HandleMessageBtn = {
                 self.cellSelected = true
-                if self.internetConnect {
+                if NetworkConected.internetConect {
                     let vc = ConversationVC()
                     vc.isEvent = false
                     vc.eventChatID = ""
@@ -515,7 +522,7 @@ extension RequestVC:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cellSelected = true
-        if internetConnect {
+        if NetworkConected.internetConect {
             if viewmodel.requests.value?.data?.count != 0 {
                 let model = viewmodel.requests.value?.data?[indexPath.row]
                 guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}

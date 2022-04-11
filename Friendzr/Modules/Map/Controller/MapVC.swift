@@ -114,7 +114,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     let screenSize = UIScreen.main.bounds.size
     var isViewUp:Bool = false
-    var internetConect:Bool = false
+//    var internetConect:Bool = false
     
     //    var isLocationSettingsAllow:Bool = false
     
@@ -317,7 +317,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     func updateUserInterface() {
         if NetworkMonitor.shared.isConnected {
             DispatchQueue.main.async {
-                self.internetConect = true
+                NetworkConected.internetConect = true
                 self.zoomingStatisticsView.isHidden = false
                 
                 if Defaults.allowMyLocationSettings == true {
@@ -327,7 +327,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }else {
             DispatchQueue.main.async {
                 self.mapView.clear()
-                self.internetConect = false
+                NetworkConected.internetConect = false
                 self.collectionViewHeight.constant = 0
                 self.subView.isHidden = false
                 self.upDownViewBtn.isHidden = true
@@ -666,7 +666,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     //MARK: - Actions
     @IBAction func addEventBtn(_ sender: Any) {
         checkLocationPermissionBtns()
-        if internetConect {
+        if NetworkConected.internetConect {
             if Defaults.allowMyLocationSettings == true {
                 self.appendNewLocation = true
                 self.view.makeToast("Please pick event's location".localizedString)
@@ -717,7 +717,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func convertMapStyleBtn(_ sender: Any) {
-        if internetConect {
+        if NetworkConected.internetConect {
             checkLocationPermissionBtns()
             if Defaults.allowMyLocationSettings {
                 MapAppType.type = !MapAppType.type
@@ -734,7 +734,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func currentLocationBtn(_ sender: Any) {
-        if self.internetConect {
+        if NetworkConected.internetConect {
             self.checkLocationPermissionBtns()
             
             if Defaults.allowMyLocationSettings {
@@ -750,7 +750,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func upDownBtn(_ sender: Any) {
-        if self.internetConect {
+        if NetworkConected.internetConect {
             isViewUp.toggle()
             
             if Defaults.allowMyLocationSettings {
@@ -836,7 +836,7 @@ extension MapVC : GMSMapViewDelegate {
     }
     
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-        if internetConect {
+        if NetworkConected.internetConect {
             var pos: CLLocationCoordinate2D? = nil
             pos = marker.position
             print("locationEvent: \(pos?.latitude ?? 0.0),\(pos?.longitude ?? 0.0)")
@@ -890,7 +890,7 @@ extension MapVC : GMSMapViewDelegate {
 //MARK: - CLLocation manager delegate
 extension MapVC : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if internetConect {
+        if NetworkConected.internetConect {
             self.location = manager.location?.coordinate
             locationManager.stopUpdatingLocation()
             
@@ -1108,7 +1108,7 @@ extension MapVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if internetConect {
+        if NetworkConected.internetConect {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseInOut) {
                 self.transparentView.alpha = 0.0
                 self.eventsTableView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height/2.05)
@@ -1357,7 +1357,7 @@ extension MapVC {
         
         switch sender.direction {
         case .up:
-            if internetConect{
+            if NetworkConected.internetConect{
                 print("Up")
                 if Defaults.allowMyLocationSettings {
                     collectionViewHeight.constant = 140
@@ -1382,7 +1382,7 @@ extension MapVC {
                 HandleInternetConnection()
             }
         case .down:
-            if internetConect {
+            if NetworkConected.internetConect {
                 print("Down")
                 collectionViewHeight.constant = 0
                 self.hideCollectionView.isHidden = true
