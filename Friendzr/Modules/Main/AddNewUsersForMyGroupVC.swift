@@ -7,9 +7,11 @@
 
 import UIKit
 import Network
+import SDWebImage
 
 class AddNewUsersForMyGroupVC: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var searchbar: UISearchBar!
     @IBOutlet weak var searchBarView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -268,6 +270,7 @@ extension AddNewUsersForMyGroupVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? AddFriendsToPrivateEventTableViewCell else {return UITableViewCell()}
         let model = viewmodel.friends.value?.data?[indexPath.row]
         cell.titleLbl.text = model?.userName
+        cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
         cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
         if selectedIDs.contains(model?.userId ?? "") {

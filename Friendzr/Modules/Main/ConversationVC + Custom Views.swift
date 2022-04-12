@@ -417,7 +417,9 @@ extension ConversationVC {
                     return
                 }
                 
-                guard let ـ = message else {return}
+                guard let message = message else {return}
+                print(message)
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     Router().toHome()
                 }
@@ -454,7 +456,7 @@ extension ConversationVC {
                     return
                 }
                 
-                guard let message = message else {return}
+                guard let _ = message else {return}
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     Router().toHome()

@@ -603,6 +603,7 @@ class AddEventVC: UIViewController {
     func getAllValidatConfig() {
         allValidatConfigVM.getAllValidatConfig()
         allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+            Defaults.initValidationConfig(validate: value)
         }
         
         // Set View Model Event Listener

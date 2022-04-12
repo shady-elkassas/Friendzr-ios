@@ -8,9 +8,11 @@
 import UIKit
 import QCropper
 import Network
+import SDWebImage
 
 class AddGroupVC: UIViewController {
 
+    //MARK: - Outlets
     @IBOutlet weak var searchbar: UISearchBar!
     @IBOutlet weak var searchBarView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -150,10 +152,9 @@ class AddGroupVC: UIViewController {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.hideLoader()
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
@@ -164,7 +165,7 @@ class AddGroupVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -180,13 +181,13 @@ class AddGroupVC: UIViewController {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 
                 
                 if value.data?.count != 0 {
-                    tableView.showLoader()
+                    self.tableView.showLoader()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self.tableView.hideLoader()
                     }
@@ -195,7 +196,7 @@ class AddGroupVC: UIViewController {
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
                 
-                showEmptyView()
+                self.showEmptyView()
             }
         }
         
@@ -203,7 +204,7 @@ class AddGroupVC: UIViewController {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -333,6 +334,8 @@ extension AddGroupVC: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? SelectedFriendTableViewCell else {return UITableViewCell()}
         let model = viewmodel.friends.value?.data?[indexPath.row]
         cell.titleLbl.text = model?.userName
+        
+        cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
         cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
         if indexPath.row == ((viewmodel.friends.value?.data?.count ?? 0) - 1 ) {

@@ -502,7 +502,7 @@ extension ShareEventVC: UITableViewDataSource {
             cell.HandleSendBtn = {
                 cell.sendBtn.setTitle("Sending...", for: .normal)
                 cell.sendBtn.isUserInteractionEnabled = false
-                self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "oo", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,eventShareid: self.eventID) { error, data in
+                self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "POP", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,eventShareid: self.eventID) { error, data in
                     
                     if let error = error {
                         DispatchQueue.main.async {
@@ -537,7 +537,7 @@ extension ShareEventVC: UITableViewDataSource {
             cell.HandleSendBtn = {
                 cell.sendBtn.setTitle("Sending...", for: .normal)
                 cell.sendBtn.isUserInteractionEnabled = false
-                self.shareEventMessageVM.SendMessage(withGroupId: model?.id ?? "", AndMessageType: 4, AndMessage: "oo", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: self.eventID) { error, data in
+                self.shareEventMessageVM.SendMessage(withGroupId: model?.id ?? "", AndMessageType: 4, AndMessage: "POP", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: self.eventID) { error, data in
                     
                     if let error = error {
                         DispatchQueue.main.async {
@@ -573,7 +573,7 @@ extension ShareEventVC: UITableViewDataSource {
             cell.HandleSendBtn = {
                 cell.sendBtn.setTitle("Sending...", for: .normal)
                 cell.sendBtn.isUserInteractionEnabled = false
-                self.shareEventMessageVM.SendMessage(withEventId: model?.id ?? "", AndMessageType: 4, AndMessage: "oo", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: self.eventID) { error, data in
+                self.shareEventMessageVM.SendMessage(withEventId: model?.id ?? "", AndMessageType: 4, AndMessage: "POP", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: self.eventID) { error, data in
                     
                     if let error = error {
                         DispatchQueue.main.async {

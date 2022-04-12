@@ -8,6 +8,7 @@
 import UIKit
 import ListPlaceholder
 import Network
+import SDWebImage
 
 class AttendeesVC: UIViewController {
     
@@ -337,7 +338,8 @@ extension AttendeesVC:UITableViewDataSource {
                 cell.adminLbl.isHidden = true
                 cell.btnWidth.constant = 20
             }
-        }else {
+        }
+        else {
             if model?.myEventO == true {
                 cell.dropDownBtn.isHidden = true
                 cell.adminLbl.isHidden = false
@@ -351,6 +353,7 @@ extension AttendeesVC:UITableViewDataSource {
        
         
         cell.friendNameLbl.text = model?.userName
+        cell.friendImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
         cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
         cell.joinDateLbl.text = "join Date: " + "\(model?.joinDate ?? "")"
         

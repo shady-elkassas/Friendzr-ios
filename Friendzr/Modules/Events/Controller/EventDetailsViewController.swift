@@ -308,6 +308,8 @@ extension EventDetailsViewController: UITableViewDataSource {
         
         if indexPath.row == 0 {//image
             guard let cell = tableView.dequeueReusableCell(withIdentifier: eventImgCellId, for: indexPath) as?  EventImageTableViewCell else {return UITableViewCell()}
+            
+            cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.titleLbl.text = model?.title
             cell.categoryLbl.text = model?.categorie

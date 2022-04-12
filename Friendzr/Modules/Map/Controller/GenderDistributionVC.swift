@@ -67,16 +67,16 @@ class GenderDistributionVC: UIViewController {
         genderbylocationVM.getGenderbylocation(ByLat: lat, AndLng: lng)
         genderbylocationVM.gender.bind { [unowned self] value in
             DispatchQueue.main.async {
-                hideView.isHidden = true
+                self.hideView.isHidden = true
                 let child = UIHostingController(rootView: CircleView(fill1: 0, fill2: 0, fill3: 0, animations: true, male: Int(value.malePercentage ?? 0.0), female: Int(value.femalepercentage ?? 0.0), other: Int(value.otherpercentage ?? 0.0)))
                 child.view.translatesAutoresizingMaskIntoConstraints = true
-                child.view.frame = CGRect(x: 0, y: 0, width: genderDistributionChart.bounds.width, height: genderDistributionChart.bounds.height)
+                child.view.frame = CGRect(x: 0, y: 0, width: self.genderDistributionChart.bounds.width, height: self.genderDistributionChart.bounds.height)
                 child.loadView()
-                genderDistributionChart.addSubview(child.view)
+                self.genderDistributionChart.addSubview(child.view)
                 
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
             }
         }
         

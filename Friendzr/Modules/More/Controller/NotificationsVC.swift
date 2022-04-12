@@ -8,6 +8,7 @@
 import UIKit
 import ListPlaceholder
 import Network
+import SDWebImage
 
 class NotificationsVC: UIViewController {
     
@@ -264,6 +265,8 @@ extension NotificationsVC: UITableViewDataSource {
             cell.notificationBodyLbl.text = model?.body
             cell.notificationTitleLbl.text = model?.title
             cell.notificationDateLbl.text = model?.createdAt
+            
+            cell.notificationImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.notificationImg.sd_setImage(with: URL(string: model?.imageUrl ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
             return cell

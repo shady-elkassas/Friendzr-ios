@@ -719,14 +719,9 @@ extension FeedVC:UITableViewDataSource {
             cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
             
             
-            cell.loaderImg.isHidden = false
-            cell.loaderImg.startAnimating()
-            
-            cell.friendRequestImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-
-            cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-            cell.loaderImg.stopAnimating()
             cell.loaderImg.isHidden = true
+            cell.friendRequestImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
             if indexPath.row == 0 {
                 cell.upView.isHidden = false

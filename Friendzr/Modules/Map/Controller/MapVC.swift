@@ -14,6 +14,7 @@ import MapKit
 import GoogleMobileAds
 import ListPlaceholder
 import Network
+import SDWebImage
 
 let googleApiKey = "AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY"
 
@@ -114,7 +115,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     let screenSize = UIScreen.main.bounds.size
     var isViewUp:Bool = false
-//    var internetConect:Bool = false
+    //    var internetConect:Bool = false
     
     //    var isLocationSettingsAllow:Bool = false
     
@@ -125,7 +126,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         setupViews()
         title = "Map".localizedString
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-                
+        
         NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
     }
     
@@ -148,12 +149,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         Defaults.availableVC = "MapVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         locationsModel.peoplocationDataMV?.removeAll()
         locationsModel.eventlocationDataMV?.removeAll()
         locations.removeAll()
         mapView.clear()
-
+        
         appendNewLocation = false
         goAddEventBtn.isHidden = true
         addEventBtn.isHidden = false
@@ -171,7 +172,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         checkLocationPermission()
-
+        
         markerImg.isHidden = true
     }
     
@@ -264,7 +265,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
                 print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
-
+                
                 print("peoplocationDataCount>> \(value.peoplocationDataMV?.count ?? 0)")
                 print("eventlocationDataCount>> \(value.eventlocationDataMV?.count ?? 0)")
                 
@@ -904,7 +905,7 @@ extension MapVC : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             //check  location permissions
-//            self.checkLocationPermission()
+            //            self.checkLocationPermission()
         }
     }
     
@@ -1070,6 +1071,8 @@ extension MapVC:UITableViewDataSource {
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
+        
+        cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
         cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
         cell.directionBtn.isHidden = true
@@ -1156,6 +1159,7 @@ extension MapVC:UICollectionViewDataSource {
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
         
+        cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
         cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         
         if model?.eventtype == "External" {

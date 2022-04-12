@@ -75,10 +75,9 @@ class ShareVC: UIViewController {
         myGroupsVM.getAllGroupChat(pageNumber: pageNumber, search: search)
         myGroupsVM.listChat.bind { [unowned self] value in
             DispatchQueue.main.async {
-                self.hideLoading()
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
             }
         }
         
@@ -97,10 +96,9 @@ class ShareVC: UIViewController {
         myFriendsVM.getAllFriendes(pageNumber: pageNumber, search: search)
         myFriendsVM.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
-                tableView.hideLoader()
-                tableView.delegate = self
-                tableView.dataSource = self
-                tableView.reloadData()
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
             }
         }
         

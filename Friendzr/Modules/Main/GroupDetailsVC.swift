@@ -7,9 +7,11 @@
 
 import UIKit
 import QCropper
+import SDWebImage
 
 class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
     
+    //MARK: - Outlets
     @IBOutlet weak var superView: UIView!
     @IBOutlet weak var groupImg: UIImageView!
     @IBOutlet weak var cameraBtn: UIButton!
@@ -512,6 +514,7 @@ extension GroupDetailsVC : UITableViewDataSource {
         
         
         cell.friendNameLbl.text = model?.userName
+        cell.friendImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
         cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
         
         //        cell.joinDateLbl.text = "join date: ".localizedString + "\(model?.joinDateTime ?? "")"
@@ -622,6 +625,7 @@ extension GroupDetailsVC {
             self.viewmodel.deleteUsersGroup(withGroupId: self.groupId, AndListOfUserIDs: [userID], AndRegistrationDateTime: "\(ActionDate) \(Actiontime)") { error, data in
                 if let error = error {
                     DispatchQueue.main.async {
+                        print(error)
 //                        self.view.makeToast(error)
                     }
                     return

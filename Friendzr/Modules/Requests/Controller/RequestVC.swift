@@ -9,6 +9,7 @@ import UIKit
 import ListPlaceholder
 import GoogleMobileAds
 import Network
+import SDWebImage
 
 class RequestesType {
     static var type: Int = 2
@@ -393,7 +394,8 @@ extension RequestVC:UITableViewDataSource {
                     cell.messageBtn.isHidden = false
                     cell.requestRemovedLbl.isHidden = true
                 }
-            }else { // received
+            }
+            else { // received
                 cell.acceptBtn.isHidden = false
                 if model?.key == 2 {
                     cell.stackViewBtns.isHidden = false
@@ -409,6 +411,8 @@ extension RequestVC:UITableViewDataSource {
             cell.friendRequestNameLbl.text = model?.userName
             cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
             cell.friendRequestDateLbl.text = model?.regestdata
+            
+            cell.friendRequestImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
             if indexPath.row == (viewmodel.requests.value?.data?.count ?? 0) - 1 {
@@ -428,7 +432,9 @@ extension RequestVC:UITableViewDataSource {
                             return
                         }
                         
-                        guard let ـ = message else {return}
+                        guard let message = message else {return}
+                        print(message)
+                        
                         DispatchQueue.main.async {
                             cell.stackViewBtns.isHidden = true
                             cell.messageBtn.isHidden = false

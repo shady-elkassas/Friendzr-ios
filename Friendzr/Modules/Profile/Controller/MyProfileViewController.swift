@@ -23,7 +23,7 @@ class MyProfileViewController: UIViewController {
     
     
     var viewmodel: ProfileViewModel = ProfileViewModel()
-//    var internetConnection:Bool = false
+    //    var internetConnection:Bool = false
     
     let imageCellID = "ImageProfileTableViewCell"
     let userNameCellId = "ProfileUserNameTableViewCell"
@@ -57,7 +57,7 @@ class MyProfileViewController: UIViewController {
         tableView.refreshControl = refreshControl
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateMyProfile), name: Notification.Name("updateMyProfile"), object: nil)
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -224,8 +224,8 @@ extension MyProfileViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: imageCellID, for: indexPath) as? ImageProfileTableViewCell else {return UITableViewCell()}
             
             cell.profileImgLoader.isHidden = true
-                cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-                cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
             cell.ageLbl.text = "\(model?.age ?? 0)"
             if model?.gender == "other" {

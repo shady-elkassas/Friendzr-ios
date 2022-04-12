@@ -8,6 +8,7 @@
 import UIKit
 import ListPlaceholder
 import Network
+import SDWebImage
 
 class FriendProfileViewController: UIViewController {
     
@@ -152,7 +153,7 @@ class FriendProfileViewController: UIViewController {
             DispatchQueue.main.async {
                 self.hideLoading()
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -271,6 +272,7 @@ extension FriendProfileViewController:UITableViewDataSource {
         if indexPath.row == 0 {//image
             guard let cell = tableView.dequeueReusableCell(withIdentifier: imageCellId, for: indexPath) as? FriendImageProfileTableViewCell else {return UITableViewCell()}
             
+            cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.ageLbl.text = "\(model?.age ?? 0)"
             

@@ -10,6 +10,7 @@ import Network
 
 class ReportVC: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var hideView: UIView!
     
@@ -20,7 +21,6 @@ class ReportVC: UIViewController {
     let detailsCellID = "WriteProblemTableViewCell"
     var selectedVC = ""
     var viewmodel:ReportViewModel = ReportViewModel()
-//    var internetConnect:Bool = false
     
     
     var id:String = ""

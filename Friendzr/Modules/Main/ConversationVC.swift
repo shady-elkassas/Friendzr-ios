@@ -52,7 +52,7 @@ extension ConversationVC {
         // "Jan 18, 2018"
         
         let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
-        let customDateString = dateFormatterToString(customFormatter, date!)
+        _ = dateFormatterToString(customFormatter, date!)
         // "18 January"
         
         if relativeDateString == normalDateString {
@@ -764,7 +764,7 @@ extension ConversationVC {
                                 self.messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
                             case 2: //image
                                 if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                    self.messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
+                                    self.messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
                                 }
                             case 3://file
                                 if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
@@ -847,48 +847,48 @@ extension ConversationVC {
                         case true:
                             switch itm.messagetype {
                             case 1://text
-                                messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
+                                self.messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
                             case 2://image
                                 if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                    messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
+                                    self.messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
                                 }else {
-                                    messageList.insert(UserMessage(image: UIImage(named: "placeHolderApp")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
+                                    self.messageList.insert(UserMessage(image: UIImage(named: "placeHolderApp")!, user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
                                 }
                             case 3://file
                                 if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                    messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
+                                    self.messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
                                 }else {
-                                    messageList.insert(UserMessage(image: UIImage(named: "placeHolderApp")!, user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
+                                    self.messageList.insert(UserMessage(image: UIImage(named: "placeHolderApp")!, user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
                                 }
                             case 4://link
                                 let url = URL(string: itm.eventData?.image ?? "")
                                 let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-                                messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: senderUser.senderId, photoURL: Defaults.Image, displayName: senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0, eventType:itm.eventData?.eventtype ?? ""), at: 0)
+                                self.messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0, eventType:itm.eventData?.eventtype ?? ""), at: 0)
                             default:
                                 break
                             }
                         case false:
                             switch itm.messagetype {
                             case 1://text
-                                messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
+                                self.messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
                             case 2: //image
                                 if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                    messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
+                                    self.messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
                                 }
                             case 3: //file
                                 if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-                                    messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
+                                    self.messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
                                 }
                             case 4://link
                                 let url = URL(string: itm.eventData?.image ?? "")
                                 let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
                                 
-                                messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0, eventType:itm.eventData?.eventtype ?? ""), at: 0)
+                                self.messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0, eventType:itm.eventData?.eventtype ?? ""), at: 0)
                             default:
                                 break
                             }
-                            receiveimg = itm.userimage ?? ""
-                            receiveName = itm.username ?? ""
+                            self.receiveimg = itm.userimage ?? ""
+                            self.receiveName = itm.username ?? ""
                             
                         }
                     }
@@ -903,16 +903,16 @@ extension ConversationVC {
                         self.messagesCollectionView.reloadDataAndKeepOffset()
                         self.refreshControl.endRefreshing()
                     }else {
-                        if messageList.isEmpty {
-                            messagesCollectionView.reloadData()
+                        if self.messageList.isEmpty {
+                            self.messagesCollectionView.reloadData()
                         }else {
-                            reloadLastIndexInCollectionView()
+                            self.reloadLastIndexInCollectionView()
                         }
                     }
                 }
                 
-                showDownView()
-                updateTitleView(image: titleChatImage, subtitle: titleChatName, titleId: groupId, isEvent: false)
+                self.showDownView()
+                self.updateTitleView(image: self.titleChatImage, subtitle: self.titleChatName, titleId: self.groupId, isEvent: false)
             }
         }
         
@@ -921,9 +921,9 @@ extension ConversationVC {
             DispatchQueue.main.async {
                 self.hideLoading()
                 if error == "Internal Server Error" {
-                    HandleInternetConnection()
+                    self.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    HandleinvalidUrl()
+                    self.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)

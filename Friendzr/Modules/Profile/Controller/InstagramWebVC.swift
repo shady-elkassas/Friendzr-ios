@@ -72,7 +72,7 @@ class InstagramWebVC: UIViewController, WKNavigationDelegate {
                             switch response.result {
                             case .success(let JSON):
                                 let object = JSON as? NSDictionary
-                                print(object)
+                                print(object ?? NSDictionary.init())
                             case .failure(let error):
                                 print(error)
                             }

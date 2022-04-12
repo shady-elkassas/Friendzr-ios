@@ -758,6 +758,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         
         if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled" {
+            if Defaults.availableVC != "ConversationVC" && Defaults.availableVC != "" {
+                
+            }
             NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
         }else {
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
