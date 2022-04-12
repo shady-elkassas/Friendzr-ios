@@ -9,12 +9,13 @@ import UIKit
 
 class SplachTwoVC: UIViewController {
     
-    //MARK:- Outlets
+    //MARK: - Outlets
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var skipBtn: UIButton!
     @IBOutlet weak var bottomLAyoutConstraint: NSLayoutConstraint!
     
+    //MARK: - Properties
     var selectVC:String = ""
     
     //MARK: - Life Cycle

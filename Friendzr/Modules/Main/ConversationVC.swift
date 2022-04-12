@@ -414,11 +414,18 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     func reloadLastIndexInCollectionView() {
         let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
         let contentOffset = messagesCollectionView.contentOffset
-        messagesCollectionView.reloadData()
-        messagesCollectionView.layoutIfNeeded()
-        messagesCollectionView.setContentOffset(contentOffset, animated: false)
-        messagesCollectionView.scrollToItem(at: lastIndexPath, at: .bottom, animated: false)
-        messagesCollectionView.reloadDataAndKeepOffset()
+        DispatchQueue.main.async {
+            self.messagesCollectionView.reloadData()
+            self.messagesCollectionView.layoutIfNeeded()
+        }
+        
+        DispatchQueue.main.async {
+            self.messagesCollectionView.setContentOffset(contentOffset, animated: false)
+            self.messagesCollectionView.scrollToItem(at: lastIndexPath, at: .bottom, animated: false)
+        }
+        DispatchQueue.main.async {
+            self.messagesCollectionView.reloadDataAndKeepOffset()
+        }
     }
     
     func configureMessageCollectionView() {

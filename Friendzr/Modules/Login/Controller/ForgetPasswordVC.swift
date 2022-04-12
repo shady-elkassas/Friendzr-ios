@@ -10,7 +10,7 @@ import Network
 
 class ForgetPasswordVC: UIViewController {
     
-    //MARK:- Outlets
+    //MARK: - Outlets
     @IBOutlet weak var emailView: UIView!
     @IBOutlet weak var emailTxt: UITextField!
     @IBOutlet weak var resetBtn: UIButton!
@@ -19,7 +19,6 @@ class ForgetPasswordVC: UIViewController {
     //MARK: - Properties
     var viewmodel:ForgetPasswordViewModel = ForgetPasswordViewModel()
     
-//    var internetConect:Bool = false
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -87,13 +86,6 @@ class ForgetPasswordVC: UIViewController {
     func setup() {
         emailView.setBorder(color: UIColor.color("#DDDFDD")?.cgColor, width: 1)
         emailView.cornerRadiusView(radius: 6)
-        
-        //Create Gradient in reset Btn
-//        let fistColor = UIColor.color("#7BE495")!
-//        let lastColor = UIColor.color("#329D9C")!
-//        let gradient = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [fistColor.cgColor,lastColor.cgColor], type: .radial)
-//        gradient.frame = resetBtn.frame
-//        resetBtn.layer.addSublayer(gradient)
         resetBtn.cornerRadiusView(radius: 8)
         resetBtnView.cornerRadiusView(radius: 8)
     }

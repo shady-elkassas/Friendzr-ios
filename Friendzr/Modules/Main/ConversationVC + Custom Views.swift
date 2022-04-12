@@ -406,7 +406,7 @@ extension ConversationVC {
         
         let actionDate = formatterUnfriendDate.string(from: Date())
         let actionTime = formatterTime.string(from: Date())
-
+        
         alertView?.HandleConfirmBtn = {
             self.requestFriendVM.requestFriendStatus(withID: self.chatuserID, AndKey: 5,requestdate: "\(actionDate) \(actionTime)") { error, message in
                 self.hideLoading()
@@ -442,7 +442,7 @@ extension ConversationVC {
         
         let actionDate = formatterUnfriendDate.string(from: Date())
         let actionTime = formatterTime.string(from: Date())
-
+        
         alertView?.titleLbl.text = "Confirm?".localizedString
         alertView?.detailsLbl.text = "Are you sure you want to block this account?".localizedString
         
@@ -457,7 +457,7 @@ extension ConversationVC {
                 }
                 
                 guard let _ = message else {return}
-
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     Router().toHome()
                 }
@@ -723,7 +723,7 @@ extension ConversationVC {
             libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
             fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
             cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-
+            
             actionAlert.addAction(cameraBtn)
             actionAlert.addAction(libraryBtn)
             actionAlert.addAction(fileBtn)
@@ -750,7 +750,7 @@ extension ConversationVC {
             libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
             fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
             cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-
+            
             actionSheet.addAction(cameraBtn)
             actionSheet.addAction(libraryBtn)
             actionSheet.addAction(fileBtn)
@@ -759,7 +759,7 @@ extension ConversationVC {
             present(actionSheet, animated: true, completion: nil)
         }
     }
-
+    
     func presentVideoInputActionSheet() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsAlert: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
@@ -787,7 +787,7 @@ extension ConversationVC {
             present(settingsActionSheet, animated:true, completion:nil)
         }
     }
-
+    
 }
 
 extension ConversationVC {
@@ -823,7 +823,7 @@ extension ConversationVC {
             let newX = widthDiff / 2
             imageUser.frame.origin.x = newX
         }
-                
+        
         let btn = UIButton(frame: titleView.frame)
         if isEvent == true {
             btn.addTarget(self, action: #selector(goToEventDetailsVC), for: .touchUpInside)
@@ -966,7 +966,7 @@ extension ConversationVC {
                 actionAlert.addAction(UIAlertAction(title: joinTitle, style: .default, handler: { action in
                     
                 }))
-
+                
                 actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
                 }))
                 

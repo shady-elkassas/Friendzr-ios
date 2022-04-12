@@ -716,34 +716,42 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         if action == "user_chat" {
             if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {                NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
-            }else if Defaults.availableVC == "InboxVC" {
-                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-                
             }
+//            else if Defaults.availableVC == "InboxVC" {
+//                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+//
+//            }
             
-            Defaults.message_Count += 1
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            
+//            Defaults.message_Count += 1
+//            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
         
         else if action == "event_chat" {
             if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
-            }else if Defaults.availableVC == "InboxVC" {
-                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
+//            else if Defaults.availableVC == "InboxVC" {
+//                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+//            }
+            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             
-            Defaults.message_Count += 1
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+//            Defaults.message_Count += 1
+//            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
         else if action == "user_chatGroup" {
             if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForGroup"), object: nil, userInfo: nil)
-            }else if Defaults.availableVC == "InboxVC" {
-                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
+//            else if Defaults.availableVC == "InboxVC" {
+//                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+//            }
             
-            Defaults.message_Count += 1
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            
+//            Defaults.message_Count += 1
+//            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
         if action == "Friend_Request" || action == "Accept_Friend_Request" || action == "Friend_request_cancelled" {
             if Defaults.availableVC == "RequestVC" {
@@ -758,10 +766,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         
         if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled" {
-            if Defaults.availableVC != "ConversationVC" && Defaults.availableVC != "" {
-                
-            }
-            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+//            if Defaults.availableVC != "ConversationVC" && Defaults.availableVC != "" {
+//
+//            }
         }else {
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
             Defaults.notificationcount = UIApplication.shared.applicationIconBadgeNumber

@@ -14,7 +14,7 @@ import Network
 
 class LoginVC: UIViewController {
     
-    //MARK:- Outlets
+    //MARK: - Outlets
     @IBOutlet weak var emailView: UIView!
     @IBOutlet weak var passwordView: UIView!
     @IBOutlet weak var emailTxt: UITextField!
@@ -51,8 +51,6 @@ class LoginVC: UIViewController {
     var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
 
     
-//    var internetConect:Bool = false
-    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +66,6 @@ class LoginVC: UIViewController {
             userInfo: nil
         )
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -84,13 +81,13 @@ class LoginVC: UIViewController {
         
         NotificationCenter.default.post(name: Notification.Name("registrationFCM"), object: nil, userInfo: nil)
     }
-    
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
     }
     
     
+    //MARK: - APIs
     func getAllValidatConfig() {
         allValidatConfigVM.getAllValidatConfig()
         allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
@@ -321,14 +318,6 @@ class LoginVC: UIViewController {
         googleView.cornerRadiusView(radius: 6)
         appleView.cornerRadiusView(radius: 6)
         googleView.setBorder()
-        
-        
-//        //Create Gradient in login Btn
-//        let fistColor = UIColor.color("#7BE495")!
-//        let lastColor = UIColor.color("#329D9C")!
-//        let gradient = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [fistColor.cgColor,lastColor.cgColor], type: .radial)
-//        gradient.frame = loginBtn.frame
-//        loginBtn.layer.addSublayer(gradient)
         loginBtn.cornerRadiusView(radius: 8)
         loginBtnView.cornerRadiusView(radius: 8)
     }

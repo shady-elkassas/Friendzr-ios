@@ -17,10 +17,6 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var addImg: UIButton!
     @IBOutlet weak var addTitleTxt: UITextField!
     @IBOutlet weak var switchAllDays: UISwitch!
-    //    @IBOutlet weak var startDayLbl: UILabel!
-    //    @IBOutlet weak var endDayLbl: UILabel!
-    //    @IBOutlet weak var startTimeLbl: UILabel!
-    //    @IBOutlet weak var endTimeLbl: UILabel!
     @IBOutlet weak var hiddenLbl: UILabel!
     @IBOutlet weak var descriptionTxtView: UITextView!
     @IBOutlet weak var limitUsersView: UIView!
@@ -916,6 +912,8 @@ extension AddEventVC:UITableViewDelegate {
 extension AddEventVC {
     func setupDatePickerForStartDate(){
         //Formate Date
+        
+        selectEndDateTxt.isUserInteractionEnabled = false
         datePicker1.datePickerMode = .date
         if #available(iOS 13.4, *) {
             datePicker1.preferredDatePickerStyle = .wheels
@@ -957,6 +955,7 @@ extension AddEventVC {
         
         print(formatter.string(from: self.minimumDate),formatter.string(from: self.maximumDate))
         
+        selectEndDateTxt.isUserInteractionEnabled = true
         setupDatePickerForEndDate()
         self.view.endEditing(true)
     }

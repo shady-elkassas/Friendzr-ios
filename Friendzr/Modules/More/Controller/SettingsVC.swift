@@ -14,6 +14,7 @@ import Network
 
 class SettingsVC: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var settingSubView: UIView!
     @IBOutlet weak var settingsViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
@@ -60,6 +61,7 @@ class SettingsVC: UIViewController {
     var isAgeFilterAvailable:Bool = false
     var isDistanceFilterAvailable:Bool = false
 
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -102,7 +104,7 @@ class SettingsVC: UIViewController {
         }
     }
     
-    //MARK:- APIs
+    //MARK: - APIs
     func getUserSettings() {
         viewmodel.getUserSetting()
         viewmodel.userSettings.bind { [unowned self]value in
@@ -134,7 +136,8 @@ class SettingsVC: UIViewController {
             }
         }
     }
-        
+
+    //MARK: - Helpers
     func setupData() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -319,7 +322,7 @@ class SettingsVC: UIViewController {
         }
     }
     
-    //save actions btns
+    //MARK: - Actions
     @IBAction func ageSaveBtn(_ sender: Any) {
         self.viewmodel.filteringAccordingToAge(filteringaccordingtoage: true, agefrom: ageFrom, ageto: ageTo) { error, data in
             self.hideLoading()
@@ -366,6 +369,7 @@ class SettingsVC: UIViewController {
     }
 }
 
+//MARK: - Extensions
 extension SettingsVC :CLLocationManagerDelegate {
     
     func setupCLLocationManager() {
@@ -400,7 +404,7 @@ extension SettingsVC :CLLocationManagerDelegate {
                 print(placemark.administrativeArea!)
                 print(placemark.country!)
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                     self.updateMyLocation()
                 }
             }

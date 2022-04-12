@@ -211,8 +211,8 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
                 guard error == nil else { return }
                 // If sign in succeeded, display the app's main content View.
                 
-                if let error = error {
-                    print("\(error.localizedDescription)")
+                if error != nil {
+//                    print("\(error.localizedDescription)")
                 } else {
                     // Perform any operations on signed in user here.
                     if let user = user {

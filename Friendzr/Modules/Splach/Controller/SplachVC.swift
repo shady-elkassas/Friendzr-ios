@@ -18,6 +18,7 @@ public typealias AnimationExecution = () -> Void
 
 class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegate{
     
+    //MARK: - Properties
     var settingVM:SettingsViewModel = SettingsViewModel()
     var profileVM: ProfileViewModel = ProfileViewModel()
     var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
@@ -29,8 +30,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     var duration: Double = 1.5
     var delay: Double = 2.0
     var minimumBeats: Int = 1
-    
-//    var internetConect:Bool = false
     var mask: CALayer? = CALayer()
     
     private lazy var imageView: UIImageView = {
@@ -57,6 +56,8 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         return !UIApplication.shared.isStatusBarHidden
     }
     
+    
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -111,6 +112,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         CancelRequest.currentTask = true
     }
     
+    //MARK: - APIs
     func updateUserInterface() {
         let monitor = NWPathMonitor()
         
@@ -131,7 +133,6 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         let queue = DispatchQueue(label: "Network")
         monitor.start(queue: queue)
     }
-    
     func getAllValidatConfig() {
         allValidatConfigVM.getAllValidatConfig()
         allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
@@ -148,6 +149,8 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         }
     }
     
+    
+    //MARK: - Helpers
     func animateLayer(_ animation: AnimationExecution, completion: AnimationCompletion? = nil) {
         
         CATransaction.begin()

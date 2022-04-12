@@ -10,12 +10,13 @@ import LocalAuthentication
 
 class SplachOneVC: UIViewController {
     
-    //MARK:- Outlets
+    //MARK: - Outlets
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var startBtn: UIButton!
     @IBOutlet weak var splachImg: UIImageView!
-    
     @IBOutlet weak var bottomLAyoutConstraint: NSLayoutConstraint!
+    
+    //MARK: - Properties
     var selectVC:String = ""
     
     //MARK: - Life Cycle

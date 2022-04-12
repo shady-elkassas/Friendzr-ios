@@ -323,7 +323,6 @@ extension NotificationsVC: UITableViewDelegate {
                     vc.eventId = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else if model?.action == "Check_events_near_you" {
-                    //                    Router().toMap()
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else { return}
                     vc.eventId = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
@@ -332,6 +331,12 @@ extension NotificationsVC: UITableViewDelegate {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else { return}
                     vc.eventId = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
+                }
+                else if model?.action == "Joined_ChatGroup" {
+                    Router().toHome()
+                }
+                else if model?.action == "Kickedout_ChatGroup" {
+                    Router().toHome()
                 }
             }
         }

@@ -34,7 +34,7 @@ extension InboxVC {
         // "Jan 18, 2018"
 
         let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
-        let customDateString = dateFormatterToString(customFormatter, date ?? Date())
+        _ = dateFormatterToString(customFormatter, date ?? Date())
         // "18 January"
 
         if relativeDateString == normalDateString {

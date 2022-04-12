@@ -9,15 +9,17 @@ import UIKit
 
 class SplachFourVC: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var skipBtn: UIButton!
     @IBOutlet weak var containerView: UIView!
-    
     @IBOutlet weak var bottomLAyoutConstraint: NSLayoutConstraint!
 
+    //MARK: - Properties
     var selectVC:String = ""
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,7 +40,6 @@ class SplachFourVC: UIViewController {
         Defaults.availableVC = "SplachFourVC"
         print("availableVC >> \(Defaults.availableVC)")
         
-        //        hideNavigationBar(NavigationBar: true, BackButton: true)
         if selectVC == "MoreVC" {
             initBackButton()
             hideNavigationBar(NavigationBar: false, BackButton: false)
@@ -55,6 +56,7 @@ class SplachFourVC: UIViewController {
         }
     }
     
+    //MARK: - Actions
     @IBAction func nextBtn(_ sender: Any) {
         if selectVC == "MoreVC" {
             Router().toMore()

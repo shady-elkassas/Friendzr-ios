@@ -34,26 +34,26 @@ extension ConversationVC: MessagesDataSource {
         return messageList[indexPath.section]
     }
     
-//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//
-//        guard let messagesDataSource = messagesCollectionView.messagesDataSource else {
-//            fatalError("Ouch. nil data source for messages")
-//        }
-//         
-//        // Very important to check this when overriding `cellForItemAt`
-//        // Super method will handle returning the typing indicator cell
-//        guard !isSectionReservedForTypingIndicator(indexPath.section) else {
-//            return super.collectionView(collectionView, cellForItemAt: indexPath)
-//        }
-//
-//        let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
-//        if case .custom = message.kind {
-//            let cell = messagesCollectionView.dequeueReusableCell(CustomCell.self, for: indexPath)
-//            cell.configure(with: message, at: indexPath, and: messagesCollectionView)
-//            return cell
-//        }
-//        return super.collectionView(collectionView, cellForItemAt: indexPath)
-//    }
+    //    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    //
+    //        guard let messagesDataSource = messagesCollectionView.messagesDataSource else {
+    //            fatalError("Ouch. nil data source for messages")
+    //        }
+    //
+    //        // Very important to check this when overriding `cellForItemAt`
+    //        // Super method will handle returning the typing indicator cell
+    //        guard !isSectionReservedForTypingIndicator(indexPath.section) else {
+    //            return super.collectionView(collectionView, cellForItemAt: indexPath)
+    //        }
+    //
+    //        let message = messagesDataSource.messageForItem(at: indexPath, in: messagesCollectionView)
+    //        if case .custom = message.kind {
+    //            let cell = messagesCollectionView.dequeueReusableCell(CustomCell.self, for: indexPath)
+    //            cell.configure(with: message, at: indexPath, and: messagesCollectionView)
+    //            return cell
+    //        }
+    //        return super.collectionView(collectionView, cellForItemAt: indexPath)
+    //    }
     
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         if indexPath.section % 3 == 0 {
@@ -84,15 +84,15 @@ extension ConversationVC: MessagesDataSource {
     func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         let model = messageList[indexPath.section]
         let colorlbl = isFromCurrentSender(message: message) ? UIColor.white : UIColor.gray
-
+        
         if model.messageType == 4 {
             return nil
         }
         else {
             if !isNextMessageSameSender(at: indexPath) && isFromCurrentSender(message: message) {
-            return NSAttributedString(string: model.dateandtime, attributes: [NSAttributedString.Key.font:
-                                                                                UIFont(name: "Montserrat-Medium", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2),
-                                                                              NSAttributedString.Key.foregroundColor:colorlbl])
+                return NSAttributedString(string: model.dateandtime, attributes: [NSAttributedString.Key.font:
+                                                                                    UIFont(name: "Montserrat-Medium", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2),
+                                                                                  NSAttributedString.Key.foregroundColor:colorlbl])
             }else {
                 return NSAttributedString(string: model.dateandtime, attributes: [NSAttributedString.Key.font:
                                                                                     UIFont(name: "Montserrat-Medium", size: 12) ?? UIFont.preferredFont(forTextStyle: .caption2),
@@ -116,7 +116,7 @@ extension ConversationVC: MessageCellDelegate {
         }
         let model = messageList[indexPath.section]
         
-        if model.user.senderId == senderUser.senderId {            
+        if model.user.senderId == senderUser.senderId {
             if let controller = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileNC") as? UINavigationController, let vc = controller.viewControllers.first as? MyProfileViewController {
                 vc.selectedVC = true
                 self.present(controller, animated: true)
@@ -259,9 +259,9 @@ extension ConversationVC: MessageCellDelegate {
     func didTapPlayButton(in cell: AudioMessageCell) {
         guard let indexPath = messagesCollectionView.indexPath(for: cell),
               let message = messagesCollectionView.messagesDataSource?.messageForItem(at: indexPath, in: messagesCollectionView) else {
-                  print("Failed to identify message when audio cell receive tap gesture")
-                  return
-              }
+            print("Failed to identify message when audio cell receive tap gesture")
+            return
+        }
         guard audioController.state != .stopped else {
             // There is no audio sound playing - prepare to start playing for given audio message
             audioController.playSound(for: message, in: cell)
@@ -418,7 +418,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
                     }
                 }
             }
-
+            
         }
     }
     
@@ -574,10 +574,10 @@ extension ConversationVC: MessagesDisplayDelegate {
         // ensure any subviews are removed if not needed
         accessoryView.subviews.forEach { $0.removeFromSuperview() }
         accessoryView.backgroundColor = .clear
-
+        
         let shouldShow = Int.random(in: 0...10) == 0
         guard shouldShow else { return }
-
+        
         let button = UIButton(type: .infoLight)
         button.tintColor = UIColor.FriendzrColors.primary!
         accessoryView.addSubview(button)
@@ -891,9 +891,9 @@ extension ConversationVC: MessagesLayoutDelegate {
     }
     
     // MARK: - Helpers
-//    func isTimeLabelVisible(at indexPath: IndexPath) -> Bool {
-//        return indexPath.section % 3 == 0 && !isPreviousMessageSameSender(at: indexPath)
-//    }
+    //    func isTimeLabelVisible(at indexPath: IndexPath) -> Bool {
+    //        return indexPath.section % 3 == 0 && !isPreviousMessageSameSender(at: indexPath)
+    //    }
     
     func isPreviousMessageSameSender(at indexPath: IndexPath) -> Bool {
         guard indexPath.section - 1 >= 0 else { return false }
@@ -936,7 +936,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
             
             let messageDate = formatterDate.string(from: Date())
             let messageTime = formatterTime.string(from: Date())
-
+            
             if isEvent {
                 let imgView:UIImageView = UIImageView()
                 self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0, eventType: ""))
@@ -968,7 +968,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
                     self.insertMessage(UserMessage(imageURL: selectedFileURL, user: self.senderUser, messageId: "1", date: Date(), dateandtime:messageDateTimeNow(date: messageDate, time: messageTime), messageType: 3,linkPreviewID: "",isJoinEvent: 0, eventType: ""))
                     imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeHolderApp"))
                     self.sendingImageView  = imgView.image
-
+                    
                     viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in
                         
                         if let error = error {
@@ -1014,7 +1014,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
                         
                     }
                 }
-
+                
             }
             
         }
