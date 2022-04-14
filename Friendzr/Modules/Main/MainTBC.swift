@@ -15,7 +15,6 @@ class MainTBC: UITabBarController {
         NotificationCenter.default.addObserver(self, selector: #selector(updatebadgeRequests), name: Notification.Name("updatebadgeRequests"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updatebadgeMore), name: Notification.Name("updatebadgeMore"), object: nil)
-        
 
         NotificationCenter.default.addObserver(self, selector: #selector(updatebadgeInbox), name: Notification.Name("updatebadgeInbox"), object: nil)
 

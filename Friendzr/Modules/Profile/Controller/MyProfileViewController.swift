@@ -57,7 +57,6 @@ class MyProfileViewController: UIViewController {
         tableView.refreshControl = refreshControl
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateMyProfile), name: Notification.Name("updateMyProfile"), object: nil)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -239,6 +238,7 @@ extension MyProfileViewController: UITableViewDataSource {
                 if NetworkConected.internetConect {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC else {return}
                     vc.profileModel = self.viewmodel.userModel.value
+                    FirstLoginApp.isFirst = 0
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else {
                     return

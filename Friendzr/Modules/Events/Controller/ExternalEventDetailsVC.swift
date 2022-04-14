@@ -657,7 +657,11 @@ extension ExternalEventDetailsVC: UITableViewDelegate,UIPopoverPresentationContr
         }else if indexPath.row == 3 {
             return 150
         }else if indexPath.row == 4 {//ads
-            return UITableView.automaticDimension
+            if !Defaults.hideAds {
+                return UITableView.automaticDimension
+            }else {
+                return 0
+            }
         }else if indexPath.row == 5 {
             return 290
         }else {

@@ -39,8 +39,6 @@ extension AdsTableViewCell:GADBannerViewDelegate {
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print(error)
         bannerViewHeight.constant = 0
-        //        topLayoutConstraint.constant = 0
-//        bottomLayoutConstraint.constant = 0
     }
     
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {

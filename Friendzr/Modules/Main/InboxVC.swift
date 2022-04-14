@@ -124,7 +124,13 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: true)
         CancelRequest.currentTask = false
-        seyupAds()
+        
+        if !Defaults.hideAds {
+            seyupAds()
+        }else {
+            bannerViewHeight.constant = 0
+        }
+        
         currentPage = 1
         
         
@@ -179,17 +185,17 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.hideView.isHidden = true
                 }
                 
-                var inboxbadges = 0
-                for item in value.data ?? [] {
-                    if item.message_not_Read != 0 {
-                        inboxbadges += 1
-                    }
-                }
-                
-                print("usernoti = \(inboxbadges)")
-                
-                Defaults.message_Count = inboxbadges
-                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+//                var inboxbadges = 0
+//                for item in value.data ?? [] {
+//                    if item.message_not_Read != 0 {
+//                        inboxbadges += 1
+//                    }
+//                }
+//
+//                print("usernoti = \(inboxbadges)")
+//
+//                Defaults.message_Count = inboxbadges
+//                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
                 
                 DispatchQueue.main.async {
                     self.tableView.delegate = self
@@ -239,17 +245,17 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.tableView.reloadData()
                 }
                 
-                var inboxbadges = 0
-                for item in value.data ?? [] {
-                    if item.message_not_Read != 0 {
-                        inboxbadges += 1
-                    }
-                }
+//                var inboxbadges = 0
+//                for item in value.data ?? [] {
+//                    if item.message_not_Read != 0 {
+//                        inboxbadges += 1
+//                    }
+//                }
+//
+//                print("usernoti = \(inboxbadges)")
                 
-                print("usernoti = \(inboxbadges)")
-                
-                Defaults.message_Count = inboxbadges
-                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+//                Defaults.message_Count = inboxbadges
+//                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
                 
                 DispatchQueue.main.async {
                     self.isLoadingList = false
@@ -677,8 +683,8 @@ extension InboxVC:UITableViewDelegate {
                 vc.titleChatName = model?.chatName ?? ""
                 CancelRequest.currentTask = false
                 
-//                Defaults.message_Count = Defaults.message_Count - (model?.message_not_Read ?? 0)
-//                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+                Defaults.message_Count = Defaults.message_Count - (model?.message_not_Read ?? 0)
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
                 
                 navigationController?.pushViewController(vc, animated: true)
             }

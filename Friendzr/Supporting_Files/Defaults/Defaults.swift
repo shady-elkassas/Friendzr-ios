@@ -442,6 +442,16 @@ class Defaults {
         }
     }
     
+    static var hideAds: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "hideAds")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "hideAds")
+        }
+    }
+    
     static func initUser(user:UserObj)  {
         Defaults.userName = user.userName
         Defaults.Email = user.email

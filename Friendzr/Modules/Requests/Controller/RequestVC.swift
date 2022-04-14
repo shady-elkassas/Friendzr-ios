@@ -67,8 +67,12 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         pullToRefresh()
         self.title = "Requests".localizedString
         
-        seyupAds()
-
+        if !Defaults.hideAds {
+            seyupAds()
+        }else {
+            bannerViewHeight.constant = 0
+        }
+        
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateResquests), name: Notification.Name("updateResquests"), object: nil)

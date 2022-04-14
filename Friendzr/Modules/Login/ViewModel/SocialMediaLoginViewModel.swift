@@ -21,11 +21,11 @@ class SocialMediaLoginViewModel {
     func socialMediaLoginUser(withSocialMediaId socialMediaId:String,AndEmail email:String,username:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Authenticat/login"
-        var parameters:[String : Any] = ["UserId":socialMediaId,"email": email,"logintype":1,"FcmToken":Defaults.fcmToken,"username":username,"Password":"Password1234","platform":2]
+        let parameters:[String : Any] = ["UserId":socialMediaId,"email": email,"logintype":1,"FcmToken":Defaults.fcmToken,"platform":2]//,"username":username]//,"Password":"Password1234"]
         
-        if Defaults.fcmToken == "" {
-        parameters = ["UserId":socialMediaId,"email": email,"logintype":1,"username":username,"Password":"Password1234","platform":2]
-        }
+//        if Defaults.fcmToken == "" {
+//        parameters = ["UserId":socialMediaId,"email": email,"logintype":1,"username":username,"Password":"Password1234","platform":2]
+//        }
         
         let headers = RequestComponent.headerComponent([.type,.lang])
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { data, error in

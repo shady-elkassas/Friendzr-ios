@@ -209,7 +209,12 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         addCompassView()
         initCompassSwitchBarButton()
         
-        seyupAds()
+        if !Defaults.hideAds {
+            seyupAds()
+        }else {
+            bannerViewHeight.constant = 0
+        }
+
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
         
         self.checkLocationPermission()

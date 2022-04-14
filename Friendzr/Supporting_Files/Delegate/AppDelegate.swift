@@ -112,20 +112,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateBadgeApp), name: Notification.Name("updateBadgeApp"), object: nil)
         application.applicationIconBadgeNumber = 0
         
-        
-//        center.getNotificationSettings { settings in
-//            guard (settings.authorizationStatus == .authorized) ||
-//                  (settings.authorizationStatus == .provisional) else { return }
-//
-//            if settings.alertSetting == .enabled {
-//                // Schedule an alert-only notification.
-//            } else {
-//                // Schedule a notification with a badge and sound.
-//            }
-//        }
-        
         locationManager.requestAlwaysAuthorization()
-        
         locationManager.startMonitoringVisits()
         locationManager.delegate = self
         
@@ -141,10 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if Defaults.isFirstLaunch == false {
             Defaults.allowMyLocation = true
         }
-        
-//        DispatchQueue.main.async {
-//            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-//        }
+
         
         if UIScreen.main.nativeBounds.height < 1500 {
             Defaults.isIPhoneLessThan1500 = true
@@ -161,30 +145,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIView.appearance().semanticContentAttribute = .forceLeftToRight
         self.window?.makeKeyAndVisible()
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(handleEvent), name: UIApplication.didBecomeActiveNotification, object: nil)
-
+        Defaults.hideAds = true
+        
         return true
     }
-    
-//    @objc func appMovedToBackground() {
-//        print("appMovedToBackground")
-//        Defaults.appState = "Background"
-//        print(Defaults.appState)
-//    }
-//
-//    @objc func appMovedToForeground() {
-//        print("appMovedToForeground")
-//        Defaults.appState = "Foreground"
-//        print(Defaults.appState)
-//    }
-
-//    @objc func handleEvent() {
-//        print("handleEvent")
-//
-//    }
-    
+        
     // MARK: UISceneSession Lifecycle
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
@@ -306,7 +271,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
         
-        completionHandler(UIBackgroundFetchResult.noData)
+        completionHandler(UIBackgroundFetchResult.newData)
     }
     
     func application(_ application: UIApplication,
@@ -456,7 +421,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                     }
                 }
             }
-            else if action == "user_chat"{
+            else if action == "user_chat" {
                 if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -717,41 +682,38 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         if action == "user_chat" {
             if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {                NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
             }
-//            else if Defaults.availableVC == "InboxVC" {
-//                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-//
-//            }
-            
-            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-            
-//            Defaults.message_Count += 1
-//            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+            else if Defaults.availableVC == "InboxVC" {
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+
+            }
+
+            Defaults.message_Count += 1
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
         
         else if action == "event_chat" {
             if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
             }
-//            else if Defaults.availableVC == "InboxVC" {
-//                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-//            }
-            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-            
-//            Defaults.message_Count += 1
-//            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+            else if Defaults.availableVC == "InboxVC" {
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+
+
+            Defaults.message_Count += 1
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
         else if action == "user_chatGroup" {
             if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForGroup"), object: nil, userInfo: nil)
             }
-//            else if Defaults.availableVC == "InboxVC" {
-//                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-//            }
+            else if Defaults.availableVC == "InboxVC" {
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
             
-            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             
-//            Defaults.message_Count += 1
-//            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+            Defaults.message_Count += 1
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
         if action == "Friend_Request" || action == "Accept_Friend_Request" || action == "Friend_request_cancelled" {
             if Defaults.availableVC == "RequestVC" {
@@ -766,9 +728,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         
         if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled" {
-//            if Defaults.availableVC != "ConversationVC" && Defaults.availableVC != "" {
-//
-//            }
         }else {
             NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
             Defaults.notificationcount = UIApplication.shared.applicationIconBadgeNumber

@@ -119,7 +119,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var imgTake: Int = 1
     
     let datePicker = UIDatePicker()
-
     
     var infoLinksMap: [Int:String] = [1000:""]
     var rekognitionObject:AWSRekognition?
@@ -140,6 +139,11 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         
         DispatchQueue.main.async {
             self.setupDate()
+        }
+        
+        
+        if FirstLoginApp.isFirst == 0 {
+            imgTake = 0
         }
     }
     
@@ -1009,9 +1013,11 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                             self.onPopup()
                                         }
-                                    }else if FirstLoginApp.isFirst == 1 {//tofeed if socail media login
+                                    }
+                                    else if FirstLoginApp.isFirst == 1 {//tofeed if socail media login
                                         Router().toFeed()
-                                    }else {//to login
+                                    }
+                                    else {//to login
                                         Router().toOptionsSignUpVC()
                                     }
                                 }
@@ -1102,11 +1108,15 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        imgTake = 0
         print(imgTake)
         self.attachedImg = false
         self.tabBarController?.tabBar.isHidden = false
-        picker.dismiss(animated:true, completion: nil)
+        
+        picker.dismiss(animated:true, completion: {
+            if FirstLoginApp.isFirst == 0 {
+                self.imgTake = 0
+            }
+        })
     }
 }
 
@@ -1142,6 +1152,10 @@ extension EditMyProfileVC: CropperViewControllerDelegate {
     
     func cropperDidCancel(_ cropper: CropperViewController) {
         cropper.onPopup()
+        
+        if FirstLoginApp.isFirst == 0 {
+            imgTake = 0
+        }
     }
 }
 //(20.0, 274.0, 388.0, 291.0)

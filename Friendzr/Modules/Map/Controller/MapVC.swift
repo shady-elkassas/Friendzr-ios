@@ -128,6 +128,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
+        isViewUp = false
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -142,6 +144,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         subViewHeight.constant = 50
         isViewUp = false
         self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+        
+        let contentOffset = CGPoint(x: 0, y: 0)
+        self.collectionView.setContentOffset(contentOffset, animated: false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -163,7 +168,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
         initProfileBarButton()
         
-        seyupAds()
+        if !Defaults.hideAds {
+            seyupAds()
+        }else {
+            bannerViewHeight.constant = 0
+        }
+
         clearNavigationBar()
         
         DispatchQueue.main.async {
@@ -451,10 +461,24 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         
         
+        
+        var xview2:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
+        if Defaults.isIPhoneLessThan2500 {
+            xview2 = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+        }
+        
+        let imag2:UIImageView = UIImageView()
+        imag2.frame = xview2.frame
+        imag2.image = UIImage(named: markerIcon ?? "")
+        imag2.contentMode = .scaleToFill
+
+        xview2.addSubview(imag2)
+        
+        
         if isEvent && eventTypee != "Private" {
             marker.iconView = xview
         }else {
-            marker.icon = UIImage(named: markerIcon!)
+            marker.iconView = xview2
         }
         
         marker.map = mapView
@@ -1239,6 +1263,10 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
             }
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+    }
 }
 
 extension MapVC {
@@ -1300,46 +1328,46 @@ extension MapVC {
     }
 }
 
-class MapUtil {
-    class func translateCoordinate(coordinate: CLLocationCoordinate2D, metersLat: Double,metersLong: Double) -> (CLLocationCoordinate2D) {
-        var tempCoord = coordinate
-        
-        //        let tempRegion = MKCoordinateRegionMakeWithDistance(coordinate, metersLat, metersLong)
-        let tempRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: metersLat, longitudinalMeters: metersLong)
-        
-        let tempSpan = tempRegion.span
-        
-        tempCoord.latitude = coordinate.latitude + tempSpan.latitudeDelta
-        tempCoord.longitude = coordinate.longitude + tempSpan.longitudeDelta
-        
-        return tempCoord
-    }
-    
-    class func setRadius(radius: Double,withCity city: CLLocationCoordinate2D,InMapView mapView: GMSMapView) {
-        
-        let range = MapUtil.translateCoordinate(coordinate: city, metersLat: radius * 2, metersLong: radius * 2)
-        
-        let bounds = GMSCoordinateBounds(coordinate: city, coordinate: range)
-        
-        let update = GMSCameraUpdate.fit(bounds, withPadding: 5.0)    // padding set to 5.0
-        
-        mapView.moveCamera(update)
-        
-        // location
-        let marker = GMSMarker(position: city)
-        marker.title = "title"
-        marker.snippet = "snippet"
-        marker.isFlat = true
-        marker.map = mapView
-        
-        // draw circle
-        let circle = GMSCircle(position: city, radius: radius)
-        circle.map = mapView
-        circle.fillColor = UIColor(red:0.09, green:0.6, blue:0.41, alpha:0.5)
-        
-        mapView.animate(toLocation: city) // animate to center
-    }
-}
+//class MapUtil {
+//    class func translateCoordinate(coordinate: CLLocationCoordinate2D, metersLat: Double,metersLong: Double) -> (CLLocationCoordinate2D) {
+//        var tempCoord = coordinate
+//
+//        //        let tempRegion = MKCoordinateRegionMakeWithDistance(coordinate, metersLat, metersLong)
+//        let tempRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: metersLat, longitudinalMeters: metersLong)
+//
+//        let tempSpan = tempRegion.span
+//
+//        tempCoord.latitude = coordinate.latitude + tempSpan.latitudeDelta
+//        tempCoord.longitude = coordinate.longitude + tempSpan.longitudeDelta
+//
+//        return tempCoord
+//    }
+//
+//    class func setRadius(radius: Double,withCity city: CLLocationCoordinate2D,InMapView mapView: GMSMapView) {
+//
+//        let range = MapUtil.translateCoordinate(coordinate: city, metersLat: radius * 2, metersLong: radius * 2)
+//
+//        let bounds = GMSCoordinateBounds(coordinate: city, coordinate: range)
+//
+//        let update = GMSCameraUpdate.fit(bounds, withPadding: 5.0)    // padding set to 5.0
+//
+//        mapView.moveCamera(update)
+//
+//        // location
+//        let marker = GMSMarker(position: city)
+//        marker.title = "title"
+//        marker.snippet = "snippet"
+//        marker.isFlat = true
+//        marker.map = mapView
+//
+//        // draw circle
+//        let circle = GMSCircle(position: city, radius: radius)
+//        circle.map = mapView
+//        circle.fillColor = UIColor(red:0.09, green:0.6, blue:0.41, alpha:0.5)
+//
+//        mapView.animate(toLocation: city) // animate to center
+//    }
+//}
 
 extension MapVC {
     func addBottomSheetView(scrollable: Bool? = true) {

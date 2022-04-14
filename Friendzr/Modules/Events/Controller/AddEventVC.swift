@@ -171,8 +171,10 @@ class AddEventVC: UIViewController {
         hideView.isHidden = false
         catsVM.getAllCategories()
         catsVM.cats.bind { [unowned self] value in
-            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.5) {
+                
                 self.hideView.isHidden = true
+                
                 self.collectionView.dataSource = self
                 self.collectionView.delegate = self
                 self.collectionView.reloadData()

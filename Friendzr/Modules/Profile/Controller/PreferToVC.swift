@@ -30,7 +30,7 @@ class PreferToVC: UIViewController {
     var onPreferToCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
     
     var btnSelect:Bool = false
-    var internetConnection:Bool = false
+//    var internetConnection:Bool = false
 
     var arrData = [String]() // This is your data array
     var arrSelectedIndex = [IndexPath]() // This is selected cell Index array
@@ -212,7 +212,7 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         btnSelect = true
-        if internetConnection {
+        if NetworkConected.internetConect {
             print("You selected cell #\(indexPath.row)!")
             let strData = viewmodel.PreferTo.value?[indexPath.row]
             

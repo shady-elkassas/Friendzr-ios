@@ -135,14 +135,14 @@
 	<string>$(PRODUCT_NAME) logs your location. It works best when you allow background location updates. Logged data never leaves the device.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>$(PRODUCT_NAME) logs your location. It works best when you allow background location updates. Logged data never leaves the device.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Can i use the mic?</string>
+	<key>NSLocationUsageDescription</key>
+	<string>$(PRODUCT_NAME) logs your location. It works best when you allow background location updates. Logged data never leaves the device.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires access to the photo library to take a picture for the profile when you need it.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires access to the photo library to take a picture for the profile when you need it.</string>
 	<key>NSUserTrackingUsageDescription</key>
-	<string>This application requiers location services to display the nearest friends arround you.</string>
+	<string>$(PRODUCT_NAME) requiers location services to display the nearest friends arround you.</string>
 	<key>Remote notifications</key>
 	<true/>
 	<key>RequestOpenAccess</key>
@@ -361,7 +361,5 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
-	<key>UNNotificationExtensionCategory</key>
-	<string></string>
 </dict>
 </plist>
