@@ -40,6 +40,7 @@ extension FeedVC {
                 
                 switchCompassBarButton.isUserInteractionEnabled = true
                 switchGhostModeBarButton.isUserInteractionEnabled = true
+                locationManager.showsBackgroundLocationIndicator = false
             default:
                 break
             }
@@ -88,6 +89,7 @@ extension FeedVC {
                 hideView.isHidden = true
                 switchCompassBarButton.isUserInteractionEnabled = true
                 switchGhostModeBarButton.isUserInteractionEnabled = true
+                locationManager.showsBackgroundLocationIndicator = false
             default:
                 break
             }
@@ -146,7 +148,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         locationManager.delegate = self
         locationManager.distanceFilter = 0
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
+        locationManager.showsBackgroundLocationIndicator = false
         locationManager.allowsBackgroundLocationUpdates = true
         if CLLocationManager.locationServicesEnabled() && CLLocationManager.headingAvailable() {
             locationManager.startUpdatingLocation()     //Start location service
@@ -1140,6 +1144,7 @@ extension FeedVC: CLLocationManagerDelegate {
             }
         case .authorizedAlways:
             print("Front and backstage positioning authorization")
+            locationManager.showsBackgroundLocationIndicator = false
         case .authorizedWhenInUse:
             print("Front desk positioning authorization")
         @unknown default:

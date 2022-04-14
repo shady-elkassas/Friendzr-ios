@@ -50,6 +50,7 @@ class EventDetailsViewController: UIViewController {
     var isEventAdmin: Bool = false
     var selectedVC:Bool = false
     var isprivateEvent:Bool = false
+    var inMap:Bool = false
     
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -95,11 +96,16 @@ class EventDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if selectedVC {
-            Defaults.availableVC = "PresentEventDetailsViewController"
+        if inMap {
+            Defaults.availableVC = "MapVC"
         }else {
-            Defaults.availableVC = "EventDetailsViewController"
+            if selectedVC {
+                Defaults.availableVC = "PresentEventDetailsViewController"
+            }else {
+                Defaults.availableVC = "EventDetailsViewController"
+            }
         }
+        
         print("availableVC >> \(Defaults.availableVC)")
         
         DispatchQueue.main.async {

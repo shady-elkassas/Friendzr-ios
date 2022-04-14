@@ -81,7 +81,9 @@ class SendLocationChatVC: UIViewController {
         
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
+        locationManager.showsBackgroundLocationIndicator = false
         locationManager.requestLocation()
         locationManager.startUpdatingLocation()
     }
@@ -187,6 +189,7 @@ extension SendLocationChatVC : CLLocationManagerDelegate {
                 createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
+                locationManager.showsBackgroundLocationIndicator = false
             default:
                 break
             }

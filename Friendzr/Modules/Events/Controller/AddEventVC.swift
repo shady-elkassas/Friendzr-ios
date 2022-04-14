@@ -101,6 +101,7 @@ class AddEventVC: UIViewController {
     
     var eventTypeID = ""
     var eventTypeName = ""
+    var inMap:Bool = false
     
 //    var internetConect:Bool = false
     
@@ -147,7 +148,13 @@ class AddEventVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Defaults.availableVC = "AddEventVC"
+        
+        if inMap {
+            Defaults.availableVC = "MapVC"
+        }else {
+            Defaults.availableVC = "AddEventVC"
+        }
+        
         print("availableVC >> \(Defaults.availableVC)")
         
         hideNavigationBar(NavigationBar: false, BackButton: false)

@@ -65,7 +65,8 @@ class ExternalEventDetailsVC: UIViewController {
     var encryptedID:String = ""
     lazy var refreshControl: UIRefreshControl = UIRefreshControl()
     var isConv:Bool = false
-    
+    var inMap:Bool = false
+
     var myString:String = ""
     var myMutableString = NSMutableAttributedString()
     
@@ -114,11 +115,17 @@ class ExternalEventDetailsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if selectedVC {
-            Defaults.availableVC = "PresentEventDetailsViewController"
+        
+        if inMap {
+            Defaults.availableVC = "MapVC"
         }else {
-            Defaults.availableVC = "EventDetailsViewController"
+            if selectedVC {
+                Defaults.availableVC = "PresentEventDetailsViewController"
+            }else {
+                Defaults.availableVC = "EventDetailsViewController"
+            }
         }
+        
         print("availableVC >> \(Defaults.availableVC)")
         
         setupNavBar()

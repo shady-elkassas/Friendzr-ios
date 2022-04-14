@@ -113,6 +113,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.applicationIconBadgeNumber = 0
         
         locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.showsBackgroundLocationIndicator = false
         locationManager.startMonitoringVisits()
         locationManager.delegate = self
         
@@ -1157,6 +1159,7 @@ extension AppDelegate {
                 print("Access")
                 Defaults.allowMyLocationSettings = true
                 locationManager.startUpdatingLocation()
+                locationManager.showsBackgroundLocationIndicator = false
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     if Defaults.availableVC == "MapVC" {

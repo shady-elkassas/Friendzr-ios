@@ -119,6 +119,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //    var isLocationSettingsAllow:Bool = false
     
+//    var changeindex = ""
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,7 +135,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
         
         mapView.clear()
         CancelRequest.currentTask = true
@@ -145,8 +146,16 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         isViewUp = false
         self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
         
-        let contentOffset = CGPoint(x: 0, y: 0)
-        self.collectionView.setContentOffset(contentOffset, animated: false)
+        if Defaults.availableVC != "MapVC" {
+            let contentOffset = CGPoint(x: 0, y: 0)
+            self.collectionView.setContentOffset(contentOffset, animated: false)
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -182,7 +191,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         checkLocationPermission()
-        
         markerImg.isHidden = true
     }
     
@@ -595,7 +603,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     private func updateLocation() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
+        locationManager.showsBackgroundLocationIndicator = false
         locationManager.requestLocation()
         locationManager.startUpdatingLocation()
     }
@@ -730,6 +740,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.addEventBtn.isHidden = false
                     self.goAddEventBtn.isHidden = true
                     self.markerImg.isHidden = true
+                    vc.inMap = true
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
@@ -873,12 +884,14 @@ extension MapVC : GMSMapViewDelegate {
                         DispatchQueue.main.async {
                             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
                             vc.eventId = marker.title!
+                            vc.inMap = true
                             self.navigationController?.pushViewController(vc, animated: true)
                         }
                     }else {
                         DispatchQueue.main.async {
                             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
                             vc.eventId = marker.title!
+                            vc.inMap = true
                             self.navigationController?.pushViewController(vc, animated: true)
                         }
                     }
@@ -954,6 +967,7 @@ extension MapVC : CLLocationManagerDelegate {
                     self.updateUserInterface()
                 }
                 
+                locationManager.showsBackgroundLocationIndicator = false
                 locationManager.stopUpdatingLocation()
                 
                 DispatchQueue.main.async {
@@ -988,6 +1002,7 @@ extension MapVC : CLLocationManagerDelegate {
                 Defaults.allowMyLocationSettings = false
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
+                locationManager.showsBackgroundLocationIndicator = false
                 Defaults.allowMyLocationSettings = true
             default:
                 break
@@ -1150,6 +1165,8 @@ extension MapVC:UITableViewDelegate {
                 }else {
                     vc.isEventAdmin = false
                 }
+                
+                vc.inMap = true
                 self.navigationController?.pushViewController(vc, animated: true)
                 
             }else {
@@ -1162,6 +1179,8 @@ extension MapVC:UITableViewDelegate {
                     vc.isEventAdmin = false
                 }
                 
+                vc.inMap = true
+
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
@@ -1207,7 +1226,7 @@ extension MapVC:UICollectionViewDataSource {
                 }else {
                     vc.isEventAdmin = false
                 }
-                
+                vc.inMap = true
                 self.navigationController?.pushViewController(vc, animated: true)
             }else {
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
@@ -1218,7 +1237,7 @@ extension MapVC:UICollectionViewDataSource {
                 }else {
                     vc.isEventAdmin = false
                 }
-                
+                vc.inMap = true
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }

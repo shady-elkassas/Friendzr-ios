@@ -105,8 +105,6 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAllowsArbitraryLoads</key>
-	<string></string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -137,16 +135,18 @@
 	<string>$(PRODUCT_NAME) logs your location. It works best when you allow background location updates. Logged data never leaves the device.</string>
 	<key>NSLocationUsageDescription</key>
 	<string>$(PRODUCT_NAME) logs your location. It works best when you allow background location updates. Logged data never leaves the device.</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>$(PRODUCT_NAME) requiers location services to display the nearest friends arround you.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires access to the photo library to take a picture for the profile when you need it.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires access to the photo library to take a picture for the profile when you need it.</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>$(PRODUCT_NAME) requiers location services to display the nearest friends arround you.</string>
 	<key>Remote notifications</key>
 	<true/>
 	<key>RequestOpenAccess</key>
 	<true/>
+	<key>showsBackgroundLocationIndicator</key>
+	<false/>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>

@@ -25,6 +25,9 @@ class CompassHeading: NSObject, ObservableObject, CLLocationManagerDelegate {
         super.init()
         
         self.locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.showsBackgroundLocationIndicator = false
         self.setup()
     }
     
