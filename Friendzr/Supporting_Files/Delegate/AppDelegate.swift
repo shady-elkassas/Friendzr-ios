@@ -113,15 +113,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.applicationIconBadgeNumber = 0
         
         locationManager.requestAlwaysAuthorization()
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.showsBackgroundLocationIndicator = false
+//        locationManager.showsBackgroundLocationIndicator = true
         locationManager.startMonitoringVisits()
         locationManager.delegate = self
-        
-        // Uncomment following code to enable fake visits
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.pausesLocationUpdatesAutomatically = true
+//
+//        // Uncomment following code to enable fake visits
         locationManager.distanceFilter = 500 // meter
         locationManager.allowsBackgroundLocationUpdates = true // 1
-        locationManager.startUpdatingLocation()  // 2
+//        locationManager.startUpdatingLocation()  // 2
         
         UIApplication.shared.windows.forEach { window in
             window.overrideUserInterfaceStyle = .light
@@ -1017,15 +1018,15 @@ extension AppDelegate: CLLocationManagerDelegate {
     func newVisitReceived(_ visit: CLVisit, description: String) {
         let location = Location(visit: visit, descriptionString: description)
         LocationsStorage.shared.saveLocationOnDisk(location)
-        
-//                let content = UNMutableNotificationContent()
-//                content.title = "New Location Entry 📌"
-//                content.body = location.description
-//                content.sound = UNNotificationSound.default
+
+//        let content = UNMutableNotificationContent()
+//        content.title = "New Location Entry 📌"
+//        content.body = location.description
+//        content.sound = UNNotificationSound.default
 //
-//                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-//                let request = UNNotificationRequest(identifier: location.dateString, content: content, trigger: trigger)
-//                center.add(request, withCompletionHandler: nil)
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+//        let request = UNNotificationRequest(identifier: location.dateString, content: content, trigger: trigger)
+//        center.add(request, withCompletionHandler: nil)
         
         if Defaults.availableVC == "FeedVC" || Defaults.availableVC == "MapVC" {
             self.checkLocationPermission()
@@ -1128,6 +1129,9 @@ extension AppDelegate {
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        if #available(iOS 9.0, *) {
+            locationManager.allowsBackgroundLocationUpdates = true
+        }
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {

@@ -149,7 +149,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         locationManager.distanceFilter = 0
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.requestAlwaysAuthorization()
-        locationManager.requestWhenInUseAuthorization()
         locationManager.showsBackgroundLocationIndicator = false
         locationManager.allowsBackgroundLocationUpdates = true
         if CLLocationManager.locationServicesEnabled() && CLLocationManager.headingAvailable() {
@@ -213,16 +212,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         addCompassView()
         initCompassSwitchBarButton()
         
-        if !Defaults.hideAds {
-            seyupAds()
-        }else {
-            bannerViewHeight.constant = 0
-        }
-
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
         
-        self.checkLocationPermission()
-
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
@@ -239,6 +230,15 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         initGhostModeSwitchButton()
         setupHideView()
         setupNavBar()
+        
+        if !Defaults.hideAds {
+            seyupAds()
+            bannerViewHeight.constant = 100
+        }else {
+            bannerViewHeight.constant = 0
+        }
+        
+        self.checkLocationPermission()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1288,7 +1288,13 @@ extension FeedVC {
             if Defaults.allowMyLocationSettings == true {
                 if switchCompassBarButton.isOn {
                     self.isCompassOpen = true
-                    bannerViewHeight.constant = 50
+                    if !Defaults.hideAds {
+                        seyupAds()
+                        bannerViewHeight.constant = 50
+                    }else {
+                        bannerViewHeight.constant = 0
+                    }
+                    
                     if !Defaults.isFirstFilter {
                         filterHideView.isHidden = false
                         Defaults.isFirstFilter = true
@@ -1312,7 +1318,13 @@ extension FeedVC {
                     self.isCompassOpen = false
                     filterHideView.isHidden = true
                     Defaults.isFirstFilter = true
-                    bannerViewHeight.constant = 100
+                    
+                    if !Defaults.hideAds {
+                        seyupAds()
+                        bannerViewHeight.constant = 100
+                    }else {
+                        bannerViewHeight.constant = 0
+                    }
                     
                     locationManager.stopUpdatingLocation()
                     locationManager.stopUpdatingHeading()
@@ -1343,7 +1355,14 @@ extension FeedVC {
                 self.isCompassOpen = false
                 switchCompassBarButton.isOn = false
                 createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-                bannerViewHeight.constant = 100
+                
+                if !Defaults.hideAds {
+                    seyupAds()
+                    bannerViewHeight.constant = 100
+                }else {
+                    bannerViewHeight.constant = 0
+                }
+                
             }
             
         }
@@ -1375,7 +1394,13 @@ extension FeedVC {
                     self.isCompassOpen = false
                     filterHideView.isHidden = true
                     Defaults.isFirstFilter = true
-                    bannerViewHeight.constant = 100
+                    
+                    if !Defaults.hideAds {
+                        seyupAds()
+                        bannerViewHeight.constant = 100
+                    }else {
+                        bannerViewHeight.constant = 0
+                    }
                     
                     locationManager.stopUpdatingLocation()
                     locationManager.stopUpdatingHeading()
@@ -1400,15 +1425,19 @@ extension FeedVC {
                         self.emptyView.isHidden = true
                         self.allowLocView.isHidden = false
                     }
-                }
+                } 
                 else {
                     self.isCompassOpen = false
                     switchCompassBarButton.isOn = false
                     createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                     initCompassSwitchBarButton()
-                    bannerViewHeight.constant = 100
+                    if !Defaults.hideAds {
+                        seyupAds()
+                        bannerViewHeight.constant = 100
+                    }else {
+                        bannerViewHeight.constant = 0
+                    }
                 }
-                
             }
         case .right:
             btnsSelected = true
@@ -1417,7 +1446,13 @@ extension FeedVC {
                     switchCompassBarButton.isOn = true
                     
                     self.isCompassOpen = true
-                    bannerViewHeight.constant = 50
+                    if !Defaults.hideAds {
+                        seyupAds()
+                        bannerViewHeight.constant = 50
+                    }else {
+                        bannerViewHeight.constant = 0
+                    }
+                    
                     if !Defaults.isFirstFilter {
                         filterHideView.isHidden = false
                         Defaults.isFirstFilter = true
@@ -1444,7 +1479,13 @@ extension FeedVC {
                     //                self.showAlert(withMessage: "Please allow your location".localizedString)
                     createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                     initCompassSwitchBarButton()
-                    bannerViewHeight.constant = 100
+                    if !Defaults.hideAds {
+                        seyupAds()
+                        bannerViewHeight.constant = 100
+                    }else {
+                        bannerViewHeight.constant = 0
+                    }
+                    
                 }
                 
             }

@@ -82,7 +82,6 @@ class SendLocationChatVC: UIViewController {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
-        locationManager.requestWhenInUseAuthorization()
         locationManager.showsBackgroundLocationIndicator = false
         locationManager.requestLocation()
         locationManager.startUpdatingLocation()

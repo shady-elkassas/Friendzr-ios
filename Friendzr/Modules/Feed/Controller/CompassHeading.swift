@@ -26,14 +26,11 @@ class CompassHeading: NSObject, ObservableObject, CLLocationManagerDelegate {
         
         self.locationManager.delegate = self
         locationManager.requestAlwaysAuthorization()
-        locationManager.requestWhenInUseAuthorization()
         locationManager.showsBackgroundLocationIndicator = false
         self.setup()
     }
     
-    private func setup() {
-        self.locationManager.requestWhenInUseAuthorization()
-        
+    private func setup() {        
         if CLLocationManager.headingAvailable() {
             self.locationManager.startUpdatingLocation()
             self.locationManager.startUpdatingHeading()
