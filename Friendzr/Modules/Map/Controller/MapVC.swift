@@ -102,7 +102,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var viewmodel:EventsAroundMeViewModel = EventsAroundMeViewModel()
     var settingVM:SettingsViewModel = SettingsViewModel()
     var genderbylocationVM: GenderbylocationViewModel = GenderbylocationViewModel()
-    
+    var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
     var locationsModel:EventsAroundMeDataModel = EventsAroundMeDataModel()
     
     var transparentView = UIView()
@@ -332,6 +332,22 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
+    func updateMyLocation() {
+        updateLocationVM.updatelocation(ByLat: "\(Defaults.LocationLat)", AndLng: "\(Defaults.LocationLng)") { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let data = data else {return}
+            Defaults.LocationLat = data.lat
+            Defaults.LocationLng = data.lang
+            Defaults.Image = data.userImage
+        }
+    }
+    
     //MARK: - Helpers
     func updateUserInterface() {
         if NetworkMonitor.shared.isConnected {
@@ -341,6 +357,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 
                 if Defaults.allowMyLocationSettings == true {
                     self.bindToModel()
+                    self.updateMyLocation()
                 }
             }
         }else {

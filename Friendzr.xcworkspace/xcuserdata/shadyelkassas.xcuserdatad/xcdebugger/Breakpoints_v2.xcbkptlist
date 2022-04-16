@@ -510,8 +510,8 @@
             filePath = "Friendzr/Supporting_Files/Delegate/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "687"
-            endingLineNumber = "687"
+            startingLineNumber = "689"
+            endingLineNumber = "689"
             landmarkName = "userNotificationCenter(_:willPresent:withCompletionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -526,8 +526,8 @@
             filePath = "Friendzr/Supporting_Files/Delegate/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "700"
-            endingLineNumber = "700"
+            startingLineNumber = "702"
+            endingLineNumber = "702"
             landmarkName = "userNotificationCenter(_:willPresent:withCompletionHandler:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -536,22 +536,6 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "64C47665-E72F-4D50-A358-C249844A1148"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Friendzr/Supporting_Files/Delegate/AppDelegate.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "924"
-            endingLineNumber = "924"
-            landmarkName = "userNotificationCenter(_:didReceive:withCompletionHandler:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "20B2E9A6-3905-48B0-ABCE-1915EC10A79A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
@@ -567,6 +551,22 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            uuid = "20B2E9A6-3905-48B0-ABCE-1915EC10A79A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Friendzr/Supporting_Files/Delegate/AppDelegate.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "928"
+            endingLineNumber = "928"
+            landmarkName = "userNotificationCenter(_:didReceive:withCompletionHandler:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             uuid = "DB000BFF-D4AC-40A6-8E45-FD7C28717902"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -574,8 +574,8 @@
             filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "934"
-            endingLineNumber = "934"
+            startingLineNumber = "951"
+            endingLineNumber = "951"
             landmarkName = "locationManager(_:didUpdateLocations:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -592,8 +592,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "314"
             endingLineNumber = "314"
-            landmarkName = "FeedVC"
-            landmarkType = "3">
+            landmarkName = "loadMoreItemsForList()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -608,8 +608,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "329"
             endingLineNumber = "329"
-            landmarkName = "FeedVC"
-            landmarkType = "3">
+            landmarkName = "getAllFeeds(pageNumber:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -624,8 +624,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "328"
             endingLineNumber = "328"
-            landmarkName = "loadMoreItemsForList()"
-            landmarkType = "7">
+            landmarkName = "FeedVC"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

@@ -116,14 +116,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        locationManager.showsBackgroundLocationIndicator = true
         locationManager.startMonitoringVisits()
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.pausesLocationUpdatesAutomatically = true
 //
 //        // Uncomment following code to enable fake visits
-        locationManager.distanceFilter = 500 // meter
+        locationManager.distanceFilter = 5 // meter
         locationManager.allowsBackgroundLocationUpdates = true // 1
 //        locationManager.startUpdatingLocation()  // 2
-        
+//        var timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateLocation), userInfo: nil, repeats: true)
+
         UIApplication.shared.windows.forEach { window in
             window.overrideUserInterfaceStyle = .light
         }
@@ -274,6 +275,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
         
+        locationManager.startUpdatingLocation()
         completionHandler(UIBackgroundFetchResult.newData)
     }
     
@@ -1019,14 +1021,14 @@ extension AppDelegate: CLLocationManagerDelegate {
         let location = Location(visit: visit, descriptionString: description)
         LocationsStorage.shared.saveLocationOnDisk(location)
 
-//        let content = UNMutableNotificationContent()
-//        content.title = "New Location Entry 📌"
-//        content.body = location.description
-//        content.sound = UNNotificationSound.default
-//
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-//        let request = UNNotificationRequest(identifier: location.dateString, content: content, trigger: trigger)
-//        center.add(request, withCompletionHandler: nil)
+        let content = UNMutableNotificationContent()
+        content.title = "New Location Entry 📌"
+        content.body = location.description
+        content.sound = UNNotificationSound.default
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let request = UNNotificationRequest(identifier: location.dateString, content: content, trigger: trigger)
+        center.add(request, withCompletionHandler: nil)
         
         if Defaults.availableVC == "FeedVC" || Defaults.availableVC == "MapVC" {
             self.checkLocationPermission()
