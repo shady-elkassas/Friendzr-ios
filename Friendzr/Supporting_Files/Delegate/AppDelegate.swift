@@ -137,15 +137,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.pausesLocationUpdatesAutomatically = true
-        //
-        //        // Uncomment following code to enable fake visits
+        locationManager.startMonitoringSignificantLocationChanges()
+        
+        // Uncomment following code to enable fake visits
         locationManager.distanceFilter = 500 // meter
         locationManager.allowsBackgroundLocationUpdates = true // 1
         //        locationManager.startUpdatingLocation()  // 2
         //        var timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateLocation), userInfo: nil, repeats: true)
+        let status = CLLocationManager.authorizationStatus()
         
         if CLLocationManager.locationServicesEnabled() {
-            switch(CLLocationManager.authorizationStatus()) {
+            switch status {
             case .notDetermined, .restricted, .denied:
                 //open setting app when location services are disabled
                 locationManager.stopUpdatingLocation()
@@ -159,6 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 break
             }
         }
+        
     }
     
     // MARK: UISceneSession Lifecycle
@@ -1085,6 +1088,30 @@ extension AppDelegate: CLLocationManagerDelegate {
             }
         }
     }
+    
+    private func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        switch status {
+        case .notDetermined:
+            // If status has not yet been determied, ask for authorization
+            manager.requestWhenInUseAuthorization()
+            break
+        case .authorizedWhenInUse:
+            // If authorized when in use
+            break
+        case .authorizedAlways:
+            // If always authorized
+            manager.startUpdatingLocation()
+            break
+        case .restricted:
+            // If restricted by e.g. parental controls. User can't enable Location Services
+            break
+        case .denied:
+            // If user denied your app access to Location Services, but can grant access from Settings.app
+            break
+        default:
+            break
+        }
+    }
 }
 
 final class FakeVisit: CLVisit {
@@ -1114,6 +1141,7 @@ final class FakeVisit: CLVisit {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
 
 
