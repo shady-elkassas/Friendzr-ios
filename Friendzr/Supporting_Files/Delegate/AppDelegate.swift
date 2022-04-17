@@ -52,6 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .selected)
         
+        setupHeightApp()
         
         // Initialize Identity Provider //AWS
         let credentialsProvider = AWSCognitoCredentialsProvider(
@@ -97,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
             application.registerUserNotificationSettings(settings)
         }
-
+        
         Messaging.messaging().delegate = self
         application.registerForRemoteNotifications()
         
@@ -106,37 +107,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         center.requestAuthorization(options: [.alert, .sound,.badge]) { granted, error in
         }
         center.add(request, withCompletionHandler: nil)
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(updateBadgeApp), name: Notification.Name("updateBadgeApp"), object: nil)
         application.applicationIconBadgeNumber = 0
         
-        locationManager.requestAlwaysAuthorization()
-//        locationManager.showsBackgroundLocationIndicator = true
-        locationManager.startMonitoringVisits()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.pausesLocationUpdatesAutomatically = true
-//
-//        // Uncomment following code to enable fake visits
-        locationManager.distanceFilter = 5 // meter
-        locationManager.allowsBackgroundLocationUpdates = true // 1
-//        locationManager.startUpdatingLocation()  // 2
-//        var timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateLocation), userInfo: nil, repeats: true)
-        
-//        if CLLocationManager.locationServicesEnabled() {
-//            switch(CLLocationManager.authorizationStatus()) {
-//            case .notDetermined, .restricted, .denied:
-//                //open setting app when location services are disabled
-//                locationManager.stopUpdatingLocation()
-//            case .authorizedAlways:
-//                locationManager.startUpdatingLocation()
-//            case .authorizedWhenInUse:
-//                locationManager.stopUpdatingLocation()
-//            default:
-//                break
-//            }
-//        }
-
         UIApplication.shared.windows.forEach { window in
             window.overrideUserInterfaceStyle = .light
         }
@@ -144,28 +118,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if Defaults.isFirstLaunch == false {
             Defaults.allowMyLocation = true
         }
+        
 
-        
-        if UIScreen.main.nativeBounds.height < 1500 {
-            Defaults.isIPhoneLessThan1500 = true
-        }else {
-            Defaults.isIPhoneLessThan1500 = false
-        }
-        
-        if UIScreen.main.nativeBounds.height < 2500 {
-            Defaults.isIPhoneLessThan2500 = true
-        }else {
-            Defaults.isIPhoneLessThan2500 = false
-        }
-        
         UIView.appearance().semanticContentAttribute = .forceLeftToRight
         self.window?.makeKeyAndVisible()
         
         Defaults.hideAds = true
         
+        setupUpdateLocation()
+        
         return true
     }
+    
+    func setupUpdateLocation() {
+        locationManager.requestAlwaysAuthorization()
+        //        locationManager.showsBackgroundLocationIndicator = true
+        locationManager.startMonitoringVisits()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.pausesLocationUpdatesAutomatically = true
+        //
+        //        // Uncomment following code to enable fake visits
+        locationManager.distanceFilter = 500 // meter
+        locationManager.allowsBackgroundLocationUpdates = true // 1
+        //        locationManager.startUpdatingLocation()  // 2
+        //        var timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateLocation), userInfo: nil, repeats: true)
         
+        if CLLocationManager.locationServicesEnabled() {
+            switch(CLLocationManager.authorizationStatus()) {
+            case .notDetermined, .restricted, .denied:
+                //open setting app when location services are disabled
+                locationManager.stopUpdatingLocation()
+            case .authorizedAlways:
+                if CLLocationManager.locationServicesEnabled() {
+                    locationManager.startUpdatingLocation()
+                }
+            case .authorizedWhenInUse:
+                locationManager.stopUpdatingLocation()
+            default:
+                break
+            }
+        }
+    }
+    
     // MARK: UISceneSession Lifecycle
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
@@ -204,6 +199,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             case .none:
                 print(error)
             }
+        }
+    }
+    
+    func setupHeightApp() {
+        if UIScreen.main.nativeBounds.height < 1500 {
+            Defaults.isIPhoneLessThan1500 = true
+        }else {
+            Defaults.isIPhoneLessThan1500 = false
+        }
+        
+        if UIScreen.main.nativeBounds.height < 2500 {
+            Defaults.isIPhoneLessThan2500 = true
+        }else {
+            Defaults.isIPhoneLessThan2500 = false
         }
     }
     // MARK: - Core Data stack
@@ -259,7 +268,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(userInfo)
         
         let _: String = userInfo["sound"] as? String ?? ""
-//        content.sound = UNNotificationSound.default
+        //        content.sound = UNNotificationSound.default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
         
@@ -354,7 +363,7 @@ extension AppDelegate : MessagingDelegate{
 extension AppDelegate : UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-
+        
         // retrieve the root view controller (which is a tab bar controller)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             guard let rootViewController = Initializer.getWindow().rootViewController else {
@@ -375,7 +384,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             //            let messageType = userInfo["Messagetype"] as? Int
             _ = userInfo["messsageLinkEvenMyEvent"] as? String ?? ""
             
-//            self.content.sound = UNNotificationSound.default
+            //            self.content.sound = UNNotificationSound.default
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
             let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
             center.add(request, withCompletionHandler: nil)
@@ -520,7 +529,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                     vc.eventId = actionId ?? ""
                     navController.pushViewController(vc, animated: true)
                 }
-//                Router().toMap()
+                //                Router().toMap()
             }
             else if action == "Check_private_events" {
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
@@ -531,13 +540,13 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 }
             }
             else {
-                Router().toMore()
+                print("fail")
             }
         }
         
         completionHandler()
     }
-
+    
     // Receive displayed notifications for iOS 10 devices.
     func userNotificationCenter(_ center: UNUserNotificationCenter,willPresent notification: UNNotification,withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
@@ -699,9 +708,9 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             }
             else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-
+                
             }
-
+            
             Defaults.message_Count += 1
             NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
@@ -713,8 +722,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
-
-
+            
+            
             Defaults.message_Count += 1
             NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
@@ -787,7 +796,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-                
+        
         let userInfo = response.notification.request.content.userInfo
         
         // Print message ID.
@@ -832,7 +841,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
         
-//        self.content.sound = UNNotificationSound.default
+        //        self.content.sound = UNNotificationSound.default
         
         
         if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId
@@ -896,7 +905,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         
         
-    if action == "Friend_Request" {
+        if action == "Friend_Request" {
             Defaults.frindRequestNumber += 1
             NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
         }else if action == "Accept_Friend_Request" {
@@ -1008,7 +1017,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
         center.add(request, withCompletionHandler: nil)
     }
-
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, openSettingsFor notification: UNNotification?) {
     }
 }
@@ -1030,15 +1039,15 @@ extension AppDelegate: CLLocationManagerDelegate {
     func newVisitReceived(_ visit: CLVisit, description: String) {
         let location = Location(visit: visit, descriptionString: description)
         LocationsStorage.shared.saveLocationOnDisk(location)
-
-//        let content = UNMutableNotificationContent()
-//        content.title = "New Location Entry 📌"
-//        content.body = location.description
-//        content.sound = UNNotificationSound.default
-
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-//        let request = UNNotificationRequest(identifier: location.dateString, content: content, trigger: trigger)
-//        center.add(request, withCompletionHandler: nil)
+        
+        //        let content = UNMutableNotificationContent()
+        //        content.title = "New Location Entry 📌"
+        //        content.body = location.description
+        //        content.sound = UNNotificationSound.default
+        
+        //        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        //        let request = UNNotificationRequest(identifier: location.dateString, content: content, trigger: trigger)
+        //        center.add(request, withCompletionHandler: nil)
         
         //update location server
         self.updateLocationVM.updatelocation(ByLat: "\(location.latitude)", AndLng: "\(location.longitude)") { error, data in
@@ -1052,9 +1061,9 @@ extension AppDelegate: CLLocationManagerDelegate {
             Defaults.LocationLng = "\(location.longitude)"
         }
         
-//        if Defaults.availableVC == "FeedVC" || Defaults.availableVC == "MapVC" {
-//            self.checkLocationPermission()
-//        }
+        //        if Defaults.availableVC == "FeedVC" || Defaults.availableVC == "MapVC" {
+        //            self.checkLocationPermission()
+        //        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -1137,6 +1146,7 @@ extension AppDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
+        setupUpdateLocation()
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -1154,9 +1164,6 @@ extension AppDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-    
-    
-    
     
     func checkLocationPermission() {
         if CLLocationManager.locationServicesEnabled() {

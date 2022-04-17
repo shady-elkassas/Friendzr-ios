@@ -28,15 +28,15 @@ extension InboxVC {
         let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
         let relativeDateString = dateFormatterToString(relativeFormatter, date!)
         // "Jan 18, 2018"
-
+        
         let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
         let normalDateString = dateFormatterToString(nonRelativeFormatter, date ?? Date())
         // "Jan 18, 2018"
-
+        
         let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
         _ = dateFormatterToString(customFormatter, date ?? Date())
         // "18 January"
-
+        
         if relativeDateString == normalDateString {
             print("Use custom date \(normalDateString)") // Jan 18
             return  normalDateString
@@ -74,7 +74,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     var refreshControl = UIRefreshControl()
     
-//    var internetConect:Bool = false
+    //    var internetConect:Bool = false
     var cellSelect:Bool = false
     
     var currentPage : Int = 1
@@ -110,7 +110,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         pullToRefresh()
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadChatList), name: Notification.Name("reloadChatList"), object: nil)
-
+        
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
@@ -119,7 +119,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         super.viewWillAppear(animated)
         Defaults.availableVC = "InboxVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         initProfileBarButton()
         setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: true)
@@ -185,17 +185,17 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.hideView.isHidden = true
                 }
                 
-//                var inboxbadges = 0
-//                for item in value.data ?? [] {
-//                    if item.message_not_Read != 0 {
-//                        inboxbadges += 1
-//                    }
-//                }
-//
-//                print("usernoti = \(inboxbadges)")
-//
-//                Defaults.message_Count = inboxbadges
-//                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+                //                var inboxbadges = 0
+                //                for item in value.data ?? [] {
+                //                    if item.message_not_Read != 0 {
+                //                        inboxbadges += 1
+                //                    }
+                //                }
+                //
+                //                print("usernoti = \(inboxbadges)")
+                //
+                //                Defaults.message_Count = inboxbadges
+                //                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
                 
                 DispatchQueue.main.async {
                     self.tableView.delegate = self
@@ -245,17 +245,17 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.tableView.reloadData()
                 }
                 
-//                var inboxbadges = 0
-//                for item in value.data ?? [] {
-//                    if item.message_not_Read != 0 {
-//                        inboxbadges += 1
-//                    }
-//                }
-//
-//                print("usernoti = \(inboxbadges)")
+                //                var inboxbadges = 0
+                //                for item in value.data ?? [] {
+                //                    if item.message_not_Read != 0 {
+                //                        inboxbadges += 1
+                //                    }
+                //                }
+                //
+                //                print("usernoti = \(inboxbadges)")
                 
-//                Defaults.message_Count = inboxbadges
-//                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+                //                Defaults.message_Count = inboxbadges
+                //                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
                 
                 DispatchQueue.main.async {
                     self.isLoadingList = false
@@ -335,7 +335,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         print("Refersh")
         
         cellSelect = false
-
+        
         if NetworkConected.internetConect {
             currentPage = 1
             DispatchQueue.main.async {
@@ -374,7 +374,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     func updateUserInterface() {
         appDelegate.networkReachability()
-
+        
         switch Network.reachability.status {
         case .unreachable:
             self.emptyView.isHidden = false
@@ -692,7 +692,7 @@ extension InboxVC:UITableViewDelegate {
         else {
             self.view.makeToast("Network is unavailable, please try again!")
         }
-
+        
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -786,7 +786,7 @@ extension InboxVC:UITableViewDelegate {
                                     }
                                 }
                             }
-
+                            
                         }
                         else {
                             self.view.makeToast("Network is unavailable, please try again!")
@@ -815,7 +815,7 @@ extension InboxVC:UITableViewDelegate {
                                     }
                                     
                                     DispatchQueue.main.async {
-                                        if self.searchBar.text != "" {
+                                        if self.isSearch {
                                             self.getSearchUsers(text: self.searchBar.text ?? "")
                                         }else {
                                             self.getAllChatList(pageNumber: 1)
@@ -837,7 +837,7 @@ extension InboxVC:UITableViewDelegate {
                                     }
                                     
                                     DispatchQueue.main.async {
-                                        if self.searchBar.text != "" {
+                                        if self.isSearch {
                                             self.getSearchUsers(text: self.searchBar.text ?? "")
                                         }else {
                                             self.getAllChatList(pageNumber: 1)
@@ -845,7 +845,7 @@ extension InboxVC:UITableViewDelegate {
                                     }
                                 }
                             }
-
+                            
                         }
                         else {
                             self.view.makeToast("Network is unavailable, please try again!")
@@ -886,7 +886,7 @@ extension InboxVC:UITableViewDelegate {
                                             }
                                         }
                                     }
-
+                                    
                                 }
                                 else {
                                     self.view.makeToast("Network is unavailable, please try again!")
@@ -913,7 +913,7 @@ extension InboxVC:UITableViewDelegate {
                                             return
                                         }
                                         DispatchQueue.main.async {
-                                            if self.searchBar.text != "" {
+                                            if self.isSearch {
                                                 self.getSearchUsers(text: self.searchBar.text ?? "")
                                             }else {
                                                 self.getAllChatList(pageNumber: 1)
@@ -958,7 +958,7 @@ extension InboxVC:UITableViewDelegate {
                                 }else {
                                     self.view.makeToast("Network is unavailable, please try again!")
                                 }
-
+                                
                             }))
                             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                             
@@ -990,14 +990,13 @@ extension InboxVC:UITableViewDelegate {
                                     }
                                 }else {
                                     self.view.makeToast("Network is unavailable, please try again!")
-
+                                    
                                 }
                             }))
                             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                             
                             self.present(settingsActionSheet, animated:true, completion:nil)
                         }
-                        
                     }
                 }
                 else if model?.isChatGroup == true {
@@ -1019,7 +1018,7 @@ extension InboxVC:UITableViewDelegate {
                                             return
                                         }
                                         DispatchQueue.main.async {
-                                            if self.searchBar.text != "" {
+                                            if self.isSearch {
                                                 self.getSearchUsers(text: self.searchBar.text ?? "")
                                             }else {
                                                 self.getAllChatList(pageNumber: 1)
@@ -1051,7 +1050,7 @@ extension InboxVC:UITableViewDelegate {
                                             return
                                         }
                                         DispatchQueue.main.async {
-                                            if self.searchBar.text != "" {
+                                            if self.isSearch {
                                                 self.getSearchUsers(text: self.searchBar.text ?? "")
                                             }else {
                                                 self.getAllChatList(pageNumber: 1)
@@ -1061,7 +1060,7 @@ extension InboxVC:UITableViewDelegate {
                                 }else {
                                     self.view.makeToast("Network is unavailable, please try again!")
                                 }
-
+                                
                             }))
                             settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
                             
@@ -1069,7 +1068,7 @@ extension InboxVC:UITableViewDelegate {
                         }
                     }
                 }
-
+                
             }
             
             let muteAction = UITableViewRowAction(style: .default, title: muteTitle) { action, indexPath in
@@ -1129,7 +1128,7 @@ extension InboxVC:UITableViewDelegate {
                                         }
                                     }
                                 }
-
+                                
                             }
                             else {
                                 self.view.makeToast("Network is unavailable, please try again!")
@@ -1193,7 +1192,7 @@ extension InboxVC:UITableViewDelegate {
                                         }
                                     }
                                 }
-
+                                
                             }
                             else {
                                 self.view.makeToast("Network is unavailable, please try again!")
@@ -1323,7 +1322,7 @@ extension InboxVC:UITableViewDelegate {
                                         }
                                     }
                                 }
-
+                                
                             }
                             else {
                                 self.view.makeToast("Network is unavailable, please try again!")
