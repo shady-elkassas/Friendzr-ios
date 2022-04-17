@@ -321,8 +321,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         default:
             break
         }
-        
-//        content.sound = .default
     }
 }
 
@@ -533,7 +531,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 }
             }
             else {
-                print("fail")
+                Router().toMore()
             }
         }
         

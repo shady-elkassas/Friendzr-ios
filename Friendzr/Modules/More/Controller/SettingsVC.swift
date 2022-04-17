@@ -457,7 +457,6 @@ extension SettingsVC :CLLocationManagerDelegate {
         }
     }
     
-    
     func onHideGhostModeTypesCallBack(_ data: [String], _ value: [Int]) -> () {
         print(data)
         print(value)

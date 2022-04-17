@@ -1353,6 +1353,7 @@
 		436288A726C93AEF00B51E51 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4396A513280C047800FD9685 /* Chat */,
 				43C97DE927A04CF300D87CBE /* MainTBC.swift */,
 				4382AC1A26C27195005C1857 /* InboxVC.swift */,
 				436DD06527E1D68C00A4A7F7 /* ConversationVC */,
@@ -1634,6 +1635,13 @@
 				4382ACBD26C2AFF7005C1857 /* SplachFourVC.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		4396A513280C047800FD9685 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Chat;
 			sourceTree = "<group>";
 		};
 		439DDE8926F7308800E09FC1 /* Model */ = {

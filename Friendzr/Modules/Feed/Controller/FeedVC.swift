@@ -437,6 +437,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             Defaults.LocationLat = data.lat
             Defaults.LocationLng = data.lang
             Defaults.Image = data.userImage
+            
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
         }
     }
     

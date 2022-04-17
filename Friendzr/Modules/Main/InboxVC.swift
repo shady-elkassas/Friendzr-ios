@@ -460,8 +460,8 @@ extension InboxVC:UITableViewDataSource {
                 cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
                 cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 
-                if viewmodel.listChat.value?.data?.count ?? 0 != 0 {
-                    if indexPath.row == ((viewmodel.listChat.value?.data?.count ?? 0) - 1) {
+                if searchVM.usersinChat.value?.data?.count ?? 0 != 0 {
+                    if indexPath.row == ((searchVM.usersinChat.value?.data?.count ?? 0) - 1) {
                         cell.downView.isHidden = true
                     }else {
                         cell.downView.isHidden = false
@@ -701,7 +701,11 @@ extension InboxVC:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         if searchVM.usersinChat.value?.data?.count != 0 || viewmodel.listChat.value?.data?.count != 0  {
-            let model = self.viewmodel.listChat.value?.data?[indexPath.row]
+            var model = self.viewmodel.listChat.value?.data?[indexPath.row]
+            if isSearch {
+                model = self.searchVM.usersinChat.value?.data?[indexPath.row]
+            }
+            
             let muteTitle = model?.isMute ?? false ? "UnMute".localizedString : "Mute".localizedString
             let deleteTitle = model?.isChatGroup ?? true ? "Clear".localizedString : "Delete".localizedString
             
@@ -752,7 +756,11 @@ extension InboxVC:UITableViewDelegate {
                                     }
                                     
                                     DispatchQueue.main.async {
-                                        self.getAllChatList(pageNumber: 1)
+                                        if self.isSearch {
+                                            self.getSearchUsers(text: self.searchBar.text ?? "")
+                                        }else {
+                                            self.getAllChatList(pageNumber: 1)
+                                        }
                                     }
                                 }
                             }
@@ -770,7 +778,11 @@ extension InboxVC:UITableViewDelegate {
                                     }
                                     
                                     DispatchQueue.main.async {
-                                        self.getAllChatList(pageNumber: 1)
+                                        if self.isSearch {
+                                            self.getSearchUsers(text: self.searchBar.text ?? "")
+                                        }else {
+                                            self.getAllChatList(pageNumber: 1)
+                                        }
                                     }
                                 }
                             }
@@ -803,7 +815,11 @@ extension InboxVC:UITableViewDelegate {
                                     }
                                     
                                     DispatchQueue.main.async {
-                                        self.getAllChatList(pageNumber: 1)
+                                        if self.searchBar.text != "" {
+                                            self.getSearchUsers(text: self.searchBar.text ?? "")
+                                        }else {
+                                            self.getAllChatList(pageNumber: 1)
+                                        }
                                     }
                                 }
                             }
@@ -821,7 +837,11 @@ extension InboxVC:UITableViewDelegate {
                                     }
                                     
                                     DispatchQueue.main.async {
-                                        self.getAllChatList(pageNumber: 1)
+                                        if self.searchBar.text != "" {
+                                            self.getSearchUsers(text: self.searchBar.text ?? "")
+                                        }else {
+                                            self.getAllChatList(pageNumber: 1)
+                                        }
                                     }
                                 }
                             }
@@ -859,7 +879,11 @@ extension InboxVC:UITableViewDelegate {
                                             return
                                         }
                                         DispatchQueue.main.async {
-                                            self.getAllChatList(pageNumber: 1)
+                                            if self.searchBar.text != "" {
+                                                self.getSearchUsers(text: self.searchBar.text ?? "")
+                                            }else {
+                                                self.getAllChatList(pageNumber: 1)
+                                            }
                                         }
                                     }
 
@@ -889,7 +913,11 @@ extension InboxVC:UITableViewDelegate {
                                             return
                                         }
                                         DispatchQueue.main.async {
-                                            self.getAllChatList(pageNumber: 1)
+                                            if self.searchBar.text != "" {
+                                                self.getSearchUsers(text: self.searchBar.text ?? "")
+                                            }else {
+                                                self.getAllChatList(pageNumber: 1)
+                                            }
                                         }
                                     }
                                 }
@@ -920,7 +948,11 @@ extension InboxVC:UITableViewDelegate {
                                             return
                                         }
                                         DispatchQueue.main.async {
-                                            self.getAllChatList(pageNumber: 1)
+                                            if self.searchBar.text != "" {
+                                                self.getSearchUsers(text: self.searchBar.text ?? "")
+                                            }else {
+                                                self.getAllChatList(pageNumber: 1)
+                                            }
                                         }
                                     }
                                 }else {
@@ -949,7 +981,11 @@ extension InboxVC:UITableViewDelegate {
                                             return
                                         }
                                         DispatchQueue.main.async {
-                                            self.getAllChatList(pageNumber: 1)
+                                            if self.searchBar.text != "" {
+                                                self.getSearchUsers(text: self.searchBar.text ?? "")
+                                            }else {
+                                                self.getAllChatList(pageNumber: 1)
+                                            }
                                         }
                                     }
                                 }else {
@@ -983,7 +1019,11 @@ extension InboxVC:UITableViewDelegate {
                                             return
                                         }
                                         DispatchQueue.main.async {
-                                            self.getAllChatList(pageNumber: 1)
+                                            if self.searchBar.text != "" {
+                                                self.getSearchUsers(text: self.searchBar.text ?? "")
+                                            }else {
+                                                self.getAllChatList(pageNumber: 1)
+                                            }
                                         }
                                     }
                                 }else {
@@ -1011,7 +1051,11 @@ extension InboxVC:UITableViewDelegate {
                                             return
                                         }
                                         DispatchQueue.main.async {
-                                            self.getAllChatList(pageNumber: 1)
+                                            if self.searchBar.text != "" {
+                                                self.getSearchUsers(text: self.searchBar.text ?? "")
+                                            }else {
+                                                self.getAllChatList(pageNumber: 1)
+                                            }
                                         }
                                     }
                                 }else {
@@ -1050,8 +1094,13 @@ extension InboxVC:UITableViewDelegate {
                                         }
                                         
                                         DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                            tableView.reloadData()
+                                            if self.isSearch {
+                                                self.searchVM.usersinChat.value?.data?[indexPath.row].isMute?.toggle()
+                                                tableView.reloadData()
+                                            }else {
+                                                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                                tableView.reloadData()
+                                            }
                                         }
                                     }
                                     
@@ -1070,8 +1119,13 @@ extension InboxVC:UITableViewDelegate {
                                         }
                                         
                                         DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                            tableView.reloadData()
+                                            if self.isSearch {
+                                                self.searchVM.usersinChat.value?.data?[indexPath.row].isMute?.toggle()
+                                                tableView.reloadData()
+                                            }else {
+                                                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                                tableView.reloadData()
+                                            }
                                         }
                                     }
                                 }
@@ -1104,7 +1158,12 @@ extension InboxVC:UITableViewDelegate {
                                         }
                                         
                                         DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            if self.isSearch {
+                                                self.searchVM.usersinChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            }else {
+                                                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            }
+                                            
                                             tableView.reloadData()
                                         }
                                     }
@@ -1124,7 +1183,12 @@ extension InboxVC:UITableViewDelegate {
                                         }
                                         
                                         DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            if self.isSearch {
+                                                self.searchVM.usersinChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            }else {
+                                                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            }
+                                            
                                             tableView.reloadData()
                                         }
                                     }
@@ -1160,7 +1224,12 @@ extension InboxVC:UITableViewDelegate {
                                         }
                                         
                                         DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            if self.isSearch {
+                                                self.searchVM.usersinChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            }else {
+                                                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            }
+                                            
                                             tableView.reloadData()
                                         }
                                     }
@@ -1180,7 +1249,12 @@ extension InboxVC:UITableViewDelegate {
                                         }
                                         
                                         DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            if self.isSearch {
+                                                self.searchVM.usersinChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            }else {
+                                                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            }
+                                            
                                             tableView.reloadData()
                                         }
                                     }
@@ -1214,7 +1288,12 @@ extension InboxVC:UITableViewDelegate {
                                         }
                                         
                                         DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            if self.isSearch {
+                                                self.searchVM.usersinChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            }else {
+                                                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            }
+                                            
                                             tableView.reloadData()
                                         }
                                     }
@@ -1234,7 +1313,12 @@ extension InboxVC:UITableViewDelegate {
                                         }
                                         
                                         DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            if self.isSearch {
+                                                self.searchVM.usersinChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            }else {
+                                                self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
+                                            }
+                                            
                                             tableView.reloadData()
                                         }
                                     }

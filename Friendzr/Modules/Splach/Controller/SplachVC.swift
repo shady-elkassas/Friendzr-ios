@@ -94,6 +94,11 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
             }
         }
         
+        
+        DispatchQueue.main.async {
+            self.updateLocation()
+        }
+        
         initProfileBarButton()
     }
     
@@ -106,6 +111,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         print("availableVC >> \(Defaults.availableVC)")
         Defaults.isFirstLaunch = true
         CancelRequest.currentTask = false
+   
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -150,6 +156,22 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     }
     
     
+    //update location manager
+    private func updateLocation() {
+        // Ask for Authorisation from the User.
+        locationManager = CLLocationManager()
+        self.locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
     //MARK: - Helpers
     func animateLayer(_ animation: AnimationExecution, completion: AnimationCompletion? = nil) {
         
@@ -188,6 +210,27 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
                     Router().toOptionsSignUpVC()
                 }
             }
+        }
+    }
+}
+
+extension SplachVC {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.first else {
+            return
+        }
+        
+        Defaults.LocationLat = "\(location.coordinate.latitude)"
+        Defaults.LocationLng = "\(location.coordinate.longitude)"
+        
+        print("Defaults.LocationLat\(Defaults.LocationLat),Defaults.LocationLng\(Defaults.LocationLng)")
+    }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            //check  location permissions
+            //            self.checkLocationPermission()
         }
     }
 }
