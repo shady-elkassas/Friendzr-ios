@@ -101,12 +101,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Messaging.messaging().delegate = self
         application.registerForRemoteNotifications()
         
-//        content.sound = UNNotificationSound.default
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: content, trigger: trigger)
-        center.requestAuthorization(options: [.alert, .sound]) { granted, error in
+        center.requestAuthorization(options: [.alert, .sound,.badge]) { granted, error in
         }
-        
         center.add(request, withCompletionHandler: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(updateBadgeApp), name: Notification.Name("updateBadgeApp"), object: nil)
@@ -124,6 +122,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         locationManager.allowsBackgroundLocationUpdates = true // 1
 //        locationManager.startUpdatingLocation()  // 2
 //        var timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateLocation), userInfo: nil, repeats: true)
+        
+//        if CLLocationManager.locationServicesEnabled() {
+//            switch(CLLocationManager.authorizationStatus()) {
+//            case .notDetermined, .restricted, .denied:
+//                //open setting app when location services are disabled
+//                locationManager.stopUpdatingLocation()
+//            case .authorizedAlways:
+//                locationManager.startUpdatingLocation()
+//            case .authorizedWhenInUse:
+//                locationManager.stopUpdatingLocation()
+//            default:
+//                break
+//            }
+//        }
 
         UIApplication.shared.windows.forEach { window in
             window.overrideUserInterfaceStyle = .light
@@ -1021,18 +1033,14 @@ extension AppDelegate: CLLocationManagerDelegate {
         let location = Location(visit: visit, descriptionString: description)
         LocationsStorage.shared.saveLocationOnDisk(location)
 
-        let content = UNMutableNotificationContent()
-        content.title = "New Location Entry 📌"
-        content.body = location.description
-        content.sound = UNNotificationSound.default
+//        let content = UNMutableNotificationContent()
+//        content.title = "New Location Entry 📌"
+//        content.body = location.description
+//        content.sound = UNNotificationSound.default
 
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(identifier: location.dateString, content: content, trigger: trigger)
-        center.add(request, withCompletionHandler: nil)
-        
-        if Defaults.availableVC == "FeedVC" || Defaults.availableVC == "MapVC" {
-            self.checkLocationPermission()
-        }
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+//        let request = UNNotificationRequest(identifier: location.dateString, content: content, trigger: trigger)
+//        center.add(request, withCompletionHandler: nil)
         
         //update location server
         self.updateLocationVM.updatelocation(ByLat: "\(location.latitude)", AndLng: "\(location.longitude)") { error, data in
@@ -1045,6 +1053,10 @@ extension AppDelegate: CLLocationManagerDelegate {
             Defaults.LocationLat = "\(location.latitude)"
             Defaults.LocationLng = "\(location.longitude)"
         }
+        
+//        if Defaults.availableVC == "FeedVC" || Defaults.availableVC == "MapVC" {
+//            self.checkLocationPermission()
+//        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -1183,6 +1195,5 @@ extension AppDelegate {
             print("Location services are not enabled")
             Defaults.allowMyLocationSettings = false
         }
-        
     }
 }
