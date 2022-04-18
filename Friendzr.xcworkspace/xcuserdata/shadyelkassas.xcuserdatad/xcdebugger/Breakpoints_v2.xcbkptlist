@@ -775,16 +775,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "35A60303-F918-4F63-BB6D-622F59D04318"
-            shouldBeEnabled = "Yes"
+            uuid = "67843013-5BFA-48C1-8E50-60146B840D4A"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Friendzr/Modules/Main/InboxVC.swift"
+            filePath = "Friendzr/Modules/Main/ConversationChatVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "629"
-            endingLineNumber = "629"
-            landmarkName = "tableView(_:didSelectRowAt:)"
+            startingLineNumber = "440"
+            endingLineNumber = "440"
+            landmarkName = "inputBar(_:didPressSendButtonWith:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

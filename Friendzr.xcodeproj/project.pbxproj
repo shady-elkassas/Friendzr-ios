@@ -247,6 +247,10 @@
 		4396AA0927C664F300598B8E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4396AA0827C664F300598B8E /* GoogleService-Info.plist */; };
 		4397236D2709CE9E0062D684 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236C2709CE9E0062D684 /* ChatViewModel.swift */; };
 		4397236F2709D8870062D684 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236E2709D8870062D684 /* ChatModel.swift */; };
+		439CE757280D5A30003C0AD3 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE756280D5A30003C0AD3 /* ChatViewController.swift */; };
+		439CE759280D5DA8003C0AD3 /* ConversationChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE758280D5DA8003C0AD3 /* ConversationChatVC.swift */; };
+		439CE75B280D6105003C0AD3 /* CameraInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE75A280D6105003C0AD3 /* CameraInput.swift */; };
+		439CE75E280D614E003C0AD3 /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE75D280D614E003C0AD3 /* AlertService.swift */; };
 		439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */; };
 		439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */; };
 		439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */; };
@@ -649,6 +653,10 @@
 		4396AA0827C664F300598B8E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4397236C2709CE9E0062D684 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		4397236E2709D8870062D684 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		439CE756280D5A30003C0AD3 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		439CE758280D5DA8003C0AD3 /* ConversationChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationChatVC.swift; sourceTree = "<group>"; };
+		439CE75A280D6105003C0AD3 /* CameraInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraInput.swift; sourceTree = "<group>"; };
+		439CE75D280D614E003C0AD3 /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
 		439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeViewModel.swift; sourceTree = "<group>"; };
 		439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeModel.swift; sourceTree = "<group>"; };
 		439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsInLocationTableViewCell.swift; sourceTree = "<group>"; };
@@ -1640,8 +1648,20 @@
 		4396A513280C047800FD9685 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				439CE75C280D613C003C0AD3 /* Costum Views */,
+				439CE756280D5A30003C0AD3 /* ChatViewController.swift */,
+				439CE758280D5DA8003C0AD3 /* ConversationChatVC.swift */,
 			);
 			name = Chat;
+			sourceTree = "<group>";
+		};
+		439CE75C280D613C003C0AD3 /* Costum Views */ = {
+			isa = PBXGroup;
+			children = (
+				439CE75D280D614E003C0AD3 /* AlertService.swift */,
+				439CE75A280D6105003C0AD3 /* CameraInput.swift */,
+			);
+			name = "Costum Views";
 			sourceTree = "<group>";
 		};
 		439DDE8926F7308800E09FC1 /* Model */ = {
@@ -2325,6 +2345,7 @@
 				43119D7226E4EFEB00AD2260 /* TitleEventViewModel.swift in Sources */,
 				43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */,
 				436E945C27BD153800CB2F1E /* CustomSwitch.swift in Sources */,
+				439CE757280D5A30003C0AD3 /* ChatViewController.swift in Sources */,
 				4382AC1726C27195005C1857 /* AppDelegate.swift in Sources */,
 				436DCFB627E0B13D00A4A7F7 /* NavController.swift in Sources */,
 				430D426B26D3BF1F00188E42 /* SimpleDataModel.swift in Sources */,
@@ -2383,6 +2404,7 @@
 				43ACFECF27B3B6A5001CD340 /* EventStatisticsTableViewCell.swift in Sources */,
 				43526909276A0EDC00540726 /* BottomSheetViewController.swift in Sources */,
 				4326A8F726F87AE000D471E0 /* SettingsViewModel.swift in Sources */,
+				439CE75B280D6105003C0AD3 /* CameraInput.swift in Sources */,
 				43C97DE6279D76A900D87CBE /* FaceRecognitionViewModel.swift in Sources */,
 				43F473B326E6175F001E4FAE /* AllCategoriesViewModel.swift in Sources */,
 				431FF241270C8DEA002A15E0 /* GenderDistributionVC.swift in Sources */,
@@ -2392,6 +2414,7 @@
 				43FC3CA02727EBD000D94ABB /* MyLocation.swift in Sources */,
 				43D545BF26CBD8BB0064660A /* Toast.swift in Sources */,
 				436DCFAE27DF689A00A4A7F7 /* SelectFriendsVC.swift in Sources */,
+				439CE75E280D614E003C0AD3 /* AlertService.swift in Sources */,
 				4337B47E278718880077B794 /* InboxTableViewCell.swift in Sources */,
 				43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */,
 				4369F4592797546300D5E064 /* ShareVC.swift in Sources */,
@@ -2400,6 +2423,7 @@
 				43CBA9C827DA2D13006020FC /* StatisticsDetailsTableViewCell.swift in Sources */,
 				431D739727BBA08900EC8F7B /* IamVC.swift in Sources */,
 				4336D11026DB7F410093C7A6 /* Constants.swift in Sources */,
+				439CE759280D5DA8003C0AD3 /* ConversationChatVC.swift in Sources */,
 				43F473B526E61791001E4FAE /* CategoriesModel.swift in Sources */,
 				437EE47426E8BC1C00765089 /* AttendeesModel.swift in Sources */,
 				4382ACA626C28327005C1857 /* Initializer.swift in Sources */,
@@ -2854,7 +2878,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.11;
+				CURRENT_PROJECT_VERSION = 1.0.12;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2885,7 +2909,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.11;
+				CURRENT_PROJECT_VERSION = 1.0.12;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;
