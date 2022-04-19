@@ -26,7 +26,7 @@ extension InboxVC {
         let date = formatter.date(from: dateStr)
         
         let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
-        let relativeDateString = dateFormatterToString(relativeFormatter, date!)
+        let relativeDateString = dateFormatterToString(relativeFormatter, date ?? Date())
         // "Jan 18, 2018"
         
         let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
@@ -195,7 +195,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                 //                print("usernoti = \(inboxbadges)")
                 //
                 //                Defaults.message_Count = inboxbadges
-                //                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
                 
                 DispatchQueue.main.async {
                     self.tableView.delegate = self

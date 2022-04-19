@@ -119,11 +119,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Defaults.allowMyLocation = true
         }
         
-
         UIView.appearance().semanticContentAttribute = .forceLeftToRight
         self.window?.makeKeyAndVisible()
         
-        Defaults.hideAds = true
+        Defaults.hideAds = false
         
         setupUpdateLocation()
         
@@ -388,6 +387,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             _ = userInfo["messsageLinkEvenMyEvent"] as? String ?? ""
             
             //            self.content.sound = UNNotificationSound.default
+            self.content.badge = 0
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
             let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
             center.add(request, withCompletionHandler: nil)
@@ -562,7 +562,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // Print full message.
         print(userInfo)
-        
+        self.content.badge = 0
         let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
         let alert = apsAlert?["alert"] as? [String:Any]
         //        let title = alert?["title"] as? String
@@ -598,7 +598,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         
         //        self.content.sound = UNNotificationSound.default
-        
         
         if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId
         {
@@ -711,11 +710,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             }
             else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-                
             }
-            
-            Defaults.message_Count += 1
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
         
         else if action == "event_chat" {
@@ -725,10 +720,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
-            
-            
-            Defaults.message_Count += 1
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
         else if action == "user_chatGroup" {
             if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
@@ -737,10 +728,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             else if Defaults.availableVC == "InboxVC" {
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
-            
-            
-            Defaults.message_Count += 1
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
         if action == "Friend_Request" || action == "Accept_Friend_Request" || action == "Friend_request_cancelled" {
             if Defaults.availableVC == "RequestVC" {
@@ -762,6 +749,14 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
         }
         
+        
+        //badge inbox
+        if action == "user_chat" ||  action == "event_chat" || action == "user_chatGroup" {
+            if Defaults.availableVC != "ConversationVC" && Defaults.ConversationID != actionId {
+                Defaults.message_Count += 1
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+            }
+        }
         
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
@@ -809,7 +804,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // Print full message.
         print(userInfo)
-        
+        self.content.badge = 0
+
         let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
         let alert = apsAlert?["alert"] as? [String:Any]
         //        let title = alert?["title"] as? String

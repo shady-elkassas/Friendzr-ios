@@ -44,15 +44,15 @@ extension ConversationVC {
         let date = formatter.date(from: dateStr)
         
         let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
-        let relativeDateString = dateFormatterToString(relativeFormatter, date!)
+        let relativeDateString = dateFormatterToString(relativeFormatter, date ?? Date())
         // "Jan 18, 2018"
         
         let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
-        let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
+        let normalDateString = dateFormatterToString(nonRelativeFormatter, date ?? Date())
         // "Jan 18, 2018"
         
         let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
-        _ = dateFormatterToString(customFormatter, date!)
+        _ = dateFormatterToString(customFormatter, date ?? Date())
         // "18 January"
         
         if relativeDateString == normalDateString {
@@ -74,15 +74,15 @@ extension ConversationVC {
         let date = formatter.date(from: dateStr)
         
         let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
-        let relativeDateString = dateFormatterToString(relativeFormatter, date!)
+        let relativeDateString = dateFormatterToString(relativeFormatter, date ?? Date())
         // "Jan 18, 2018"
         
         let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
-        let normalDateString = dateFormatterToString(nonRelativeFormatter, date!)
+        let normalDateString = dateFormatterToString(nonRelativeFormatter, date ?? Date())
         // "Jan 18, 2018"
         
         let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
-        let customDateString = dateFormatterToString(customFormatter, date!)
+        let customDateString = dateFormatterToString(customFormatter, date ?? Date())
         // "18 January"
         
         if relativeDateString == normalDateString {

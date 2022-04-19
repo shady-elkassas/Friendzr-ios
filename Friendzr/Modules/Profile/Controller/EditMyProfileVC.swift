@@ -876,8 +876,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         doneButton.tintColor = UIColor.FriendzrColors.primary!
         cancelButton.tintColor = UIColor.red
         
-        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
-        
+        toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
+
         dateBirthdayTxt.inputAccessoryView = toolbar
         dateBirthdayTxt.inputView = datePicker
         

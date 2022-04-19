@@ -942,8 +942,8 @@ extension AddEventVC {
         doneButton.tintColor = UIColor.FriendzrColors.primary!
         cancelButton.tintColor = UIColor.red
         
-        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
-        
+        toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
+
         selectStartDateTxt.inputAccessoryView = toolbar
         selectStartDateTxt.inputView = datePicker1
         
@@ -991,8 +991,8 @@ extension AddEventVC {
         doneButton.tintColor = UIColor.FriendzrColors.primary!
         cancelButton.tintColor = UIColor.red
         
-        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
-        
+        toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
+
         selectEndDateTxt.inputAccessoryView = toolbar
         selectEndDateTxt.inputView = datePicker2
         
@@ -1027,8 +1027,8 @@ extension AddEventVC {
         doneButton.tintColor = UIColor.FriendzrColors.primary!
         cancelButton.tintColor = UIColor.red
         
-        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
-        
+        toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
+
         selectStartTimeTxt.inputAccessoryView = toolbar
         selectStartTimeTxt.inputView = timePicker1
         
@@ -1061,8 +1061,8 @@ extension AddEventVC {
         doneButton.tintColor = UIColor.FriendzrColors.primary!
         cancelButton.tintColor = UIColor.red
         
-        toolbar.setItems([doneButton,spaceButton,cancelButton], animated: false)
-        
+        toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
+
         selectEndTimeTxt.inputAccessoryView = toolbar
         selectEndTimeTxt.inputView = timePicker2
         
