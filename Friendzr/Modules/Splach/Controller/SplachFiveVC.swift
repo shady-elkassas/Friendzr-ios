@@ -1,19 +1,19 @@
 //
-//  SplachThreeVC.swift
+//  SplachFiveVC.swift
 //  Friendzr
 //
-//  Created by Muhammad Sabri Saad on 10/08/2021.
+//  Created by Shady Elkassas on 20/04/2022.
 //
 
 import UIKit
 
-class SplachThreeVC: UIViewController {
-    
+class SplachFiveVC: UIViewController {
+
     //MARK: - Outlets
-    @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var skipBtn: UIButton!
-    @IBOutlet weak var bottomLAyoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var pageControl: UIPageControl!
     
     //MARK: - Properties
     var selectVC:String = ""
@@ -22,16 +22,16 @@ class SplachThreeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Defaults.availableVC = "SplachThreeVC"
+        Defaults.availableVC = "SplachFiveVC"
         print("availableVC >> \(Defaults.availableVC)")
         
-        pageControl.currentPage = 2
+        pageControl.currentPage = 3
         nextBtn.cornerRadiusForHeight()
         nextBtn.layer.applySketchShadow()
         
         
         if Defaults.isIPhoneLessThan1500 {
-            bottomLAyoutConstraint.constant = 55
+            bottomLayoutConstraint.constant = 55
         }
     }
     
@@ -48,15 +48,16 @@ class SplachThreeVC: UIViewController {
     }
     
     //MARK: - Actions
+
     @IBAction func nextBtn(_ sender: Any) {
         
         if selectVC == "MoreVC" {
-            guard let vc = UIViewController.viewController(withStoryboard: .Splach, AndContollerID: "SplachFiveVC") as? SplachFiveVC else {return}
+            guard let vc = UIViewController.viewController(withStoryboard: .Splach, AndContollerID: "SplachFourVC") as? SplachFourVC else {return}
             vc.selectVC = "MoreVC"
             self.navigationController?.pushViewController(vc, animated: true)
         }
         else {
-            Router().toSplach5()
+            Router().toSplach4()
         }
     }
     
@@ -68,4 +69,6 @@ class SplachThreeVC: UIViewController {
             Router().toEditProfileVC(needUpdate: true)
         }
     }
+    
+    
 }

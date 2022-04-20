@@ -64,6 +64,9 @@ class EventsLocation {
 class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK:- Outlets
+    @IBOutlet weak var nextBtn: UIButton!
+    @IBOutlet weak var firstOpenMapView: UIView!
+    
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addEventBtn: UIButton!
     @IBOutlet weak var goAddEventBtn: UIButton!
@@ -88,6 +91,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var noeventNearbyLbl: UILabel!
     @IBOutlet weak var hideCollectionView: UIView!
     @IBOutlet var hideImgs: [UIImageView]!
+    @IBOutlet weak var dualogImg: UIImageView!
     
     //MARK: - Properties
     var locations:[EventsLocation] = [EventsLocation]()
@@ -131,7 +135,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
         isViewUp = false
-        
+//        dualogImg.center.customMirror
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -518,9 +522,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         sataliteBtn.cornerRadiusView(radius: 10)
         currentLocationBtn.cornerRadiusView(radius: 10)
         topContainerView.cornerRadiusView(radius: 10)
-        
+        nextBtn.setBorder(color: UIColor.white.cgColor, width: 2)
+        nextBtn.cornerRadiusForHeight()
+
         //        profileImg.cornerRadiusForHeight()
         //        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
+        
         profileImg.isHidden = true
         searchBar.delegate = self
         searchBar.backgroundColor = UIColor.clear
@@ -717,6 +724,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //MARK: - Actions
+    @IBAction func nextBtn(_ sender: Any) {
+        Defaults.isFirstOpenMap = true
+        firstOpenMapView.isHidden = true
+    }
+    
     @IBAction func addEventBtn(_ sender: Any) {
         checkLocationPermissionBtns()
         if NetworkConected.internetConect {
@@ -965,6 +977,13 @@ extension MapVC : CLLocationManagerDelegate {
     }
     
     func checkLocationPermission() {
+        
+        if !Defaults.isFirstOpenMap {
+            firstOpenMapView.isHidden = false
+        }else {
+            firstOpenMapView.isHidden = true
+        }
+        
         if CLLocationManager.locationServicesEnabled() {
             switch(CLLocationManager.authorizationStatus()) {
             case .notDetermined, .restricted, .denied:

@@ -208,6 +208,13 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         return formatter
     }()
     
+    let formatterTime2: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+    
     let imagePicker = UIImagePickerController()
     var attachedImg = false
     let database = Firestore.firestore()

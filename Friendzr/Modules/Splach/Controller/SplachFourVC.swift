@@ -23,7 +23,7 @@ class SplachFourVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        pageControl.currentPage = 3
+        pageControl.currentPage = 4
         nextBtn.cornerRadiusForHeight()
         nextBtn.layer.applySketchShadow()
         containerView.layer.applySketchShadow()

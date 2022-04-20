@@ -111,7 +111,7 @@ class AddEventVC: UIViewController {
     let timePicker2 = UIDatePicker()
     
     
-    var showAttendeesForAll:Bool = false
+    var showAttendeesForAll:Bool = true
     
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()

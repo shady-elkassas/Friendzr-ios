@@ -24,6 +24,13 @@ import UserNotifications
 import GoogleMobileAds
 import IQKeyboardManager
 import AWSCore
+import SwiftUI
+
+//extension Data {
+//    var hexString {
+//
+//    }
+//}
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -305,6 +312,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
+        print("deviceToken = \(deviceToken)")
         
         Messaging.messaging().token { token, error in
             if let error = error {
@@ -363,6 +371,7 @@ extension AppDelegate : MessagingDelegate{
 
 @available(iOS 10, *)
 extension AppDelegate : UNUserNotificationCenterDelegate {
+    
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
@@ -551,6 +560,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     }
     
     // Receive displayed notifications for iOS 10 devices.
+    //For FOREGROUND state
     func userNotificationCenter(_ center: UNUserNotificationCenter,willPresent notification: UNNotification,withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         let userInfo = notification.request.content.userInfo
@@ -562,6 +572,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         // Print full message.
         print(userInfo)
+        Messaging.messaging().appDidReceiveMessage(userInfo)
+
         self.content.badge = 0
         let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
         let alert = apsAlert?["alert"] as? [String:Any]
@@ -793,6 +805,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
     }
     
+    //For BACKGROUND state
     func userNotificationCenter(_ center: UNUserNotificationCenter,didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         let userInfo = response.notification.request.content.userInfo
@@ -806,6 +819,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         print(userInfo)
         self.content.badge = 0
 
+        Messaging.messaging().appDidReceiveMessage(userInfo)
+        
         let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
         let alert = apsAlert?["alert"] as? [String:Any]
         //        let title = alert?["title"] as? String

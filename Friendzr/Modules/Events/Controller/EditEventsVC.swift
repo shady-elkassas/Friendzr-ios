@@ -369,6 +369,8 @@ class EditEventsVC: UIViewController {
         
         listFriendsIDs.removeAll()
         selectedFriends.removeAll()
+        unSelectedFriends.removeAll()
+        
         for itm in eventModel?.attendees ?? [] {
             listFriendsIDs.append(itm.userId)
             selectedFriends.append(itm)
@@ -379,6 +381,8 @@ class EditEventsVC: UIViewController {
         
         print("listFriendsIDs>> \(listFriendsIDs.count)")
     }
+    
+    
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         hideTypesView.isHidden = true
@@ -438,9 +442,10 @@ class EditEventsVC: UIViewController {
     }
     
     var selectedFriends:[UserConversationModel] = [UserConversationModel]()
+    var unSelectedFriends:[UserConversationModel] = [UserConversationModel]()
 
     @IBAction func selectEventAttendeesBtn(_ sender: Any) {
-        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SelectFriendsNC") as? UINavigationController, let vc = controller.viewControllers.first as? SelectFriendsVC {
+        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SelectFriendsEditEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SelectFriendsEditEventVC {
             vc.selectedFriends = selectedFriends
             vc.selectedIDs = listFriendsIDs
             vc.selectedNames = self.listNamesSelected

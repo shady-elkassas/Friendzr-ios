@@ -66,6 +66,7 @@ class UserChatObj: NSObject,Mappable {
     var isArchive:Bool? = false
     var leavevent:Int? = 0
     var myevent:Bool? = false
+    var leaveventchat:Bool = false
     var messagestype:Int? = 0
     var messagesattach:String? = ""
     var isChatGroup:Bool? = false
@@ -94,6 +95,7 @@ class UserChatObj: NSObject,Mappable {
         isMute  <- map["muit"]
         isfrind  <- map["isfrind"]
         leavevent  <- map["leavevent"]
+        leaveventchat  <- map["leaveventchat"]
         myevent  <- map["myevent"]
         messagestype  <- map["messagestype"]
         messagesattach  <- map["messagesattach"]

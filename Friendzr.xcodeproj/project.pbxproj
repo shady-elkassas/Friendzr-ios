@@ -251,6 +251,8 @@
 		439CE759280D5DA8003C0AD3 /* ConversationChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE758280D5DA8003C0AD3 /* ConversationChatVC.swift */; };
 		439CE75B280D6105003C0AD3 /* CameraInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE75A280D6105003C0AD3 /* CameraInput.swift */; };
 		439CE75E280D614E003C0AD3 /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE75D280D614E003C0AD3 /* AlertService.swift */; };
+		439CE7602810107F003C0AD3 /* SelectFriendsEditEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE75F2810107F003C0AD3 /* SelectFriendsEditEventVC.swift */; };
+		439CE76528107F85003C0AD3 /* SplachFiveVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE76428107F85003C0AD3 /* SplachFiveVC.swift */; };
 		439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */; };
 		439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */; };
 		439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */; };
@@ -657,6 +659,8 @@
 		439CE758280D5DA8003C0AD3 /* ConversationChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationChatVC.swift; sourceTree = "<group>"; };
 		439CE75A280D6105003C0AD3 /* CameraInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraInput.swift; sourceTree = "<group>"; };
 		439CE75D280D614E003C0AD3 /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
+		439CE75F2810107F003C0AD3 /* SelectFriendsEditEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFriendsEditEventVC.swift; sourceTree = "<group>"; };
+		439CE76428107F85003C0AD3 /* SplachFiveVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachFiveVC.swift; sourceTree = "<group>"; };
 		439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeViewModel.swift; sourceTree = "<group>"; };
 		439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeModel.swift; sourceTree = "<group>"; };
 		439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsInLocationTableViewCell.swift; sourceTree = "<group>"; };
@@ -971,6 +975,7 @@
 				433CDE1C27CCBAF200A80A40 /* EventCalendarVC.swift */,
 				433CDE1E27CCC46600A80A40 /* EventTimeVC.swift */,
 				436DCFAD27DF689A00A4A7F7 /* SelectFriendsVC.swift */,
+				439CE75F2810107F003C0AD3 /* SelectFriendsEditEventVC.swift */,
 				436DD06627E3422A00A4A7F7 /* SharePrivateEventVC.swift */,
 				4303F1F027F1E60D00221E01 /* ExpandDescriptionVC.swift */,
 				43C0E19027FDB97500555023 /* ExternalEventWebView.swift */,
@@ -1640,6 +1645,7 @@
 				4382ACB226C29019005C1857 /* SplachOneVC.swift */,
 				4382ACB926C2AFC2005C1857 /* SplachTwoVC.swift */,
 				4382ACBB26C2AFE9005C1857 /* SplachThreeVC.swift */,
+				439CE76428107F85003C0AD3 /* SplachFiveVC.swift */,
 				4382ACBD26C2AFF7005C1857 /* SplachFourVC.swift */,
 			);
 			path = Controller;
@@ -2205,6 +2211,7 @@
 				432940FB26EE0FB60066BE87 /* FriendModel.swift in Sources */,
 				439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */,
 				43886862278344F1004D36B2 /* ConfirmReportButtonTableViewCell.swift in Sources */,
+				439CE76528107F85003C0AD3 /* SplachFiveVC.swift in Sources */,
 				43119D7426E4F00000AD2260 /* DescriptionViewModel.swift in Sources */,
 				43B22416274D132C004C6912 /* CategoriesVC.swift in Sources */,
 				4382AC5026C2788D005C1857 /* StringExtension.swift in Sources */,
@@ -2388,6 +2395,7 @@
 				43B22412274B89D7004C6912 /* SelectedTagsVC.swift in Sources */,
 				4336D11426DB7F570093C7A6 /* RequestManager.swift in Sources */,
 				430A352026CAB02700477A94 /* EventsVC.swift in Sources */,
+				439CE7602810107F003C0AD3 /* SelectFriendsEditEventVC.swift in Sources */,
 				43D545BB26CBD8610064660A /* SKAction+Color.swift in Sources */,
 				43D545BD26CBD8730064660A /* SKMultilineLabelNode.swift in Sources */,
 				4389DC9127BE3B8E00B62CDC /* PreferToModel.swift in Sources */,

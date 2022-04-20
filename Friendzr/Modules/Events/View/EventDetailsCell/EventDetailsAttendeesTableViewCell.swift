@@ -188,18 +188,18 @@ extension EventDetailsAttendeesTableViewCell: UITableViewDelegate {
         return 60
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = eventModel?.attendees?[indexPath.row]
-
-        if model?.myEventO == true {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
-            self.parentvc.navigationController?.pushViewController(vc, animated: true)
-        }else {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-            vc.userID = model?.userId ?? ""
-            self.parentvc.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let model = eventModel?.attendees?[indexPath.row]
+//
+//        if model?.myEventO == true {
+//            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
+//            self.parentvc.navigationController?.pushViewController(vc, animated: true)
+//        }else {
+//            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+//            vc.userID = model?.userId ?? ""
+//            self.parentvc.navigationController?.pushViewController(vc, animated: true)
+//        }
+//    }
 }
 
 extension EventDetailsAttendeesTableViewCell {

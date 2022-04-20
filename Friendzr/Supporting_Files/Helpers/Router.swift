@@ -77,6 +77,12 @@ class Router {
         go(withVC: nextVC)
     }
     
+    func toSplach5()  {
+        let id = "SplachFiveNC"
+        let nextVC = Initializer.createViewController(storyBoard: .Splach, andId: id)
+        go(withVC: nextVC)
+    }
+    
     func toMore()  {
         let id = "MainTBC"
         guard let nextVC = Initializer.createViewController(storyBoard: .Main, andId: id) as? UITabBarController else {return}

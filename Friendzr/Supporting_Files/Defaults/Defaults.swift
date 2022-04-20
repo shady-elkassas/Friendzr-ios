@@ -412,6 +412,16 @@ class Defaults {
         }
     }
     
+    static var isFirstOpenMap: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "isFirstOpenMap")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "isFirstOpenMap")
+        }
+    }
+    
     static var isIPhoneLessThan1500: Bool {
         set{
             UserDefaults.standard.set(newValue, forKey: "isIPhoneLessThan1500")
@@ -502,6 +512,7 @@ class Defaults {
         defaults.removeObject(forKey: "needUpdate")
         defaults.removeObject(forKey: "allowMyLocation")
         defaults.removeObject(forKey: "isFirstFilter")
+        defaults.removeObject(forKey: "isFirstOpenMap")
         defaults.removeObject(forKey: "OtherGenderName")
         defaults.removeObject(forKey: "myAppearanceTypes")
         defaults.removeObject(forKey: "ghostModeEveryOne")

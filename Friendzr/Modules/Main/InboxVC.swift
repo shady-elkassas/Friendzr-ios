@@ -637,7 +637,13 @@ extension InboxVC:UITableViewDelegate {
                     vc.isEvent = true
                     vc.eventChatID = model?.id ?? ""
                     vc.chatuserID = ""
-                    vc.leavevent = model?.leavevent ?? 0
+                    
+                    if model?.leaveventchat == true {
+                        vc.leavevent = 2
+                    }else {
+                        vc.leavevent = model?.leavevent ?? 0
+                    }
+                    
                     vc.leaveGroup = 1
                     vc.isFriend = false
                     vc.titleChatImage = model?.image ?? ""
@@ -709,11 +715,11 @@ extension InboxVC:UITableViewDelegate {
             let muteTitle = model?.isMute ?? false ? "UnMute".localizedString : "Mute".localizedString
             let deleteTitle = model?.isChatGroup ?? true ? "Clear".localizedString : "Delete".localizedString
             
-            if model?.leavevent == 0 {
-                self.leaveOrJoinTitle = "Exit".localizedString
-            }else {
-                self.leaveOrJoinTitle = "Join".localizedString
-            }
+//            if model?.leaveventchat == false {
+//                self.leaveOrJoinTitle = "Exit".localizedString
+//            }else {
+//                self.leaveOrJoinTitle = "Join".localizedString
+//            }
             
             if model?.isChatGroup == true {
                 if model?.leaveGroup == 0 {
@@ -722,7 +728,7 @@ extension InboxVC:UITableViewDelegate {
                     self.leaveOrJoinTitle = "Join".localizedString
                 }
             }else {
-                if model?.leavevent == 0 {
+                if model?.leaveventchat == false {
                     self.leaveOrJoinTitle = "Exit".localizedString
                 }else {
                     self.leaveOrJoinTitle = "Join".localizedString
@@ -861,7 +867,7 @@ extension InboxVC:UITableViewDelegate {
                 print("LeaveAction")
                 
                 if model?.isevent == true {
-                    if model?.leavevent == 0 {
+                    if model?.leaveventchat == false {
                         if UIDevice.current.userInterfaceIdiom == .pad {
                             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
                             
@@ -1345,7 +1351,7 @@ extension InboxVC:UITableViewDelegate {
                     if model?.leavevent == 0 {
                         return [deleteAction,leaveAction,muteAction]
                     }else {
-                        return [deleteAction,leaveAction]
+                        return [deleteAction]
                     }
                 }
             }

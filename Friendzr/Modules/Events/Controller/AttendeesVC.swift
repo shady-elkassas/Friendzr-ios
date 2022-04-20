@@ -394,18 +394,29 @@ extension AttendeesVC:UITableViewDelegate {
         return 75
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = viewmodel.attendees.value?.data?[indexPath.row]
-        
-        if model?.myEventO == true {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
-            self.navigationController?.pushViewController(vc, animated: true)
-        }else {
-            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-            vc.userID = model?.userId ?? ""
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let model = viewmodel.attendees.value?.data?[indexPath.row]
+//
+//        if eventKey == 1 {
+//            if model?.myEventO == true {
+//                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }else {
+//                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+//                vc.userID = model?.userId ?? ""
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }
+//        }else {
+//            if model?.myEventO == false {
+//                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }else {
+//                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+//                vc.userID = model?.userId ?? ""
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }
+//        }
+//    }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
