@@ -168,7 +168,6 @@
 		4368509F27453E3800A62287 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4368509D27453E3800A62287 /* TagCollectionViewCell.swift */; };
 		436850A027453E3800A62287 /* TagCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4368509E27453E3800A62287 /* TagCollectionViewCell.xib */; };
 		4369F4532797278000D5E064 /* AddNewUsersForMyGroupVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369F4522797278000D5E064 /* AddNewUsersForMyGroupVC.swift */; };
-		4369F4592797546300D5E064 /* ShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369F4582797546300D5E064 /* ShareVC.swift */; };
 		4369F45C2797553D00D5E064 /* ShareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4369F45A2797553D00D5E064 /* ShareTableViewCell.swift */; };
 		4369F45D2797553D00D5E064 /* ShareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4369F45B2797553D00D5E064 /* ShareTableViewCell.xib */; };
 		4369F45F279889BC00D5E064 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4369F45E279889BC00D5E064 /* Main.storyboard */; };
@@ -572,7 +571,6 @@
 		4368509D27453E3800A62287 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
 		4368509E27453E3800A62287 /* TagCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TagCollectionViewCell.xib; sourceTree = "<group>"; };
 		4369F4522797278000D5E064 /* AddNewUsersForMyGroupVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewUsersForMyGroupVC.swift; sourceTree = "<group>"; };
-		4369F4582797546300D5E064 /* ShareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareVC.swift; sourceTree = "<group>"; };
 		4369F45A2797553D00D5E064 /* ShareTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareTableViewCell.swift; sourceTree = "<group>"; };
 		4369F45B2797553D00D5E064 /* ShareTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareTableViewCell.xib; sourceTree = "<group>"; };
 		4369F45E279889BC00D5E064 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -970,7 +968,6 @@
 				430A351D26CAB01A00477A94 /* EditEventsVC.swift */,
 				4330756F26E75EDC002940DF /* AttendeesVC.swift */,
 				43B22415274D132C004C6912 /* CategoriesVC.swift */,
-				4369F4582797546300D5E064 /* ShareVC.swift */,
 				43DF596727B942FB000D9F69 /* ShareEventVC.swift */,
 				433CDE1C27CCBAF200A80A40 /* EventCalendarVC.swift */,
 				433CDE1E27CCC46600A80A40 /* EventTimeVC.swift */,
@@ -2425,7 +2422,6 @@
 				439CE75E280D614E003C0AD3 /* AlertService.swift in Sources */,
 				4337B47E278718880077B794 /* InboxTableViewCell.swift in Sources */,
 				43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */,
-				4369F4592797546300D5E064 /* ShareVC.swift in Sources */,
 				4344110426CE796300F8233E /* ForgetPasswordVC.swift in Sources */,
 				43B8287F27E9C565005FF1D1 /* EventTypeModel.swift in Sources */,
 				43CBA9C827DA2D13006020FC /* StatisticsDetailsTableViewCell.swift in Sources */,
@@ -2886,7 +2882,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.13;
+				CURRENT_PROJECT_VERSION = 1.0.14;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2917,7 +2913,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.13;
+				CURRENT_PROJECT_VERSION = 1.0.14;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

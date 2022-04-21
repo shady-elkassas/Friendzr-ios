@@ -355,16 +355,16 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="912"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qla-ez-NbJ">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="436"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="431.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Events" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9qe-xw-Kef">
-                                                <rect key="frame" x="92" y="30" width="230" height="32"/>
+                                                <rect key="frame" x="92" y="30" width="230" height="30.5"/>
                                                 <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="26"/>
                                                 <color key="textColor" name="ColorLbl2"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cdb-CQ-JaI">
-                                                <rect key="frame" x="190.5" y="68" width="33" height="0.5"/>
+                                                <rect key="frame" x="190.5" y="66.5" width="33" height="0.5"/>
                                                 <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="33" id="X9M-Ad-SyE"/>
@@ -372,20 +372,20 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="msK-5W-vyS">
-                                                <rect key="frame" x="20" y="84.5" width="374" height="68.5"/>
+                                                <rect key="frame" x="20" y="83" width="374" height="65.5"/>
                                                 <string key="text">It’s easy to set up your own event, or join other events in your area. An event can be a group or one-to-one experience, based on mutual interests, or simply an excuse for a great party!</string>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                                                 <color key="textColor" name="ColorLbl2"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash3" translatesAutoresizingMaskIntoConstraints="NO" id="Hax-LE-BzF">
-                                                <rect key="frame" x="20" y="183" width="374" height="187"/>
+                                                <rect key="frame" x="20" y="178.5" width="374" height="187"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Hax-LE-BzF" secondAttribute="height" multiplier="2:1" id="ogt-Q8-dwe"/>
                                                 </constraints>
                                             </imageView>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="zeZ-UA-ciq">
-                                                <rect key="frame" x="132" y="400" width="150.5" height="16"/>
+                                                <rect key="frame" x="132" y="395.5" width="150.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="1GJ-h0-94m"/>
                                                 </constraints>
@@ -749,7 +749,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="912"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g7o-8H-b7y">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="470"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="487"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Privacy" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="plb-gb-sGW">
                                                 <rect key="frame" x="92" y="30" width="230" height="32"/>
@@ -766,21 +766,22 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tfL-uk-bIi">
-                                                <rect key="frame" x="20" y="84.5" width="374" height="102.5"/>
+                                                <rect key="frame" x="20" y="84.5" width="374" height="119.5"/>
                                                 <string key="text">With ‘private mode you can hide your profile from everyone, or from a particular gender.
+
 ‘Personal space’ mode allows you a safe zone so other Friendzrs can only see your location within a 400 metre diameter location (randomly plotted each time).</string>
                                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                                                 <color key="textColor" name="ColorLbl2"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash5" translatesAutoresizingMaskIntoConstraints="NO" id="7ya-ss-zRJ">
-                                                <rect key="frame" x="20" y="217" width="374" height="187"/>
+                                                <rect key="frame" x="20" y="234" width="374" height="187"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="7ya-ss-zRJ" secondAttribute="height" multiplier="2:1" id="4iC-JJ-Q4x"/>
                                                 </constraints>
                                             </imageView>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="BzN-RI-foI">
-                                                <rect key="frame" x="132" y="434" width="150.5" height="16"/>
+                                                <rect key="frame" x="132" y="451" width="150.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="Too-gn-Tu0"/>
                                                 </constraints>

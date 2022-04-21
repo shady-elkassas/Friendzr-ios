@@ -49,7 +49,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        
         IQKeyboardManager.shared().isEnabled = true
         IQKeyboardManager.shared().toolbarTintColor = UIColor.FriendzrColors.primary
         IQKeyboardManager.shared().isEnableAutoToolbar = true
@@ -306,6 +305,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
         
         locationManager.startUpdatingLocation()
+        Messaging.messaging().appDidReceiveMessage(userInfo)
         completionHandler(UIBackgroundFetchResult.newData)
     }
     
@@ -383,6 +383,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             
             let userInfo = response.notification.request.content.userInfo
             
+            Messaging.messaging().appDidReceiveMessage(userInfo)
+
             //            let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
             //            let title = apsAlert?["title"] as? String
             //            let body = apsAlert?["body"] as? String
@@ -541,7 +543,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                     vc.eventId = actionId ?? ""
                     navController.pushViewController(vc, animated: true)
                 }
-                //                Router().toMap()
             }
             else if action == "Check_private_events" {
                 if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
