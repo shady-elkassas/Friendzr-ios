@@ -25,6 +25,8 @@ import GoogleMobileAds
 import IQKeyboardManager
 import AWSCore
 import SwiftUI
+import AppLovinSDK
+import Adjust
 
 //extension Data {
 //    var hexString {
@@ -60,6 +62,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setupHeightApp()
         
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        // Please make sure to set the mediation provider value to "max" to ensure proper functionality
+        // Initialize the AppLovin SDK
+        ALSdk.shared()!.mediationProvider = ALMediationProviderMAX
+        ALSdk.shared()!.initializeSdk(completionHandler: { configuration in
+            // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
+            
+            // Initialize Adjust SDK
+            let adjustConfig = ADJConfig(appToken: "wQ28AvPO3elDVRVTr3Gc1TtZvemhJQ4v_R3Bu6k_KczRm5zGgPKkRi3t-KPJ8toq8IP2BwXGyvokVCz154wmTU", environment: ADJEnvironmentSandbox)
+            Adjust.appDidLaunch(adjustConfig)
+        })
+
+//        ALSdk.shared()!.mediationProvider = ALMediationProviderMAX
+//
+//        ALSdk.shared()!.userIdentifier = Defaults.token
+//
+//        ALSdk.shared()!.initializeSdk(completionHandler: { configuration in
+//            // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
+//
+//        })
+        
         // Initialize Identity Provider //AWS
         let credentialsProvider = AWSCognitoCredentialsProvider(
             regionType: .USEast1,
@@ -81,7 +104,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSServices.provideAPIKey("AIzaSyCLmWYc00w0KZ-qj8hIymWCIs8K5Z0cG0g")
         GMSPlacesClient.provideAPIKey("AIzaSyCLmWYc00w0KZ-qj8hIymWCIs8K5Z0cG0g")
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
             if error != nil || user == nil {

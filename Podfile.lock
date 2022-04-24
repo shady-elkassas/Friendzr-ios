@@ -338,12 +338,28 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
+  - Adjust (4.29.7):
+    - Adjust/Core (= 4.29.7)
+  - Adjust/Core (4.29.7)
   - Alamofire (5.4.3)
   - AppAuth (1.4.0):
     - AppAuth/Core (= 1.4.0)
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
+  - AppLovinMediationFacebookAdapter (6.10.0.1):
+    - AppLovinSDK
+    - FBAudienceNetwork (= 6.10.0)
+  - AppLovinMediationGoogleAdapter (8.13.0.11):
+    - AppLovinSDK
+    - Google-Mobile-Ads-SDK (= 8.13.0)
+  - AppLovinMediationIronSourceAdapter (7.2.1.2.0):
+    - AppLovinSDK
+    - IronSourceSDK (= 7.2.1.2)
+  - AppLovinMediationUnityAdsAdapter (4.1.0.2):
+    - AppLovinSDK
+    - UnityAds (= 4.1.0)
+  - AppLovinSDK (11.3.3)
   - AvailableHapticFeedback (1.0.2)
   - AWSCore (2.27.6)
   - AWSRekognition (2.27.6):
@@ -358,6 +374,7 @@ PODS:
     - FBAEMKit/AEM (= 11.1.0)
   - FBAEMKit/AEM (11.1.0):
     - FBSDKCoreKit_Basics (~> 11.1.0)
+  - FBAudienceNetwork (6.10.0)
   - FBSDKCoreKit (11.1.0):
     - FBSDKCoreKit/Core (= 11.1.0)
   - FBSDKCoreKit/Core (11.1.0):
@@ -550,6 +567,7 @@ PODS:
     - InputBarAccessoryView/Core (= 5.3.1)
   - InputBarAccessoryView/Core (5.3.1)
   - IQKeyboardManager (6.5.6)
+  - IronSourceSDK (7.2.1.2)
   - leveldb-library (1.22.1)
   - ListPlaceholder (1.5)
   - MessageKit (3.5.1):
@@ -570,9 +588,16 @@ PODS:
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
   - SweeterSwift (1.1.4)
+  - UnityAds (4.1.0)
 
 DEPENDENCIES:
+  - Adjust (~> 4.29.7)
   - Alamofire (~> 5.4)
+  - AppLovinMediationFacebookAdapter
+  - AppLovinMediationGoogleAdapter
+  - AppLovinMediationIronSourceAdapter
+  - AppLovinMediationUnityAdsAdapter
+  - AppLovinSDK
   - AWSRekognition
   - FBSDKLoginKit
   - Firebase
@@ -599,13 +624,20 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - abseil
+    - Adjust
     - Alamofire
     - AppAuth
+    - AppLovinMediationFacebookAdapter
+    - AppLovinMediationGoogleAdapter
+    - AppLovinMediationIronSourceAdapter
+    - AppLovinMediationUnityAdsAdapter
+    - AppLovinSDK
     - AvailableHapticFeedback
     - AWSCore
     - AWSRekognition
     - BoringSSL-GRPC
     - FBAEMKit
+    - FBAudienceNetwork
     - FBSDKCoreKit
     - FBSDKCoreKit_Basics
     - FBSDKLoginKit
@@ -634,6 +666,7 @@ SPEC REPOS:
     - GTMSessionFetcher
     - InputBarAccessoryView
     - IQKeyboardManager
+    - IronSourceSDK
     - leveldb-library
     - ListPlaceholder
     - MessageKit
@@ -645,16 +678,24 @@ SPEC REPOS:
     - RevealingSplashView
     - SDWebImage
     - SweeterSwift
+    - UnityAds
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
+  Adjust: 91a06a01e4bb35b432e26b5d5bb8995b95fc381c
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
+  AppLovinMediationFacebookAdapter: b337f711f92fa335b7771016c8810b48fc375ff7
+  AppLovinMediationGoogleAdapter: dd13530d1b91634924a19374a96e2d23c26db471
+  AppLovinMediationIronSourceAdapter: 8cf230a2e4c6910b8889061b9a40fb7588b93ef5
+  AppLovinMediationUnityAdsAdapter: e76ae3d0af3a0bdfc549cb527c3b6a48c4b24f34
+  AppLovinSDK: 6ed446d284d8852520a786ad5a91796f1730c3f3
   AvailableHapticFeedback: 9b21b9f6d3e4566015988b5de35b40abefe6c09a
   AWSCore: 0b6fa020f5f343a211862d702ba7a067272a60f7
   AWSRekognition: e55a57b151768a6fc17020ad63320f9f1570d5e7
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   FBAEMKit: 5c8a8d08e5b2c79628490784883e0fcc75b12615
+  FBAudienceNetwork: 8600abb129fc1220e8e3bd969aebe6c89c5add8c
   FBSDKCoreKit: 7ccb8b4bb2b5ee2ad94327b774dc23f03509675d
   FBSDKCoreKit_Basics: 8f978bce195845f609b0ec6b425949d0d24f525b
   FBSDKLoginKit: d65eb587a9eaa89295338fb0bb3b358bde0b7ae4
@@ -683,6 +724,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
   InputBarAccessoryView: 1f75d8c9f75e5e57f3ffac36ed58635a8005e0bc
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
+  IronSourceSDK: 58febda45afa4b16f91dacb1b3541737ae3fedb3
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   ListPlaceholder: 2d7950014852ee5613d636cf14fd1bb93419e330
   MessageKit: 6a15a240a9a4767279de542a8fae861e83d8aedc
@@ -694,7 +736,8 @@ SPEC CHECKSUMS:
   RevealingSplashView: 40c5a770894459736acdc95655eeba0dd30ce91c
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SweeterSwift: 8a90cf3156f5a1b6f39785c479369a16633b5ea9
+  UnityAds: 840c036310722cc4b78abc97fe5031d3d1eb2b06
 
-PODFILE CHECKSUM: 218aaf55c29f9985470436f1fabb0addfcc66268
+PODFILE CHECKSUM: 0eb8f69ce02bf056302c952a10c1830d33926092
 
 COCOAPODS: 1.10.2

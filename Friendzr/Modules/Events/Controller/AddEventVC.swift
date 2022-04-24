@@ -525,7 +525,7 @@ class AddEventVC: UIViewController {
             }
             else if eventTypeName == "Private" && listFriendsIDs.count == 0 {
                 DispatchQueue.main.async {
-                    self.view.makeToast("This is the event private, please select friends for it".localizedString)
+                    self.view.makeToast("This is the event private, Please select attendees for it".localizedString)
                 }
             }
             else {

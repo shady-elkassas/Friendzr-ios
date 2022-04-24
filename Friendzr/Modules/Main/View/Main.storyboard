@@ -124,7 +124,7 @@
                                     <constraint firstItem="DDk-EQ-eim" firstAttribute="centerX" secondItem="OaP-WS-QqW" secondAttribute="centerX" id="zTR-Qp-JM4"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BXz-zW-weQ" customClass="GADBannerView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BXz-zW-weQ">
                                 <rect key="frame" x="19" y="713" width="376" height="100"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -301,7 +301,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="m5v-cB-P9a"/>
                     <connections>
-                        <outlet property="bannerView" destination="BXz-zW-weQ" id="sff-Yr-8ld"/>
+                        <outlet property="bannerView" destination="BXz-zW-weQ" id="dr0-ta-bkD"/>
                         <outlet property="bannerViewHeight" destination="p1t-dm-D7K" id="jdl-jR-NOg"/>
                         <outlet property="emptyImg" destination="ipQ-tg-WMq" id="Pc1-P5-UAm"/>
                         <outlet property="emptyLbl" destination="R6Q-SE-yeC" id="hn2-Se-Kl6"/>
