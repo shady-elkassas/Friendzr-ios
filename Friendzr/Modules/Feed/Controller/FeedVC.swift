@@ -10,9 +10,12 @@ import SwiftUI
 import CoreLocation
 import Contacts
 import ListPlaceholder
-import GoogleMobileAds
+//import GoogleMobileAds
 import SDWebImage
 import Network
+import AppLovinSDK
+import Adjust
+
 
 let screenH: CGFloat = UIScreen.main.bounds.height
 let screenW: CGFloat = UIScreen.main.bounds.width
@@ -121,7 +124,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var filterHideView: UIView!
     @IBOutlet weak var dialogimg: UIImageView!
     @IBOutlet weak var allowBtn: UIButton!
-    @IBOutlet var bannerView: GADBannerView!
+    @IBOutlet var bannerView: UIView!
     @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
     
     @IBOutlet weak var hideView: UIView!
@@ -202,6 +205,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     var isCompassOpen:Bool = false
     var isPrivateModesOpen:Bool = false
     
+    var adView:MAAdView!
+    var interstitialAd: MAInterstitialAd!
+    var retryAttempt = 0.0
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -231,8 +237,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         setupHideView()
         setupNavBar()
         
+        createBannerAd()
+        
         if !Defaults.hideAds {
-            seyupAds()
+//            seyupAds()
             bannerViewHeight.constant = 100
         }else {
             bannerViewHeight.constant = 0
@@ -276,15 +284,15 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    func seyupAds() {
-        bannerView.adUnitID =  URLs.adUnitBanner
-        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-        //        addBannerViewToView(bannerView)
-        bannerView.rootViewController = self
-        bannerView.load(GADRequest())
-        bannerView.delegate = self
-        bannerView.setCornerforTop()
-    }
+//    func seyupAds() {
+//        bannerView.adUnitID =  URLs.adUnitBanner
+//        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+//        //        addBannerViewToView(bannerView)
+//        bannerView.rootViewController = self
+//        bannerView.load(GADRequest())
+//        bannerView.delegate = self
+//        bannerView.setCornerforTop()
+//    }
     
     //MARK:- APIs
     @objc func updateFeeds() {
@@ -1222,33 +1230,36 @@ extension FeedVC: CLLocationManagerDelegate {
     }
 }
 
-extension FeedVC:GADBannerViewDelegate {
-    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-        print(error)
-        bannerViewHeight.constant = 0
-    }
-    
-    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-        print("Receive Ad")
-    }
-    
-    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-        print("bannerViewDidRecordImpression")
-    }
-    
-    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-        print("bannerViewWillPresentScreen")
-        bannerView.load(GADRequest())
-    }
-    
-    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-        print("bannerViewWillDIsmissScreen")
-    }
-    
-    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-        print("bannerViewDidDismissScreen")
-    }
-}
+//extension FeedVC:GADBannerViewDelegate {
+//    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+//        print(error)
+//        bannerViewHeight.constant = 0
+//    }
+//
+//    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+//        print("Receive Ad")
+//    }
+//
+//    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+//        print("bannerViewDidRecordImpression")
+//    }
+//
+//    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+//        print("bannerViewWillPresentScreen")
+//        bannerView.load(GADRequest())
+//    }
+//
+//    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+//        print("bannerViewWillDIsmissScreen")
+//    }
+//
+//    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+//        print("bannerViewDidDismissScreen")
+//    }
+//}
+
+
+
 
 extension FeedVC {
     func initCompassSwitchBarButton() {
@@ -1293,7 +1304,7 @@ extension FeedVC {
                 if switchCompassBarButton.isOn {
                     self.isCompassOpen = true
                     if !Defaults.hideAds {
-                        seyupAds()
+//                        seyupAds()
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
@@ -1324,7 +1335,7 @@ extension FeedVC {
                     Defaults.isFirstFilter = true
                     
                     if !Defaults.hideAds {
-                        seyupAds()
+//                        seyupAds()
                         bannerViewHeight.constant = 100
                     }else {
                         bannerViewHeight.constant = 0
@@ -1361,7 +1372,7 @@ extension FeedVC {
                 createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                 
                 if !Defaults.hideAds {
-                    seyupAds()
+//                    seyupAds()
                     bannerViewHeight.constant = 100
                 }else {
                     bannerViewHeight.constant = 0
@@ -1400,7 +1411,7 @@ extension FeedVC {
                     Defaults.isFirstFilter = true
                     
                     if !Defaults.hideAds {
-                        seyupAds()
+//                        seyupAds()
                         bannerViewHeight.constant = 100
                     }else {
                         bannerViewHeight.constant = 0
@@ -1436,7 +1447,7 @@ extension FeedVC {
                     createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                     initCompassSwitchBarButton()
                     if !Defaults.hideAds {
-                        seyupAds()
+//                        seyupAds()
                         bannerViewHeight.constant = 100
                     }else {
                         bannerViewHeight.constant = 0
@@ -1451,7 +1462,7 @@ extension FeedVC {
                     
                     self.isCompassOpen = true
                     if !Defaults.hideAds {
-                        seyupAds()
+//                        seyupAds()
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
@@ -1484,7 +1495,7 @@ extension FeedVC {
                     createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                     initCompassSwitchBarButton()
                     if !Defaults.hideAds {
-                        seyupAds()
+//                        seyupAds()
                         bannerViewHeight.constant = 100
                     }else {
                         bannerViewHeight.constant = 0
@@ -1837,4 +1848,89 @@ extension FeedVC {
             }
         }
     }
+}
+
+// MARK: - MAAdViewAdDelegate
+
+extension FeedVC : MAAdViewAdDelegate , MAAdRevenueDelegate { //, MAAdReviewDelegate {
+   
+   func createBannerAd() {
+       adView = MAAdView(adUnitIdentifier: "65940d589c7a5266")
+       adView.delegate = self
+       adView.revenueDelegate = self
+//        adView.adReviewDelegate = self
+       // Banner height on iPhone and iPad is 50 and 90, respectively
+//        let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50
+   
+       // Stretch to the width of the screen for banners to be fully functional
+//        let width: CGFloat = UIScreen.main.bounds.width
+   
+       adView.frame = CGRect(x: 0 , y: 0, width: bannerView.frame.width, height: bannerView.frame.height)
+       adView.setExtraParameterForKey("adaptive_banner", value: "true")
+
+       // Set background or background color for banners to be fully functional
+       adView.backgroundColor = UIColor.FriendzrColors.primary!
+   
+       bannerView.addSubview(adView)
+//   
+//       adView.isHidden = false
+//       adView.startAutoRefresh()
+       
+       // Load the first ad
+       adView.loadAd()
+   }
+
+   // MARK: MAAdDelegate Protocol
+
+   func didLoad(_ ad: MAAd) {
+       adView.loadAd()
+       adView.isHidden = false
+       adView.startAutoRefresh()
+   }
+
+   func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) {
+       print("error.description \(error.description)")
+   }
+
+   func didClick(_ ad: MAAd) {}
+
+   func didFail(toDisplay ad: MAAd, withError error: MAError) {
+       print("error = \(error.description)")
+       print("ad = \(ad.description)")
+   }
+
+   
+   // MARK: MAAdViewAdDelegate Protocol
+
+   func didExpand(_ ad: MAAd) {}
+
+   func didCollapse(_ ad: MAAd) {}
+
+
+   // MARK: Deprecated Callbacks
+
+   func didDisplay(_ ad: MAAd) { /* DO NOT USE - THIS IS RESERVED FOR FULLSCREEN ADS ONLY AND WILL BE REMOVED IN A FUTURE SDK RELEASE */
+       Adjust.getInstance()
+   }
+   func didHide(_ ad: MAAd) { /* DO NOT USE - THIS IS RESERVED FOR FULLSCREEN ADS ONLY AND WILL BE REMOVED IN A FUTURE SDK RELEASE */ }
+   
+   
+   // MARK: MAAdRevenueDelegate Protocol
+   
+   func didPayRevenue(for ad: MAAd)
+   {
+//        logCallback()
+       
+       let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)!
+       adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
+       adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
+       adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)
+       if let placement = ad.placement
+       {
+           adjustAdRevenue.setAdRevenuePlacement(placement)
+       }
+
+       Adjust.trackAdRevenue(adjustAdRevenue)
+   }
+
 }

@@ -418,7 +418,7 @@
                                     <constraint firstAttribute="trailing" secondItem="QsD-Ea-3kU" secondAttribute="trailing" constant="20" id="xNN-ZW-Drj"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hZq-B0-pTT" customClass="GADBannerView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hZq-B0-pTT">
                                 <rect key="frame" x="19" y="713" width="376" height="100"/>
                                 <color key="backgroundColor" systemColor="systemGreenColor"/>
                                 <constraints>
@@ -471,7 +471,7 @@
                     <connections>
                         <outlet property="allowBtn" destination="a45-Zh-t2z" id="v6U-TF-k5h"/>
                         <outlet property="allowLocView" destination="6jQ-G6-5Bh" id="c8V-ga-eoc"/>
-                        <outlet property="bannerView" destination="hZq-B0-pTT" id="nKz-Cy-tOB"/>
+                        <outlet property="bannerView" destination="hZq-B0-pTT" id="LXp-F7-v1E"/>
                         <outlet property="bannerViewHeight" destination="WKZ-6S-D4F" id="wjb-9I-n1h"/>
                         <outlet property="compassContainerViewHeight" destination="4Bv-0N-4fk" id="uPU-E8-jy4"/>
                         <outlet property="compassContanierView" destination="o4n-R1-jfN" id="4Nq-wA-Uk6"/>

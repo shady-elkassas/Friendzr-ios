@@ -301,7 +301,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="m5v-cB-P9a"/>
                     <connections>
-                        <outlet property="bannerView" destination="BXz-zW-weQ" id="dr0-ta-bkD"/>
+                        <outlet property="bannerView" destination="BXz-zW-weQ" id="aaL-AF-qaY"/>
                         <outlet property="bannerViewHeight" destination="p1t-dm-D7K" id="jdl-jR-NOg"/>
                         <outlet property="emptyImg" destination="ipQ-tg-WMq" id="Pc1-P5-UAm"/>
                         <outlet property="emptyLbl" destination="R6Q-SE-yeC" id="hn2-Se-Kl6"/>

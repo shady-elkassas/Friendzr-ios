@@ -243,7 +243,6 @@
 		43967DB627944E15005B1F5D /* StatisticsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43967DB827944E15005B1F5D /* StatisticsCollectionViewCell.xib */; };
 		43967DBD27944E79005B1F5D /* ConfirmReportButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43967DBF27944E79005B1F5D /* ConfirmReportButtonTableViewCell.xib */; };
 		43967DC427944E92005B1F5D /* WriteProblemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43967DC627944E92005B1F5D /* WriteProblemTableViewCell.xib */; };
-		4396AA0927C664F300598B8E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4396AA0827C664F300598B8E /* GoogleService-Info.plist */; };
 		4397236D2709CE9E0062D684 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236C2709CE9E0062D684 /* ChatViewModel.swift */; };
 		4397236F2709D8870062D684 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236E2709D8870062D684 /* ChatModel.swift */; };
 		439CE757280D5A30003C0AD3 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE756280D5A30003C0AD3 /* ChatViewController.swift */; };
@@ -350,6 +349,7 @@
 		43EA53B027DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EA53AE27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift */; };
 		43EA53B127DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EA53AF27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib */; };
 		43F10D222811960F00D96531 /* AppLovinQualityServiceSetup-ios.rb in Resources */ = {isa = PBXBuildFile; fileRef = 43F10D212811960F00D96531 /* AppLovinQualityServiceSetup-ios.rb */; };
+		43F10FB52815CD9600D96531 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43F10FB42815CD9600D96531 /* GoogleService-Info.plist */; };
 		43F473B326E6175F001E4FAE /* AllCategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B226E6175F001E4FAE /* AllCategoriesViewModel.swift */; };
 		43F473B526E61791001E4FAE /* CategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B426E61791001E4FAE /* CategoriesModel.swift */; };
 		43F473B726E61E7F001E4FAE /* InterestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */; };
@@ -651,7 +651,6 @@
 		43967DB727944E15005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StatisticsCollectionViewCell.xib; sourceTree = "<group>"; };
 		43967DBE27944E79005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ConfirmReportButtonTableViewCell.xib; sourceTree = "<group>"; };
 		43967DC527944E92005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/WriteProblemTableViewCell.xib; sourceTree = "<group>"; };
-		4396AA0827C664F300598B8E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4397236C2709CE9E0062D684 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		4397236E2709D8870062D684 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		439CE756280D5A30003C0AD3 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -762,6 +761,7 @@
 		43EA53AE27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		43EA53AF27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatisticsInfoCollectionViewCell.xib; sourceTree = "<group>"; };
 		43F10D212811960F00D96531 /* AppLovinQualityServiceSetup-ios.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = "AppLovinQualityServiceSetup-ios.rb"; sourceTree = "<group>"; };
+		43F10FB42815CD9600D96531 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		43F473B226E6175F001E4FAE /* AllCategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesViewModel.swift; sourceTree = "<group>"; };
 		43F473B426E61791001E4FAE /* CategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModel.swift; sourceTree = "<group>"; };
 		43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewModel.swift; sourceTree = "<group>"; };
@@ -1524,9 +1524,9 @@
 				4382AC4926C27297005C1857 /* Supporting_Files */,
 				4382AC2226C27195005C1857 /* Assets.xcassets */,
 				4382AC2426C27195005C1857 /* LaunchScreen.storyboard */,
-				4371D40D273127F3003B8AFD /* Info.plist */,
 				43F10D212811960F00D96531 /* AppLovinQualityServiceSetup-ios.rb */,
-				4396AA0827C664F300598B8E /* GoogleService-Info.plist */,
+				4371D40D273127F3003B8AFD /* Info.plist */,
+				43F10FB42815CD9600D96531 /* GoogleService-Info.plist */,
 				4388686927844445004D36B2 /* Friendzr-Bridging-Header.h */,
 			);
 			path = Friendzr;
@@ -2020,7 +2020,6 @@
 				4382AC9526C27FF2005C1857 /* Montserrat-Bold.ttf in Resources */,
 				43ACFEC827B3B464001CD340 /* EventDateAndTimeTableViewCell.xib in Resources */,
 				43D00935279441BD00370E2C /* Profile.storyboard in Resources */,
-				4396AA0927C664F300598B8E /* GoogleService-Info.plist in Resources */,
 				43D008F627943A4200370E2C /* RequestsTableViewCell.xib in Resources */,
 				43967D8427944442005B1F5D /* Events.storyboard in Resources */,
 				43D008E8279438B300370E2C /* Request.storyboard in Resources */,
@@ -2041,6 +2040,7 @@
 				4367E47127BA4C4B00FE1880 /* AboutMeTableViewCell.xib in Resources */,
 				43967DA127944DA3005B1F5D /* SeeMoreTableViewCell.xib in Resources */,
 				4369F45F279889BC00D5E064 /* Main.storyboard in Resources */,
+				43F10FB52815CD9600D96531 /* GoogleService-Info.plist in Resources */,
 				43D0090B27943F2300370E2C /* NearbyEventsCollectionViewCell.xib in Resources */,
 				43D009272794416500370E2C /* DeleteAccountTableViewCell.xib in Resources */,
 				43D008C527942B9200370E2C /* Register.storyboard in Resources */,
@@ -2897,6 +2897,10 @@
 					"@executable_path/Frameworks",
 					libswiftCore.dylib,
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
+				);
 				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2927,6 +2931,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					libswiftCore.dylib,
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
 				MARKETING_VERSION = 1.1;
 				ONLY_ACTIVE_ARCH = YES;

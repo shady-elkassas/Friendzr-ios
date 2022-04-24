@@ -7,7 +7,7 @@
 
 import UIKit
 import SwiftUI
-import GoogleMobileAds
+//import GoogleMobileAds
 
 //let adUnitID =  "ca-app-pub-3940256099942544/2934735716"
 //let publisherID = "ca-app-pub-3940256099942544/2934735716"
@@ -17,7 +17,7 @@ import GoogleMobileAds
 
 class GenderDistributionVC: UIViewController {
 
-    @IBOutlet var bannerView: GADBannerView!
+//    @IBOutlet var bannerView: GADBannerView!
     @IBOutlet weak var genderDistributionView: UIView!
     @IBOutlet weak var genderDistributionChart: UIView!
     @IBOutlet weak var tvContainerView: UIView!
@@ -53,20 +53,20 @@ class GenderDistributionVC: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
         
         if !Defaults.hideAds {
-            seyupAds()
+//            seyupAds()
         }else {
             bannerViewHeight.constant = 0
         }
     }
     
-    func seyupAds() {
-        bannerView.adUnitID = URLs.adUnitBanner
-        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-        //        addBannerViewToView(bannerView)
-        bannerView.rootViewController = self
-        bannerView.load(GADRequest())
-        bannerView.delegate = self
-    }
+//    func seyupAds() {
+//        bannerView.adUnitID = URLs.adUnitBanner
+//        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
+//        //        addBannerViewToView(bannerView)
+//        bannerView.rootViewController = self
+//        bannerView.load(GADRequest())
+//        bannerView.delegate = self
+//    }
     
     func getGenderbylocation(lat:Double,lng:Double) {
         genderbylocationVM.getGenderbylocation(ByLat: lat, AndLng: lng)
@@ -131,33 +131,33 @@ class GenderDistributionVC: UIViewController {
 //     }
 
 }
-extension GenderDistributionVC:GADBannerViewDelegate {
-    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-        print(error)
-        bannerViewHeight.constant = 0
-    }
-
-    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-        print("Receive Ad")
-    }
-    
-    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-      print("bannerViewDidRecordImpression")
-    }
-
-    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-      print("bannerViewWillPresentScreen")
-        bannerView.load(GADRequest())
-    }
-
-    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-      print("bannerViewWillDIsmissScreen")
-    }
-
-    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-      print("bannerViewDidDismissScreen")
-    }
-}
+//extension GenderDistributionVC:GADBannerViewDelegate {
+//    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+//        print(error)
+//        bannerViewHeight.constant = 0
+//    }
+//
+//    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+//        print("Receive Ad")
+//    }
+//
+//    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+//      print("bannerViewDidRecordImpression")
+//    }
+//
+//    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+//      print("bannerViewWillPresentScreen")
+//        bannerView.load(GADRequest())
+//    }
+//
+//    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+//      print("bannerViewWillDIsmissScreen")
+//    }
+//
+//    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+//      print("bannerViewDidDismissScreen")
+//    }
+//}
 extension GenderDistributionVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3

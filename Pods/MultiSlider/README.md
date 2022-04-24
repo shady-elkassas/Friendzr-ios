@@ -75,6 +75,14 @@ slider.valueLabelColor = .green
 slider.valueLabelFont = someFont
 ```
 
+For more control over the label text:
+
+```swift
+slider.valueLabelTextForThumb = { thumbIndex, thumbValue in
+    ["Parasol", "Umbrella"][thumbIndex] + " \(thumbValue)"
+}
+```
+
 ### Snap interval
 
 ```swift
@@ -86,6 +94,7 @@ slider.isHapticSnap = false // default is true, i.e. generate haptic feedback wh
 
 ```swift
 slider.tintColor = .cyan // color of track
+slider.thumbTintColor = .blue // color of thumbs
 slider.trackWidth = 32
 slider.hasRoundTrackEnds = true
 slider.showsThumbImageShadow = false // wide tracks look better without thumb shadow
@@ -147,7 +156,7 @@ Legacy versions:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/yonat/MultiSlider", from: "1.11.2")
+    .package(url: "https://github.com/yonat/MultiSlider", from: "1.12.2")
 ]
 ```
 

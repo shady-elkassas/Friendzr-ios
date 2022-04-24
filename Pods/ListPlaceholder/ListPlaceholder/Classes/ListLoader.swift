@@ -38,9 +38,7 @@ import UIKit
     }
     
     public func hideLoader(){
-        DispatchQueue.main.async {
-            self.isUserInteractionEnabled = true
-        }
+        self.isUserInteractionEnabled = true
         if self is UITableView{
             ListLoader.removeLoaderFrom(self as! UITableView)
         }else if self is UICollectionView{

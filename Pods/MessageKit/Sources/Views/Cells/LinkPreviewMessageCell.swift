@@ -25,17 +25,18 @@
 import UIKit
 
 open class LinkPreviewMessageCell: TextMessageCell {
-
-    public lazy var linkPreviewView : LinkPreviewView = {
+    public lazy var linkPreviewView: LinkPreviewView = {
         let view = LinkPreviewView()
         view.translatesAutoresizingMaskIntoConstraints = false
         messageContainerView.addSubview(view)
 
         NSLayoutConstraint.activate([
-            view.leadingAnchor.constraint(equalTo: messageContainerView.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: messageContainerView.trailingAnchor),
-            view.bottomAnchor.constraint(equalTo: messageContainerView.bottomAnchor),
-            view.topAnchor.constraint(equalTo: messageContainerView.topAnchor)
+            view.leadingAnchor.constraint(equalTo: messageContainerView.leadingAnchor,
+                                          constant: messageLabel.textInsets.left),
+            view.trailingAnchor.constraint(equalTo: messageContainerView.trailingAnchor,
+                                           constant: messageLabel.textInsets.right * -1),
+            view.bottomAnchor.constraint(equalTo: messageContainerView.bottomAnchor,
+                                         constant: messageLabel.textInsets.bottom * -1)
         ])
         return view
     }()
@@ -48,8 +49,6 @@ open class LinkPreviewMessageCell: TextMessageCell {
         linkPreviewView.titleLabel.font = attributes.linkPreviewFonts.titleFont
         linkPreviewView.teaserLabel.font = attributes.linkPreviewFonts.teaserFont
         linkPreviewView.domainLabel.font = attributes.linkPreviewFonts.domainFont
-        linkPreviewView.dateLabel.font = attributes.linkPreviewFonts.teaserFont
-        linkPreviewView.peopleLabel.font = attributes.linkPreviewFonts.teaserFont
     }
 
     open override func configure(with message: MessageType, at indexPath: IndexPath, and messagesCollectionView: MessagesCollectionView) {
@@ -59,8 +58,6 @@ open class LinkPreviewMessageCell: TextMessageCell {
             linkPreviewView.titleLabel.textColor = textColor
             linkPreviewView.teaserLabel.textColor = textColor
             linkPreviewView.domainLabel.textColor = textColor
-            linkPreviewView.peopleLabel.textColor = textColor
-            linkPreviewView.dateLabel.textColor = textColor
         }
 
         guard case MessageKind.linkPreview(let linkItem) = message.kind else {
@@ -71,11 +68,9 @@ open class LinkPreviewMessageCell: TextMessageCell {
 
         linkPreviewView.titleLabel.text = linkItem.title
         linkPreviewView.teaserLabel.text = linkItem.teaser
-        linkPreviewView.peopleLabel.text = linkItem.people
-        linkPreviewView.dateLabel.text = linkItem.date
         linkPreviewView.domainLabel.text = linkItem.url.host?.lowercased()
         linkPreviewView.imageView.image = linkItem.thumbnailImage
-        linkURL = nil
+        linkURL = linkItem.url
 
         displayDelegate?.configureLinkPreviewImageView(linkPreviewView.imageView, for: message, at: indexPath, in: messagesCollectionView)
     }
@@ -85,8 +80,6 @@ open class LinkPreviewMessageCell: TextMessageCell {
         linkPreviewView.titleLabel.text = nil
         linkPreviewView.teaserLabel.text = nil
         linkPreviewView.domainLabel.text = nil
-        linkPreviewView.peopleLabel.text = nil
-        linkPreviewView.dateLabel.text = nil
         linkPreviewView.imageView.image = nil
         linkURL = nil
     }

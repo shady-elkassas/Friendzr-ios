@@ -27,21 +27,21 @@ import UIKit
 
 open class LinkPreviewMessageSizeCalculator: TextMessageSizeCalculator {
 
-//    static let imageViewSize: CGFloat = 60
-//    static let imageViewMargin: CGFloat = 8
+    static let imageViewSize: CGFloat = 60
+    static let imageViewMargin: CGFloat = 8
 
     public var titleFont: UIFont
-    public var teaserFont: UIFont = UIFont(name: "Montserrat-Medium", size: 9)!
+    public var teaserFont: UIFont = .preferredFont(forTextStyle: .caption2)
     public var domainFont: UIFont
 
     public override init(layout: MessagesCollectionViewFlowLayout?) {
-        let titleFont = UIFont(name: "Montserrat-SemiBold", size: 12)
+        let titleFont = UIFont.systemFont(ofSize: 13, weight: .semibold)
         let titleFontMetrics = UIFontMetrics(forTextStyle: .footnote)
-        self.titleFont = titleFontMetrics.scaledFont(for: titleFont!)
+        self.titleFont = titleFontMetrics.scaledFont(for: titleFont)
 
-        let domainFont = UIFont(name: "Montserrat-SemiBold", size: 12)
+        let domainFont = UIFont.systemFont(ofSize: 12, weight: .semibold)
         let domainFontMetrics = UIFontMetrics(forTextStyle: .caption1)
-        self.domainFont = domainFontMetrics.scaledFont(for: domainFont!)
+        self.domainFont = domainFontMetrics.scaledFont(for: domainFont)
 
         super.init(layout: layout)
     }
@@ -66,8 +66,8 @@ open class LinkPreviewMessageSizeCalculator: TextMessageSizeCalculator {
 
         let labelInsets: UIEdgeInsets = messageLabelInsets(for: message)
 
-        let minHeight = containerSize.height //+ LinkPreviewMessageSizeCalculator.imageViewSize
-        let previewMaxWidth = containerSize.width // - (LinkPreviewMessageSizeCalculator.imageViewSize + LinkPreviewMessageSizeCalculator.imageViewMargin + labelInsets.horizontal)
+        let minHeight = containerSize.height + LinkPreviewMessageSizeCalculator.imageViewSize
+        let previewMaxWidth = containerSize.width - (LinkPreviewMessageSizeCalculator.imageViewSize + LinkPreviewMessageSizeCalculator.imageViewMargin + labelInsets.horizontal)
 
         calculateContainerSize(with: NSAttributedString(string: linkItem.title ?? "", attributes: [.font: titleFont]),
                                containerSize: &containerSize,
@@ -97,6 +97,6 @@ private extension LinkPreviewMessageSizeCalculator {
     private func calculateContainerSize(with attibutedString: NSAttributedString, containerSize: inout CGSize, maxWidth: CGFloat) {
         guard !attibutedString.string.isEmpty else { return }
         let size = labelSize(for: attibutedString, considering: maxWidth)
-        containerSize.height += size.height + 70
+        containerSize.height += size.height
     }
 }

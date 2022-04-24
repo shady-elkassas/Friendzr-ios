@@ -152,6 +152,7 @@ extension MultiSlider {
     private func addThumbView() {
         let i = thumbViews.count
         let thumbView = UIImageView(image: thumbImage ?? defaultThumbImage)
+        thumbView.applyTint(color: thumbTintColor)
         thumbView.addShadow()
         thumbViews.append(thumbView)
         slideView.addConstrainedSubview(thumbView, constrain: NSLayoutConstraint.Attribute.center(in: orientation).perpendicularCenter)
@@ -195,7 +196,8 @@ extension MultiSlider {
         } else {
             labelValue = value[i]
         }
-        valueLabels[i].text = valueLabelFormatter.string(from: NSNumber(value: Double(labelValue)))
+        valueLabels[i].text = valueLabelTextForThumb?(i, labelValue)
+            ?? valueLabelFormatter.string(from: NSNumber(value: Double(labelValue)))
     }
 
     func updateAllValueLabels() {

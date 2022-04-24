@@ -42,7 +42,7 @@ open class AudioMessageCell: MessageContentCell {
     public lazy var durationLabel: UILabel = {
         let durationLabel = UILabel(frame: CGRect.zero)
         durationLabel.textAlignment = .right
-        durationLabel.font = UIFont(name: "Montserrat-Medium", size: 14)
+        durationLabel.font = UIFont.systemFont(ofSize: 14)
         durationLabel.text = "0:00"
         return durationLabel
     }()

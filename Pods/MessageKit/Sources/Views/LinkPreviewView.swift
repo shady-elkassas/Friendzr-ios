@@ -30,11 +30,19 @@ open class LinkPreviewView: UIView {
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.layer.cornerRadius = 8
-        imageView.layer.masksToBounds = true
+
+        addSubview(imageView)
+
+        NSLayoutConstraint.activate([
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1),
+            imageView.widthAnchor.constraint(equalToConstant: LinkPreviewMessageSizeCalculator.imageViewSize),
+            imageView.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor)
+        ])
+
         return imageView
     }()
-    
     lazy var titleLabel: UILabel = {
         let label: UILabel = .init()
         label.numberOfLines = 0
@@ -47,49 +55,23 @@ open class LinkPreviewView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    lazy var peopleLabel: UILabel = {
-        let label: UILabel = .init()
-        label.numberOfLines = 0
-        label.text = "New Lable"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    lazy var dateLabel: UILabel = {
-        let label: UILabel = .init()
-        label.numberOfLines = 0
-        label.text = "New Lable"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     lazy var domainLabel: UILabel = {
         let label: UILabel = .init()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
-    lazy var gradientView: GradientView2 = {
-        let view: GradientView2 = .init(frame: .zero)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.firstColor = UIColor.white
-        view.secondColor = UIColor.black
-        view.vertical = true
-        return view
-    }()
-    
+
     private lazy var contentView: UIView = {
         let view: UIView = .init(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
-        
+
         addSubview(view)
-        
+
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: topAnchor),
-            view.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                          constant: 0),
+            view.leadingAnchor.constraint(equalTo: imageView.trailingAnchor,
+                                          constant: LinkPreviewMessageSizeCalculator.imageViewMargin),
             view.trailingAnchor.constraint(equalTo: trailingAnchor),
             view.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
@@ -100,103 +82,31 @@ open class LinkPreviewView: UIView {
     init() {
         super.init(frame: .zero)
 
-        contentView.addSubview(imageView)
-        NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
-        
-        contentView.addSubview(gradientView)
-        NSLayoutConstraint.activate([
-            gradientView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            gradientView.heightAnchor.constraint(greaterThanOrEqualToConstant: 85),
-            gradientView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
-            gradientView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
-        
         contentView.addSubview(titleLabel)
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 10)
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
 
         contentView.addSubview(teaserLabel)
         NSLayoutConstraint.activate([
-            teaserLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            teaserLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             teaserLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 3),
-            teaserLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10)
+            teaserLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
-        
-        
-     
-        contentView.addSubview(peopleLabel)
+        teaserLabel.setContentHuggingPriority(.init(249), for: .vertical)
+
+        contentView.addSubview(domainLabel)
         NSLayoutConstraint.activate([
-            peopleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -10),
-            peopleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -10)
-        ])
-        
-        contentView.addSubview(dateLabel)
-        NSLayoutConstraint.activate([
-            dateLabel.leadingAnchor.constraint(equalTo: peopleLabel.leadingAnchor),
-            dateLabel.bottomAnchor.constraint(equalTo: peopleLabel.topAnchor,constant: -4)
+            domainLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            domainLabel.topAnchor.constraint(equalTo: teaserLabel.bottomAnchor, constant: 3),
+            domainLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            domainLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
 
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-}
-
-class GradientView2: UIView {
-   @IBInspectable var firstColor: UIColor = UIColor.clear
-   @IBInspectable var secondColor: UIColor = UIColor.black
-
-   @IBInspectable var vertical: Bool = true
-
-   lazy var gradientLayer: CAGradientLayer = {
-       let layer = CAGradientLayer()
-       layer.colors = [firstColor.cgColor, secondColor.cgColor]
-       layer.startPoint = CGPoint.zero
-       return layer
-   }()
-
-   //MARK: -
-
-   required init?(coder aDecoder: NSCoder) {
-       super.init(coder: aDecoder)
-
-       applyGradient()
-   }
-
-   override init(frame: CGRect) {
-       super.init(frame: frame)
-
-       applyGradient()
-   }
-
-   override func prepareForInterfaceBuilder() {
-       super.prepareForInterfaceBuilder()
-       applyGradient()
-   }
-
-   override func layoutSubviews() {
-       super.layoutSubviews()
-       updateGradientFrame()
-   }
-
-   //MARK: -
-
-   func applyGradient() {
-       updateGradientDirection()
-       layer.sublayers = [gradientLayer]
-   }
-
-   func updateGradientFrame() {
-       gradientLayer.frame = bounds
-   }
-
-   func updateGradientDirection() {
-       gradientLayer.endPoint = vertical ? CGPoint(x: 0, y: 1) : CGPoint(x: 1, y: 0)
-   }
 }

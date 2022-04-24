@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 import ListPlaceholder
-import GoogleMobileAds
+//import GoogleMobileAds
 import SDWebImage
 import Network
 import AppLovinSDK
@@ -85,7 +85,11 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     var isSearch:Bool = false
     var leaveOrJoinTitle:String = ""
     
-    var adView:MAAdView = MAAdView(adUnitIdentifier: "65940d589c7a5266")
+    var adView:MAAdView! // = MAAdView(adUnitIdentifier: "65940d589c7a5266")
+    var interstitialAd: MAInterstitialAd!
+    var retryAttempt = 0.0
+    private var callbacks: [String] = []
+
 
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -1489,7 +1493,7 @@ extension InboxVC {
 extension InboxVC : MAAdViewAdDelegate , MAAdRevenueDelegate { //, MAAdReviewDelegate {
     
     func createBannerAd() {
-//        adView = MAAdView(adUnitIdentifier: "65940d589c7a5266")
+        adView = MAAdView(adUnitIdentifier: "65940d589c7a5266")
         adView.delegate = self
         adView.revenueDelegate = self
 //        adView.adReviewDelegate = self
@@ -1499,16 +1503,23 @@ extension InboxVC : MAAdViewAdDelegate , MAAdRevenueDelegate { //, MAAdReviewDel
         // Stretch to the width of the screen for banners to be fully functional
 //        let width: CGFloat = UIScreen.main.bounds.width
     
-        adView.frame = CGRect(x: 0 , y: 0, width: bannerView.frame.width, height: bannerView.frame.height)
-//        adView.setExtraParameterForKey("adaptive_banner", value: "true")
+//        bannerView.backgroundColor = .red
+        
+        adView.frame = bannerView.frame
+        adView.setExtraParameterForKey("adaptive_banner", value: "true")
 
         // Set background or background color for banners to be fully functional
         adView.backgroundColor = UIColor.FriendzrColors.primary!
     
         bannerView.addSubview(adView)
     
+//        adView.isHidden = false
+//        adView.startAutoRefresh()
+        
         // Load the first ad
-        adView.loadAd()
+        DispatchQueue.main.async {
+            self.adView.loadAd()
+        }
     }
 
     // MARK: MAAdDelegate Protocol
@@ -1548,7 +1559,7 @@ extension InboxVC : MAAdViewAdDelegate , MAAdRevenueDelegate { //, MAAdReviewDel
     
     func didPayRevenue(for ad: MAAd)
     {
-//        logCallback()
+        logCallback()
         
         let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)!
         adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
@@ -1558,20 +1569,13 @@ extension InboxVC : MAAdViewAdDelegate , MAAdRevenueDelegate { //, MAAdReviewDel
         {
             adjustAdRevenue.setAdRevenuePlacement(placement)
         }
-
+            
         Adjust.trackAdRevenue(adjustAdRevenue)
-        
-//        let revenue = ad.revenue // In USD
-//
-//        // Miscellaneous data
-//        let countryCode = ALSdk.shared()!.configuration.countryCode // "US" for the United States, etc - Note: Do not confuse this with currency code which is "USD" in most cases!
-//        let networkName = ad.networkName // Display name of the network that showed the ad (e.g. "AdColony")
-//        let adUnitId = ad.adUnitIdentifier // The MAX Ad Unit ID
-//        let adFormat = ad.format // The ad format of the ad (e.g. BANNER, MREC, INTERSTITIAL, REWARDED)
-//        let placement = ad.placement // The placement this ad's postbacks are tied to
-//        let networkPlacement = ad.networkPlacement // The placement ID from the network that showed the ad
-
     }
 
+    internal func logCallback(functionName: String = #function)
+    {
+        callbacks.append(functionName)
+    }
 }
 

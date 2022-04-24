@@ -21,7 +21,7 @@ import CoreLocation
 import UserNotifications
 //import SCSDKLoginKit
 //import TikTokOpenSDK
-import GoogleMobileAds
+//import GoogleMobileAds
 import IQKeyboardManager
 import AWSCore
 import SwiftUI
@@ -35,7 +35,7 @@ import Adjust
 //}
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, AdjustDelegate {
     
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
@@ -62,26 +62,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setupHeightApp()
         
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
+//        GADMobileAds.sharedInstance().start(completionHandler: nil)
         // Please make sure to set the mediation provider value to "max" to ensure proper functionality
         // Initialize the AppLovin SDK
+        
+        // Please make sure to set the mediation provider value to "max" to ensure proper functionality
+
+        // Initialize the AppLovin SDK
         ALSdk.shared()!.mediationProvider = ALMediationProviderMAX
+        ALSdk.shared()!.userIdentifier = Defaults.token
+        ALSdk.shared()!.showMediationDebugger()
+
         ALSdk.shared()!.initializeSdk(completionHandler: { configuration in
             // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
             
             // Initialize Adjust SDK
-            let adjustConfig = ADJConfig(appToken: "wQ28AvPO3elDVRVTr3Gc1TtZvemhJQ4v_R3Bu6k_KczRm5zGgPKkRi3t-KPJ8toq8IP2BwXGyvokVCz154wmTU", environment: ADJEnvironmentSandbox)
-            Adjust.appDidLaunch(adjustConfig)
-        })
+            let adjustConfig = ADJConfig(appToken: "wQ28AvPO3elDVRVTr3Gc1TtZvemhJQ4v_R3Bu6k_KczRm5zGgPKkRi3t-KPJ8toq8IP2BwXGyvokVCz154wmTU", environment: ADJEnvironmentSandbox,allowSuppressLogLevel: true)
 
-//        ALSdk.shared()!.mediationProvider = ALMediationProviderMAX
+            adjustConfig?.delegate = self
+            Adjust.getInstance()
+            Adjust.appDidLaunch(adjustConfig)
+            
+//            Adjust.addSessionCallbackParameter("obi", value: "wan")
+//            Adjust.addSessionCallbackParameter("master", value: "yoda")
 //
-//        ALSdk.shared()!.userIdentifier = Defaults.token
+//            // Add session partner parameters.
+//            Adjust.addSessionPartnerParameter("darth", value: "vader")
+//            Adjust.addSessionPartnerParameter("han", value: "solo")
 //
-//        ALSdk.shared()!.initializeSdk(completionHandler: { configuration in
-//            // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
+//            // Remove session callback parameter.
+//            Adjust.removeSessionCallbackParameter("obi")
 //
-//        })
+//            // Remove session partner parameter.
+//            Adjust.removeSessionPartnerParameter("han")
+            
+            // Remove all session callback parameters.
+            // Adjust.resetSessionCallbackParameters()
+            
+            // Remove all session partner parameters.
+            // Adjust.resetSessionPartnerParameters()
+            // Initialise the SDK.
+//            Adjust.appDidLaunch(adjustConfig!)
+        })
         
         // Initialize Identity Provider //AWS
         let credentialsProvider = AWSCognitoCredentialsProvider(
@@ -189,6 +211,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+    }
+    
+    func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
+        NSLog("Scheme based deep link opened an app: %@", url.absoluteString)
+        // Pass deep link to Adjust in order to potentially reattribute user.
+        Adjust.appWillOpen(url)
+        return true
+    }
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        if (userActivity.activityType == NSUserActivityTypeBrowsingWeb) {
+            NSLog("Universal link opened an app: %@", userActivity.webpageURL!.absoluteString)
+            // Pass deep link to Adjust in order to potentially reattribute user.
+            Adjust.appWillOpen(userActivity.webpageURL!)
+        }
+        return true
+    }
+    
+    func adjustAttributionChanged(_ attribution: ADJAttribution?) {
+        NSLog("Attribution callback called!")
+        NSLog("Attribution: %@", attribution ?? "")
+    }
+    
+    func adjustEventTrackingSucceeded(_ eventSuccessResponseData: ADJEventSuccess?) {
+        NSLog("Event success callback called!")
+        NSLog("Event success data: %@", eventSuccessResponseData ?? "")
+    }
+    
+    func adjustEventTrackingFailed(_ eventFailureResponseData: ADJEventFailure?) {
+        NSLog("Event failure callback called!")
+        NSLog("Event failure data: %@", eventFailureResponseData ?? "")
+    }
+    
+    func adjustSessionTrackingSucceeded(_ sessionSuccessResponseData: ADJSessionSuccess?) {
+        NSLog("Session success callback called!")
+        NSLog("Session success data: %@", sessionSuccessResponseData ?? "")
+    }
+    
+    func adjustSessionTrackingFailed(_ sessionFailureResponseData: ADJSessionFailure?) {
+        NSLog("Session failure callback called!");
+        NSLog("Session failure data: %@", sessionFailureResponseData ?? "")
+    }
+    
+    func adjustDeeplinkResponse(_ deeplink: URL?) -> Bool {
+        NSLog("Deferred deep link callback called!")
+        NSLog("Deferred deep link URL: %@", deeplink?.absoluteString ?? "")
+        return true
     }
     
     // MARK: UISceneSession Lifecycle

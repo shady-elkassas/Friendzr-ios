@@ -11,7 +11,7 @@ import SDWebImage
 import GoogleMaps
 import Alamofire
 import ListPlaceholder
-import GoogleMobileAds
+//import GoogleMobileAds
 import MapKit
 import Network
 
@@ -703,32 +703,32 @@ extension ExternalEventDetailsVC: UITableViewDelegate,UIPopoverPresentationContr
     }
 }
 
-extension ExternalEventDetailsVC:GADBannerViewDelegate {
-    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-        print(error)
-    }
-    
-    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-        print("Receive Ad")
-    }
-    
-    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-        print("bannerViewDidRecordImpression")
-    }
-    
-    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-        print("bannerViewWillPresentScreen")
-        bannerView.load(GADRequest())
-    }
-    
-    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-        print("bannerViewWillDIsmissScreen")
-    }
-    
-    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-        print("bannerViewDidDismissScreen")
-    }
-}
+//extension ExternalEventDetailsVC:GADBannerViewDelegate {
+//    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+//        print(error)
+//    }
+//
+//    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+//        print("Receive Ad")
+//    }
+//
+//    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+//        print("bannerViewDidRecordImpression")
+//    }
+//
+//    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+//        print("bannerViewWillPresentScreen")
+//        bannerView.load(GADRequest())
+//    }
+//
+//    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+//        print("bannerViewWillDIsmissScreen")
+//    }
+//
+//    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+//        print("bannerViewDidDismissScreen")
+//    }
+//}
 
 extension ExternalEventDetailsVC {
     

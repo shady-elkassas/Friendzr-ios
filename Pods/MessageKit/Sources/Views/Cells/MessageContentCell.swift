@@ -94,11 +94,11 @@ open class MessageContentCell: MessageCollectionViewCell {
         contentView.addSubview(accessoryView)
         contentView.addSubview(cellTopLabel)
         contentView.addSubview(messageTopLabel)
+        contentView.addSubview(messageBottomLabel)
         contentView.addSubview(cellBottomLabel)
         contentView.addSubview(messageContainerView)
         contentView.addSubview(avatarView)
         contentView.addSubview(messageTimestampLabel)
-        contentView.addSubview(messageBottomLabel)
     }
 
     open override func prepareForReuse() {
@@ -270,14 +270,7 @@ open class MessageContentCell: MessageCollectionViewCell {
             fatalError(MessageKitError.avatarPositionUnresolved)
         }
 
-        let minmumWidth = UIScreen.main.bounds.width / 2
-        if attributes.messageContainerSize.width < minmumWidth {
-            attributes.messageContainerSize.width = minmumWidth
-        }
-        
-        messageContainerView.frame = CGRect(origin: origin, size: CGSize(width: attributes.messageContainerSize.width, height: attributes.messageContainerSize.height + 16))
-        
-//        CGRect(origin: origin, size: attributes.messageContainerSize)
+        messageContainerView.frame = CGRect(origin: origin, size: attributes.messageContainerSize)
     }
 
     /// Positions the cell's top label.
@@ -319,7 +312,7 @@ open class MessageContentCell: MessageCollectionViewCell {
         messageBottomLabel.textAlignment = attributes.messageBottomLabelAlignment.textAlignment
         messageBottomLabel.textInsets = attributes.messageBottomLabelAlignment.textInsets
 
-        let y = messageContainerView.frame.maxY + attributes.messageContainerPadding.bottom - 22
+        let y = messageContainerView.frame.maxY + attributes.messageContainerPadding.bottom
         let origin = CGPoint(x: 0, y: y)
 
         messageBottomLabel.frame = CGRect(origin: origin, size: attributes.messageBottomLabelSize)

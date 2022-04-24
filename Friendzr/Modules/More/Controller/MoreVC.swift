@@ -356,7 +356,7 @@ extension MoreVC : UITableViewDelegate {
             if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "Terms & Conditions".localizedString
-                vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/EULAOct2021.pdf"
+                vc.urlString = "https://friendzr.com/terms-conditions/"
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break

@@ -19,6 +19,7 @@
 
 
 // The cell reuse identifier we are going to use.
+static NSString *gOverrideVersion = nil;
 static NSString *const kCellIdentifier = @"DemoCellIdentifier";
 static const CGFloat kSelectionHeight = 40;
 static const CGFloat kSelectionSwitchWidth = 50;
@@ -50,13 +51,15 @@ static const CGFloat kEdgeBuffer = 8;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-  // Clear the title to make room for next view to share the header space in splitsreen view.
+  // Clear the title to make room for next view to share the header space in splitscreen view.
   self.title = nil;
   [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+
+  self.navigationController.navigationBar.translucent = NO;
 
   // Set up the edit selections UI.
   [self setUpEditSelectionsUI];
@@ -157,11 +160,10 @@ static const CGFloat kEdgeBuffer = 8;
 
   // Set up the individual place fields that we can request.
   _nextSelectionYPos += kSelectionHeight;
-  for (NSUInteger placeField = GMSPlaceFieldName; placeField <= GMSPlaceFieldBusinessStatus;
+  for (NSUInteger placeField = GMSPlaceFieldName; placeField <= GMSPlaceFieldIconBackgroundColor;
        placeField <<= 1) {
     [scrollView addSubview:[self selectionButtonForPlaceField:(GMSPlaceField)placeField]];
   }
-
 
   // Add the close button to dismiss the selection UI.
   UIButton *close =
@@ -248,6 +250,8 @@ static const CGFloat kEdgeBuffer = 8;
     @(GMSPlaceFieldPhotos) : @"Photos",
     @(GMSPlaceFieldUTCOffsetMinutes) : @"UTC Offset Minutes",
     @(GMSPlaceFieldBusinessStatus) : @"Business Status",
+    @(GMSPlaceFieldIconImageURL) : @"Icon Image URL",
+    @(GMSPlaceFieldIconBackgroundColor) : @"Icon Background Color",
   };
   UIButton *selectionButton = [self selectionButtonForTitle:fieldsMapping[@(placeField)]];
   UISwitch *selectionSwitch = [self switchFromButton:selectionButton];
@@ -382,8 +386,8 @@ static const CGFloat kEdgeBuffer = 8;
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   // Dequeue a table view cell to use.
-  UITableViewCell *cell =
-      [tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier
+                                                          forIndexPath:indexPath];
 
   // Grab the demo object.
   Demo *demo = _demoData.sections[indexPath.section].demos[indexPath.row];
@@ -404,11 +408,16 @@ static const CGFloat kEdgeBuffer = 8;
   [self showDemo:demo];
 }
 
++ (NSString *)overrideVersion {
+  return [[[NSProcessInfo processInfo] environment] objectForKey:@"PLACES_VERSION_NUMBER_OVERRIDE"];
+}
+
 + (NSString *)titleText {
   NSString *titleFormat = NSLocalizedString(
       @"App.NameAndVersion", @"The name of the app to display in a navigation bar along with a "
                              @"placeholder for the SDK version number");
-  return [NSString stringWithFormat:titleFormat, [GMSPlacesClient SDKLongVersion]];
+  return [NSString
+      stringWithFormat:titleFormat, [self overrideVersion] ?: [GMSPlacesClient SDKLongVersion]];
 }
 
 #pragma mark - Handle Orientation Changes

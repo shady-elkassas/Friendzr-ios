@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="un6-eD-9hn">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="un6-eD-9hn">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -398,7 +398,7 @@
                                     <constraint firstItem="8hm-Nw-OUh" firstAttribute="centerY" secondItem="cJK-KE-Enf" secondAttribute="centerY" id="yI3-n8-mvG"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y8M-R4-wHR" customClass="GADBannerView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y8M-R4-wHR">
                                 <rect key="frame" x="19" y="713" width="376" height="100"/>
                                 <color key="backgroundColor" systemColor="systemGreenColor"/>
                                 <constraints>
@@ -438,7 +438,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="TGt-Y0-f73"/>
                     <connections>
-                        <outlet property="bannerView" destination="y8M-R4-wHR" id="HzW-Cf-rXC"/>
+                        <outlet property="bannerView" destination="y8M-R4-wHR" id="oPy-f5-E2y"/>
                         <outlet property="bannerViewHeight" destination="jeK-5l-pqO" id="JjD-iQ-o0N"/>
                         <outlet property="emptyImg" destination="hCg-KS-VYB" id="LOv-th-4s7"/>
                         <outlet property="emptyLbl" destination="HZp-Ep-hpc" id="W9h-Cq-gbt"/>
@@ -509,7 +509,7 @@
     <resources>
         <image name="request_selected_ic" width="27" height="27"/>
         <image name="request_unselected_ic" width="19" height="16"/>
-        <image name="requestesnodata_img" width="32" height="32"/>
+        <image name="requestesnodata_img" width="583.5" height="529.5"/>
         <namedColor name="BGColor">
             <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

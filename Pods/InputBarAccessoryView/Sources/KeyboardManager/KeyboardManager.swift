@@ -214,7 +214,6 @@ open class KeyboardManager: NSObject, UIGestureRecognizerDelegate {
     open func keyboardDidShow(notification: NSNotification) {
         guard let keyboardNotification = KeyboardNotification(from: notification) else { return }
         callbacks[.didShow]?(keyboardNotification)
-        
     }
     
     /// An observer method called last in the lifecycle of a keyboard becoming hidden
