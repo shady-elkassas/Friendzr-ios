@@ -230,6 +230,7 @@
 		43896A7D27AC14BA00EE3547 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43896A7C27AC14BA00EE3547 /* NetworkExtension.framework */; };
 		4389DC8F27BE3B6B00B62CDC /* PreferToViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4389DC8E27BE3B6B00B62CDC /* PreferToViewModel.swift */; };
 		4389DC9127BE3B8E00B62CDC /* PreferToModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4389DC9027BE3B8E00B62CDC /* PreferToModel.swift */; };
+		439381432816B009002FFED1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 439381422816B009002FFED1 /* GoogleService-Info.plist */; };
 		43967D6F279443D3005B1F5D /* BlockAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43967D71279443D3005B1F5D /* BlockAlertView.xib */; };
 		43967D76279443F7005B1F5D /* CalendarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43967D78279443F7005B1F5D /* CalendarView.xib */; };
 		43967D7D2794440F005B1F5D /* AddNewTagView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43967D7F2794440F005B1F5D /* AddNewTagView.xib */; };
@@ -349,7 +350,6 @@
 		43EA53B027DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EA53AE27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift */; };
 		43EA53B127DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EA53AF27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib */; };
 		43F10D222811960F00D96531 /* AppLovinQualityServiceSetup-ios.rb in Resources */ = {isa = PBXBuildFile; fileRef = 43F10D212811960F00D96531 /* AppLovinQualityServiceSetup-ios.rb */; };
-		43F10FB52815CD9600D96531 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 43F10FB42815CD9600D96531 /* GoogleService-Info.plist */; };
 		43F473B326E6175F001E4FAE /* AllCategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B226E6175F001E4FAE /* AllCategoriesViewModel.swift */; };
 		43F473B526E61791001E4FAE /* CategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B426E61791001E4FAE /* CategoriesModel.swift */; };
 		43F473B726E61E7F001E4FAE /* InterestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */; };
@@ -638,6 +638,7 @@
 		43896A7C27AC14BA00EE3547 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		4389DC8E27BE3B6B00B62CDC /* PreferToViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferToViewModel.swift; sourceTree = "<group>"; };
 		4389DC9027BE3B8E00B62CDC /* PreferToModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferToModel.swift; sourceTree = "<group>"; };
+		439381422816B009002FFED1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		43967D70279443D3005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BlockAlertView.xib; sourceTree = "<group>"; };
 		43967D77279443F7005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CalendarView.xib; sourceTree = "<group>"; };
 		43967D7E2794440F005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AddNewTagView.xib; sourceTree = "<group>"; };
@@ -761,7 +762,6 @@
 		43EA53AE27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		43EA53AF27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatisticsInfoCollectionViewCell.xib; sourceTree = "<group>"; };
 		43F10D212811960F00D96531 /* AppLovinQualityServiceSetup-ios.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = "AppLovinQualityServiceSetup-ios.rb"; sourceTree = "<group>"; };
-		43F10FB42815CD9600D96531 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		43F473B226E6175F001E4FAE /* AllCategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesViewModel.swift; sourceTree = "<group>"; };
 		43F473B426E61791001E4FAE /* CategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModel.swift; sourceTree = "<group>"; };
 		43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewModel.swift; sourceTree = "<group>"; };
@@ -1525,8 +1525,8 @@
 				4382AC2226C27195005C1857 /* Assets.xcassets */,
 				4382AC2426C27195005C1857 /* LaunchScreen.storyboard */,
 				43F10D212811960F00D96531 /* AppLovinQualityServiceSetup-ios.rb */,
+				439381422816B009002FFED1 /* GoogleService-Info.plist */,
 				4371D40D273127F3003B8AFD /* Info.plist */,
-				43F10FB42815CD9600D96531 /* GoogleService-Info.plist */,
 				4388686927844445004D36B2 /* Friendzr-Bridging-Header.h */,
 			);
 			path = Friendzr;
@@ -2040,7 +2040,6 @@
 				4367E47127BA4C4B00FE1880 /* AboutMeTableViewCell.xib in Resources */,
 				43967DA127944DA3005B1F5D /* SeeMoreTableViewCell.xib in Resources */,
 				4369F45F279889BC00D5E064 /* Main.storyboard in Resources */,
-				43F10FB52815CD9600D96531 /* GoogleService-Info.plist in Resources */,
 				43D0090B27943F2300370E2C /* NearbyEventsCollectionViewCell.xib in Resources */,
 				43D009272794416500370E2C /* DeleteAccountTableViewCell.xib in Resources */,
 				43D008C527942B9200370E2C /* Register.storyboard in Resources */,
@@ -2058,6 +2057,7 @@
 				43967DB627944E15005B1F5D /* StatisticsCollectionViewCell.xib in Resources */,
 				4367E46D27BA4BC600FE1880 /* BestDescribesTableViewCell.xib in Resources */,
 				43D008DA2794386A00370E2C /* EmptyViewTableViewCell.xib in Resources */,
+				439381432816B009002FFED1 /* GoogleService-Info.plist in Resources */,
 				43D008EF27943A1500370E2C /* RequestTableViewCell.xib in Resources */,
 				436850A027453E3800A62287 /* TagCollectionViewCell.xib in Resources */,
 				43967D8B27944D18005B1F5D /* EventCalendarView.xib in Resources */,
@@ -2886,7 +2886,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.14;
+				CURRENT_PROJECT_VERSION = 1.0.15;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2922,7 +2922,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.14;
+				CURRENT_PROJECT_VERSION = 1.0.15;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

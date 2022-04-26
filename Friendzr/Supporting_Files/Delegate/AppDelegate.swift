@@ -21,7 +21,7 @@ import CoreLocation
 import UserNotifications
 //import SCSDKLoginKit
 //import TikTokOpenSDK
-//import GoogleMobileAds
+import GoogleMobileAds
 import IQKeyboardManager
 import AWSCore
 import SwiftUI
@@ -62,7 +62,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AdjustDelegate {
         
         setupHeightApp()
         
-//        GADMobileAds.sharedInstance().start(completionHandler: nil)
         // Please make sure to set the mediation provider value to "max" to ensure proper functionality
         // Initialize the AppLovin SDK
         
@@ -73,14 +72,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AdjustDelegate {
         ALSdk.shared()!.userIdentifier = Defaults.token
         ALSdk.shared()!.showMediationDebugger()
 
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "412554a7b81ba0ff23e5d191aca902c4"]
+
         ALSdk.shared()!.initializeSdk(completionHandler: { configuration in
             // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
             
             // Initialize Adjust SDK
-            let adjustConfig = ADJConfig(appToken: "wQ28AvPO3elDVRVTr3Gc1TtZvemhJQ4v_R3Bu6k_KczRm5zGgPKkRi3t-KPJ8toq8IP2BwXGyvokVCz154wmTU", environment: ADJEnvironmentSandbox,allowSuppressLogLevel: true)
-
+            let adjustConfig = ADJConfig(appToken: "4b682ebf23ea4cff83d3b50197e22965", environment: ADJEnvironmentSandbox,allowSuppressLogLevel: true)
+            
             adjustConfig?.delegate = self
-            Adjust.getInstance()
+//            Adjust.getInstance()
             Adjust.appDidLaunch(adjustConfig)
             
 //            Adjust.addSessionCallbackParameter("obi", value: "wan")

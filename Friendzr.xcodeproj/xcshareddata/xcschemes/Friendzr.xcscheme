@@ -71,12 +71,6 @@
             ReferencedContainer = "container:Friendzr.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "-v"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
       <AdditionalOptions>
          <AdditionalOption
             key = "MallocStackLogging"

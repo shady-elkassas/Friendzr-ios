@@ -418,7 +418,7 @@
                                     <constraint firstAttribute="trailing" secondItem="QsD-Ea-3kU" secondAttribute="trailing" constant="20" id="xNN-ZW-Drj"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hZq-B0-pTT">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hZq-B0-pTT" customClass="adUIView">
                                 <rect key="frame" x="19" y="713" width="376" height="100"/>
                                 <color key="backgroundColor" systemColor="systemGreenColor"/>
                                 <constraints>

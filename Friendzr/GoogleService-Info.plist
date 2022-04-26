@@ -21,18 +21,18 @@
 	<key>STORAGE_BUCKET</key>
 	<string>friendzr-1631017594822.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:43837105804:ios:bfcf2135eacae54bc3bda9</string>
 	<key>ADMOB_APP_ID</key>
-	<string>ca-app-pub-1921002112672547~7686120966</string>
+	<string>ca-app-pub-6206027456764756~1747027446</string>
 </dict>
 </plist>

@@ -2,6 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AppLovinConsentFlowInfo</key>
+	<dict>
+		<key>AppLovinConsentFlowEnabled</key>
+		<true/>
+		<key>AppLovinConsentFlowPrivacyPolicy</key>
+		<string>https://friendzr.com/privacy-policy/</string>
+		<key>AppLovinConsentFlowTermsOfService</key>
+		<string>https://friendzr.com/terms-conditions/</string>
+	</dict>
+	<key>AppLovinSdkKey</key>
+	<string>wQ28AvPO3elDVRVTr3Gc1TtZvemhJQ4v_R3Bu6k_KczRm5zGgPKkRi3t-KPJ8toq8IP2BwXGyvokVCz154wmTU</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.FriendzSocialMediaLimited.Friendzr-ios</string>
@@ -57,14 +68,19 @@
 	<string>Friendzr</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
-	<key>GoogleUtilitiesAppDelegateProxyEnabled</key>
-	<false/>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
 	<false/>
 	<key>FirebaseMessagingAutoInitEnabled</key>
 	<true/>
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-1921002112672547~7686120966</string>
+	<string>ca-app-pub-6206027456764756~1747027446</string>
+	<key>GoogleUtilitiesAppDelegateProxyEnabled</key>
+	<false/>
+	<key>Information Property List</key>
+	<dict>
+		<key>AppLovinVerboseLoggingOn</key>
+		<true/>
+	</dict>
 	<key>InstagramClientId</key>
 	<string>284152480286634</string>
 	<key>InstagramRedirectURI</key>
@@ -99,6 +115,8 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAdvertisingAttributionReportEndpoint</key>
+	<string>https://postbacks-app.com</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -494,19 +512,6 @@
 			<string>v9wttpbfk9.skadnetwork</string>
 		</dict>
 	</array>
-	<key>AppLovinSdkKey</key>
-	<string>wQ28AvPO3elDVRVTr3Gc1TtZvemhJQ4v_R3Bu6k_KczRm5zGgPKkRi3t-KPJ8toq8IP2BwXGyvokVCz154wmTU</string>
-	<key>NSAdvertisingAttributionReportEndpoint</key>
-	<string>https://postbacks-app.com</string>
-	<key>AppLovinConsentFlowInfo</key>
-	<dict>
-		<key>AppLovinConsentFlowEnabled</key>
-		<true/>
-		<key>AppLovinConsentFlowPrivacyPolicy</key>
-		<string>https://friendzr.com/privacy-policy/</string>
-		<key>AppLovinConsentFlowTermsOfService</key>
-		<string>https://friendzr.com/terms-conditions/</string>
-	</dict>
 	<key>TikTokAppID</key>
 	<string>awq4czdodvu3iy4y</string>
 	<key>UIAppFonts</key>

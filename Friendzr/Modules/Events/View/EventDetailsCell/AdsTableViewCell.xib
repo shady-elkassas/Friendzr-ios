@@ -36,6 +36,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="bannerView" destination="7PB-QM-eLx" id="Vhn-Kt-bik"/>
                 <outlet property="bannerViewHeight" destination="sZ8-Bd-5mq" id="zub-aO-9Jn"/>
                 <outlet property="bottomLayoutConstraint" destination="fR1-Jz-c48" id="mSI-95-ghe"/>
                 <outlet property="topLayoutConstraint" destination="k1S-LS-HRd" id="E4L-3e-V4H"/>

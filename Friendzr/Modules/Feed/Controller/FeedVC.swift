@@ -218,6 +218,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         addCompassView()
         initCompassSwitchBarButton()
         
+        ALSdk.shared()!.showMediationDebugger()
+
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -236,11 +238,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         initGhostModeSwitchButton()
         setupHideView()
         setupNavBar()
-        
-        createBannerAd()
-        
+
         if !Defaults.hideAds {
 //            seyupAds()
+            createBannerAd()
             bannerViewHeight.constant = 100
         }else {
             bannerViewHeight.constant = 0
@@ -605,6 +606,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         allowBtn.cornerRadiusView(radius: 8)
         nextBtn.setBorder(color: UIColor.white.cgColor, width: 2)
         nextBtn.cornerRadiusForHeight()
+        bannerView.setCornerforTop()
     }
     
     //change title for any btns
@@ -1860,22 +1862,18 @@ extension FeedVC : MAAdViewAdDelegate , MAAdRevenueDelegate { //, MAAdReviewDele
        adView.revenueDelegate = self
 //        adView.adReviewDelegate = self
        // Banner height on iPhone and iPad is 50 and 90, respectively
-//        let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50
+        let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50
    
        // Stretch to the width of the screen for banners to be fully functional
 //        let width: CGFloat = UIScreen.main.bounds.width
    
-       adView.frame = CGRect(x: 0 , y: 0, width: bannerView.frame.width, height: bannerView.frame.height)
+       adView.frame = CGRect(x: 0 , y: 0, width: bannerView.frame.width, height: height)
        adView.setExtraParameterForKey("adaptive_banner", value: "true")
 
        // Set background or background color for banners to be fully functional
        adView.backgroundColor = UIColor.FriendzrColors.primary!
-   
-       bannerView.addSubview(adView)
-//   
-//       adView.isHidden = false
-//       adView.startAutoRefresh()
        
+       bannerView.addSubview(adView)
        // Load the first ad
        adView.loadAd()
    }
@@ -1883,14 +1881,24 @@ extension FeedVC : MAAdViewAdDelegate , MAAdRevenueDelegate { //, MAAdReviewDele
    // MARK: MAAdDelegate Protocol
 
    func didLoad(_ ad: MAAd) {
-       adView.loadAd()
-       adView.isHidden = false
-       adView.startAutoRefresh()
+//       adView.loadAd()
+//       adView.isHidden = false
+//       adView.startAutoRefresh()
    }
 
-   func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) {
-       print("error.description \(error.description)")
-   }
+    func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) {
+        //        print("error.description \(error.description)")
+        
+        print("Waterfall Name: \(String(describing: error.waterfall?.name)) and Test Name: \(String(describing: error.waterfall?.testName))")
+        print("Waterfall latency was: \(String(describing: error.waterfall?.latency)) seconds")
+        
+        for networkResponse in error.waterfall?.networkResponses ?? [] {
+            print("Network -> \(networkResponse.mediatedNetwork)")
+            print("...latency: \(networkResponse.latency) seconds")
+            print("...credentials: \(networkResponse.credentials)")
+            print("...error: \(networkResponse.error!)")
+        }
+    }
 
    func didClick(_ ad: MAAd) {}
 
@@ -1910,7 +1918,7 @@ extension FeedVC : MAAdViewAdDelegate , MAAdRevenueDelegate { //, MAAdReviewDele
    // MARK: Deprecated Callbacks
 
    func didDisplay(_ ad: MAAd) { /* DO NOT USE - THIS IS RESERVED FOR FULLSCREEN ADS ONLY AND WILL BE REMOVED IN A FUTURE SDK RELEASE */
-       Adjust.getInstance()
+//       Adjust.getInstance()
    }
    func didHide(_ ad: MAAd) { /* DO NOT USE - THIS IS RESERVED FOR FULLSCREEN ADS ONLY AND WILL BE REMOVED IN A FUTURE SDK RELEASE */ }
    
@@ -1929,7 +1937,6 @@ extension FeedVC : MAAdViewAdDelegate , MAAdRevenueDelegate { //, MAAdReviewDele
        {
            adjustAdRevenue.setAdRevenuePlacement(placement)
        }
-
        Adjust.trackAdRevenue(adjustAdRevenue)
    }
 

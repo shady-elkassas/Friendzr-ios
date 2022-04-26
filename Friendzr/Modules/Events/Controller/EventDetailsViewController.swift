@@ -14,6 +14,8 @@ import ListPlaceholder
 //import GoogleMobileAds
 import MapKit
 import Network
+import Adjust
+import AppLovinSDK
 
 class EventDetailsViewController: UIViewController {
     

@@ -8,6 +8,8 @@
 #ifndef Friendzr_Bridging_Header_h
 #define Friendzr_Bridging_Header_h
 
+#import "Adjust.h"
+
 //#import "FBShimmering.h"
 //#import "FBShimmeringLayer.h"
 //#import "FBShimmeringView.h"

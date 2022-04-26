@@ -900,6 +900,7 @@ DEPENDENCIES:
   - Firebase/Firestore
   - Firebase/Messaging
   - Firebase/Storage
+  - Google-Mobile-Ads-SDK
   - GoogleMaps
   - GooglePlaces
   - GoogleSignIn
@@ -1031,6 +1032,6 @@ SPEC CHECKSUMS:
   SweeterSwift: 61baeda1c0c27d1dc57c8112c3d6a82e5aff3139
   UnityAds: 840c036310722cc4b78abc97fe5031d3d1eb2b06
 
-PODFILE CHECKSUM: 791ff3d7aea95a166282df2a9caf18cfbdb95826
+PODFILE CHECKSUM: 039848e897eb393ca14310a10f262fd9b75984e8
 
 COCOAPODS: 1.10.2

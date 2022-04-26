@@ -14,40 +14,11 @@ import Network
 import AppLovinSDK
 import Adjust
 
+//MARK: - singletone Network Conected
 class NetworkConected {
     static var internetConect: Bool = false
 }
 
-extension InboxVC {
-    func lastMessageDateTime(date:String,time:String) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.autoupdatingCurrent
-        formatter.dateStyle = .full
-        formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
-        let dateStr = "\(date)T\(time)Z"
-        let date = formatter.date(from: dateStr)
-        
-        let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
-        let relativeDateString = dateFormatterToString(relativeFormatter, date ?? Date())
-        // "Jan 18, 2018"
-        
-        let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
-        let normalDateString = dateFormatterToString(nonRelativeFormatter, date ?? Date())
-        // "Jan 18, 2018"
-        
-        let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
-        _ = dateFormatterToString(customFormatter, date ?? Date())
-        // "18 January"
-        
-        if relativeDateString == normalDateString {
-            print("Use custom date \(normalDateString)") // Jan 18
-            return  normalDateString
-        } else {
-            print("Use relative date \(relativeDateString)") // Today, Yesterday
-            return "\(relativeDateString) \(time)"
-        }
-    }
-}
 
 class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
@@ -133,16 +104,14 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         hideNavigationBar(NavigationBar: false, BackButton: true)
         CancelRequest.currentTask = false
         
-        createBannerAd()
 
-//        if !Defaults.hideAds {
-//            seyupAds()
-//        }else {
-//            bannerViewHeight.constant = 0
-//        }
+        if !Defaults.hideAds {
+            createBannerAd()
+        }else {
+            bannerViewHeight.constant = 0
+        }
         
         currentPage = 1
-        
         
         DispatchQueue.main.async {
             self.updateUserInterface()
@@ -163,16 +132,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //MARK: - APIs
-//    func seyupAds() {
-//        bannerView.adUnitID = URLs.adUnitBanner
-//        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-//        //        addBannerViewToView(bannerView)
-//        bannerView.rootViewController = self
-//        bannerView.load(GADRequest())
-//        bannerView.delegate = self
-//        bannerView.setCornerforTop()
-//    }
-    
     @objc func reloadChatList() {
         DispatchQueue.main.async {
             self.getAllChatList(pageNumber: 1)
@@ -195,16 +154,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.hideView.isHidden = true
                 }
                 
-                //                var inboxbadges = 0
-                //                for item in value.data ?? [] {
-                //                    if item.message_not_Read != 0 {
-                //                        inboxbadges += 1
-                //                    }
-                //                }
-                //
-                //                print("usernoti = \(inboxbadges)")
-                //
-                //                Defaults.message_Count = inboxbadges
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
                 
                 DispatchQueue.main.async {
@@ -316,13 +265,14 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
+    //HandleinvalidUrl
     func HandleinvalidUrl() {
         emptyView.isHidden = false
         emptyImg.image = UIImage.init(named: "inboxnodata_img")
         emptyLbl.text = "No messages sent or received as yet".localizedString
         tryAgainBtn.alpha = 1.0
     }
-    
+    //HandleInternetConnection
     func HandleInternetConnection() {
         if cellSelect {
             emptyView.isHidden = true
@@ -335,6 +285,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
+    //pullToRefresh
     func pullToRefresh() {
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -356,6 +307,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         self.refreshControl.endRefreshing()
     }
     
+    //createFooterView
     func createFooterView() -> UIView {
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
         let indicatorView = UIActivityIndicatorView()
@@ -365,23 +317,8 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         return footerview
     }
     
-    //MARK: - Actions
-    @IBAction func tryAgainBtn(_ sender: Any) {
-        cellSelect = false
-        updateUserInterface()
-    }
-    
     //MARK: - Helper
-    func setupHideView() {
-        for itm in hidesImg {
-            itm.cornerRadiusView(radius: 6)
-        }
-        for item in prosImg {
-            item.cornerRadiusForHeight()
-        }
-        
-    }
-    
+    //network connection APIs
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -409,14 +346,27 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
+
+    func setupHideView() {
+        for itm in hidesImg {
+            itm.cornerRadiusView(radius: 6)
+        }
+        for item in prosImg {
+            item.cornerRadiusForHeight()
+        }
+        
+    }
     
+    //setupViews
     func setupView() {
         setupSearchBar()
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         tableView.register(UINib(nibName:emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
+        bannerView.setCornerforTop()
     }
     
+    //setup SearchBar
     func setupSearchBar() {
         searchBar.delegate = self
         searchContainerView.cornerRadiusView(radius: 6)
@@ -432,9 +382,15 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         searchBar.searchTextField.attributedPlaceholder = placeHolder
         searchBar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
     }
+    
+    //MARK: - Actions
+    @IBAction func tryAgainBtn(_ sender: Any) {
+        cellSelect = false
+        updateUserInterface()
+    }
 }
 
-//MARK: - Extensions
+//MARK: - Extensions UITableViewDataSource
 extension InboxVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSearch {
@@ -615,6 +571,8 @@ extension InboxVC:UITableViewDataSource {
         }
     }
 }
+
+//MARK: - UITableViewDelegate
 extension InboxVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if isSearch {
@@ -1405,6 +1363,7 @@ extension InboxVC:UITableViewDelegate {
     }
 }
 
+//MARK: - UISearchBarDelegate & initNewConversationBarButton
 extension InboxVC: UISearchBarDelegate{
     @objc func updateSearchResult() {
         guard let text = searchBar.text else {return}
@@ -1444,35 +1403,125 @@ extension InboxVC: UISearchBarDelegate{
     }
 }
 
-//extension InboxVC : GADBannerViewDelegate {
-//    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-//        print(error)
-//        bannerViewHeight.constant = 0
-//    }
-//
-//    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-//        print("Receive Ad")
-//    }
-//
-//    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-//        print("bannerViewDidRecordImpression")
-//    }
-//
-//    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewWillPresentScreen")
-//        bannerView.load(GADRequest())
-//    }
-//
-//    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewWillDIsmissScreen")
-//    }
-//
-//    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewDidDismissScreen")
-//    }
-//}
+// MARK: - MAAdViewAdDelegate
+extension InboxVC : MAAdViewAdDelegate , MAAdRevenueDelegate { //, MAAdReviewDelegate {
+    //create Banner Ad
+    func createBannerAd() {
+        adView = MAAdView(adUnitIdentifier: "65940d589c7a5266")
+        adView.delegate = self
+        adView.revenueDelegate = self
+ //        adView.adReviewDelegate = self
+        // Banner height on iPhone and iPad is 50 and 90, respectively
+         let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50
+    
+        // Stretch to the width of the screen for banners to be fully functional
+ //        let width: CGFloat = UIScreen.main.bounds.width
+    
+        adView.frame = CGRect(x: 0 , y: 0, width: bannerView.frame.width, height: height)
+        adView.setExtraParameterForKey("adaptive_banner", value: "true")
 
+        // Set background or background color for banners to be fully functional
+        adView.backgroundColor = UIColor.FriendzrColors.primary!
+        
+        bannerView.addSubview(adView)
+        // Load the first ad
+        adView.loadAd()
+    }
+
+    // MARK: MAAdDelegate Protocol
+    func didLoad(_ ad: MAAd) {
+ //       adView.loadAd()
+ //       adView.isHidden = false
+ //       adView.startAutoRefresh()
+    }
+
+     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) {
+         //        print("error.description \(error.description)")
+         
+         print("Waterfall Name: \(String(describing: error.waterfall?.name)) and Test Name: \(String(describing: error.waterfall?.testName))")
+         print("Waterfall latency was: \(String(describing: error.waterfall?.latency)) seconds")
+         
+         for networkResponse in error.waterfall?.networkResponses ?? [] {
+             print("Network -> \(networkResponse.mediatedNetwork)")
+             print("...latency: \(networkResponse.latency) seconds")
+             print("...credentials: \(networkResponse.credentials)")
+             print("...error: \(networkResponse.error!)")
+         }
+     }
+
+    func didClick(_ ad: MAAd) {}
+
+    func didFail(toDisplay ad: MAAd, withError error: MAError) {
+        print("error = \(error.description)")
+        print("ad = \(ad.description)")
+    }
+
+    // MARK: MAAdViewAdDelegate Protocol
+
+    func didExpand(_ ad: MAAd) {}
+
+    func didCollapse(_ ad: MAAd) {}
+
+
+    // MARK: Deprecated Callbacks
+
+    func didDisplay(_ ad: MAAd) { /* DO NOT USE - THIS IS RESERVED FOR FULLSCREEN ADS ONLY AND WILL BE REMOVED IN A FUTURE SDK RELEASE */
+//        Adjust.getInstance()
+    }
+    func didHide(_ ad: MAAd) { /* DO NOT USE - THIS IS RESERVED FOR FULLSCREEN ADS ONLY AND WILL BE REMOVED IN A FUTURE SDK RELEASE */ }
+    
+    
+    // MARK: MAAdRevenueDelegate Protocol
+    
+    func didPayRevenue(for ad: MAAd)
+    {
+ //        logCallback()
+        
+        let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)!
+        adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
+        adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
+        adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)
+        if let placement = ad.placement
+        {
+            adjustAdRevenue.setAdRevenuePlacement(placement)
+        }
+
+        Adjust.trackAdRevenue(adjustAdRevenue)
+    }
+
+ }
+
+//MARK: - Custom last message date
 extension InboxVC {
+    func lastMessageDateTime(date:String,time:String) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.autoupdatingCurrent
+        formatter.dateStyle = .full
+        formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
+        let dateStr = "\(date)T\(time)Z"
+        let date = formatter.date(from: dateStr)
+        
+        let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
+        let relativeDateString = dateFormatterToString(relativeFormatter, date ?? Date())
+        // "Jan 18, 2018"
+        
+        let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
+        let normalDateString = dateFormatterToString(nonRelativeFormatter, date ?? Date())
+        // "Jan 18, 2018"
+        
+        let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
+        _ = dateFormatterToString(customFormatter, date ?? Date())
+        // "18 January"
+        
+        if relativeDateString == normalDateString {
+            print("Use custom date \(normalDateString)") // Jan 18
+            return  normalDateString
+        } else {
+            print("Use relative date \(relativeDateString)") // Today, Yesterday
+            return "\(relativeDateString) \(time)"
+        }
+    }
+    
     func buildFormatter(locale: Locale, hasRelativeDate: Bool = false, dateFormat: String? = nil) -> DateFormatter {
         let formatter = DateFormatter()
         formatter.timeStyle = .none
@@ -1487,95 +1536,3 @@ extension InboxVC {
         return formatter.string(from: date)
     }
 }
-
- // MARK: - MAAdViewAdDelegate
-
-extension InboxVC : MAAdViewAdDelegate , MAAdRevenueDelegate { //, MAAdReviewDelegate {
-    
-    func createBannerAd() {
-        adView = MAAdView(adUnitIdentifier: "65940d589c7a5266")
-        adView.delegate = self
-        adView.revenueDelegate = self
-//        adView.adReviewDelegate = self
-        // Banner height on iPhone and iPad is 50 and 90, respectively
-//        let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50
-    
-        // Stretch to the width of the screen for banners to be fully functional
-//        let width: CGFloat = UIScreen.main.bounds.width
-    
-//        bannerView.backgroundColor = .red
-        
-        adView.frame = bannerView.frame
-        adView.setExtraParameterForKey("adaptive_banner", value: "true")
-
-        // Set background or background color for banners to be fully functional
-        adView.backgroundColor = UIColor.FriendzrColors.primary!
-    
-        bannerView.addSubview(adView)
-    
-//        adView.isHidden = false
-//        adView.startAutoRefresh()
-        
-        // Load the first ad
-        DispatchQueue.main.async {
-            self.adView.loadAd()
-        }
-    }
-
-    // MARK: MAAdDelegate Protocol
-
-    func didLoad(_ ad: MAAd) {
-        adView.loadAd()
-        adView.isHidden = false
-        adView.startAutoRefresh()
-    }
-
-    func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) {
-        print("error.description \(error.description)")
-    }
-
-    func didClick(_ ad: MAAd) {}
-
-    func didFail(toDisplay ad: MAAd, withError error: MAError) {
-        print("error = \(error.description)")
-        print("ad = \(ad.description)")
-    }
-
-    
-    // MARK: MAAdViewAdDelegate Protocol
-
-    func didExpand(_ ad: MAAd) {}
-
-    func didCollapse(_ ad: MAAd) {}
-
-
-    // MARK: Deprecated Callbacks
-
-    func didDisplay(_ ad: MAAd) { /* DO NOT USE - THIS IS RESERVED FOR FULLSCREEN ADS ONLY AND WILL BE REMOVED IN A FUTURE SDK RELEASE */ }
-    func didHide(_ ad: MAAd) { /* DO NOT USE - THIS IS RESERVED FOR FULLSCREEN ADS ONLY AND WILL BE REMOVED IN A FUTURE SDK RELEASE */ }
-    
-    
-    // MARK: MAAdRevenueDelegate Protocol
-    
-    func didPayRevenue(for ad: MAAd)
-    {
-        logCallback()
-        
-        let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)!
-        adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
-        adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
-        adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)
-        if let placement = ad.placement
-        {
-            adjustAdRevenue.setAdRevenuePlacement(placement)
-        }
-            
-        Adjust.trackAdRevenue(adjustAdRevenue)
-    }
-
-    internal func logCallback(functionName: String = #function)
-    {
-        callbacks.append(functionName)
-    }
-}
-

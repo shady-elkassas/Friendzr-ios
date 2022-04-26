@@ -25,7 +25,7 @@ target 'Friendzr' do
   pod 'Firebase/Firestore'
 
   pod 'MessageKit', '~> 3.5.1'
-#  pod 'Google-Mobile-Ads-SDK'
+  pod 'Google-Mobile-Ads-SDK'
   pod 'IQKeyboardManager'
   pod 'SDWebImage'
   pod 'GoogleMaps'

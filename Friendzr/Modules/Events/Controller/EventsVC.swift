@@ -13,17 +13,15 @@ import SDWebImage
 
 class EventsVC: UIViewController {
     
-    //MARK:- Outlets
+    //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
     @IBOutlet weak var hideView: UIView!
-    
     @IBOutlet var hideImgs: [UIImageView]!
     @IBOutlet var subhideImgs: [UIImageView]!
-
     
     //MARK: - Properties
     let cellID = "EventTableViewCell"
@@ -32,7 +30,7 @@ class EventsVC: UIViewController {
     var viewmodel:EventsViewModel = EventsViewModel()
     var refreshControl = UIRefreshControl()
     
-//    var internetConect:Bool = false
+    //    var internetConect:Bool = false
     var cellSelect:Bool = false
     
     var currentPage : Int = 1
@@ -47,7 +45,7 @@ class EventsVC: UIViewController {
         
         initBackButton()
         pullToRefresh()
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshAllEvents), name: Notification.Name("refreshAllEvents"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadAllEvents), name: Notification.Name("reloadAllEvents"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,7 +53,7 @@ class EventsVC: UIViewController {
         
         Defaults.availableVC = "EventsVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         setupNavBar()
         CancelRequest.currentTask = false
         
@@ -71,12 +69,12 @@ class EventsVC: UIViewController {
         CancelRequest.currentTask = true
     }
     
-    func loadMoreItemsForList(){
+    //MARK:- APIs
+    func loadMoreEventItems(){
         currentPage += 1
         getAllEvents(pageNumber: currentPage)
     }
     
-    //MARK:- APIs
     func getAllEvents(pageNumber:Int) {
         self.hideView.isHidden = false
         hideView.hideLoader()
@@ -87,11 +85,11 @@ class EventsVC: UIViewController {
                     self.hideView.hideLoader()
                     self.hideView.isHidden = true
                 }
-
+                
                 self.tableView.delegate = self
                 self.tableView.dataSource = self
                 self.tableView.reloadData()
-                self.initAddNewEventBarButton(total: value.totalRecords ?? 0)
+                self.initTotalEventsBarButton(total: value.totalRecords ?? 0)
                 self.isLoadingList = false
                 self.tableView.tableFooterView = nil
             }
@@ -115,28 +113,25 @@ class EventsVC: UIViewController {
         }
     }
     
-    
     func LoadAllEvents(pageNumber:Int) {
         hideView.showLoader()
         viewmodel.getMyEvents(pageNumber: pageNumber, search: "")
         viewmodel.events.bind { [unowned self] value in
             DispatchQueue.main.async {
-
+                
                 DispatchQueue.main.async {
                     self.hideView.hideLoader()
                     self.hideView.isHidden = true
                 }
-
+                
                 DispatchQueue.main.async {
                     self.tableView.delegate = self
                     self.tableView.dataSource = self
                     self.tableView.reloadData()
                 }
                 
-                
-                
                 DispatchQueue.main.async {
-                    self.initAddNewEventBarButton(total: value.totalRecords ?? 0)
+                    self.initTotalEventsBarButton(total: value.totalRecords ?? 0)
                     self.isLoadingList = false
                     self.tableView.tableFooterView = nil
                 }
@@ -162,6 +157,8 @@ class EventsVC: UIViewController {
     }
     
     //MARK: - Helper
+    
+    //internet cpnnection for APIs
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -193,6 +190,7 @@ class EventsVC: UIViewController {
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
+    //Handle invalid Url
     func HandleinvalidUrl() {
         emptyView.isHidden = false
         emptyImg.image = UIImage.init(named: "myEventnodata_img")
@@ -200,6 +198,7 @@ class EventsVC: UIViewController {
         tryAgainBtn.alpha = 1.0
     }
     
+    //Handle Internet Connection
     func HandleInternetConnection() {
         if cellSelect {
             emptyView.isHidden = true
@@ -212,18 +211,19 @@ class EventsVC: UIViewController {
         }
     }
     
+    //setup all views
     func setupView() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         tableView.register(UINib(nibName: emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
     }
     
+    // pull to refresh
     func pullToRefresh() {
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         self.tableView.addSubview(refreshControl)
     }
-    
     @objc func didPullToRefresh() {
         print("Refersh")
         currentPage = 1
@@ -233,10 +233,7 @@ class EventsVC: UIViewController {
         self.refreshControl.endRefreshing()
     }
     
-    @objc func refreshAllEvents() {
-        updateUserInterface()
-    }
-    
+    //create footer for table view when loading more events
     func createFooterView() -> UIView {
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
         let indicatorView = UIActivityIndicatorView()
@@ -246,6 +243,7 @@ class EventsVC: UIViewController {
         return footerview
     }
     
+    //hide shimmer views
     func setupHideView() {
         for itm in hideImgs {
             itm.cornerRadiusView(radius: 10)
@@ -256,6 +254,10 @@ class EventsVC: UIViewController {
         }
     }
     
+    //reload All Events
+    @objc func reloadAllEvents() {
+        updateUserInterface()
+    }
     
     //MARK:- Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
@@ -264,7 +266,7 @@ class EventsVC: UIViewController {
     }
 }
 
-//MARK: - Extensions
+//MARK: - Extensions UITableViewDataSource
 extension EventsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if viewmodel.events.value?.data?.count != 0 {
@@ -309,6 +311,7 @@ extension EventsVC: UITableViewDataSource {
     }
 }
 
+//MARK: - Extensions UITableViewDelegate
 extension EventsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if viewmodel.events.value?.data?.count != 0 {
@@ -360,7 +363,7 @@ extension EventsVC: UITableViewDelegate {
                 
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
                     print("self.currentPage >> \(self.currentPage)")
-                    self.loadMoreItemsForList()
+                    self.loadMoreEventItems()
                 }
             }else {
                 self.tableView.tableFooterView = nil
@@ -373,8 +376,9 @@ extension EventsVC: UITableViewDelegate {
     }
 }
 
+//MARK: - Extensions initTotalEventsBarButton
 extension EventsVC {
-    func initAddNewEventBarButton(total:Int) {
+    func initTotalEventsBarButton(total:Int) {
         let button = UIButton.init(type: .custom)
         button.setTitle("Total: \(total)".localizedString, for: .normal)
         button.setTitleColor(UIColor.setColor(lightColor: UIColor.color("#141414")!, darkColor: .white), for: .normal)
