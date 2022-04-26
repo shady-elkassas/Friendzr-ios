@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupHeightApp()
 
         
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
+//        GADMobileAds.sharedInstance().start(completionHandler: nil)
         let ads = GADMobileAds.sharedInstance()
         ads.start { status in
             // Optional: Log each adapter's initialization latency.
