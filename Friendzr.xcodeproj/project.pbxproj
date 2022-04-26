@@ -349,7 +349,6 @@
 		43E7EC47279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E7EC46279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift */; };
 		43EA53B027DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EA53AE27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift */; };
 		43EA53B127DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43EA53AF27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib */; };
-		43F10D222811960F00D96531 /* AppLovinQualityServiceSetup-ios.rb in Resources */ = {isa = PBXBuildFile; fileRef = 43F10D212811960F00D96531 /* AppLovinQualityServiceSetup-ios.rb */; };
 		43F473B326E6175F001E4FAE /* AllCategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B226E6175F001E4FAE /* AllCategoriesViewModel.swift */; };
 		43F473B526E61791001E4FAE /* CategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B426E61791001E4FAE /* CategoriesModel.swift */; };
 		43F473B726E61E7F001E4FAE /* InterestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */; };
@@ -761,7 +760,6 @@
 		43E7EC46279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyFaceRegistrationAlertView.swift; sourceTree = "<group>"; };
 		43EA53AE27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		43EA53AF27DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatisticsInfoCollectionViewCell.xib; sourceTree = "<group>"; };
-		43F10D212811960F00D96531 /* AppLovinQualityServiceSetup-ios.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = "AppLovinQualityServiceSetup-ios.rb"; sourceTree = "<group>"; };
 		43F473B226E6175F001E4FAE /* AllCategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCategoriesViewModel.swift; sourceTree = "<group>"; };
 		43F473B426E61791001E4FAE /* CategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModel.swift; sourceTree = "<group>"; };
 		43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewModel.swift; sourceTree = "<group>"; };
@@ -1524,7 +1522,6 @@
 				4382AC4926C27297005C1857 /* Supporting_Files */,
 				4382AC2226C27195005C1857 /* Assets.xcassets */,
 				4382AC2426C27195005C1857 /* LaunchScreen.storyboard */,
-				43F10D212811960F00D96531 /* AppLovinQualityServiceSetup-ios.rb */,
 				439381422816B009002FFED1 /* GoogleService-Info.plist */,
 				4371D40D273127F3003B8AFD /* Info.plist */,
 				4388686927844445004D36B2 /* Friendzr-Bridging-Header.h */,
@@ -2004,7 +2001,6 @@
 				4382AC9D26C27FF2005C1857 /* Montserrat-Regular.ttf in Resources */,
 				430D425A26D3854200188E42 /* InterestsTableViewCell.xib in Resources */,
 				43967DAF27944DFA005B1F5D /* GenderCollectionViewCell.xib in Resources */,
-				43F10D222811960F00D96531 /* AppLovinQualityServiceSetup-ios.rb in Resources */,
 				43967D76279443F7005B1F5D /* CalendarView.xib in Resources */,
 				4382AC9326C27FF2005C1857 /* Montserrat-Black.ttf in Resources */,
 				43A332692781C9B2001ADB84 /* GhostModeTableViewCell.xib in Resources */,

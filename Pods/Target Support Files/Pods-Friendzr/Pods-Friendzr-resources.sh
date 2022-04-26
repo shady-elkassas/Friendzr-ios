@@ -98,11 +98,13 @@ EOM
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/AppLovinSDK/applovin-ios-sdk-11.3.3/AppLovinSDKResources.bundle"
+  install_resource "${PODS_ROOT}/Fyber_Marketplace_SDK/IASDKCore/IASDKCore.xcframework/IASDKResources.bundle"
   install_resource "${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle"
   install_resource "${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/AppLovinSDK/applovin-ios-sdk-11.3.3/AppLovinSDKResources.bundle"
+  install_resource "${PODS_ROOT}/Fyber_Marketplace_SDK/IASDKCore/IASDKCore.xcframework/IASDKResources.bundle"
   install_resource "${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle"
   install_resource "${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle"
 fi

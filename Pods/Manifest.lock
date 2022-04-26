@@ -596,9 +596,6 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
-  - Adjust (4.29.7):
-    - Adjust/Core (= 4.29.7)
-  - Adjust/Core (4.29.7)
   - Alamofire (5.6.1)
   - AppAuth (1.5.0):
     - AppAuth/Core (= 1.5.0)
@@ -606,18 +603,6 @@ PODS:
   - AppAuth/Core (1.5.0)
   - AppAuth/ExternalUserAgent (1.5.0):
     - AppAuth/Core
-  - AppLovinMediationFacebookAdapter (6.10.0.2):
-    - AppLovinSDK
-    - FBAudienceNetwork (= 6.9.0)
-  - AppLovinMediationGoogleAdapter (9.3.0.2):
-    - AppLovinSDK
-    - Google-Mobile-Ads-SDK (= 9.3.0)
-  - AppLovinMediationIronSourceAdapter (7.2.1.2.0):
-    - AppLovinSDK
-    - IronSourceSDK (= 7.2.1.2)
-  - AppLovinMediationUnityAdsAdapter (4.1.0.2):
-    - AppLovinSDK
-    - UnityAds (= 4.1.0)
   - AppLovinSDK (11.3.3)
   - AvailableHapticFeedback (1.0.2)
   - AWSCore (2.27.6)
@@ -631,7 +616,6 @@ PODS:
   - BoringSSL-GRPC/Interface (0.0.24)
   - FBAEMKit (13.1.0):
     - FBSDKCoreKit_Basics (= 13.1.0)
-  - FBAudienceNetwork (6.9.0)
   - FBSDKCoreKit (13.1.0):
     - FBAEMKit (= 13.1.0)
     - FBSDKCoreKit_Basics (= 13.1.0)
@@ -737,6 +721,9 @@ PODS:
   - FirebaseStorage (8.15.0):
     - FirebaseCore (~> 8.0)
     - GTMSessionFetcher/Core (~> 1.5)
+  - Fyber_Marketplace_SDK (8.1.4):
+    - Fyber_Marketplace_SDK/IASDKCore (= 8.1.4)
+  - Fyber_Marketplace_SDK/IASDKCore (8.1.4)
   - Google-Mobile-Ads-SDK (9.3.0):
     - GoogleAppMeasurement (< 9.0, >= 7.0)
     - GoogleUserMessagingPlatform (>= 1.1)
@@ -764,12 +751,21 @@ PODS:
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleMaps (6.1.1):
-    - GoogleMaps/Maps (= 6.1.1)
-  - GoogleMaps/Base (6.1.1)
-  - GoogleMaps/Maps (6.1.1):
+  - GoogleMaps (6.2.0):
+    - GoogleMaps/Maps (= 6.2.0)
+  - GoogleMaps/Base (6.2.0)
+  - GoogleMaps/Maps (6.2.0):
     - GoogleMaps/Base
-  - GooglePlaces (6.1.1)
+  - GoogleMobileAdsMediationAppLovin (11.3.3.0):
+    - AppLovinSDK (= 11.3.3)
+    - Google-Mobile-Ads-SDK (~> 9.0)
+  - GoogleMobileAdsMediationFyber (8.1.4.0):
+    - Fyber_Marketplace_SDK (= 8.1.4)
+    - Google-Mobile-Ads-SDK (~> 9.0)
+  - GoogleMobileAdsMediationInMobi (10.0.5.0):
+    - Google-Mobile-Ads-SDK (~> 9.0)
+    - InMobiSDK/Core (= 10.0.5)
+  - GooglePlaces (6.2.0)
   - GoogleSignIn (6.1.0):
     - AppAuth (~> 1.4)
     - GTMAppAuth (~> 1.0)
@@ -849,11 +845,11 @@ PODS:
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.7.1)
+  - InMobiSDK/Core (10.0.5)
   - InputBarAccessoryView (5.3.1):
     - InputBarAccessoryView/Core (= 5.3.1)
   - InputBarAccessoryView/Core (5.3.1)
   - IQKeyboardManager (6.5.9)
-  - IronSourceSDK (7.2.1.2)
   - leveldb-library (1.22.1)
   - Libuv-gRPC (0.0.10):
     - Libuv-gRPC/Implementation (= 0.0.10)
@@ -880,16 +876,9 @@ PODS:
     - SDWebImage/Core (= 5.12.5)
   - SDWebImage/Core (5.12.5)
   - SweeterSwift (1.2.1)
-  - UnityAds (4.1.0)
 
 DEPENDENCIES:
-  - Adjust (~> 4.29.7)
   - Alamofire (~> 5.4)
-  - AppLovinMediationFacebookAdapter
-  - AppLovinMediationGoogleAdapter
-  - AppLovinMediationIronSourceAdapter
-  - AppLovinMediationUnityAdsAdapter
-  - AppLovinSDK
   - AWSRekognition
   - FBSDKLoginKit
   - Firebase
@@ -902,6 +891,9 @@ DEPENDENCIES:
   - Firebase/Storage
   - Google-Mobile-Ads-SDK
   - GoogleMaps
+  - GoogleMobileAdsMediationAppLovin
+  - GoogleMobileAdsMediationFyber
+  - GoogleMobileAdsMediationInMobi
   - GooglePlaces
   - GoogleSignIn
   - IQKeyboardManager
@@ -916,20 +908,14 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - abseil
-    - Adjust
     - Alamofire
     - AppAuth
-    - AppLovinMediationFacebookAdapter
-    - AppLovinMediationGoogleAdapter
-    - AppLovinMediationIronSourceAdapter
-    - AppLovinMediationUnityAdsAdapter
     - AppLovinSDK
     - AvailableHapticFeedback
     - AWSCore
     - AWSRekognition
     - BoringSSL-GRPC
     - FBAEMKit
-    - FBAudienceNetwork
     - FBSDKCoreKit
     - FBSDKCoreKit_Basics
     - FBSDKLoginKit
@@ -944,10 +930,14 @@ SPEC REPOS:
     - FirebaseInstallations
     - FirebaseMessaging
     - FirebaseStorage
+    - Fyber_Marketplace_SDK
     - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleMaps
+    - GoogleMobileAdsMediationAppLovin
+    - GoogleMobileAdsMediationFyber
+    - GoogleMobileAdsMediationInMobi
     - GooglePlaces
     - GoogleSignIn
     - GoogleUserMessagingPlatform
@@ -956,9 +946,9 @@ SPEC REPOS:
     - gRPC-Core
     - GTMAppAuth
     - GTMSessionFetcher
+    - InMobiSDK
     - InputBarAccessoryView
     - IQKeyboardManager
-    - IronSourceSDK
     - leveldb-library
     - Libuv-gRPC
     - ListPlaceholder
@@ -971,24 +961,17 @@ SPEC REPOS:
     - RevealingSplashView
     - SDWebImage
     - SweeterSwift
-    - UnityAds
 
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
-  Adjust: 91a06a01e4bb35b432e26b5d5bb8995b95fc381c
   Alamofire: 87bd8c952f9a4454320fce00d9cc3de57bcadaf5
   AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
-  AppLovinMediationFacebookAdapter: bf83ed775de79b2c995fad225f6f66159db10e24
-  AppLovinMediationGoogleAdapter: cc828b1615d9391f4406efeb1c5c98e3860a3491
-  AppLovinMediationIronSourceAdapter: 8cf230a2e4c6910b8889061b9a40fb7588b93ef5
-  AppLovinMediationUnityAdsAdapter: e76ae3d0af3a0bdfc549cb527c3b6a48c4b24f34
   AppLovinSDK: 6ed446d284d8852520a786ad5a91796f1730c3f3
   AvailableHapticFeedback: 9b21b9f6d3e4566015988b5de35b40abefe6c09a
   AWSCore: 0b6fa020f5f343a211862d702ba7a067272a60f7
   AWSRekognition: e55a57b151768a6fc17020ad63320f9f1570d5e7
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   FBAEMKit: 3be32ffb79fe7c0603fed00d81742b23241e89a5
-  FBAudienceNetwork: 83096d73433759c10f9cf9b3bad5e5cff58694cb
   FBSDKCoreKit: eff97dea778dbe6cc4498959cffb619c75675102
   FBSDKCoreKit_Basics: c151609a1cf6976a5958febcf0043266a8fd5151
   FBSDKLoginKit: 42932c7ad6f6b91854fc0a6bcc79b7e807bcde4b
@@ -1003,11 +986,15 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 40bd9054049b2eae9a2c38ef1c3dd213df3605cd
   FirebaseMessaging: 5e5118a2383b3531e730d974680954c679ca0a13
   FirebaseStorage: 8019af461599b2c3bc61c6a5dbdfa3d2de66a4d9
+  Fyber_Marketplace_SDK: c9c95b38a742c8a7760713c0a98023e21a56eb46
   Google-Mobile-Ads-SDK: 2c8ad48ccc3839a5927f7d7c51505a7cd4f0b672
   GoogleAppMeasurement: 4c19f031220c72464d460c9daa1fb5d1acce958e
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
-  GoogleMaps: 94e6e0851beece6678af9f508f4918b7a7c61722
-  GooglePlaces: 9c1f3baa75191b94dfc12b80a801292e03977f73
+  GoogleMaps: c1b9de14cecc940b2d334dd4e6dfa116bff4a40e
+  GoogleMobileAdsMediationAppLovin: fd31fe8125bc57843d3dbbefa9d6eb895b0ea92b
+  GoogleMobileAdsMediationFyber: 0ebb35a4412a16430abc4b817942712d349d24d6
+  GoogleMobileAdsMediationInMobi: 09a792a2b1e9c59dd20d765f520e9467c4eae359
+  GooglePlaces: 53ce075bac2ea015afbd6577f47d186426a3a388
   GoogleSignIn: c90b5bec45e780f54c6a8e1e3c182a86e3dda69d
   GoogleUserMessagingPlatform: ab890ce5f6620f293a21b6bdd82e416a2c73aeca
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
@@ -1015,9 +1002,9 @@ SPEC CHECKSUMS:
   gRPC-Core: 943e491cb0d45598b0b0eb9e910c88080369290b
   GTMAppAuth: 987526d41b07efb1bedda5e936fe0cb718a03113
   GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
+  InMobiSDK: eea7bd698847e9ca88e4721ca9e9c7039f0e671d
   InputBarAccessoryView: 1f75d8c9f75e5e57f3ffac36ed58635a8005e0bc
   IQKeyboardManager: 241cc94ccabc9deb8f8bd7d12f00d73288d13ecc
-  IronSourceSDK: 58febda45afa4b16f91dacb1b3541737ae3fedb3
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   ListPlaceholder: 2d7950014852ee5613d636cf14fd1bb93419e330
@@ -1030,8 +1017,7 @@ SPEC CHECKSUMS:
   RevealingSplashView: 40c5a770894459736acdc95655eeba0dd30ce91c
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
   SweeterSwift: 61baeda1c0c27d1dc57c8112c3d6a82e5aff3139
-  UnityAds: 840c036310722cc4b78abc97fe5031d3d1eb2b06
 
-PODFILE CHECKSUM: 039848e897eb393ca14310a10f262fd9b75984e8
+PODFILE CHECKSUM: cb07895d08e54684a2053c8012da83bd3e347c86
 
 COCOAPODS: 1.10.2

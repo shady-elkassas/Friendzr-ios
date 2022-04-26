@@ -11,12 +11,10 @@ import CoreLocation
 import GooglePlaces
 import ObjectMapper
 import MapKit
-//import GoogleMobileAds
+import GoogleMobileAds
 import ListPlaceholder
 import Network
 import SDWebImage
-import AppLovinSDK
-import Adjust
 
 let googleApiKey = "AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY"
 
@@ -94,11 +92,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var hideCollectionView: UIView!
     @IBOutlet var hideImgs: [UIImageView]!
     @IBOutlet weak var dualogImg: UIImageView!
-    
-    var adView:MAAdView = MAAdView(adUnitIdentifier: "65940d589c7a5266")
-    var interstitialAd: MAInterstitialAd!
-    var retryAttempt = 0.0
-
     
     //MARK: - Properties
     var locations:[EventsLocation] = [EventsLocation]()
@@ -188,9 +181,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
         initProfileBarButton()
         
-        createBannerAd()
         if !Defaults.hideAds {
-//            seyupAds()
+            setupAds()
         }else {
             bannerViewHeight.constant = 0
         }
@@ -210,7 +202,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         super.viewDidAppear(animated)
     }
     
-//    func seyupAds() {
+    func setupAds() {
 //        bannerView.adUnitID =  URLs.adUnitBanner
 //        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
 //        //        addBannerViewToView(bannerView)
@@ -218,7 +210,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
 //        bannerView.load(GADRequest())
 //        bannerView.delegate = self
 //        bannerView.cornerRadiusView(radius: 10)
-//    }
+    }
     
     @objc func updateMapVC() {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
@@ -1543,95 +1535,3 @@ extension MapVC {
 //        print("bannerViewDidDismissScreen")
 //    }
 //}
-
-
-// MARK: - MAAdViewAdDelegate
-
-extension MapVC : MAAdViewAdDelegate , MAAdRevenueDelegate { //, MAAdReviewDelegate {
-    
-    func createBannerAd() {
-        adView = MAAdView(adUnitIdentifier: "65940d589c7a5266")
-        adView.delegate = self
-        adView.revenueDelegate = self
- //        adView.adReviewDelegate = self
-        // Banner height on iPhone and iPad is 50 and 90, respectively
-         let height: CGFloat = (UIDevice.current.userInterfaceIdiom == .pad) ? 90 : 50
-    
-        // Stretch to the width of the screen for banners to be fully functional
- //        let width: CGFloat = UIScreen.main.bounds.width
-    
-        adView.frame = CGRect(x: 0 , y: 0, width: bannerView.frame.width, height: height)
-        adView.setExtraParameterForKey("adaptive_banner", value: "true")
-
-        // Set background or background color for banners to be fully functional
-        adView.backgroundColor = UIColor.FriendzrColors.primary!
-        
-        bannerView.addSubview(adView)
-        // Load the first ad
-        adView.loadAd()
-    }
-
-    // MARK: MAAdDelegate Protocol
-
-    func didLoad(_ ad: MAAd) {
- //       adView.loadAd()
- //       adView.isHidden = false
- //       adView.startAutoRefresh()
-    }
-
-     func didFailToLoadAd(forAdUnitIdentifier adUnitIdentifier: String, withError error: MAError) {
-         //        print("error.description \(error.description)")
-         
-         print("Waterfall Name: \(String(describing: error.waterfall?.name)) and Test Name: \(String(describing: error.waterfall?.testName))")
-         print("Waterfall latency was: \(String(describing: error.waterfall?.latency)) seconds")
-         
-         for networkResponse in error.waterfall?.networkResponses ?? [] {
-             print("Network -> \(networkResponse.mediatedNetwork)")
-             print("...latency: \(networkResponse.latency) seconds")
-             print("...credentials: \(networkResponse.credentials)")
-             print("...error: \(networkResponse.error!)")
-         }
-     }
-
-    func didClick(_ ad: MAAd) {}
-
-    func didFail(toDisplay ad: MAAd, withError error: MAError) {
-        print("error = \(error.description)")
-        print("ad = \(ad.description)")
-    }
-
-    
-    // MARK: MAAdViewAdDelegate Protocol
-
-    func didExpand(_ ad: MAAd) {}
-
-    func didCollapse(_ ad: MAAd) {}
-
-
-    // MARK: Deprecated Callbacks
-
-    func didDisplay(_ ad: MAAd) { /* DO NOT USE - THIS IS RESERVED FOR FULLSCREEN ADS ONLY AND WILL BE REMOVED IN A FUTURE SDK RELEASE */
-//        Adjust.getInstance()
-    }
-    func didHide(_ ad: MAAd) { /* DO NOT USE - THIS IS RESERVED FOR FULLSCREEN ADS ONLY AND WILL BE REMOVED IN A FUTURE SDK RELEASE */ }
-    
-    
-    // MARK: MAAdRevenueDelegate Protocol
-    
-    func didPayRevenue(for ad: MAAd)
-    {
- //        logCallback()
-        
-        let adjustAdRevenue = ADJAdRevenue(source: ADJAdRevenueSourceAppLovinMAX)!
-        adjustAdRevenue.setRevenue(ad.revenue, currency: "USD")
-        adjustAdRevenue.setAdRevenueNetwork(ad.networkName)
-        adjustAdRevenue.setAdRevenueUnit(ad.adUnitIdentifier)
-        if let placement = ad.placement
-        {
-            adjustAdRevenue.setAdRevenuePlacement(placement)
-        }
-
-        Adjust.trackAdRevenue(adjustAdRevenue)
-    }
-
- }

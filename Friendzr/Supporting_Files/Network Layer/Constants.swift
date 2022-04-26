@@ -9,7 +9,7 @@ import Foundation
 
 class URLs {
     static let baseURLFirst = "https://www.friendzsocialmedia.com/api/"
-    static let adUnitBanner = "ca-app-pub-3940256099942544/2934735716"
+    static let adUnitBanner = "ca-app-pub-6206027456764756/2868537426"
     static let adUnitVedio = "ca-app-pub-7917057038053337/7021771981"
 
     static let baseURLSecond = ""

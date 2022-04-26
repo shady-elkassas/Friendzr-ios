@@ -25,17 +25,9 @@ import GoogleMobileAds
 import IQKeyboardManager
 import AWSCore
 import SwiftUI
-import AppLovinSDK
-import Adjust
-
-//extension Data {
-//    var hexString {
-//
-//    }
-//}
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, AdjustDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     let gcmMessageIDKey = "gcm.message_id"
@@ -59,53 +51,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AdjustDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.color("#241332")!], for: .selected)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .selected)
-        
         setupHeightApp()
-        
-        // Please make sure to set the mediation provider value to "max" to ensure proper functionality
-        // Initialize the AppLovin SDK
-        
-        // Please make sure to set the mediation provider value to "max" to ensure proper functionality
 
-        // Initialize the AppLovin SDK
-        ALSdk.shared()!.mediationProvider = ALMediationProviderMAX
-        ALSdk.shared()!.userIdentifier = Defaults.token
-        ALSdk.shared()!.showMediationDebugger()
-
+        
         GADMobileAds.sharedInstance().start(completionHandler: nil)
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "412554a7b81ba0ff23e5d191aca902c4"]
-
-        ALSdk.shared()!.initializeSdk(completionHandler: { configuration in
-            // AppLovin SDK is initialized, start loading ads now or later if ad gate is reached
+        let ads = GADMobileAds.sharedInstance()
+        ads.start { status in
+            // Optional: Log each adapter's initialization latency.
+            let adapterStatuses = status.adapterStatusesByClassName
+            for adapter in adapterStatuses {
+                let adapterStatus = adapter.value
+                NSLog("Adapter Name: %@, Description: %@, Latency: %f", adapter.key,
+                      adapterStatus.description, adapterStatus.latency)
+            }
             
-            // Initialize Adjust SDK
-            let adjustConfig = ADJConfig(appToken: "4b682ebf23ea4cff83d3b50197e22965", environment: ADJEnvironmentSandbox,allowSuppressLogLevel: true)
-            
-            adjustConfig?.delegate = self
-//            Adjust.getInstance()
-            Adjust.appDidLaunch(adjustConfig)
-            
-//            Adjust.addSessionCallbackParameter("obi", value: "wan")
-//            Adjust.addSessionCallbackParameter("master", value: "yoda")
-//
-//            // Add session partner parameters.
-//            Adjust.addSessionPartnerParameter("darth", value: "vader")
-//            Adjust.addSessionPartnerParameter("han", value: "solo")
-//
-//            // Remove session callback parameter.
-//            Adjust.removeSessionCallbackParameter("obi")
-//
-//            // Remove session partner parameter.
-//            Adjust.removeSessionPartnerParameter("han")
-            
-            // Remove all session callback parameters.
-            // Adjust.resetSessionCallbackParameters()
-            
-            // Remove all session partner parameters.
-            // Adjust.resetSessionPartnerParameters()
-            // Initialise the SDK.
-//            Adjust.appDidLaunch(adjustConfig!)
-        })
+            // Start loading ads here...
+        }
         
         // Initialize Identity Provider //AWS
         let credentialsProvider = AWSCognitoCredentialsProvider(
@@ -213,53 +174,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, AdjustDelegate {
             }
         }
         
-    }
-    
-    func application(_ application: UIApplication, handleOpen url: URL) -> Bool {
-        NSLog("Scheme based deep link opened an app: %@", url.absoluteString)
-        // Pass deep link to Adjust in order to potentially reattribute user.
-        Adjust.appWillOpen(url)
-        return true
-    }
-    
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        if (userActivity.activityType == NSUserActivityTypeBrowsingWeb) {
-            NSLog("Universal link opened an app: %@", userActivity.webpageURL!.absoluteString)
-            // Pass deep link to Adjust in order to potentially reattribute user.
-            Adjust.appWillOpen(userActivity.webpageURL!)
-        }
-        return true
-    }
-    
-    func adjustAttributionChanged(_ attribution: ADJAttribution?) {
-        NSLog("Attribution callback called!")
-        NSLog("Attribution: %@", attribution ?? "")
-    }
-    
-    func adjustEventTrackingSucceeded(_ eventSuccessResponseData: ADJEventSuccess?) {
-        NSLog("Event success callback called!")
-        NSLog("Event success data: %@", eventSuccessResponseData ?? "")
-    }
-    
-    func adjustEventTrackingFailed(_ eventFailureResponseData: ADJEventFailure?) {
-        NSLog("Event failure callback called!")
-        NSLog("Event failure data: %@", eventFailureResponseData ?? "")
-    }
-    
-    func adjustSessionTrackingSucceeded(_ sessionSuccessResponseData: ADJSessionSuccess?) {
-        NSLog("Session success callback called!")
-        NSLog("Session success data: %@", sessionSuccessResponseData ?? "")
-    }
-    
-    func adjustSessionTrackingFailed(_ sessionFailureResponseData: ADJSessionFailure?) {
-        NSLog("Session failure callback called!");
-        NSLog("Session failure data: %@", sessionFailureResponseData ?? "")
-    }
-    
-    func adjustDeeplinkResponse(_ deeplink: URL?) -> Bool {
-        NSLog("Deferred deep link callback called!")
-        NSLog("Deferred deep link URL: %@", deeplink?.absoluteString ?? "")
-        return true
     }
     
     // MARK: UISceneSession Lifecycle

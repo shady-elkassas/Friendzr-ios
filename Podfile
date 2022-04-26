@@ -25,7 +25,6 @@ target 'Friendzr' do
   pod 'Firebase/Firestore'
 
   pod 'MessageKit', '~> 3.5.1'
-  pod 'Google-Mobile-Ads-SDK'
   pod 'IQKeyboardManager'
   pod 'SDWebImage'
   pod 'GoogleMaps'
@@ -38,13 +37,14 @@ target 'Friendzr' do
 
   pod 'AWSRekognition'
 
-  pod 'AppLovinSDK'
-  pod 'AppLovinMediationGoogleAdapter'
-  pod 'AppLovinMediationIronSourceAdapter'
-  pod 'AppLovinMediationFacebookAdapter'
-  pod 'AppLovinMediationUnityAdsAdapter'
-  pod 'Adjust', '~> 4.29.7'
+  pod 'Google-Mobile-Ads-SDK'
+  pod 'GoogleMobileAdsMediationAppLovin'
+  pod 'GoogleMobileAdsMediationFyber'
+  pod 'GoogleMobileAdsMediationInMobi'
 
+#  pod 'GoogleMobileAdsMediationTestSuite'
+
+  
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|
       config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
