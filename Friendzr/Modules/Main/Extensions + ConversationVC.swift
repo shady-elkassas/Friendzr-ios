@@ -17,8 +17,6 @@ import Firebase
 import FirebaseDatabase
 import FirebaseFirestore
 
-
-
 // MARK: - MessagesDataSource
 extension ConversationVC: MessagesDataSource {
     
@@ -630,6 +628,7 @@ extension ConversationVC: MessagesDisplayDelegate {
     }
 }
 
+//MARK: - UIImagePickerControllerDelegate && UINavigationControllerDelegate
 extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     //MARK:- Take Picture
     func openCamera(){
@@ -779,6 +778,7 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
     }
 }
 
+//MARK: - AVAudioRecorderDelegate && AVAudioPlayerDelegate
 extension ConversationVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     // MARK:- AVRecorder Setup
     
@@ -879,6 +879,7 @@ extension ConversationVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     }
 }
 
+//MARK: - MessagesLayoutDelegate
 extension ConversationVC: MessagesLayoutDelegate {
     
     func messageTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
@@ -918,6 +919,7 @@ extension ConversationVC: MessagesLayoutDelegate {
     }
 }
 
+//MARK: - UIDocumentPickerDelegate
 extension ConversationVC: UIDocumentPickerDelegate {
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {

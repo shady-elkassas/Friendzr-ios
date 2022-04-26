@@ -11,11 +11,12 @@ import GooglePlaces
 
 class SendLocationChatVC: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var downView: UIView!
     @IBOutlet weak var sendBtn: UIButton!
     
-    
+    //MARK: - Properties
     var location: CLLocationCoordinate2D? = nil
     let locationManager = CLLocationManager()
     var delegate:PickingLocationFromTheMap! = nil
@@ -31,6 +32,7 @@ class SendLocationChatVC: UIViewController {
     private var searchBar: UISearchBar!
     private var tableDataSource: GMSAutocompleteTableDataSource!
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,8 +53,8 @@ class SendLocationChatVC: UIViewController {
     }
     
     
+    //MARK: - Helpers
     func setupViews() {
-        
         sendBtn.cornerRadiusView(radius: 8)
         searchBar = UISearchBar(frame: CGRect(x: 0, y: 95, width: self.view.frame.size.width, height: 56.0))
         searchBar.delegate = self
@@ -135,7 +137,9 @@ class SendLocationChatVC: UIViewController {
         self.present(alertController, animated: true, completion: nil)
         
     }
-    
+
+
+    //MARK: - Actions
     @IBAction func sendBtn(_ sender: Any) {
         self.onLocationCallBackResponse?(self.locationLat,self.locationLng,self.locationTitle)
         self.onPopup()
@@ -143,6 +147,7 @@ class SendLocationChatVC: UIViewController {
     
 }
 
+//MARK: - GMSMapViewDelegate
 extension SendLocationChatVC : GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         self.location = coordinate
@@ -163,6 +168,7 @@ extension SendLocationChatVC : GMSMapViewDelegate {
     }
 }
 
+//MARK: - CLLocationManagerDelegate
 extension SendLocationChatVC : CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -201,6 +207,7 @@ extension SendLocationChatVC : CLLocationManagerDelegate {
 }
 
 
+//MARK: - UISearchBarDelegate
 extension SendLocationChatVC: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         // Update the GMSAutocompleteTableDataSource with the search text.
@@ -213,6 +220,7 @@ extension SendLocationChatVC: UISearchBarDelegate {
     }
 }
 
+//MARK: - GMSAutocompleteTableDataSourceDelegate
 extension SendLocationChatVC: GMSAutocompleteTableDataSourceDelegate {
     func didUpdateAutocompletePredictions(for tableDataSource: GMSAutocompleteTableDataSource) {
         // Turn the network activity indicator off.

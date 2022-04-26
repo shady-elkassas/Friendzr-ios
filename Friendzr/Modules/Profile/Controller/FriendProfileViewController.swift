@@ -12,15 +12,16 @@ import SDWebImage
 
 class FriendProfileViewController: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var hideImgs: [UIImageView]!
-    
     @IBOutlet weak var emptyImg: UIImageView!
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var emptyMessageLbl: UILabel!
     @IBOutlet weak var triAgainBtn: UIButton!
     
+    //MARK: - Properties
     let imageCellId = "FriendImageProfileTableViewCell"
     let userNameCellId = "ProfileUserNameTableViewCell"
     let interestsCellId = "InterestsProfileTableViewCell"
@@ -41,7 +42,6 @@ class FriendProfileViewController: UIViewController {
     var userName:String = ""
     
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
-//    var internetConect:Bool = false
     var btnSelect:Bool = false
     
     private let formatterDate: DateFormatter = {
@@ -60,6 +60,7 @@ class FriendProfileViewController: UIViewController {
     
     var selectedVC:Bool = false
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -106,34 +107,7 @@ class FriendProfileViewController: UIViewController {
         hideView.hideLoader()
     }
     
-    @objc func didPullToRefresh() {
-        print("Refersh")
-        btnSelect = false
-        updateUserInterface()
-        self.refreshControl.endRefreshing()
-    }
-    
-    func setupView() {
-        tableView.register(UINib(nibName: imageCellId, bundle: nil), forCellReuseIdentifier: imageCellId)
-        tableView.register(UINib(nibName: userNameCellId, bundle: nil), forCellReuseIdentifier: userNameCellId)
-        tableView.register(UINib(nibName: interestsCellId, bundle: nil), forCellReuseIdentifier: interestsCellId)
-        tableView.register(UINib(nibName: bestDescribesCellId, bundle: nil), forCellReuseIdentifier: bestDescribesCellId)
-        tableView.register(UINib(nibName: aboutmeCellId, bundle: nil), forCellReuseIdentifier: aboutmeCellId)
-        tableView.register(UINib(nibName: preferCellId, bundle: nil), forCellReuseIdentifier: preferCellId)
-        triAgainBtn.cornerRadiusView(radius: 6)
-        
-        for itm in hideImgs {
-            itm.cornerRadiusView(radius: 10)
-        }
-    }
-    
-    @objc func updateFriendVC() {
-        DispatchQueue.main.async {
-            self.getFriendProfileInformation()
-        }
-    }
-    
-    //MARK:- APIs
+    //MARK: - APIs
     func getFriendProfileInformation() {
         self.hideView.hideLoader()
         viewmodel.getFriendDetails(ById: userID)
@@ -234,6 +208,35 @@ class FriendProfileViewController: UIViewController {
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
+    //MARK: - Helpers
+    @objc func didPullToRefresh() {
+        print("Refersh")
+        btnSelect = false
+        updateUserInterface()
+        self.refreshControl.endRefreshing()
+    }
+    
+    func setupView() {
+        tableView.register(UINib(nibName: imageCellId, bundle: nil), forCellReuseIdentifier: imageCellId)
+        tableView.register(UINib(nibName: userNameCellId, bundle: nil), forCellReuseIdentifier: userNameCellId)
+        tableView.register(UINib(nibName: interestsCellId, bundle: nil), forCellReuseIdentifier: interestsCellId)
+        tableView.register(UINib(nibName: bestDescribesCellId, bundle: nil), forCellReuseIdentifier: bestDescribesCellId)
+        tableView.register(UINib(nibName: aboutmeCellId, bundle: nil), forCellReuseIdentifier: aboutmeCellId)
+        tableView.register(UINib(nibName: preferCellId, bundle: nil), forCellReuseIdentifier: preferCellId)
+        triAgainBtn.cornerRadiusView(radius: 6)
+        
+        for itm in hideImgs {
+            itm.cornerRadiusView(radius: 10)
+        }
+    }
+    
+    @objc func updateFriendVC() {
+        DispatchQueue.main.async {
+            self.getFriendProfileInformation()
+        }
+    }
+    
+
     func HandleInternetConnection() {
         if btnSelect {
             emptyView.isHidden = true
@@ -251,6 +254,7 @@ class FriendProfileViewController: UIViewController {
         btn.setTitle(title, for: .normal)
     }
     
+    //MARK: - Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         DispatchQueue.main.async {
             self.updateUserInterface()
@@ -258,6 +262,7 @@ class FriendProfileViewController: UIViewController {
     }
 }
 
+//MARK: - UITableViewDataSource
 extension FriendProfileViewController:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
@@ -728,6 +733,7 @@ extension FriendProfileViewController:UITableViewDataSource {
     }
 }
 
+//MARK: - UITableViewDelegate && UIPopoverPresentationControllerDelegate
 extension FriendProfileViewController:UITableViewDelegate, UIPopoverPresentationControllerDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {
@@ -753,6 +759,7 @@ extension FriendProfileViewController:UITableViewDelegate, UIPopoverPresentation
         }
     }
 }
+
 extension FriendProfileViewController {
     func initOptionsUserButton() {
         let imageName = "menu_H_ic"

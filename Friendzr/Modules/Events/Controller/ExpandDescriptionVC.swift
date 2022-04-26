@@ -9,15 +9,18 @@ import UIKit
 
 class ExpandDescriptionVC: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var dismissBtn: UIButton!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var discView: UIView!
-    
     @IBOutlet weak var viewHeightLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var closeBtn: UIButton!
+    
+    //MARK: - Properties
     var myString : String = ""
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,15 +30,11 @@ class ExpandDescriptionVC: UIViewController {
         self.title = "Event Description"
         
         textView.text = myString
-        
-//        let height = myString.height(withConstrainedWidth: textView.frame.width, font: UIFont(name: "Montserrat-Medium", size: 14)!)
-//
-//        viewHeightLayoutConstraint.constant = height + 20
-        
         closeBtn.tintColor = .white
         closeBtn.cornerRadiusForHeight()
     }
     
+    //MARK: - Actions
     @IBAction func dismissBtn(_ sender: Any) {
         self.onDismiss()
     }
@@ -45,6 +44,7 @@ class ExpandDescriptionVC: UIViewController {
     }
 }
 
+//MARK: - extension Calculate Height Or Width for any lable
 extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)

@@ -10,11 +10,14 @@ import SDWebImage
 
 class ShowImageVC: UIViewController ,UIScrollViewDelegate {
     
+    //MARK: - Outlets
     @IBOutlet weak var imgView: UIImageView!
     
+    //MARK: - Properties
     var imgURL: String? = ""
     var scrollImg: UIScrollView = UIScrollView()
-
+    
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,9 +27,10 @@ class ShowImageVC: UIViewController ,UIScrollViewDelegate {
         imgView.sd_setImage(with: URL(string: imgURL ?? "") , placeholderImage: UIImage(named: "placeHolderApp"))
         
         imgView.enableZoom()
-//        setupScrollView()
+        //        setupScrollView()
     }
     
+    //MARK: - Helpers
     func setupScrollView() {
         scrollImg.delegate = self
         scrollImg.frame = CGRect(x: 0, y: 0, width: screenW, height: screenH)
@@ -39,7 +43,7 @@ class ShowImageVC: UIViewController ,UIScrollViewDelegate {
         scrollImg.minimumZoomScale = 1.0
         scrollImg.maximumZoomScale = 10.0
         scrollImg.zoomScale = 1.0
-
+        
         self.view.addSubview(scrollImg)
         
         imgView!.layer.cornerRadius = 11.0
@@ -55,10 +59,7 @@ class ShowImageVC: UIViewController ,UIScrollViewDelegate {
         return self.imgView
     }
     
-//    @IBAction func closeBtn(_ sender: Any) {
-//        self.dismiss(animated: true)
-//    }
-    
+    //MARK: - Actions
     @IBAction func cancelpopups(_ sender: UIButton) {
         self.dismiss(animated: true)
     }

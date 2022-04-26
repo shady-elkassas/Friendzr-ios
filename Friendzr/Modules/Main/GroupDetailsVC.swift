@@ -24,6 +24,7 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var searchBarView: UIView!
     @IBOutlet weak var editOrShowImageBtn: UIButton!
     
+    //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
     private let formatterDate: DateFormatter = {
@@ -50,8 +51,12 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
     let imagePicker = UIImagePickerController()
     var selectedVC:Bool = false
     var viewmodel:GroupViewModel = GroupViewModel()
-    
-    
+    var selectedIDs = [String]()
+    var selectedNames = [String]()
+    var selectedFrineds = [UserConversationModel]()
+    var groupImgStr:String = ""
+
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -71,7 +76,6 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
         editOrShowImageBtn.isHidden = false
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -87,50 +91,9 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
         hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
-    @objc func updateGroupDetails() {
-        getGroupDetails(search: "")
-    }
     
-    func setupViews() {
-        tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
-        
-        nameTxt.isUserInteractionEnabled = false
-        nameTxtView.cornerRadiusView(radius: 8)
-        cameraBtn.isHidden = true
-        nameTxtView.setBorder()
-        groupImg.setBorder()
-        groupImg.cornerRadiusForHeight()
-        addUsersBtn.cornerRadiusView(radius: 8)
-        
-        initEditAndOptionButton()
-        
-        if isGroupAdmin {
-            addUsersBtn.isHidden = false
-        }else {
-            addUsersBtn.isHidden = true
-        }
-    }
-    
-    func setupSearchBar() {
-        searchbar.delegate = self
-        searchBarView.cornerRadiusView(radius: 6)
-        searchBarView.setBorder()
-        searchbar.backgroundImage = UIImage()
-        searchbar.searchTextField.textColor = .black
-        searchbar.searchTextField.backgroundColor = .clear
-        searchbar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
-        var placeHolder = NSMutableAttributedString()
-        let textHolder  = "Search...".localizedString
-        let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
-        placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
-        searchbar.searchTextField.attributedPlaceholder = placeHolder
-        searchbar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
-    }
-    
-    var selectedIDs = [String]()
-    var selectedNames = [String]()
-    var selectedFrineds = [UserConversationModel]()
-    
+
+    //MARK: - APIs
     func getGroupDetails(search:String) {
         self.superView.showLoader()
         viewmodel.getGroupDetails(id: groupId, search: search)
@@ -176,6 +139,48 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
         }
     }
     
+    //MARK: - Helpers
+    func setupViews() {
+        tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        
+        nameTxt.isUserInteractionEnabled = false
+        nameTxtView.cornerRadiusView(radius: 8)
+        cameraBtn.isHidden = true
+        nameTxtView.setBorder()
+        groupImg.setBorder()
+        groupImg.cornerRadiusForHeight()
+        addUsersBtn.cornerRadiusView(radius: 8)
+        
+        initEditAndOptionButton()
+        
+        if isGroupAdmin {
+            addUsersBtn.isHidden = false
+        }else {
+            addUsersBtn.isHidden = true
+        }
+    }
+    
+    func setupSearchBar() {
+        searchbar.delegate = self
+        searchBarView.cornerRadiusView(radius: 6)
+        searchBarView.setBorder()
+        searchbar.backgroundImage = UIImage()
+        searchbar.searchTextField.textColor = .black
+        searchbar.searchTextField.backgroundColor = .clear
+        searchbar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
+        var placeHolder = NSMutableAttributedString()
+        let textHolder  = "Search...".localizedString
+        let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
+        placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
+        searchbar.searchTextField.attributedPlaceholder = placeHolder
+        searchbar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
+    }
+    
+    @objc func updateGroupDetails() {
+        getGroupDetails(search: "")
+    }
+
+    //MARK: - Actions
     @IBAction func editImgBtn(_ sender: Any) {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
@@ -233,8 +238,6 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
         }
     }
     
-    var groupImgStr:String = ""
-    
     @IBAction func editOrShowImageBtn(_ sender: Any) {
         guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
         popupVC.modalPresentationStyle = .overCurrentContext
@@ -249,26 +252,7 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
 }
 
 extension GroupDetailsVC {
-    func initBackChatButton() {
-        
-        var imageName = ""
-        imageName = "back_icon"
-        let button = UIButton.init(type: .custom)
-        let image = UIImage.init(named: imageName)
-        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        button.setImage(image, for: .normal)
-        image?.withTintColor(UIColor.blue)
-        button.addTarget(self, action:  #selector(backToConversationVC), for: .touchUpInside)
-        let barButton = UIBarButtonItem(customView: button)
-        self.navigationItem.leftBarButtonItem = barButton
-    }
-    
-    @objc func backToConversationVC() {
-        Router().toHome()
-    }
-    
-    
-    
+    //MARK: - Edit And Option Button
     func initEditAndOptionButton(btnColor: UIColor? = .red) {
         let btn1 = UIButton.init(type: .custom)
         btn1.setImage(UIImage(named: "menu_H_ic"), for: .normal)
@@ -298,6 +282,7 @@ extension GroupDetailsVC {
         }
     }
     
+    //MARK: - Save And Option Button
     func initSaveAndOptionButton(btnColor: UIColor? = .red) {
         let btn1 = UIButton.init(type: .custom)
         btn1.setImage(UIImage(named: "menu_H_ic"), for: .normal)
@@ -487,6 +472,8 @@ extension GroupDetailsVC {
     }
     
 }
+
+//MARK: -UITableViewDataSource
 extension GroupDetailsVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.groupMembers.value?.chatGroupSubscribers?.count ?? 0
@@ -552,7 +539,7 @@ extension GroupDetailsVC : UITableViewDataSource {
     
     
 }
-
+//MARK: -UITableViewDelegate
 extension GroupDetailsVC : UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
@@ -560,7 +547,7 @@ extension GroupDetailsVC : UITableViewDelegate{
 }
 
 extension GroupDetailsVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-    //MARK:- Take Picture
+    //MARK: - Take Picture
     func openCamera(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
             let imagePicker = UIImagePickerController()
@@ -570,7 +557,7 @@ extension GroupDetailsVC : UIImagePickerControllerDelegate,UINavigationControlle
             self.present(imagePicker, animated: true, completion: nil)
         }
     }
-    //MARK:- Open Library
+    //MARK: - Open Library
     func openLibrary(){
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.delegate = self
@@ -610,6 +597,7 @@ extension GroupDetailsVC : UISearchBarDelegate {
 }
 
 extension GroupDetailsVC {
+    //Show Alert View
     func showAlertView(messageString:String,userID:String,Stutus :Int) {
         self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
@@ -620,13 +608,10 @@ extension GroupDetailsVC {
         let Actiontime = self.formatterTime.string(from: Date())
         
         self.alertView?.HandleConfirmBtn = {
-            // handling code
-            
             self.viewmodel.deleteUsersGroup(withGroupId: self.groupId, AndListOfUserIDs: [userID], AndRegistrationDateTime: "\(ActionDate) \(Actiontime)") { error, data in
                 if let error = error {
                     DispatchQueue.main.async {
                         print(error)
-//                        self.view.makeToast(error)
                     }
                     return
                 }
@@ -654,6 +639,7 @@ extension GroupDetailsVC {
     }
 }
 
+//MARK: - CropperViewControllerDelegate
 extension GroupDetailsVC: CropperViewControllerDelegate {
     
     func aspectRatioPickerDidSelectedAspectRatio(_ aspectRatio: AspectRatio) {

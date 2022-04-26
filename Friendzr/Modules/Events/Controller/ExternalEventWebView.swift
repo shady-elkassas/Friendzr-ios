@@ -10,12 +10,11 @@ import WebKit
 
 class ExternalEventWebView: UIViewController,WKNavigationDelegate{
     
-    //MARK:- Outlets
+    //MARK: - Outlets
     @IBOutlet weak var activity: UIActivityIndicatorView!
     
-    var onShowconfirmCallBackResponse: ((_ back: Bool) -> ())?
-    
     //MARK: - Properties
+    var onShowconfirmCallBackResponse: ((_ back: Bool) -> ())?
     var webView: WKWebView!
     var titleVC = ""
     var urlString = ""

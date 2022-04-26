@@ -21,22 +21,16 @@ class AddNewUsersForMyGroupVC: UIViewController {
     //MARK: - Properties
     let cellID = "AddFriendsToPrivateEventTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
-    
     var viewmodel:AllFriendesViewModel = AllFriendesViewModel()
     var addNewUserGroupVM:GroupViewModel = GroupViewModel()
-    
     var groupId:String = ""
-    
     var cellSelected:Bool = false
     var internetConnect:Bool = false
-    
     var currentPage : Int = 1
     var isLoadingList : Bool = false
-    
     var selectedFriends:[UserConversationModel] = [UserConversationModel]()
     var selectedIDs = [String]()
     var selectedNames = [String]()
-    
     
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -52,6 +46,7 @@ class AddNewUsersForMyGroupVC: UIViewController {
         return formatter
     }()
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -71,7 +66,7 @@ class AddNewUsersForMyGroupVC: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
     }
     
-    //MARK: - Helper
+    //MARK: - Helpers
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -99,7 +94,6 @@ class AddNewUsersForMyGroupVC: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-    
     func setupSearchBar() {
         searchbar.delegate = self
         searchBarView.cornerRadiusView(radius: 6)
@@ -115,20 +109,17 @@ class AddNewUsersForMyGroupVC: UIViewController {
         searchbar.searchTextField.attributedPlaceholder = placeHolder
         searchbar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
     }
-    
     func setupViews() {
         tableView.allowsMultipleSelection = true
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         doneBtn.cornerRadiusView(radius: 8)
     }
-    
     func HandleInternetConnection() {
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
-    
-    //MARK:- APIs
-    func loadMoreItemsForList(){
+    //MARK: - APIs
+    func loadMoreFriendItems(){
         currentPage += 1
         getAllFriends(pageNumber: currentPage, search: searchbar.text ?? "")
     }
@@ -198,8 +189,8 @@ class AddNewUsersForMyGroupVC: UIViewController {
             }
         }
     }
-    
-    
+
+    //Show Empty View
     func showEmptyView() {
         let model = viewmodel.friends.value?.data
         if model?.count != 0 {
@@ -208,6 +199,8 @@ class AddNewUsersForMyGroupVC: UIViewController {
             emptyView.isHidden = false
         }
     }
+    
+    //create Footer View for load more table view
     func createFooterView() -> UIView {
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
         let indicatorView = UIActivityIndicatorView()
@@ -217,7 +210,7 @@ class AddNewUsersForMyGroupVC: UIViewController {
         return footerview
     }
     
-    
+    //MARK: - Actions
     @IBAction func doneBtn(_ sender: Any) {
         let actionDate = formatterDate.string(from: Date())
         let actionTime = formatterTime.string(from: Date())
@@ -249,7 +242,7 @@ class AddNewUsersForMyGroupVC: UIViewController {
 }
 
 
-//MARK: - Extensions
+//MARK: - Extensions UISearchBarDelegate
 extension AddNewUsersForMyGroupVC : UISearchBarDelegate {
     @objc func updateSearchResult() {
         guard let text = searchbar.text else {return}
@@ -261,6 +254,7 @@ extension AddNewUsersForMyGroupVC : UISearchBarDelegate {
     }
 }
 
+//MARK: - UITableViewDataSource
 extension AddNewUsersForMyGroupVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.friends.value?.data?.count ?? 0
@@ -288,6 +282,7 @@ extension AddNewUsersForMyGroupVC: UITableViewDataSource {
     }
 }
 
+//MARK: - UITableViewDelegate
 extension AddNewUsersForMyGroupVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
@@ -355,7 +350,7 @@ extension AddNewUsersForMyGroupVC: UITableViewDelegate {
                 
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
                     print("self.currentPage >> \(self.currentPage)")
-                    self.loadMoreItemsForList()
+                    self.loadMoreFriendItems()
                 }
             }else {
                 self.tableView.tableFooterView = nil

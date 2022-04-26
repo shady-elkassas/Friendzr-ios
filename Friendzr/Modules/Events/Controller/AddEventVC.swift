@@ -12,7 +12,7 @@ import Network
 
 class AddEventVC: UIViewController {
     
-    //MARK:- Outlets
+    //MARK: - Outlets
     @IBOutlet weak var eventImg: UIImageView!
     @IBOutlet weak var addImg: UIButton!
     @IBOutlet weak var addTitleTxt: UITextField!
@@ -54,7 +54,7 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var showAttendeesTopView: UIView!
     @IBOutlet weak var eventTypesView: UIView!
     @IBOutlet weak var eventTypesTV: UITableView!
-    //    @IBOutlet weak var saveEventTypeBtn: UIButton!
+//        @IBOutlet weak var saveEventTypeBtn: UIButton!
     
     
     @IBOutlet weak var selectStartDateTxt: UITextField!
@@ -103,13 +103,13 @@ class AddEventVC: UIViewController {
     var eventTypeName = ""
     var inMap:Bool = false
     
-//    var internetConect:Bool = false
-    
+    var selectFriends:[UserConversationModel] = [UserConversationModel]()
+    var listNamesSelected:[String] = [String]()
+
     let datePicker1 = UIDatePicker()
     let datePicker2 = UIDatePicker()
     let timePicker1 = UIDatePicker()
     let timePicker2 = UIDatePicker()
-    
     
     var showAttendeesForAll:Bool = true
     
@@ -422,7 +422,6 @@ class AddEventVC: UIViewController {
         self.view.addSubview((dateAlertView)!)
     }
     
-    
     @IBAction func startTimeBtn(_ sender: Any) {
         timeAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
@@ -556,7 +555,7 @@ class AddEventVC: UIViewController {
         }
     }
     
-    //MARK: - Helper
+    //MARK: - Helpers
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -651,9 +650,6 @@ class AddEventVC: UIViewController {
         eventTypesTV.register(UINib(nibName: eventTypeCellId, bundle: nil), forCellReuseIdentifier: eventTypeCellId)
     }
     
-    var selectFriends:[UserConversationModel] = [UserConversationModel]()
-    var listNamesSelected:[String] = [String]()
-    
     func onListFriendsCallBack(_ listIDs: [String],_ listNames: [String],_ selectFriends:[UserConversationModel]) -> () {
         print("\(listIDs)")
         print("\(listNames)")
@@ -661,9 +657,10 @@ class AddEventVC: UIViewController {
         self.listNamesSelected = listNames
         self.selectFriends = selectFriends
     }
+    
 }
 
-//MARK: - Extensions
+//MARK: - Extensions UITextViewDelegate
 extension AddEventVC : UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         hiddenLbl.isHidden = !textView.text.isEmpty
@@ -675,6 +672,7 @@ extension AddEventVC : UITextViewDelegate {
 }
 
 extension AddEventVC {
+    //Date Changed for Calendar
     @objc func dateChanged(_ sender: UIDatePicker) {
         let components = Calendar.current.dateComponents([.year, .month, .weekday,.day], from: sender.date)
         if let weekday = components.weekday, let month = components.month, let year = components.year ,let day = components.day {
@@ -757,8 +755,9 @@ extension AddEventVC {
     }
 }
 
+//MARK: - Extensions UIImagePickerControllerDelegate && UINavigationControllerDelegate
 extension AddEventVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-    //MARK:- Take Picture
+    //MARK: - Take Picture
     func openCamera(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
             let imagePicker = UIImagePickerController()
@@ -768,7 +767,7 @@ extension AddEventVC : UIImagePickerControllerDelegate,UINavigationControllerDel
             self.present(imagePicker, animated: true, completion: nil)
         }
     }
-    //MARK:- Open Library
+    //MARK: - Open Library
     func openLibrary(){
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.delegate = self
@@ -797,6 +796,7 @@ extension AddEventVC : UIImagePickerControllerDelegate,UINavigationControllerDel
     }
 }
 
+//MARK: - Extensions CropperViewControllerDelegate
 extension AddEventVC: CropperViewControllerDelegate {
     
     func aspectRatioPickerDidSelectedAspectRatio(_ aspectRatio: AspectRatio) {
@@ -819,6 +819,7 @@ extension AddEventVC: CropperViewControllerDelegate {
     }
 }
 
+//MARK: - Extensions UICollectionViewDataSource
 extension AddEventVC : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return catsVM.cats.value?.count ?? 0
@@ -833,6 +834,7 @@ extension AddEventVC : UICollectionViewDataSource {
     }
 }
 
+//MARK: - Extensions UICollectionViewDelegate && UICollectionViewDelegateFlowLayout
 extension AddEventVC: UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let model = catsVM.cats.value?[indexPath.row]
@@ -860,6 +862,7 @@ extension AddEventVC: UICollectionViewDelegate,UICollectionViewDelegateFlowLayou
     }
 }
 
+//MARK: - Extensions UITableViewDataSource
 extension AddEventVC :UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return typesVM.types.value?.count ?? 0
@@ -873,6 +876,7 @@ extension AddEventVC :UITableViewDataSource {
     }
 }
 
+//MARK: - Extensions UITableViewDelegate
 extension AddEventVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
@@ -918,6 +922,8 @@ extension AddEventVC:UITableViewDelegate {
     }
 }
 
+
+//MARK: - Setup Date Picker
 extension AddEventVC {
     func setupDatePickerForStartDate(){
         //Formate Date
@@ -997,6 +1003,7 @@ extension AddEventVC {
         selectEndDateTxt.inputView = datePicker2
         
     }
+    
     @objc func donedatePicker2(){
         
         let formatter = DateFormatter()
@@ -1006,7 +1013,6 @@ extension AddEventVC {
         
         self.view.endEditing(true)
     }
-    
     
     func setupDatePickerForStartTime(){
         //Formate Date
@@ -1033,6 +1039,7 @@ extension AddEventVC {
         selectStartTimeTxt.inputView = timePicker1
         
     }
+    
     @objc func donedatePicker3(){
         
         let formatter = DateFormatter()
@@ -1067,6 +1074,7 @@ extension AddEventVC {
         selectEndTimeTxt.inputView = timePicker2
         
     }
+    
     @objc func donedatePicker4(){
         
         let formatter = DateFormatter()
@@ -1079,5 +1087,4 @@ extension AddEventVC {
     @objc func cancelDatePicker(){
         self.view.endEditing(true)
     }
-    
 }

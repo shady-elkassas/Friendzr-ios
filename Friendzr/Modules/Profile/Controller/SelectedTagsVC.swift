@@ -12,22 +12,21 @@ import Network
 
 class SelectedTagsVC: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var saveBtn: UIButton!
-    
     @IBOutlet weak var emptyImg: UIImageView!
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var emptyMessageLbl: UILabel!
     @IBOutlet weak var triAgainBtn: UIButton!
 
+    //MARK: - Properties
     lazy var addNewTagView = Bundle.main.loadNibNamed("AddNewTagView", owner: self, options: nil)?.first as? AddNewTagView
     
     private var layout: UICollectionViewFlowLayout!
     var viewmodel = InterestsViewModel()
     
     var btnSelect:Bool = false
-//    var internetConnection:Bool = false
-
     var onInterestsCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
     
     var arrData = [String]() // This is your data array
@@ -37,11 +36,11 @@ class SelectedTagsVC: UIViewController {
     
     let cellId = "TagCollectionViewCell"
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initBackButton()
-//        initAddTagButton()
         title = "I enjoy".localizedString
         
         setupView()
@@ -65,6 +64,43 @@ class SelectedTagsVC: UIViewController {
     }
     
     
+    //MARK: - APIs
+    func getAllTags() {
+        self.collectionView.hideLoader()
+        viewmodel.getAllInterests()
+        viewmodel.interests.bind { [unowned self] value in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                self.collectionView.delegate = self
+                self.collectionView.dataSource = self
+                self.collectionView.reloadData()
+                self.layout = TagsLayout()
+            })
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { error in
+            DispatchQueue.main.async {
+                self.hideLoading()
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+            }
+        }
+    }
+
+    //MARK: - Helpers
+    func HandleInternetConnection() {
+        if btnSelect {
+            emptyView.isHidden = true
+            self.view.makeToast("Network is unavailable, please try again!".localizedString)
+        }else {
+            emptyView.isHidden = false
+            emptyImg.image = UIImage.init(named: "feednodata_img")
+            emptyMessageLbl.text = "Network is unavailable, please try again!".localizedString
+            triAgainBtn.alpha = 1.0
+        }
+    }
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -95,7 +131,6 @@ class SelectedTagsVC: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-    
     func setupView() {
         saveBtn.cornerRadiusView(radius: 8)
         triAgainBtn.cornerRadiusView(radius: 6)
@@ -103,42 +138,7 @@ class SelectedTagsVC: UIViewController {
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
     }
     
-    func getAllTags() {
-        self.collectionView.hideLoader()
-        viewmodel.getAllInterests()
-        viewmodel.interests.bind { [unowned self] value in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                self.collectionView.delegate = self
-                self.collectionView.dataSource = self
-                self.collectionView.reloadData()
-                self.layout = TagsLayout()
-            })
-        }
-        
-        // Set View Model Event Listener
-        viewmodel.error.bind { error in
-            DispatchQueue.main.async {
-                self.hideLoading()
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
-            }
-        }
-    }
-
-    func HandleInternetConnection() {
-        if btnSelect {
-            emptyView.isHidden = true
-            self.view.makeToast("Network is unavailable, please try again!".localizedString)
-        }else {
-            emptyView.isHidden = false
-            emptyImg.image = UIImage.init(named: "feednodata_img")
-            emptyMessageLbl.text = "Network is unavailable, please try again!".localizedString
-            triAgainBtn.alpha = 1.0
-        }
-    }
-    
+    //MARK: - Actions
     @IBAction func saveBtn(_ sender: Any) {
         onInterestsCallBackResponse!(arrSelectedDataIds,arrSelectedDataNames)
         self.onPopup()
@@ -148,6 +148,7 @@ class SelectedTagsVC: UIViewController {
     }
 }
 
+//MARK: - UICollectionViewDataSource
 extension SelectedTagsVC:UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -186,6 +187,7 @@ extension SelectedTagsVC:UICollectionViewDataSource {
     }
 }
 
+//MARK: - UICollectionViewDelegate && UICollectionViewDelegateFlowLayout
 extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let model = viewmodel.interests.value?[indexPath.row]

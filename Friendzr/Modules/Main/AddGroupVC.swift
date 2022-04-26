@@ -55,6 +55,7 @@ class AddGroupVC: UIViewController {
         return formatter
     }()
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -137,13 +138,14 @@ class AddGroupVC: UIViewController {
         
     }
     
+    //Handle Internet Connection
     func HandleInternetConnection() {
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
     
-    //MARK:- APIs
-    func loadMoreItemsForList(){
+    //MARK:  - APIs
+    func loadMoreFriendItems(){
         currentPage += 1
         getAllFriends(pageNumber: currentPage, search: searchbar.text ?? "")
     }
@@ -177,7 +179,6 @@ class AddGroupVC: UIViewController {
     }
     
     func LaodAllFriends(pageNumber:Int,search:String) {
-        
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -234,6 +235,7 @@ class AddGroupVC: UIViewController {
         return footerview
     }
 
+    //MARK: - Actions
     @IBAction func imgBtn(_ sender: Any) {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
@@ -313,7 +315,7 @@ class AddGroupVC: UIViewController {
     }
 }
 
-//MARK: - Extensions
+//MARK: - Extensions UISearchBarDelegate
 extension AddGroupVC : UISearchBarDelegate {
     @objc func updateSearchResult() {
         guard let text = searchbar.text else {return}
@@ -325,6 +327,7 @@ extension AddGroupVC : UISearchBarDelegate {
     }
 }
 
+//MARK: - Extensions UITableViewDataSource
 extension AddGroupVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.friends.value?.data?.count ?? 0
@@ -346,6 +349,7 @@ extension AddGroupVC: UITableViewDataSource {
     }
 }
 
+//MARK: - Extensions UITableViewDelegate
 extension AddGroupVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
@@ -411,7 +415,7 @@ extension AddGroupVC: UITableViewDelegate {
                 
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
                     print("self.currentPage >> \(self.currentPage)")
-                    self.loadMoreItemsForList()
+                    self.loadMoreFriendItems()
                 }
             }else {
                 self.tableView.tableFooterView = nil
@@ -424,8 +428,9 @@ extension AddGroupVC: UITableViewDelegate {
     }
 }
 
+//MARK: - Extensions UIImagePickerControllerDelegate && UINavigationControllerDelegate
 extension AddGroupVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-    //MARK:- Take Picture
+    //MARK: - Take Picture
     func openCamera(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
             let imagePicker = UIImagePickerController()
@@ -435,7 +440,7 @@ extension AddGroupVC : UIImagePickerControllerDelegate,UINavigationControllerDel
             self.present(imagePicker, animated: true, completion: nil)
         }
     }
-    //MARK:- Open Library
+    //MARK: - Open Library
     func openLibrary(){
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.delegate = self
@@ -465,6 +470,7 @@ extension AddGroupVC : UIImagePickerControllerDelegate,UINavigationControllerDel
     }
 }
 
+//MARK: - CropperViewControllerDelegate
 extension AddGroupVC: CropperViewControllerDelegate {
     
     func aspectRatioPickerDidSelectedAspectRatio(_ aspectRatio: AspectRatio) {

@@ -12,19 +12,17 @@ import Network
 
 class MyProfileViewController: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var hideImgs: [UIImageView]!
-    
     @IBOutlet weak var emptyImg: UIImageView!
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var emptyMessageLbl: UILabel!
     @IBOutlet weak var triAgainBtn: UIButton!
     
-    
+    //MARK: - Properties
     var viewmodel: ProfileViewModel = ProfileViewModel()
-    //    var internetConnection:Bool = false
-    
     let imageCellID = "ImageProfileTableViewCell"
     let userNameCellId = "ProfileUserNameTableViewCell"
     let interestsCellId = "InterestsProfileTableViewCell"
@@ -32,15 +30,15 @@ class MyProfileViewController: UIViewController {
     let aboutmeCellId = "AboutMeTableViewCell"
     let preferCellId = "PreferToTableViewCell"
     
+    var btnSelect:Bool = false
+    var selectedVC:Bool = false
     lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         control.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         return control
     }()
     
-    var btnSelect:Bool = false
-    var selectedVC:Bool = false
-    
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -88,7 +86,6 @@ class MyProfileViewController: UIViewController {
         self.hideView.isHidden = false
     }
     
-    
     @objc func didPullToRefresh() {
         print("Refersh")
         btnSelect = false
@@ -102,7 +99,7 @@ class MyProfileViewController: UIViewController {
         }
     }
     
-    //MARK: - API
+    //MARK: - APIs
     func getProfileInformation() {
         self.hideView.isHidden = false
         self.hideView.showLoader()
@@ -140,8 +137,7 @@ class MyProfileViewController: UIViewController {
         }
     }
     
-    //MARK: - Helper
-    
+    //MARK: - Helpers
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -175,7 +171,6 @@ class MyProfileViewController: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-    
     func HandleInternetConnection() {
         if btnSelect {
             emptyView.isHidden = true
@@ -187,7 +182,6 @@ class MyProfileViewController: UIViewController {
             triAgainBtn.alpha = 1.0
         }
     }
-    
     func setupView() {
         tableView.register(UINib(nibName: imageCellID, bundle: nil), forCellReuseIdentifier: imageCellID)
         tableView.register(UINib(nibName: userNameCellId, bundle: nil), forCellReuseIdentifier: userNameCellId)
@@ -203,7 +197,7 @@ class MyProfileViewController: UIViewController {
         triAgainBtn.cornerRadiusView(radius: 8)
     }
     
-    
+    //MARK: - Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         DispatchQueue.main.async {
             self.updateUserInterface()
@@ -211,6 +205,7 @@ class MyProfileViewController: UIViewController {
     }
 }
 
+//MARK: - UITableViewDataSource
 extension MyProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
@@ -342,6 +337,7 @@ extension MyProfileViewController: UITableViewDataSource {
     }
 }
 
+//MARK: - UITableViewDelegate && UIPopoverPresentationControllerDelegate
 extension MyProfileViewController: UITableViewDelegate, UIPopoverPresentationControllerDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 0 {

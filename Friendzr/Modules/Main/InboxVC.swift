@@ -19,7 +19,6 @@ class NetworkConected {
     static var internetConect: Bool = false
 }
 
-
 class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Outlets

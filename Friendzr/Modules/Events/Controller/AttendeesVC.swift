@@ -12,6 +12,7 @@ import SDWebImage
 
 class AttendeesVC: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchContainerView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -20,6 +21,7 @@ class AttendeesVC: UIViewController {
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
     
+    //MARK: - Properties
     let cellID = "AttendeesTableViewCell"
     var viewmodel:AttendeesViewModel = AttendeesViewModel()
     var eventID:String = ""
@@ -44,6 +46,7 @@ class AttendeesVC: UIViewController {
         return formatter
     }()
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -77,23 +80,7 @@ class AttendeesVC: UIViewController {
         CancelRequest.currentTask = true
     }
     
-    func setupSearchBar() {
-        searchBar.delegate = self
-        searchContainerView.cornerRadiusView(radius: 6)
-        searchContainerView.setBorder()
-        searchBar.backgroundImage = UIImage()
-        searchBar.searchTextField.textColor = .black
-        searchBar.searchTextField.backgroundColor = .clear
-        searchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
-        var placeHolder = NSMutableAttributedString()
-        let textHolder  = "Search...".localizedString
-        let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
-        placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
-        searchBar.searchTextField.attributedPlaceholder = placeHolder
-        searchBar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
-    }
-    
-    
+    //MARK: - APIs
     func loadMoreItemsForList(){
         currentPage += 1
         getAllAttendees(pageNumber: currentPage, search: searchBar.text ?? "")
@@ -165,6 +152,80 @@ class AttendeesVC: UIViewController {
             }
         }
     }
+
+    //MARK: - Helpers
+    func setupSearchBar() {
+        searchBar.delegate = self
+        searchContainerView.cornerRadiusView(radius: 6)
+        searchContainerView.setBorder()
+        searchBar.backgroundImage = UIImage()
+        searchBar.searchTextField.textColor = .black
+        searchBar.searchTextField.backgroundColor = .clear
+        searchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
+        var placeHolder = NSMutableAttributedString()
+        let textHolder  = "Search...".localizedString
+        let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
+        placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
+        searchBar.searchTextField.attributedPlaceholder = placeHolder
+        searchBar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
+    }
+    
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.emptyView.isHidden = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.emptyView.isHidden = true
+                self.loadAllAttendees(pageNumber: 0, search: self.searchBar.text ?? "")
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.emptyView.isHidden = true
+                self.loadAllAttendees(pageNumber: 0, search: self.searchBar.text ?? "")
+            }
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func showEmptyView() {
+        if viewmodel.attendees.value?.data?.count == 0 {
+            emptyView.isHidden = false
+            emptyLbl.text = "You haven't any data yet".localizedString
+        }else {
+            emptyView.isHidden = true
+        }
+        
+        tryAgainBtn.alpha = 0.0
+    }
+    
+    func HandleinvalidUrl() {
+        emptyView.isHidden = false
+        emptyImg.image = UIImage.init(named: "maskGroup9")
+        emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
+        tryAgainBtn.alpha = 1.0
+    }
+    
+    func HandleInternetConnection() {
+        emptyView.isHidden = false
+        emptyImg.image = UIImage.init(named: "feednodata_img")
+        emptyLbl.text = "No available network, please try again!".localizedString
+        tryAgainBtn.alpha = 1.0
+    }
+
     
     func createFooterView() -> UIView {
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
@@ -227,65 +288,11 @@ class AttendeesVC: UIViewController {
         }
     }
     
+    //MARK: - Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         updateUserInterface()
     }
     
-    func updateUserInterface() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            DispatchQueue.main.async {
-                NetworkConected.internetConect = false
-                self.emptyView.isHidden = false
-                self.HandleInternetConnection()
-            }
-        case .wwan:
-            DispatchQueue.main.async {
-                NetworkConected.internetConect = true
-                self.emptyView.isHidden = true
-                self.loadAllAttendees(pageNumber: 0, search: self.searchBar.text ?? "")
-            }
-        case .wifi:
-            DispatchQueue.main.async {
-                NetworkConected.internetConect = true
-                self.emptyView.isHidden = true
-                self.loadAllAttendees(pageNumber: 0, search: self.searchBar.text ?? "")
-            }
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func showEmptyView() {
-        if viewmodel.attendees.value?.data?.count == 0 {
-            emptyView.isHidden = false
-            emptyLbl.text = "You haven't any data yet".localizedString
-        }else {
-            emptyView.isHidden = true
-        }
-        
-        tryAgainBtn.alpha = 0.0
-    }
-    
-    func HandleinvalidUrl() {
-        emptyView.isHidden = false
-        emptyImg.image = UIImage.init(named: "maskGroup9")
-        emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
-        tryAgainBtn.alpha = 1.0
-    }
-    
-    func HandleInternetConnection() {
-        emptyView.isHidden = false
-        emptyImg.image = UIImage.init(named: "feednodata_img")
-        emptyLbl.text = "No available network, please try again!".localizedString
-        tryAgainBtn.alpha = 1.0
-    }
 }
 
 //MARK: - SearchBar Delegate

@@ -8,8 +8,8 @@
 import UIKit
 
 class EventCalendarVC: UIViewController {
-
     
+    //MARK: - Outlets
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var yearAndDayView: UIView!
     @IBOutlet weak var yearLbl: UILabel!
@@ -18,8 +18,8 @@ class EventCalendarVC: UIViewController {
     @IBOutlet weak var okBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
 
+    //MARK: - Properties
     var onDateCallBackResponse: ((_ dayDate: String, _ date: String,_ minimumDate:Date,_ maximumDate:Date) -> ())?
-    
     var minimumDate:Date = Date()
     var maximumDate:Date = Date()
     var dayname = ""
@@ -34,6 +34,7 @@ class EventCalendarVC: UIViewController {
     var startDateEvent:Date = Date()
     var endDateEvent:Date = Date()
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,7 +46,7 @@ class EventCalendarVC: UIViewController {
         self.calenderView.addTarget(self, action: #selector(self.dateChanged(_:)), for: .valueChanged)
     }
     
-    
+    //MARK: - Helpers
     func showDatePicker(){
         //Formate Date
 //        let dateee = (eventModel?.eventdate ?? "") + "T10:44:00+0000"
@@ -65,6 +66,7 @@ class EventCalendarVC: UIViewController {
 
     }
     
+    //MARK: - Actions
     @IBAction func cancelBtn(_ sender: Any) {
         self.dismiss(animated: true)
     }
@@ -93,6 +95,7 @@ class EventCalendarVC: UIViewController {
     
 }
 
+//MARK: - Date Changed Calendar
 extension EventCalendarVC {
     @objc func dateChanged(_ sender: UIDatePicker) {
         let components = Calendar.current.dateComponents([.year, .month, .weekday,.day], from: sender.date)

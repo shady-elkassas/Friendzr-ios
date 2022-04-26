@@ -11,7 +11,7 @@ import ListPlaceholder
 import Network
 
 class IamVC: UIViewController {
-    
+    //MARK: - Outlets
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var emptyImg: UIImageView!
@@ -19,6 +19,7 @@ class IamVC: UIViewController {
     @IBOutlet weak var emptyMessageLbl: UILabel!
     @IBOutlet weak var triAgainBtn: UIButton!
 
+    //MARK: - Properties
     lazy var addNewTagView = Bundle.main.loadNibNamed("AddNewTagView", owner: self, options: nil)?.first as? AddNewTagView
     
     private var layout: UICollectionViewFlowLayout!
@@ -28,8 +29,6 @@ class IamVC: UIViewController {
     var onIamCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
     
     var btnSelect:Bool = false
-//    var internetConnection:Bool = false
-
     var arrData = [String]() // This is your data array
     var arrSelectedIndex = [IndexPath]() // This is selected cell Index array
     var arrSelectedDataIds = [String]() // This is selected cell id array
@@ -38,11 +37,11 @@ class IamVC: UIViewController {
     
     let cellId = "TagCollectionViewCell"
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initBackButton()
-        //        initAddTagButton()
         title = "I am".localizedString
         
         setupView()
@@ -64,6 +63,7 @@ class IamVC: UIViewController {
         CancelRequest.currentTask = true
     }
     
+    //MARK: - Helpers
     func setupView() {
         saveBtn.cornerRadiusView(radius: 8)
         triAgainBtn.cornerRadiusView(radius: 8)
@@ -101,6 +101,7 @@ class IamVC: UIViewController {
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
+    //MARK: - APIs
     func getAllBestDescrips() {
         self.collectionView.hideLoader()
         viewmodel.getAllIam()
@@ -137,6 +138,7 @@ class IamVC: UIViewController {
         }
     }
     
+    //MARK: - Actions
     @IBAction func saveBtn(_ sender: Any) {
         onIamCallBackResponse!(arrSelectedDataIds,arrSelectedDataNames)
         self.onPopup()
@@ -146,6 +148,7 @@ class IamVC: UIViewController {
     }
 }
 
+//MARK: - UICollectionViewDataSource
 extension IamVC:UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -184,6 +187,7 @@ extension IamVC:UICollectionViewDataSource {
     }
 }
 
+//MARK: - UICollectionViewDelegate && UICollectionViewDelegateFlowLayout
 extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let model = viewmodel.IAM.value?[indexPath.row]

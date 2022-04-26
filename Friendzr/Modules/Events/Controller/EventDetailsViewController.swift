@@ -19,11 +19,12 @@ import AppLovinSDK
 
 class EventDetailsViewController: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var imagesView: [UIImageView]!
     
-    
+    //MARK: - Properties
     let eventImgCellId = "EventImageTableViewCell"
     let btnsCellId = "EventButtonsTableViewCell"
     let eventDateCellId = "EventDateAndTimeTableViewCell"
@@ -33,7 +34,6 @@ class EventDetailsViewController: UIViewController {
     let attendeesCellId = "EventDetailsAttendeesTableViewCell"
     let adsCellId = "AdsTableViewCell"
     
-    
     var eventId:String = ""
     var viewmodel:EventsViewModel = EventsViewModel()
     var joinVM:JoinEventViewModel = JoinEventViewModel()
@@ -42,7 +42,6 @@ class EventDetailsViewController: UIViewController {
     var attendeesVM:AttendeesViewModel = AttendeesViewModel()
     
     var locationTitle = ""
-//    var internetConect:Bool = false
     
     var visibleIndexPath:Int = 0
     var encryptedID:String = ""
@@ -75,11 +74,9 @@ class EventDetailsViewController: UIViewController {
         return viewX
     }()
     
-    
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //        initOptionsEventButton()
         
         if selectedVC {
             initCloseBarButton()
@@ -123,7 +120,7 @@ class EventDetailsViewController: UIViewController {
         CancelRequest.currentTask = true
     }
     
-    
+    //MARK: - Helper
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -151,8 +148,7 @@ class EventDetailsViewController: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-    
-    //MARK: - Helper
+
     func pullToRefresh() {
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -173,7 +169,7 @@ class EventDetailsViewController: UIViewController {
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
-    //MARK:- APIs
+    //MARK: - APIs
     @objc func handleEventDetails() {
         self.getEventDetails()
     }
@@ -294,6 +290,7 @@ class EventDetailsViewController: UIViewController {
     }
 }
 
+//MARK: - Extensions UITableViewDataSource
 extension EventDetailsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if viewmodel.event.value?.key == 1 {
@@ -653,10 +650,9 @@ extension EventDetailsViewController: UITableViewDataSource {
     }
 }
 
-extension EventDetailsViewController: UITableViewDelegate , UIPopoverPresentationControllerDelegate{
+//MARK: - Extensions UITableViewDelegate && UIPopoverPresentationControllerDelegate
+extension EventDetailsViewController: UITableViewDelegate , UIPopoverPresentationControllerDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //        let height = view.bounds.height
-        
         if indexPath.row == 0 {
             return screenH/3
         }else if indexPath.row == 1 {
@@ -696,8 +692,9 @@ extension EventDetailsViewController: UITableViewDelegate , UIPopoverPresentatio
     }
 }
 
+
 extension EventDetailsViewController {
-    
+    //init Options Event Button
     func initOptionsEventButton() {
         let imageName = "menu_H_ic"
         let button = UIButton.init(type: .custom)
@@ -779,7 +776,6 @@ extension EventDetailsViewController {
             present(actionSheet, animated: true, completion: nil)
         }
     }
-    
     @objc func handleEventReportBtn() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)

@@ -15,30 +15,14 @@ import ListPlaceholder
 import MapKit
 import Network
 
-class DynamicLabel: UILabel {
-    
-    var fullText: String?
-    var truncatedLength = 100
-    var isTruncated = true
-    
-    func collapse(){
-        let index = fullText!.index(fullText!.startIndex, offsetBy: truncatedLength)
-        self.text = fullText![...index].description + "... More"
-        isTruncated = true
-    }
-    
-    func expand(){
-        self.text = fullText
-        isTruncated = false
-    }
-}
-
 class ExternalEventDetailsVC: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var imagesView: [UIImageView]!
     
+    //MARK: - Properties
     let eventImgCellId = "ExternalImageTableViewCell"
     let btnsCellId = "EventButtonsTableViewCell"
     let eventDateCellId = "EventDateAndTimeTableViewCell"
@@ -95,6 +79,7 @@ class ExternalEventDetailsVC: UIViewController {
         return viewX
     }()
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -229,8 +214,7 @@ class ExternalEventDetailsVC: UIViewController {
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
-    //MARK:- APIs
-    
+    //MARK: - APIs
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -334,6 +318,7 @@ class ExternalEventDetailsVC: UIViewController {
     }
 }
 
+//MARK: - UITableViewDataSource
 extension ExternalEventDetailsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 7
@@ -652,6 +637,7 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
     }
 }
 
+//MARK: - UITableViewDelegate && UIPopoverPresentationControllerDelegate
 extension ExternalEventDetailsVC: UITableViewDelegate,UIPopoverPresentationControllerDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
@@ -703,35 +689,9 @@ extension ExternalEventDetailsVC: UITableViewDelegate,UIPopoverPresentationContr
     }
 }
 
-//extension ExternalEventDetailsVC:GADBannerViewDelegate {
-//    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-//        print(error)
-//    }
-//
-//    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-//        print("Receive Ad")
-//    }
-//
-//    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-//        print("bannerViewDidRecordImpression")
-//    }
-//
-//    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewWillPresentScreen")
-//        bannerView.load(GADRequest())
-//    }
-//
-//    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewWillDIsmissScreen")
-//    }
-//
-//    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewDidDismissScreen")
-//    }
-//}
-
 extension ExternalEventDetailsVC {
     
+    // init Options Event Button
     func initOptionsEventButton() {
         let imageName = "menu_H_ic"
         let button = UIButton.init(type: .custom)
@@ -751,7 +711,6 @@ extension ExternalEventDetailsVC {
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.rightBarButtonItem = barButton
     }
-    
     @objc func handleEventOptionsBtn() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
@@ -813,7 +772,6 @@ extension ExternalEventDetailsVC {
             present(actionSheet, animated: true, completion: nil)
         }
     }
-    
     @objc func handleEventReportBtn() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)

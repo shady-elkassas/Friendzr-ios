@@ -18,7 +18,7 @@ import AWSRekognition
 
 class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate , SFSafariViewControllerDelegate{
     
-    //MARK:- Outlets
+    //MARK: - Outlets
     @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var superView: UIView!
     @IBOutlet weak var nameTxt: UITextField!
@@ -29,47 +29,37 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var femaleImg: UIImageView!
     @IBOutlet weak var otherImg: UIImageView!
     @IBOutlet weak var saveBtn: UIButton!
-    
     @IBOutlet weak var aboutMeView: UIView!
     @IBOutlet weak var bioTxtView: UITextView!
     @IBOutlet weak var placeHolderLbl: UILabel!
-    
     @IBOutlet weak var tagsSubView: UIView!
     @IBOutlet weak var tagsView: UIView!
     @IBOutlet weak var tagsViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tagsListView: TagListView!
     @IBOutlet weak var selectTagsLbl: UILabel!
-    
     @IBOutlet weak var bestDescribesSubView: UIView!
     @IBOutlet weak var bestDescribesView: UIView!
     @IBOutlet weak var bestDescribesViewHeight: NSLayoutConstraint!
     @IBOutlet weak var bestDescribesListView: TagListView!
     @IBOutlet weak var selectbestDescribesLbl: UILabel!
-
     @IBOutlet weak var preferToSubView: UIView!
     @IBOutlet weak var preferToView: UIView!
     @IBOutlet weak var preferToViewHeight: NSLayoutConstraint!
     @IBOutlet weak var preferToListView: TagListView!
     @IBOutlet weak var selectPreferToLbl: UILabel!
-
-    
     @IBOutlet weak var logoutBtn: UIButton!
-    
     @IBOutlet weak var tagsBottomSpaceLayout: NSLayoutConstraint!
     @IBOutlet weak var tagsTopSpaceLayout: NSLayoutConstraint!
     @IBOutlet weak var bestDescribesBottomSpaceLayout: NSLayoutConstraint!
     @IBOutlet weak var bestDescribessTopSpaceLayout: NSLayoutConstraint!
     @IBOutlet weak var preferToBottomSpaceLayout: NSLayoutConstraint!
     @IBOutlet weak var preferToTopSpaceLayout: NSLayoutConstraint!
-
     @IBOutlet weak var otherGenderSubView: UIView!
     @IBOutlet weak var otherGenderView: UIView!
     @IBOutlet weak var otherGenderTxt: UITextField!
-    
     @IBOutlet weak var ProcessingLbl: UILabel!
 
     //MARK: - Properties
-    
     lazy var logoutAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     lazy var calendarView = Bundle.main.loadNibNamed("CalendarView", owner: self, options: nil)?.first as? CalendarView
     lazy var verifyFaceView = Bundle.main.loadNibNamed("VerifyFaceRegistrationAlertView", owner: self, options: nil)?.first as? VerifyFaceRegistrationAlertView
@@ -94,9 +84,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
 
     var attachedImg:Bool = false
     var birthDay = ""
-    
-//    var internetConect:Bool = false
-    
+
     var UserFBID = ""
     var UserFBMobile = ""
     var UserFBEmail = ""
@@ -173,6 +161,21 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         CancelRequest.currentTask = true
     }
     
+    //MARK: - APIs
+    func getAllValidatConfig() {
+        allValidatConfigVM.getAllValidatConfig()
+        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+        }
+        
+        // Set View Model Event Listener
+        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                print(error)
+            }
+        }
+    }
+    
+
     //MARK: - Helpers
     func updateUserInterface() {
         appDelegate.networkReachability()
@@ -228,21 +231,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         bioTxtView.delegate = self
         tagsListView.delegate = self
         bestDescribesListView.delegate = self
-    }
-    
-    //MARK: - API
-
-    func getAllValidatConfig() {
-        allValidatConfigVM.getAllValidatConfig()
-        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
-        }
-        
-        // Set View Model Event Listener
-        allValidatConfigVM.errorMsg.bind { [unowned self]error in
-            DispatchQueue.main.async {
-                print(error)
-            }
-        }
     }
     
     func setupDate() {
@@ -615,6 +603,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }
     }
     
+    // Send Request for Facial Recognition API
     func FacialRecognitionAPI(imageOne:UIImage,imageTwo:UIImage) {
         
         self.ProcessingLbl.isHidden = false
@@ -738,6 +727,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }
     }
     
+    //Logout
     func logout() {
         logoutAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
@@ -790,8 +780,48 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         self.view.addSubview((verifyFaceView)!)
     }
     
-    //MARK: - Actions
+    func showDatePicker(){
+        //Formate Date
+        
+        datePicker.datePickerMode = .date
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        datePicker.maximumDate = Date()
+        
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        
+        doneButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.red
+        
+        toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
+
+        dateBirthdayTxt.inputAccessoryView = toolbar
+        dateBirthdayTxt.inputView = datePicker
+        
+    }
+
+    @objc func donedatePicker(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        dateBirthdayTxt.text = formatter.string(from: datePicker.date)
+        self.view.endEditing(true)
+    }
+
+    @objc func cancelDatePicker(){
+        self.view.endEditing(true)
+    }
     
+    //MARK: - Actions
     @IBAction func logoutBtn(_ sender: Any) {
         logout()
     }
@@ -806,8 +836,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         //        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
         //        popupVC.onOkCallBackResponse = self.onOkCallBack
         //        present(popupVC, animated: true, completion: nil)
-        
-        
+
         if UIDevice.current.userInterfaceIdiom == .pad {
             let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
             
@@ -854,48 +883,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }
     }
 
-    func showDatePicker(){
-        //Formate Date
-        datePicker.datePickerMode = .date
-//        datePicker.calendar = .Component
-        if #available(iOS 13.4, *) {
-            datePicker.preferredDatePickerStyle = .wheels
-        } else {
-            // Fallback on earlier versions
-        }
-        
-        datePicker.maximumDate = Date()
-        
-        //ToolBar
-        let toolbar = UIToolbar();
-        toolbar.sizeToFit()
-        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
-        
-        doneButton.tintColor = UIColor.FriendzrColors.primary!
-        cancelButton.tintColor = UIColor.red
-        
-        toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
-
-        dateBirthdayTxt.inputAccessoryView = toolbar
-        dateBirthdayTxt.inputView = datePicker
-        
-    }
-
-    @objc func donedatePicker(){
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd-MM-yyyy"
-        dateBirthdayTxt.text = formatter.string(from: datePicker.date)
-        self.view.endEditing(true)
-    }
-
-    @objc func cancelDatePicker(){
-        self.view.endEditing(true)
-    }
-    
-    
     @IBAction func maleBtn(_ sender: Any) {
         maleImg.image = UIImage(named: "select_ic")
         femaleImg.image = UIImage(named: "unSelect_ic")
@@ -947,7 +934,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
     
     @IBAction func preferToBtn(_ sender: Any) {
         if NetworkConected.internetConect {
@@ -1035,9 +1021,9 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
 
 }
 
-//MARK: - Extensions
+//MARK: - Extensions UIImagePickerControllerDelegate && UINavigationControllerDelegate
 extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-    //MARK:- Take Picture
+    //MARK: - Take Picture
     func openCamera(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
             let imagePicker = UIImagePickerController()
@@ -1049,6 +1035,7 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
             self.present(imagePicker, animated: true, completion: nil)
         }
     }
+    //MARK: - Open Library
     func openLibrary(){
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.delegate = self
@@ -1120,6 +1107,8 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
     }
 }
 
+
+//MARK: - CropperViewControllerDelegate
 extension EditMyProfileVC: CropperViewControllerDelegate {
     
     func aspectRatioPickerDidSelectedAspectRatio(_ aspectRatio: AspectRatio) {
@@ -1158,8 +1147,8 @@ extension EditMyProfileVC: CropperViewControllerDelegate {
         }
     }
 }
-//(20.0, 274.0, 388.0, 291.0)
-//text view delegate
+
+//MARK: -  text view delegate
 extension EditMyProfileVC: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         placeHolderLbl.isHidden = !bioTxtView.text.isEmpty
@@ -1171,7 +1160,7 @@ extension EditMyProfileVC: UITextViewDelegate {
     }
 }
 
-//tags list
+//MARK: -  TagListViewDelegate
 extension EditMyProfileVC : TagListViewDelegate {
     
     // MARK: TagListViewDelegate

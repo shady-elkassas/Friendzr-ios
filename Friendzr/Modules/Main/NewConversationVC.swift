@@ -12,7 +12,7 @@ import Network
 
 class NewConversationVC: UIViewController {
     
-    //MARK:- Outlets
+    //MARK: - Outlets
     @IBOutlet weak var searchbar: UISearchBar!
     @IBOutlet weak var searchBarView: UIView!
     @IBOutlet weak var tableView: UITableView!
@@ -144,7 +144,7 @@ class NewConversationVC: UIViewController {
     }
     
     
-    //MARK:- APIs
+    //MARK: - APIs
     func loadMoreItemsForList(){
         currentPage += 1
         getAllFriends(pageNumber: currentPage, search: searchbar.text ?? "")
@@ -219,6 +219,7 @@ class NewConversationVC: UIViewController {
         }
     }
     
+    //Create Footer View for load more
     func createFooterView() -> UIView {
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
         let indicatorView = UIActivityIndicatorView()
@@ -227,7 +228,7 @@ class NewConversationVC: UIViewController {
         indicatorView.startAnimating()
         return footerview
     }
-    
+
     func setupHideView() {
         for item in prosImg {
             item.cornerRadiusForHeight()
@@ -238,13 +239,13 @@ class NewConversationVC: UIViewController {
         }
     }
     
-    //MARK:- Actions
+    //MARK: - Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         updateUserInterface()
     }
 }
 
-//MARK: - Extensions
+//MARK: - Extensions UISearchBarDelegate
 extension NewConversationVC : UISearchBarDelegate {
     @objc func updateSearchResult() {
         guard let text = searchbar.text else {return}
@@ -258,7 +259,7 @@ extension NewConversationVC : UISearchBarDelegate {
         }
     }
 }
-
+//MARK: - UITableViewDataSource
 extension NewConversationVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.friends.value?.data?.count ?? 0
@@ -279,6 +280,7 @@ extension NewConversationVC: UITableViewDataSource {
     }
 }
 
+//MARK: - UITableViewDelegate
 extension NewConversationVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
@@ -286,7 +288,6 @@ extension NewConversationVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cellSelected = true
-//        updateNetworkForBtns()
         
         if NetworkConected.internetConect {
             let vc = ConversationVC()
@@ -315,7 +316,6 @@ extension NewConversationVC: UITableViewDelegate {
         }
     }
     
-    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
             self.isLoadingList = true
@@ -339,6 +339,7 @@ extension NewConversationVC: UITableViewDelegate {
 }
 
 extension NewConversationVC {
+    //init Add Group Bar Button
     func initAddGroupBarButton() {
         let button = UIButton.init(type: .custom)
         button.setTitle("Create Group", for: .normal)
@@ -352,7 +353,6 @@ extension NewConversationVC {
     }
     
     @objc func handleAddGroupVC() {
-//        updateNetworkForBtns()
         if NetworkConected.internetConect {
             if viewmodel.friends.value?.data?.count == 0 {
                 self.view.makeToast("Please add friends to create a group".localizedString)

@@ -14,15 +14,14 @@ class ReportVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var hideView: UIView!
     
-    
+    //MARK: - Properties
     let titleCellID = "ReportTitleTableViewCell"
     let problemCellID = "ProblemTableViewCell"
     let confirmBtnCellID = "ConfirmReportButtonTableViewCell"
     let detailsCellID = "WriteProblemTableViewCell"
     var selectedVC = ""
     var viewmodel:ReportViewModel = ReportViewModel()
-    
-    
+
     var id:String = ""
     var problemID:String = ""
     var message:String = ""
@@ -31,6 +30,7 @@ class ReportVC: UIViewController {
     var chatname:String = ""
     var reportType:Int = 0 //1 group 2 event 3 user
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,6 +66,7 @@ class ReportVC: UIViewController {
         hideNavigationBar(NavigationBar: false, BackButton: false)
     }
     
+    //MARK: - Helpers
     func setupView() {
         tableView.register(UINib(nibName: titleCellID, bundle: nil), forCellReuseIdentifier: titleCellID)
         tableView.register(UINib(nibName: confirmBtnCellID, bundle: nil), forCellReuseIdentifier: confirmBtnCellID)
@@ -105,6 +106,7 @@ class ReportVC: UIViewController {
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
+    //MARK: - APIs
     func getAllProblems() {
         viewmodel.getAllProblems()
         viewmodel.model.bind { [unowned self] value in
@@ -129,6 +131,7 @@ class ReportVC: UIViewController {
     }
 }
 
+//MARK: - UITableViewDataSource
 extension ReportVC: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 4
@@ -211,6 +214,7 @@ extension ReportVC: UITableViewDataSource {
     }
 }
 
+//MARK: - UITableViewDelegate
 extension ReportVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
@@ -238,15 +242,13 @@ extension ReportVC: UITableViewDelegate {
     }
 }
 
+
 extension ReportVC {
+    //init Back Chat Button
     func initBackChatButton() {
         
         var imageName = ""
-//        if Language.currentLanguage() == "ar" {
         imageName = "back_icon"
-//        }else {
-//            imageName = "back_icon"
-//        }
         
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)

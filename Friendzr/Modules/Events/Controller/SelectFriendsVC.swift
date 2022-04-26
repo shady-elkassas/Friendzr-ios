@@ -11,6 +11,7 @@ import Network
 
 class SelectFriendsVC: UIViewController {
 
+    //MARK: - Outlets
     @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var selectImg: UIImageView!
@@ -29,14 +30,13 @@ class SelectFriendsVC: UIViewController {
     @IBOutlet weak var emptyImg: UIImageView!
 
     
+    //MARK: - Properties
     let cellID = "AddFriendsToPrivateEventTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
 
     var viewmodel:AllFriendesViewModel = AllFriendesViewModel()
     
     var cellSelected:Bool = false
-//    var internetConnect:Bool = false
-    
     var currentPage : Int = 1
     var isLoadingList : Bool = false
     var selectedIDs = [String]()
@@ -45,6 +45,7 @@ class SelectFriendsVC: UIViewController {
 
     var onListFriendsCallBackResponse: ((_ listIDs: [String],_ listNames: [String],_ selectFriends:[UserConversationModel]) -> ())?
 
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,87 +68,7 @@ class SelectFriendsVC: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
     }
         
-    //MARK: - Helper
-    
-    func setupHideView() {
-        for itm in profileImgViews {
-            itm.cornerRadiusForHeight()
-        }
-        
-        for item in namesFirendsViews {
-            item.cornerRadiusView(radius: 6)
-        }
-        
-        for itmm in selectImgsView {
-            itmm.cornerRadiusView(radius: 6)
-        }
-    }
-    
-    func updateUserInterface() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            DispatchQueue.main.async {
-                NetworkConected.internetConect = false
-                self.HandleInternetConnection()
-            }
-        case .wwan:
-            DispatchQueue.main.async {
-                NetworkConected.internetConect = true
-                self.LaodAllFriends(pageNumber: 1, search: self.searchBar.text ?? "")
-            }
-        case .wifi:
-            DispatchQueue.main.async {
-                NetworkConected.internetConect = true
-                self.LaodAllFriends(pageNumber: 1, search: self.searchBar.text ?? "")
-            }
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    func setupSearchBar() {
-        searchBar.delegate = self
-        searchView.cornerRadiusView(radius: 6)
-        searchView.setBorder()
-        searchBar.backgroundImage = UIImage()
-        searchBar.searchTextField.textColor = .black
-        searchBar.searchTextField.backgroundColor = .clear
-        searchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
-        var placeHolder = NSMutableAttributedString()
-        let textHolder  = "Search...".localizedString
-        let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
-        placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
-        searchBar.searchTextField.attributedPlaceholder = placeHolder
-        searchBar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
-    }
-    
-    func setupViews() {
-        tableView.allowsMultipleSelection = true
-        tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
-        saveBtn.cornerRadiusView(radius: 8)
-        tryAgainBtn.cornerRadiusView(radius: 8)
-    }
-    
-    func HandleInternetConnection() {
-        if cellSelected {
-            emptyView.isHidden = true
-            self.view.makeToast("Network is unavailable, please try again!".localizedString)
-        }else {
-            emptyView.isHidden = false
-            emptyImg.image = UIImage.init(named: "myEventnodata_img")
-            emptyLbl.text = "Network is unavailable, please try again!".localizedString
-            tryAgainBtn.alpha = 1.0
-        }
-    }
-    
-    
-    //MARK:- APIs
+    //MARK: - APIs
     func loadMoreItemsForList(){
         currentPage += 1
         getAllFriends(pageNumber: currentPage, search: searchBar.text ?? "")
@@ -226,7 +147,84 @@ class SelectFriendsVC: UIViewController {
             }
         }
     }
+
+    //MARK: - Helpers
+    func setupHideView() {
+        for itm in profileImgViews {
+            itm.cornerRadiusForHeight()
+        }
+        
+        for item in namesFirendsViews {
+            item.cornerRadiusView(radius: 6)
+        }
+        
+        for itmm in selectImgsView {
+            itmm.cornerRadiusView(radius: 6)
+        }
+    }
     
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.LaodAllFriends(pageNumber: 1, search: self.searchBar.text ?? "")
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.LaodAllFriends(pageNumber: 1, search: self.searchBar.text ?? "")
+            }
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
+    func setupSearchBar() {
+        searchBar.delegate = self
+        searchView.cornerRadiusView(radius: 6)
+        searchView.setBorder()
+        searchBar.backgroundImage = UIImage()
+        searchBar.searchTextField.textColor = .black
+        searchBar.searchTextField.backgroundColor = .clear
+        searchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
+        var placeHolder = NSMutableAttributedString()
+        let textHolder  = "Search...".localizedString
+        let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
+        placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
+        searchBar.searchTextField.attributedPlaceholder = placeHolder
+        searchBar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
+    }
+    
+    func setupViews() {
+        tableView.allowsMultipleSelection = true
+        tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
+        saveBtn.cornerRadiusView(radius: 8)
+        tryAgainBtn.cornerRadiusView(radius: 8)
+    }
+    
+    func HandleInternetConnection() {
+        if cellSelected {
+            emptyView.isHidden = true
+            self.view.makeToast("Network is unavailable, please try again!".localizedString)
+        }else {
+            emptyView.isHidden = false
+            emptyImg.image = UIImage.init(named: "myEventnodata_img")
+            emptyLbl.text = "Network is unavailable, please try again!".localizedString
+            tryAgainBtn.alpha = 1.0
+        }
+    }
     
     func showEmptyView() {
         let model = viewmodel.friends.value?.data
@@ -249,6 +247,7 @@ class SelectFriendsVC: UIViewController {
     }
     
 
+    //MARK: - ACtions
     @IBAction func selectAllBtn(_ sender: Any) {
         selectAllBtn.isSelected = !selectAllBtn.isSelected
         
@@ -290,7 +289,7 @@ class SelectFriendsVC: UIViewController {
     }
 }
 
-//MARK: - Extensions
+//MARK: - Extensions UISearchBarDelegate
 extension SelectFriendsVC : UISearchBarDelegate {
     @objc func updateSearchResult() {
         guard let text = searchBar.text else {return}
@@ -302,6 +301,7 @@ extension SelectFriendsVC : UISearchBarDelegate {
     }
 }
 
+//MARK: - Extensions UITableViewDataSource
 extension SelectFriendsVC :UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.friends.value?.data?.count ?? 0
@@ -330,6 +330,7 @@ extension SelectFriendsVC :UITableViewDataSource {
     }
 }
 
+//MARK: - Extensions UITableViewDelegate
 extension SelectFriendsVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75

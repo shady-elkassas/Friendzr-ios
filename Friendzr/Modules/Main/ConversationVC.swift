@@ -19,83 +19,7 @@ import FirebaseFirestore
 import ListPlaceholder
 import SwiftUI
 
-extension ConversationVC {
-    
-    func buildFormatter(locale: Locale, hasRelativeDate: Bool = false, dateFormat: String? = nil) -> DateFormatter {
-        let formatter = DateFormatter()
-        formatter.timeStyle = .none
-        formatter.dateStyle = .medium
-        if let dateFormat = dateFormat { formatter.dateFormat = dateFormat }
-        formatter.doesRelativeDateFormatting = hasRelativeDate
-        formatter.locale = locale
-        return formatter
-    }
-    
-    func dateFormatterToString(_ formatter: DateFormatter, _ date: Date) -> String {
-        return formatter.string(from: date)
-    }
-    
-    func messageDateTime(date:String,time:String) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.autoupdatingCurrent
-        formatter.dateStyle = .full
-        formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
-        let dateStr = "\(date)T\(time)Z"
-        let date = formatter.date(from: dateStr)
-        
-        let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
-        let relativeDateString = dateFormatterToString(relativeFormatter, date ?? Date())
-        // "Jan 18, 2018"
-        
-        let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
-        let normalDateString = dateFormatterToString(nonRelativeFormatter, date ?? Date())
-        // "Jan 18, 2018"
-        
-        let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
-        _ = dateFormatterToString(customFormatter, date ?? Date())
-        // "18 January"
-        
-        if relativeDateString == normalDateString {
-            print("Use custom date \(normalDateString)") // Jan 18
-            return  normalDateString
-        } else {
-            print("Use relative date \(relativeDateString)") // Today, Yesterday
-            return "\(relativeDateString) \(time)"
-        }
-    }
-    
-    func messageDateTimeNow(date:String,time:String) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale.autoupdatingCurrent
-        formatter.dateStyle = .full
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZ"
-        
-        let dateStr = "\(date)T\(time)Z"
-        let date = formatter.date(from: dateStr)
-        
-        let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
-        let relativeDateString = dateFormatterToString(relativeFormatter, date ?? Date())
-        // "Jan 18, 2018"
-        
-        let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
-        let normalDateString = dateFormatterToString(nonRelativeFormatter, date ?? Date())
-        // "Jan 18, 2018"
-        
-        let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
-        let customDateString = dateFormatterToString(customFormatter, date ?? Date())
-        // "18 January"
-        
-        if relativeDateString == normalDateString {
-            print("Use custom date \(customDateString)") // Jan 18
-            return  customDateString
-        } else {
-            print("Use relative date \(relativeDateString)") // Today, Yesterday
-            return "\(relativeDateString) \(time)"
-        }
-    }
-}
-
-//notificationMessage
+//MARK: - singletone Notification Message
 class NotificationMessage {
     static var action:String = ""
     static var actionCode:String = ""
@@ -125,14 +49,13 @@ class NotificationMessage {
 
 class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
     
+    // MARK: - Properties
     let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
-
-    // MARK: - Public properties
     var soundRecorder: AVAudioRecorder!
     var soundPlayer:AVAudioPlayer!
     let fileRecordName = ""
     var fileUpload = ""
-    
+
     let outgoingAvatarOverlap: CGFloat = 17.5
     var startingFrame: CGRect?
     var blackBackgroundView: UIView?
@@ -153,7 +76,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     var keyboardManager = KeyboardManager()
     let subviewInputBar = InputBarAccessoryView()
 
-    // MARK: - Private properties
     var senderUser = UserSender(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName)
     
     var viewmodel:ChatViewModel = ChatViewModel()
@@ -226,13 +148,9 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     
     // MARK: - Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        messagesCollectionView = MessagesCollectionView(frame: .zero, collectionViewLayout: CustomMessagesFlowLayout())
-//        messagesCollectionView.register(CustomCell.self)
-
         setupMessages()
         initBackButton()
         
@@ -296,7 +214,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         Defaults.ConversationID = ""
     }
     
-    //MARK : - listen To Messages
+    //MARK: - listen To Messages
     @objc func listenToMessages() {
         if NotificationMessage.actionCode == chatuserID {
             if NotificationMessage.messageType == 1 {
@@ -395,11 +313,10 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
     }
 
     @objc func updateMessagesChat() {
-        print("POP")
         setupNavigationbar()
     }
     
-    //MARK : - setup
+    //MARK: - Setup Messages
     func setupMessages() {
         if isEvent {
             self.getEventChatMessages(pageNumber: 1)
@@ -412,11 +329,63 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             }
         }
     }
+    
     func isLastSectionVisible() -> Bool {
         guard !messageList.isEmpty else { return false }
         let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
         return messagesCollectionView.indexPathsForVisibleItems.contains(lastIndexPath)
     }
+    
+    //MARK: - Helpers
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        // handling code
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+            self.alertView?.alpha = 0
+        }) { (success: Bool) in
+            self.alertView?.removeFromSuperview()
+            self.alertView?.alpha = 1
+            self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+        }
+    }
+
+    func HandleinvalidUrl() {
+        DispatchQueue.main.async {
+            self.view.makeToast("Please try again later".localizedString)
+        }
+    }
+    
+    func HandleInternetConnection() {
+        DispatchQueue.main.async {
+            self.view.makeToast("Network is unavailable, please try again!".localizedString)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                Router().toHome()
+            })
+        }
+    }
+
+    func getDate(dateStr:String,timeStr:String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        dateFormatter.timeZone = TimeZone.autoupdatingCurrent
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        return dateFormatter.date(from: "\(dateStr)T\(timeStr):00+0000") // replace Date String
+    }
+    
+    func onLocationCallBack(_ lat: Double, _ lng: Double,_ title:String) -> () {
+        print("\(lat)", "\(lng)",title)
+        let messageDate = formatterDate.string(from: Date())
+        let messageTime = formatterTime.string(from: Date())
+        
+        self.insertMessage(UserMessage(location: CLLocation(latitude: lat, longitude: lng), user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTime(date: messageDate, time: messageTime), messageType: 4,linkPreviewID: "",isJoinEvent: 0, eventType: ""))
+        
+        self.messagesCollectionView.reloadData()
+    }
+    
     
     func reloadLastIndexInCollectionView() {
         let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
@@ -513,6 +482,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         messageInputBar.inputTextView.textContainerInset.bottom = 8
     }
 
+    //Show Down View
     func showDownView() {
         if isEvent {
             if leavevent == 0 {
@@ -543,7 +513,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         }
     }
 
-    //MARK : - Load More Messages
+    //MARK: - Load More Messages
     @objc func loadMoreMessages() {
         isRefreshNewMessages = true
         
@@ -564,59 +534,10 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         }
     }
     
-    //MARK : - Help
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-    
-    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
-        // handling code
-        UIView.animate(withDuration: 0.3, animations: {
-            self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-            self.alertView?.alpha = 0
-        }) { (success: Bool) in
-            self.alertView?.removeFromSuperview()
-            self.alertView?.alpha = 1
-            self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-        }
-    }
-
-    func HandleinvalidUrl() {
-        DispatchQueue.main.async {
-            self.view.makeToast("Please try again later".localizedString)
-        }
-    }
-    
-    func HandleInternetConnection() {
-        DispatchQueue.main.async {
-            self.view.makeToast("Network is unavailable, please try again!".localizedString)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                Router().toHome()
-            })
-        }
-    }
-
-    func getDate(dateStr:String,timeStr:String) -> Date? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        dateFormatter.timeZone = TimeZone.autoupdatingCurrent
-        dateFormatter.locale = Locale.autoupdatingCurrent
-        return dateFormatter.date(from: "\(dateStr)T\(timeStr):00+0000") // replace Date String
-    }
-    
-    func onLocationCallBack(_ lat: Double, _ lng: Double,_ title:String) -> () {
-        print("\(lat)", "\(lng)",title)
-        let messageDate = formatterDate.string(from: Date())
-        let messageTime = formatterTime.string(from: Date())
-        
-        self.insertMessage(UserMessage(location: CLLocation(latitude: lat, longitude: lng), user: self.senderUser, messageId: "1", date: Date(), dateandtime: messageDateTime(date: messageDate, time: messageTime), messageType: 4,linkPreviewID: "",isJoinEvent: 0, eventType: ""))
-        
-        self.messagesCollectionView.reloadData()
-    }
 }
 
 
-//MARK : - APIs
+//MARK: - APIs
 extension ConversationVC {
     func getUserChatMessages(pageNumber:Int) {
         CancelRequest.currentTask = false
@@ -948,5 +869,81 @@ extension ConversationVC {
                 }
             }
         }
+    }
+}
+
+//MARK: custom Message Date Time
+extension ConversationVC {
+    func messageDateTime(date:String,time:String) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.autoupdatingCurrent
+        formatter.dateStyle = .full
+        formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
+        let dateStr = "\(date)T\(time)Z"
+        let date = formatter.date(from: dateStr)
+        
+        let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
+        let relativeDateString = dateFormatterToString(relativeFormatter, date ?? Date())
+        // "Jan 18, 2018"
+        
+        let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
+        let normalDateString = dateFormatterToString(nonRelativeFormatter, date ?? Date())
+        // "Jan 18, 2018"
+        
+        let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
+        _ = dateFormatterToString(customFormatter, date ?? Date())
+        // "18 January"
+        
+        if relativeDateString == normalDateString {
+            print("Use custom date \(normalDateString)") // Jan 18
+            return  normalDateString
+        } else {
+            print("Use relative date \(relativeDateString)") // Today, Yesterday
+            return "\(relativeDateString) \(time)"
+        }
+    }
+    
+    func messageDateTimeNow(date:String,time:String) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.autoupdatingCurrent
+        formatter.dateStyle = .full
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZ"
+        
+        let dateStr = "\(date)T\(time)Z"
+        let date = formatter.date(from: dateStr)
+        
+        let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
+        let relativeDateString = dateFormatterToString(relativeFormatter, date ?? Date())
+        // "Jan 18, 2018"
+        
+        let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
+        let normalDateString = dateFormatterToString(nonRelativeFormatter, date ?? Date())
+        // "Jan 18, 2018"
+        
+        let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
+        let customDateString = dateFormatterToString(customFormatter, date ?? Date())
+        // "18 January"
+        
+        if relativeDateString == normalDateString {
+            print("Use custom date \(customDateString)") // Jan 18
+            return  customDateString
+        } else {
+            print("Use relative date \(relativeDateString)") // Today, Yesterday
+            return "\(relativeDateString) \(time)"
+        }
+    }
+    
+    func buildFormatter(locale: Locale, hasRelativeDate: Bool = false, dateFormat: String? = nil) -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .none
+        formatter.dateStyle = .medium
+        if let dateFormat = dateFormat { formatter.dateFormat = dateFormat }
+        formatter.doesRelativeDateFormatting = hasRelativeDate
+        formatter.locale = locale
+        return formatter
+    }
+    
+    func dateFormatterToString(_ formatter: DateFormatter, _ date: Date) -> String {
+        return formatter.string(from: date)
     }
 }

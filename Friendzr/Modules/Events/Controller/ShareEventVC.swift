@@ -11,6 +11,7 @@ import Network
 
 class ShareEventVC: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var friendsSearchBar: UISearchBar!
     @IBOutlet weak var friendsEmptyView: UIView!
     @IBOutlet weak var emptyFriendslbl: UILabel!
@@ -42,6 +43,7 @@ class ShareEventVC: UIViewController {
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
 
+    //MARK: - Properties
     var cellID = "ShareTableViewCell"
     var eventID:String = ""
     var myFriendsVM:AllFriendesViewModel = AllFriendesViewModel()
@@ -65,6 +67,7 @@ class ShareEventVC: UIViewController {
         return formatter
     }()
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -78,49 +81,14 @@ class ShareEventVC: UIViewController {
         initCloseBarButton()
         setupNavBar()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Defaults.availableVC = "ShareEventVC"
         print("availableVC >> \(Defaults.availableVC)")
     }
     
-    func updateUserInterface() {
-        appDelegate.networkReachability()
-        
-        switch Network.reachability.status {
-        case .unreachable:
-            DispatchQueue.main.async {
-                self.emptyView.isHidden = false
-                NetworkConected.internetConect = false
-                self.HandleInternetConnection()
-            }
-        case .wwan:
-            DispatchQueue.main.async {
-                self.emptyView.isHidden = true
-                NetworkConected.internetConect = true
-                self.LoadAllMyEvents(pageNumber: 1,search:"")
-                self.LoadAllMyGroups(pageNumber: 1, search: "")
-                self.LoadAllMyFriends(pageNumber: 1, search: "")
-            }
-        case .wifi:
-            DispatchQueue.main.async {
-                self.emptyView.isHidden = true
-                NetworkConected.internetConect = true
-                self.LoadAllMyEvents(pageNumber: 1,search:"")
-                self.LoadAllMyGroups(pageNumber: 1, search: "")
-                self.LoadAllMyFriends(pageNumber: 1, search: "")
-            }
-        }
-        
-        print("Reachability Summary")
-        print("Status:", Network.reachability.status)
-        print("HostName:", Network.reachability.hostname ?? "nil")
-        print("Reachable:", Network.reachability.isReachable)
-        print("Wifi:", Network.reachability.isReachableViaWiFi)
-    }
-    
-    
-    //MARK:- APIs
+    //MARK: - APIs
     func getAllMyEvents(pageNumber:Int,search:String) {
         hideView3.isHidden = true
         myEventsVM.getMyEvents(pageNumber: pageNumber, search: search)
@@ -354,6 +322,42 @@ class ShareEventVC: UIViewController {
         }
     }
 
+    //MARK: - Helpers
+    func updateUserInterface() {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = false
+                NetworkConected.internetConect = false
+                self.HandleInternetConnection()
+            }
+        case .wwan:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                NetworkConected.internetConect = true
+                self.LoadAllMyEvents(pageNumber: 1,search:"")
+                self.LoadAllMyGroups(pageNumber: 1, search: "")
+                self.LoadAllMyFriends(pageNumber: 1, search: "")
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                self.emptyView.isHidden = true
+                NetworkConected.internetConect = true
+                self.LoadAllMyEvents(pageNumber: 1,search:"")
+                self.LoadAllMyGroups(pageNumber: 1, search: "")
+                self.LoadAllMyFriends(pageNumber: 1, search: "")
+            }
+        }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
+    }
+    
     func shareEvent() {
         // Setting description
         let firstActivityItem = "https://friendzr.com/about-us/"
@@ -457,12 +461,14 @@ class ShareEventVC: UIViewController {
         eventsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchFriendsResult), for: .editingChanged)
     }
     
+    //MARK: - Actions
     @IBAction func shareOutSideFriendzrBtn(_ sender: Any) {
         shareEvent()
     }
     
 }
 
+//MARK: - UITableViewDataSource
 extension ShareEventVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == friendsTV {
@@ -607,13 +613,14 @@ extension ShareEventVC: UITableViewDataSource {
     }
 }
 
+//MARK: - UITableViewDelegate
 extension ShareEventVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 45
     }
 }
 
-
+//MARK: - UISearchBarDelegate
 extension ShareEventVC: UISearchBarDelegate{
     @objc func updateSearchFriendsResult() {
         guard let text1 = friendsSearchBar.text else {return}

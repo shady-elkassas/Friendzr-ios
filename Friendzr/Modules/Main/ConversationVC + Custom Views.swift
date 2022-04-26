@@ -20,9 +20,8 @@ import ListPlaceholder
 import SwiftUI
 
 
-//navigation Buttons
+//MARK: - Navigation Buttons
 extension ConversationVC {
-    
     func initOptionsInChatUserButton() {
         let imageName = "menu_H_ic"
         let button = UIButton.init(type: .custom)
@@ -34,6 +33,7 @@ extension ConversationVC {
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.rightBarButtonItem = barButton
     }
+    
     func initOptionsInChatEventButton() {
         let imageName = "menu_H_ic"
         let button = UIButton.init(type: .custom)
@@ -141,6 +141,7 @@ extension ConversationVC {
             present(actionSheet, animated: true, completion: nil)
         }
     }
+    
     @objc func handleEventOptionsBtn() {
         if UIDevice.current.userInterfaceIdiom == .pad {
             let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
@@ -358,6 +359,7 @@ extension ConversationVC {
             present(actionSheet, animated: true, completion: nil)
         }
     }
+    
     func leaveEvent() {
         alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
@@ -398,6 +400,7 @@ extension ConversationVC {
         self.view.addSubview((alertView)!)
         
     }
+    
     func unFriendAccount() {
         alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
@@ -437,6 +440,7 @@ extension ConversationVC {
         
         self.view.addSubview((alertView)!)
     }
+    
     func blockFriendAccount() {
         alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
@@ -477,7 +481,7 @@ extension ConversationVC {
     }
 }
 
-//setup bottom views
+//MARK: - setup bottom views
 extension ConversationVC {
     //handle Long Press
     @objc private func handleLongPress(sender: UILongPressGestureRecognizer) {
@@ -789,7 +793,7 @@ extension ConversationVC {
     }
     
 }
-
+//MARK: - updateTitleView
 extension ConversationVC {
     func updateTitleView(image: String, subtitle: String?,titleId:String,isEvent:Bool) {
         
@@ -879,6 +883,7 @@ extension ConversationVC {
     }
 }
 
+//MARK: -handleLinkPreviewOptionsTapped
 extension ConversationVC {
     func handleLinkPreviewOptionsTapped(ById id:String,IsInEvent:Int) {
         
@@ -1001,7 +1006,7 @@ extension ConversationVC {
     }
 }
 
-//setup navigation bar
+//MARK: -setup navigation bar
 extension MessagesViewController {
     func setupNavigationbar() {
         navigationController?.navigationBar.isTranslucent = false

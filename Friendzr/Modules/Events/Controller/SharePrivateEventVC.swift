@@ -11,31 +11,26 @@ import Network
 
 class SharePrivateEventVC: UIViewController {
     
-    
+    //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
-    
     @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
-    
     @IBOutlet weak var hideViews: UIView!
     @IBOutlet var namesFirendsViews: [UIImageView]!
     @IBOutlet var btnImgsView: [UIImageView]!
-    
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyImg: UIImageView!
 
 
+    //MARK: - Properties
     var shareEventMessageVM:ChatViewModel = ChatViewModel()
     var viewmodel:AttendeesViewModel = AttendeesViewModel()
-    
     var eventID:String = ""
     var currentPage : Int = 1
     var isLoadingList : Bool = false
     var cellSelected:Bool = false
-//    var internetConnect:Bool = false
-    
     var cellID = "ShareTableViewCell"
     
     let formatterDate: DateFormatter = {
@@ -52,6 +47,7 @@ class SharePrivateEventVC: UIViewController {
         return formatter
     }()
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -83,36 +79,11 @@ class SharePrivateEventVC: UIViewController {
         CancelRequest.currentTask = true
     }
     
-    
-    func setupHideView() {
-        for item in btnImgsView {
-            item.cornerRadiusView(radius: 6)
-        }
-        
-        tryAgainBtn.cornerRadiusView(radius: 8)
-    }
-    
-    func setupSearchBar() {
-        searchBar.delegate = self
-        searchView.cornerRadiusView(radius: 6)
-        searchView.setBorder()
-        searchBar.backgroundImage = UIImage()
-        searchBar.searchTextField.textColor = .black
-        searchBar.searchTextField.backgroundColor = .clear
-        searchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
-        var placeHolder = NSMutableAttributedString()
-        let textHolder  = "Search...".localizedString
-        let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
-        placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
-        searchBar.searchTextField.attributedPlaceholder = placeHolder
-        searchBar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
-    }
-    
+    //MARK: - APIs
     func loadMoreItemsForList(){
         currentPage += 1
         getAllAttendees(pageNumber: currentPage, search: searchBar.text ?? "")
     }
-    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -140,7 +111,6 @@ class SharePrivateEventVC: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-    
     func getAllAttendees(pageNumber:Int,search:String) {
         hideViews.isHidden = true
         viewmodel.getEventAttendees(ByEventID: eventID, pageNumber: pageNumber, search: search)
@@ -165,7 +135,6 @@ class SharePrivateEventVC: UIViewController {
             }
         }
     }
-    
     func LaodAllAttendees(pageNumber:Int,search:String) {
         hideViews.isHidden = false
         hideViews.showLoader()
@@ -198,6 +167,29 @@ class SharePrivateEventVC: UIViewController {
         }
     }
     
+    //MARK: - Helpers
+    func setupHideView() {
+        for item in btnImgsView {
+            item.cornerRadiusView(radius: 6)
+        }
+        
+        tryAgainBtn.cornerRadiusView(radius: 8)
+    }
+    func setupSearchBar() {
+        searchBar.delegate = self
+        searchView.cornerRadiusView(radius: 6)
+        searchView.setBorder()
+        searchBar.backgroundImage = UIImage()
+        searchBar.searchTextField.textColor = .black
+        searchBar.searchTextField.backgroundColor = .clear
+        searchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
+        var placeHolder = NSMutableAttributedString()
+        let textHolder  = "Search...".localizedString
+        let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
+        placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
+        searchBar.searchTextField.attributedPlaceholder = placeHolder
+        searchBar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
+    }
     func showEmptyView() {
         if viewmodel.attendees.value?.data?.count == 0 {
             emptyView.isHidden = false
@@ -208,7 +200,6 @@ class SharePrivateEventVC: UIViewController {
         
         tryAgainBtn.alpha = 0.0
     }
-    
     func createFooterView() -> UIView {
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
         let indicatorView = UIActivityIndicatorView()
@@ -217,7 +208,6 @@ class SharePrivateEventVC: UIViewController {
         indicatorView.startAnimating()
         return footerview
     }
-    
     func HandleInternetConnection() {
         emptyView.isHidden = false
         emptyImg.image = UIImage.init(named: "feednodata_img")
@@ -226,6 +216,7 @@ class SharePrivateEventVC: UIViewController {
     }
 }
 
+//MARK: - UITableViewDataSource
 extension SharePrivateEventVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.attendees.value?.data?.count ?? 0

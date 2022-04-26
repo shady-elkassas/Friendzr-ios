@@ -12,15 +12,15 @@ import Network
 
 class PreferToVC: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var saveBtn: UIButton!
-    
     @IBOutlet weak var emptyImg: UIImageView!
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var emptyMessageLbl: UILabel!
     @IBOutlet weak var triAgainBtn: UIButton!
 
-    
+    //MARK: - Properties
     lazy var addNewTagView = Bundle.main.loadNibNamed("AddNewTagView", owner: self, options: nil)?.first as? AddNewTagView
     
     private var layout: UICollectionViewFlowLayout!
@@ -30,8 +30,6 @@ class PreferToVC: UIViewController {
     var onPreferToCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
     
     var btnSelect:Bool = false
-//    var internetConnection:Bool = false
-
     var arrData = [String]() // This is your data array
     var arrSelectedIndex = [IndexPath]() // This is selected cell Index array
     var arrSelectedDataIds = [String]() // This is selected cell id array
@@ -40,6 +38,7 @@ class PreferToVC: UIViewController {
     
     let cellId = "TagCollectionViewCell"
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -65,12 +64,36 @@ class PreferToVC: UIViewController {
         CancelRequest.currentTask = true
     }
     
+    //MARK: - APIs
+    func getAllPreferTo() {
+        self.collectionView.hideLoader()
+        viewmodel.getAllPreferTo()
+        viewmodel.PreferTo.bind { [unowned self] value in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                self.collectionView.delegate = self
+                self.collectionView.dataSource = self
+                self.collectionView.reloadData()
+                self.layout = TagsLayout()
+            })
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { error in
+            DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+            }
+        }
+    }
+
+    //MARK: - Helpers
     func setupView() {
         saveBtn.cornerRadiusView(radius: 8)
         triAgainBtn.cornerRadiusView(radius: 8)
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
     }
-    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -101,30 +124,6 @@ class PreferToVC: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-    
-    func getAllPreferTo() {
-        self.collectionView.hideLoader()
-        viewmodel.getAllPreferTo()
-        viewmodel.PreferTo.bind { [unowned self] value in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                self.collectionView.delegate = self
-                self.collectionView.dataSource = self
-                self.collectionView.reloadData()
-                self.layout = TagsLayout()
-            })
-        }
-        
-        // Set View Model Event Listener
-        viewmodel.error.bind { error in
-            DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
-            }
-        }
-    }
-    
     func HandleInternetConnection() {
         if btnSelect {
             emptyView.isHidden = true
@@ -137,6 +136,7 @@ class PreferToVC: UIViewController {
         }
     }
     
+    //MARK: - Actions
     @IBAction func saveBtn(_ sender: Any) {
         onPreferToCallBackResponse!(arrSelectedDataIds,arrSelectedDataNames)
         self.onPopup()
@@ -144,10 +144,9 @@ class PreferToVC: UIViewController {
     
     @IBAction func triAgainBtn(_ sender: Any) {
     }
-    
-    
 }
 
+//MARK: - UICollectionViewDataSource
 extension PreferToVC:UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -186,7 +185,8 @@ extension PreferToVC:UICollectionViewDataSource {
     }
 }
 
-extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
+//MARK: - UICollectionViewDelegate && UICollectionViewDelegateFlowLayout
+extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let model = viewmodel.PreferTo.value?[indexPath.row]
         let width = model?.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)

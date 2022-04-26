@@ -8,20 +8,22 @@
 import UIKit
 
 class EventTimeVC: UIViewController {
-
+    
+    //MARK: - Outlets
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var subView: UIView!
     @IBOutlet weak var timeView: UIDatePicker!
     @IBOutlet weak var okBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
 
+    //MARK: - Properties
     var startTime = ""
     var onTimeCallBackResponse: ((_ timeDateLbl: String, _ timeDate: String) -> ())?
 
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+
         containerView.shadow()
         containerView.cornerRadiusView(radius: 12)
         subView.setCornerforTop()
@@ -29,7 +31,7 @@ class EventTimeVC: UIViewController {
         showDatePicker()
     }
     
-    
+    //MARK: - Helpers
     func showDatePicker(){
         //Formate Date
         timeView.datePickerMode = .time
@@ -43,6 +45,7 @@ class EventTimeVC: UIViewController {
         timeView.minimumDate = timeView.calendar.date(from: comps2)
     }
     
+    //MARK: - Actions
     @IBAction func cancelBtn(_ sender: Any) {
         self.onDismiss()
     }

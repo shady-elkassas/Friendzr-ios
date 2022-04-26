@@ -9,9 +9,11 @@ import UIKit
 
 class CategoriesVC: UIViewController {
     
+    //MARK: - Outlets
     @IBOutlet weak var collecetionView: UICollectionView!
     @IBOutlet weak var saveBtn: UIButton!
     
+    //MARK: - Properties
     var catID = ""
     var onCategoryCallBackResponse: ((_ data: String, _ value: String) -> ())?
     var catsModel:[CategoryObj]? = [CategoryObj]()
@@ -19,6 +21,7 @@ class CategoriesVC: UIViewController {
     let cellId = "CategoryCollectionViewCell"
     var catsVM:AllCategoriesViewModel = AllCategoriesViewModel()
     
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,7 +46,7 @@ class CategoriesVC: UIViewController {
         CancelRequest.currentTask = true
     }
     
-    //MARK:- APIs
+    //MARK: - APIs
     func getCats() {
         catsVM.getAllCategories()
         catsVM.cats.bind { [unowned self] value in
@@ -65,17 +68,20 @@ class CategoriesVC: UIViewController {
         }
     }
     
+    //MARK: - Helpers
     func setupViews() {
         collecetionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         saveBtn.cornerRadiusView(radius: 8)
     }
     
+    //MARK: - Actions
     @IBAction func saveBtn(_ sender: Any) {
         onCategoryCallBackResponse!(catID,catname)
         self.onPopup()
     }
 }
 
+//MARK: - UICollectionViewDataSource
 extension CategoriesVC : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return catsVM.cats.value?.count ?? 0
@@ -88,7 +94,7 @@ extension CategoriesVC : UICollectionViewDataSource {
         return cell
     }
 }
-
+//MARK: - UICollectionViewDelegateFlowLayout && UICollectionViewDelegate
 extension CategoriesVC: UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let model = catsVM.cats.value?[indexPath.row]

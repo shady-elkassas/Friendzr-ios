@@ -11,7 +11,7 @@ import Network
 
 class EditEventsVC: UIViewController {
     
-    //MARK:- Outlets
+    //MARK: - Outlets
     @IBOutlet weak var eventImg: UIImageView!
     @IBOutlet weak var addImg: UIButton!
     @IBOutlet weak var addTitleTxt: UITextField!
@@ -101,6 +101,9 @@ class EditEventsVC: UIViewController {
 
     var listFriendsIDs:[String] = [String]()
     var selectFriends:[UserConversationModel] = [UserConversationModel]()
+    var selectedFriends:[UserConversationModel] = [UserConversationModel]()
+    var unSelectedFriends:[UserConversationModel] = [UserConversationModel]()
+
     var listNamesSelected:[String] = [String]()
 
     let datePicker1 = UIDatePicker()
@@ -115,7 +118,7 @@ class EditEventsVC: UIViewController {
         super.viewDidLoad()
         
         self.title = "Edit Event".localizedString
-        setup()
+        setupViews()
         initBackButton()
         setupData()
         initDeleteEventButton(btnColor: .red)
@@ -142,6 +145,41 @@ class EditEventsVC: UIViewController {
         CancelRequest.currentTask = true
     }
     
+    //MARK: - APIs
+    func getEventTypes() {
+        typesVM.getAllEventType()
+        typesVM.types.bind { [unowned self] value in
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
+                self.eventTypesTV.dataSource = self
+                self.eventTypesTV.delegate = self
+                self.eventTypesTV.reloadData()
+            }
+        }
+        
+        // Set View Model Event Listener
+        typesVM.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+            }
+        }
+    }
+    
+    func getAllValidatConfig() {
+        allValidatConfigVM.getAllValidatConfig()
+        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+        }
+        
+        // Set View Model Event Listener
+        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                print(error)
+            }
+        }
+    }
+
     //MARK: - Helper
     func updateUserInterface() {
         appDelegate.networkReachability()
@@ -175,7 +213,7 @@ class EditEventsVC: UIViewController {
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
-    func setup() {
+    func setupViews() {
         eventImg.cornerRadiusView(radius: 6)
         saveBtn.cornerRadiusView(radius: 6)
         limitUsersView.cornerRadiusView(radius: 5)
@@ -196,26 +234,6 @@ class EditEventsVC: UIViewController {
         }
     }
     
-    func getEventTypes() {
-        typesVM.getAllEventType()
-        typesVM.types.bind { [unowned self] value in
-            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
-                self.eventTypesTV.dataSource = self
-                self.eventTypesTV.delegate = self
-                self.eventTypesTV.reloadData()
-            }
-        }
-        
-        // Set View Model Event Listener
-        typesVM.error.bind { [unowned self]error in
-            DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
-            }
-        }
-    }
     func initDeleteEventButton(btnColor: UIColor? = .red) {
         let button = UIButton.init(type: .custom)
         button.setTitle("Delete Event".localizedString, for: .normal)
@@ -267,20 +285,7 @@ class EditEventsVC: UIViewController {
             return
         }
     }
-    
-
-    func getAllValidatConfig() {
-        allValidatConfigVM.getAllValidatConfig()
-        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
-        }
-        
-        // Set View Model Event Listener
-        allValidatConfigVM.errorMsg.bind { [unowned self]error in
-            DispatchQueue.main.async {
-                print(error)
-            }
-        }
-    }
+   
     
     func setupData() {
         eventImg.sd_setImage(with: URL(string: eventModel?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
@@ -382,8 +387,6 @@ class EditEventsVC: UIViewController {
         print("listFriendsIDs>> \(listFriendsIDs.count)")
     }
     
-    
-    
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         hideTypesView.isHidden = true
         eventTypesView.isHidden = true
@@ -422,8 +425,8 @@ class EditEventsVC: UIViewController {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
-    //MARK: - Actions
     
+    //MARK: - Actions
     @IBAction func showAttendeesBtn(_ sender: Any) {
         showAttendeesBtn.isSelected = !showAttendeesBtn.isSelected
         
@@ -440,9 +443,6 @@ class EditEventsVC: UIViewController {
         hideTypesView.isHidden = false
         eventTypesView.isHidden = false
     }
-    
-    var selectedFriends:[UserConversationModel] = [UserConversationModel]()
-    var unSelectedFriends:[UserConversationModel] = [UserConversationModel]()
 
     @IBAction func selectEventAttendeesBtn(_ sender: Any) {
         if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SelectFriendsEditEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SelectFriendsEditEventVC {
@@ -629,7 +629,7 @@ class EditEventsVC: UIViewController {
 }
 
 
-//MARK: - Extensions
+//MARK: - Extensions UITextViewDelegate
 extension EditEventsVC : UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         hiddenLbl.isHidden = !textView.text.isEmpty
@@ -640,6 +640,7 @@ extension EditEventsVC : UITextViewDelegate {
     }
 }
 
+//MARK: - Date Changed for Calendar
 extension EditEventsVC {
     @objc func dateChanged(_ sender: UIDatePicker) {
         let components = Calendar.current.dateComponents([.year, .month, .weekday,.day], from: sender.date)
@@ -723,6 +724,7 @@ extension EditEventsVC {
     }
 }
 
+//MARK: - Extensions UIImagePickerControllerDelegate && UINavigationControllerDelegate
 extension EditEventsVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     func openCamera(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
@@ -763,6 +765,7 @@ extension EditEventsVC : UIImagePickerControllerDelegate,UINavigationControllerD
     }
 }
 
+//MARK: - Extensions CropperViewControllerDelegate
 extension EditEventsVC: CropperViewControllerDelegate {
     
     func aspectRatioPickerDidSelectedAspectRatio(_ aspectRatio: AspectRatio) {
@@ -784,6 +787,8 @@ extension EditEventsVC: CropperViewControllerDelegate {
         cropper.onPopup()
     }
 }
+
+//MARK: - Extensions UITableViewDataSource
 extension EditEventsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == eventTypesTV {
@@ -852,7 +857,7 @@ extension EditEventsVC: UITableViewDataSource {
     }
 }
 
-
+//MARK: - Extensions UITableViewDelegate
 extension EditEventsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if tableView == eventTypesTV {
@@ -916,8 +921,10 @@ extension EditEventsVC: UITableViewDelegate {
     }
 }
 
+//MARK: - Extensions UIPopoverPresentationControllerDelegate
 extension EditEventsVC : UIPopoverPresentationControllerDelegate{}
 
+//MARK: - Setup Date Picker
 extension EditEventsVC {
     func setupDatePickerForStartDate(){
         //Formate Date
