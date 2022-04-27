@@ -254,3 +254,112 @@ struct CompassViewSwiftUIForIPhoneSmall: View {
         }
     }
 }
+
+
+
+
+struct CompassMarkerViewForIPhoneSmall2: View {
+    let marker: Marker
+    let compassDegress: Double
+    
+    var body: some View {
+        ZStack {
+            Text(marker.label)
+                .font(.system(size: 8, weight: .medium, design: .default))
+                .rotationEffect(self.textAngle())
+                .foregroundColor(.black)
+                .padding(.bottom, 45)
+
+            Capsule()
+                .frame(width: self.capsuleWidth(),
+                       height: self.capsuleHeight())
+                .foregroundColor(self.capsuleColor())
+                .padding(.bottom, 97)
+
+            Text(marker.degreeText())
+                .fontWeight(.regular)
+                .font(.system(size: 8, weight: .medium, design: .default))
+                .rotationEffect(self.textAngle())
+                .foregroundColor(Color("primaryColor"))
+                .padding(.bottom,183)
+            
+        }
+        .rotationEffect(Angle(degrees: marker.degrees))
+    }
+    
+    private func capsuleWidth() -> CGFloat {
+        return self.marker.degrees == 0 ? 4 : 2
+    }
+    
+    private func capsuleHeight() -> CGFloat {
+        return self.marker.degrees == 0 ? 11 : 5
+    }
+    
+    private func capsuleColor() -> Color {
+        return self.marker.degrees == 0 ? .red : .gray
+    }
+    
+    private func textAngle() -> Angle {
+        return Angle(degrees: -self.compassDegress - self.marker.degrees)
+    }
+}
+
+struct CompassViewSwiftUIForIPhoneSmall2: View {
+    
+    @ObservedObject var compassHeading = CompassHeading()
+    
+    var body: some View {
+        ZStack {
+            VStack {
+                Capsule()
+                    .foregroundColor(Color("primaryColor"))
+                    .frame(width: 5,height: 14)
+                    .padding(.bottom,16)
+                
+                ZStack {
+                    ZStack {
+                        Circle()
+                            .stroke(Color("primaryColor").opacity(0.15),style: StrokeStyle(lineWidth: 150))
+                            .padding(60)
+                        
+                        Circle()
+                            .stroke(Color("primaryColor"),style: StrokeStyle(lineWidth: 8))
+                            .padding(-18)
+                        
+                        Circle()
+                            .stroke(Color("primaryColor"),style: StrokeStyle(lineWidth: 5))
+                            .padding(10)
+
+                        Circle()
+                            .stroke(Color.white,style: StrokeStyle(lineWidth: 25))
+                            .padding(50)
+
+                        ForEach(Marker.markers(), id: \.self) { marker in
+                            CompassMarkerViewForIPhoneSmall2(marker: marker,
+                                              compassDegress: self.compassHeading.degrees)
+                        }
+                        
+                    }
+                    .frame(width: 180, height: 180)
+                    .rotationEffect(Angle(degrees: self.compassHeading.degrees))
+                    
+                    Text("Filter".localizedString)
+                        .font(.system(size: 9, weight: .medium, design: .default))
+                        .frame(width: 30, height: 30, alignment: .center)
+                        .foregroundColor(Color("primaryColor"))
+                        .background(Color("primaryColor").opacity(0.5))
+                        .cornerRadius(15)
+                }
+                
+                Text("Tap compass to filter feed in chosen direction".localizedString)
+                    .padding(.top,18)
+                    .font(.system(size: 9, weight: .medium, design: .default))
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(nil)
+                    .foregroundColor(.black)
+                    .padding(.bottom,7)
+            }
+        }
+    }
+}

@@ -218,10 +218,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
-        let ads = GADMobileAds.sharedInstance()
-        ads.start(completionHandler: nil)
-        ads.requestConfiguration.testDeviceIdentifiers = ["5a6ffdc707088fe3a9f0dff1f251fd08"]
-        ads.presentAdInspector(from: self)
+//        let ads = GADMobileAds.sharedInstance()
+//        ads.start(completionHandler: nil)
+//        ads.requestConfiguration.testDeviceIdentifiers = ["5a6ffdc707088fe3a9f0dff1f251fd08"]
+//        ads.presentAdInspector(from: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -272,7 +272,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             compassContanierView.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
             
         }else {
-            let child = UIHostingController(rootView: CompassViewSwiftUI())
+            let child = UIHostingController(rootView: CompassViewSwiftUIForIPhoneSmall2())
             compassContanierView.addSubview(child.view)
             
             child.view.translatesAutoresizingMaskIntoConstraints = false
@@ -627,7 +627,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             if Defaults.isIPhoneLessThan2500 {
                 compassContainerViewHeight.constant = 200
             }else {
-                compassContainerViewHeight.constant = 320
+                compassContainerViewHeight.constant = 270
             }
             
         }
@@ -1321,7 +1321,7 @@ extension FeedVC {
                         if Defaults.isIPhoneLessThan2500 {
                             compassContainerViewHeight.constant = 200
                         }else {
-                            compassContainerViewHeight.constant = 320
+                            compassContainerViewHeight.constant = 270
                         }
                         
                         compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
@@ -1479,7 +1479,7 @@ extension FeedVC {
                         if Defaults.isIPhoneLessThan2500 {
                             compassContainerViewHeight.constant = 200
                         }else {
-                            compassContainerViewHeight.constant = 320
+                            compassContainerViewHeight.constant = 270
                         }
                         
                         compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
