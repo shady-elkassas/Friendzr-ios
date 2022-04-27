@@ -124,13 +124,12 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var allowBtn: UIButton!
     @IBOutlet var bannerView: UIView!
     @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
-    
     @IBOutlet weak var hideView: UIView!
     @IBOutlet var hidesImgs: [UIImageView]!
     @IBOutlet var proImgs: [UIImageView]!
     
     
-    var bannerView2: GAMBannerView!
+    var bannerView2: GADBannerView!
 
     //MARK: - Properties
     private lazy var currLocation: CLLocation = CLLocation()
@@ -219,7 +218,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
-//        GoogleMobileAdsMediationTestSuite.present(on:self, delegate:nil)
+        let ads = GADMobileAds.sharedInstance()
+        ads.start(completionHandler: nil)
+        ads.requestConfiguration.testDeviceIdentifiers = ["5a6ffdc707088fe3a9f0dff1f251fd08"]
+        ads.presentAdInspector(from: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -235,39 +237,17 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         initGhostModeSwitchButton()
         setupHideView()
         setupNavBar()
-
+        
         setupAds()
         
         if !Defaults.hideAds {
-            bannerViewHeight.constant = 100
+            bannerViewHeight.constant = 50
         }else {
             bannerViewHeight.constant = 0
         }
-        self.checkLocationPermission()
         
+        self.checkLocationPermission()
     }
-    
-    
-//    func addBannerViewToView(_ bannerView: GAMBannerView) {
-//        bannerView.translatesAutoresizingMaskIntoConstraints = false
-//        view.addSubview(bannerView)
-//        view.addConstraints(
-//            [NSLayoutConstraint(item: bannerView,
-//                                attribute: .bottom,
-//                                relatedBy: .equal,
-//                                toItem: bottomLayoutGuide,
-//                                attribute: .top,
-//                                multiplier: 1,
-//                                constant: 0),
-//             NSLayoutConstraint(item: bannerView,
-//                                attribute: .centerX,
-//                                relatedBy: .equal,
-//                                toItem: view,
-//                                attribute: .centerX,
-//                                multiplier: 1,
-//                                constant: 0)
-//            ])
-//    }
 
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
@@ -305,27 +285,18 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func setupAds() {
-//        bannerView.adUnitID =  URLs.adUnitBanner
-//        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-//        //        addBannerViewToView(bannerView)
-//        bannerView.rootViewController = self
-//        bannerView.load(GAMRequest())
-//        bannerView.delegate = self
-//        bannerView.setCornerforTop()
-        
-        bannerView2 = GAMBannerView(adSize: GADAdSizeBanner)
-//        addBannerViewToView(bannerView2)
+//        let adSize = GADInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(bannerView.bounds.width, bannerView.bounds.height)
+        bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
         bannerView2.adUnitID = URLs.adUnitBanner
         bannerView2.rootViewController = self
-        bannerView2.load(GAMRequest())
+        bannerView2.load(GADRequest())
         bannerView2.delegate = self
+        bannerView2.translatesAutoresizingMaskIntoConstraints = false
         bannerView.addSubview(bannerView2)
     }
     
     //MARK:- APIs
     @objc func updateFeeds() {
-        //        checkLocationPermissionBtns()
-        
         if Defaults.allowMyLocationSettings == true {
             DispatchQueue.main.async {
                 if self.isCompassOpen {
@@ -1267,6 +1238,7 @@ extension FeedVC: GADBannerViewDelegate {
     
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+        bannerViewHeight.constant = 0
     }
     
     func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
@@ -1361,7 +1333,7 @@ extension FeedVC {
                     
                     if !Defaults.hideAds {
                         setupAds()
-                        bannerViewHeight.constant = 100
+                        bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
                     }
@@ -1398,7 +1370,7 @@ extension FeedVC {
                 
                 if !Defaults.hideAds {
                     setupAds()
-                    bannerViewHeight.constant = 100
+                    bannerViewHeight.constant = 50
                 }else {
                     bannerViewHeight.constant = 0
                 }
@@ -1437,7 +1409,7 @@ extension FeedVC {
                     
                     if !Defaults.hideAds {
                         setupAds()
-                        bannerViewHeight.constant = 100
+                        bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
                     }
@@ -1473,7 +1445,7 @@ extension FeedVC {
                     initCompassSwitchBarButton()
                     if !Defaults.hideAds {
                         setupAds()
-                        bannerViewHeight.constant = 100
+                        bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
                     }
@@ -1521,7 +1493,7 @@ extension FeedVC {
                     initCompassSwitchBarButton()
                     if !Defaults.hideAds {
                         setupAds()
-                        bannerViewHeight.constant = 100
+                        bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
                     }

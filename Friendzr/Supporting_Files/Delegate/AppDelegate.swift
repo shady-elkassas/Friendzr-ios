@@ -25,6 +25,8 @@ import GoogleMobileAds
 import IQKeyboardManager
 import AWSCore
 import SwiftUI
+import FBAudienceNetwork
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -43,6 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        FBAdSettings.setAdvertiserTrackingEnabled(true)
+        
         IQKeyboardManager.shared().isEnabled = true
         IQKeyboardManager.shared().toolbarTintColor = UIColor.FriendzrColors.primary
         IQKeyboardManager.shared().isEnableAutoToolbar = true
@@ -54,8 +58,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupHeightApp()
 
         
-//        GADMobileAds.sharedInstance().start(completionHandler: nil)
         let ads = GADMobileAds.sharedInstance()
+//        ads.requestConfiguration.testDeviceIdentifiers = ["98f1a123431681aeb5722ea8d6a94c23"]
+//        ads.presentAdInspector(from: self)
+        
+        ads.start(completionHandler: nil)
         ads.start { status in
             // Optional: Log each adapter's initialization latency.
             let adapterStatuses = status.adapterStatusesByClassName
@@ -68,6 +75,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Start loading ads here...
         }
         
+        
+
         // Initialize Identity Provider //AWS
         let credentialsProvider = AWSCognitoCredentialsProvider(
             regionType: .USEast1,
@@ -389,17 +398,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             }
             
             let userInfo = response.notification.request.content.userInfo
-            
             Messaging.messaging().appDidReceiveMessage(userInfo)
-
-            //            let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
-            //            let title = apsAlert?["title"] as? String
-            //            let body = apsAlert?["body"] as? String
             let action = userInfo["Action"] as? String //action transaction
             let actionId = userInfo["Action_code"] as? String //userid
             let chatTitle = userInfo["name"] as? String
-            let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
-            let imageNotifications = chatTitleImage?["image"] as? String
+             let imageNotifications = userInfo["ImageUrl"] as? String
             let isEventAdmin = userInfo["isAdmin"] as? String
             //            let messageType = userInfo["Messagetype"] as? Int
             _ = userInfo["messsageLinkEvenMyEvent"] as? String ?? ""
@@ -409,6 +412,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
             let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
             center.add(request, withCompletionHandler: nil)
+            
             
             if action == "Friend_Request" {
                 if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
@@ -582,18 +586,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         print(userInfo)
         Messaging.messaging().appDidReceiveMessage(userInfo)
 
-        self.content.badge = 0
         let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
         let alert = apsAlert?["alert"] as? [String:Any]
-        //        let title = alert?["title"] as? String
         let body =  alert?["body"]  as? String
-        
         let action = userInfo["Action"] as? String //action transaction
         let actionId = userInfo["Action_code"] as? String //userid
-        //        let chatTitle = userInfo["name"] as? String
-        //        let chatTitleImage = userInfo["fcm_options"] as? [String:Any]
-        //        let imageNotifications = chatTitleImage?["image"] as? String
-        //        let isEventAdmin = userInfo["isAdmin"] as? String
         let messageType = userInfo["Messagetype"] as? String
         let _: String = userInfo["sound"] as? String ?? ""
         let messageTime = userInfo["time"] as? String ?? ""
@@ -616,8 +613,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let senderImage = userInfo["senderImage"] as? String ?? ""
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
-        
-        //        self.content.sound = UNNotificationSound.default
         
         if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId
         {

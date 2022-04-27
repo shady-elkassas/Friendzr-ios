@@ -125,6 +125,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
 //    var changeindex = ""
     
+    var bannerView2: GADBannerView!
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,6 +138,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
         isViewUp = false
 //        dualogImg.center.customMirror
+        
+        if !Defaults.hideAds {
+            setupAds()
+        }else {
+            bannerViewHeight.constant = 0
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -154,6 +162,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             let contentOffset = CGPoint(x: 0, y: 0)
             self.collectionView.setContentOffset(contentOffset, animated: false)
         }
+     
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -181,12 +190,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
         initProfileBarButton()
         
-        if !Defaults.hideAds {
-            setupAds()
-        }else {
-            bannerViewHeight.constant = 0
-        }
-
         clearNavigationBar()
         
         DispatchQueue.main.async {
@@ -201,15 +204,16 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-    
+
     func setupAds() {
-//        bannerView.adUnitID =  URLs.adUnitBanner
-//        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-//        //        addBannerViewToView(bannerView)
-//        bannerView.rootViewController = self
-//        bannerView.load(GADRequest())
-//        bannerView.delegate = self
-//        bannerView.cornerRadiusView(radius: 10)
+//        let adSize = GADInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(bannerView.bounds.width, bannerView.bounds.height)
+        bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
+        bannerView2.adUnitID = URLs.adUnitBanner
+        bannerView2.rootViewController = self
+        bannerView2.load(GADRequest())
+        bannerView2.delegate = self
+        bannerView2.translatesAutoresizingMaskIntoConstraints = false
+        bannerView.addSubview(bannerView2)
     }
     
     @objc func updateMapVC() {
@@ -1508,30 +1512,30 @@ extension MapVC {
     }
 }
 
-//extension MapVC:GADBannerViewDelegate {
-//    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-//        print(error)
-//        bannerViewHeight.constant = 0
-//    }
-//
-//    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-//        print("Receive Ad")
-//    }
-//
-//    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-//        print("bannerViewDidRecordImpression")
-//    }
-//
-//    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewWillPresentScreen")
-//        bannerView.load(GADRequest())
-//    }
-//
-//    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewWillDIsmissScreen")
-//    }
-//
-//    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewDidDismissScreen")
-//    }
-//}
+extension MapVC:GADBannerViewDelegate {
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("bannerViewDidReceiveAd")
+//        addBannerViewToView(bannerView2)
+    }
+    
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+        bannerViewHeight.constant = 0
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+        print("bannerViewDidRecordImpression")
+    }
+    
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillPresentScreen")
+    }
+    
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillDIsmissScreen")
+    }
+    
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewDidDismissScreen")
+    }
+}

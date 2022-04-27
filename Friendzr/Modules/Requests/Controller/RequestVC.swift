@@ -40,7 +40,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     var refreshControl = UIRefreshControl()
     
     var cellSelected:Bool = false
-//    var internetConnect:Bool = false
+    //    var internetConnect:Bool = false
     
     var currentPage : Int = 0
     var isLoadingList : Bool = false
@@ -59,6 +59,8 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         return formatter
     }()
     
+    var bannerView2: GADBannerView!
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,7 +70,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         self.title = "Requests".localizedString
         
         if !Defaults.hideAds {
-//            seyupAds()
+            setupAds()
         }else {
             bannerViewHeight.constant = 0
         }
@@ -230,15 +232,16 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //MARK: - Helper
-//    func seyupAds() {
-//        bannerView.adUnitID =  URLs.adUnitBanner
-//        //        bannerView = GADBannerView(adSize: kGADAdSizeBanner)
-//        //        addBannerViewToView(bannerView)
-//        bannerView.rootViewController = self
-//        bannerView.load(GADRequest())
-//        bannerView.delegate = self
-//        bannerView.setCornerforTop()
-//    }
+    func setupAds() {
+        //        let adSize = GADInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(bannerView.bounds.width, bannerView.bounds.height)
+        bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
+        bannerView2.adUnitID = URLs.adUnitBanner
+        bannerView2.rootViewController = self
+        bannerView2.load(GADRequest())
+        bannerView2.delegate = self
+        bannerView2.translatesAutoresizingMaskIntoConstraints = false
+        bannerView.addSubview(bannerView2)
+    }
     
     func setupHideView() {
         for itm in proImgs {
@@ -381,7 +384,7 @@ extension RequestVC:UITableViewDataSource {
         
         let actionDate = formatterDate.string(from: Date())
         let actionTime = formatterTime.string(from: Date())
-
+        
         if viewmodel.requests.value?.data?.count != 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? RequestsTableViewCell else {return UITableViewCell()}
             cell.setNeedsLayout()
@@ -446,7 +449,7 @@ extension RequestVC:UITableViewDataSource {
                             cell.messageBtn.isHidden = false
                             cell.requestRemovedLbl.isHidden = true
                         }
-                    
+                        
                         DispatchQueue.main.async {
                             NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                         }
@@ -515,7 +518,7 @@ extension RequestVC:UITableViewDataSource {
             }
             
             cell.emptyImg.image = UIImage(named: "requestesnodata_img")
-
+            
             return cell
             
         }
@@ -582,30 +585,30 @@ extension UISegmentedControl {
     
 }
 
-//extension RequestVC:GADBannerViewDelegate {
-//    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-//        print(error)
-//        bannerViewHeight.constant = 0
-//    }
-//    
-//    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-//        print("Receive Ad")
-//    }
-//    
-//    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-//        print("bannerViewDidRecordImpression")
-//    }
-//    
-//    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewWillPresentScreen")
-//        bannerView.load(GADRequest())
-//    }
-//    
-//    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewWillDIsmissScreen")
-//    }
-//    
-//    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewDidDismissScreen")
-//    }
-//}
+extension RequestVC: GADBannerViewDelegate {
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("bannerViewDidReceiveAd")
+        //        addBannerViewToView(bannerView2)
+    }
+    
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+        bannerViewHeight.constant = 0
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+        print("bannerViewDidRecordImpression")
+    }
+    
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillPresentScreen")
+    }
+    
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillDIsmissScreen")
+    }
+    
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewDidDismissScreen")
+    }
+}

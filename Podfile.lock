@@ -616,6 +616,7 @@ PODS:
   - BoringSSL-GRPC/Interface (0.0.24)
   - FBAEMKit (13.1.0):
     - FBSDKCoreKit_Basics (= 13.1.0)
+  - FBAudienceNetwork (6.9.0)
   - FBSDKCoreKit (13.1.0):
     - FBAEMKit (= 13.1.0)
     - FBSDKCoreKit_Basics (= 13.1.0)
@@ -759,6 +760,9 @@ PODS:
   - GoogleMobileAdsMediationAppLovin (11.3.3.0):
     - AppLovinSDK (= 11.3.3)
     - Google-Mobile-Ads-SDK (~> 9.0)
+  - GoogleMobileAdsMediationFacebook (6.9.0.1):
+    - FBAudienceNetwork (= 6.9.0)
+    - Google-Mobile-Ads-SDK (~> 9.0)
   - GoogleMobileAdsMediationFyber (8.1.4.0):
     - Fyber_Marketplace_SDK (= 8.1.4)
     - Google-Mobile-Ads-SDK (~> 9.0)
@@ -892,6 +896,7 @@ DEPENDENCIES:
   - Google-Mobile-Ads-SDK
   - GoogleMaps
   - GoogleMobileAdsMediationAppLovin
+  - GoogleMobileAdsMediationFacebook
   - GoogleMobileAdsMediationFyber
   - GoogleMobileAdsMediationInMobi
   - GooglePlaces
@@ -916,6 +921,7 @@ SPEC REPOS:
     - AWSRekognition
     - BoringSSL-GRPC
     - FBAEMKit
+    - FBAudienceNetwork
     - FBSDKCoreKit
     - FBSDKCoreKit_Basics
     - FBSDKLoginKit
@@ -936,6 +942,7 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleMaps
     - GoogleMobileAdsMediationAppLovin
+    - GoogleMobileAdsMediationFacebook
     - GoogleMobileAdsMediationFyber
     - GoogleMobileAdsMediationInMobi
     - GooglePlaces
@@ -972,6 +979,7 @@ SPEC CHECKSUMS:
   AWSRekognition: e55a57b151768a6fc17020ad63320f9f1570d5e7
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   FBAEMKit: 3be32ffb79fe7c0603fed00d81742b23241e89a5
+  FBAudienceNetwork: 83096d73433759c10f9cf9b3bad5e5cff58694cb
   FBSDKCoreKit: eff97dea778dbe6cc4498959cffb619c75675102
   FBSDKCoreKit_Basics: c151609a1cf6976a5958febcf0043266a8fd5151
   FBSDKLoginKit: 42932c7ad6f6b91854fc0a6bcc79b7e807bcde4b
@@ -992,6 +1000,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
   GoogleMaps: c1b9de14cecc940b2d334dd4e6dfa116bff4a40e
   GoogleMobileAdsMediationAppLovin: fd31fe8125bc57843d3dbbefa9d6eb895b0ea92b
+  GoogleMobileAdsMediationFacebook: 094a78a19e7e1b0a6f971581c28f1f361c4f9618
   GoogleMobileAdsMediationFyber: 0ebb35a4412a16430abc4b817942712d349d24d6
   GoogleMobileAdsMediationInMobi: 09a792a2b1e9c59dd20d765f520e9467c4eae359
   GooglePlaces: 53ce075bac2ea015afbd6577f47d186426a3a388
@@ -1018,6 +1027,6 @@ SPEC CHECKSUMS:
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
   SweeterSwift: 61baeda1c0c27d1dc57c8112c3d6a82e5aff3139
 
-PODFILE CHECKSUM: cb07895d08e54684a2053c8012da83bd3e347c86
+PODFILE CHECKSUM: 41254b723f87f3614f8f7a716c3d259ceaaa2968
 
 COCOAPODS: 1.10.2

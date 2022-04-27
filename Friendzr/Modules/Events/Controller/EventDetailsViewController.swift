@@ -489,6 +489,7 @@ extension EventDetailsViewController: UITableViewDataSource {
         else if indexPath.row == 4 {//ads
             guard let cell = tableView.dequeueReusableCell(withIdentifier: adsCellId, for: indexPath) as? AdsTableViewCell else {return UITableViewCell()}
             cell.parentVC = self
+            cell.setupAds()
             return cell
         }
         

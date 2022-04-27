@@ -50,6 +50,14 @@ public protocol LinkItem {
 
     /// The thumbnail image.
     var thumbnailImage: UIImage { get }
+    
+    
+    /// The title.
+    var people: String? { get }
+
+    /// The title.
+    var date: String? { get }
+
 }
 
 public extension LinkItem {

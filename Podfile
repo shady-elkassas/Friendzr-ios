@@ -41,6 +41,7 @@ target 'Friendzr' do
   pod 'GoogleMobileAdsMediationAppLovin'
   pod 'GoogleMobileAdsMediationFyber'
   pod 'GoogleMobileAdsMediationInMobi'
+  pod 'GoogleMobileAdsMediationFacebook'
 
 #  pod 'GoogleMobileAdsMediationTestSuite'
 

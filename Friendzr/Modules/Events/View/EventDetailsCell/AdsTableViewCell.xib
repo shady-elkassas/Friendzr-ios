@@ -4,31 +4,31 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AdsTableViewCell" rowHeight="194" id="KGk-i7-Jjw" customClass="AdsTableViewCell" customModule="Friendzr" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="348" height="194"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AdsTableViewCell" rowHeight="64" id="KGk-i7-Jjw" customClass="AdsTableViewCell" customModule="Friendzr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="431" height="64"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="348" height="194"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="431" height="64"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7PB-QM-eLx">
-                        <rect key="frame" x="20" y="5" width="308" height="180"/>
-                        <color key="backgroundColor" name="primaryColor"/>
+                        <rect key="frame" x="55.5" y="5" width="320" height="50"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="180" id="sZ8-Bd-5mq"/>
+                            <constraint firstAttribute="width" constant="320" id="fCH-D7-ThL"/>
+                            <constraint firstAttribute="height" constant="50" id="sZ8-Bd-5mq"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="7PB-QM-eLx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="9jI-lL-qDR"/>
-                    <constraint firstAttribute="trailing" secondItem="7PB-QM-eLx" secondAttribute="trailing" constant="20" id="Izu-l8-8Vw"/>
+                    <constraint firstItem="7PB-QM-eLx" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="2On-tD-Vwr"/>
+                    <constraint firstItem="7PB-QM-eLx" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="GVr-XA-b5W"/>
                     <constraint firstAttribute="bottom" secondItem="7PB-QM-eLx" secondAttribute="bottom" constant="5" id="fR1-Jz-c48"/>
                     <constraint firstItem="7PB-QM-eLx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="k1S-LS-HRd"/>
                 </constraints>
@@ -41,12 +41,7 @@
                 <outlet property="bottomLayoutConstraint" destination="fR1-Jz-c48" id="mSI-95-ghe"/>
                 <outlet property="topLayoutConstraint" destination="k1S-LS-HRd" id="E4L-3e-V4H"/>
             </connections>
-            <point key="canvasLocation" x="157.97101449275362" y="150.66964285714286"/>
+            <point key="canvasLocation" x="-82" y="98"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <namedColor name="primaryColor">
-            <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-    </resources>
 </document>

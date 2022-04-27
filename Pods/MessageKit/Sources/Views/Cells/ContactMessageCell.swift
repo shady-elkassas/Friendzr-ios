@@ -44,7 +44,7 @@ open class ContactMessageCell: MessageContentCell {
         let initialsLabel = UILabel(frame: CGRect.zero)
         initialsLabel.textAlignment = .center
         initialsLabel.textColor = .label
-        initialsLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
+        initialsLabel.font = UIFont(name: "Montserrat-Medium", size: 14)
         return initialsLabel
     }()
     

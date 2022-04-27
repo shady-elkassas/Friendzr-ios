@@ -163,7 +163,7 @@ public extension MessagesDataSource {
     func messageTimestampLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         let sentDate = message.sentDate
         let sentDateString = MessageKitDateFormatter.shared.string(from: sentDate)
-        let timeLabelFont: UIFont = .boldSystemFont(ofSize: 10)
+        let timeLabelFont: UIFont = UIFont(name: "Montserrat-Medium", size: 12)!
         let timeLabelColor: UIColor
         if #available(iOS 13, *) {
             timeLabelColor = .systemGray

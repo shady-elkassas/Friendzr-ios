@@ -8,9 +8,10 @@
 import UIKit
 import SwiftUI
 import ListPlaceholder
-//import GoogleMobileAds
+import GoogleMobileAds
 import SDWebImage
 import Network
+
 
 //MARK: - singletone Network Conected
 class NetworkConected {
@@ -53,7 +54,8 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     var isSearch:Bool = false
     var leaveOrJoinTitle:String = ""
     
-
+    var bannerView2: GADBannerView!
+    
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -84,6 +86,12 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+
+        if !Defaults.hideAds {
+            setupAds()
+        }else {
+            bannerViewHeight.constant = 0
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -96,11 +104,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         hideNavigationBar(NavigationBar: false, BackButton: true)
         CancelRequest.currentTask = false
         
-
-        if !Defaults.hideAds {
-        }else {
-            bannerViewHeight.constant = 0
-        }
         
         currentPage = 1
         
@@ -309,6 +312,17 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //MARK: - Helper
+    func setupAds() {
+//        let adSize = GADInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(bannerView.bounds.width, bannerView.bounds.height)
+        bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
+        bannerView2.adUnitID = URLs.adUnitBanner
+        bannerView2.rootViewController = self
+        bannerView2.load(GADRequest())
+        bannerView2.delegate = self
+        bannerView2.translatesAutoresizingMaskIntoConstraints = false
+        bannerView.addSubview(bannerView2)
+    }
+    
     //network connection APIs
     func updateUserInterface() {
         appDelegate.networkReachability()
@@ -1437,5 +1451,32 @@ extension InboxVC {
     
     func dateFormatterToString(_ formatter: DateFormatter, _ date: Date) -> String {
         return formatter.string(from: date)
+    }
+}
+
+extension InboxVC: GADBannerViewDelegate {
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("bannerViewDidReceiveAd")
+    }
+    
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+        bannerViewHeight.constant = 0
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+        print("bannerViewDidRecordImpression")
+    }
+    
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillPresentScreen")
+    }
+    
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillDIsmissScreen")
+    }
+    
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewDidDismissScreen")
     }
 }
