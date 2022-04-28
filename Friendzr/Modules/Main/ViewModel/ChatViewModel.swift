@@ -35,12 +35,12 @@ class ChatViewModel {
     
     // create a method for calling api which is return a Observable
     //MARK:- Chat list
-    func getChatList(pageNumber:Int) {
+    func getChatList(pageNumber:Int,search:String) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Messages/UsersinChat"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         
-        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":20]
+        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":20,"search":search]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             

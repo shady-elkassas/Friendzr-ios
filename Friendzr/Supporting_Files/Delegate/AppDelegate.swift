@@ -59,9 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         
         let ads = GADMobileAds.sharedInstance()
-//        ads.requestConfiguration.testDeviceIdentifiers = ["98f1a123431681aeb5722ea8d6a94c23"]
-//        ads.presentAdInspector(from: self)
-        
         ads.start(completionHandler: nil)
         ads.start { status in
             // Optional: Log each adapter's initialization latency.
@@ -329,14 +326,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
         print("deviceToken = \(deviceToken)")
-        
-        Messaging.messaging().token { token, error in
-            if let error = error {
-                print("Error fetching FCM registration token: \(error)")
-            } else if let token = token {
-                print("FCM registration token: \(token)")
-            }
-        }
+        registrationFCM()
     }
     
     @objc func updateBadgeApp() {
@@ -371,9 +361,12 @@ extension AppDelegate : MessagingDelegate{
             object: nil,
             userInfo: nil
         )
+        
+        registrationFCM()
     }
     
     @objc func registrationFCM() {
+        Messaging.messaging().isAutoInitEnabled = true
         Messaging.messaging().token { token, error in
             if let error = error {
                 print("Error fetching FCM registration token: \(error)")
@@ -508,7 +501,6 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                     navController.pushViewController(vc, animated: true)
                 }
             }
-            
             else if action == "Joined_ChatGroup" {
                 Router().toHome()
             }
@@ -925,37 +917,45 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         if action == "Friend_Request" {
             Defaults.frindRequestNumber += 1
             NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
-        }else if action == "Accept_Friend_Request" {
+        }
+        else if action == "Accept_Friend_Request" {
             if Defaults.frindRequestNumber != 0 {
                 Defaults.frindRequestNumber -= 1
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
             }
-        }else if action == "Friend_request_cancelled" {
+        }
+        else if action == "Friend_request_cancelled" {
             if Defaults.frindRequestNumber != 0 {
                 Defaults.frindRequestNumber -= 1
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
             }
-        }else if action == "event_attend" {
+        }
+        else if action == "event_attend" {
             if Defaults.availableVC == "EventDetailsViewController" {
                 NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
             }
-        }else if action == "Event_reminder" {
+        }
+        else if action == "Event_reminder" {
             if Defaults.availableVC == "EventDetailsViewController" {
                 NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
             }
-        }else if action == "event_Updated" {
+        }
+        else if action == "event_Updated" {
             if Defaults.availableVC == "EventDetailsViewController" {
                 NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
             }
-        }else if action == "update_Event_Data" {
+        }
+        else if action == "update_Event_Data" {
             if Defaults.availableVC == "EventDetailsViewController" {
                 NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
             }
-        }else if action == "Check_events_near_you" {
+        }
+        else if action == "Check_events_near_you" {
             if Defaults.availableVC == "EventDetailsViewController" {
                 NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
             }
-        }else if action == "Joined_ChatGroup" {
+        }
+        else if action == "Joined_ChatGroup" {
         }else if action == "Kickedout_ChatGroup" {
         }
         
@@ -1077,10 +1077,6 @@ extension AppDelegate: CLLocationManagerDelegate {
             Defaults.LocationLat = "\(location.latitude)"
             Defaults.LocationLng = "\(location.longitude)"
         }
-        
-        //        if Defaults.availableVC == "FeedVC" || Defaults.availableVC == "MapVC" {
-        //            self.checkLocationPermission()
-        //        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -1158,24 +1154,6 @@ final class FakeVisit: CLVisit {
     
 }
 
-
-//let notificationManager = NotificationManager.shared
-//        NotificationCenter.default.addObserver(
-//            self,
-//            selector: #selector(newLocationAdded(_:)),
-//            name: .newLocationSaved,
-//            object: nil)
-
-//        if Defaults.darkMode == true {
-//            UIApplication.shared.windows.forEach { window in
-//                window.overrideUserInterfaceStyle = .dark
-//            }
-//        }else {
-//            UIApplication.shared.windows.forEach { window in
-//                window.overrideUserInterfaceStyle = .light
-//            }
-//        }
-
 extension AppDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application, and it begins the transition to the background state.
@@ -1189,6 +1167,7 @@ extension AppDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
         setupUpdateLocation()
+//        FIRMessaging.messaging().disconnect()
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -1198,9 +1177,14 @@ extension AppDelegate {
         }
     }
     
+//    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+//
+//    }
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         application.applicationIconBadgeNumber = 0
+        registrationFCM()
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
