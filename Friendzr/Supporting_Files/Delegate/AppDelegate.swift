@@ -26,7 +26,7 @@ import IQKeyboardManager
 import AWSCore
 import SwiftUI
 import FBAudienceNetwork
-
+import AppTrackingTransparency
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -70,9 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             // Start loading ads here...
-        }
-        
-        
+        }        
 
         // Initialize Identity Provider //AWS
         let credentialsProvider = AWSCognitoCredentialsProvider(
@@ -144,6 +142,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Defaults.hideAds = false
         
         setupUpdateLocation()
+        
+        
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                switch status {
+                case .authorized:
+                    print("enable tracking")
+                case .denied:
+                    print("disable tracking")
+                default:
+                    print("disable tracking")
+                }
+            }
+        }
         
         return true
     }

@@ -1930,7 +1930,7 @@
 		4382AC0B26C27195005C1857 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1300;
+				LastSwiftUpdateCheck = 1330;
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					4382AC1226C27195005C1857 = {
