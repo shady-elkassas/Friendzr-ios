@@ -15,6 +15,9 @@ import SDWebImage
 import Network
 //import GoogleMobileAdsMediationTestSuite
 
+import AppTrackingTransparency
+import AdSupport
+
 let screenH: CGFloat = UIScreen.main.bounds.height
 let screenW: CGFloat = UIScreen.main.bounds.width
 
@@ -238,7 +241,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         setupHideView()
         setupNavBar()
         
-        setupAds()
+        requestIDFA()
         
         if !Defaults.hideAds {
             bannerViewHeight.constant = 50
@@ -283,6 +286,21 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             compassContanierView.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
         }
     }
+    
+    func requestIDFA() {
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
+                // Tracking authorization completed. Start loading ads here.
+                // loadAd()
+                
+                self.setupAds()
+            })
+        } else {
+            // Fallback on earlier versions
+            self.setupAds()
+        }
+    }
+    
     
     func setupAds() {
 //        let adSize = GADInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(bannerView.bounds.width, bannerView.bounds.height)
@@ -1301,7 +1319,7 @@ extension FeedVC {
                 if switchCompassBarButton.isOn {
                     self.isCompassOpen = true
                     if !Defaults.hideAds {
-                        setupAds()
+                        requestIDFA()
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
@@ -1332,7 +1350,7 @@ extension FeedVC {
                     Defaults.isFirstFilter = true
                     
                     if !Defaults.hideAds {
-                        setupAds()
+                        requestIDFA()
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
@@ -1369,7 +1387,7 @@ extension FeedVC {
                 createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                 
                 if !Defaults.hideAds {
-                    setupAds()
+                    requestIDFA()
                     bannerViewHeight.constant = 50
                 }else {
                     bannerViewHeight.constant = 0
@@ -1408,7 +1426,7 @@ extension FeedVC {
                     Defaults.isFirstFilter = true
                     
                     if !Defaults.hideAds {
-                        setupAds()
+                        requestIDFA()
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
@@ -1444,7 +1462,7 @@ extension FeedVC {
                     createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                     initCompassSwitchBarButton()
                     if !Defaults.hideAds {
-                        setupAds()
+                        requestIDFA()
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
@@ -1459,7 +1477,7 @@ extension FeedVC {
                     
                     self.isCompassOpen = true
                     if !Defaults.hideAds {
-                        setupAds()
+                        requestIDFA()
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
@@ -1492,7 +1510,7 @@ extension FeedVC {
                     createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                     initCompassSwitchBarButton()
                     if !Defaults.hideAds {
-                        setupAds()
+                        requestIDFA()
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
