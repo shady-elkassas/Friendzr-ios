@@ -876,10 +876,10 @@ extension ConversationVC {
 extension ConversationVC {
     func messageDateTime(date:String,time:String) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale.autoupdatingCurrent
+        formatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
         formatter.dateStyle = .full
-        formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
-        let dateStr = "\(date)T\(time)Z"
+        formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZ"
+        let dateStr = "\(date)T\(time):00+0000"
         let date = formatter.date(from: dateStr)
         
         let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
@@ -905,11 +905,10 @@ extension ConversationVC {
     
     func messageDateTimeNow(date:String,time:String) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale.autoupdatingCurrent
+        formatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         formatter.dateStyle = .full
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZ"
-        
-        let dateStr = "\(date)T\(time)Z"
+        let dateStr = "\(date)T\(time):00+0000"
         let date = formatter.date(from: dateStr)
         
         let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)

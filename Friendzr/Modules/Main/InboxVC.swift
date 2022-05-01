@@ -414,7 +414,7 @@ extension InboxVC:UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? InboxTableViewCell else {return UITableViewCell()}
             let model = viewmodel.listChat.value?.data?[indexPath.row]
             cell.nameLbl.text = model?.chatName
-            cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
+//            cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
             
             cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
@@ -1263,10 +1263,10 @@ extension InboxVC: UISearchBarDelegate{
 extension InboxVC {
     func lastMessageDateTime(date:String,time:String) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale.autoupdatingCurrent
+        formatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
         formatter.dateStyle = .full
-        formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZZZZ"
-        let dateStr = "\(date)T\(time)Z"
+        formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZ"
+        let dateStr = "\(date)T\(time):00+0000"
         let date = formatter.date(from: dateStr)
         
         let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)

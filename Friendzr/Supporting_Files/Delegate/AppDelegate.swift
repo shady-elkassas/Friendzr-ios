@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             // Start loading ads here...
-        }        
+        }
 
         // Initialize Identity Provider //AWS
         let credentialsProvider = AWSCognitoCredentialsProvider(
@@ -149,6 +149,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 switch status {
                 case .authorized:
                     print("enable tracking")
+                    ApplicationDelegate.shared.application(
+                                      application,
+                                      didFinishLaunchingWithOptions: launchOptions
+                                  )
                 case .denied:
                     print("disable tracking")
                 default:

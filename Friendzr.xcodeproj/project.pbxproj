@@ -185,6 +185,8 @@
 		4371D4212733F46C003B8AFD /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4202733F46C003B8AFD /* CustomCell.swift */; };
 		4371D4232737D054003B8AFD /* CustomMessagesFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D4222737D054003B8AFD /* CustomMessagesFlowLayout.swift */; };
 		4371D42627391B13003B8AFD /* EmptyViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */; };
+		4372CCAF281C653F002F9B00 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4372CCAE281C653F002F9B00 /* AdSupport.framework */; };
+		4372CCB1281C6555002F9B00 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4372CCB0281C6555002F9B00 /* AppTrackingTransparency.framework */; };
 		437A4E9326FB7315007AAEF9 /* CompassHeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9226FB7315007AAEF9 /* CompassHeading.swift */; };
 		437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */; };
 		437EE47226E8B39700765089 /* LeaveEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437EE47126E8B39700765089 /* LeaveEventViewModel.swift */; };
@@ -589,6 +591,8 @@
 		4371D4202733F46C003B8AFD /* CustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		4371D4222737D054003B8AFD /* CustomMessagesFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMessagesFlowLayout.swift; sourceTree = "<group>"; };
 		4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewTableViewCell.swift; sourceTree = "<group>"; };
+		4372CCAE281C653F002F9B00 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		4372CCB0281C6555002F9B00 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		437A4E9226FB7315007AAEF9 /* CompassHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassHeading.swift; sourceTree = "<group>"; };
 		437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassViewSwiftUI.swift; sourceTree = "<group>"; };
 		437EE47126E8B39700765089 /* LeaveEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveEventViewModel.swift; sourceTree = "<group>"; };
@@ -788,7 +792,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				43FBA1D726D4ED40005F4FBF /* AuthenticationServices.framework in Frameworks */,
+				4372CCAF281C653F002F9B00 /* AdSupport.framework in Frameworks */,
 				43896A7D27AC14BA00EE3547 /* NetworkExtension.framework in Frameworks */,
+				4372CCB1281C6555002F9B00 /* AppTrackingTransparency.framework in Frameworks */,
 				43FBA1D926D4ED7B005F4FBF /* MapKit.framework in Frameworks */,
 				4382ACC526C2CE5C005C1857 /* Pods_Friendzr.framework in Frameworks */,
 			);
@@ -830,6 +836,8 @@
 		2E46D04BCE75F82D975E85B7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4372CCB0281C6555002F9B00 /* AppTrackingTransparency.framework */,
+				4372CCAE281C653F002F9B00 /* AdSupport.framework */,
 				43896A7C27AC14BA00EE3547 /* NetworkExtension.framework */,
 				43FBA1D826D4ED7B005F4FBF /* MapKit.framework */,
 				43FBA1D626D4ED40005F4FBF /* AuthenticationServices.framework */,
@@ -2882,7 +2890,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.16;
+				CURRENT_PROJECT_VERSION = 1.0.17;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2918,7 +2926,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.16;
+				CURRENT_PROJECT_VERSION = 1.0.17;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;
