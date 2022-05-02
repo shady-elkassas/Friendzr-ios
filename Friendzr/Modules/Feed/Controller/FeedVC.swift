@@ -240,10 +240,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         initGhostModeSwitchButton()
         setupHideView()
         setupNavBar()
-        
-        requestIDFA()
-        
+      
+
         if !Defaults.hideAds {
+            requestIDFA()
             bannerViewHeight.constant = 50
         }else {
             bannerViewHeight.constant = 0
@@ -292,12 +292,15 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
                 // Tracking authorization completed. Start loading ads here.
                 // loadAd()
-                
-                self.setupAds()
+                DispatchQueue.main.async {
+                    self.setupAds()
+                }
             })
         } else {
             // Fallback on earlier versions
-            self.setupAds()
+            DispatchQueue.main.async {
+                self.setupAds()
+            }
         }
     }
     
@@ -1319,7 +1322,9 @@ extension FeedVC {
                 if switchCompassBarButton.isOn {
                     self.isCompassOpen = true
                     if !Defaults.hideAds {
-                        requestIDFA()
+                        DispatchQueue.main.async {
+                            self.setupAds()
+                        }
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
@@ -1350,7 +1355,9 @@ extension FeedVC {
                     Defaults.isFirstFilter = true
                     
                     if !Defaults.hideAds {
-                        requestIDFA()
+                        DispatchQueue.main.async {
+                            self.setupAds()
+                        }
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
@@ -1387,7 +1394,9 @@ extension FeedVC {
                 createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                 
                 if !Defaults.hideAds {
-                    requestIDFA()
+                    DispatchQueue.main.async {
+                        self.setupAds()
+                    }
                     bannerViewHeight.constant = 50
                 }else {
                     bannerViewHeight.constant = 0
@@ -1426,7 +1435,9 @@ extension FeedVC {
                     Defaults.isFirstFilter = true
                     
                     if !Defaults.hideAds {
-                        requestIDFA()
+                        DispatchQueue.main.async {
+                            self.setupAds()
+                        }
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
@@ -1462,7 +1473,9 @@ extension FeedVC {
                     createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                     initCompassSwitchBarButton()
                     if !Defaults.hideAds {
-                        requestIDFA()
+                        DispatchQueue.main.async {
+                            self.setupAds()
+                        }
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
@@ -1477,7 +1490,9 @@ extension FeedVC {
                     
                     self.isCompassOpen = true
                     if !Defaults.hideAds {
-                        requestIDFA()
+                        DispatchQueue.main.async {
+                            self.setupAds()
+                        }
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0
@@ -1510,7 +1525,9 @@ extension FeedVC {
                     createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                     initCompassSwitchBarButton()
                     if !Defaults.hideAds {
-                        requestIDFA()
+                        DispatchQueue.main.async {
+                            self.setupAds()
+                        }
                         bannerViewHeight.constant = 50
                     }else {
                         bannerViewHeight.constant = 0

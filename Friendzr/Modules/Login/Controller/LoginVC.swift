@@ -127,10 +127,6 @@ class LoginVC: UIViewController {
                 Defaults.initUser(user: data)
                 
                 DispatchQueue.main.async {
-                    self.getAllValidatConfig()
-                }
-                
-                DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {
                         FirstLoginApp.isFirst = 2
                         Router().toSplachOne()
@@ -223,10 +219,6 @@ class LoginVC: UIViewController {
                             guard let data = data else {return}
                             Defaults.token = data.token
                             Defaults.initUser(user: data)
-                            
-                            DispatchQueue.main.async {
-                                self.getAllValidatConfig()
-                            }
                             
                             DispatchQueue.main.async {
                                 if Defaults.needUpdate == 1 {
@@ -362,7 +354,6 @@ extension LoginVC {
                     
                     print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
                     
-//                    self.showLoading()
                     self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName) { (error, data) in
                         self.hideLoading()
                         if let error = error {
@@ -375,10 +366,6 @@ extension LoginVC {
                         guard let data = data else {return}
                         Defaults.token = data.token
                         Defaults.initUser(user: data)
-                        
-                        DispatchQueue.main.async {
-                            self.getAllValidatConfig()
-                        }
                         
                         DispatchQueue.main.async {
                             if Defaults.needUpdate == 1 {
@@ -482,10 +469,6 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                 guard let data = data else {return}
                 Defaults.token = data.token
                 Defaults.initUser(user: data)
-                
-                DispatchQueue.main.async {
-                    self.getAllValidatConfig()
-                }
                 
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {

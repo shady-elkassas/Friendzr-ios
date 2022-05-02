@@ -233,7 +233,6 @@ class RegisterVC: UIViewController {
                         self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, completion: { (error, data) in
                             self.hideLoading()
                             if let error = error {
-//                                self.showAlert(withMessage: error)
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
                                 }
@@ -243,10 +242,6 @@ class RegisterVC: UIViewController {
                             guard let data = data else {return}
                             Defaults.token = data.token
                             Defaults.initUser(user: data)
-                            
-                            DispatchQueue.main.async {
-                                self.getAllValidatConfig()
-                            }
                             
                             DispatchQueue.main.async {
                                 if Defaults.needUpdate == 1 {
@@ -401,10 +396,6 @@ extension RegisterVC {
                         Defaults.initUser(user: data)
                         
                         DispatchQueue.main.async {
-                            self.getAllValidatConfig()
-                        }
-                        
-                        DispatchQueue.main.async {
                             if Defaults.needUpdate == 1 {
                                 FirstLoginApp.isFirst = 1
                                 Router().toSplachOne()
@@ -499,7 +490,6 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
             self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
                 self.hideLoading()
                 if let error = error {
-//                    self.showAlert(withMessage: error)
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
@@ -509,10 +499,6 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
                 guard let data = data else {return}
                 Defaults.token = data.token
                 Defaults.initUser(user: data)
-                
-                DispatchQueue.main.async {
-                    self.getAllValidatConfig()
-                }
                 
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {

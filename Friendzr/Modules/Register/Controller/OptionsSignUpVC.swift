@@ -243,10 +243,6 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
                             Defaults.initUser(user: data)
                             
                             DispatchQueue.main.async {
-                                self.getAllValidatConfig()
-                            }
-                            
-                            DispatchQueue.main.async {
                                 if Defaults.needUpdate == 1 {
                                     FirstLoginApp.isFirst = 1
                                     Router().toSplachOne()
@@ -351,10 +347,6 @@ extension OptionsSignUpVC {
                         Defaults.initUser(user: data)
                         
                         DispatchQueue.main.async {
-                            self.getAllValidatConfig()
-                        }
-                        
-                        DispatchQueue.main.async {
                             if Defaults.needUpdate == 1 {
                                 FirstLoginApp.isFirst = 1
                                 Router().toSplachOne()
@@ -447,7 +439,6 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
             self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
                 self.hideLoading()
                 if let error = error {
-//                    self.showAlert(withMessage: error)
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
                     }
@@ -457,10 +448,6 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
                 guard let data = data else {return}
                 Defaults.token = data.token
                 Defaults.initUser(user: data)
-
-                DispatchQueue.main.async {
-                    self.getAllValidatConfig()
-                }
                 
                 DispatchQueue.main.async {
                     if Defaults.needUpdate == 1 {
