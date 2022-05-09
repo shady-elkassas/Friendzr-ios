@@ -28,10 +28,7 @@ class NotificationsVC: UIViewController {
     let emptyCellID = "EmptyViewTableViewCell"
     
     var refreshControl = UIRefreshControl()
-    
-//    var internetConect:Bool = false
     var btnsSelect:Bool = false
-    
     var currentPage : Int = 1
     var isLoadingList : Bool = false
     
@@ -161,6 +158,7 @@ class NotificationsVC: UIViewController {
             item.cornerRadiusView(radius: 6)
         }
     }
+    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -214,7 +212,6 @@ class NotificationsVC: UIViewController {
         }
     }
     
-    
     func setupViews() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         tableView.register(UINib(nibName: emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
@@ -238,7 +235,8 @@ class NotificationsVC: UIViewController {
     
     @objc func didPullToRefresh() {
         print("Refersh")
-        getNotificationsList(pageNumber: 1)
+        currentPage = 1
+        getNotificationsList(pageNumber: currentPage)
         self.refreshControl.endRefreshing()
     }
     
@@ -301,7 +299,8 @@ extension NotificationsVC: UITableViewDelegate {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else { return}
                     vc.userID = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
-                }else if model?.action == "Accept_Friend_Request" {
+                }
+                else if model?.action == "Accept_Friend_Request" {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else { return}
                     vc.userID = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
@@ -310,19 +309,23 @@ extension NotificationsVC: UITableViewDelegate {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else { return}
                     vc.eventId = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
-                }else if model?.action == "update_Event_Data" {
+                }
+                else if model?.action == "update_Event_Data" {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else { return}
                     vc.eventId = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
-                }else if model?.action == "event_attend" {
+                }
+                else if model?.action == "event_attend" {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else { return}
                     vc.eventId = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
-                }else if model?.action == "Event_reminder" {
+                }
+                else if model?.action == "Event_reminder" {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else { return}
                     vc.eventId = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
-                }else if model?.action == "Check_events_near_you" {
+                }
+                else if model?.action == "Check_events_near_you" {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else { return}
                     vc.eventId = model?.action_code ?? ""
                     self.navigationController?.pushViewController(vc, animated: true)
@@ -353,7 +356,8 @@ extension NotificationsVC: UITableViewDelegate {
                     print("self.currentPage >> \(self.currentPage)")
                     self.loadMoreItemsForList()
                 }
-            }else {
+            }
+            else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
                     self.view.makeToast("No more data".localizedString)

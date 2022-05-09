@@ -320,144 +320,71 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
     
     
     func showOptionTags(id:String,name:String) {
+        let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Edit".localizedString, style: .default, handler: { action in
+            self.addNewTagView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            self.addNewTagView?.newTagTxt.text = name
+            
+            self.addNewTagView?.HandleConfirmBtn = {
+                if self.addNewTagView?.newTagTxt.text == "" {
+                    self.view.makeToast("Please type the name of the tag first".localizedString)
+                }else {
+                    self.viewmodel.EditInterest(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let _ = data else {return}
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.getAllTags()
+                        }
+                        
+                        //                            DispatchQueue.main.async {
+                        //                                self.view.makeToast("Edit successfully".localizedString)
+                        //                            }
+                    }
+                }
+                
+                
+                // handling code
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                    self.addNewTagView?.alpha = 0
+                }) { (success: Bool) in
+                    self.addNewTagView?.removeFromSuperview()
+                    self.addNewTagView?.alpha = 1
+                    self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                }
+            }
+            
+            self.view.addSubview((self.addNewTagView)!)
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
+            self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
+            self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
+            
+            self.viewmodel.deleteInterest(ById: id) { error, data in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    return
+                }
+                
+                guard let _ = data else {return}
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.getAllTags()
+                }
+            }
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+        }))
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Edit".localizedString, style: .default, handler: { action in
-                self.addNewTagView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                self.addNewTagView?.newTagTxt.text = name
-                
-                self.addNewTagView?.HandleConfirmBtn = {
-                    if self.addNewTagView?.newTagTxt.text == "" {
-                        self.view.makeToast("Please type the name of the tag first".localizedString)
-                    }else {
-                        self.viewmodel.EditInterest(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let _ = data else {return}
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.getAllTags()
-                            }
-                        }
-                    }
-                    
-                    
-                    // handling code
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.addNewTagView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.addNewTagView?.removeFromSuperview()
-                        self.addNewTagView?.alpha = 1
-                        self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                    }
-                }
-                
-                self.view.addSubview((self.addNewTagView)!)
-                
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
-                self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
-                self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
-                
-                self.viewmodel.deleteInterest(ById: id) { error, data in
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                        }
-                        return
-                    }
-                    
-                    guard let _ = data else {return}
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.getAllTags()
-                    }
-                    
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast("Deleted successfully".localizedString)
-//                    }
-                }
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionAlert, animated: true, completion: nil)
-        }else {
-            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Edit".localizedString, style: .default, handler: { action in
-                self.addNewTagView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                self.addNewTagView?.newTagTxt.text = name
-                
-                self.addNewTagView?.HandleConfirmBtn = {
-                    if self.addNewTagView?.newTagTxt.text == "" {
-                        self.view.makeToast("Please type the name of the tag first".localizedString)
-                    }else {
-                        self.viewmodel.EditInterest(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let _ = data else {return}
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.getAllTags()
-                            }
-                            
-//                            DispatchQueue.main.async {
-//                                self.view.makeToast("Edit successfully".localizedString)
-//                            }
-                        }
-                    }
-                    
-                    
-                    // handling code
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.addNewTagView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.addNewTagView?.removeFromSuperview()
-                        self.addNewTagView?.alpha = 1
-                        self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                    }
-                }
-                
-                self.view.addSubview((self.addNewTagView)!)
-            }))
-            actionSheet.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
-                self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
-                self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
-                
-                self.viewmodel.deleteInterest(ById: id) { error, data in
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                        }
-                        return
-                    }
-                    
-                    guard let _ = data else {return}
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.getAllTags()
-                    }
-                    
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast("Deleted successfully".localizedString)
-//                    }
-                }
-            }))
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionSheet, animated: true, completion: nil)
-        }
+        present(actionSheet, animated: true, completion: nil)
+        
     }
 }

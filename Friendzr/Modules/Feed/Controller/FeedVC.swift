@@ -13,7 +13,6 @@ import ListPlaceholder
 import GoogleMobileAds
 import SDWebImage
 import Network
-//import GoogleMobileAdsMediationTestSuite
 
 import AppTrackingTransparency
 import AdSupport
@@ -74,7 +73,6 @@ extension FeedVC {
         self.present(alertController, animated: true, completion: nil)
         
     }
-    
     
     func checkLocationPermissionBtns() {
         self.refreshControl.endRefreshing()
@@ -161,7 +159,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             locationManager.startUpdatingLocation()     //Start location service
             locationManager.startUpdatingHeading()      //Start getting device orientation
             print("Start Positioning")
-        }else {
+        }
+        else {
             print("Cannot get heading data")
         }
     }
@@ -195,7 +194,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     let switchCompassBarButton: CustomSwitch = CustomSwitch()
     var switchGhostModeBarButton: CustomSwitch = CustomSwitch()
     var btnsSelected:Bool = false
-//    var internetConnect:Bool = false
     
     var currentPage : Int = 1
     var isLoadingList : Bool = false
@@ -306,7 +304,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     
     func setupAds() {
-//        let adSize = GADInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(bannerView.bounds.width, bannerView.bounds.height)
         bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
         bannerView2.adUnitID = URLs.adUnitBanner
         bannerView2.rootViewController = self
@@ -685,70 +682,7 @@ extension FeedVC:UITableViewDataSource {
         }
     }
     
-    func statuskey(_ model: UserFeedObj?, _ cell: UsersFeedTableViewCell) {
-        //status key
-        switch model?.key {
-        case 0:
-            //Status = normal case
-            cell.subStackView.isHidden = true
-            cell.superStackView.isHidden = false
-            cell.cancelRequestBtn.isHidden = true
-            cell.sendRequestBtn.isHidden = false
-            cell.messageBtn.isHidden = true
-            cell.unblockBtn.isHidden = true
-            break
-        case 1:
-            //Status = I have added a friend request
-            cell.subStackView.isHidden = true
-            cell.superStackView.isHidden = false
-            cell.cancelRequestBtn.isHidden = false
-            cell.sendRequestBtn.isHidden = true
-            cell.messageBtn.isHidden = true
-            cell.unblockBtn.isHidden = true
-            break
-        case 2:
-            //Status = Send me a request to add a friend
-            cell.subStackView.isHidden = false
-            cell.superStackView.isHidden = true
-            cell.cancelRequestBtn.isHidden = true
-            cell.sendRequestBtn.isHidden = true
-            cell.messageBtn.isHidden = true
-            cell.unblockBtn.isHidden = true
-            break
-        case 3:
-            //Status = We are friends
-            cell.subStackView.isHidden = true
-            cell.superStackView.isHidden = false
-            cell.cancelRequestBtn.isHidden = true
-            cell.sendRequestBtn.isHidden = true
-            cell.messageBtn.isHidden = false
-            cell.unblockBtn.isHidden = true
-            break
-        case 4:
-            //Status = I block user
-            cell.subStackView.isHidden = true
-            cell.superStackView.isHidden = false
-            cell.cancelRequestBtn.isHidden = true
-            cell.sendRequestBtn.isHidden = true
-            cell.messageBtn.isHidden = true
-            cell.unblockBtn.isHidden = false
-            break
-        case 5:
-            //Status = user block me
-            cell.subStackView.isHidden = true
-            cell.superStackView.isHidden = false
-            cell.cancelRequestBtn.isHidden = true
-            cell.sendRequestBtn.isHidden = true
-            cell.messageBtn.isHidden = true
-            cell.unblockBtn.isHidden = true
-            break
-        case 6:
-            break
-        default:
-            break
-        }
-    }
-    
+        
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let actionDate = formatterDate.string(from: Date())
@@ -780,33 +714,11 @@ extension FeedVC:UITableViewDataSource {
             cell.HandleSendRequestBtn = { //send request
                 self.btnsSelected = true
                 if NetworkConected.internetConect {
-                    self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
-                    cell.sendRequestBtn.isUserInteractionEnabled = false
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1,requestdate: "\(actionDate) \(actionTime)") { error, message in
-                        
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let _ = message else {return}
-                        
-                        DispatchQueue.main.async {
-                            cell.sendRequestBtn.isHidden = true
-                            cell.sendRequestBtn.setTitle("Send Request", for: .normal)
-                            cell.sendRequestBtn.isUserInteractionEnabled = true
-                            cell.cancelRequestBtn.isHidden = false
-                            
-                            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-                        }
-                    }
+                    self.sendUserReuest(model, "\(actionDate) \(actionTime)", cell)
                 }
             }
             
             cell.HandleAccseptBtn = { //respond request
-                
                 self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 self.showAlertView?.titleLbl.text = "Confirm?".localizedString
                 self.showAlertView?.detailsLbl.text = "Are you sure you want to accept this request?".localizedString
@@ -814,26 +726,7 @@ extension FeedVC:UITableViewDataSource {
                 self.showAlertView?.HandleConfirmBtn = {
                     self.btnsSelected = true
                     if NetworkConected.internetConect {
-                        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2, requestdate: "\(actionDate) \(actionTime)") { error, message in
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let _ = message else {return}
-                            
-                            DispatchQueue.main.async {
-                                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                            }
-                            
-                            DispatchQueue.main.async {
-                                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-                            }
-                            
-
-                        }
+                        self.accseptRequest(model, "\(actionDate) \(actionTime)")
                     }
                     
                     // handling code
@@ -858,26 +751,8 @@ extension FeedVC:UITableViewDataSource {
                 self.showAlertView?.HandleConfirmBtn = {
                     self.btnsSelected = true
                     if NetworkConected.internetConect {
-                        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, requestdate: "\(actionDate) \(actionTime)") { error, message in
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let _ = message else {return}
-                            
-                            DispatchQueue.main.async {
-                                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                            }
-                            
-                            DispatchQueue.main.async {
-                                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-                            }
-                            
-
-                        }
+                        
+                        self.refusedRequest(model,"\(actionDate) \(actionTime)")
                     }
                     // handling code
                     UIView.animate(withDuration: 0.3, animations: {
@@ -910,7 +785,6 @@ extension FeedVC:UITableViewDataSource {
                     vc.groupId = ""
                     vc.isEventAdmin = false
                     CancelRequest.currentTask = false
-                    
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else {
                     return
@@ -943,29 +817,7 @@ extension FeedVC:UITableViewDataSource {
                 self.btnsSelected = true
 
                 if NetworkConected.internetConect {
-                    self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Canceling...".localizedString)
-                    cell.cancelRequestBtn.isUserInteractionEnabled = false
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, requestdate: "\(actionDate) \(actionTime)") { error, message in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let _ = message else {return}
-                        
-                        DispatchQueue.main.async {
-                            DispatchQueue.main.async {
-                                cell.cancelRequestBtn.isHidden = true
-                                cell.cancelRequestBtn.setTitle("Cancel Request", for: .normal)
-                                cell.sendRequestBtn.isHidden = false
-                                cell.cancelRequestBtn.isUserInteractionEnabled = true
-                            }
-                            
-                            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-                        }
-                    }
+                    self.cancelRequest(model, "\(actionDate) \(actionTime)", cell)
                 }
             }
             
@@ -1877,6 +1729,166 @@ extension FeedVC {
             
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+            }
+        }
+    }
+}
+
+//MARK: - Cell Btns Action
+extension FeedVC {
+    func statuskey(_ model: UserFeedObj?,_ cell: UsersFeedTableViewCell) {
+        //status key
+        switch model?.key {
+        case 0:
+            //Status = normal case
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = false
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 1:
+            //Status = I have added a friend request
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = false
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 2:
+            //Status = Send me a request to add a friend
+            cell.subStackView.isHidden = false
+            cell.superStackView.isHidden = true
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 3:
+            //Status = We are friends
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = false
+            cell.unblockBtn.isHidden = true
+            break
+        case 4:
+            //Status = I block user
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = false
+            break
+        case 5:
+            //Status = user block me
+            cell.subStackView.isHidden = true
+            cell.superStackView.isHidden = false
+            cell.cancelRequestBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 6:
+            break
+        default:
+            break
+        }
+    }
+    func sendUserReuest(_ model: UserFeedObj?, _ requestdate:String, _ cell: UsersFeedTableViewCell) {
+        self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
+        cell.sendRequestBtn.isUserInteractionEnabled = false
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1,requestdate: requestdate) { error, message in
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            
+            DispatchQueue.main.async {
+                cell.sendRequestBtn.isHidden = true
+                cell.sendRequestBtn.setTitle("Send Request", for: .normal)
+                cell.sendRequestBtn.isUserInteractionEnabled = true
+                cell.cancelRequestBtn.isHidden = false
+                
+                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+            }
+        }
+    }
+    func accseptRequest(_ model: UserFeedObj?, _ requestdate:String) {
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2, requestdate: requestdate) { error, message in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+            }
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+            }
+            
+            
+        }
+    }
+    func refusedRequest(_ model: UserFeedObj?, _ requestdate:String) {
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, requestdate: requestdate) { error, message in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+            }
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+            }
+            
+
+        }
+    }
+    func cancelRequest(_ model: UserFeedObj?, _ requestdate:String, _ cell: UsersFeedTableViewCell) {
+        self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Canceling...".localizedString)
+        cell.cancelRequestBtn.isUserInteractionEnabled = false
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, requestdate: requestdate) { error, message in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            
+            DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    cell.cancelRequestBtn.isHidden = true
+                    cell.cancelRequestBtn.setTitle("Cancel Request", for: .normal)
+                    cell.sendRequestBtn.isHidden = false
+                    cell.cancelRequestBtn.isUserInteractionEnabled = true
+                }
+                
+                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
             }
         }
     }

@@ -18,7 +18,7 @@ class SocialMediaLoginViewModel {
     
     // create a method for calling api which is return a Observable
     //MARK:- Social Media Request
-    func socialMediaLoginUser(withSocialMediaId socialMediaId:String,AndEmail email:String,username:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
+    func socialMediaLoginUser(withSocialMediaId socialMediaId:String,AndEmail email:String,completion: @escaping (_ error: String?, _ data: UserObj?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Authenticat/login"
         let parameters:[String : Any] = ["UserId":socialMediaId,"email": email,"logintype":1,"FcmToken":Defaults.fcmToken,"platform":2]

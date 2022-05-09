@@ -776,38 +776,20 @@ extension FriendProfileViewController {
     }
     
     @objc func handleUserOptionsBtn() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                    vc.selectedVC = "PresentC"
-                    vc.isEvent = false
-                    vc.id = self.userID
-                    vc.reportType = 3
-                    self.present(controller, animated: true)
-                }
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionAlert, animated: true, completion: nil)
-        }
-        else {
-            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                    vc.selectedVC = "PresentC"
-                    vc.isEvent = false
-                    vc.id = self.userID
-                    vc.reportType = 3
-                    self.present(controller, animated: true)
-                }
-            }))
-            
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionSheet, animated: true, completion: nil)
-        }
+        let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
+            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                vc.selectedVC = "PresentC"
+                vc.isEvent = false
+                vc.id = self.userID
+                vc.reportType = 3
+                self.present(controller, animated: true)
+            }
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+        }))
+        
+        present(actionSheet, animated: true, completion: nil)
     }
 }

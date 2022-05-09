@@ -12,30 +12,6 @@ import GoogleMobileAds
 import SDWebImage
 import Network
 
-
-//extension Date {
-//    func formattedRelativeString() -> String
-//    {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.doesRelativeDateFormatting = true
-//        
-//        if isToday() {
-//            dateFormatter.timeStyle = .short
-//            dateFormatter.dateStyle = .none
-//        } else if isYesterday() {
-//            dateFormatter.timeStyle = .none
-//            dateFormatter.dateStyle = .medium
-//        } else if daysAgo() < 6 {
-//            return dateFormatter.weekdaySymbols[weekday()-1]
-//        } else {
-//            dateFormatter.timeStyle = .none
-//            dateFormatter.dateStyle = .short
-//        }
-//        
-//        return dateFormatter.string(from: self as Date)
-//    }
-//}
-
 //MARK: - singletone Network Conected
 class NetworkConected {
     static var internetConect: Bool = false
@@ -66,16 +42,11 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     var groupVM:GroupViewModel = GroupViewModel()
     
     var refreshControl = UIRefreshControl()
-    
-    //    var internetConect:Bool = false
     var cellSelect:Bool = false
-    
     var currentPage : Int = 1
     var isLoadingList : Bool = false
-    
     var isSearch:Bool = false
     var leaveOrJoinTitle:String = ""
-    
     var bannerView2: GADBannerView!
     
     private let formatterDate: DateFormatter = {
@@ -101,14 +72,13 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         initNewConversationBarButton()
         self.title = "Inbox".localizedString
         
-        
         pullToRefresh()
         
         NotificationCenter.default.addObserver(self, selector: #selector(reloadChatList), name: Notification.Name("reloadChatList"), object: nil)
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-
+        
         if !Defaults.hideAds {
             setupAds()
         }else {
@@ -125,7 +95,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: true)
         CancelRequest.currentTask = false
-        
         
         currentPage = 1
         
@@ -227,19 +196,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.tableView.dataSource = self
                     self.tableView.reloadData()
                 }
-                
-                //                var inboxbadges = 0
-                //                for item in value.data ?? [] {
-                //                    if item.message_not_Read != 0 {
-                //                        inboxbadges += 1
-                //                    }
-                //                }
-                //
-                //                print("usernoti = \(inboxbadges)")
-                
-                //                Defaults.message_Count = inboxbadges
-                //                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
-                
                 DispatchQueue.main.async {
                     self.isLoadingList = false
                     self.tableView.tableFooterView = nil
@@ -270,6 +226,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         emptyLbl.text = "No messages sent or received as yet".localizedString
         tryAgainBtn.alpha = 1.0
     }
+    
     //HandleInternetConnection
     func HandleInternetConnection() {
         if cellSelect {
@@ -317,7 +274,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Helper
     func setupAds() {
-//        let adSize = GADInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(bannerView.bounds.width, bannerView.bounds.height)
         bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
         bannerView2.adUnitID = URLs.adUnitBanner
         bannerView2.rootViewController = self
@@ -355,7 +311,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-
+    
     func setupHideView() {
         for itm in hidesImg {
             itm.cornerRadiusView(radius: 6)
@@ -363,7 +319,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         for item in prosImg {
             item.cornerRadiusForHeight()
         }
-        
     }
     
     //setupViews
@@ -414,7 +369,7 @@ extension InboxVC:UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? InboxTableViewCell else {return UITableViewCell()}
             let model = viewmodel.listChat.value?.data?[indexPath.row]
             cell.nameLbl.text = model?.chatName
-//            cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
+            //            cell.lastMessageDateLbl.text = "\(model?.latestdate ?? "") \(model?.latesttime ?? "")"
             
             cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.profileImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
@@ -502,72 +457,10 @@ extension InboxVC:UITableViewDelegate {
         }
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if NetworkConected.internetConect {
-            if viewmodel.listChat.value?.data?.count != 0 {
-                let vc = ConversationVC()
-                let model = viewmodel.listChat.value?.data?[indexPath.row]
-                if model?.isevent == true {
-                    vc.isEvent = true
-                    vc.eventChatID = model?.id ?? ""
-                    vc.chatuserID = ""
-                    
-                    if model?.leaveventchat == true {
-                        vc.leavevent = 2
-                    }else {
-                        vc.leavevent = model?.leavevent ?? 0
-                    }
-                    
-                    vc.leaveGroup = 1
-                    vc.isFriend = false
-                    vc.titleChatImage = model?.image ?? ""
-                    vc.titleChatName = model?.chatName ?? ""
-                    vc.isChatGroupAdmin = false
-                    vc.isChatGroup = false
-                    vc.groupId = ""
-                    vc.isEventAdmin = model?.myevent ?? false
-                    vc.eventType = model?.eventtype ?? ""
-                }
-                else {
-                    if (model?.isChatGroup ?? false) == true {
-                        vc.isEvent = false
-                        vc.eventChatID = ""
-                        vc.chatuserID = ""
-                        vc.leavevent = 1
-                        vc.leaveGroup = model?.leaveGroup ?? 0
-                        vc.isFriend = false
-                        vc.titleChatImage = model?.image ?? ""
-                        vc.titleChatName = model?.chatName ?? ""
-                        vc.isChatGroupAdmin = model?.isChatGroupAdmin ?? false
-                        vc.isChatGroup = model?.isChatGroup ?? false
-                        vc.groupId = model?.id ?? ""
-                        vc.isEventAdmin = false
-                    }
-                    else {
-                        vc.isEvent = false
-                        vc.eventChatID = ""
-                        vc.chatuserID = model?.id ?? ""
-                        vc.leaveGroup = 1
-                        vc.isFriend = model?.isfrind ?? false
-                        vc.leavevent = model?.leavevent ?? 0
-                        vc.titleChatImage = model?.image ?? ""
-                        vc.titleChatName = model?.chatName ?? ""
-                        vc.isChatGroupAdmin = false
-                        vc.isChatGroup = false
-                        vc.groupId = ""
-                        vc.isEventAdmin = false
-                    }
-                }
-                
-                vc.titleChatImage = model?.image ?? ""
-                vc.titleChatName = model?.chatName ?? ""
-                CancelRequest.currentTask = false
-                
-                Defaults.message_Count = Defaults.message_Count - (model?.message_not_Read ?? 0)
-                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
-                
-                navigationController?.pushViewController(vc, animated: true)
-            }
+            goToConversation(indexPath)
         }
         else {
             self.view.makeToast("Network is unavailable, please try again!")
@@ -579,641 +472,32 @@ extension InboxVC:UITableViewDelegate {
         return true
     }
     
+    
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         if viewmodel.listChat.value?.data?.count != 0  {
-            let model = self.viewmodel.listChat.value?.data?[indexPath.row]
-            
-            let muteTitle = model?.isMute ?? false ? "UnMute".localizedString : "Mute".localizedString
-            let deleteTitle = model?.isChatGroup ?? true ? "Clear".localizedString : "Delete".localizedString
-            if model?.isChatGroup == true {
-                if model?.leaveGroup == 0 {
-                    self.leaveOrJoinTitle = "Exit".localizedString
-                }else {
-                    self.leaveOrJoinTitle = "Join".localizedString
-                }
-            }else {
-                if model?.leaveventchat == false {
-                    self.leaveOrJoinTitle = "Exit".localizedString
-                }else {
-                    self.leaveOrJoinTitle = "Join".localizedString
-                }
-            }
-            
-            
-            let actionDate = formatterDate.string(from: Date())
-            let actionTime = formatterTime.string(from: Date())
-            
-            
-            let deleteAction = UITableViewRowAction(style: .default, title: deleteTitle.localizedString) { action, indexPath in
-                print("deleteAction")
-                
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-                    
-                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                        if NetworkConected.internetConect {
-                            if model?.isChatGroup == true {
-                                self.groupVM.clearGroupChat(ByID: model?.id ?? "", registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
-                                        }
-                                        return
-                                    }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        if self.isSearch {
-                                            self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
-                                        }else {
-                                            self.getAllChatList(pageNumber: 1,search: "")
-                                        }
-                                    }
-                                }
-                            }
-                            else {
-                                self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
-                                        }
-                                        return
-                                    }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        if self.isSearch {
-                                            self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
-                                        }else {
-                                            self.getAllChatList(pageNumber: 1,search: "")
-                                        }
-                                    }
-                                }
-                            }
-                            
-                        }
-                        else {
-                            self.view.makeToast("Network is unavailable, please try again!")
-                        }
-                    }))
-                    settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                    
-                    self.present(settingsActionSheet, animated:true, completion:nil)
-                }
-                else {
-                    let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                    
-                    settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                        if NetworkConected.internetConect {
-                            if model?.isChatGroup == true {
-                                self.groupVM.clearGroupChat(ByID: model?.id ?? "", registrationDateTime: "\(actionDate) \(actionTime)") { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
-                                        }
-                                        return
-                                    }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        if self.isSearch {
-                                            self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
-                                        }else {
-                                            self.getAllChatList(pageNumber: 1,search: "")
-                                        }
-                                    }
-                                }
-                            }
-                            else {
-                                self.viewmodel.deleteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, deleteDateTime: "\(actionDate) \(actionTime)") { error, data in
-                                    if let error = error {
-                                        DispatchQueue.main.async {
-                                            self.view.makeToast(error)
-                                        }
-                                        return
-                                    }
-                                    
-                                    guard let _ = data else {
-                                        return
-                                    }
-                                    
-                                    DispatchQueue.main.async {
-                                        if self.isSearch {
-                                            self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
-                                        }else {
-                                            self.getAllChatList(pageNumber: 1,search: "")
-                                        }
-                                    }
-                                }
-                            }
-                            
-                        }
-                        else {
-                            self.view.makeToast("Network is unavailable, please try again!")
-                        }
-                    }))
-                    settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                    
-                    self.present(settingsActionSheet, animated:true, completion:nil)
-                }
-            }
-            
-            let leaveAction = UITableViewRowAction(style: .default, title: self.leaveOrJoinTitle) { action, indexPath in
-                print("LeaveAction")
-                
-                if model?.isevent == true {
-                    if model?.leaveventchat == false {
-                        if UIDevice.current.userInterfaceIdiom == .pad {
-                            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-                            
-                            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                if NetworkConected.internetConect {
-                                    self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        DispatchQueue.main.async {
-                                            if self.isSearch {
-                                                self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
-                                            }else {
-                                                self.getAllChatList(pageNumber: 1,search: "")
-                                            }
-                                        }
-                                    }
-                                    
-                                }
-                                else {
-                                    self.view.makeToast("Network is unavailable, please try again!")
-                                }
-                            }))
-                            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                            
-                            self.present(settingsActionSheet, animated:true, completion:nil)
-                        }
-                        else {
-                            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                            
-                            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                if NetworkConected.internetConect {
-                                    self.viewmodel.LeaveChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        DispatchQueue.main.async {
-                                            if self.isSearch {
-                                                self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
-                                            }else {
-                                                self.getAllChatList(pageNumber: 1,search: "")
-                                            }
-                                        }
-                                    }
-                                }
-                                else {
-                                    self.view.makeToast("Network is unavailable, please try again!")
-                                }
-                            }))
-                            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                            
-                            self.present(settingsActionSheet, animated:true, completion:nil)
-                        }
-                    }
-                    else {
-                        if UIDevice.current.userInterfaceIdiom == .pad {
-                            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-                            
-                            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                if NetworkConected.internetConect {
-                                    self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        DispatchQueue.main.async {
-                                            if self.isSearch {
-                                                self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
-                                            }else {
-                                                self.getAllChatList(pageNumber: 1,search: "")
-                                            }
-                                        }
-                                    }
-                                }else {
-                                    self.view.makeToast("Network is unavailable, please try again!")
-                                }
-                                
-                            }))
-                            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                            
-                            self.present(settingsActionSheet, animated:true, completion:nil)
-                        }
-                        else {
-                            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                            
-                            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                if NetworkConected.internetConect {
-                                    self.viewmodel.joinChat(ByID: model?.id ?? "", ActionDate: actionDate, Actiontime: actionTime) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        DispatchQueue.main.async {
-                                            if self.isSearch {
-                                                self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
-                                            }else {
-                                                self.getAllChatList(pageNumber: 1,search: "")
-                                            }
-                                        }
-                                    }
-                                }else {
-                                    self.view.makeToast("Network is unavailable, please try again!")
-                                    
-                                }
-                            }))
-                            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                            
-                            self.present(settingsActionSheet, animated:true, completion:nil)
-                        }
-                    }
-                }
-                else if model?.isChatGroup == true {
-                    if model?.leaveGroup == 0 {
-                        if UIDevice.current.userInterfaceIdiom == .pad {
-                            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-                            
-                            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                if NetworkConected.internetConect {
-                                    self.groupVM.leaveGroupChat(ByID: model?.id ?? "", registrationDateTime: actionDate) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        DispatchQueue.main.async {
-                                            if self.isSearch {
-                                                self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
-                                            }else {
-                                                self.getAllChatList(pageNumber: 1,search: "")
-                                            }
-                                        }
-                                    }
-                                }else {
-                                    self.view.makeToast("Network is unavailable, please try again!")
-                                }
-                            }))
-                            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                            
-                            self.present(settingsActionSheet, animated:true, completion:nil)
-                        }
-                        else {
-                            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                            
-                            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                                if NetworkConected.internetConect {
-                                    self.groupVM.leaveGroupChat(ByID: model?.id ?? "", registrationDateTime: actionDate) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        DispatchQueue.main.async {
-                                            if self.isSearch {
-                                                self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
-                                            }else {
-                                                self.getAllChatList(pageNumber: 1,search: "")
-                                            }
-                                        }
-                                    }
-                                }else {
-                                    self.view.makeToast("Network is unavailable, please try again!")
-                                }
-                                
-                            }))
-                            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                            
-                            self.present(settingsActionSheet, animated:true, completion:nil)
-                        }
-                    }
-                }
-                
-            }
-            
-            let muteAction = UITableViewRowAction(style: .default, title: muteTitle) { action, indexPath in
-                print("muteAction")
-                if model?.isMute == true {
-                    if UIDevice.current.userInterfaceIdiom == .pad {
-                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-                        
-                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            if NetworkConected.internetConect {
-                                if model?.isChatGroup == true {
-                                    self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: false) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        
-                                        DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                            tableView.reloadData()
-                                        }
-                                    }
-                                    
-                                }
-                                else {
-                                    self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        
-                                        DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                            tableView.reloadData()
-                                        }
-                                    }
-                                }
-                                
-                            }
-                            else {
-                                self.view.makeToast("Network is unavailable, please try again!")
-                            }
-                        }))
-                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                        
-                        self.present(settingsActionSheet, animated:true, completion:nil)
-                    }
-                    else {
-                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                        
-                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            if NetworkConected.internetConect {
-                                if model?.isChatGroup == true {
-                                    self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: false) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        
-                                        DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                            tableView.reloadData()
-                                        }
-                                    }
-                                    
-                                }
-                                else {
-                                    self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: false) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        
-                                        DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                            tableView.reloadData()
-                                        }
-                                    }
-                                }
-                                
-                            }
-                            else {
-                                self.view.makeToast("Network is unavailable, please try again!")
-                            }
-                        }))
-                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                        
-                        self.present(settingsActionSheet, animated:true, completion:nil)
-                    }
-                }
-                else {
-                    if UIDevice.current.userInterfaceIdiom == .pad {
-                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-                        
-                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            if NetworkConected.internetConect {
-                                if model?.isChatGroup == true {
-                                    self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: true) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        
-                                        DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                            tableView.reloadData()
-                                        }
-                                    }
-                                    
-                                }
-                                else {
-                                    self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        
-                                        DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                            tableView.reloadData()
-                                        }
-                                    }
-                                }
-                            }
-                            else {
-                                self.view.makeToast("Network is unavailable, please try again!")
-                            }
-                        }))
-                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                        
-                        self.present(settingsActionSheet, animated:true, completion:nil)
-                    }
-                    else {
-                        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                        
-                        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                            
-                            if NetworkConected.internetConect {
-                                if model?.isChatGroup == true {
-                                    self.groupVM.muteGroupChat(ByID: model?.id ?? "", mute: true) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        
-                                        DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                            tableView.reloadData()
-                                        }
-                                    }
-                                    
-                                }
-                                else {
-                                    self.viewmodel.muteChat(ByID: model?.id ?? "", isevent: model?.isevent ?? false, mute: true) { error, data in
-                                        if let error = error {
-                                            DispatchQueue.main.async {
-                                                self.view.makeToast(error)
-                                            }
-                                            return
-                                        }
-                                        
-                                        guard let _ = data else {
-                                            return
-                                        }
-                                        
-                                        DispatchQueue.main.async {
-                                            self.viewmodel.listChat.value?.data?[indexPath.row].isMute?.toggle()
-                                            tableView.reloadData()
-                                        }
-                                    }
-                                }
-                                
-                            }
-                            else {
-                                self.view.makeToast("Network is unavailable, please try again!")
-                            }
-                        }))
-                        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                        
-                        self.present(settingsActionSheet, animated:true, completion:nil)
-                    }
-                }
-            }
-            
-            leaveAction.backgroundColor = UIColor.darkGray
-            muteAction.backgroundColor = UIColor.FriendzrColors.primary!
-            
-            if model?.isevent == true {
-                if model?.myevent == true {
-                    return [deleteAction,muteAction]
-                }else {
-                    if model?.leavevent == 0 {
-                        return [deleteAction,leaveAction,muteAction]
-                    }else {
-                        return [deleteAction]
-                    }
-                }
-            }
-            else if model?.isChatGroup == true {
-                if model?.leaveGroup == 0 && model?.isChatGroupAdmin == false {
-                    return [deleteAction,leaveAction,muteAction]
-                }else {
-                    return [deleteAction]
-                }
-            }
-            else {
-                return [deleteAction,muteAction]
-            }
-        }else {
+            return SwipeCell(indexPath)
+        }
+        else {
             return []
         }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if isSearch {
-            print("Search")
-        }else {
-            if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
-                self.isLoadingList = true
-                if currentPage < viewmodel.listChat.value?.totalPages ?? 0 {
-                    self.tableView.tableFooterView = self.createFooterView()
-                    
-                    DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
-                        print("self.currentPage >> \(self.currentPage)")
-                        self.loadMoreItemsForList()
-                    }
-                }else {
-                    self.tableView.tableFooterView = nil
-                    DispatchQueue.main.async {
-                        self.view.makeToast("No more data".localizedString)
-                    }
-                    return
+        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+            self.isLoadingList = true
+            if currentPage < viewmodel.listChat.value?.totalPages ?? 0 {
+                self.tableView.tableFooterView = self.createFooterView()
+                
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                    print("self.currentPage >> \(self.currentPage)")
+                    self.loadMoreItemsForList()
                 }
+            }else {
+                self.tableView.tableFooterView = nil
+                DispatchQueue.main.async {
+                    self.view.makeToast("No more data".localizedString)
+                }
+                return
             }
         }
     }
@@ -1305,6 +589,7 @@ extension InboxVC {
     }
 }
 
+//MARK: - Ads Delegate
 extension InboxVC: GADBannerViewDelegate {
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
         print("bannerViewDidReceiveAd")
@@ -1329,5 +614,356 @@ extension InboxVC: GADBannerViewDelegate {
     
     func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
         print("bannerViewDidDismissScreen")
+    }
+}
+
+//MARK: - Customize Swipe funcs
+extension InboxVC {
+    
+    func SwipeCell(_ indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let model = self.viewmodel.listChat.value?.data?[indexPath.row]
+        
+        let muteTitle = model?.isMute ?? false ? "UnMute".localizedString : "Mute".localizedString
+        let deleteTitle = model?.isChatGroup ?? true ? "Clear".localizedString : "Delete".localizedString
+        
+        if model?.isChatGroup == true {
+            if model?.leaveGroup == 0 {
+                self.leaveOrJoinTitle = "Exit".localizedString
+            }else {
+                self.leaveOrJoinTitle = "Join".localizedString
+            }
+        }else {
+            if model?.leaveventchat == false {
+                self.leaveOrJoinTitle = "Exit".localizedString
+            }else {
+                self.leaveOrJoinTitle = "Join".localizedString
+            }
+        }
+        
+        
+        let actionDate = formatterDate.string(from: Date())
+        let actionTime = formatterTime.string(from: Date())
+        
+        
+        let deleteAction = UITableViewRowAction(style: .default, title: deleteTitle.localizedString) { action, indexPath in
+            print("deleteAction")
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+            
+            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                if NetworkConected.internetConect {
+                    self.ClearOrDeleteChat(isEvent: model?.isevent ?? false, isGroup: model?.isChatGroup ?? false, ID: model?.id ?? "", registrationDateTime: "\(actionDate) \(actionTime)")
+                }
+                else {
+                    self.view.makeToast("Network is unavailable, please try again!")
+                }
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            
+            self.present(settingsActionSheet, animated:true, completion:nil)
+            
+        }
+        
+        let leaveAction = UITableViewRowAction(style: .default, title: self.leaveOrJoinTitle) { action, indexPath in
+            print("LeaveAction")
+            
+            self.LeaveChat(isEvent: model?.isevent ?? false, leaveventchat: model?.leaveventchat ?? false, isGroup: model?.isChatGroup ?? false, ID: model?.id ?? "", actionDate: actionDate, actionTime: actionTime)
+        }
+        
+        let muteAction = UITableViewRowAction(style: .default, title: muteTitle) { action, indexPath in
+            print("muteAction")
+            if model?.isMute == true {
+                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                
+                settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    if NetworkConected.internetConect {
+                        self.MuteChat(isEvent: model?.isevent ?? false, isGroup: model?.isChatGroup ?? false, ID: model?.id ?? "", registrationDateTime: "", isMute: false, model: self.viewmodel.listChat.value?.data?[indexPath.row])
+                    }
+                    else {
+                        self.view.makeToast("Network is unavailable, please try again!")
+                    }
+                }))
+                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                
+                self.present(settingsActionSheet, animated:true, completion:nil)
+                
+            }
+            else {
+                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+                
+                settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                    
+                    if NetworkConected.internetConect {
+                        self.MuteChat(isEvent: model?.isevent ?? false, isGroup: model?.isChatGroup ?? false, ID: model?.id ?? "", registrationDateTime: "", isMute: true, model: self.viewmodel.listChat.value?.data?[indexPath.row])
+                    }
+                    else {
+                        self.view.makeToast("Network is unavailable, please try again!")
+                    }
+                }))
+                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+                
+                self.present(settingsActionSheet, animated:true, completion:nil)
+                
+            }
+        }
+        
+        leaveAction.backgroundColor = UIColor.darkGray
+        muteAction.backgroundColor = UIColor.FriendzrColors.primary!
+        
+        if model?.isevent == true {
+            if model?.myevent == true {
+                return [deleteAction,muteAction]
+            }else {
+                if model?.leavevent == 0 {
+                    return [deleteAction,leaveAction,muteAction]
+                }else {
+                    return [deleteAction]
+                }
+            }
+        }
+        else if model?.isChatGroup == true {
+            if model?.isChatGroupAdmin == true {
+                return [deleteAction,muteAction]
+            }else {
+                if model?.leaveGroup == 0 {
+                    return [deleteAction,leaveAction,muteAction]
+                }else {
+                    return [deleteAction]
+                }
+            }
+        }
+        else {
+            return [deleteAction,muteAction]
+        }
+    }
+
+    func LeaveChat(isEvent:Bool,leaveventchat:Bool,isGroup:Bool,ID:String,actionDate:String,actionTime:String) {
+        if isEvent {
+            if leaveventchat == false {
+                leaveEventChat(ID, actionDate, actionTime)
+            }
+            else {
+                joinEventChat(ID, actionDate, actionTime)
+            }
+        }
+        else {
+            leaveGroupChat(ID, actionDate)
+        }
+    }
+    func MuteChat(isEvent:Bool,isGroup:Bool,ID:String,registrationDateTime:String,isMute:Bool,model:UserChatObj?) {
+        if isGroup {
+            muteGroupChat(ID, isMute,model)
+        }
+        else {
+            muteEventOrUserChat(ID, isEvent, isMute, model)
+        }
+    }
+    func ClearOrDeleteChat(isEvent:Bool,isGroup:Bool,ID:String,registrationDateTime:String) {
+        if isGroup {
+            clearGroupChat(ID, registrationDateTime)
+        }
+        else {
+            deleteEventOrUserChat(ID, isEvent, registrationDateTime)
+        }
+    }
+    
+    func clearGroupChat(_ ID: String, _ registrationDateTime: String) {
+        self.groupVM.clearGroupChat(ByID: ID, registrationDateTime: registrationDateTime) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                if self.isSearch {
+                    self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
+                }else {
+                    self.getAllChatList(pageNumber: 1,search: "")
+                }
+            }
+        }
+    }
+    func deleteEventOrUserChat(_ ID: String, _ isEvent: Bool, _ registrationDateTime: String) {
+        self.viewmodel.deleteChat(ByID: ID, isevent: isEvent, deleteDateTime: registrationDateTime) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
+            }
+        }
+    }
+    func leaveEventChat(_ ID: String, _ actionDate: String, _ actionTime: String) {
+        self.viewmodel.LeaveChat(ByID: ID, ActionDate: actionDate, Actiontime: actionTime) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
+            }
+        }
+    }
+    func joinEventChat(_ ID: String, _ actionDate: String, _ actionTime: String) {
+        self.viewmodel.joinChat(ByID: ID, ActionDate: actionDate, Actiontime: actionTime) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
+            }
+        }
+    }
+    func leaveGroupChat(_ ID: String, _ actionDate: String) {
+        self.groupVM.leaveGroupChat(ByID: ID, registrationDateTime: actionDate) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.getAllChatList(pageNumber: 1,search: self.searchBar.text ?? "")
+            }
+        }
+    }
+    func muteGroupChat(_ ID: String, _ isMute: Bool, _ model:UserChatObj?) {
+        self.groupVM.muteGroupChat(ByID: ID, mute: isMute) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                model?.isMute?.toggle()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    func muteEventOrUserChat(_ ID: String, _ isevent:Bool,_ isMute: Bool, _ model:UserChatObj?) {
+        self.viewmodel.muteChat(ByID: ID, isevent: isevent, mute: isMute) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                model?.isMute?.toggle()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
+    
+    func goToConversation(_ indexPath: IndexPath) {
+        if viewmodel.listChat.value?.data?.count != 0 {
+            let vc = ConversationVC()
+            let model = viewmodel.listChat.value?.data?[indexPath.row]
+            if model?.isevent == true {
+                vc.isEvent = true
+                vc.eventChatID = model?.id ?? ""
+                vc.chatuserID = ""
+                
+                if model?.leaveventchat == true {
+                    vc.leavevent = 2
+                }else {
+                    vc.leavevent = model?.leavevent ?? 0
+                }
+                
+                vc.leaveGroup = 1
+                vc.isFriend = false
+                vc.titleChatImage = model?.image ?? ""
+                vc.titleChatName = model?.chatName ?? ""
+                vc.isChatGroupAdmin = false
+                vc.isChatGroup = false
+                vc.groupId = ""
+                vc.isEventAdmin = model?.myevent ?? false
+                vc.eventType = model?.eventtype ?? ""
+            }
+            else {
+                if (model?.isChatGroup ?? false) == true {
+                    vc.isEvent = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = ""
+                    vc.leavevent = 1
+                    vc.leaveGroup = model?.leaveGroup ?? 0
+                    vc.isFriend = false
+                    vc.titleChatImage = model?.image ?? ""
+                    vc.titleChatName = model?.chatName ?? ""
+                    vc.isChatGroupAdmin = model?.isChatGroupAdmin ?? false
+                    vc.isChatGroup = model?.isChatGroup ?? false
+                    vc.groupId = model?.id ?? ""
+                    vc.isEventAdmin = false
+                }
+                else {
+                    vc.isEvent = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = model?.id ?? ""
+                    vc.leaveGroup = 1
+                    vc.isFriend = model?.isfrind ?? false
+                    vc.leavevent = model?.leavevent ?? 0
+                    vc.titleChatImage = model?.image ?? ""
+                    vc.titleChatName = model?.chatName ?? ""
+                    vc.isChatGroupAdmin = false
+                    vc.isChatGroup = false
+                    vc.groupId = ""
+                    vc.isEventAdmin = false
+                }
+            }
+            
+            vc.titleChatImage = model?.image ?? ""
+            vc.titleChatName = model?.chatName ?? ""
+            CancelRequest.currentTask = false
+            
+            Defaults.message_Count = Defaults.message_Count - (model?.message_not_Read ?? 0)
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+            
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

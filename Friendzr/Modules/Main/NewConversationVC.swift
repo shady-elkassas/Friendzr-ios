@@ -250,8 +250,7 @@ extension NewConversationVC : UISearchBarDelegate {
     @objc func updateSearchResult() {
         guard let text = searchbar.text else {return}
         print(text)
-        
-//        updateNetworkForBtns()
+
         if NetworkConected.internetConect {
             getAllFriends(pageNumber: 1, search: text)
         }else {
@@ -308,7 +307,6 @@ extension NewConversationVC: UITableViewDelegate {
             vc.titleChatImage = model?.image ?? ""
             vc.titleChatName = model?.userName ?? ""
             CancelRequest.currentTask = false
-            
             navigationController?.pushViewController(vc, animated: true)
         }
         else {
@@ -362,7 +360,8 @@ extension NewConversationVC {
                     self.present(controller, animated: true)
                 }
             }
-        }else {
+        }
+        else {
             HandleInternetConnection()
         }
 

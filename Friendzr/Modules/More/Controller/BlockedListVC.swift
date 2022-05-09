@@ -35,8 +35,6 @@ class BlockedListVC: UIViewController {
     
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     var refreshControl = UIRefreshControl()
-    
-//    var internetConect:Bool = false
     var btnsSelect:Bool = false
     
     var currentPage : Int = 1
@@ -91,9 +89,9 @@ class BlockedListVC: UIViewController {
     }
     
     //MARK:- APIs
-    func loadMoreItemsForList(search:String){
+    func loadMoreItemsForList(){
         currentPage += 1
-        getAllBlockedList(pageNumber: currentPage,search: search)
+        getAllBlockedList(pageNumber: currentPage,search: searchbar.text ?? "")
     }
     
     func getAllBlockedList(pageNumber:Int,search:String) {
@@ -170,6 +168,23 @@ class BlockedListVC: UIViewController {
         }
     }
     
+    func unblockFriend( _ model:friendChatObj?, _ actionDate:String) {
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4, requestdate: actionDate) { error, message in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            
+            DispatchQueue.main.async {
+                self.updateUserInterface()
+            }
+        }
+    }
+    
     //MARK: - Helper
     func setupHideView() {
         for itm in proImgs {
@@ -180,6 +195,7 @@ class BlockedListVC: UIViewController {
             item.cornerRadiusView(radius: 6)
         }
     }
+    
     func setupSearchBar() {
         searchbar.delegate = self
         searchBarView.cornerRadiusView(radius: 6)
@@ -337,26 +353,7 @@ extension BlockedListVC: UITableViewDataSource {
                     // handling code
                     self.btnsSelect = true
                     if NetworkConected.internetConect {
-                        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4, requestdate: "\(actionDate) \(actionTime)") { error, message in
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let message = message else {return}
-                            print(message)
-//                            DispatchQueue.main.async {
-//                                self.view.makeToast(message)
-//                            }
-                            
-                            DispatchQueue.main.async {
-                                self.updateUserInterface()
-                            }
-                        }
-                    }else {
-                        return
+                        self.unblockFriend(model,"\(actionDate) \(actionTime)")
                     }
                     
                     UIView.animate(withDuration: 0.3, animations: {
@@ -414,7 +411,7 @@ extension BlockedListVC: UITableViewDelegate {
                 
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
                     print("self.currentPage >> \(self.currentPage)")
-                    self.loadMoreItemsForList(search: self.searchbar.text ?? "")
+                    self.loadMoreItemsForList()
                 }
             }else {
                 self.tableView.tableFooterView = nil

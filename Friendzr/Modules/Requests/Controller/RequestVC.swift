@@ -232,8 +232,80 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //MARK: - Helper
+    func setupCellBtns(_ cell: RequestsTableViewCell, _ model: UserFeedObj?) {
+        if RequestesType.type == 1 { // sent
+            cell.acceptBtn.isHidden = true
+            if model?.key == 1 {
+                cell.stackViewBtns.isHidden = false
+                cell.messageBtn.isHidden = true
+                cell.requestRemovedLbl.isHidden = true
+            }else if model?.key == 3 {
+                cell.stackViewBtns.isHidden = true
+                cell.messageBtn.isHidden = false
+                cell.requestRemovedLbl.isHidden = true
+            }
+        }
+        else { // received
+            cell.acceptBtn.isHidden = false
+            if model?.key == 2 {
+                cell.stackViewBtns.isHidden = false
+                cell.messageBtn.isHidden = true
+                cell.requestRemovedLbl.isHidden = true
+            }else if model?.key == 3 {
+                cell.stackViewBtns.isHidden = true
+                cell.messageBtn.isHidden = false
+                cell.requestRemovedLbl.isHidden = true
+            }
+        }
+    }
+    
+    func acceptRequest(_ model: UserFeedObj?, _ requestdate:String, _ cell: RequestsTableViewCell) {
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2,requestdate: requestdate) { error, message in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let message = message else {return}
+            print(message)
+            
+            DispatchQueue.main.async {
+                cell.stackViewBtns.isHidden = true
+                cell.messageBtn.isHidden = false
+                cell.requestRemovedLbl.isHidden = true
+            }
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+            }
+        }
+    }
+    
+    func cancelRequest(_ model: UserFeedObj?, _ requestdate:String, _ cell: RequestsTableViewCell) {
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6,requestdate: requestdate ) { error, message in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            DispatchQueue.main.async {
+                cell.stackViewBtns.isHidden = true
+                cell.messageBtn.isHidden = true
+                cell.requestRemovedLbl.isHidden = false
+            }
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+            }
+        }
+    }
+        
     func setupAds() {
-        //        let adSize = GADInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(bannerView.bounds.width, bannerView.bounds.height)
         bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
         bannerView2.adUnitID = URLs.adUnitBanner
         bannerView2.rootViewController = self
@@ -254,9 +326,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func updateUserInterface() {
-        
         appDelegate.networkReachability()
-        
         switch Network.reachability.status {
         case .unreachable:
             DispatchQueue.main.async {
@@ -290,7 +360,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     
     func HandleinvalidUrl() {
         emptyView.isHidden = false
-        emptyImg.image = UIImage.init(named: "maskGroup9")
+        emptyImg.image = UIImage.init(named: "feednodata_img")
         emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
         tryAgainBtn.alpha = 1.0
     }
@@ -313,7 +383,6 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         self.tableView.addSubview(refreshControl)
     }
-    
     
     func createFooterView() -> UIView {
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
@@ -380,6 +449,7 @@ extension RequestVC:UITableViewDataSource {
             return 1
         }
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let actionDate = formatterDate.string(from: Date())
@@ -392,30 +462,7 @@ extension RequestVC:UITableViewDataSource {
             
             let model = viewmodel.requests.value?.data?[indexPath.row]
             
-            if RequestesType.type == 1 { // sent
-                cell.acceptBtn.isHidden = true
-                if model?.key == 1 {
-                    cell.stackViewBtns.isHidden = false
-                    cell.messageBtn.isHidden = true
-                    cell.requestRemovedLbl.isHidden = true
-                }else if model?.key == 3 {
-                    cell.stackViewBtns.isHidden = true
-                    cell.messageBtn.isHidden = false
-                    cell.requestRemovedLbl.isHidden = true
-                }
-            }
-            else { // received
-                cell.acceptBtn.isHidden = false
-                if model?.key == 2 {
-                    cell.stackViewBtns.isHidden = false
-                    cell.messageBtn.isHidden = true
-                    cell.requestRemovedLbl.isHidden = true
-                }else if model?.key == 3 {
-                    cell.stackViewBtns.isHidden = true
-                    cell.messageBtn.isHidden = false
-                    cell.requestRemovedLbl.isHidden = true
-                }
-            }
+            setupCellBtns(cell, model)
             
             cell.friendRequestNameLbl.text = model?.userName
             cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
@@ -433,52 +480,15 @@ extension RequestVC:UITableViewDataSource {
             cell.HandleAcceptBtn = {
                 self.cellSelected = true
                 if NetworkConected.internetConect {
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2,requestdate: "\(actionDate) \(actionTime)") { error, message in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let message = message else {return}
-                        print(message)
-                        
-                        DispatchQueue.main.async {
-                            cell.stackViewBtns.isHidden = true
-                            cell.messageBtn.isHidden = false
-                            cell.requestRemovedLbl.isHidden = true
-                        }
-                        
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                        }
-                    }
+                    self.acceptRequest(model, "\(actionDate) \(actionTime)", cell)
                 }
             }
             
             cell.HandleDeleteBtn = {
                 self.cellSelected = true
                 if NetworkConected.internetConect {
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6,requestdate: "\(actionDate) \(actionTime)") { error, message in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let _ = message else {return}
-                        DispatchQueue.main.async {
-                            cell.stackViewBtns.isHidden = true
-                            cell.messageBtn.isHidden = true
-                            cell.requestRemovedLbl.isHidden = false
-                        }
-                        
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                        }
-                    }
+                    self.cancelRequest(model, "\(actionDate) \(actionTime)", cell)
+
                 }
             }
             

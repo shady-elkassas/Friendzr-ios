@@ -19,7 +19,7 @@ class PreferToVC: UIViewController {
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var emptyMessageLbl: UILabel!
     @IBOutlet weak var triAgainBtn: UIButton!
-
+    
     //MARK: - Properties
     lazy var addNewTagView = Bundle.main.loadNibNamed("AddNewTagView", owner: self, options: nil)?.first as? AddNewTagView
     
@@ -87,7 +87,7 @@ class PreferToVC: UIViewController {
             }
         }
     }
-
+    
     //MARK: - Helpers
     func setupView() {
         saveBtn.cornerRadiusView(radius: 8)
@@ -161,13 +161,13 @@ extension PreferToVC:UICollectionViewDataSource {
         let model = viewmodel.PreferTo.value?[indexPath.row]
         cell.tagNameLbl.text = "#" + (model?.name ?? "").capitalizingFirstLetter()
         
-//        if model?.isSharedForAll == true {
-            cell.editBtn.isHidden = true
-            cell.editBtnWidth.constant = 0
-//        }else {
-//            cell.editBtn.isHidden = false
-//            cell.editBtnWidth.constant = 30
-//        }
+        //        if model?.isSharedForAll == true {
+        cell.editBtn.isHidden = true
+        cell.editBtnWidth.constant = 0
+        //        }else {
+        //            cell.editBtn.isHidden = false
+        //            cell.editBtnWidth.constant = 30
+        //        }
         
         if arrSelectedDataIds.contains(model?.id ?? "") {
             cell.containerView.backgroundColor = UIColor.FriendzrColors.primary
@@ -190,11 +190,11 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let model = viewmodel.PreferTo.value?[indexPath.row]
         let width = model?.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
-//        if model?.isSharedForAll == true {
-            return CGSize(width: width! + 50, height: 45)
-//        }else {
-//            return CGSize(width: width! + 80, height: 45)
-//        }
+        //        if model?.isSharedForAll == true {
+        return CGSize(width: width! + 50, height: 45)
+        //        }else {
+        //            return CGSize(width: width! + 80, height: 45)
+        //        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -300,7 +300,7 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
                                 self.collectionView.reloadData()
                             }
                         }
-
+                        
                     }
                 }
             }
@@ -322,140 +322,67 @@ extension PreferToVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayo
     
     
     func showOptionTags(id:String,name:String) {
+        let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Edit".localizedString, style: .default, handler: { action in
+            self.addNewTagView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            self.addNewTagView?.newTagTxt.text = name
+            
+            self.addNewTagView?.HandleConfirmBtn = {
+                if self.addNewTagView?.newTagTxt.text == "" {
+                    self.view.makeToast("Please type the name of the tag first".localizedString)
+                }else {
+                    self.viewmodel.EditPreferTo(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let _ = data else {return}
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.getAllPreferTo()
+                        }
+                    }
+                }
+                
+                
+                // handling code
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                    self.addNewTagView?.alpha = 0
+                }) { (success: Bool) in
+                    self.addNewTagView?.removeFromSuperview()
+                    self.addNewTagView?.alpha = 1
+                    self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                }
+            }
+            
+            self.view.addSubview((self.addNewTagView)!)
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
+            self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
+            self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
+            
+            self.viewmodel.deletePreferTo(ById: id) { error, data in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    return
+                }
+                
+                guard let _ = data else {return}
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.getAllPreferTo()
+                }
+            }
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+        }))
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Edit".localizedString, style: .default, handler: { action in
-                self.addNewTagView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                self.addNewTagView?.newTagTxt.text = name
-                
-                self.addNewTagView?.HandleConfirmBtn = {
-                    if self.addNewTagView?.newTagTxt.text == "" {
-                        self.view.makeToast("Please type the name of the tag first".localizedString)
-                    }else {
-                        self.viewmodel.EditPreferTo(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let _ = data else {return}
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.getAllPreferTo()
-                            }
-                        }
-                    }
-                    
-                    
-                    // handling code
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.addNewTagView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.addNewTagView?.removeFromSuperview()
-                        self.addNewTagView?.alpha = 1
-                        self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                    }
-                }
-                
-                self.view.addSubview((self.addNewTagView)!)
-                
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
-                self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
-                self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
-                
-                self.viewmodel.deletePreferTo(ById: id) { error, data in
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                        }
-                        return
-                    }
-                    
-                    guard let _ = data else {return}
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.getAllPreferTo()
-                    }
-                    
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast("Deleted successfully".localizedString)
-//                    }
-                }
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionAlert, animated: true, completion: nil)
-        }else {
-            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Edit".localizedString, style: .default, handler: { action in
-                self.addNewTagView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                self.addNewTagView?.newTagTxt.text = name
-                
-                self.addNewTagView?.HandleConfirmBtn = {
-                    if self.addNewTagView?.newTagTxt.text == "" {
-                        self.view.makeToast("Please type the name of the tag first".localizedString)
-                    }else {
-                        self.viewmodel.EditPreferTo(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let _ = data else {return}
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                self.getAllPreferTo()
-                            }
-                            
-//                            DispatchQueue.main.async {
-//                                self.view.makeToast("Edit successfully".localizedString)
-//                            }
-                        }
-                    }
-                    
-                    
-                    // handling code
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.addNewTagView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.addNewTagView?.removeFromSuperview()
-                        self.addNewTagView?.alpha = 1
-                        self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                    }
-                }
-                
-                self.view.addSubview((self.addNewTagView)!)
-            }))
-            actionSheet.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
-                self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
-                self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
-                
-                self.viewmodel.deletePreferTo(ById: id) { error, data in
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                        }
-                        return
-                    }
-                    
-                    guard let _ = data else {return}
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.getAllPreferTo()
-                    }
-                }
-            }))
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionSheet, animated: true, completion: nil)
-        }
+        present(actionSheet, animated: true, completion: nil)
+        
     }
 }

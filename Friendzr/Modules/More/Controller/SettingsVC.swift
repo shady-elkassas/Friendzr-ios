@@ -47,9 +47,6 @@ class SettingsVC: UIViewController {
     var locationLng = 0.0
     
     let screenSize = UIScreen.main.bounds.size
-    
-//    var internetConect:Bool = false
-    
     var ageFrom:Int = 14
     var ageTo:Int = 85
     var manualdistancecontrol:Double = 0.2
@@ -105,6 +102,46 @@ class SettingsVC: UIViewController {
     }
     
     //MARK: - APIs
+    func togglePushNotification( _ toggle:Bool) {
+        self.viewmodel.togglePushNotification(pushNotification: toggle) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard data != nil else {
+                return
+            }
+            
+            self.model = data
+            
+            DispatchQueue.main.async {
+                self.setupData()
+            }
+        }
+    }
+    func togglePersonalSpace( _ toggle:Bool) {
+        self.viewmodel.togglePersonalSpace(personalSpace: toggle) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard data != nil else {
+                return
+            }
+            
+            self.model = data
+            
+            DispatchQueue.main.async {
+                self.setupData()
+            }
+        }
+    }
     func getUserSettings() {
         viewmodel.getUserSetting()
         viewmodel.userSettings.bind { [unowned self]value in
@@ -123,7 +160,6 @@ class SettingsVC: UIViewController {
             }
         }
     }
-    
     func getAllValidatConfig() {
         allValidatConfigVM.getAllValidatConfig()
         allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
@@ -133,6 +169,105 @@ class SettingsVC: UIViewController {
         allValidatConfigVM.errorMsg.bind { [unowned self]error in
             DispatchQueue.main.async {
                 print(error)
+            }
+        }
+    }
+    func deleteAccount() {
+        self.viewmodel.deleteAccount { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {return}
+            
+            Defaults.deleteUserData()
+            KeychainItem.deleteUserIdentifierFromKeychain()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                Router().toOptionsSignUpVC()
+            }
+        }
+    }
+    func filteringAccordingToAge(_ toggle:Bool, _ ageFrom:Int, _ ageTo:Int) {
+        self.viewmodel.filteringAccordingToAge(filteringaccordingtoage: toggle, agefrom: ageFrom, ageto: ageTo) { error, data in
+            self.hideLoading()
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let data = data else {return}
+            self.model = data
+            
+            DispatchQueue.main.async {
+                self.setupData()
+                self.transparentView.isHidden = true
+                self.distanceSliderView.isHidden = true
+                self.ageSliderView.isHidden = true
+            }
+        }
+    }
+    func updateManualdistanceControl( _ toggle:Bool, _ manualdistancecontrol:Double) {
+        self.viewmodel.updateManualdistanceControl(manualdistancecontrol: manualdistancecontrol, distanceFilter: toggle) { error, data in
+            self.hideLoading()
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let data = data else {return}
+            self.model = data
+            
+            
+            DispatchQueue.main.async {
+                self.setupData()
+                self.transparentView.isHidden = true
+                self.distanceSliderView.isHidden = true
+                self.ageSliderView.isHidden = true
+            }
+        }
+    }
+    func ghostModeToggle(ghostMode:Bool,myAppearanceTypes:[Int]) {
+        self.viewmodel.toggleGhostMode(ghostMode: ghostMode, myAppearanceTypes: myAppearanceTypes) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard data != nil else {
+                return
+            }
+            
+            self.model = data
+            
+            Defaults.myAppearanceTypes = data?.myAppearanceTypes ?? []
+            Defaults.ghostMode = data?.ghostmode ?? false
+
+            DispatchQueue.main.async {
+                if data?.ghostmode == true {
+                    if data?.myAppearanceTypes == [1] {
+                        Defaults.ghostModeEveryOne = true
+                    }else {
+                        Defaults.ghostModeEveryOne = false
+                    }
+                    
+                }
+                else {
+                    Defaults.ghostModeEveryOne = false
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.setupData()
             }
         }
     }
@@ -324,48 +459,11 @@ class SettingsVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func ageSaveBtn(_ sender: Any) {
-        self.viewmodel.filteringAccordingToAge(filteringaccordingtoage: true, agefrom: ageFrom, ageto: ageTo) { error, data in
-            self.hideLoading()
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                return
-            }
-            
-            guard let data = data else {return}
-            self.model = data
-            
-            DispatchQueue.main.async {
-                self.setupData()
-                self.transparentView.isHidden = true
-                self.distanceSliderView.isHidden = true
-                self.ageSliderView.isHidden = true
-            }
-        }
+        self.filteringAccordingToAge(true, ageFrom, ageTo)
     }
     
     @IBAction func distanceSaveBtn(_ sender: Any) {
-        self.viewmodel.updateManualdistanceControl(manualdistancecontrol: manualdistancecontrol, distanceFilter: true) { error, data in
-            self.hideLoading()
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                return
-            }
-            
-            guard let data = data else {return}
-            self.model = data
-            
-            
-            DispatchQueue.main.async {
-                self.setupData()
-                self.transparentView.isHidden = true
-                self.distanceSliderView.isHidden = true
-                self.ageSliderView.isHidden = true
-            }
-        }
+        self.updateManualdistanceControl(true, manualdistancecontrol)
     }
 }
 
@@ -417,46 +515,7 @@ extension SettingsVC :CLLocationManagerDelegate {
         //        self.checkLocationPermission()
     }
     
-    
     //ghostmode toggle
-    func ghostModeToggle(ghostMode:Bool,myAppearanceTypes:[Int]) {
-        self.viewmodel.toggleGhostMode(ghostMode: ghostMode, myAppearanceTypes: myAppearanceTypes) { error, data in
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                return
-            }
-            
-            guard data != nil else {
-                return
-            }
-            
-            self.model = data
-            
-            Defaults.myAppearanceTypes = data?.myAppearanceTypes ?? []
-            Defaults.ghostMode = data?.ghostmode ?? false
-
-            DispatchQueue.main.async {
-                if data?.ghostmode == true {
-                    if data?.myAppearanceTypes == [1] {
-                        Defaults.ghostModeEveryOne = true
-                    }else {
-                        Defaults.ghostModeEveryOne = false
-                    }
-                    
-                }else {
-                    Defaults.ghostModeEveryOne = false
-                }
-            }
-            
-            
-            DispatchQueue.main.async {
-                self.setupData()
-            }
-        }
-    }
-    
     func onHideGhostModeTypesCallBack(_ data: [String], _ value: [Int]) -> () {
         print(data)
         print(value)
@@ -495,25 +554,9 @@ extension SettingsVC: UITableViewDataSource {
                     
                     self.deleteAlertView?.HandleConfirmBtn = {
                         if NetworkConected.internetConect {
-                            self.viewmodel.togglePushNotification(pushNotification: false) { error, data in
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
-                                    }
-                                    return
-                                }
-                                
-                                guard data != nil else {
-                                    return
-                                }
-                                
-                                self.model = data
-                                
-                                DispatchQueue.main.async {
-                                    self.setupData()
-                                }
-                            }
+                            self.togglePushNotification(false)
                         }
+                        
                         // handling code
                         UIView.animate(withDuration: 0.3, animations: {
                             self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -542,25 +585,9 @@ extension SettingsVC: UITableViewDataSource {
                     
                     self.deleteAlertView?.HandleConfirmBtn = {
                         if NetworkConected.internetConect {
-                            self.viewmodel.togglePushNotification(pushNotification: true) { error, data in
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
-                                    }
-                                    return
-                                }
-                                
-                                guard data != nil else {
-                                    return
-                                }
-                                
-                                self.model = data
-                                
-                                DispatchQueue.main.async {
-                                    self.setupData()
-                                }
-                            }
+                            self.togglePushNotification(true)
                         }
+                        
                         // handling code
                         UIView.animate(withDuration: 0.3, animations: {
                             self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -601,7 +628,8 @@ extension SettingsVC: UITableViewDataSource {
                 
                 if mtypsInt.contains(where: {$0 == 1}) {
                     cell.ghostModeTypeLbl.text = "Everyone".localizedString
-                }else {
+                }
+                else {
                     if mtypsInt == [2] {
                         cell.ghostModeTypeLbl.text = "Men".localizedString
                     }else if mtypsInt == [3] {
@@ -646,7 +674,6 @@ extension SettingsVC: UITableViewDataSource {
                     
                     //cancel view
                     self.alertView?.HandlehideViewBtn = {
-//                        self.setupData()
                         cell.switchBtn.isOn = false
                         cell.ghostModeTypeLbl.isHidden = true
                         Defaults.ghostMode = self.model?.ghostmode ?? false
@@ -654,7 +681,6 @@ extension SettingsVC: UITableViewDataSource {
                     }
                     
                     self.alertView?.HandleSaveBtn = {
-//                        self.setupData()
                         cell.switchBtn.isOn = true
                         cell.ghostModeTypeLbl.isHidden = false
                         Defaults.ghostMode = self.model?.ghostmode ?? false
@@ -664,7 +690,6 @@ extension SettingsVC: UITableViewDataSource {
                     self.view.addSubview((self.alertView)!)
                     
                 }
-                
                 else {
                     self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     
@@ -716,6 +741,7 @@ extension SettingsVC: UITableViewDataSource {
                     self.view.addSubview((self.deleteAlertView)!)
                 }
             }
+            
             return cell
             
             //        case 2://allowlocation
@@ -881,28 +907,7 @@ extension SettingsVC: UITableViewDataSource {
                     
                     self.deleteAlertView?.HandleConfirmBtn = {
                         if NetworkConected.internetConect {
-                            self.viewmodel.togglePersonalSpace(personalSpace: false) { error, data in
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
-                                    }
-                                    return
-                                }
-                                
-                                guard data != nil else {
-                                    return
-                                }
-                                
-                                self.model = data
-                                
-                                DispatchQueue.main.async {
-                                    self.setupData()
-                                }
-                                
-                                DispatchQueue.main.async { //update map
-//                                    NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
-                                }
-                            }
+                            self.togglePersonalSpace(false)
                         }
                         // handling code
                         UIView.animate(withDuration: 0.3, animations: {
@@ -932,29 +937,9 @@ extension SettingsVC: UITableViewDataSource {
                     
                     self.deleteAlertView?.HandleConfirmBtn = {
                         if NetworkConected.internetConect {
-                            self.viewmodel.togglePersonalSpace(personalSpace: true) { error, data in
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
-                                    }
-                                    return
-                                }
-                                
-                                guard data != nil else {
-                                    return
-                                }
-                                
-                                self.model = data
-                                
-                                DispatchQueue.main.async {
-                                    self.setupData()
-                                }
-                                
-                                DispatchQueue.main.async { //update map
-//                                    NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
-                                }
-                            }
+                            self.togglePersonalSpace(true)
                         }
+                        
                         // handling code
                         UIView.animate(withDuration: 0.3, animations: {
                             self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -994,22 +979,7 @@ extension SettingsVC: UITableViewDataSource {
             
             cell.HandleSwitchBtn = {
                 if self.model?.distanceFilter == true {
-                    self.viewmodel.updateManualdistanceControl(manualdistancecontrol: Defaults.distanceFiltering_Max, distanceFilter: false) { error, data in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let data = data else {return}
-                        self.model = data
-                        
-                        
-                        DispatchQueue.main.async {
-                            self.setupData()
-                        }
-                    }
+                    self.updateManualdistanceControl(false,Defaults.distanceFiltering_Max)
                 }else {
                     self.createDistanceSlider()
                 }
@@ -1030,22 +1000,7 @@ extension SettingsVC: UITableViewDataSource {
             
             cell.HandleSwitchBtn = {
                 if self.model?.filteringaccordingtoage == true {
-                    self.viewmodel.filteringAccordingToAge(filteringaccordingtoage: false, agefrom: Defaults.ageFiltering_Min, ageto: Defaults.ageFiltering_Max) { error, data in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let data = data else {return}
-                        self.model = data
-                        
-                        
-                        DispatchQueue.main.async {
-                            self.setupData()
-                        }
-                    }
+                    self.filteringAccordingToAge(false, Defaults.ageFiltering_Min, Defaults.ageFiltering_Max)
                 }else {
                     self.createAgeSlider()
                 }
@@ -1124,24 +1079,9 @@ extension SettingsVC: UITableViewDelegate {
             
             deleteAlertView?.HandleConfirmBtn = {
                 if NetworkConected.internetConect {
-                    self.viewmodel.deleteAccount { error, data in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let _ = data else {return}
-                        
-                        Defaults.deleteUserData()
-                        KeychainItem.deleteUserIdentifierFromKeychain()
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            Router().toOptionsSignUpVC()
-                        }
-                    }
-                }else {
+                    self.deleteAccount()
+                }
+                else {
                     return
                 }
                 
@@ -1162,4 +1102,5 @@ extension SettingsVC: UITableViewDelegate {
             return
         }
     }
+
 }

@@ -182,50 +182,27 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
 
     //MARK: - Actions
     @IBAction func editImgBtn(_ sender: Any) {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-            
-            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
-                self.openCamera()
-            }
-            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
-                self.openLibrary()
-            }
-            
-            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-            
-            settingsActionSheet.addAction(cameraBtn)
-            settingsActionSheet.addAction(libraryBtn)
-            settingsActionSheet.addAction(cancelBtn)
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-            
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
-                self.openCamera()
-            }
-            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
-                self.openLibrary()
-            }
-            
-            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-            
-            settingsActionSheet.addAction(cameraBtn)
-            settingsActionSheet.addAction(libraryBtn)
-            settingsActionSheet.addAction(cancelBtn)
-            
-            present(settingsActionSheet, animated: true, completion: nil)
+        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+        
+        let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
+            self.openCamera()
         }
+        let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
+            self.openLibrary()
+        }
+        
+        let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+        
+        settingsActionSheet.addAction(cameraBtn)
+        settingsActionSheet.addAction(libraryBtn)
+        settingsActionSheet.addAction(cancelBtn)
+        
+        present(settingsActionSheet, animated: true, completion: nil)
+        
     }
     
     @IBAction func addUsersBtn(_ sender: Any) {
@@ -342,32 +319,18 @@ extension GroupDetailsVC {
     }
     
     @objc func handleAdminOptionBtn() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
-                self.handleDeleteGroup()
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Leave".localizedString, style: .default, handler: { action in
-                self.handleLeaveGroup()
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionAlert, animated: true, completion: nil)
-        }else {
-            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
-                self.handleDeleteGroup()
-            }))
-            actionSheet.addAction(UIAlertAction(title: "Leave".localizedString, style: .default, handler: { action in
-                self.handleLeaveGroup()
-            }))
-            
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionSheet, animated: true, completion: nil)
-        }
+        let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
+            self.handleDeleteGroup()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Leave".localizedString, style: .default, handler: { action in
+            self.handleLeaveGroup()
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+        }))
+        
+        present(actionSheet, animated: true, completion: nil)
     }
     
     @objc func handleUserOptionBtn() {
@@ -383,51 +346,25 @@ extension GroupDetailsVC {
     }
     
     func handleDeleteGroup() {
+        let settingsActionSheet: UIAlertController = UIAlertController(title:"Are you sure you want to delete this group?".localizedString, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
         
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:"Are you sure you want to delete this group?".localizedString, message:nil, preferredStyle: .alert)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.deleteGroup()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-            
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:"Are you sure you want to delete this group?".localizedString, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.deleteGroup()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-        }
+        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            self.deleteGroup()
+        }))
+        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+        
+        present(settingsActionSheet, animated:true, completion:nil)
     }
     
     func handleLeaveGroup() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:"Are you sure you want to leave from this group?".localizedString, message:nil, preferredStyle: .alert)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.leaveGroup()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-            
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:"Are you sure you want to leave from this group?".localizedString, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.leaveGroup()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-        }
+        let settingsActionSheet: UIAlertController = UIAlertController(title:"Are you sure you want to leave from this group?".localizedString, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
         
+        settingsActionSheet.addAction(UIAlertAction(title:"Confirm".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            self.leaveGroup()
+        }))
+        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+        
+        present(settingsActionSheet, animated:true, completion:nil)
     }
     
     func deleteGroup() {
@@ -504,35 +441,17 @@ extension GroupDetailsVC : UITableViewDataSource {
         cell.friendImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
         cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
         
-        //        cell.joinDateLbl.text = "join date: ".localizedString + "\(model?.joinDateTime ?? "")"
         cell.joinDateLbl.isHidden = true
         
         cell.HandleDropDownBtn = {
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-                
-                settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "delete", userID: model?.userId ?? "", Stutus: 1)
-                }))
-                //                settingsActionSheet.addAction(UIAlertAction(title:"Make coordinator".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                //                    //                    self.showAlertView(messageString: "Make coordinator".localizedString, userID: model?.userID ?? "", Stutus: 2)
-                //                }))
-                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString.localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                
-                self.present(settingsActionSheet, animated:true, completion:nil)
-            }else {
-                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                
-                settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "delete".localizedString, userID: model?.userId ?? "", Stutus: 1)
-                }))
-                //                settingsActionSheet.addAction(UIAlertAction(title:"Make coordinator".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                //                    //                    self.showAlertView(messageString: "Make coordinator".localizedString, userID: model?.userID ?? "", Stutus: 2)
-                //                }))
-                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                
-                self.present(settingsActionSheet, animated:true, completion:nil)
-            }
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+            
+            settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.showAlertView(messageString: "delete".localizedString, userID: model?.userId ?? "", Stutus: 1)
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            
+            self.present(settingsActionSheet, animated:true, completion:nil)
         }
         return cell
     }

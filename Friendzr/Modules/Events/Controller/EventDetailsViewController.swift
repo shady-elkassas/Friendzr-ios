@@ -715,142 +715,74 @@ extension EventDetailsViewController {
     }
     
     @objc func handleEventOptionsBtn() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                if self.viewmodel.event.value?.eventtype == "Private" {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
-                        vc.eventID = self.viewmodel.event.value?.id ?? ""
-                        self.present(controller, animated: true)
-                    }
-                }else {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
-                        vc.eventID = self.viewmodel.event.value?.id ?? ""
-                        self.present(controller, animated: true)
-                    }
-                }
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                    vc.id = self.eventId
-                    vc.isEvent = true
-                    vc.selectedVC = "PresentC"
-                    vc.reportType = 2
+        
+        let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
+            if self.viewmodel.event.value?.eventtype == "Private" {
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
+                    vc.eventID = self.viewmodel.event.value?.id ?? ""
                     self.present(controller, animated: true)
                 }
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionAlert, animated: true, completion: nil)
-        }
-        else {
-            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                if self.viewmodel.event.value?.eventtype == "Private" {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
-                        vc.eventID = self.viewmodel.event.value?.id ?? ""
-                        self.present(controller, animated: true)
-                    }
-                }else {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
-                        vc.eventID = self.viewmodel.event.value?.id ?? ""
-                        self.present(controller, animated: true)
-                    }
-                }
-            }))
-            actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                    vc.id = self.eventId
-                    vc.isEvent = true
-                    vc.selectedVC = "PresentC"
-                    vc.reportType = 2
+            }else {
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
+                    vc.eventID = self.viewmodel.event.value?.id ?? ""
                     self.present(controller, animated: true)
                 }
-            }))
-            
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionSheet, animated: true, completion: nil)
-        }
+            }
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
+            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                vc.id = self.eventId
+                vc.isEvent = true
+                vc.selectedVC = "PresentC"
+                vc.reportType = 2
+                self.present(controller, animated: true)
+            }
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+        }))
+        
+        present(actionSheet, animated: true, completion: nil)
     }
+    
     @objc func handleEventReportBtn() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                    vc.id = self.eventId
-                    vc.isEvent = true
-                    vc.selectedVC = "PresentC"
-                    vc.reportType = 2
-                    self.present(controller, animated: true)
-                }
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionAlert, animated: true, completion: nil)
-        }
-        else {
-            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                    vc.id = self.eventId
-                    vc.isEvent = true
-                    vc.selectedVC = "PresentC"
-                    vc.reportType = 2
-                    self.present(controller, animated: true)
-                }
-            }))
-            
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionSheet, animated: true, completion: nil)
-        }
+        let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
+            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                vc.id = self.eventId
+                vc.isEvent = true
+                vc.selectedVC = "PresentC"
+                vc.reportType = 2
+                self.present(controller, animated: true)
+            }
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+        }))
+        
+        present(actionSheet, animated: true, completion: nil)
+        
     }
     @objc func handleShareOptionsBtn() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                if self.viewmodel.event.value?.eventtype == "Private" {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
-                        vc.eventID = self.viewmodel.event.value?.id ?? ""
-                        self.present(controller, animated: true)
-                    }
-                }else {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
-                        vc.eventID = self.viewmodel.event.value?.id ?? ""
-                        self.present(controller, animated: true)
-                    }
+        let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
+            if self.viewmodel.event.value?.eventtype == "Private" {
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
+                    vc.eventID = self.viewmodel.event.value?.id ?? ""
+                    self.present(controller, animated: true)
                 }
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionAlert, animated: true, completion: nil)
-        }
-        else {
-            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-                if self.viewmodel.event.value?.eventtype == "Private" {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
-                        vc.eventID = self.viewmodel.event.value?.id ?? ""
-                        self.present(controller, animated: true)
-                    }
-                }else {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
-                        vc.eventID = self.viewmodel.event.value?.id ?? ""
-                        self.present(controller, animated: true)
-                    }
+            }else {
+                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
+                    vc.eventID = self.viewmodel.event.value?.id ?? ""
+                    self.present(controller, animated: true)
                 }
-            }))
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionSheet, animated: true, completion: nil)
-        }
+            }
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+        }))
+        
+        present(actionSheet, animated: true, completion: nil)
     }
     
     func shareEvent() {

@@ -87,8 +87,6 @@ struct CompassMarkerView: View {
         return Angle(degrees: -self.compassDegress - self.marker.degrees)
     }
 }
-
-
 struct CompassViewSwiftUI: View {
     
     @ObservedObject var compassHeading = CompassHeading()
@@ -255,9 +253,6 @@ struct CompassViewSwiftUIForIPhoneSmall: View {
     }
 }
 
-
-
-
 struct CompassMarkerViewForIPhoneSmall2: View {
     let marker: Marker
     let compassDegress: Double
@@ -303,7 +298,6 @@ struct CompassMarkerViewForIPhoneSmall2: View {
         return Angle(degrees: -self.compassDegress - self.marker.degrees)
     }
 }
-
 struct CompassViewSwiftUIForIPhoneSmall2: View {
     
     @ObservedObject var compassHeading = CompassHeading()

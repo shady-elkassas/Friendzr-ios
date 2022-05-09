@@ -66,7 +66,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     //MARK:- Outlets
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var firstOpenMapView: UIView!
-    
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addEventBtn: UIButton!
     @IBOutlet weak var goAddEventBtn: UIButton!
@@ -101,7 +100,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var currentPlaceMark : CLPlacemark? = nil
     var selectVC:String = ""
     var locationName = ""
-    
+    var isEventAdmin :Bool = false
     var appendNewLocation:Bool = false
     var viewmodel:EventsAroundMeViewModel = EventsAroundMeViewModel()
     var settingVM:SettingsViewModel = SettingsViewModel()
@@ -119,12 +118,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     let screenSize = UIScreen.main.bounds.size
     var isViewUp:Bool = false
-    //    var internetConect:Bool = false
-    
-    //    var isLocationSettingsAllow:Bool = false
-    
-//    var changeindex = ""
-    
     var bannerView2: GADBannerView!
     
     //MARK: - Life Cycle
@@ -137,8 +130,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
         isViewUp = false
-//        dualogImg.center.customMirror
-        
+
         if !Defaults.hideAds {
             setupAds()
         }else {
@@ -205,24 +197,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         super.viewDidAppear(animated)
     }
 
-    func setupAds() {
-//        let adSize = GADInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(bannerView.bounds.width, bannerView.bounds.height)
-        bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
-        bannerView2.adUnitID = URLs.adUnitBanner
-        bannerView2.rootViewController = self
-        bannerView2.load(GADRequest())
-        bannerView2.delegate = self
-        bannerView2.translatesAutoresizingMaskIntoConstraints = false
-        bannerView.addSubview(bannerView2)
-    }
-    
-    @objc func updateMapVC() {
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            if Defaults.allowMyLocationSettings == true {
-                self.updateUserInterface()
-            }
-        }
-    }
+       
     //MARK: - APIs
     func getEventsOnlyAroundMe() {
         
@@ -385,6 +360,24 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
+    func setupAds() {
+        bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
+        bannerView2.adUnitID = URLs.adUnitBanner
+        bannerView2.rootViewController = self
+        bannerView2.load(GADRequest())
+        bannerView2.delegate = self
+        bannerView2.translatesAutoresizingMaskIntoConstraints = false
+        bannerView.addSubview(bannerView2)
+    }
+    
+    @objc func updateMapVC() {
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            if Defaults.allowMyLocationSettings == true {
+                self.updateUserInterface()
+            }
+        }
+    }
+    
     func HandleInternetConnection() {
         markerImg.isHidden = true
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
@@ -403,7 +396,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         subViewHeight.constant = 50
     }
     
-    var isEventAdmin :Bool = false
     
     // locations markers
     func setupMarkers(model:EventsAroundList) {

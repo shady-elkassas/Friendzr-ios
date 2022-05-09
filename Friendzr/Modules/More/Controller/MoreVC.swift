@@ -242,7 +242,8 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
                         Router().toOptionsSignUpVC()
                     })
                 }
-            }else {
+            }
+            else {
                 self.HandleInternetConnection()
             }
             
@@ -276,11 +277,13 @@ extension MoreVC : UITableViewDataSource {
         if indexPath.row == 2 {
             if Defaults.notificationcount == 0 {
                 cell.badgeView.isHidden = true
-            }else {
+            }
+            else {
                 cell.badgeLbl.text = "\(Defaults.notificationcount)"
                 cell.badgeView.isHidden = false
             }
-        }else {
+        }
+        else {
             cell.badgeView.isHidden = true
         }
         

@@ -48,7 +48,7 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
     var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
 
 //    var socailMediaRegisterVM:SocialMediaRegisterViewModel = SocialMediaRegisterViewModel()
-    let socialMediaLoginVM: SocialMediaLoginViewModel = SocialMediaLoginViewModel()
+    let socialMediaVM: SocialMediaLoginViewModel = SocialMediaLoginViewModel()
 
 //    var internetConect:Bool = false
 
@@ -87,12 +87,6 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-//        performExistingAccountSetupFlows()
-    }
-    
-    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
@@ -113,6 +107,33 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
         }
     }
     
+    func socialMediaLoginUser( _ socialMediaId:String, _ email:String) {
+        self.showLoading()
+        self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: socialMediaId, AndEmail: email) { (error, data) in
+            self.hideLoading()
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let data = data else {return}
+            Defaults.token = data.token
+            Defaults.initUser(user: data)
+            
+            DispatchQueue.main.async {
+                if Defaults.needUpdate == 1 {
+                    FirstLoginApp.isFirst = 1
+                    Router().toSplachOne()
+                }else {
+                    FirstLoginApp.isFirst = 0
+                    Router().toFeed()
+                }
+            }
+        }
+    }
+    
     //MARK: - Helper
     func setupView() {
         emailView.cornerRadiusView(radius: 6)
@@ -127,7 +148,6 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
         termsLbl.attributedText = myMutableString
     }
     
-
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -226,32 +246,8 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
                         //                    let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
                         
                         print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
-                        
-                        self.showLoading()
-                        self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, completion: { (error, data) in
-                            self.hideLoading()
-                            if let error = error {
-//                                self.showAlert(withMessage: error)
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let data = data else {return}
-                            Defaults.token = data.token
-                            Defaults.initUser(user: data)
-                            
-                            DispatchQueue.main.async {
-                                if Defaults.needUpdate == 1 {
-                                    FirstLoginApp.isFirst = 1
-                                    Router().toSplachOne()
-                                }else {
-                                    FirstLoginApp.isFirst = 0
-                                    Router().toFeed()
-                                }
-                            }
-                        })
+
+                        self.socialMediaLoginUser(self.UserG_mailID, self.UserG_mailEmail)
                     }
                 }
             }
@@ -332,30 +328,7 @@ extension OptionsSignUpVC {
                     
                     print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
                     
-                    self.showLoading()
-                    self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail, username: self.UserFBUserName, completion: { (error, data) in
-                        self.hideLoading()
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let data = data else {return}
-                        Defaults.token = data.token
-                        Defaults.initUser(user: data)
-                        
-                        DispatchQueue.main.async {
-                            if Defaults.needUpdate == 1 {
-                                FirstLoginApp.isFirst = 1
-                                Router().toSplachOne()
-                            }else {
-                                FirstLoginApp.isFirst = 0
-                                Router().toFeed()
-                            }
-                        }
-                    })
+                    self.socialMediaLoginUser(self.UserFBID, self.UserFBEmail)
                 }
             }
         }
@@ -435,30 +408,7 @@ extension OptionsSignUpVC: ASAuthorizationControllerDelegate {
                 useremailApple = email
             }
             
-            self.showLoading()
-            self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
-                self.hideLoading()
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                    }
-                    return
-                }
-                
-                guard let data = data else {return}
-                Defaults.token = data.token
-                Defaults.initUser(user: data)
-                
-                DispatchQueue.main.async {
-                    if Defaults.needUpdate == 1 {
-                        FirstLoginApp.isFirst = 1
-                        Router().toSplachOne()
-                    }else {
-                        FirstLoginApp.isFirst = 0
-                        Router().toFeed()
-                    }
-                }
-            }
+            self.socialMediaLoginUser(userIdentifier, useremailApple)
         }
     }
     

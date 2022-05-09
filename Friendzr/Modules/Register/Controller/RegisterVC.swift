@@ -35,7 +35,7 @@ class RegisterVC: UIViewController {
     //MARK: - Properties
     var checkUserNameVM:CheckUserNameViewModel = CheckUserNameViewModel()
     var registerVM:RegisterViewModel = RegisterViewModel()
-    let socialMediaLoginVM: SocialMediaLoginViewModel = SocialMediaLoginViewModel()
+    let socialMediaVM: SocialMediaLoginViewModel = SocialMediaLoginViewModel()
 
     let signInConfig = GIDConfiguration.init(clientID: "43837105804-he5jci75mbf7jrhush4cps45plripdvp.apps.googleusercontent.com")
     var UserFBID = ""
@@ -54,9 +54,6 @@ class RegisterVC: UIViewController {
     var userG_mailAccessToken = ""
     var UserG_userName = ""
     var socialMediaImge = ""
-    
-//    var internetConect:Bool = false
-    //    var btnsSelect:Bool = false
     
     var myString:String = "By clicking ‘Sign up’, you agree to our terms of usage see more".localizedString
     var myMutableString = NSMutableAttributedString()
@@ -117,6 +114,56 @@ class RegisterVC: UIViewController {
         }
     }
     
+    func registerUser() {
+        self.showLoading()
+        registerVM.RegisterNewUser(withUserName: userNameTxt.text!, AndEmail: emailTxt.text!, password: passwordTxt.text!,confirmPassword:confirmPasswordTxt.text!) { error, data in
+            self.hideLoading()
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {return}
+            
+            DispatchQueue.main.async {
+                self.view.makeToast("Please check your email".localizedString)
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3 , execute: {
+                Router().toLogin()
+            })
+        }
+    }
+    
+    func socialMediaLoginUser( _ socialMediaId:String, _ email:String) {
+        self.showLoading()
+        self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: socialMediaId, AndEmail: email) { (error, data) in
+            self.hideLoading()
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let data = data else {return}
+            Defaults.token = data.token
+            Defaults.initUser(user: data)
+            
+            DispatchQueue.main.async {
+                if Defaults.needUpdate == 1 {
+                    FirstLoginApp.isFirst = 1
+                    Router().toSplachOne()
+                }else {
+                    FirstLoginApp.isFirst = 0
+                    Router().toFeed()
+                }
+            }
+        }
+    }
+    
     @objc func handleCheckUserName() {
         checkUserNameVM.checkUserName(withUserName: userNameTxt.text!) { error, data in
             
@@ -126,34 +173,16 @@ class RegisterVC: UIViewController {
             }
             
             guard let _ = data else {return}
-//            self.view.makeToast("Done successfully".localizedString)
         }
     }
     
     //MARK: - Actions
+
+    
     @IBAction func registerBtn(_ sender: Any) {
         hideKeyboard()
         if NetworkConected.internetConect {
-            self.showLoading()
-            registerVM.RegisterNewUser(withUserName: userNameTxt.text!, AndEmail: emailTxt.text!, password: passwordTxt.text!,confirmPassword:confirmPasswordTxt.text!) { error, data in
-                self.hideLoading()
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                    }
-                    return
-                }
-                
-                guard let _ = data else {return}
-                
-                DispatchQueue.main.async {
-                    self.view.makeToast("Please check your email".localizedString)
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3 , execute: {
-                    Router().toLogin()
-                })
-            }
+            registerUser()
         }else {
             return
         }
@@ -228,31 +257,7 @@ class RegisterVC: UIViewController {
                         //                    let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
                         
                         print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
-                        
-                        self.showLoading()
-                        self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName, completion: { (error, data) in
-                            self.hideLoading()
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let data = data else {return}
-                            Defaults.token = data.token
-                            Defaults.initUser(user: data)
-                            
-                            DispatchQueue.main.async {
-                                if Defaults.needUpdate == 1 {
-                                    FirstLoginApp.isFirst = 1
-                                    Router().toSplachOne()
-                                }else {
-                                    FirstLoginApp.isFirst = 0
-                                    Router().toFeed()
-                                }
-                            }
-                        })
+                        self.socialMediaLoginUser(self.UserG_mailID, self.UserG_mailEmail)
                     }
                     
                 }
@@ -295,13 +300,6 @@ class RegisterVC: UIViewController {
         googleView.cornerRadiusView(radius: 6)
         appleView.cornerRadiusView(radius: 6)
         googleView.setBorder()
-        
-        //Create gradient for registerBtn
-//        let fistColor = UIColor.color("#7BE495")!
-//        let lastColor = UIColor.color("#329D9C")!
-//        let gradient = CAGradientLayer(start: .topLeft, end: .bottomRight, colors: [fistColor.cgColor,lastColor.cgColor], type: .radial)
-//        gradient.frame = registerBtn.frame
-//        registerBtn.layer.addSublayer(gradient)
         registerBtn.cornerRadiusView(radius: 8)
         registerBtnView.cornerRadiusView(radius: 8)
         
@@ -380,32 +378,7 @@ extension RegisterVC {
                     }
                     
                     print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
-                    
-                    self.showLoading()
-                    self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail, username: self.UserFBUserName, completion: { (error, data) in
-                        self.hideLoading()
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let data = data else {return}
-                        Defaults.token = data.token
-                        Defaults.initUser(user: data)
-                        
-                        DispatchQueue.main.async {
-                            if Defaults.needUpdate == 1 {
-                                FirstLoginApp.isFirst = 1
-                                Router().toSplachOne()
-                            }else {
-                                FirstLoginApp.isFirst = 0
-                                Router().toFeed()
-                            }
-                        }
-                    })
-
+                    self.socialMediaLoginUser(self.UserFBID, self.UserFBEmail)
                 }
             }
         }
@@ -486,30 +459,7 @@ extension RegisterVC: ASAuthorizationControllerDelegate {
                 useremailApple = email
             }
             
-            self.showLoading()
-            self.socialMediaLoginVM.socialMediaLoginUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
-                self.hideLoading()
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                    }
-                    return
-                }
-                
-                guard let data = data else {return}
-                Defaults.token = data.token
-                Defaults.initUser(user: data)
-                
-                DispatchQueue.main.async {
-                    if Defaults.needUpdate == 1 {
-                        FirstLoginApp.isFirst = 1
-                        Router().toSplachOne()
-                    }else {
-                        FirstLoginApp.isFirst = 0
-                        Router().toFeed()
-                    }
-                }
-            }
+            self.socialMediaLoginUser(userIdentifier, useremailApple)
         }
     }
     

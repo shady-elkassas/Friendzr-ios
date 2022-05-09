@@ -49,34 +49,38 @@ class ForgetPasswordVC: UIViewController {
         CancelRequest.currentTask = true
     }
     
+    //MARK: - APIs
+    func resetPassword() {
+        self.resetBtn.setTitle("Sending...", for: .normal)
+        self.resetBtn.isUserInteractionEnabled = false
+        viewmodel.ResetPassword(withEmail: emailTxt.text!) { error, data in
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {return}
+            
+            DispatchQueue.main.async {
+                self.view.makeToast("Please check your email".localizedString)
+                
+                self.resetBtn.setTitle("Reset", for: .normal)
+                self.resetBtn.isUserInteractionEnabled = true
+            }
+            
+            DispatchQueue.main.async {
+                self.onPopup()
+            }
+        }
+    }
     //MARK: - Actions
     @IBAction func resetBtn(_ sender: Any) {
         hideKeyboard()
         if NetworkConected.internetConect {
-            self.resetBtn.setTitle("Sending...", for: .normal)
-            self.resetBtn.isUserInteractionEnabled = false
-            viewmodel.ResetPassword(withEmail: emailTxt.text!) { error, data in
-                
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                    }
-                    return
-                }
-                
-                guard let _ = data else {return}
-                
-                DispatchQueue.main.async {
-                    self.view.makeToast("Please check your email".localizedString)
-                    
-                    self.resetBtn.setTitle("Reset", for: .normal)
-                    self.resetBtn.isUserInteractionEnabled = true
-                }
-                
-                DispatchQueue.main.async {
-                    self.onPopup()
-                }
-            }
+            resetPassword()
         }else {
             return
         }

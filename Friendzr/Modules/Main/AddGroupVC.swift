@@ -237,50 +237,26 @@ class AddGroupVC: UIViewController {
 
     //MARK: - Actions
     @IBAction func imgBtn(_ sender: Any) {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-            
-            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
-                self.openCamera()
-            }
-            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
-                self.openLibrary()
-            }
-            
-            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-            
-            settingsActionSheet.addAction(cameraBtn)
-            settingsActionSheet.addAction(libraryBtn)
-            settingsActionSheet.addAction(cancelBtn)
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-            
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
-                self.openCamera()
-            }
-            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
-                self.openLibrary()
-            }
-            
-            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-            
-            settingsActionSheet.addAction(cameraBtn)
-            settingsActionSheet.addAction(libraryBtn)
-            settingsActionSheet.addAction(cancelBtn)
-            
-            present(settingsActionSheet, animated: true, completion: nil)
+        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+        
+        let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
+            self.openCamera()
         }
+        let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
+            self.openLibrary()
+        }
+        
+        let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+        
+        settingsActionSheet.addAction(cameraBtn)
+        settingsActionSheet.addAction(libraryBtn)
+        settingsActionSheet.addAction(cancelBtn)
+        
+        present(settingsActionSheet, animated: true, completion: nil)
     }
     
     @IBAction func doneBtn(_ sender: Any) {

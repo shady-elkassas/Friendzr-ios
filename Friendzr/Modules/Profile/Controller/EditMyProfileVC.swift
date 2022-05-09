@@ -557,50 +557,26 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     }
 
     func onOkCallBack(_ okBtn: Bool) -> () {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-            
-            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
-                self.openCamera()
-            }
-            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
-                self.openLibrary()
-            }
-
-            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-
-            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-
-            settingsActionSheet.addAction(cameraBtn)
-            settingsActionSheet.addAction(libraryBtn)
-            settingsActionSheet.addAction(cancelBtn)
-
-            present(settingsActionSheet, animated:true, completion:nil)
-            
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
-                self.openCamera()
-            }
-            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
-                self.openLibrary()
-            }
-
-            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-
-            settingsActionSheet.addAction(cameraBtn)
-            settingsActionSheet.addAction(libraryBtn)
-            settingsActionSheet.addAction(cancelBtn)
-            
-            present(settingsActionSheet, animated: true, completion: nil)
+        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+        
+        let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
+            self.openCamera()
         }
+        let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
+            self.openLibrary()
+        }
+        
+        let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+        
+        settingsActionSheet.addAction(cameraBtn)
+        settingsActionSheet.addAction(libraryBtn)
+        settingsActionSheet.addAction(cancelBtn)
+        
+        present(settingsActionSheet, animated: true, completion: nil)
     }
     
     // Send Request for Facial Recognition API
@@ -827,60 +803,26 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     }
     
     @IBAction func editProfileImgBtn(_ sender: Any) {
-        //        guard let popupVC = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FacialRecognitionPopUpView") as? FacialRecognitionPopUpView else {return}
-        //        popupVC.modalPresentationStyle = .overCurrentContext
-        //        popupVC.modalTransitionStyle = .crossDissolve
-        //        let pVC = popupVC.popoverPresentationController
-        //        pVC?.permittedArrowDirections = .any
-        //        pVC?.delegate = self
-        //        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
-        //        popupVC.onOkCallBackResponse = self.onOkCallBack
-        //        present(popupVC, animated: true, completion: nil)
-
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-            
-            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
-                self.openCamera()
-            }
-            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
-                self.openLibrary()
-            }
-            
-            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-            
-            settingsActionSheet.addAction(cameraBtn)
-            settingsActionSheet.addAction(libraryBtn)
-            settingsActionSheet.addAction(cancelBtn)
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-            
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
-                self.openCamera()
-            }
-            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
-                self.openLibrary()
-            }
-            
-            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-            
-            settingsActionSheet.addAction(cameraBtn)
-            settingsActionSheet.addAction(libraryBtn)
-            settingsActionSheet.addAction(cancelBtn)
-            
-            present(settingsActionSheet, animated: true, completion: nil)
+        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+        
+        let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
+            self.openCamera()
         }
+        let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
+            self.openLibrary()
+        }
+        
+        let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+        
+        settingsActionSheet.addAction(cameraBtn)
+        settingsActionSheet.addAction(libraryBtn)
+        settingsActionSheet.addAction(cancelBtn)
+        
+        present(settingsActionSheet, animated: true, completion: nil)
     }
 
     @IBAction func maleBtn(_ sender: Any) {

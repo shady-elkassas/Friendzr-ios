@@ -810,10 +810,8 @@ extension ConversationVC: AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     }
     
     // MARK:- Prepare AVPlayer
-    
     func preparePlayer() {
         var error: NSError?
-        
         do {
             soundPlayer = try AVAudioPlayer(contentsOf: getFileURL() as URL)
         } catch let error1 as NSError {
@@ -1034,27 +1032,3 @@ extension ConversationVC: UIDocumentPickerDelegate {
         controller.dismiss(animated: true, completion: nil)
     }
 }
-
-//extension ConversationVC: CameraInputBarAccessoryViewDelegate {
-//    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith attachments: [AttachmentManager.Attachment]) {
-//
-//
-//        for item in attachments {
-//            if  case .image(let image) = item {
-//
-//                self.sendImageMessage(photo: image)
-//            }
-//        }
-//        inputBar.invalidatePlugins()
-//    }
-//
-//
-//    func sendImageMessage( photo  : UIImage)  {
-//        let messageDate = formatterDate.string(from: Date())
-//        let messageTime = formatterTime.string(from: Date())
-//
-//        let photoMessage = UserMessage(image: photo, user: self.senderUser, messageId: "", date: Date(), dateandtime: messageDateTimeNow(date: messageDate, time: messageTime), messageType: 2, linkPreviewID: "", isJoinEvent: 0, eventType: "")
-//        self.insertMessage(photoMessage)
-//    }
-//
-//}

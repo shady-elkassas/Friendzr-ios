@@ -47,317 +47,158 @@ extension ConversationVC {
     }
     
     @objc func handleUserOptionsBtn() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Unfriend".localizedString, style: .default, handler: { action in
-                self.unFriendAccount()
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Block".localizedString, style: .default, handler: { action in
-                self.blockFriendAccount()
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                if self.isEvent == true {
+        let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Unfriend".localizedString, style: .default, handler: { action in
+            self.unFriendAccount()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Block".localizedString, style: .default, handler: { action in
+            self.blockFriendAccount()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
+            if self.isEvent == true {
+                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                    vc.id = self.eventChatID
+                    vc.chatimg = self.titleChatImage
+                    vc.chatname = self.titleChatName
+                    vc.reportType = 2
+                    vc.selectedVC = "Present"
+                    self.present(controller, animated: true)
+                }
+            }else {
+                if self.isChatGroup == true {
                     if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                        vc.id = self.eventChatID
+                        vc.id = self.groupId
                         vc.chatimg = self.titleChatImage
                         vc.chatname = self.titleChatName
-                        vc.reportType = 2
+                        vc.reportType = 1
                         vc.selectedVC = "Present"
                         self.present(controller, animated: true)
                     }
                 }else {
-                    if self.isChatGroup == true {
-                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                            vc.id = self.groupId
-                            vc.chatimg = self.titleChatImage
-                            vc.chatname = self.titleChatName
-                            vc.reportType = 1
-                            vc.selectedVC = "Present"
-                            self.present(controller, animated: true)
-                        }
-                        
-                    }else {
-                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                            vc.id = self.chatuserID
-                            vc.chatimg = self.titleChatImage
-                            vc.chatname = self.titleChatName
-                            vc.reportType = 3
-                            vc.selectedVC = "Present"
-                            self.present(controller, animated: true)
-                        }
-                        
-                    }
-                }
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionAlert, animated: true, completion: nil)
-        }else {
-            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Unfriend".localizedString, style: .default, handler: { action in
-                self.unFriendAccount()
-            }))
-            actionSheet.addAction(UIAlertAction(title: "Block".localizedString, style: .default, handler: { action in
-                self.blockFriendAccount()
-            }))
-            actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                if self.isEvent == true {
                     if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                        vc.id = self.eventChatID
+                        vc.id = self.chatuserID
                         vc.chatimg = self.titleChatImage
                         vc.chatname = self.titleChatName
-                        vc.reportType = 2
+                        vc.reportType = 3
                         vc.selectedVC = "Present"
                         self.present(controller, animated: true)
                     }
-                    
-                }else {
-                    if self.isChatGroup == true {
-                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                            vc.id = self.groupId
-                            vc.chatimg = self.titleChatImage
-                            vc.chatname = self.titleChatName
-                            vc.reportType = 1
-                            vc.selectedVC = "Present"
-                            self.present(controller, animated: true)
-                        }
-                    }else {
-                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                            vc.id = self.chatuserID
-                            vc.chatimg = self.titleChatImage
-                            vc.chatname = self.titleChatName
-                            vc.reportType = 3
-                            vc.selectedVC = "Present"
-                            self.present(controller, animated: true)
-                        }
-                    }
                 }
-            }))
-            
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionSheet, animated: true, completion: nil)
-        }
+            }
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+        }))
+        
+        present(actionSheet, animated: true, completion: nil)
+        
     }
     
     @objc func handleEventOptionsBtn() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                if self.isEvent == true {
-                    if self.eventType == "External" {
-                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
-                            vc.eventId = self.eventChatID
-                            vc.isEventAdmin = self.isEventAdmin
-                            vc.selectedVC = true
-                            self.present(controller, animated: true)
-                        }
-                    }else {
-                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                            vc.eventId = self.eventChatID
-                            vc.isEventAdmin = self.isEventAdmin
-                            vc.selectedVC = true
-                            self.present(controller, animated: true)
-                        }
-                    }
-                }else {
-                    if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
-                        vc.groupId = self.groupId
-                        vc.isGroupAdmin = self.isChatGroupAdmin
+        let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
+            if self.isEvent == true {
+                if self.eventType == "External" {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
+                        vc.eventId = self.eventChatID
+                        vc.isEventAdmin = self.isEventAdmin
                         vc.selectedVC = true
                         self.present(controller, animated: true)
                     }
-                    
-                }
-            }))
-            
-            if self.isEvent {
-                if !self.isEventAdmin {
-                    actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                        if self.isEvent == true {
-                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                vc.id = self.eventChatID
-                                vc.chatimg = self.titleChatImage
-                                vc.chatname = self.titleChatName
-                                vc.reportType = 2
-                                vc.selectedVC = "Present"
-                                self.present(controller, animated: true)
-                            }
-                        }else {
-                            if self.isChatGroup == true {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.groupId
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 1
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                                
-                            }else {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.chatuserID
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 3
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                                
-                            }
-                        }
-                    }))
-                }
-            }else {
-                if !self.isChatGroupAdmin {
-                    actionAlert.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                        if self.isEvent == true {
-                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                vc.id = self.eventChatID
-                                vc.chatimg = self.titleChatImage
-                                vc.chatname = self.titleChatName
-                                vc.reportType = 2
-                                vc.selectedVC = "Present"
-                                self.present(controller, animated: true)
-                            }
-                        }
-                        else {
-                            if self.isChatGroup == true {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.groupId
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 1
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                            }else {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.chatuserID
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 3
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                            }
-                        }
-                    }))
-                }
-            }
-            
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            
-            present(actionAlert, animated: true, completion: nil)
-        }
-        else {
-            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                if self.isEvent == true {
-                    if self.eventType == "External" {
-                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
-                            vc.eventId = self.eventChatID
-                            vc.isEventAdmin = self.isEventAdmin
-                            vc.selectedVC = true
-                            self.present(controller, animated: true)
-                        }
-                    }else {
-                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                            vc.eventId = self.eventChatID
-                            vc.isEventAdmin = self.isEventAdmin
-                            vc.selectedVC = true
-                            self.present(controller, animated: true)
-                        }
-                    }
                 }else {
-                    if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
-                        vc.groupId = self.groupId
-                        vc.isGroupAdmin = self.isChatGroupAdmin
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+                        vc.eventId = self.eventChatID
+                        vc.isEventAdmin = self.isEventAdmin
                         vc.selectedVC = true
                         self.present(controller, animated: true)
                     }
-                    
-                }
-            }))
-            if self.isEvent {
-                if !self.isEventAdmin {
-                    actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                        if self.isEvent == true {
-                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                vc.id = self.eventChatID
-                                vc.chatimg = self.titleChatImage
-                                vc.chatname = self.titleChatName
-                                vc.reportType = 2
-                                vc.selectedVC = "Present"
-                                self.present(controller, animated: true)
-                            }
-                        }else {
-                            if self.isChatGroup == true {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.groupId
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 1
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                            }else {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.chatuserID
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 3
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                            }
-                        }
-                    }))
                 }
             }else {
-                if !self.isChatGroupAdmin {
-                    actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
-                        if self.isEvent == true {
+                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
+                    vc.groupId = self.groupId
+                    vc.isGroupAdmin = self.isChatGroupAdmin
+                    vc.selectedVC = true
+                    self.present(controller, animated: true)
+                }
+                
+            }
+        }))
+        if self.isEvent {
+            if !self.isEventAdmin {
+                actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
+                    if self.isEvent == true {
+                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                            vc.id = self.eventChatID
+                            vc.chatimg = self.titleChatImage
+                            vc.chatname = self.titleChatName
+                            vc.reportType = 2
+                            vc.selectedVC = "Present"
+                            self.present(controller, animated: true)
+                        }
+                    }else {
+                        if self.isChatGroup == true {
                             if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                vc.id = self.eventChatID
+                                vc.id = self.groupId
                                 vc.chatimg = self.titleChatImage
                                 vc.chatname = self.titleChatName
-                                vc.reportType = 2
+                                vc.reportType = 1
                                 vc.selectedVC = "Present"
                                 self.present(controller, animated: true)
                             }
                         }else {
-                            if self.isChatGroup == true {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.groupId
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 1
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
-                            }else {
-                                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                    vc.id = self.chatuserID
-                                    vc.chatimg = self.titleChatImage
-                                    vc.chatname = self.titleChatName
-                                    vc.reportType = 3
-                                    vc.selectedVC = "Present"
-                                    self.present(controller, animated: true)
-                                }
+                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                vc.id = self.chatuserID
+                                vc.chatimg = self.titleChatImage
+                                vc.chatname = self.titleChatName
+                                vc.reportType = 3
+                                vc.selectedVC = "Present"
+                                self.present(controller, animated: true)
                             }
                         }
-                    }))
-                }
+                    }
+                }))
             }
-            
-            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            present(actionSheet, animated: true, completion: nil)
+        }else {
+            if !self.isChatGroupAdmin {
+                actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
+                    if self.isEvent == true {
+                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                            vc.id = self.eventChatID
+                            vc.chatimg = self.titleChatImage
+                            vc.chatname = self.titleChatName
+                            vc.reportType = 2
+                            vc.selectedVC = "Present"
+                            self.present(controller, animated: true)
+                        }
+                    }else {
+                        if self.isChatGroup == true {
+                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                vc.id = self.groupId
+                                vc.chatimg = self.titleChatImage
+                                vc.chatname = self.titleChatName
+                                vc.reportType = 1
+                                vc.selectedVC = "Present"
+                                self.present(controller, animated: true)
+                            }
+                        }else {
+                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
+                                vc.id = self.chatuserID
+                                vc.chatimg = self.titleChatImage
+                                vc.chatname = self.titleChatName
+                                vc.reportType = 3
+                                vc.selectedVC = "Present"
+                                self.present(controller, animated: true)
+                            }
+                        }
+                    }
+                }))
+            }
         }
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+        }))
+        present(actionSheet, animated: true, completion: nil)
+        
     }
     
     func leaveEvent() {
@@ -636,160 +477,82 @@ extension ConversationVC {
     }
     
     private func presentActionSheetForLongPress(indexPath:Int) {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: "", message: "Choose the action you want to do?".localizedString, preferredStyle: .alert)
-            actionAlert.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
-                print("\(indexPath)")
-                self.messageList.remove(at: indexPath)
-                self.messagesCollectionView.reloadData()
-            }))
-            
-            actionAlert.addAction(UIAlertAction(title: "Hide".localizedString, style: .default, handler: { action in
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Copy".localizedString, style: .default, handler: { action in
-                let message = self.messageList[indexPath]
-                switch message.kind {
-                case .contact(let contact):
-                    UIPasteboard.general.string = contact.phoneNumbers[0]
-                    self.view.makeToast("Copied".localizedString)
-                    break
-                case .emoji((let text)):
-                    UIPasteboard.general.string = text
-                    self.view.makeToast("Copied".localizedString)
-                    break
-                case .text(let text):
-                    UIPasteboard.general.string = text
-                    self.view.makeToast("Copied".localizedString)
-                    break
-                default: break
-                }
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Replay".localizedString, style: .default, handler: { action in
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            //            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
-            present(actionAlert, animated: true, completion: nil)
-        }else {
-            let actionAlert  = UIAlertController(title: "", message: "Choose the action you want to do?".localizedString, preferredStyle: .actionSheet)
-            
-            actionAlert.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
-                print("\(indexPath)")
-                self.messageList.remove(at: indexPath)
-                self.messagesCollectionView.reloadData()
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Hide".localizedString, style: .default, handler: { action in
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Copy".localizedString, style: .default, handler: { action in
-                let message = self.messageList[indexPath]
-                switch message.kind {
-                case .contact(let contact):
-                    UIPasteboard.general.string = contact.phoneNumbers[0]
-                    self.view.makeToast("Copied".localizedString)
-                    break
-                case .emoji((let text)):
-                    UIPasteboard.general.string = text
-                    self.view.makeToast("Copied".localizedString)
-                    break
-                case .text(let text):
-                    UIPasteboard.general.string = text
-                    self.view.makeToast("Copied".localizedString)
-                    break
-                default: break
-                }
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Replay".localizedString, style: .default, handler: { action in
-            }))
-            actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-            }))
-            //            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
-            present(actionAlert, animated: true, completion: nil)
-        }
+        let actionAlert  = UIAlertController(title: "", message: "Choose the action you want to do?".localizedString, preferredStyle: .actionSheet)
+        
+        actionAlert.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
+            print("\(indexPath)")
+            self.messageList.remove(at: indexPath)
+            self.messagesCollectionView.reloadData()
+        }))
+        actionAlert.addAction(UIAlertAction(title: "Hide".localizedString, style: .default, handler: { action in
+        }))
+        actionAlert.addAction(UIAlertAction(title: "Copy".localizedString, style: .default, handler: { action in
+            let message = self.messageList[indexPath]
+            switch message.kind {
+            case .contact(let contact):
+                UIPasteboard.general.string = contact.phoneNumbers[0]
+                self.view.makeToast("Copied".localizedString)
+                break
+            case .emoji((let text)):
+                UIPasteboard.general.string = text
+                self.view.makeToast("Copied".localizedString)
+                break
+            case .text(let text):
+                UIPasteboard.general.string = text
+                self.view.makeToast("Copied".localizedString)
+                break
+            default: break
+            }
+        }))
+        actionAlert.addAction(UIAlertAction(title: "Replay".localizedString, style: .default, handler: { action in
+        }))
+        actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+        }))
+        //            actionAlert.view.tintColor = UIColor.FriendzrColors.primary
+        present(actionAlert, animated: true, completion: nil)
     }
     
     private func presentInputActionSheet() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let actionAlert  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .alert)
-            
-            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
-                self.openCamera()
-            }
-            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
-                self.openLibrary()
-            }
-            let fileBtn = UIAlertAction(title: "File", style: .default) {_ in
-                self.openFileLibrary()
-            }
-            
-            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-            
-            actionAlert.addAction(cameraBtn)
-            actionAlert.addAction(libraryBtn)
-            actionAlert.addAction(fileBtn)
-            actionAlert.addAction(cancelBtn)
-            
-            present(actionAlert, animated: true, completion: nil)
+        let actionSheet  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .actionSheet)
+        
+        let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
+            self.openCamera()
         }
-        else {
-            let actionSheet  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .actionSheet)
-            
-            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
-                self.openCamera()
-            }
-            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
-                self.openLibrary()
-            }
-            let fileBtn = UIAlertAction(title: "File", style: .default) {_ in
-                self.openFileLibrary()
-            }
-            
-            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-            
-            actionSheet.addAction(cameraBtn)
-            actionSheet.addAction(libraryBtn)
-            actionSheet.addAction(fileBtn)
-            actionSheet.addAction(cancelBtn)
-            
-            present(actionSheet, animated: true, completion: nil)
+        let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
+            self.openLibrary()
         }
+        let fileBtn = UIAlertAction(title: "File", style: .default) {_ in
+            self.openFileLibrary()
+        }
+        
+        let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+        
+        actionSheet.addAction(cameraBtn)
+        actionSheet.addAction(libraryBtn)
+        actionSheet.addAction(fileBtn)
+        actionSheet.addAction(cancelBtn)
+        
+        present(actionSheet, animated: true, completion: nil)
     }
     
     func presentVideoInputActionSheet() {
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            let settingsAlert: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-            
-            settingsAlert.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openVideoCamera()
-            }))
-            settingsAlert.addAction(UIAlertAction(title:"Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openVideoLibrary()
-            }))
-            settingsAlert.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsAlert, animated:true, completion:nil)
-        }else {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openVideoCamera()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.openVideoLibrary()
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            present(settingsActionSheet, animated:true, completion:nil)
-        }
+        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+        
+        settingsActionSheet.addAction(UIAlertAction(title:"Camera".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            self.openVideoCamera()
+        }))
+        settingsActionSheet.addAction(UIAlertAction(title:"Library".localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            self.openVideoLibrary()
+        }))
+        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+        
+        present(settingsActionSheet, animated:true, completion:nil)
+        
     }
     
 }
@@ -899,109 +662,55 @@ extension ConversationVC {
         }
         
         if IsInEvent == 0 {
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-                actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    if self.eventType == "External" {
-                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
-                            vc.eventId = id
-                            vc.isEventAdmin = self.isEventAdmin
-                            vc.selectedVC = true
-                            self.present(controller, animated: true)
-                        }
-                    }else {
-                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                            vc.eventId = id
-                            vc.isEventAdmin = self.isEventAdmin
-                            vc.selectedVC = true
-                            self.present(controller, animated: true)
-                        }
-                    }
-                }))
-                actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-                }))
+            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
                 
-                present(actionAlert, animated: true, completion: nil)
-            }else {
-                let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    
-                    if self.eventType == "External" {
-                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
-                            vc.eventId = id
-                            vc.isEventAdmin = self.isEventAdmin
-                            vc.selectedVC = true
-                            self.present(controller, animated: true)
-                        }
-                    }else {
-                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                            vc.eventId = id
-                            vc.isEventAdmin = self.isEventAdmin
-                            vc.selectedVC = true
-                            self.present(controller, animated: true)
-                        }
+                if self.eventType == "External" {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
+                        vc.eventId = id
+                        vc.isEventAdmin = self.isEventAdmin
+                        vc.selectedVC = true
+                        self.present(controller, animated: true)
                     }
-                }))
-                actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-                }))
-                present(actionSheet, animated: true, completion: nil)
-            }
+                }else {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+                        vc.eventId = id
+                        vc.isEventAdmin = self.isEventAdmin
+                        vc.selectedVC = true
+                        self.present(controller, animated: true)
+                    }
+                }
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+            }))
+            present(actionSheet, animated: true, completion: nil)
         }
         else {
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                let actionAlert  = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-                actionAlert.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    if self.eventType == "External" {
-                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
-                            vc.eventId = id
-                            vc.isEventAdmin = self.isEventAdmin
-                            vc.selectedVC = true
-                            self.present(controller, animated: true)
-                        }
-                    }else {
-                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                            vc.eventId = id
-                            vc.isEventAdmin = self.isEventAdmin
-                            vc.selectedVC = true
-                            self.present(controller, animated: true)
-                        }
+            let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
+                if self.eventType == "External" {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
+                        vc.eventId = id
+                        vc.isEventAdmin = self.isEventAdmin
+                        vc.selectedVC = true
+                        self.present(controller, animated: true)
                     }
-                }))
-                
-                actionAlert.addAction(UIAlertAction(title: joinTitle, style: .default, handler: { action in
-                    
-                }))
-                
-                actionAlert.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-                }))
-                
-                present(actionAlert, animated: true, completion: nil)
-            }else {
-                let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
-                    if self.eventType == "External" {
-                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
-                            vc.eventId = id
-                            vc.isEventAdmin = self.isEventAdmin
-                            vc.selectedVC = true
-                            self.present(controller, animated: true)
-                        }
-                    }else {
-                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                            vc.eventId = id
-                            vc.isEventAdmin = self.isEventAdmin
-                            vc.selectedVC = true
-                            self.present(controller, animated: true)
-                        }
+                }else {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
+                        vc.eventId = id
+                        vc.isEventAdmin = self.isEventAdmin
+                        vc.selectedVC = true
+                        self.present(controller, animated: true)
                     }
-                }))
-                
-                actionSheet.addAction(UIAlertAction(title: joinTitle, style: .default, handler: { action in
-                }))
-                actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-                }))
-                present(actionSheet, animated: true, completion: nil)
-            }
+                }
+            }))
+            
+            actionSheet.addAction(UIAlertAction(title: joinTitle, style: .default, handler: { action in
+            }))
+            actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+            }))
+            present(actionSheet, animated: true, completion: nil)
+            
         }
     }
 }

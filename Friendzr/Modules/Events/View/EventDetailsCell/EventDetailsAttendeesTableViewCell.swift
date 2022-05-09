@@ -127,31 +127,17 @@ extension EventDetailsAttendeesTableViewCell: UITableViewDataSource {
         }
 
         cell.HandleDropDownBtn = {
-            if UIDevice.current.userInterfaceIdiom == .pad {
-                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle: .alert)
-                
-                settingsActionSheet.addAction(UIAlertAction(title:"Remove".localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "delete", eventID: self.eventModel?.id ?? "", UserattendId: model?.userId ?? "", Stutus: 1)
-                }))
-                settingsActionSheet.addAction(UIAlertAction(title:"Block From Event".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "block".localizedString, eventID: self.eventModel?.id ?? "", UserattendId: model?.userId ?? "", Stutus: 2)
-                }))
-                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString.localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                
-                self.parentvc.present(settingsActionSheet, animated:true, completion:nil)
-            }else {
-                let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-                
-                settingsActionSheet.addAction(UIAlertAction(title:"Remove".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "delete".localizedString, eventID: self.eventModel?.id ?? "", UserattendId: model?.userId ?? "", Stutus: 1)
-                }))
-                settingsActionSheet.addAction(UIAlertAction(title:"Block From Event".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                    self.showAlertView(messageString: "block".localizedString, eventID: self.eventModel?.id ?? "", UserattendId: model?.userId ?? "", Stutus: 2)
-                }))
-                settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-                
-                self.parentvc.present(settingsActionSheet, animated:true, completion:nil)
-            }
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+            
+            settingsActionSheet.addAction(UIAlertAction(title:"Remove".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.showAlertView(messageString: "delete".localizedString, eventID: self.eventModel?.id ?? "", UserattendId: model?.userId ?? "", Stutus: 1)
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Block From Event".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+                self.showAlertView(messageString: "block".localizedString, eventID: self.eventModel?.id ?? "", UserattendId: model?.userId ?? "", Stutus: 2)
+            }))
+            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+            
+            self.parentvc.present(settingsActionSheet, animated:true, completion:nil)
         }
         
         return cell

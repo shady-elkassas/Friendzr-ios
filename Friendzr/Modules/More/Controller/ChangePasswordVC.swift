@@ -23,7 +23,6 @@ class ChangePasswordVC: UIViewController  {
     
     //MARK: - Properties
     var viewmodel:ChangePasswordViewModel = ChangePasswordViewModel()
-//    var internetConect:Bool = false
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -49,6 +48,27 @@ class ChangePasswordVC: UIViewController  {
         CancelRequest.currentTask = true
     }
     
+    //MARK: - APIs
+    func changePassword() {
+        self.saveBtn.setTitle("Saving...", for: .normal)
+        self.saveBtn.isUserInteractionEnabled = false
+        viewmodel.changePasswordRequest(witholdPassword: oldPasswordTxt.text!, AndNewPassword: newPasswordTxt.text!, AndConfirmNewPassword: confirmNewPasswordTxt.text!) { error, data in
+            self.saveBtn.setTitle("Save", for: .normal)
+            self.saveBtn.isUserInteractionEnabled = true
+            
+            if let error = error{
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            guard let _ = data else {return}
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1 , execute: {
+                self.onPopup()
+            })
+        }
+    }
+
     //MARK: - Helpers
     func updateUserInterface() {
         appDelegate.networkReachability()
@@ -91,26 +111,10 @@ class ChangePasswordVC: UIViewController  {
         saveBtnView.cornerRadiusView(radius: 8)
     }
     
-    //MARK:- Actions
+    //MARK: - Actions
     @IBAction func saveBtn(_ sender: Any) {
         if NetworkConected.internetConect {
-            self.saveBtn.setTitle("Saving...", for: .normal)
-            self.saveBtn.isUserInteractionEnabled = false
-            viewmodel.changePasswordRequest(witholdPassword: oldPasswordTxt.text!, AndNewPassword: newPasswordTxt.text!, AndConfirmNewPassword: confirmNewPasswordTxt.text!) { error, data in
-                self.saveBtn.setTitle("Save", for: .normal)
-                self.saveBtn.isUserInteractionEnabled = true
-                
-                if let error = error{
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                    }
-                    return
-                }
-                guard let _ = data else {return}
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1 , execute: {
-                    self.onPopup()
-                })
-            }
+            changePassword()
         }else {
             return
         }

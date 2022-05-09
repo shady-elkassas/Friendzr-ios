@@ -104,6 +104,57 @@ class LoginVC: UIViewController {
         }
     }
     
+    func loginUser() {
+        loginVM.LoginUser(withEmail: emailTxt.text!, password: passwordTxt.text!) { error, data in
+            self.hideLoading()
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            guard let data = data else {return}
+            Defaults.initUser(user: data)
+            
+            DispatchQueue.main.async {
+                if Defaults.needUpdate == 1 {
+                    FirstLoginApp.isFirst = 2
+                    Router().toSplachOne()
+                }else {
+                    FirstLoginApp.isFirst = 0
+                    Router().toFeed()
+                }
+            }
+        }
+    }
+    
+    func socialMediaLoginUser( _ socialMediaId:String, _ email:String) {
+        self.showLoading()
+        self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: socialMediaId, AndEmail: email) { (error, data) in
+            self.hideLoading()
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let data = data else {return}
+            Defaults.token = data.token
+            Defaults.initUser(user: data)
+            
+            DispatchQueue.main.async {
+                if Defaults.needUpdate == 1 {
+                    FirstLoginApp.isFirst = 1
+                    Router().toSplachOne()
+                }else {
+                    FirstLoginApp.isFirst = 0
+                    Router().toFeed()
+                }
+            }
+        }
+    }
+    
     //MARK: - Actions
     @IBAction func loginBtn(_ sender: Any) {
         NotificationCenter.default.post(
@@ -115,27 +166,7 @@ class LoginVC: UIViewController {
         hideKeyboard()
         if NetworkConected.internetConect {
             self.showLoading()
-            loginVM.LoginUser(withEmail: emailTxt.text!, password: passwordTxt.text!) { error, data in
-                self.hideLoading()
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                    }
-                    return
-                }
-                guard let data = data else {return}
-                Defaults.initUser(user: data)
-                
-                DispatchQueue.main.async {
-                    if Defaults.needUpdate == 1 {
-                        FirstLoginApp.isFirst = 2
-                        Router().toSplachOne()
-                    }else {
-                        FirstLoginApp.isFirst = 0
-                        Router().toFeed()
-                    }
-                }
-            }
+            loginUser()
         }else{
             return
         }
@@ -205,31 +236,7 @@ class LoginVC: UIViewController {
                         //                    let img = user.profile?.imageURL(withDimension: 200)?.absoluteString
                         
                         print("\(self.UserG_mailID),\(self.UserG_mailEmail),\(self.UserG_userName)")
-                        
-//                        self.showLoading()
-                        self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: self.UserG_mailID, AndEmail: self.UserG_mailEmail, username: self.UserG_userName) { (error, data) in
-                            self.hideLoading()
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let data = data else {return}
-                            Defaults.token = data.token
-                            Defaults.initUser(user: data)
-                            
-                            DispatchQueue.main.async {
-                                if Defaults.needUpdate == 1 {
-                                    FirstLoginApp.isFirst = 1
-                                    Router().toSplachOne()
-                                }else {
-                                    FirstLoginApp.isFirst = 0
-                                    Router().toFeed()
-                                }
-                            }
-                        }
+                        self.socialMediaLoginUser(self.UserG_mailID, self.UserG_mailEmail)
                     }
                     
                 }
@@ -353,30 +360,7 @@ extension LoginVC {
                     }
                     
                     print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
-                    
-                    self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: self.UserFBID, AndEmail: self.UserFBEmail,username:self.UserFBUserName) { (error, data) in
-                        self.hideLoading()
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let data = data else {return}
-                        Defaults.token = data.token
-                        Defaults.initUser(user: data)
-                        
-                        DispatchQueue.main.async {
-                            if Defaults.needUpdate == 1 {
-                                FirstLoginApp.isFirst = 1
-                                Router().toSplachOne()
-                            }else {
-                                FirstLoginApp.isFirst = 0
-                                Router().toFeed()
-                            }
-                        }
-                    }
+                    self.socialMediaLoginUser(self.UserFBID, self.UserFBEmail)
                 }
             }
         }
@@ -456,30 +440,7 @@ extension LoginVC: ASAuthorizationControllerDelegate {
                 useremailApple = email
             }
             
-            self.showLoading()
-            self.socialMediaVM.socialMediaLoginUser(withSocialMediaId: userIdentifier, AndEmail: useremailApple,username:usernameApple) { (error, data) in
-                self.hideLoading()
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                    }
-                    return
-                }
-                
-                guard let data = data else {return}
-                Defaults.token = data.token
-                Defaults.initUser(user: data)
-                
-                DispatchQueue.main.async {
-                    if Defaults.needUpdate == 1 {
-                        FirstLoginApp.isFirst = 1
-                        Router().toSplachOne()
-                    }else {
-                        FirstLoginApp.isFirst = 0
-                        Router().toFeed()
-                    }
-                }
-            }
+            self.socialMediaLoginUser(userIdentifier, useremailApple)
         }
     }
     

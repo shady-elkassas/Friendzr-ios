@@ -45,7 +45,6 @@ class TermsAndConditionsVC: UIViewController,WKNavigationDelegate {
     
     //MARK: - Helper
     func setupWebView() {
-        
         webView = WKWebView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height), configuration: WKWebViewConfiguration() )
         self.view.addSubview(webView)
         webView.backgroundColor = .clear

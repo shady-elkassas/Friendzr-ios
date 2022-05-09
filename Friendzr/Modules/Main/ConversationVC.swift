@@ -50,7 +50,6 @@ class NotificationMessage {
 class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDelegate {
     
     // MARK: - Properties
-    let activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
     var soundRecorder: AVAudioRecorder!
     var soundPlayer:AVAudioPlayer!
     let fileRecordName = ""
@@ -226,7 +225,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             else if NotificationMessage.messageType == 3 {
                 self.insertMessage(UserMessage(imageURL:  URL(string: NotificationMessage.messsageImageURL) ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 3, linkPreviewID: "", isJoinEvent: 0, eventType:""))
             }
-            
             else if NotificationMessage.messageType == 4 {
                 let url = URL(string: NotificationMessage.messsageLinkImageURL)
                 let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
@@ -252,7 +250,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             else if NotificationMessage.messageType == 3 {
                 self.insertMessage(UserMessage(imageURL:  URL(string: NotificationMessage.messsageImageURL) ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 3, linkPreviewID: "", isJoinEvent: 0, eventType: ""))
             }
-            
             else if NotificationMessage.messageType == 4 {
                 let url = URL(string: NotificationMessage.messsageLinkImageURL)
                 let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
@@ -415,29 +412,6 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
         maintainPositionOnKeyboardFrameChanged = true // default false
         showMessageTimestampOnSwipeLeft = false // default false
         messagesCollectionView.refreshControl = refreshControl
-        
-//        let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout
-//        layout?.sectionInset = UIEdgeInsets(top: 1, left: 8, bottom: 1, right: 8)
-        
-        // Hide the outgoing avatar and adjust the label alignment to line up with the messages
-//        layout?.setMessageOutgoingAvatarSize(.zero)
-//        layout?.setMessageOutgoingMessageTopLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)))
-//        layout?.setMessageOutgoingMessageBottomLabelAlignment(LabelAlignment(textAlignment: .right, textInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)))
-//
-//        // Set outgoing avatar to overlap with the message bubble
-//        layout?.setMessageIncomingMessageTopLabelAlignment(LabelAlignment(textAlignment: .left, textInsets: UIEdgeInsets(top: 0, left: 18, bottom: outgoingAvatarOverlap, right: 0)))
-//        layout?.setMessageIncomingAvatarSize(CGSize(width: 30, height: 30))
-//        layout?.setMessageIncomingMessagePadding(UIEdgeInsets(top: -outgoingAvatarOverlap, left: -18, bottom: outgoingAvatarOverlap, right: 18))
-//
-//        layout?.setMessageIncomingAccessoryViewSize(CGSize(width: 30, height: 30))
-//        layout?.setMessageIncomingAccessoryViewPadding(HorizontalEdgeInsets(left: 8, right: 0))
-//        layout?.setMessageIncomingAccessoryViewPosition(.messageBottom)
-//        layout?.setMessageOutgoingAccessoryViewSize(CGSize(width: 30, height: 30))
-//        layout?.setMessageOutgoingAccessoryViewPadding(HorizontalEdgeInsets(left: 0, right: 8))
-//
-//        messagesCollectionView.messagesLayoutDelegate = self
-//        messagesCollectionView.messagesDisplayDelegate = self
-
     }
     
     func configureMessageInputBar() {
@@ -488,9 +462,11 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             if leavevent == 0 {
                 messageInputBar.isHidden = false
                 initOptionsInChatEventButton()
-            }else if leavevent == 1 {
+            }
+            else if leavevent == 1 {
                 setupDownView(textLbl: "You have left this event".localizedString)
-            }else {
+            }
+            else {
                 setupDownView(textLbl: "You have left this chat event".localizedString)
             }
         }
@@ -499,14 +475,17 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                 if leaveGroup == 0 {
                     messageInputBar.isHidden = false
                     initOptionsInChatEventButton()
-                }else {
+                }
+                else {
                     setupDownView(textLbl: "You are not subscribed to this group".localizedString)
                 }
-            }else {
+            }
+            else {
                 if isFriend == true {
                     messageInputBar.isHidden = false
                     initOptionsInChatUserButton()
-                }else {
+                }
+                else {
                     setupDownView(textLbl: "You are no longer connected to this Friendzr. \nReconnect to message them".localizedString)
                 }
             }
