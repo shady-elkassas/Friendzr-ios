@@ -18,17 +18,14 @@ class SelectFriendsVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var selectAllBtn: UIButton!
     @IBOutlet weak var saveBtn: UIButton!
-    
     @IBOutlet weak var hideViews: UIView!
     @IBOutlet var profileImgViews: [UIImageView]!
     @IBOutlet var namesFirendsViews: [UIImageView]!
     @IBOutlet var selectImgsView: [UIImageView]!
-
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
-
     
     //MARK: - Properties
     let cellID = "AddFriendsToPrivateEventTableViewCell"
@@ -246,7 +243,6 @@ class SelectFriendsVC: UIViewController {
         return footerview
     }
     
-
     //MARK: - ACtions
     @IBAction func selectAllBtn(_ sender: Any) {
         selectAllBtn.isSelected = !selectAllBtn.isSelected

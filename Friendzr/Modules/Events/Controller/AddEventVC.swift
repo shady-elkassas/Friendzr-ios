@@ -141,9 +141,6 @@ class AddEventVC: UIViewController {
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         categoriesSuperView?.addGestureRecognizer(tap)
-        
-        //        setupDatePickerForEndDate()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -200,7 +197,6 @@ class AddEventVC: UIViewController {
             }
         }
     }
-    
     func getEventTypes() {
         hideView.isHidden = false
         typesVM.getAllEventType()
@@ -220,6 +216,43 @@ class AddEventVC: UIViewController {
                     self.view.makeToast(error)
                 }
                 
+            }
+        }
+    }
+    func addNewEvent(_ eventDate: String, _ eventTime: String) {
+        self.saveBtn.setTitle("Saving...", for: .normal)
+        self.saveBtn.isUserInteractionEnabled = false
+        viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime, eventTypeName: eventTypeName,eventtype:eventTypeID, showAttendees: showAttendeesForAll,listOfUserIDs:listFriendsIDs, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
+            
+            DispatchQueue.main.async {
+                self.saveBtn.isUserInteractionEnabled = true
+                self.saveBtn.setTitle("Save", for: .normal)
+            }
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {return}
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
+                Router().toMap()
+            }
+        }
+    }
+    
+    func getAllValidatConfig() {
+        allValidatConfigVM.getAllValidatConfig()
+        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+            Defaults.initValidationConfig(validate: value)
+        }
+        
+        // Set View Model Event Listener
+        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                print(error)
             }
         }
     }
@@ -316,7 +349,6 @@ class AddEventVC: UIViewController {
         dateAlertView?.HandleOKBtn = {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd"
-            //            self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
             
             let formatter2 = DateFormatter()
             formatter2.dateFormat = "yyyy-MM-dd"
@@ -482,6 +514,8 @@ class AddEventVC: UIViewController {
         self.view.addSubview((timeAlertView)!)
     }
     
+    
+    
     @IBAction func saveBtn(_ sender: Any) {
         
         let eventDate = self.formatterDate.string(from: Date())
@@ -504,27 +538,7 @@ class AddEventVC: UIViewController {
                 }
             }
             else {
-                self.saveBtn.setTitle("Saving...", for: .normal)
-                self.saveBtn.isUserInteractionEnabled = false
-                viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime, eventTypeName: eventTypeName,eventtype:eventTypeID, showAttendees: showAttendeesForAll,listOfUserIDs:listFriendsIDs, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
-                    
-                    DispatchQueue.main.async {
-                        self.saveBtn.isUserInteractionEnabled = true
-                        self.saveBtn.setTitle("Save", for: .normal)
-                    }
-                    
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                        }
-                        return
-                    }
-                    
-                    guard let _ = data else {return}
-                    DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
-                        Router().toMap()
-                    }
-                }
+                addNewEvent(eventDate, eventTime)
             }
         }else {
             return
@@ -579,21 +593,7 @@ class AddEventVC: UIViewController {
     func HandleInternetConnection() {
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
-    
-    func getAllValidatConfig() {
-        allValidatConfigVM.getAllValidatConfig()
-        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
-            Defaults.initValidationConfig(validate: value)
-        }
-        
-        // Set View Model Event Listener
-        allValidatConfigVM.errorMsg.bind { [unowned self]error in
-            DispatchQueue.main.async {
-                print(error)
-            }
-        }
-    }
-    
+
     func setupView() {
         eventImg.cornerRadiusView(radius: 6)
         saveBtn.cornerRadiusView(radius: 6)
@@ -611,17 +611,7 @@ class AddEventVC: UIViewController {
             self.setupDatePickerForStartTime()
             self.setupDatePickerForEndTime()
         }
-        
-        //        let formatter = DateFormatter()
-        //        formatter.dateFormat = "yyyy-MM-dd"
-        //        self.startDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
-        //        self.endDayLbl.text = formatter.string(from: (self.dateAlertView?.calenderView.date)!)
-        //
-        //        let formattrTime = DateFormatter()
-        //        formattrTime.dateFormat = "HH:mm"
-        //        self.startTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
-        //        self.endTimeLbl.text = formattrTime.string(from: (self.timeAlertView?.timeView.date)!)
-        
+
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         eventTypesTV.register(UINib(nibName: eventTypeCellId, bundle: nil), forCellReuseIdentifier: eventTypeCellId)
     }
@@ -878,7 +868,8 @@ extension AddEventVC:UITableViewDelegate {
             topShowAttendeesViewLayoutConstraint.constant = 10
             bottomShowAttendeesViewLayoutConstaint.constant = 10
             showAttendeesTopView.isHidden = false
-        }else {
+        }
+        else {
             selectFriendsView.isHidden = true
             topFriendsViewLayoutConstraint.constant = 0
             bottomFriendsViewLayoutConstaint.constant = 0
@@ -890,7 +881,6 @@ extension AddEventVC:UITableViewDelegate {
             showAttendeesFriendsTopView.isHidden = true
             topShowAttendeesViewLayoutConstraint.constant = 0
             bottomShowAttendeesViewLayoutConstaint.constant = 0
-            
         }
         
         categoriesSuperView.isHidden = true

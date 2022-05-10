@@ -167,6 +167,38 @@ class SharePrivateEventVC: UIViewController {
         }
     }
     
+    func shareEventToUser(_ cell:ShareTableViewCell,_ model:UserConversationModel?,_ messageDate:String,_ messageTime:String,_ url:URL?) {
+        cell.sendBtn.setTitle("Sending...", for: .normal)
+        cell.sendBtn.isUserInteractionEnabled = false
+        self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "oo", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,eventShareid: self.eventID) { error, data in
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                    cell.sendBtn.setTitle("Send", for: .normal)
+                }
+                return
+            }
+            
+            guard let _ = data else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                cell.sendBtn.isUserInteractionEnabled = false
+                cell.sendBtn.setTitle("Sent", for: .normal)
+                cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+                cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
+                cell.sendBtn.backgroundColor = .white
+            }
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+        }
+    }
+
     //MARK: - Helpers
     func setupHideView() {
         for item in btnImgsView {
@@ -221,7 +253,7 @@ extension SharePrivateEventVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.attendees.value?.data?.count ?? 0
     }
-    
+        
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
         
@@ -241,39 +273,9 @@ extension SharePrivateEventVC: UITableViewDataSource {
         cell.titleLbl.text = model?.userName
         
         cell.HandleSendBtn = {
-//            self.updateNetworkForBtns()
             if NetworkConected.internetConect {
-                cell.sendBtn.setTitle("Sending...", for: .normal)
-                cell.sendBtn.isUserInteractionEnabled = false
-                self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "oo", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,eventShareid: self.eventID) { error, data in
-                    
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                            cell.sendBtn.setTitle("Send", for: .normal)
-                        }
-                        return
-                    }
-                    
-                    guard let _ = data else {
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        cell.sendBtn.isUserInteractionEnabled = false
-                        cell.sendBtn.setTitle("Sent", for: .normal)
-                        cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
-                        cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
-                        cell.sendBtn.backgroundColor = .white
-                    }
-                    
-                    DispatchQueue.main.async {
-                        NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
-                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-                    }
-                }
+                self.shareEventToUser(cell, model, messageDate, messageTime, url)
             }
-            
         }
         return cell
     }
@@ -283,20 +285,6 @@ extension SharePrivateEventVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 45
     }
-    
-    
-    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //        let model = viewmodel.attendees.value?.data?[indexPath.row]
-    //
-    //        if model?.myEventO == true {
-    //            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "MyProfileViewController") as? MyProfileViewController else {return}
-    //            self.navigationController?.pushViewController(vc, animated: true)
-    //        }else {
-    //            guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-    //            vc.userID = model?.userId ?? ""
-    //            self.navigationController?.pushViewController(vc, animated: true)
-    //        }
-    //    }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
@@ -324,9 +312,7 @@ extension SharePrivateEventVC: UISearchBarDelegate{
     @objc func updateSearchResult() {
         guard let text = searchBar.text else {return}
         print(text)
-        
-//        self.updateNetworkForBtns()
-        
+
         if NetworkConected.internetConect {
             self.getAllAttendees(pageNumber: 0, search: text)
         }

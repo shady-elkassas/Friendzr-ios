@@ -146,6 +146,36 @@ class EditEventsVC: UIViewController {
     }
     
     //MARK: - APIs
+    func editEvent() {
+        self.saveBtn.setTitle("Saving...", for: .normal)
+        self.saveBtn.isUserInteractionEnabled = false
+        viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime, eventTypeName: eventTypeName,eventtype:eventTypeID, showAttendees: showAttendeesForAll,listOfUserIDs:listFriendsIDs,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+                DispatchQueue.main.async {
+                    self.saveBtn.setTitle("Save", for: .normal)
+                    self.saveBtn.isUserInteractionEnabled = true
+                }
+                
+                return
+            }
+            
+            guard let _ = data else {return}
+            
+            DispatchQueue.main.async {
+                self.saveBtn.setTitle("Save", for: .normal)
+                self.saveBtn.isUserInteractionEnabled = true
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                self.onPopup()
+            }
+        }
+    }
     func getEventTypes() {
         typesVM.getAllEventType()
         typesVM.types.bind { [unowned self] value in
@@ -166,7 +196,6 @@ class EditEventsVC: UIViewController {
             }
         }
     }
-    
     func getAllValidatConfig() {
         allValidatConfigVM.getAllValidatConfig()
         allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
@@ -208,11 +237,9 @@ class EditEventsVC: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-    
     func HandleInternetConnection() {
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
-    
     func setupViews() {
         eventImg.cornerRadiusView(radius: 6)
         saveBtn.cornerRadiusView(radius: 6)
@@ -233,7 +260,6 @@ class EditEventsVC: UIViewController {
             self.setupDatePickerForEndTime()
         }
     }
-    
     func initDeleteEventButton(btnColor: UIColor? = .red) {
         let button = UIButton.init(type: .custom)
         button.setTitle("Delete Event".localizedString, for: .normal)
@@ -285,8 +311,7 @@ class EditEventsVC: UIViewController {
             return
         }
     }
-   
-    
+
     func setupData() {
         eventImg.sd_setImage(with: URL(string: eventModel?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
         categoryNameLbl.text = eventModel?.categorie
@@ -463,34 +488,7 @@ class EditEventsVC: UIViewController {
                 }
             }
             else {
-                self.saveBtn.setTitle("Saving...", for: .normal)
-                self.saveBtn.isUserInteractionEnabled = false
-                viewmodel.editEvent(withID: "\(eventModel?.id ?? "")", AndTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: "\(1)" , lang: eventModel?.lang ?? "", lat: eventModel?.lat ?? "", totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate, eventfrom: startTime, eventto: endTime, eventTypeName: eventTypeName,eventtype:eventTypeID, showAttendees: showAttendeesForAll,listOfUserIDs:listFriendsIDs,attachedImg: self.attachedImg,AndImage: eventImg.image!) { error, data in
-                    
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.saveBtn.setTitle("Save", for: .normal)
-                            self.saveBtn.isUserInteractionEnabled = true
-                        }
-                        
-                        return
-                    }
-                    
-                    guard let _ = data else {return}
-                    
-                    DispatchQueue.main.async {
-                        self.saveBtn.setTitle("Save", for: .normal)
-                        self.saveBtn.isUserInteractionEnabled = true
-                    }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                        self.onPopup()
-                    }
-                }
+                editEvent()
             }
         }
     }

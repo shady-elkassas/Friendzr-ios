@@ -19,7 +19,7 @@ class SelectedTagsVC: UIViewController {
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var emptyMessageLbl: UILabel!
     @IBOutlet weak var triAgainBtn: UIButton!
-
+    
     //MARK: - Properties
     lazy var addNewTagView = Bundle.main.loadNibNamed("AddNewTagView", owner: self, options: nil)?.first as? AddNewTagView
     
@@ -54,7 +54,7 @@ class SelectedTagsVC: UIViewController {
         
         Defaults.availableVC = "SelectedTagsVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         CancelRequest.currentTask = false
     }
     
@@ -88,7 +88,7 @@ class SelectedTagsVC: UIViewController {
             }
         }
     }
-
+    
     //MARK: - Helpers
     func HandleInternetConnection() {
         if btnSelect {
@@ -163,13 +163,8 @@ extension SelectedTagsVC:UICollectionViewDataSource {
         let model = viewmodel.interests.value?[indexPath.row]
         cell.tagNameLbl.text = "#" + (model?.name ?? "").capitalizingFirstLetter()
         
-//        if model?.isSharedForAll == true {
-            cell.editBtn.isHidden = true
-            cell.editBtnWidth.constant = 0
-//        }else {
-//            cell.editBtn.isHidden = false
-//            cell.editBtnWidth.constant = 30
-//        }
+        cell.editBtn.isHidden = true
+        cell.editBtnWidth.constant = 0
         
         if arrSelectedDataIds.contains(model?.id ?? "") {
             cell.containerView.backgroundColor = UIColor.FriendzrColors.primary
@@ -192,11 +187,7 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let model = viewmodel.interests.value?[indexPath.row]
         let width = model?.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
-//        if model?.isSharedForAll == true {
-            return CGSize(width: width! + 50, height: 45)
-//        }else {
-//            return CGSize(width: width! + 80, height: 45)
-//        }
+        return CGSize(width: width! + 50, height: 45)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -244,14 +235,16 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                         }
                     }
                 }
-
+                
             }
             
             print(arrSelectedDataIds)
             collectionView.reloadData()
         }
     }
+}
 
+extension SelectedTagsVC {
     func initAddTagButton() {
         let button = UIButton.init(type: .custom)
         button.setImage(UIImage(named: "newTag_ic"), for: .normal)
@@ -317,8 +310,6 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
         
         self.view.addSubview((addNewTagView)!)
     }
-    
-    
     func showOptionTags(id:String,name:String) {
         let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Edit".localizedString, style: .default, handler: { action in
@@ -326,29 +317,7 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
             self.addNewTagView?.newTagTxt.text = name
             
             self.addNewTagView?.HandleConfirmBtn = {
-                if self.addNewTagView?.newTagTxt.text == "" {
-                    self.view.makeToast("Please type the name of the tag first".localizedString)
-                }else {
-                    self.viewmodel.EditInterest(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let _ = data else {return}
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            self.getAllTags()
-                        }
-                        
-                        //                            DispatchQueue.main.async {
-                        //                                self.view.makeToast("Edit successfully".localizedString)
-                        //                            }
-                    }
-                }
-                
+                self.editTag(id)
                 
                 // handling code
                 UIView.animate(withDuration: 0.3, animations: {
@@ -363,11 +332,22 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
             
             self.view.addSubview((self.addNewTagView)!)
         }))
+        
         actionSheet.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
-            self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
-            self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
-            
-            self.viewmodel.deleteInterest(ById: id) { error, data in
+            self.deleteTag(id, name)
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+        }))
+        
+        present(actionSheet, animated: true, completion: nil)
+        
+    }
+    func editTag( _ id:String) {
+        if self.addNewTagView?.newTagTxt.text == "" {
+            self.view.makeToast("Please type the name of the tag first".localizedString)
+        }else {
+            self.viewmodel.EditInterest(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
@@ -376,15 +356,29 @@ extension SelectedTagsVC: UICollectionViewDelegate ,UICollectionViewDelegateFlow
                 }
                 
                 guard let _ = data else {return}
+                
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     self.getAllTags()
                 }
             }
-        }))
-        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-        }))
+        }
+    }
+    func deleteTag( _ id:String, _ name:String) {
+        self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
+        self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
         
-        present(actionSheet, animated: true, completion: nil)
-        
+        self.viewmodel.deleteInterest(ById: id) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {return}
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.getAllTags()
+            }
+        }
     }
 }

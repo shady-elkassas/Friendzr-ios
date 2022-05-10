@@ -261,7 +261,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
     
     // MARK: - Core Data Saving support
-    
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
@@ -392,8 +391,6 @@ extension AppDelegate : MessagingDelegate{
 
 @available(iOS 10, *)
 extension AppDelegate : UNUserNotificationCenterDelegate {
-    
-    
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
         // retrieve the root view controller (which is a tab bar controller)
@@ -419,157 +416,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             center.add(request, withCompletionHandler: nil)
             
             
-            if action == "Friend_Request" {
-                if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
-                   let tabBarController = rootViewController as? UITabBarController,
-                   let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.userID = actionId!
-                    navController.pushViewController(vc, animated: true)
-                }
-            }
-            else if action == "Accept_Friend_Request" {
-                if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
-                   let tabBarController = rootViewController as? UITabBarController,
-                   let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.userID = actionId ?? ""
-                    navController.pushViewController(vc, animated: true)
-                }
-            }
-            else if action == "event_chat"{
-                if isEventAdmin == "False" {
-                    if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
-                       let tabBarController = rootViewController as? UITabBarController,
-                       let navController = tabBarController.selectedViewController as? UINavigationController {
-                        vc.isEvent = true
-                        vc.eventChatID = actionId ?? ""
-                        vc.chatuserID = ""
-                        vc.leavevent = 0
-                        vc.leaveGroup =  0
-                        vc.isFriend = false
-                        vc.titleChatImage = imageNotifications ?? ""
-                        vc.titleChatName = chatTitle ?? ""
-                        vc.isChatGroupAdmin = false
-                        vc.isChatGroup = false
-                        vc.groupId = ""
-                        vc.isEventAdmin = false
-                        navController.pushViewController(vc, animated: true)
-                    }
-                }
-                else {
-                    if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
-                       let tabBarController = rootViewController as? UITabBarController,
-                       let navController = tabBarController.selectedViewController as? UINavigationController {
-                        vc.isEvent = true
-                        vc.eventChatID = actionId ?? ""
-                        vc.chatuserID = ""
-                        vc.leavevent = 0
-                        vc.leaveGroup =  0
-                        vc.isFriend = false
-                        vc.titleChatImage = imageNotifications ?? ""
-                        vc.titleChatName = chatTitle ?? ""
-                        vc.isChatGroupAdmin = false
-                        vc.isChatGroup = false
-                        vc.groupId = ""
-                        vc.isEventAdmin = true
-                        navController.pushViewController(vc, animated: true)
-                    }
-                }
-            }
-            else if action == "user_chat" {
-                if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
-                   let tabBarController = rootViewController as? UITabBarController,
-                   let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.isEvent = false
-                    vc.eventChatID = ""
-                    vc.chatuserID = actionId ?? ""
-                    vc.leavevent = 0
-                    vc.leaveGroup =  0
-                    vc.isFriend = true
-                    vc.titleChatImage = imageNotifications ?? ""
-                    vc.titleChatName = chatTitle ?? ""
-                    vc.isChatGroupAdmin = false
-                    vc.isChatGroup = false
-                    vc.groupId = ""
-                    vc.isEventAdmin = false
-                    navController.pushViewController(vc, animated: true)
-                }
-            }
-            else if action == "user_chatGroup" {
-                if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
-                   let tabBarController = rootViewController as? UITabBarController,
-                   let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.isEvent = false
-                    vc.eventChatID = ""
-                    vc.chatuserID = ""
-                    vc.leavevent = 1
-                    vc.leaveGroup =  0
-                    vc.isFriend = false
-                    vc.titleChatImage = imageNotifications ?? ""
-                    vc.titleChatName = chatTitle ?? ""
-                    vc.isChatGroupAdmin = true
-                    vc.isChatGroup = true
-                    vc.groupId = actionId ?? ""
-                    vc.isEventAdmin = false
-                    navController.pushViewController(vc, animated: true)
-                }
-            }
-            else if action == "Joined_ChatGroup" {
-                Router().toHome()
-            }
-            else if action == "Kickedout_ChatGroup" {
-                Router().toHome()
-            }
-            else if action == "event_Updated"{
-                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
-                   let tabBarController = rootViewController as? UITabBarController,
-                   let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.eventId = actionId ?? ""
-                    navController.pushViewController(vc, animated: true)
-                }
-            }
-            else if action == "update_Event_Data"{
-                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
-                   let tabBarController = rootViewController as? UITabBarController,
-                   let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.eventId = actionId ?? ""
-                    navController.pushViewController(vc, animated: true)
-                }
-            }
-            else if action == "event_attend"{
-                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
-                   let tabBarController = rootViewController as? UITabBarController,
-                   let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.eventId = actionId ?? ""
-                    navController.pushViewController(vc, animated: true)
-                }
-            }
-            else if action == "Event_reminder" {
-                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
-                   let tabBarController = rootViewController as? UITabBarController,
-                   let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.eventId = actionId ?? ""
-                    navController.pushViewController(vc, animated: true)
-                }
-            }
-            else if action == "Check_events_near_you" {
-                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
-                   let tabBarController = rootViewController as? UITabBarController,
-                   let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.eventId = actionId ?? ""
-                    navController.pushViewController(vc, animated: true)
-                }
-            }
-            else if action == "Check_private_events" {
-                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
-                   let tabBarController = rootViewController as? UITabBarController,
-                   let navController = tabBarController.selectedViewController as? UINavigationController {
-                    vc.eventId = actionId ?? ""
-                    navController.pushViewController(vc, animated: true)
-                }
-            }
-            else {
-                print("fail")
-            }
+            self.redirectNotification(action, rootViewController, actionId, isEventAdmin, imageNotifications, chatTitle)
         }
         
         completionHandler()
@@ -577,6 +424,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
     
     // Receive displayed notifications for iOS 10 devices.
     //For FOREGROUND state
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter,willPresent notification: UNNotification,withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         let userInfo = notification.request.content.userInfo
@@ -618,193 +466,15 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
         
-        if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId
-        {
-            if messageType == "1" {//text
-                NotificationMessage.action = action ?? ""
-                NotificationMessage.actionCode = actionId ?? ""
-                NotificationMessage.messageType = 1
-                NotificationMessage.messageText = body ?? ""
-                NotificationMessage.messageId = messageId
-                NotificationMessage.messageDate = messagedate
-                NotificationMessage.messageTime = messageTime
-                NotificationMessage.senderId = senderId
-                NotificationMessage.photoURL = senderImage
-                NotificationMessage.displayName = senderDisplayName
-            }
-            else if messageType == "2" {//image
-                NotificationMessage.action = action ?? ""
-                NotificationMessage.actionCode = actionId ?? ""
-                NotificationMessage.messageType = 2
-                NotificationMessage.messsageImageURL = messsageImageURL
-                NotificationMessage.messageId = messageId
-                NotificationMessage.messageDate = messagedate
-                NotificationMessage.messageTime = messageTime
-                NotificationMessage.senderId = senderId
-                NotificationMessage.photoURL = senderImage
-                NotificationMessage.displayName = senderDisplayName
-            }
-            else if messageType == "3" {//file
-                NotificationMessage.action = action ?? ""
-                NotificationMessage.actionCode = actionId ?? ""
-                NotificationMessage.messageType = 3
-                NotificationMessage.messsageImageURL = messsageImageURL
-                NotificationMessage.messageId = messageId
-                NotificationMessage.messageDate = messagedate
-                NotificationMessage.messageTime = messageTime
-                NotificationMessage.photoURL = senderImage
-                NotificationMessage.senderId = senderId
-                NotificationMessage.displayName = senderDisplayName
-            }
-            else if messageType == "4" {//link preview
-                NotificationMessage.action = action ?? ""
-                NotificationMessage.actionCode = actionId ?? ""
-                NotificationMessage.messageType = 4
-                NotificationMessage.senderId = senderId
-                NotificationMessage.messageId = messageId
-                NotificationMessage.messageDate = messagedate
-                NotificationMessage.messageTime = messageTime
-                NotificationMessage.photoURL = senderImage
-                NotificationMessage.displayName = senderDisplayName
-                NotificationMessage.isJoinEvent = Int(messsageLinkEvenkey) ?? 0
-                
-                NotificationMessage.messsageLinkTitle = messsageLinkEvenTitle
-                NotificationMessage.messsageLinkCategory = messsageLinkEvencategorie
-                NotificationMessage.messsageLinkImageURL = messsageLinkEvenImage
-                NotificationMessage.messsageLinkAttendeesJoined = messsageLinkEvenjoined
-                NotificationMessage.messsageLinkAttendeesTotalnumbert = messsageLinkEventotalnumbert
-                NotificationMessage.messsageLinkEventDate = messsageLinkEveneventdateto
-                NotificationMessage.linkPreviewID = messsageLinkEvenId
-            }
+        if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
+            notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId)
         }
         
-        if action == "Friend_Request" {
-            Defaults.frindRequestNumber += 1
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
-        }
-        else if action == "Accept_Friend_Request" {
-            if Defaults.frindRequestNumber != 0 {
-                Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "Friend_request_cancelled" {
-            if Defaults.frindRequestNumber != 0 {
-                Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "event_attend" {
-            if Defaults.availableVC == "EventDetailsViewController" {
-                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "Event_reminder" {
-            if Defaults.availableVC == "EventDetailsViewController" {
-                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "event_Updated" {
-            if Defaults.availableVC == "EventDetailsViewController" {
-                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "update_Event_Data" {
-            if Defaults.availableVC == "EventDetailsViewController" {
-                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "Check_events_near_you" {
-            if Defaults.availableVC == "EventDetailsViewController" {
-                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "Joined_ChatGroup" {
-        }
-        else if action == "Kickedout_ChatGroup" {
-        }
-        
-        if action == "user_chat" {
-            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {                NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
-            }
-            else if Defaults.availableVC == "InboxVC" {
-                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-            }
-        }
-        
-        else if action == "event_chat" {
-            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
-                NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
-            }
-            else if Defaults.availableVC == "InboxVC" {
-                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "user_chatGroup" {
-            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
-                NotificationCenter.default.post(name: Notification.Name("listenToMessagesForGroup"), object: nil, userInfo: nil)
-            }
-            else if Defaults.availableVC == "InboxVC" {
-                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-            }
-        }
-        if action == "Friend_Request" || action == "Accept_Friend_Request" || action == "Friend_request_cancelled" {
-            if Defaults.availableVC == "RequestVC" {
-                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-            }
-            else if Defaults.availableVC == "FeedVC" {
-                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-            }
-            else if Defaults.availableVC == "FriendProfileViewController" {
-                NotificationCenter.default.post(name: Notification.Name("updateFriendVC"), object: nil, userInfo: nil)
-            }
-        }
-        
-        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled" {
-        }else {
-            NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
-            Defaults.notificationcount = UIApplication.shared.applicationIconBadgeNumber
-            NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
-        }
-        
-        
-        //badge inbox
-        if action == "user_chat" ||  action == "event_chat" || action == "user_chatGroup" {
-            if Defaults.availableVC != "ConversationVC" && Defaults.ConversationID != actionId {
-                Defaults.message_Count += 1
-                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
-            }
-        }
+        updateAppWhenPresentNotification(action, actionId)
         
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
-        
-        if Defaults.pushnotification == false {
-            completionHandler([[]])
-        }
-        else {
-            if action == "Friend_request_cancelled" || action == "Friend_block" {
-                completionHandler([[]])
-            }
-            else if Defaults.availableVC == "ConversationVC" && Defaults.ConversationID == actionId {
-                completionHandler([[]])
-            }
-            else {
-                if isMute == "False" {
-                    if #available(iOS 14.0, *) {
-                        completionHandler([[.alert, .badge, .sound,.banner,.list]])
-                    } else {
-                        // Fallback on earlier versions
-                        completionHandler([[.alert, .badge, .sound]])
-                    }
-                }
-                else {
-                    completionHandler([[]])
-                }
-            }
-        }
-        
+        setupMuteNotification(action, actionId, isMute,completionHandler)
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
@@ -861,186 +531,15 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let senderImage = userInfo["senderImage"] as? String ?? ""
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
-        
-        //        self.content.sound = UNNotificationSound.default
-        
-        
-        if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId
-        {
-            if messageType == "1" {//text
-                NotificationMessage.action = action ?? ""
-                NotificationMessage.actionCode = actionId ?? ""
-                NotificationMessage.messageType = 1
-                NotificationMessage.messageText = body ?? ""
-                NotificationMessage.messageId = messageId
-                NotificationMessage.messageDate = messagedate
-                NotificationMessage.messageTime = messageTime
-                NotificationMessage.senderId = senderId
-                NotificationMessage.photoURL = senderImage
-                NotificationMessage.displayName = senderDisplayName
-            }
-            else if messageType == "2" {//image
-                NotificationMessage.action = action ?? ""
-                NotificationMessage.actionCode = actionId ?? ""
-                NotificationMessage.messageType = 2
-                NotificationMessage.messsageImageURL = messsageImageURL
-                NotificationMessage.messageId = messageId
-                NotificationMessage.messageDate = messagedate
-                NotificationMessage.messageTime = messageTime
-                NotificationMessage.senderId = senderId
-                NotificationMessage.photoURL = senderImage
-                NotificationMessage.displayName = senderDisplayName
-            }
-            else if messageType == "3" {//file
-                NotificationMessage.action = action ?? ""
-                NotificationMessage.actionCode = actionId ?? ""
-                NotificationMessage.messageType = 3
-                NotificationMessage.messsageImageURL = messsageImageURL
-                NotificationMessage.messageId = messageId
-                NotificationMessage.messageDate = messagedate
-                NotificationMessage.messageTime = messageTime
-                NotificationMessage.photoURL = senderImage
-                NotificationMessage.senderId = senderId
-                NotificationMessage.displayName = senderDisplayName
-            }
-            else if messageType == "4" {//link preview
-                NotificationMessage.action = action ?? ""
-                NotificationMessage.actionCode = actionId ?? ""
-                NotificationMessage.messageType = 4
-                NotificationMessage.senderId = senderId
-                NotificationMessage.messageId = messageId
-                NotificationMessage.messageDate = messagedate
-                NotificationMessage.messageTime = messageTime
-                NotificationMessage.photoURL = senderImage
-                NotificationMessage.displayName = senderDisplayName
-                NotificationMessage.isJoinEvent = Int(messsageLinkEvenkey) ?? 0
-                
-                NotificationMessage.messsageLinkTitle = messsageLinkEvenTitle
-                NotificationMessage.messsageLinkCategory = messsageLinkEvencategorie
-                NotificationMessage.messsageLinkImageURL = messsageLinkEvenImage
-                NotificationMessage.messsageLinkAttendeesJoined = messsageLinkEvenjoined
-                NotificationMessage.messsageLinkAttendeesTotalnumbert = messsageLinkEventotalnumbert
-                NotificationMessage.messsageLinkEventDate = messsageLinkEveneventdateto
-                NotificationMessage.linkPreviewID = messsageLinkEvenId
-            }
+        if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
+            notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId)
         }
         
-        
-        if action == "Friend_Request" {
-            Defaults.frindRequestNumber += 1
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
-        }
-        else if action == "Accept_Friend_Request" {
-            if Defaults.frindRequestNumber != 0 {
-                Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "Friend_request_cancelled" {
-            if Defaults.frindRequestNumber != 0 {
-                Defaults.frindRequestNumber -= 1
-                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "event_attend" {
-            if Defaults.availableVC == "EventDetailsViewController" {
-                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "Event_reminder" {
-            if Defaults.availableVC == "EventDetailsViewController" {
-                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "event_Updated" {
-            if Defaults.availableVC == "EventDetailsViewController" {
-                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "update_Event_Data" {
-            if Defaults.availableVC == "EventDetailsViewController" {
-                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "Check_events_near_you" {
-            if Defaults.availableVC == "EventDetailsViewController" {
-                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "Joined_ChatGroup" {
-        }else if action == "Kickedout_ChatGroup" {
-        }
-        
-        if action == "user_chat" {
-            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {                NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
-            }else if Defaults.availableVC == "InboxVC" {
-                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "event_chat" {
-            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
-                NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
-            }else if Defaults.availableVC == "InboxVC" {
-                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-            }
-        }
-        else if action == "user_chatGroup" {
-            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
-                NotificationCenter.default.post(name: Notification.Name("listenToMessagesForGroup"), object: nil, userInfo: nil)
-            }else if Defaults.availableVC == "InboxVC" {
-                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-            }
-        }
-        if action == "Friend_Request" || action == "Accept_Friend_Request" || action == "Friend_request_cancelled" {
-            if Defaults.availableVC == "RequestVC" {
-                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-            }
-            else if Defaults.availableVC == "FeedVC" {
-                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-            }
-            else if Defaults.availableVC == "FriendProfileViewController" {
-                NotificationCenter.default.post(name: Notification.Name("updateFriendVC"), object: nil, userInfo: nil)
-            }
-        }
-        
-        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled" {
-            
-            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-        }else {
-            NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
-            Defaults.notificationcount = UIApplication.shared.applicationIconBadgeNumber
-            NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
-        }
-        
+        updateAppWhenPresentNotification(action, actionId)
         
         // Change this to your preferred presentation option
         let isMute: String = userInfo["muit"] as? String ?? ""
-        
-        if Defaults.pushnotification == false {
-            completionHandler([[]])
-        }else {
-            if action == "Friend_request_cancelled" || action == "Friend_block" {
-                completionHandler([[]])
-            }
-            else if Defaults.availableVC == "ConversationVC" && Defaults.ConversationID == actionId
-            {
-                completionHandler([[]])
-            }
-            else {
-                if isMute == "False" {
-                    if #available(iOS 14.0, *) {
-                        completionHandler([[.alert, .badge, .sound,.banner,.list]])
-                    } else {
-                        // Fallback on earlier versions
-                        completionHandler([[.alert, .badge, .sound]])
-                    }
-                }
-                else {
-                    completionHandler([[]])
-                }
-            }
-        }
+        setupMuteNotification(action, actionId, isMute,completionHandler)
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: "", content: self.content, trigger: trigger)
@@ -1239,4 +738,349 @@ extension AppDelegate {
             Defaults.allowMyLocationSettings = false
         }
     }
+}
+
+extension AppDelegate {
+    func redirectNotification(_ action: String?, _ rootViewController: UIViewController, _ actionId: String?, _ isEventAdmin: String?, _ imageNotifications: String?, _ chatTitle: String?) {
+        if action == "Friend_Request" {
+            if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+                vc.userID = actionId!
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+        else if action == "Accept_Friend_Request" {
+            if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+                vc.userID = actionId ?? ""
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+        else if action == "event_chat"{
+            if isEventAdmin == "False" {
+                if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.isEvent = true
+                    vc.eventChatID = actionId ?? ""
+                    vc.chatuserID = ""
+                    vc.leavevent = 0
+                    vc.leaveGroup =  0
+                    vc.isFriend = false
+                    vc.titleChatImage = imageNotifications ?? ""
+                    vc.titleChatName = chatTitle ?? ""
+                    vc.isChatGroupAdmin = false
+                    vc.isChatGroup = false
+                    vc.groupId = ""
+                    vc.isEventAdmin = false
+                    navController.pushViewController(vc, animated: true)
+                }
+            }
+            else {
+                if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.isEvent = true
+                    vc.eventChatID = actionId ?? ""
+                    vc.chatuserID = ""
+                    vc.leavevent = 0
+                    vc.leaveGroup =  0
+                    vc.isFriend = false
+                    vc.titleChatImage = imageNotifications ?? ""
+                    vc.titleChatName = chatTitle ?? ""
+                    vc.isChatGroupAdmin = false
+                    vc.isChatGroup = false
+                    vc.groupId = ""
+                    vc.isEventAdmin = true
+                    navController.pushViewController(vc, animated: true)
+                }
+            }
+        }
+        else if action == "user_chat" {
+            if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+                vc.isEvent = false
+                vc.eventChatID = ""
+                vc.chatuserID = actionId ?? ""
+                vc.leavevent = 0
+                vc.leaveGroup =  0
+                vc.isFriend = true
+                vc.titleChatImage = imageNotifications ?? ""
+                vc.titleChatName = chatTitle ?? ""
+                vc.isChatGroupAdmin = false
+                vc.isChatGroup = false
+                vc.groupId = ""
+                vc.isEventAdmin = false
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+        else if action == "user_chatGroup" {
+            if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+                vc.isEvent = false
+                vc.eventChatID = ""
+                vc.chatuserID = ""
+                vc.leavevent = 1
+                vc.leaveGroup =  0
+                vc.isFriend = false
+                vc.titleChatImage = imageNotifications ?? ""
+                vc.titleChatName = chatTitle ?? ""
+                vc.isChatGroupAdmin = true
+                vc.isChatGroup = true
+                vc.groupId = actionId ?? ""
+                vc.isEventAdmin = false
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+        else if action == "Joined_ChatGroup" {
+            Router().toHome()
+        }
+        else if action == "Kickedout_ChatGroup" {
+            Router().toHome()
+        }
+        else if action == "event_Updated"{
+            if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+                vc.eventId = actionId ?? ""
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+        else if action == "update_Event_Data"{
+            if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+                vc.eventId = actionId ?? ""
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+        else if action == "event_attend"{
+            if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+                vc.eventId = actionId ?? ""
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+        else if action == "Event_reminder" {
+            if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+                vc.eventId = actionId ?? ""
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+        else if action == "Check_events_near_you" {
+            if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+                vc.eventId = actionId ?? ""
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+        else if action == "Check_private_events" {
+            if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+                vc.eventId = actionId ?? ""
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+        else {
+            print("fail")
+        }
+    }
+        
+    func updateAppWhenPresentNotification(_ action: String?, _ actionId: String?) {
+        if action == "Friend_Request" {
+            Defaults.frindRequestNumber += 1
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+        }
+        else if action == "Accept_Friend_Request" {
+            if Defaults.frindRequestNumber != 0 {
+                Defaults.frindRequestNumber -= 1
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+            }
+        }
+        else if action == "Friend_request_cancelled" {
+            if Defaults.frindRequestNumber != 0 {
+                Defaults.frindRequestNumber -= 1
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+            }
+        }
+        else if action == "event_attend" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
+        }
+        else if action == "Event_reminder" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
+        }
+        else if action == "event_Updated" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
+        }
+        else if action == "update_Event_Data" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
+        }
+        else if action == "Check_events_near_you" {
+            if Defaults.availableVC == "EventDetailsViewController" {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
+        }
+        else if action == "Joined_ChatGroup" {
+        }
+        else if action == "Kickedout_ChatGroup" {
+        }
+        
+        if action == "user_chat" {
+            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {                NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+            }
+            else if Defaults.availableVC == "InboxVC" {
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+        }
+        else if action == "event_chat" {
+            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
+                NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
+            }
+            else if Defaults.availableVC == "InboxVC" {
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+        }
+        else if action == "user_chatGroup" {
+            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
+                NotificationCenter.default.post(name: Notification.Name("listenToMessagesForGroup"), object: nil, userInfo: nil)
+            }
+            else if Defaults.availableVC == "InboxVC" {
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+        }
+        if action == "Friend_Request" || action == "Accept_Friend_Request" || action == "Friend_request_cancelled" {
+            if Defaults.availableVC == "RequestVC" {
+                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+            }
+            else if Defaults.availableVC == "FeedVC" {
+                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+            }
+            else if Defaults.availableVC == "FriendProfileViewController" {
+                NotificationCenter.default.post(name: Notification.Name("updateFriendVC"), object: nil, userInfo: nil)
+            }
+        }
+        
+        if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled" {
+        }
+        else {
+            NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
+            Defaults.notificationcount = UIApplication.shared.applicationIconBadgeNumber
+            NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
+        }
+        
+        
+        //badge inbox
+        if action == "user_chat" ||  action == "event_chat" || action == "user_chatGroup" {
+            if Defaults.availableVC != "ConversationVC" && Defaults.ConversationID != actionId {
+                Defaults.message_Count += 1
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+            }
+        }
+    }
+    func setupMuteNotification(_ action: String?, _ actionId: String?, _ isMute: String,_ completionHandler: (UNNotificationPresentationOptions) -> Void) {
+        if Defaults.pushnotification == false {
+            completionHandler([[]])
+        }
+        else {
+            if action == "Friend_request_cancelled" || action == "Friend_block" {
+                completionHandler([[]])
+            }
+            else if Defaults.availableVC == "ConversationVC" && Defaults.ConversationID == actionId
+            {
+                completionHandler([[]])
+            }
+            else {
+                if isMute == "False" {
+                    if #available(iOS 14.0, *) {
+                        completionHandler([[.alert, .badge, .sound,.banner,.list]])
+                    } else {
+                        // Fallback on earlier versions
+                        completionHandler([[.alert, .badge, .sound]])
+                    }
+                }
+                else {
+                    completionHandler([[]])
+                }
+            }
+        }
+    }
+    
+    func notificationMessageChat(_ messageType: String?, _ action: String?, _ actionId: String?, _ body: String?, _ messageId: String, _ messagedate: String, _ messageTime: String, _ senderId: String, _ senderImage: String, _ senderDisplayName: String, _ messsageImageURL: String, _ messsageLinkEvenkey: String, _ messsageLinkEvenTitle: String, _ messsageLinkEvencategorie: String, _ messsageLinkEvenImage: String, _ messsageLinkEvenjoined: String, _ messsageLinkEventotalnumbert: String, _ messsageLinkEveneventdateto: String, _ messsageLinkEvenId: String) {
+        
+        if messageType == "1" {//text
+            NotificationMessage.action = action ?? ""
+            NotificationMessage.actionCode = actionId ?? ""
+            NotificationMessage.messageType = 1
+            NotificationMessage.messageText = body ?? ""
+            NotificationMessage.messageId = messageId
+            NotificationMessage.messageDate = messagedate
+            NotificationMessage.messageTime = messageTime
+            NotificationMessage.senderId = senderId
+            NotificationMessage.photoURL = senderImage
+            NotificationMessage.displayName = senderDisplayName
+        }
+        else if messageType == "2" {//image
+            NotificationMessage.action = action ?? ""
+            NotificationMessage.actionCode = actionId ?? ""
+            NotificationMessage.messageType = 2
+            NotificationMessage.messsageImageURL = messsageImageURL
+            NotificationMessage.messageId = messageId
+            NotificationMessage.messageDate = messagedate
+            NotificationMessage.messageTime = messageTime
+            NotificationMessage.senderId = senderId
+            NotificationMessage.photoURL = senderImage
+            NotificationMessage.displayName = senderDisplayName
+        }
+        else if messageType == "3" {//file
+            NotificationMessage.action = action ?? ""
+            NotificationMessage.actionCode = actionId ?? ""
+            NotificationMessage.messageType = 3
+            NotificationMessage.messsageImageURL = messsageImageURL
+            NotificationMessage.messageId = messageId
+            NotificationMessage.messageDate = messagedate
+            NotificationMessage.messageTime = messageTime
+            NotificationMessage.photoURL = senderImage
+            NotificationMessage.senderId = senderId
+            NotificationMessage.displayName = senderDisplayName
+        }
+        else if messageType == "4" {//link preview
+            NotificationMessage.action = action ?? ""
+            NotificationMessage.actionCode = actionId ?? ""
+            NotificationMessage.messageType = 4
+            NotificationMessage.senderId = senderId
+            NotificationMessage.messageId = messageId
+            NotificationMessage.messageDate = messagedate
+            NotificationMessage.messageTime = messageTime
+            NotificationMessage.photoURL = senderImage
+            NotificationMessage.displayName = senderDisplayName
+            NotificationMessage.isJoinEvent = Int(messsageLinkEvenkey) ?? 0
+            
+            NotificationMessage.messsageLinkTitle = messsageLinkEvenTitle
+            NotificationMessage.messsageLinkCategory = messsageLinkEvencategorie
+            NotificationMessage.messsageLinkImageURL = messsageLinkEvenImage
+            NotificationMessage.messsageLinkAttendeesJoined = messsageLinkEvenjoined
+            NotificationMessage.messsageLinkAttendeesTotalnumbert = messsageLinkEventotalnumbert
+            NotificationMessage.messsageLinkEventDate = messsageLinkEveneventdateto
+            NotificationMessage.linkPreviewID = messsageLinkEvenId
+        }
+    }
+
 }

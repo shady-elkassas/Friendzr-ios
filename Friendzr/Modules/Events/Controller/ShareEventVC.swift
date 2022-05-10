@@ -322,6 +322,103 @@ class ShareEventVC: UIViewController {
         }
     }
 
+    func shareEventToUser(_ cell:ShareTableViewCell,_ model:UserConversationModel?,_ messageDate:String,_ messageTime:String,_ url:URL?) {
+        cell.sendBtn.setTitle("Sending...", for: .normal)
+        cell.sendBtn.isUserInteractionEnabled = false
+        self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "POP", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,eventShareid: self.eventID) { error, data in
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                    cell.sendBtn.setTitle("Send", for: .normal)
+                }
+                return
+            }
+            
+            guard let _ = data else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                cell.sendBtn.isUserInteractionEnabled = false
+                cell.sendBtn.setTitle("Sent", for: .normal)
+                cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+                cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
+                cell.sendBtn.backgroundColor = .white
+            }
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+        }
+    }
+    
+    func shareEventToEvent(_ cell:ShareTableViewCell,_ model:EventObj?,_ messageDate:String,_ messageTime:String,_ url:URL?) {
+        cell.sendBtn.setTitle("Sending...", for: .normal)
+        cell.sendBtn.isUserInteractionEnabled = false
+        self.shareEventMessageVM.SendMessage(withEventId: model?.id ?? "", AndMessageType: 4, AndMessage: "POP", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: self.eventID) { error, data in
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                    cell.sendBtn.setTitle("Send", for: .normal)
+                }
+                return
+            }
+            
+            guard let _ = data else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                cell.sendBtn.isUserInteractionEnabled = false
+                cell.sendBtn.setTitle("Sent", for: .normal)
+                cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+                cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
+                cell.sendBtn.backgroundColor = .white
+            }
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+        }
+    }
+
+    func shareEventToGroup(_ cell:ShareTableViewCell,_ model:UserChatObj?,_ messageDate:String,_ messageTime:String,_ url:URL?) {
+        cell.sendBtn.setTitle("Sending...", for: .normal)
+        cell.sendBtn.isUserInteractionEnabled = false
+        self.shareEventMessageVM.SendMessage(withGroupId: model?.id ?? "", AndMessageType: 4, AndMessage: "POP", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: self.eventID) { error, data in
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                    cell.sendBtn.setTitle("Sent", for: .normal)
+                }
+                return
+            }
+            
+            guard let _ = data else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                cell.sendBtn.isUserInteractionEnabled = false
+                cell.sendBtn.setTitle("Send", for: .normal)
+                cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+                cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
+                cell.sendBtn.backgroundColor = .white
+            }
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+        }
+    }
+
+    
     //MARK: - Helpers
     func updateUserInterface() {
         appDelegate.networkReachability()
@@ -357,7 +454,6 @@ class ShareEventVC: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-    
     func shareEvent() {
         // Setting description
         let firstActivityItem = "https://friendzr.com/about-us/"
@@ -399,7 +495,6 @@ class ShareEventVC: UIViewController {
         activityViewController.isModalInPresentation = true
         self.present(activityViewController, animated: true, completion: nil)
     }
-    
     func setupViews() {
         friendsTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         groupsTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
@@ -414,14 +509,12 @@ class ShareEventVC: UIViewController {
             itmm.cornerRadiusView(radius: 6)
         }
     }
-
     func HandleInternetConnection() {
         emptyView.isHidden = false
         emptyImg.image = UIImage.init(named: "feednodata_img")
         emptyLbl.text = "No available network, please try again!".localizedString
         tryAgainBtn.alpha = 1.0
     }
-    
     func setupSearchBar() {
         var placeHolder = NSMutableAttributedString()
         let textHolder  = "Search...".localizedString
@@ -465,7 +558,6 @@ class ShareEventVC: UIViewController {
     @IBAction func shareOutSideFriendzrBtn(_ sender: Any) {
         shareEvent()
     }
-    
 }
 
 //MARK: - UITableViewDataSource
@@ -485,7 +577,6 @@ extension ShareEventVC: UITableViewDataSource {
                 return myGroupsVM.listChat.value?.data?.count ?? 0
             }
         }
-        
         else {
             if myEventsVM.events.value?.data?.count == 0 {
                 return 0
@@ -506,70 +597,15 @@ extension ShareEventVC: UITableViewDataSource {
             let model = myFriendsVM.friends.value?.data?[indexPath.row]
             cell.titleLbl.text = model?.userName
             cell.HandleSendBtn = {
-                cell.sendBtn.setTitle("Sending...", for: .normal)
-                cell.sendBtn.isUserInteractionEnabled = false
-                self.shareEventMessageVM.SendMessage(withUserId: model?.userId ?? "", AndMessage: "POP", AndMessageType: 4, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url! ,eventShareid: self.eventID) { error, data in
-                    
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                            cell.sendBtn.setTitle("Send", for: .normal)
-                        }
-                        return
-                    }
-                    
-                    guard let _ = data else {
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        cell.sendBtn.isUserInteractionEnabled = false
-                        cell.sendBtn.setTitle("Sent", for: .normal)
-                        cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
-                        cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
-                        cell.sendBtn.backgroundColor = .white
-                    }
-                    
-                    DispatchQueue.main.async {
-                        NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
-                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-                    }
-                }
+                self.shareEventToUser(cell, model, messageDate, messageTime, url)
             }
         }
+        
         else if tableView == groupsTV {
             let model = myGroupsVM.listChat.value?.data?[indexPath.row]
             cell.titleLbl.text = model?.chatName
             cell.HandleSendBtn = {
-                cell.sendBtn.setTitle("Sending...", for: .normal)
-                cell.sendBtn.isUserInteractionEnabled = false
-                self.shareEventMessageVM.SendMessage(withGroupId: model?.id ?? "", AndMessageType: 4, AndMessage: "POP", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: self.eventID) { error, data in
-                    
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                            cell.sendBtn.setTitle("Sent", for: .normal)
-                        }
-                        return
-                    }
-                    
-                    guard let _ = data else {
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        cell.sendBtn.isUserInteractionEnabled = false
-                        cell.sendBtn.setTitle("Send", for: .normal)
-                        cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
-                        cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
-                        cell.sendBtn.backgroundColor = .white
-                    }
-                    
-                    DispatchQueue.main.async {
-                        NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
-                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-                    }
-                }
+                self.shareEventToGroup(cell, model, messageDate, messageTime, url)
             }
             
         }
@@ -577,35 +613,7 @@ extension ShareEventVC: UITableViewDataSource {
             let model = myEventsVM.events.value?.data?[indexPath.row]
             cell.titleLbl.text = model?.title
             cell.HandleSendBtn = {
-                cell.sendBtn.setTitle("Sending...", for: .normal)
-                cell.sendBtn.isUserInteractionEnabled = false
-                self.shareEventMessageVM.SendMessage(withEventId: model?.id ?? "", AndMessageType: 4, AndMessage: "POP", messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!, eventShareid: self.eventID) { error, data in
-                    
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                            cell.sendBtn.setTitle("Send", for: .normal)
-                        }
-                        return
-                    }
-                    
-                    guard let _ = data else {
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        cell.sendBtn.isUserInteractionEnabled = false
-                        cell.sendBtn.setTitle("Sent", for: .normal)
-                        cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
-                        cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
-                        cell.sendBtn.backgroundColor = .white
-                    }
-                    
-                    DispatchQueue.main.async {
-                        NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
-                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-                    }
-                }
+                self.shareEventToEvent(cell, model, messageDate, messageTime, url)
             }
         }
         

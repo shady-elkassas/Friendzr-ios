@@ -146,7 +146,7 @@ class EventDetailsViewController: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-
+    
     func pullToRefresh() {
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -213,7 +213,6 @@ class EventDetailsViewController: UIViewController {
             }
         }
     }
-    
     func loadEventDataDetails() {
         self.hideView.isHidden = false
         self.hideView.showLoader()
@@ -266,7 +265,6 @@ class EventDetailsViewController: UIViewController {
             }
         }
     }
-    
     func setupViews() {
         tableView.register(UINib(nibName: eventImgCellId, bundle: nil), forCellReuseIdentifier: eventImgCellId)
         tableView.register(UINib(nibName: btnsCellId, bundle: nil), forCellReuseIdentifier: btnsCellId)
@@ -306,7 +304,6 @@ extension EventDetailsViewController: UITableViewDataSource {
         let JoinDate = self.formatterDate.string(from: Date())
         let Jointime = self.formatterTime.string(from: Date())
         
-        
         let model = viewmodel.event.value
         
         if indexPath.row == 0 {//image
@@ -325,130 +322,23 @@ extension EventDetailsViewController: UITableViewDataSource {
             
             cell.parentvc = self
             cell.bottomLbl.isHidden = true
-            if model?.key == 1 { //my event
-                cell.editBtn.isHidden = false
-                cell.chatBtn.isHidden = false
-                cell.joinBtn.isHidden = true
-                cell.leaveBtn.isHidden = true
-                self.isEventAdmin = true
-            }
-            else if model?.key == 2 { // not join
-                cell.editBtn.isHidden = true
-                cell.chatBtn.isHidden = true
-                cell.joinBtn.isHidden = false
-                cell.leaveBtn.isHidden = true
-                self.isEventAdmin = false
-            }
-            else { // join
-                cell.editBtn.isHidden = true
-                cell.chatBtn.isHidden = false
-                cell.joinBtn.isHidden = true
-                cell.leaveBtn.isHidden = false
-                self.isEventAdmin = false
-            }
+            eventStatus(model, cell)
             
             cell.HandleChatBtn = {
-                if model?.leveevent == 1 {
-                    let vc = ConversationVC()
-                    vc.isEvent = true
-                    vc.eventChatID = self.eventId
-                    vc.chatuserID = ""
-                    vc.leavevent = 0
-                    vc.leaveGroup = 1
-                    vc.isFriend = false
-                    vc.titleChatImage = model?.image ?? ""
-                    vc.titleChatName = model?.title ?? ""
-                    vc.isChatGroupAdmin = false
-                    vc.isChatGroup = false
-                    vc.groupId = ""
-                    vc.isEventAdmin = self.isEventAdmin
-                    CancelRequest.currentTask = false
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }else {
-                    self.view.makeToast("Wait, I'll join you in the event's chat...".localizedString)
-                    self.joinCahtEventVM.joinChat(ByID: self.eventId, ActionDate: JoinDate, Actiontime: Jointime) { error, data in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let _ = data else {return}
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            let vc = ConversationVC()
-                            vc.isEvent = true
-                            vc.eventChatID = self.eventId
-                            vc.chatuserID = ""
-                            vc.leavevent = 0
-                            vc.leaveGroup = 1
-                            vc.isFriend = false
-                            vc.titleChatImage = model?.image ?? ""
-                            vc.titleChatName = model?.title ?? ""
-                            vc.isChatGroupAdmin = false
-                            vc.isChatGroup = false
-                            vc.groupId = ""
-                            vc.isEventAdmin = self.isEventAdmin
-                            CancelRequest.currentTask = false
-                            self.navigationController?.pushViewController(vc, animated: true)
-                        }
-                    }
-                }
+                self.handleEventChat(model, JoinDate, Jointime)
             }
             
             cell.HandleLeaveBtn = {
                 if NetworkConected.internetConect == true {
-                    self.changeTitleBtns(btn: cell.leaveBtn, title: "Leaving...".localizedString)
-                    cell.leaveBtn.isUserInteractionEnabled = false
-                    
-                    self.leaveVM.leaveEvent(ByEventid: self.eventId,leaveeventDate: JoinDate,leaveeventtime: Jointime) { error, data in
-                        
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let _ = data else {return}
-                        DispatchQueue.main.async {
-                            if self.selectedVC {
-                                Router().toHome()
-                            }else {
-                                self.onPopup()
-                            }
-                        }
-                    }
+                    self.leaveEvent(cell, JoinDate, Jointime)
                 }else {
                     return
                 }
             }
             
             cell.HandleJoinBtn = {
-                let JoinDate = self.formatterDate.string(from: Date())
-                let Jointime = self.formatterTime.string(from: Date())
-                
                 if NetworkConected.internetConect == true {
-                    self.changeTitleBtns(btn: cell.joinBtn, title: "Joining...".localizedString)
-                    cell.joinBtn.isUserInteractionEnabled = false
-                    
-                    self.joinVM.joinEvent(ByEventid: self.eventId,JoinDate:JoinDate ,Jointime:Jointime) { error, data in
-                        
-                        
-                        if let error = error {
-                            self.hideLoading()
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let _ = data else {return}
-
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
-                        }
-                    }
+                    self.joinEvent(cell,JoinDate, Jointime)
                 }else {
                     return
                 }
@@ -502,96 +392,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             
             cell.containerView.cornerRadiusView(radius: 12)
             
-            cell.femaleLbl.text = "Female"
-            cell.maleLbl.text = "Male"
-            cell.otherLbl.text = "Other Gender"
-            
-            cell.interest1Lbl.text = model?.interestStatistic?[0].name
-            cell.interest2Lbl.text = model?.interestStatistic?[1].name
-            cell.interest3Lbl.text = model?.interestStatistic?[2].name
-            
-            cell.interest1PercentageLbl.text = "\(model?.interestStatistic?[0].interestcount ?? 0) %"
-            cell.interest2PercentageLbl.text = "\(model?.interestStatistic?[1].interestcount ?? 0) %"
-            cell.interest3PercentageLbl.text = "\(model?.interestStatistic?[2].interestcount ?? 0) %"
-            
-            cell.interest1Slider.value = Float(model?.interestStatistic?[0].interestcount ?? 0)
-            cell.interest2Slider.value = Float(model?.interestStatistic?[1].interestcount ?? 0)
-            cell.interest3Slider.value = Float(model?.interestStatistic?[2].interestcount ?? 0)
-            
-            DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    if (model?.interestStatistic?[0].interestcount ?? 0) == 0 {
-                        cell.interest1Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-                    }else if (model?.interestStatistic?[0].interestcount ?? 0) == 100 {
-                        cell.interest1Slider.maximumTrackTintColor = .blue
-                    }else {
-                        cell.interest1Slider.minimumTrackTintColor = .blue
-                        cell.interest1Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    if (model?.interestStatistic?[1].interestcount ?? 0) == 0 {
-                        cell.interest2Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-                    }else if (model?.interestStatistic?[1].interestcount ?? 0) == 100 {
-                        cell.interest2Slider.maximumTrackTintColor = .red
-                    }else {
-                        cell.interest2Slider.minimumTrackTintColor = .red
-                        cell.interest2Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-                    }
-                }
-                DispatchQueue.main.async {
-                    if (model?.interestStatistic?[2].interestcount ?? 0) == 0 {
-                        cell.interest3Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-                    }
-                    else if (model?.interestStatistic?[2].interestcount ?? 0) == 100 {
-                        cell.interest3Slider.maximumTrackTintColor = .green
-                    }
-                    else {
-                        cell.interest3Slider.minimumTrackTintColor = .green
-                        cell.interest3Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-                        
-                    }
-                }
-            }
-            
-            for itm in model?.genderStatistic ?? [] {
-                if itm.key == "Male" {
-                    cell.maleSlider.value = Float(itm.gendercount ?? 0)
-                    
-                    cell.maleSlider.minimumTrackTintColor = .blue
-                    if itm.gendercount == 0 {
-                        cell.maleSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-                    }else if itm.gendercount == 100 {
-                        cell.maleSlider.maximumTrackTintColor = .blue
-                    }
-                    
-                    cell.malePercentageLbl.text = "\(itm.gendercount ?? 0) %"
-                }
-                else if itm.key == "Female" {
-                    cell.femaleSlider.value = Float(itm.gendercount ?? 0)
-                    
-                    cell.femaleSlider.minimumTrackTintColor = .red
-                    if itm.gendercount == 0 {
-                        cell.femaleSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-                    }else if itm.gendercount == 100 {
-                        cell.femaleSlider.maximumTrackTintColor = .red
-                    }
-                    
-                    cell.femalePercentageLbl.text = "\(itm.gendercount ?? 0) %"
-                }else {
-                    cell.otherSlider.value = Float(itm.gendercount ?? 0)
-                    
-                    cell.otherSlider.minimumTrackTintColor = .green
-                    if itm.gendercount == 0 {
-                        cell.otherSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
-                    }else if itm.gendercount == 100 {
-                        cell.otherSlider.maximumTrackTintColor = .green
-                    }
-                    
-                    cell.otherPercentageLbl.text = "\(itm.gendercount ?? 0) %"
-                }
-            }
+            self.statisticsEvent(cell, model)
             
             return cell
         }
@@ -607,23 +408,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             
             cell.setupGoogleMap(location: CLLocationCoordinate2D(latitude: lat ?? 0.0, longitude: lng ?? 0.0))
             cell.HandleDirectionBtn = {
-                if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-                    UIApplication.shared.open(URL(string: "comgooglemaps://?saddr=&daddr=\(model?.lat ?? ""),\(model?.lang ?? "")&directionsmode=driving")!)
-                }else {
-                    let coordinates = CLLocationCoordinate2DMake(lat ?? 0.0, lng ?? 0.0)
-                    let source = MKMapItem(coordinate: coordinates, name: "Source")
-                    let regionDistance:CLLocationDistance = 10000
-                    let destination = MKMapItem(coordinate: coordinates, name: model?.title ?? "")
-                    let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
-                    let options = [
-                        MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
-                        MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
-                    ]
-                    MKMapItem.openMaps(
-                        with: [source, destination],
-                        launchOptions: options
-                    )
-                }
+                self.setupDirection(model)
             }
             return cell
         }
@@ -784,6 +569,245 @@ extension EventDetailsViewController {
         
         present(actionSheet, animated: true, completion: nil)
     }
+}
+
+//MARK: - Cell Btns Action
+extension EventDetailsViewController {
+    func eventStatus(_ model: Event?, _ cell: EventButtonsTableViewCell) {
+        if model?.key == 1 { //my event
+            cell.editBtn.isHidden = false
+            cell.chatBtn.isHidden = false
+            cell.joinBtn.isHidden = true
+            cell.leaveBtn.isHidden = true
+            self.isEventAdmin = true
+        }
+        else if model?.key == 2 { // not join
+            cell.editBtn.isHidden = true
+            cell.chatBtn.isHidden = true
+            cell.joinBtn.isHidden = false
+            cell.leaveBtn.isHidden = true
+            self.isEventAdmin = false
+        }
+        else { // join
+            cell.editBtn.isHidden = true
+            cell.chatBtn.isHidden = false
+            cell.joinBtn.isHidden = true
+            cell.leaveBtn.isHidden = false
+            self.isEventAdmin = false
+        }
+    }
+    func handleEventChat(_ model:Event?, _ JoinDate:String, _ Jointime:String) {
+        if model?.leveevent == 1 {
+            let vc = ConversationVC()
+            vc.isEvent = true
+            vc.eventChatID = self.eventId
+            vc.chatuserID = ""
+            vc.leavevent = 0
+            vc.leaveGroup = 1
+            vc.isFriend = false
+            vc.titleChatImage = model?.image ?? ""
+            vc.titleChatName = model?.title ?? ""
+            vc.isChatGroupAdmin = false
+            vc.isChatGroup = false
+            vc.groupId = ""
+            vc.isEventAdmin = self.isEventAdmin
+            CancelRequest.currentTask = false
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
+            joinEventChat(model, JoinDate, Jointime)
+        }
+    }
+    func joinEventChat(_ model:Event?, _ JoinDate:String, _ Jointime:String) {
+        self.view.makeToast("Wait, I'll join you in the event's chat...".localizedString)
+        self.joinCahtEventVM.joinChat(ByID: self.eventId, ActionDate: JoinDate, Actiontime: Jointime) { error, data in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {return}
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                let vc = ConversationVC()
+                vc.isEvent = true
+                vc.eventChatID = self.eventId
+                vc.chatuserID = ""
+                vc.leavevent = 0
+                vc.leaveGroup = 1
+                vc.isFriend = false
+                vc.titleChatImage = model?.image ?? ""
+                vc.titleChatName = model?.title ?? ""
+                vc.isChatGroupAdmin = false
+                vc.isChatGroup = false
+                vc.groupId = ""
+                vc.isEventAdmin = self.isEventAdmin
+                CancelRequest.currentTask = false
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+    }
+    func leaveEvent(_ cell: EventButtonsTableViewCell, _ JoinDate:String, _ Jointime:String) {
+        self.changeTitleBtns(btn: cell.leaveBtn, title: "Leaving...".localizedString)
+        cell.leaveBtn.isUserInteractionEnabled = false
+        
+        self.leaveVM.leaveEvent(ByEventid: self.eventId,leaveeventDate: JoinDate,leaveeventtime: Jointime) { error, data in
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {return}
+            DispatchQueue.main.async {
+                if self.selectedVC {
+                    Router().toHome()
+                }else {
+                    self.onPopup()
+                }
+            }
+        }
+    }
+    func joinEvent(_ cell: EventButtonsTableViewCell, _ JoinDate: String, _ Jointime: String) {
+        self.changeTitleBtns(btn: cell.joinBtn, title: "Joining...".localizedString)
+        cell.joinBtn.isUserInteractionEnabled = false
+        
+        self.joinVM.joinEvent(ByEventid: self.eventId,JoinDate:JoinDate ,Jointime:Jointime) { error, data in
+            
+            
+            if let error = error {
+                self.hideLoading()
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {return}
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+            }
+        }
+    }
+    func statisticsEvent(_ cell: StatisticsDetailsTableViewCell, _ model: Event?) {
+        cell.femaleLbl.text = "Female"
+        cell.maleLbl.text = "Male"
+        cell.otherLbl.text = "Other Gender"
+        
+        cell.interest1Lbl.text = model?.interestStatistic?[0].name
+        cell.interest2Lbl.text = model?.interestStatistic?[1].name
+        cell.interest3Lbl.text = model?.interestStatistic?[2].name
+        
+        cell.interest1PercentageLbl.text = "\(model?.interestStatistic?[0].interestcount ?? 0) %"
+        cell.interest2PercentageLbl.text = "\(model?.interestStatistic?[1].interestcount ?? 0) %"
+        cell.interest3PercentageLbl.text = "\(model?.interestStatistic?[2].interestcount ?? 0) %"
+        
+        cell.interest1Slider.value = Float(model?.interestStatistic?[0].interestcount ?? 0)
+        cell.interest2Slider.value = Float(model?.interestStatistic?[1].interestcount ?? 0)
+        cell.interest3Slider.value = Float(model?.interestStatistic?[2].interestcount ?? 0)
+        
+        DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                if (model?.interestStatistic?[0].interestcount ?? 0) == 0 {
+                    cell.interest1Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }else if (model?.interestStatistic?[0].interestcount ?? 0) == 100 {
+                    cell.interest1Slider.maximumTrackTintColor = .blue
+                }else {
+                    cell.interest1Slider.minimumTrackTintColor = .blue
+                    cell.interest1Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }
+            }
+            DispatchQueue.main.async {
+                if (model?.interestStatistic?[1].interestcount ?? 0) == 0 {
+                    cell.interest2Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }else if (model?.interestStatistic?[1].interestcount ?? 0) == 100 {
+                    cell.interest2Slider.maximumTrackTintColor = .red
+                }else {
+                    cell.interest2Slider.minimumTrackTintColor = .red
+                    cell.interest2Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }
+            }
+            DispatchQueue.main.async {
+                if (model?.interestStatistic?[2].interestcount ?? 0) == 0 {
+                    cell.interest3Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }
+                else if (model?.interestStatistic?[2].interestcount ?? 0) == 100 {
+                    cell.interest3Slider.maximumTrackTintColor = .green
+                }
+                else {
+                    cell.interest3Slider.minimumTrackTintColor = .green
+                    cell.interest3Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    
+                }
+            }
+        }
+        
+        for itm in model?.genderStatistic ?? [] {
+            if itm.key == "Male" {
+                cell.maleSlider.value = Float(itm.gendercount ?? 0)
+                
+                cell.maleSlider.minimumTrackTintColor = .blue
+                if itm.gendercount == 0 {
+                    cell.maleSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }else if itm.gendercount == 100 {
+                    cell.maleSlider.maximumTrackTintColor = .blue
+                }
+                
+                cell.malePercentageLbl.text = "\(itm.gendercount ?? 0) %"
+            }
+            else if itm.key == "Female" {
+                cell.femaleSlider.value = Float(itm.gendercount ?? 0)
+                
+                cell.femaleSlider.minimumTrackTintColor = .red
+                if itm.gendercount == 0 {
+                    cell.femaleSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }else if itm.gendercount == 100 {
+                    cell.femaleSlider.maximumTrackTintColor = .red
+                }
+                
+                cell.femalePercentageLbl.text = "\(itm.gendercount ?? 0) %"
+            }
+            else {
+                cell.otherSlider.value = Float(itm.gendercount ?? 0)
+                
+                cell.otherSlider.minimumTrackTintColor = .green
+                if itm.gendercount == 0 {
+                    cell.otherSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                }else if itm.gendercount == 100 {
+                    cell.otherSlider.maximumTrackTintColor = .green
+                }
+                
+                cell.otherPercentageLbl.text = "\(itm.gendercount ?? 0) %"
+            }
+        }
+    }
+    func setupDirection(_ model:Event?) {
+        let lat = Double("\(model?.lat ?? "")") ?? 0.0
+        let lng = Double("\(model?.lang ?? "")") ?? 0.0
+        
+        if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
+            UIApplication.shared.open(URL(string: "comgooglemaps://?saddr=&daddr=\(model?.lat ?? ""),\(model?.lang ?? "")&directionsmode=driving")!)
+        }
+        else {
+            let coordinates = CLLocationCoordinate2DMake(lat, lng)
+            let source = MKMapItem(coordinate: coordinates, name: "Source")
+            let regionDistance:CLLocationDistance = 10000
+            let destination = MKMapItem(coordinate: coordinates, name: model?.title ?? "")
+            let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
+            let options = [
+                MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
+                MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
+            ]
+            MKMapItem.openMaps(
+                with: [source, destination],
+                launchOptions: options
+            )
+        }
+    }
     
     func shareEvent() {
         // Setting description
@@ -828,30 +852,3 @@ extension EventDetailsViewController {
         self.present(activityViewController, animated: true, completion: nil)
     }
 }
-
-//extension EventDetailsViewController:GADBannerViewDelegate {
-//    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-//        print(error)
-//    }
-//    
-//    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-//        print("Receive Ad")
-//    }
-//    
-//    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-//        print("bannerViewDidRecordImpression")
-//    }
-//    
-//    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewWillPresentScreen")
-//        bannerView.load(GADRequest())
-//    }
-//    
-//    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewWillDIsmissScreen")
-//    }
-//    
-//    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-//        print("bannerViewDidDismissScreen")
-//    }
-//}

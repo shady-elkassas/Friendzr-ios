@@ -137,7 +137,6 @@ class FriendProfileViewController: UIViewController {
             }
         }
     }
-    
     func loadUserData() {
         self.hideView.showLoader()
         viewmodel.getFriendDetails(ById: userID)
@@ -173,7 +172,6 @@ class FriendProfileViewController: UIViewController {
             }
         }
     }
-    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -215,7 +213,6 @@ class FriendProfileViewController: UIViewController {
         updateUserInterface()
         self.refreshControl.endRefreshing()
     }
-    
     func setupView() {
         tableView.register(UINib(nibName: imageCellId, bundle: nil), forCellReuseIdentifier: imageCellId)
         tableView.register(UINib(nibName: userNameCellId, bundle: nil), forCellReuseIdentifier: userNameCellId)
@@ -229,14 +226,11 @@ class FriendProfileViewController: UIViewController {
             itm.cornerRadiusView(radius: 10)
         }
     }
-    
     @objc func updateFriendVC() {
         DispatchQueue.main.async {
             self.getFriendProfileInformation()
         }
     }
-    
-
     func HandleInternetConnection() {
         if btnSelect {
             emptyView.isHidden = true
@@ -249,7 +243,6 @@ class FriendProfileViewController: UIViewController {
             triAgainBtn.alpha = 1.0
         }
     }
-    
     func changeTitleBtns(btn:UIButton,title:String) {
         btn.setTitle(title, for: .normal)
     }
@@ -287,371 +280,67 @@ extension FriendProfileViewController:UITableViewDataSource {
                 cell.genderLlb.text = model?.gender
             }
             
-            switch model?.key {
-            case 0:
-                //Status = normal case
-                cell.acceptBtn.isHidden = true
-                cell.refuseBtn.isHidden = true
-                cell.cancelBtn.isHidden = true
-                cell.sendRequestBtn.isHidden = false
-                cell.friendStackView.isHidden = true
-                cell.unblockBtn.isHidden = true
-                break
-            case 1:
-                //Status = I have added a friend request
-                cell.acceptBtn.isHidden = true
-                cell.refuseBtn.isHidden = true
-                cell.cancelBtn.isHidden = false
-                cell.sendRequestBtn.isHidden = true
-                cell.friendStackView.isHidden = true
-                cell.unblockBtn.isHidden = true
-                break
-            case 2:
-                //Status = Send me a request to add a friend
-                cell.acceptBtn.isHidden = false
-                cell.refuseBtn.isHidden = false
-                cell.cancelBtn.isHidden = true
-                cell.sendRequestBtn.isHidden = true
-                cell.friendStackView.isHidden = true
-                cell.unblockBtn.isHidden = true
-                break
-            case 3:
-                //Status = We are friends
-                cell.acceptBtn.isHidden = true
-                cell.refuseBtn.isHidden = true
-                cell.cancelBtn.isHidden = true
-                cell.sendRequestBtn.isHidden = true
-                cell.friendStackView.isHidden = false
-                cell.unblockBtn.isHidden = true
-                break
-            case 4:
-                //Status = I block user
-                cell.acceptBtn.isHidden = true
-                cell.refuseBtn.isHidden = true
-                cell.cancelBtn.isHidden = true
-                cell.sendRequestBtn.isHidden = true
-                cell.friendStackView.isHidden = true
-                cell.unblockBtn.isHidden = false
-                break
-            case 5:
-                //Status = user block me
-                cell.acceptBtn.isHidden = true
-                cell.refuseBtn.isHidden = true
-                cell.cancelBtn.isHidden = true
-                cell.sendRequestBtn.isHidden = true
-                cell.friendStackView.isHidden = true
-                cell.unblockBtn.isHidden = true
-                break
-            case 6:
-                break
-            default:
-                break
-            }
+            statusFriend(model, cell)
             
             cell.HandleSendRequestBtn = {
                 self.btnSelect = true
                 if NetworkConected.internetConect == true {
-                    self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
-                    self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1,requestdate: "\(actionDate) \(actionTime)") { error, message in
-                        
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let _ = message else {return}
-                        
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-                        }
-                        
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.getFriendProfileInformation()
-                        }
-                    }
+                    self.sendFriendRequest(cell, "\(actionDate) \(actionTime)")
                 }
             }
             
             cell.HandleCancelBtn = {
                 self.btnSelect = true
                 if NetworkConected.internetConect == true {
-                    self.changeTitleBtns(btn: cell.cancelBtn, title: "Canceling...".localizedString)
-                    self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6,requestdate: "\(actionDate) \(actionTime)") { error, message in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let _ = message else {return}
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-                        }
-                        
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.getFriendProfileInformation()
-                        }
-                        
-                    }
+                    self.cancelFriendRequest(cell, "\(actionDate) \(actionTime)")
                 }
             }
             
             cell.HandleRefuseBtn = {
-                self.btnSelect = true
-                self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                
-                self.alertView?.titleLbl.text = "Confirm?".localizedString
-                self.alertView?.detailsLbl.text = "Are you sure you want to refuse this request?".localizedString
-                
-                self.alertView?.HandleConfirmBtn = {
-                    if NetworkConected.internetConect == true {
-                        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6,requestdate: "\(actionDate) \(actionTime)") { error, message in
-                            self.hideLoading()
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let _ = message else {return}
-                            
-                            DispatchQueue.main.async {
-                                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-                            }
-                            
-                            DispatchQueue.main.async {
-                                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                            }
-                            
-                            DispatchQueue.main.async {
-                                self.getFriendProfileInformation()
-                            }
-                            
-                        }
-                    }
-                    
-                    // handling code
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.alertView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.alertView?.removeFromSuperview()
-                        self.alertView?.alpha = 1
-                        self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                    }
-                }
-                
-                self.view.addSubview((self.alertView)!)
+                self.showAllertForRefuseFriend("\(actionDate) \(actionTime)")
             }
             
             cell.HandleAcceptBtn = {
                 self.btnSelect = true
                 if NetworkConected.internetConect == true {
-                    self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 2,requestdate: "\(actionDate) \(actionTime)") { error, message in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            
-                            return
-                        }
-                        
-                        guard let _ = message else {return}
-                        
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
-                        }
-                        
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                        }
-                        
-                        DispatchQueue.main.async {
-                            self.getFriendProfileInformation()
-                        }
-                    }
+                    self.acceptFriendRequest("\(actionDate) \(actionTime)")
                 }
             }
             
             cell.HandleUnFriendBtn = {
-                self.btnSelect = true
-                self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                
-                self.alertView?.titleLbl.text = "Confirm?".localizedString
-                self.alertView?.detailsLbl.text = "Are you sure you want to unfriend this account?".localizedString
-                
-                self.alertView?.HandleConfirmBtn = {
-                    if NetworkConected.internetConect == true {
-                        
-                        cell.sendRequestBtn.isHidden = false
-                        cell.friendStackView.isHidden = true
-                        
-                        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 5,requestdate: "\(actionDate) \(actionTime)") { error, message in
-                            self.hideLoading()
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let _ = message else {return}
-                            
-                            if self.selectedVC {
-                                DispatchQueue.main.async {
-                                    Router().toHome()
-                                }
-                            }else {
-                                DispatchQueue.main.async {
-                                    self.getFriendProfileInformation()
-                                }
-                            }
-                        }
-                    }else {
-                        return
-                    }
-                    
-                    // handling code
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.alertView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.alertView?.removeFromSuperview()
-                        self.alertView?.alpha = 1
-                        self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                    }
-                }
-                
-                self.view.addSubview((self.alertView)!)
+                self.showAlertForUnFriend(cell, "\(actionDate) \(actionTime)")
             }
             
             cell.HandleBlockBtn = {
-                self.btnSelect = true
-                self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                self.alertView?.titleLbl.text = "Confirm?".localizedString
-                self.alertView?.detailsLbl.text = "Are you sure you want to block this account?".localizedString
-                
-                self.alertView?.HandleConfirmBtn = {
-                    // handling code
-                    if NetworkConected.internetConect == true {
-                        self.changeTitleBtns(btn: cell.blockBtn, title: "Sending...".localizedString)
-                        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 3,requestdate: "\(actionDate) \(actionTime)") { error, message in
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let _ = message else {return}
-                            
-                            if self.selectedVC {
-                                Router().toHome()
-                            }else {
-                                self.onPopup()
-                            }
-                        }
-                    }
-                    
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.alertView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.alertView?.removeFromSuperview()
-                        self.alertView?.alpha = 1
-                        self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                    }
-                }
-                
-                self.view.addSubview((self.alertView)!)
+                self.showAlertForBlock(cell, "\(actionDate) \(actionTime)")
             }
             
             cell.HandleUnblockBtn = {
-                self.btnSelect = true
-                self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                
-                self.alertView?.titleLbl.text = "Confirm?".localizedString
-                self.alertView?.detailsLbl.text = "Are you sure you want to unblock this account?".localizedString
-                
-                self.alertView?.HandleConfirmBtn = { [self] in
-                    // handling code
-                    if NetworkConected.internetConect == true {
-                        
-                        self.changeTitleBtns(btn: cell.unblockBtn, title: "Sending...")
-                        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 4,requestdate: "\(actionDate) \(actionTime)") { error, message in
-                            
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let _ = message else {return}
-                            DispatchQueue.main.async {
-                                self.getFriendProfileInformation()
-                            }
-                        }
-                    }else {
-                        return
-                    }
-                    
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.alertView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.alertView?.removeFromSuperview()
-                        self.alertView?.alpha = 1
-                        self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                    }
-                }
-                
-                self.view.addSubview((self.alertView)!)
+                self.showAlertForUnBlockFriend(cell, "\(actionDate) \(actionTime)")
             }
             
-            cell.sendRequestBtn.setTitle("Send Request".localizedString, for: .normal)
-            cell.cancelBtn.setTitle("Cancel Request".localizedString, for: .normal)
-            cell.acceptBtn.setTitle("Accept".localizedString, for: .normal)
-            cell.refuseBtn.setTitle("Cancel".localizedString, for: .normal)
-            cell.unblockBtn.setTitle("Unblock".localizedString, for: .normal)
-            cell.unFriendBtn.setTitle("Unfriend".localizedString, for: .normal)
-            cell.blockBtn.setTitle("Block".localizedString, for: .normal)
+            setupTitleBtns(cell)
             
             return cell
             
         }
+        
         else if indexPath.row == 1 {//name & username
             guard let cell = tableView.dequeueReusableCell(withIdentifier: userNameCellId, for: indexPath) as? ProfileUserNameTableViewCell else {return UITableViewCell()}
             cell.userNameLbl.text = "@\(model?.displayedUserName ?? "")"
             cell.nameLbl.text = model?.userName
             return cell
         }
+        
         else if indexPath.row == 2 {//interests
             guard let cell = tableView.dequeueReusableCell(withIdentifier: interestsCellId, for: indexPath) as? InterestsProfileTableViewCell else {return UITableViewCell()}
+            
             cell.tagsListView.removeAllTags()
-            //            if (model?.listoftagsmodel?.count ?? 0) > 4 {
-            //                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[0].tagID ?? "", title: model?.listoftagsmodel?[0].tagname ?? "")
-            //                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[1].tagID ?? "", title: model?.listoftagsmodel?[1].tagname ?? "")
-            //                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[2].tagID ?? "", title: model?.listoftagsmodel?[2].tagname ?? "")
-            //                cell.tagsListView.addTag(tagId: model?.listoftagsmodel?[3].tagID ?? "", title: model?.listoftagsmodel?[3].tagname ?? "")
-            //            }else {
+            
             for item in model?.listoftagsmodel ?? [] {
                 cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
             }
-            //            }
-            
+
             print("tagListView.rows \(cell.tagsListView.rows)")
             cell.tagsListViewHeight.constant = CGFloat(cell.tagsListView.rows * 25)
             
@@ -671,6 +360,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             
             return cell
         }
+        
         else if indexPath.row == 3 {//what i am
             guard let cell = tableView.dequeueReusableCell(withIdentifier: bestDescribesCellId, for: indexPath) as? BestDescribesTableViewCell else {return UITableViewCell()}
             
@@ -697,6 +387,7 @@ extension FriendProfileViewController:UITableViewDataSource {
             }
             return cell
         }
+        
         else if indexPath.row == 4 {//I prefer to...
             guard let cell = tableView.dequeueReusableCell(withIdentifier: preferCellId, for: indexPath) as? PreferToTableViewCell else {return UITableViewCell()}
             cell.tagsListView.removeAllTags()
@@ -766,8 +457,6 @@ extension FriendProfileViewController {
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        //        button.backgroundColor = UIColor.FriendzrColors.primary?.withAlphaComponent(0.5)
-        //        button.cornerRadiusForHeight()
         button.setImage(image, for: .normal)
         image?.withTintColor(UIColor.blue)
         button.addTarget(self, action:  #selector(handleUserOptionsBtn), for: .touchUpInside)
@@ -776,6 +465,10 @@ extension FriendProfileViewController {
     }
     
     @objc func handleUserOptionsBtn() {
+        reportActionSheet()
+    }
+    
+    func reportActionSheet() {
         let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
             if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
@@ -792,4 +485,351 @@ extension FriendProfileViewController {
         
         present(actionSheet, animated: true, completion: nil)
     }
+}
+
+//MARK: - Cell Btns Action
+extension FriendProfileViewController {
+    
+    func statusFriend(_ model: FriendObj?, _ cell: FriendImageProfileTableViewCell) {
+        switch model?.key {
+        case 0:
+            //Status = normal case
+            cell.acceptBtn.isHidden = true
+            cell.refuseBtn.isHidden = true
+            cell.cancelBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = false
+            cell.friendStackView.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 1:
+            //Status = I have added a friend request
+            cell.acceptBtn.isHidden = true
+            cell.refuseBtn.isHidden = true
+            cell.cancelBtn.isHidden = false
+            cell.sendRequestBtn.isHidden = true
+            cell.friendStackView.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 2:
+            //Status = Send me a request to add a friend
+            cell.acceptBtn.isHidden = false
+            cell.refuseBtn.isHidden = false
+            cell.cancelBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.friendStackView.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 3:
+            //Status = We are friends
+            cell.acceptBtn.isHidden = true
+            cell.refuseBtn.isHidden = true
+            cell.cancelBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.friendStackView.isHidden = false
+            cell.unblockBtn.isHidden = true
+            break
+        case 4:
+            //Status = I block user
+            cell.acceptBtn.isHidden = true
+            cell.refuseBtn.isHidden = true
+            cell.cancelBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.friendStackView.isHidden = true
+            cell.unblockBtn.isHidden = false
+            break
+        case 5:
+            //Status = user block me
+            cell.acceptBtn.isHidden = true
+            cell.refuseBtn.isHidden = true
+            cell.cancelBtn.isHidden = true
+            cell.sendRequestBtn.isHidden = true
+            cell.friendStackView.isHidden = true
+            cell.unblockBtn.isHidden = true
+            break
+        case 6:
+            break
+        default:
+            break
+        }
+    }
+    
+    func sendFriendRequest( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
+        self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
+        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 1,requestdate: requestdate) { error, message in
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+            }
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+            }
+            
+            DispatchQueue.main.async {
+                self.getFriendProfileInformation()
+            }
+        }
+    }
+    
+    func cancelFriendRequest( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
+       self.changeTitleBtns(btn: cell.cancelBtn, title: "Canceling...".localizedString)
+       self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6,requestdate: requestdate) { error, message in
+           if let error = error {
+               DispatchQueue.main.async {
+                   self.view.makeToast(error)
+               }
+               return
+           }
+           
+           guard let _ = message else {return}
+           DispatchQueue.main.async {
+               NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+           }
+           
+           DispatchQueue.main.async {
+               NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+           }
+           
+           DispatchQueue.main.async {
+               self.getFriendProfileInformation()
+           }
+           
+       }
+   }
+    
+    func showAlertForUnFriend( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
+       self.btnSelect = true
+       self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+       
+       self.alertView?.titleLbl.text = "Confirm?".localizedString
+       self.alertView?.detailsLbl.text = "Are you sure you want to unfriend this account?".localizedString
+       
+       self.alertView?.HandleConfirmBtn = {
+           if NetworkConected.internetConect == true {
+               self.unFriendRequest(cell, requestdate)
+           }else {
+               return
+           }
+           
+           // handling code
+           UIView.animate(withDuration: 0.3, animations: {
+               self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+               self.alertView?.alpha = 0
+           }) { (success: Bool) in
+               self.alertView?.removeFromSuperview()
+               self.alertView?.alpha = 1
+               self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+           }
+       }
+       
+       self.view.addSubview((self.alertView)!)
+   }
+    func unFriendRequest( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
+       cell.sendRequestBtn.isHidden = false
+       cell.friendStackView.isHidden = true
+       self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 5,requestdate: requestdate) { error, message in
+           self.hideLoading()
+           if let error = error {
+               DispatchQueue.main.async {
+                   self.view.makeToast(error)
+               }
+               return
+           }
+           
+           guard let _ = message else {return}
+           
+           if self.selectedVC {
+               DispatchQueue.main.async {
+                   Router().toHome()
+               }
+           }else {
+               DispatchQueue.main.async {
+                   self.getFriendProfileInformation()
+               }
+           }
+       }
+   }
+    
+    func acceptFriendRequest( _ requestdate:String) {
+        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 2,requestdate: requestdate ) { error, message in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                
+                return
+            }
+            
+            guard let _ = message else {return}
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+            }
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+            }
+            
+            DispatchQueue.main.async {
+                self.getFriendProfileInformation()
+            }
+        }
+    }
+    
+    func showAllertForRefuseFriend( _ requestdate:String) {
+        self.btnSelect = true
+        self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        self.alertView?.titleLbl.text = "Confirm?".localizedString
+        self.alertView?.detailsLbl.text = "Are you sure you want to refuse this request?".localizedString
+        
+        self.alertView?.HandleConfirmBtn = {
+            if NetworkConected.internetConect == true {
+                self.refuseFriendRequest(requestdate)
+            }
+            
+            // handling code
+            UIView.animate(withDuration: 0.3, animations: {
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alertView?.alpha = 0
+            }) { (success: Bool) in
+                self.alertView?.removeFromSuperview()
+                self.alertView?.alpha = 1
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((self.alertView)!)
+    }
+    func refuseFriendRequest( _ requestdate:String) {
+        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6,requestdate: requestdate) { error, message in
+            self.hideLoading()
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+            }
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+            }
+            
+            DispatchQueue.main.async {
+                self.getFriendProfileInformation()
+            }
+        }
+    }
+
+    func showAlertForBlock( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
+        self.btnSelect = true
+        self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        self.alertView?.titleLbl.text = "Confirm?".localizedString
+        self.alertView?.detailsLbl.text = "Are you sure you want to block this account?".localizedString
+        
+        self.alertView?.HandleConfirmBtn = {
+            // handling code
+            if NetworkConected.internetConect == true {
+                self.blockFriendRequest(cell, requestdate)
+            }
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alertView?.alpha = 0
+            }) { (success: Bool) in
+                self.alertView?.removeFromSuperview()
+                self.alertView?.alpha = 1
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((self.alertView)!)
+    }
+    func blockFriendRequest( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
+        self.changeTitleBtns(btn: cell.blockBtn, title: "Sending...".localizedString)
+        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 3,requestdate: requestdate) { error, message in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            
+            if self.selectedVC {
+                Router().toHome()
+            }else {
+                self.onPopup()
+            }
+        }
+    }
+    
+    func showAlertForUnBlockFriend( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
+        self.btnSelect = true
+        self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        self.alertView?.titleLbl.text = "Confirm?".localizedString
+        self.alertView?.detailsLbl.text = "Are you sure you want to unblock this account?".localizedString
+        
+        self.alertView?.HandleConfirmBtn = { [self] in
+            // handling code
+            if NetworkConected.internetConect == true {
+                self.unblockFriendRequest(cell, requestdate)
+            }
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alertView?.alpha = 0
+            }) { (success: Bool) in
+                self.alertView?.removeFromSuperview()
+                self.alertView?.alpha = 1
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((self.alertView)!)
+    }
+    func unblockFriendRequest( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
+        self.changeTitleBtns(btn: cell.unblockBtn, title: "Sending...")
+        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 4,requestdate: requestdate) { error, message in
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            DispatchQueue.main.async {
+                self.getFriendProfileInformation()
+            }
+        }
+    }
+    
+    func setupTitleBtns(_ cell: FriendImageProfileTableViewCell) {
+       cell.sendRequestBtn.setTitle("Send Request".localizedString, for: .normal)
+       cell.cancelBtn.setTitle("Cancel Request".localizedString, for: .normal)
+       cell.acceptBtn.setTitle("Accept".localizedString, for: .normal)
+       cell.refuseBtn.setTitle("Cancel".localizedString, for: .normal)
+       cell.unblockBtn.setTitle("Unblock".localizedString, for: .normal)
+       cell.unFriendBtn.setTitle("Unfriend".localizedString, for: .normal)
+       cell.blockBtn.setTitle("Block".localizedString, for: .normal)
+   }
 }
