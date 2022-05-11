@@ -415,6 +415,17 @@ extension GroupDetailsVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewmodel.groupMembers.value?.chatGroupSubscribers?.count ?? 0
     }
+    func setupActionSheet(_ model:UserConversationModel?) {
+        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+        
+        settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            self.showAlertView(messageString: "delete".localizedString, userID: model?.userId ?? "", Stutus: 1)
+        }))
+        settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
+        
+        self.present(settingsActionSheet, animated:true, completion:nil)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? AttendeesTableViewCell else {return UITableViewCell()}
         let model = viewmodel.groupMembers.value?.chatGroupSubscribers?[indexPath.row]
@@ -423,7 +434,8 @@ extension GroupDetailsVC : UITableViewDataSource {
             cell.dropDownBtn.isHidden = true
             cell.adminLbl.isHidden = false
             cell.btnWidth.constant = 0
-        }else {
+        }
+        else {
             if self.isGroupAdmin {
                 cell.dropDownBtn.isHidden = false
                 cell.adminLbl.isHidden = true
@@ -436,7 +448,6 @@ extension GroupDetailsVC : UITableViewDataSource {
             }
         }
         
-        
         cell.friendNameLbl.text = model?.userName
         cell.friendImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
         cell.friendImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
@@ -444,15 +455,9 @@ extension GroupDetailsVC : UITableViewDataSource {
         cell.joinDateLbl.isHidden = true
         
         cell.HandleDropDownBtn = {
-            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-            
-            settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-                self.showAlertView(messageString: "delete".localizedString, userID: model?.userId ?? "", Stutus: 1)
-            }))
-            settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
-            
-            self.present(settingsActionSheet, animated:true, completion:nil)
+            self.setupActionSheet(model)
         }
+        
         return cell
     }
     

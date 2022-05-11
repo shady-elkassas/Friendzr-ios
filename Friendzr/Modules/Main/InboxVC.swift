@@ -320,7 +320,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
             item.cornerRadiusForHeight()
         }
     }
-    
     //setupViews
     func setupView() {
         setupSearchBar()
@@ -329,7 +328,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         tryAgainBtn.cornerRadiusView(radius: 8)
         bannerView.setCornerforTop()
     }
-    
     //setup SearchBar
     func setupSearchBar() {
         searchBar.delegate = self
@@ -471,7 +469,6 @@ extension InboxVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         if viewmodel.listChat.value?.data?.count != 0  {
@@ -765,7 +762,7 @@ extension InboxVC {
             deleteEventOrUserChat(ID, isEvent, registrationDateTime)
         }
     }
-    
+
     func clearGroupChat(_ ID: String, _ registrationDateTime: String) {
         self.groupVM.clearGroupChat(ByID: ID, registrationDateTime: registrationDateTime) { error, data in
             if let error = error {
@@ -898,7 +895,6 @@ extension InboxVC {
             }
         }
     }
-    
     
     func goToConversation(_ indexPath: IndexPath) {
         if viewmodel.listChat.value?.data?.count != 0 {

@@ -47,9 +47,10 @@ class EventsLocation {
     var markerId:String = ""
     var isEvent:Bool = false
     var peopleCount:Int = 0
-    var eventType:String
+    var eventType:String = ""
+    var eventList:[EventObj]? = nil
     
-    init(location:CLLocationCoordinate2D,markerIcon:String,typelocation:String,eventsCount:Int,markerId:String,isEvent:Bool,peopleCount:Int,eventType:String) {
+    init(location:CLLocationCoordinate2D,markerIcon:String,typelocation:String,eventsCount:Int,markerId:String,isEvent:Bool,peopleCount:Int,eventType:String,eventList:[EventObj]?) {
         self.location = location
         self.markerIcon = markerIcon
         self.typelocation = typelocation
@@ -58,6 +59,7 @@ class EventsLocation {
         self.isEvent = isEvent
         self.peopleCount = peopleCount
         self.eventType = eventType
+        self.eventList = eventList
     }
 }
 
@@ -119,6 +121,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     let screenSize = UIScreen.main.bounds.size
     var isViewUp:Bool = false
     var bannerView2: GADBannerView!
+    
+    var sliderEventList:[EventObj]? = nil
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -292,28 +296,28 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
-    func getEvents(By lat:Double,lng:Double) {
-        
-        viewmodel.getEventsByLoction(lat: lat, lng: lng)
-        viewmodel.events.bind { [unowned self] value in
-            DispatchQueue.main.async {
-                self.eventsTableView.dataSource = self
-                self.eventsTableView.delegate = self
-                self.eventsTableView.reloadData()
-            }
-        }
-        
-        // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
-            DispatchQueue.main.async {
-                self.hideLoading()
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
-            }
-        }
-    }
+//    func getEvents(By lat:Double,lng:Double) {
+//
+//        viewmodel.getEventsByLoction(lat: lat, lng: lng)
+//        viewmodel.events.bind { [unowned self] value in
+//            DispatchQueue.main.async {
+//                self.eventsTableView.dataSource = self
+//                self.eventsTableView.delegate = self
+//                self.eventsTableView.reloadData()
+//            }
+//        }
+//
+//        // Set View Model Event Listener
+//        viewmodel.error.bind { [unowned self]error in
+//            DispatchQueue.main.async {
+//                self.hideLoading()
+//                DispatchQueue.main.async {
+//                    self.view.makeToast(error)
+//                }
+//
+//            }
+//        }
+//    }
     
     func updateMyLocation() {
         updateLocationVM.updatelocation(ByLat: "\(Defaults.LocationLat)", AndLng: "\(Defaults.LocationLng)") { error, data in
@@ -413,12 +417,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 iconMarker = "eventMarker_ic"
             }
             
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: iconMarker, typelocation: "event", eventsCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : "",isEvent: true,peopleCount: 0, eventType: item.event_Type))
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: iconMarker, typelocation: "event", eventsCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : "",isEvent: true,peopleCount: 0, eventType: item.event_Type, eventList: item.eventData))
         }
         
         DispatchQueue.main.async {
             for item in model.peoplocationDataMV ?? [] {
-                self.locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "markerLocations_ic", typelocation: "people", eventsCount: 1, markerId: "1",isEvent: false,peopleCount: item.totalUsers ?? 0, eventType: ""))
+                self.locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: "markerLocations_ic", typelocation: "people", eventsCount: 1, markerId: "1",isEvent: false,peopleCount: item.totalUsers ?? 0, eventType: "", eventList: []))
             }
         }
         
@@ -922,7 +926,19 @@ extension MapVC : GMSMapViewDelegate {
                         }
                     }
                 }else {
-                    getEvents(By: pos?.latitude ?? 0.0, lng: pos?.longitude ?? 0.0)
+                    for itm in self.locations {
+                        if ((pos?.latitude ?? 0.0 ) == itm.location.latitude) && ((pos?.longitude ?? 0.0) == itm.location.longitude) {
+                            sliderEventList = itm.eventList
+                        }
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.eventsTableView.delegate = self
+                        self.eventsTableView.dataSource = self
+                        self.eventsTableView.reloadData()
+                    }
+                    
+                    
                     CreateSlideUpMenu()
                 }
                 
@@ -1134,12 +1150,12 @@ extension MapVC: GMSAutocompleteTableDataSourceDelegate {
 //MARK: - events tableView dataSource and delegate
 extension MapVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.events.value?.count ?? 0
+        return sliderEventList?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = eventsTableView.dequeueReusableCell(withIdentifier: eventCellID, for: indexPath) as? EventsInLocationTableViewCell else {return UITableViewCell()}
-        let model = viewmodel.events.value?[indexPath.row]
+        let model = sliderEventList?[indexPath.row]
         cell.eventTitleLbl.text = model?.title
         cell.eventDateLbl.text = model?.eventdate
         cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"

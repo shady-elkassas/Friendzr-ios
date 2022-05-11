@@ -261,9 +261,6 @@ extension ReportVC {
     }
     
     @objc func backToConversationVC() {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-//            Router().toConversationVC(isEvent: self.isEvent, eventChatID: self.id, leavevent: 0, chatuserID: self.id, isFriend: true, titleChatImage: self.chatimg, titleChatName: self.chatname, isChatGroupAdmin: false, isChatGroup: false, groupId: "",leaveGroup: 1)
-//        })
         Router().toHome()
     }
 }

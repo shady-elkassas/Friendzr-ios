@@ -149,8 +149,7 @@ class NewConversationVC: UIViewController {
         currentPage += 1
         getAllFriends(pageNumber: currentPage, search: searchbar.text ?? "")
     }
-    
-    func getAllFriends(pageNumber:Int,search:String) {
+     func getAllFriends(pageNumber:Int,search:String) {
         hideView.isHidden = true
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
@@ -180,7 +179,6 @@ class NewConversationVC: UIViewController {
             }
         }
     }
-    
     func LaodAllFriends(pageNumber:Int,search:String) {
         hideView.isHidden = false
         hideView.showLoader()

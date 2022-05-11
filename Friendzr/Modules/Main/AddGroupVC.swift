@@ -111,7 +111,6 @@ class AddGroupVC: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-    
     func setupSearchBar() {
         searchbar.delegate = self
         searchBarView.cornerRadiusView(radius: 6)
@@ -127,7 +126,6 @@ class AddGroupVC: UIViewController {
         searchbar.searchTextField.attributedPlaceholder = placeHolder
         searchbar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
     }
-    
     func setupViews() {
         tableView.allowsMultipleSelection = true
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
@@ -135,7 +133,6 @@ class AddGroupVC: UIViewController {
         groupImg.cornerRadiusForHeight()
         nameView.setBorder()
         nameView.cornerRadiusView(radius: 8)
-        
     }
     
     //Handle Internet Connection
@@ -143,13 +140,11 @@ class AddGroupVC: UIViewController {
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
     
-    
     //MARK:  - APIs
     func loadMoreFriendItems(){
         currentPage += 1
         getAllFriends(pageNumber: currentPage, search: searchbar.text ?? "")
     }
-    
     func getAllFriends(pageNumber:Int,search:String) {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
@@ -177,7 +172,6 @@ class AddGroupVC: UIViewController {
             }
         }
     }
-    
     func LaodAllFriends(pageNumber:Int,search:String) {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
@@ -225,7 +219,6 @@ class AddGroupVC: UIViewController {
             emptyView.isHidden = false
         }
     }
-    
     func createFooterView() -> UIView {
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
         let indicatorView = UIActivityIndicatorView()
@@ -320,7 +313,7 @@ extension AddGroupVC: UITableViewDataSource {
         if indexPath.row == ((viewmodel.friends.value?.data?.count ?? 0) - 1 ) {
             cell.bottomView.isHidden = true
         }
-
+        
         return cell
     }
 }
