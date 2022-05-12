@@ -158,7 +158,6 @@ class NotificationsVC: UIViewController {
             item.cornerRadiusView(radius: 6)
         }
     }
-    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -192,14 +191,12 @@ class NotificationsVC: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-    
     func HandleinvalidUrl() {
         emptyView.isHidden = false
         emptyImg.image = UIImage.init(named: "notificationnodata_img")
         emptyLbl.text = "sorry for that we have some maintaince with our servers please try again in few moments".localizedString
         tryAgainBtn.alpha = 1.0
     }
-    
     func HandleInternetConnection() {
         if btnsSelect {
             emptyView.isHidden = true
@@ -211,13 +208,11 @@ class NotificationsVC: UIViewController {
             tryAgainBtn.alpha = 1.0
         }
     }
-    
     func setupViews() {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         tableView.register(UINib(nibName: emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
     }
-    
     func createFooterView() -> UIView {
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
         let indicatorView = UIActivityIndicatorView()
@@ -226,7 +221,6 @@ class NotificationsVC: UIViewController {
         indicatorView.startAnimating()
         return footerview
     }
-    
     func pullToRefresh() {
         self.refreshControl.attributedTitle = NSAttributedString(string: "")
         self.refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
@@ -352,7 +346,7 @@ extension NotificationsVC: UITableViewDelegate {
             if currentPage < viewmodel.notifications.value?.totalPages ?? 0 {
                 self.tableView.tableFooterView = self.createFooterView()
                 
-                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
                     print("self.currentPage >> \(self.currentPage)")
                     self.loadMoreItemsForList()
                 }

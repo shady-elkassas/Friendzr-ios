@@ -134,7 +134,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
         isViewUp = false
-
+        
         if !Defaults.hideAds {
             setupAds()
         }else {
@@ -158,12 +158,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             let contentOffset = CGPoint(x: 0, y: 0)
             self.collectionView.setContentOffset(contentOffset, animated: false)
         }
-     
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-
+        
         
     }
     
@@ -200,8 +200,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
-
-       
+    
+    
     //MARK: - APIs
     func getEventsOnlyAroundMe() {
         
@@ -296,28 +296,28 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
-//    func getEvents(By lat:Double,lng:Double) {
-//
-//        viewmodel.getEventsByLoction(lat: lat, lng: lng)
-//        viewmodel.events.bind { [unowned self] value in
-//            DispatchQueue.main.async {
-//                self.eventsTableView.dataSource = self
-//                self.eventsTableView.delegate = self
-//                self.eventsTableView.reloadData()
-//            }
-//        }
-//
-//        // Set View Model Event Listener
-//        viewmodel.error.bind { [unowned self]error in
-//            DispatchQueue.main.async {
-//                self.hideLoading()
-//                DispatchQueue.main.async {
-//                    self.view.makeToast(error)
-//                }
-//
-//            }
-//        }
-//    }
+    //    func getEvents(By lat:Double,lng:Double) {
+    //
+    //        viewmodel.getEventsByLoction(lat: lat, lng: lng)
+    //        viewmodel.events.bind { [unowned self] value in
+    //            DispatchQueue.main.async {
+    //                self.eventsTableView.dataSource = self
+    //                self.eventsTableView.delegate = self
+    //                self.eventsTableView.reloadData()
+    //            }
+    //        }
+    //
+    //        // Set View Model Event Listener
+    //        viewmodel.error.bind { [unowned self]error in
+    //            DispatchQueue.main.async {
+    //                self.hideLoading()
+    //                DispatchQueue.main.async {
+    //                    self.view.makeToast(error)
+    //                }
+    //
+    //            }
+    //        }
+    //    }
     
     func updateMyLocation() {
         updateLocationVM.updatelocation(ByLat: "\(Defaults.LocationLat)", AndLng: "\(Defaults.LocationLng)") { error, data in
@@ -502,7 +502,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         imag2.frame = xview2.frame
         imag2.image = UIImage(named: markerIcon ?? "")
         imag2.contentMode = .scaleToFill
-
+        
         xview2.addSubview(imag2)
         
         
@@ -524,7 +524,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         topContainerView.cornerRadiusView(radius: 10)
         nextBtn.setBorder(color: UIColor.white.cgColor, width: 2)
         nextBtn.cornerRadiusForHeight()
-
+        
         //        profileImg.cornerRadiusForHeight()
         //        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
         
@@ -719,7 +719,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             self.transparentView.alpha = 0.0
             self.eventsTableView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height/2.05)
             
-            self.viewmodel.events.value?.removeAll()
+            self.sliderEventList?.removeAll()
         }
     }
     
@@ -938,10 +938,8 @@ extension MapVC : GMSMapViewDelegate {
                         self.eventsTableView.reloadData()
                     }
                     
-                    
                     CreateSlideUpMenu()
                 }
-                
             }else if marker.snippet == "NewEvent" {
                 print("NEW EVENT")
             }else {
@@ -1205,7 +1203,7 @@ extension MapVC:UITableViewDelegate {
                 self.eventsTableView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.screenSize.height/2.05)
             }
             
-            let model = viewmodel.events.value?[indexPath.row]
+            let model = sliderEventList?[indexPath.row]
             if model?.eventtype == "External" {
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
                 vc.eventId = model?.id ?? ""
@@ -1229,7 +1227,7 @@ extension MapVC:UITableViewDelegate {
                 }
                 
                 vc.inMap = true
-
+                
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
@@ -1523,7 +1521,7 @@ extension MapVC {
 extension MapVC:GADBannerViewDelegate {
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
         print("bannerViewDidReceiveAd")
-//        addBannerViewToView(bannerView2)
+        //        addBannerViewToView(bannerView2)
     }
     
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {

@@ -728,4 +728,3 @@ extension MessagesViewController {
         view.backgroundColor = UIColor.white
     }
 }
-
