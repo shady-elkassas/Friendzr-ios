@@ -394,7 +394,7 @@ class ShareEventVC: UIViewController {
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
-                    cell.sendBtn.setTitle("Sent", for: .normal)
+                    cell.sendBtn.setTitle("Send", for: .normal)
                 }
                 return
             }
@@ -405,7 +405,7 @@ class ShareEventVC: UIViewController {
             
             DispatchQueue.main.async {
                 cell.sendBtn.isUserInteractionEnabled = false
-                cell.sendBtn.setTitle("Send", for: .normal)
+                cell.sendBtn.setTitle("Sent", for: .normal)
                 cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
                 cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
                 cell.sendBtn.backgroundColor = .white

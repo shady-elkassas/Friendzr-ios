@@ -23,6 +23,9 @@ class EventDetailsViewController: UIViewController {
     @IBOutlet var imagesView: [UIImageView]!
     
     //MARK: - Properties
+    
+    lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
+
     let eventImgCellId = "EventImageTableViewCell"
     let btnsCellId = "EventButtonsTableViewCell"
     let eventDateCellId = "EventDateAndTimeTableViewCell"
@@ -181,14 +184,18 @@ class EventDetailsViewController: UIViewController {
                 self.tableView.reloadData()
                 
                 DispatchQueue.main.async {
-                    self.title = "\(value.eventtype) Event"
-                }
-                
-                DispatchQueue.main.async {
                     if value.key == 1 {
                         self.isEventAdmin = true
                     }else {
                         self.isEventAdmin = false
+                    }
+                    
+                    DispatchQueue.main.async {
+                        if value.eventtype == "adminExternal" {
+                            self.title = "Admin External Event"
+                        }else {
+                            self.title = value.eventtype + " Event"
+                        }
                     }
                     
                     if value.eventtype == "Private" {
@@ -225,7 +232,11 @@ class EventDetailsViewController: UIViewController {
                 self.tableView.reloadData()
                 
                 DispatchQueue.main.async {
-                    self.title = "\(value.eventtype) Event"
+                    if value.eventtype == "adminExternal" {
+                        self.title = "Admin External Event"
+                    }else {
+                        self.title = value.eventtype + " Event"
+                    }
                 }
                 
                 DispatchQueue.main.async {
@@ -338,7 +349,15 @@ extension EventDetailsViewController: UITableViewDataSource {
             
             cell.HandleJoinBtn = {
                 if NetworkConected.internetConect == true {
-                    self.joinEvent(cell,JoinDate, Jointime)
+                    if model?.eventtype == "adminExternal" && model?.checkout_details != "" {
+                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventWebNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventWebView {
+                            vc.urlString = (model?.checkout_details ?? "").replacingOccurrences(of: "\'", with: "", options: NSString.CompareOptions.literal, range: nil)
+                            vc.onShowconfirmCallBackResponse = self.onShowconfirmCallBack
+                            self.present(controller, animated: true)
+                        }
+                    }else {
+                        self.joinEvent(cell,JoinDate, Jointime)
+                    }
                 }else {
                     return
                 }
@@ -714,8 +733,10 @@ extension EventDetailsViewController {
             DispatchQueue.main.async {
                 if (model?.interestStatistic?[0].interestcount ?? 0) == 0 {
                     cell.interest1Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    cell.interest1Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }else if (model?.interestStatistic?[0].interestcount ?? 0) == 100 {
                     cell.interest1Slider.maximumTrackTintColor = .blue
+                    cell.interest1Slider.minimumTrackTintColor = .blue
                 }else {
                     cell.interest1Slider.minimumTrackTintColor = .blue
                     cell.interest1Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
@@ -724,8 +745,11 @@ extension EventDetailsViewController {
             DispatchQueue.main.async {
                 if (model?.interestStatistic?[1].interestcount ?? 0) == 0 {
                     cell.interest2Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    cell.interest2Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }else if (model?.interestStatistic?[1].interestcount ?? 0) == 100 {
                     cell.interest2Slider.maximumTrackTintColor = .red
+                    cell.interest2Slider.minimumTrackTintColor = .red
+
                 }else {
                     cell.interest2Slider.minimumTrackTintColor = .red
                     cell.interest2Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
@@ -734,9 +758,12 @@ extension EventDetailsViewController {
             DispatchQueue.main.async {
                 if (model?.interestStatistic?[2].interestcount ?? 0) == 0 {
                     cell.interest3Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    cell.interest3Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }
                 else if (model?.interestStatistic?[2].interestcount ?? 0) == 100 {
                     cell.interest3Slider.maximumTrackTintColor = .green
+                    cell.interest3Slider.minimumTrackTintColor = .green
+
                 }
                 else {
                     cell.interest3Slider.minimumTrackTintColor = .green
@@ -750,11 +777,15 @@ extension EventDetailsViewController {
             if itm.key == "Male" {
                 cell.maleSlider.value = Float(itm.gendercount ?? 0)
                 
-                cell.maleSlider.minimumTrackTintColor = .blue
                 if itm.gendercount == 0 {
                     cell.maleSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    cell.maleSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }else if itm.gendercount == 100 {
+                    cell.maleSlider.minimumTrackTintColor = .blue
                     cell.maleSlider.maximumTrackTintColor = .blue
+                }else {
+                    cell.maleSlider.minimumTrackTintColor = .blue
+                    cell.maleSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }
                 
                 cell.malePercentageLbl.text = "\(itm.gendercount ?? 0) %"
@@ -762,11 +793,16 @@ extension EventDetailsViewController {
             else if itm.key == "Female" {
                 cell.femaleSlider.value = Float(itm.gendercount ?? 0)
                 
-                cell.femaleSlider.minimumTrackTintColor = .red
                 if itm.gendercount == 0 {
                     cell.femaleSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    cell.femaleSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }else if itm.gendercount == 100 {
+                    cell.femaleSlider.minimumTrackTintColor = .red
                     cell.femaleSlider.maximumTrackTintColor = .red
+
+                }else {
+                    cell.femaleSlider.minimumTrackTintColor = .red
+                    cell.femaleSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }
                 
                 cell.femalePercentageLbl.text = "\(itm.gendercount ?? 0) %"
@@ -774,17 +810,23 @@ extension EventDetailsViewController {
             else {
                 cell.otherSlider.value = Float(itm.gendercount ?? 0)
                 
-                cell.otherSlider.minimumTrackTintColor = .green
                 if itm.gendercount == 0 {
                     cell.otherSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    cell.otherSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }else if itm.gendercount == 100 {
+                    cell.otherSlider.minimumTrackTintColor = .green
                     cell.otherSlider.maximumTrackTintColor = .green
+
+                }else {
+                    cell.otherSlider.minimumTrackTintColor = .green
+                    cell.otherSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }
                 
                 cell.otherPercentageLbl.text = "\(itm.gendercount ?? 0) %"
             }
         }
     }
+    
     func setupDirection(_ model:Event?) {
         let lat = Double("\(model?.lat ?? "")") ?? 0.0
         let lng = Double("\(model?.lang ?? "")") ?? 0.0
@@ -850,5 +892,51 @@ extension EventDetailsViewController {
         
         activityViewController.isModalInPresentation = true
         self.present(activityViewController, animated: true, completion: nil)
+    }
+    
+    func onShowconfirmCallBack(_ back: Bool) -> () {
+        let JoinDate = self.formatterDate.string(from: Date())
+        let Jointime = self.formatterTime.string(from: Date())
+
+        if back == true {
+            self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            
+            self.alertView?.titleLbl.text = "Confirm?".localizedString
+            self.alertView?.detailsLbl.text = "Have you completed the form and booked tickets?".localizedString
+            
+            self.alertView?.HandleConfirmBtn = {
+                if NetworkConected.internetConect == true {
+                    self.joinVM.joinEvent(ByEventid: self.eventId,JoinDate:JoinDate ,Jointime:Jointime) { error, data in
+                        
+                        
+                        if let error = error {
+                            self.hideLoading()
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let _ = data else {return}
+                        
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
+                        }
+                    }
+                }
+                
+                // handling code
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                    self.alertView?.alpha = 0
+                }) { (success: Bool) in
+                    self.alertView?.removeFromSuperview()
+                    self.alertView?.alpha = 1
+                    self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                }
+            }
+            
+            self.view.addSubview((self.alertView)!)
+        }
     }
 }

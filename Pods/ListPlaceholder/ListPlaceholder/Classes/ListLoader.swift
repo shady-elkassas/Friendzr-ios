@@ -28,6 +28,8 @@ import UIKit
 {
     public func showLoader(){
         self.isUserInteractionEnabled = false
+        self.backgroundColor = .clear
+        
         if self is UITableView{
             ListLoader.addLoaderTo(self as! UITableView)
         }else if self is UICollectionView{
@@ -39,6 +41,7 @@ import UIKit
     
     public func hideLoader(){
         self.isUserInteractionEnabled = true
+        self.backgroundColor = .clear
         if self is UITableView{
             ListLoader.removeLoaderFrom(self as! UITableView)
         }else if self is UICollectionView{

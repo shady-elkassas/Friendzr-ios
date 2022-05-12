@@ -11,6 +11,10 @@ import ListPlaceholder
 import Network
 import SDWebImage
 
+import GoogleMobileAds
+import AppTrackingTransparency
+import AdSupport
+
 class EventsVC: UIViewController {
     
     //MARK: - Outlets
@@ -23,6 +27,9 @@ class EventsVC: UIViewController {
     @IBOutlet var hideImgs: [UIImageView]!
     @IBOutlet var subhideImgs: [UIImageView]!
     
+    @IBOutlet weak var bannerView: UIView!
+    @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
+
     //MARK: - Properties
     let cellID = "EventTableViewCell"
     let emptyCellID = "EmptyViewTableViewCell"
@@ -36,6 +43,8 @@ class EventsVC: UIViewController {
     var currentPage : Int = 1
     var isLoadingList : Bool = false
     
+    var bannerView2: GADBannerView!
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +71,8 @@ class EventsVC: UIViewController {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        setupAds()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -158,6 +169,16 @@ class EventsVC: UIViewController {
     
     //MARK: - Helper
     
+    func setupAds() {
+        bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
+        bannerView2.adUnitID = URLs.adUnitBanner
+        bannerView2.rootViewController = self
+        bannerView2.load(GADRequest())
+        bannerView2.delegate = self
+        bannerView2.translatesAutoresizingMaskIntoConstraints = false
+        bannerView.addSubview(bannerView2)
+    }
+    
     //internet cpnnection for APIs
     func updateUserInterface() {
         appDelegate.networkReachability()
@@ -216,6 +237,7 @@ class EventsVC: UIViewController {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         tableView.register(UINib(nibName: emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
+        bannerView.setCornerforTop()
     }
     
     // pull to refresh
@@ -339,7 +361,6 @@ extension EventsVC: UITableViewDelegate {
                     
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else {
-                    let model = viewmodel.events.value?.data?[indexPath.row]
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
                     vc.eventId = model?.id ?? ""
                     
@@ -385,5 +406,32 @@ extension EventsVC {
         button.titleLabel?.font = UIFont.init(name: "Montserrat-SemiBold", size: 12)
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.rightBarButtonItem = barButton
+    }
+}
+
+extension EventsVC: GADBannerViewDelegate {
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("bannerViewDidReceiveAd")
+    }
+    
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+        bannerViewHeight.constant = 0
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+        print("bannerViewDidRecordImpression")
+    }
+    
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillPresentScreen")
+    }
+    
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillDIsmissScreen")
+    }
+    
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewDidDismissScreen")
     }
 }

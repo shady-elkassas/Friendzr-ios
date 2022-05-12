@@ -409,9 +409,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         var iconMarker = ""
         for item in model.eventlocationDataMV ?? [] {
+            
             if item.event_Type == "Private" {
                 iconMarker = "markerPrivateEvent_ic"
             }else if item.event_Type == "External" {
+                iconMarker = "external_event_ic"
+            }else if item.event_Type == "adminExternal" {
                 iconMarker = "external_event_ic"
             }else {
                 iconMarker = "eventMarker_ic"
@@ -447,11 +450,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         marker.title = markerID
         marker.opacity = Float(eventsCount)
         
-        if eventTypee == "External" {
-            marker.isFlat = true
-        }else {
-            marker.isFlat = false
-        }
+        marker.accessibilityValue = eventTypee
         
         if typelocation == "event" {
             if LocationZooming.locationLat == position.latitude && LocationZooming.locationLng == position.longitude {
@@ -524,9 +523,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         topContainerView.cornerRadiusView(radius: 10)
         nextBtn.setBorder(color: UIColor.white.cgColor, width: 2)
         nextBtn.cornerRadiusForHeight()
-        
-        //        profileImg.cornerRadiusForHeight()
-        //        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
+        bannerView.cornerRadiusView(radius: 8)
         
         profileImg.isHidden = true
         searchBar.delegate = self
@@ -557,9 +554,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         subView.setCornerforTop()
         
         zoomingStatisticsView.cornerRadiusView(radius: 6)
-        
-        //        setupSwipeSubView()
-        
+                
         for itm in hideImgs {
             itm.cornerRadiusView(radius: 8)
         }
@@ -910,14 +905,16 @@ extension MapVC : GMSMapViewDelegate {
             if marker.snippet == "event" {
                 //Events by location
                 if marker.title != "" {
-                    if marker.isFlat {
+                    if marker.accessibilityValue == "External" {
                         DispatchQueue.main.async {
                             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
                             vc.eventId = marker.title!
                             vc.inMap = true
+                            
                             self.navigationController?.pushViewController(vc, animated: true)
                         }
-                    }else {
+                    }
+                    else {
                         DispatchQueue.main.async {
                             guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
                             vc.eventId = marker.title!
@@ -1204,6 +1201,7 @@ extension MapVC:UITableViewDelegate {
             }
             
             let model = sliderEventList?[indexPath.row]
+            
             if model?.eventtype == "External" {
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
                 vc.eventId = model?.id ?? ""
@@ -1219,15 +1217,12 @@ extension MapVC:UITableViewDelegate {
             }else {
                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
                 vc.eventId = model?.id ?? ""
-                
                 if model?.key == 1 {
                     vc.isEventAdmin = true
                 }else {
                     vc.isEventAdmin = false
                 }
-                
                 vc.inMap = true
-                
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
@@ -1316,8 +1311,6 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
         
         for (index,item) in model!.enumerated() {
             let locitm = CLLocationCoordinate2DMake(item.lat?.toDouble() ?? 0.0, item.lang?.toDouble() ?? 0.0)
-            //            (Double(item.lat!)!, Double(item.lang!)!)
-            
             if index == indexPath.row {
                 if LocationZooming.locationLat != locitm.latitude && LocationZooming.locationLng != locitm.longitude {
                     animationZoomingMap(zoomIN: 17, zoomOUT: 15, lat: locitm.latitude, lng: locitm.longitude)

@@ -9,6 +9,9 @@ import UIKit
 import ListPlaceholder
 import Network
 import SDWebImage
+import GoogleMobileAds
+import AppTrackingTransparency
+import AdSupport
 
 class NotificationsVC: UIViewController {
     
@@ -22,6 +25,9 @@ class NotificationsVC: UIViewController {
     @IBOutlet var prosImg: [UIImageView]!
     @IBOutlet var hidesImg: [UIImageView]!
     
+    @IBOutlet weak var bannerView: UIView!
+    @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
+
     //MARK: - Properties
     var viewmodel:NotificationsViewModel = NotificationsViewModel()
     let cellID = "NotificationTableViewCell"
@@ -32,6 +38,8 @@ class NotificationsVC: UIViewController {
     var currentPage : Int = 1
     var isLoadingList : Bool = false
     
+    var bannerView2: GADBannerView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,6 +64,8 @@ class NotificationsVC: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.updateUserInterface()
         }
+        
+        setupAds()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -149,6 +159,16 @@ class NotificationsVC: UIViewController {
     
     //MARK: - Helper
     
+    func setupAds() {
+        bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
+        bannerView2.adUnitID = URLs.adUnitBanner
+        bannerView2.rootViewController = self
+        bannerView2.load(GADRequest())
+        bannerView2.delegate = self
+        bannerView2.translatesAutoresizingMaskIntoConstraints = false
+        bannerView.addSubview(bannerView2)
+    }
+    
     func setupHideView() {
         for itm in prosImg {
             itm.cornerRadiusView(radius: 6)
@@ -212,6 +232,7 @@ class NotificationsVC: UIViewController {
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         tableView.register(UINib(nibName: emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
+        bannerView.setCornerforTop()
     }
     func createFooterView() -> UIView {
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
@@ -359,5 +380,32 @@ extension NotificationsVC: UITableViewDelegate {
                 return
             }
         }
+    }
+}
+
+extension NotificationsVC: GADBannerViewDelegate {
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("bannerViewDidReceiveAd")
+    }
+    
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+        bannerViewHeight.constant = 0
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+        print("bannerViewDidRecordImpression")
+    }
+    
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillPresentScreen")
+    }
+    
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillDIsmissScreen")
+    }
+    
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewDidDismissScreen")
     }
 }

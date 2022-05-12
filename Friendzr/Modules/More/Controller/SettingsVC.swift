@@ -11,6 +11,9 @@ import SwiftUI
 import MultiSlider
 import ListPlaceholder
 import Network
+import GoogleMobileAds
+import AppTrackingTransparency
+import AdSupport
 
 class SettingsVC: UIViewController {
     
@@ -25,10 +28,13 @@ class SettingsVC: UIViewController {
     @IBOutlet weak var distanceSliderView: UIView!
     @IBOutlet weak var distanceSliderBtn: UIButton!
     @IBOutlet weak var distanceSlider: MultiSlider!
-    @IBOutlet weak var manualDistanceLbl: UILabel!
-    @IBOutlet weak var ageFromLbl: UILabel!
-    @IBOutlet weak var ageToLbl: UILabel!
     @IBOutlet weak var hideView: UIView!
+    
+    @IBOutlet weak var ageFilterHeight: NSLayoutConstraint!
+    @IBOutlet weak var distanceFilterHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var bannerView: UIView!
+    @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
     
     //MARK: - Properties
     lazy var alertView = Bundle.main.loadNibNamed("HideGhostModeView", owner: self, options: nil)?.first as? HideGhostModeView
@@ -57,6 +63,9 @@ class SettingsVC: UIViewController {
 
     var isAgeFilterAvailable:Bool = false
     var isDistanceFilterAvailable:Bool = false
+
+    
+    var bannerView2: GADBannerView!
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -88,6 +97,8 @@ class SettingsVC: UIViewController {
 
         setupCLLocationManager()
         CancelRequest.currentTask = false
+        
+        setupAds()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -209,6 +220,8 @@ class SettingsVC: UIViewController {
                 self.transparentView.isHidden = true
                 self.distanceSliderView.isHidden = true
                 self.ageSliderView.isHidden = true
+                self.distanceFilterHeight.constant = 0
+                self.ageFilterHeight.constant = 0
             }
         }
     }
@@ -231,6 +244,8 @@ class SettingsVC: UIViewController {
                 self.transparentView.isHidden = true
                 self.distanceSliderView.isHidden = true
                 self.ageSliderView.isHidden = true
+                self.distanceFilterHeight.constant = 0
+                self.ageFilterHeight.constant = 0
             }
         }
     }
@@ -273,6 +288,16 @@ class SettingsVC: UIViewController {
     }
 
     //MARK: - Helpers
+    func setupAds() {
+        bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
+        bannerView2.adUnitID = URLs.adUnitBanner
+        bannerView2.rootViewController = self
+        bannerView2.load(GADRequest())
+        bannerView2.delegate = self
+        bannerView2.translatesAutoresizingMaskIntoConstraints = false
+        bannerView.addSubview(bannerView2)
+    }
+    
     func setupData() {
         tableView.dataSource = self
         tableView.delegate = self
@@ -366,6 +391,7 @@ class SettingsVC: UIViewController {
         tableView.register(UINib(nibName: deleteCllID, bundle: nil), forCellReuseIdentifier: deleteCllID)
         distanceSliderBtn.cornerRadiusView(radius: 8)
         ageSliderBtn.cornerRadiusView(radius: 8)
+        bannerView.setCornerforTop()
         
         distanceSliderView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 40)
         ageSliderView.setCornerforTop(withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 40)
@@ -378,6 +404,8 @@ class SettingsVC: UIViewController {
             self.transparentView.isHidden = false
             self.ageSliderView.isHidden = true
             self.distanceSliderView.isHidden = false
+            self.distanceFilterHeight.constant = 250
+            self.ageFilterHeight.constant = 0
         }
         
         distanceSlider.minimumValue = CGFloat(Defaults.distanceFiltering_Min)    // default is 0.0
@@ -403,7 +431,7 @@ class SettingsVC: UIViewController {
         print("thumb \(slider.draggedThumbIndex) moved")
         print("now thumbs are at \(slider.value)") // e.g., [1.0, 5.0]
         
-        manualDistanceLbl.text = String(describing: Double(slider.value[0]).rounded(toPlaces: 1))
+//        manualDistanceLbl.text = String(describing: Double(slider.value[0]).rounded(toPlaces: 1))
         
         manualdistancecontrol = Double(slider.value[0]).rounded(toPlaces: 1)
     }
@@ -414,6 +442,8 @@ class SettingsVC: UIViewController {
             self.transparentView.isHidden = false
             self.ageSliderView.isHidden = false
             self.distanceSliderView.isHidden = true
+            self.distanceFilterHeight.constant = 0
+            self.ageFilterHeight.constant = 250
         }
         
         ageSlider.minimumValue = CGFloat(Defaults.ageFiltering_Min)    // default is 0.0
@@ -438,8 +468,8 @@ class SettingsVC: UIViewController {
         print("thumb \(slider.draggedThumbIndex) moved")
         print("now thumbs are at \(slider.value)") // e.g., [1.0, 5.0]
         
-        ageFromLbl.text = String(describing: Int(slider.value[0]))
-        ageToLbl.text = String(describing: Int(slider.value[1]))
+//        ageFromLbl.text = String(describing: Int(slider.value[0]))
+//        ageToLbl.text = String(describing: Int(slider.value[1]))
         
         ageFrom = Int(slider.value[0])
         ageTo = Int(slider.value[1])
@@ -454,6 +484,8 @@ class SettingsVC: UIViewController {
             self.transparentView.isHidden = true
             self.distanceSliderView.isHidden = true
             self.ageSliderView.isHidden = true
+            self.distanceFilterHeight.constant = 0
+            self.ageFilterHeight.constant = 0
         }
     }
     
@@ -1103,4 +1135,31 @@ extension SettingsVC: UITableViewDelegate {
         }
     }
 
+}
+
+extension SettingsVC: GADBannerViewDelegate {
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("bannerViewDidReceiveAd")
+    }
+    
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+        bannerViewHeight.constant = 0
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+        print("bannerViewDidRecordImpression")
+    }
+    
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillPresentScreen")
+    }
+    
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillDIsmissScreen")
+    }
+    
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewDidDismissScreen")
+    }
 }

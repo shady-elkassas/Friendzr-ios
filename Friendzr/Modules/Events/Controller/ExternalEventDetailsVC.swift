@@ -595,6 +595,7 @@ extension ExternalEventDetailsVC {
             }
         }
     }
+    
     func statusEvent(_ model: Event?, _ cell: EventButtonsTableViewCell) {
         if model?.key == 1 { //my event
             cell.editBtn.isHidden = false
@@ -717,19 +718,23 @@ extension ExternalEventDetailsVC {
             DispatchQueue.main.async {
                 if (model?.interestStatistic?[0].interestcount ?? 0) == 0 {
                     cell.interest1Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    cell.interest1Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }else if (model?.interestStatistic?[0].interestcount ?? 0) == 100 {
                     cell.interest1Slider.maximumTrackTintColor = .blue
+                    cell.interest1Slider.minimumTrackTintColor = .blue
                 }else {
                     cell.interest1Slider.minimumTrackTintColor = .blue
                     cell.interest1Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }
             }
-            
             DispatchQueue.main.async {
                 if (model?.interestStatistic?[1].interestcount ?? 0) == 0 {
                     cell.interest2Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    cell.interest2Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }else if (model?.interestStatistic?[1].interestcount ?? 0) == 100 {
                     cell.interest2Slider.maximumTrackTintColor = .red
+                    cell.interest2Slider.minimumTrackTintColor = .red
+
                 }else {
                     cell.interest2Slider.minimumTrackTintColor = .red
                     cell.interest2Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
@@ -738,9 +743,12 @@ extension ExternalEventDetailsVC {
             DispatchQueue.main.async {
                 if (model?.interestStatistic?[2].interestcount ?? 0) == 0 {
                     cell.interest3Slider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    cell.interest3Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }
                 else if (model?.interestStatistic?[2].interestcount ?? 0) == 100 {
                     cell.interest3Slider.maximumTrackTintColor = .green
+                    cell.interest3Slider.minimumTrackTintColor = .green
+
                 }
                 else {
                     cell.interest3Slider.minimumTrackTintColor = .green
@@ -754,11 +762,15 @@ extension ExternalEventDetailsVC {
             if itm.key == "Male" {
                 cell.maleSlider.value = Float(itm.gendercount ?? 0)
                 
-                cell.maleSlider.minimumTrackTintColor = .blue
                 if itm.gendercount == 0 {
                     cell.maleSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    cell.maleSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }else if itm.gendercount == 100 {
+                    cell.maleSlider.minimumTrackTintColor = .blue
                     cell.maleSlider.maximumTrackTintColor = .blue
+                }else {
+                    cell.maleSlider.minimumTrackTintColor = .blue
+                    cell.maleSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }
                 
                 cell.malePercentageLbl.text = "\(itm.gendercount ?? 0) %"
@@ -766,22 +778,33 @@ extension ExternalEventDetailsVC {
             else if itm.key == "Female" {
                 cell.femaleSlider.value = Float(itm.gendercount ?? 0)
                 
-                cell.femaleSlider.minimumTrackTintColor = .red
                 if itm.gendercount == 0 {
                     cell.femaleSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    cell.femaleSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }else if itm.gendercount == 100 {
+                    cell.femaleSlider.minimumTrackTintColor = .red
                     cell.femaleSlider.maximumTrackTintColor = .red
+
+                }else {
+                    cell.femaleSlider.minimumTrackTintColor = .red
+                    cell.femaleSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }
                 
                 cell.femalePercentageLbl.text = "\(itm.gendercount ?? 0) %"
-            }else {
+            }
+            else {
                 cell.otherSlider.value = Float(itm.gendercount ?? 0)
                 
-                cell.otherSlider.minimumTrackTintColor = .green
                 if itm.gendercount == 0 {
                     cell.otherSlider.minimumTrackTintColor = .lightGray.withAlphaComponent(0.3)
+                    cell.otherSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }else if itm.gendercount == 100 {
+                    cell.otherSlider.minimumTrackTintColor = .green
                     cell.otherSlider.maximumTrackTintColor = .green
+
+                }else {
+                    cell.otherSlider.minimumTrackTintColor = .green
+                    cell.otherSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
                 }
                 
                 cell.otherPercentageLbl.text = "\(itm.gendercount ?? 0) %"
