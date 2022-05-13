@@ -19,7 +19,7 @@ class AddEventViewModel {
     let categoryEventViewModel = CategoryEventViewModel()
     let locationEventViewModel = LocationEventViewModel()
     let totlalNumberEventViewModel = TotlalNumberEventViewModel()
-
+    
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var isLoading : Bool = false
@@ -46,7 +46,7 @@ class AddEventViewModel {
         categoryEventViewModel.data = categoryId
         locationEventViewModel.data = "\(lat)"
         totlalNumberEventViewModel.data = totalnumbert
-
+        
         guard validateAddEventCredentials() else {
             completion(errorMsg, nil)
             return
@@ -104,7 +104,7 @@ class AddEventViewModel {
                             if let toAdd = userResponse.data {
                                 completion(nil,toAdd)
                             }
-
+                            
                         }else {
                             if let error = userResponse.message {
                                 print ("Error while fetching data \(error)")
@@ -154,7 +154,7 @@ class AddEventViewModel {
                             if let toAdd = userResponse.data {
                                 completion(nil,toAdd)
                             }
-
+                            
                         }else {
                             if let error = userResponse.message {
                                 print ("Error while fetching data \(error)")
@@ -229,8 +229,8 @@ struct Media {
         self.key = key
         self.mimeType = "image/jpeg"
         self.filename = key+".jpeg"
-
-        guard let data = image.jpegData(compressionQuality: 0) else { return nil }
+        
+        guard let data = image.jpegData(compressionQuality: 0.5) else { return nil }
         self.data = data
     }
 }
@@ -240,13 +240,13 @@ struct MediaFile {
     let filename: String
     let data: Data
     let mimeType: String
-
+    
     init?(url:URL ,forKey key: String) {
         self.key = key
         self.mimeType = "application/pdf"
         self.filename = "url.pdf"
-//        filename = ".doc"
-//        mimeType = "application/msword"
+        //        filename = ".doc"
+        //        mimeType = "application/msword"
         let pdfData = try! Data(contentsOf: url.asURL())
         self.data = pdfData
     }

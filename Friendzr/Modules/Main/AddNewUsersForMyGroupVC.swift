@@ -25,7 +25,6 @@ class AddNewUsersForMyGroupVC: UIViewController {
     var addNewUserGroupVM:GroupViewModel = GroupViewModel()
     var groupId:String = ""
     var cellSelected:Bool = false
-    var internetConnect:Bool = false
     var currentPage : Int = 1
     var isLoadingList : Bool = false
     var selectedFriends:[UserConversationModel] = [UserConversationModel]()
@@ -248,7 +247,7 @@ extension AddNewUsersForMyGroupVC : UISearchBarDelegate {
         guard let text = searchbar.text else {return}
         print(text)
         
-        if internetConnect {
+        if NetworkConected.internetConect {
             getAllFriends(pageNumber: 1, search: text)
         }
     }

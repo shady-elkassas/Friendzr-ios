@@ -40,7 +40,6 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     var refreshControl = UIRefreshControl()
     
     var cellSelected:Bool = false
-    //    var internetConnect:Bool = false
     
     var currentPage : Int = 0
     var isLoadingList : Bool = false
@@ -304,7 +303,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
             }
         }
     }
-        
+    
     func setupAds() {
         bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
         bannerView2.adUnitID = URLs.adUnitBanner
@@ -488,7 +487,7 @@ extension RequestVC:UITableViewDataSource {
                 self.cellSelected = true
                 if NetworkConected.internetConect {
                     self.cancelRequest(model, "\(actionDate) \(actionTime)", cell)
-
+                    
                 }
             }
             

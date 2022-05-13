@@ -35,7 +35,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="878"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UZg-7K-EqS">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="495"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="551"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Log In" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EHD-G1-Axg">
                                                 <rect key="frame" x="25" y="16" width="230" height="37"/>
@@ -174,10 +174,10 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="Yhm-6Y-sef">
-                                                <rect key="frame" x="25" y="375" width="364" height="100"/>
+                                                <rect key="frame" x="25" y="375" width="364" height="156"/>
                                                 <subviews>
-                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0PC-t9-5l4">
-                                                        <rect key="frame" x="0.0" y="-44" width="364" height="44"/>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0PC-t9-5l4">
+                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="44"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="facebook_ic" translatesAutoresizingMaskIntoConstraints="NO" id="5hI-E4-H7a">
                                                                 <rect key="frame" x="19" y="14.5" width="15" height="15"/>
@@ -204,7 +204,7 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6bv-sa-MeT">
-                                                        <rect key="frame" x="0.0" y="0.0" width="364" height="44"/>
+                                                        <rect key="frame" x="0.0" y="56" width="364" height="44"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="google_ic" translatesAutoresizingMaskIntoConstraints="NO" id="Vc9-Kr-nV4">
                                                                 <rect key="frame" x="19" y="14.5" width="15" height="15"/>
@@ -229,7 +229,7 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zoS-L6-ddk">
-                                                        <rect key="frame" x="0.0" y="56" width="364" height="44"/>
+                                                        <rect key="frame" x="0.0" y="112" width="364" height="44"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="apple_ic" translatesAutoresizingMaskIntoConstraints="NO" id="BUq-fV-C4b">
                                                                 <rect key="frame" x="19" y="14.5" width="15" height="15"/>
@@ -259,20 +259,20 @@
                                                     <constraint firstItem="BUq-fV-C4b" firstAttribute="leading" secondItem="Vc9-Kr-nV4" secondAttribute="leading" id="rBh-3L-bjh"/>
                                                 </constraints>
                                             </stackView>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7IC-db-hr1">
-                                                <rect key="frame" x="25" y="331" width="364" height="44"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7IC-db-hr1">
+                                                <rect key="frame" x="25" y="375" width="364" height="44"/>
                                                 <connections>
                                                     <action selector="facebookBtn:" destination="9Kz-aP-5EW" eventType="touchUpInside" id="y6I-1J-WMj"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZUq-R6-PGK">
-                                                <rect key="frame" x="25" y="375" width="364" height="44"/>
+                                                <rect key="frame" x="25" y="431" width="364" height="44"/>
                                                 <connections>
                                                     <action selector="googleBtn:" destination="9Kz-aP-5EW" eventType="touchUpInside" id="bff-2n-9Yy"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mWA-x1-MY0">
-                                                <rect key="frame" x="25" y="431" width="364" height="44"/>
+                                                <rect key="frame" x="25" y="487" width="364" height="44"/>
                                                 <connections>
                                                     <action selector="appleBtn:" destination="9Kz-aP-5EW" eventType="touchUpInside" id="ZPL-rV-u2V"/>
                                                 </connections>

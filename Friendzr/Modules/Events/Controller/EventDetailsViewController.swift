@@ -25,7 +25,7 @@ class EventDetailsViewController: UIViewController {
     //MARK: - Properties
     
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
-
+    
     let eventImgCellId = "EventImageTableViewCell"
     let btnsCellId = "EventButtonsTableViewCell"
     let eventDateCellId = "EventDateAndTimeTableViewCell"
@@ -192,7 +192,7 @@ class EventDetailsViewController: UIViewController {
                     
                     DispatchQueue.main.async {
                         if value.eventtype == "adminExternal" {
-                            self.title = "Admin External Event"
+                            self.title = "External Event"
                         }else {
                             self.title = value.eventtype + " Event"
                         }
@@ -233,7 +233,7 @@ class EventDetailsViewController: UIViewController {
                 
                 DispatchQueue.main.async {
                     if value.eventtype == "adminExternal" {
-                        self.title = "Admin External Event"
+                        self.title = "External Event"
                     }else {
                         self.title = value.eventtype + " Event"
                     }
@@ -355,10 +355,12 @@ extension EventDetailsViewController: UITableViewDataSource {
                             vc.onShowconfirmCallBackResponse = self.onShowconfirmCallBack
                             self.present(controller, animated: true)
                         }
-                    }else {
+                    }
+                    else {
                         self.joinEvent(cell,JoinDate, Jointime)
                     }
-                }else {
+                }
+                else {
                     return
                 }
             }
@@ -392,6 +394,16 @@ extension EventDetailsViewController: UITableViewDataSource {
         else if indexPath.row == 3 {//desc
             guard let cell = tableView.dequeueReusableCell(withIdentifier: detailsCellId, for: indexPath) as? EventDetailsTableViewCell else {return UITableViewCell()}
             cell.detailsLbl.text = model?.descriptionEvent
+            
+            if model?.eventtype == "adminExternal" {
+                if model?.descriptionEvent != "" {
+                    if (model?.descriptionEvent?.count ?? 0) > 180 {
+                        DispatchQueue.main.async {
+                            cell.detailsLbl.addTrailing(with: "... ", moreText: "Read more", moreTextFont: UIFont(name: "Montserrat-Medium", size: 12)!, moreTextColor: UIColor.FriendzrColors.primary!)
+                        }
+                    }
+                }
+            }
             return cell
         }
         
@@ -491,6 +503,21 @@ extension EventDetailsViewController: UITableViewDelegate , UIPopoverPresentatio
             pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
             popupVC.imgURL = model?.image
             present(popupVC, animated: true, completion: nil)
+        }
+        else if indexPath.row == 3 {
+            if model?.eventtype == "adminExternal" && (model?.descriptionEvent?.count ?? 0) > 180 {
+                guard let popupVC = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExpandDescriptionVC") as? ExpandDescriptionVC else {return}
+                popupVC.modalPresentationStyle = .overCurrentContext
+                popupVC.modalTransitionStyle = .crossDissolve
+                let pVC = popupVC.popoverPresentationController
+                pVC?.permittedArrowDirections = .any
+                pVC?.delegate = self
+                pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+                popupVC.myString = model?.descriptionEvent ?? ""
+                present(popupVC, animated: true, completion: nil)
+            }else {
+                return
+            }
         }
     }
 }
@@ -749,7 +776,7 @@ extension EventDetailsViewController {
                 }else if (model?.interestStatistic?[1].interestcount ?? 0) == 100 {
                     cell.interest2Slider.maximumTrackTintColor = .red
                     cell.interest2Slider.minimumTrackTintColor = .red
-
+                    
                 }else {
                     cell.interest2Slider.minimumTrackTintColor = .red
                     cell.interest2Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
@@ -763,7 +790,7 @@ extension EventDetailsViewController {
                 else if (model?.interestStatistic?[2].interestcount ?? 0) == 100 {
                     cell.interest3Slider.maximumTrackTintColor = .green
                     cell.interest3Slider.minimumTrackTintColor = .green
-
+                    
                 }
                 else {
                     cell.interest3Slider.minimumTrackTintColor = .green
@@ -799,7 +826,7 @@ extension EventDetailsViewController {
                 }else if itm.gendercount == 100 {
                     cell.femaleSlider.minimumTrackTintColor = .red
                     cell.femaleSlider.maximumTrackTintColor = .red
-
+                    
                 }else {
                     cell.femaleSlider.minimumTrackTintColor = .red
                     cell.femaleSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
@@ -816,7 +843,7 @@ extension EventDetailsViewController {
                 }else if itm.gendercount == 100 {
                     cell.otherSlider.minimumTrackTintColor = .green
                     cell.otherSlider.maximumTrackTintColor = .green
-
+                    
                 }else {
                     cell.otherSlider.minimumTrackTintColor = .green
                     cell.otherSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
@@ -897,7 +924,7 @@ extension EventDetailsViewController {
     func onShowconfirmCallBack(_ back: Bool) -> () {
         let JoinDate = self.formatterDate.string(from: Date())
         let Jointime = self.formatterTime.string(from: Date())
-
+        
         if back == true {
             self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             

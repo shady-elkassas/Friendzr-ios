@@ -238,7 +238,7 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
                     if let user = user {
                         self.UserG_mailID = user.userID ?? ""      // For client-side use only!
                         self.UserG_mailFirstName = user.profile?.givenName ?? ""
-                        self.UserG_mailLastName = (user.profile?.familyName)!
+                        self.UserG_mailLastName = (user.profile?.familyName) ?? ""
                         self.UserG_mailEmail = user.profile?.email ?? ""
                         self.userG_mailAccessToken = user.authentication.idToken ?? ""
                         self.UserG_userName = self.UserG_mailFirstName + " " + self.UserG_mailLastName
@@ -251,7 +251,8 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
                     }
                 }
             }
-        }else{
+        }
+        else{
             
         }
 
@@ -312,19 +313,20 @@ extension OptionsSignUpVC {
                 
                 if let error = error {
                     print("\(error.localizedDescription)")
-                } else{
+                }
+                else{
                     let userInfo = result as! [String : AnyObject]
                     
-                    self.UserFBID = userInfo["id"] as! String
+                    self.UserFBID = userInfo["id"] as? String ?? ""
                     self.UserFBMobile = userInfo["phone"] as? String ?? ""
                     self.UserFBUserName = userInfo["name"] as? String ?? ""
                     self.UserFBEmail = userInfo["email"] as? String ?? ""
-                    self.userFace_BookAccessToken = AccessToken.current!.tokenString
-                    let img = userInfo["picture"] as! [String:AnyObject]
+                    self.userFace_BookAccessToken = AccessToken.current?.tokenString ?? ""
+//                    let img = userInfo["picture"] as! [String:AnyObject]
                     //                    self.UserFBImage = img["data"]!["url"] as? String ?? ""
-                    if let imgurL = img["data"] as? [String:AnyObject] {
-                        self.UserFBImage = imgurL["url"] as? String ?? ""
-                    }
+//                    if let imgurL = img["data"] as? [String:AnyObject] {
+//                        self.UserFBImage = imgurL["url"] as? String ?? ""
+//                    }
                     
                     print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
                     

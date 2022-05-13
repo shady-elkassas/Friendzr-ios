@@ -51,8 +51,6 @@ class ShareEventVC: UIViewController {
     var myGroupsVM:GroupViewModel = GroupViewModel()
     var shareEventMessageVM:ChatViewModel = ChatViewModel()
     
-    var internetConnect:Bool = false
-
     let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -636,7 +634,7 @@ extension ShareEventVC: UISearchBarDelegate{
         guard let text3 = eventsSearchBar.text else {return}
         print(text1,text2,text3)
         
-        if internetConnect {
+        if NetworkConected.internetConect {
             if text1 != "" {
                 self.getAllMyFriends(pageNumber: 1, search: text1)
             }else {
@@ -644,16 +642,15 @@ extension ShareEventVC: UISearchBarDelegate{
             }
         }
         
-        if internetConnect {
+        if NetworkConected.internetConect {
             if text2 != "" {
                 self.getAllMyGroups(pageNumber: 1, search: text2)
             }else {
                 self.getAllMyGroups(pageNumber: 1, search: "")
             }
-            
         }
         
-        if internetConnect {
+        if NetworkConected.internetConect {
             if text3 != "" {
                 self.getAllMyEvents(pageNumber: 1, search: text3)
             }else {

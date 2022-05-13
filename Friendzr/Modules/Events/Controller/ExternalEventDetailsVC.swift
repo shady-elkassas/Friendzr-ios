@@ -43,14 +43,14 @@ class ExternalEventDetailsVC: UIViewController {
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
     var locationTitle = ""
-//    var internetConect:Bool = false
+    //    var internetConect:Bool = false
     
     var visibleIndexPath:Int = 0
     var encryptedID:String = ""
     lazy var refreshControl: UIRefreshControl = UIRefreshControl()
     var isConv:Bool = false
     var inMap:Bool = false
-
+    
     var myString:String = ""
     var myMutableString = NSMutableAttributedString()
     
@@ -141,7 +141,7 @@ class ExternalEventDetailsVC: UIViewController {
         }
     }
     
-
+    
     
     func onShowconfirmCallBack(_ back: Bool) -> () {
         if back == true {
@@ -304,7 +304,7 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 7
     }
-        
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let JoinDate = self.formatterDate.string(from: Date())
@@ -346,9 +346,11 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             cell.HandleJoinBtn = {
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventWebNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventWebView {
                     vc.titleVC = model?.title ?? ""
-                    vc.urlString = (model?.checkout_details ?? "").replacingOccurrences(of: "\'", with: "", options: NSString.CompareOptions.literal, range: nil)
-                    vc.onShowconfirmCallBackResponse = self.onShowconfirmCallBack
-                    self.present(controller, animated: true)
+                    if model?.checkout_details != nil || model?.checkout_details != "" {
+                        vc.urlString = (model?.checkout_details ?? "").replacingOccurrences(of: "\'", with: "", options: NSString.CompareOptions.literal, range: nil)
+                        vc.onShowconfirmCallBackResponse = self.onShowconfirmCallBack
+                        self.present(controller, animated: true)
+                    }
                 }
             }
             
@@ -377,8 +379,10 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             cell.detailsLbl.text = model?.descriptionEvent
             
             if model?.descriptionEvent != "" {
-                DispatchQueue.main.async {
-                    cell.detailsLbl.addTrailing(with: "... ", moreText: "Read more", moreTextFont: UIFont(name: "Montserrat-Medium", size: 12)!, moreTextColor: UIColor.FriendzrColors.primary!)
+                if (model?.descriptionEvent?.count ?? 0) > 180 {
+                    DispatchQueue.main.async {
+                        cell.detailsLbl.addTrailing(with: "... ", moreText: "Read more", moreTextFont: UIFont(name: "Montserrat-Medium", size: 12)!, moreTextColor: UIColor.FriendzrColors.primary!)
+                    }
                 }
             }
             
@@ -463,15 +467,17 @@ extension ExternalEventDetailsVC: UITableViewDelegate,UIPopoverPresentationContr
             present(popupVC, animated: true, completion: nil)
         }
         else if indexPath.row == 3 {
-            guard let popupVC = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExpandDescriptionVC") as? ExpandDescriptionVC else {return}
-            popupVC.modalPresentationStyle = .overCurrentContext
-            popupVC.modalTransitionStyle = .crossDissolve
-            let pVC = popupVC.popoverPresentationController
-            pVC?.permittedArrowDirections = .any
-            pVC?.delegate = self
-            pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
-            popupVC.myString = model?.descriptionEvent ?? ""
-            present(popupVC, animated: true, completion: nil)
+            if (model?.descriptionEvent?.count ?? 0) > 180 {
+                guard let popupVC = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExpandDescriptionVC") as? ExpandDescriptionVC else {return}
+                popupVC.modalPresentationStyle = .overCurrentContext
+                popupVC.modalTransitionStyle = .crossDissolve
+                let pVC = popupVC.popoverPresentationController
+                pVC?.permittedArrowDirections = .any
+                pVC?.delegate = self
+                pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+                popupVC.myString = model?.descriptionEvent ?? ""
+                present(popupVC, animated: true, completion: nil)
+            }
         }
     }
 }
@@ -734,7 +740,7 @@ extension ExternalEventDetailsVC {
                 }else if (model?.interestStatistic?[1].interestcount ?? 0) == 100 {
                     cell.interest2Slider.maximumTrackTintColor = .red
                     cell.interest2Slider.minimumTrackTintColor = .red
-
+                    
                 }else {
                     cell.interest2Slider.minimumTrackTintColor = .red
                     cell.interest2Slider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
@@ -748,7 +754,7 @@ extension ExternalEventDetailsVC {
                 else if (model?.interestStatistic?[2].interestcount ?? 0) == 100 {
                     cell.interest3Slider.maximumTrackTintColor = .green
                     cell.interest3Slider.minimumTrackTintColor = .green
-
+                    
                 }
                 else {
                     cell.interest3Slider.minimumTrackTintColor = .green
@@ -784,7 +790,7 @@ extension ExternalEventDetailsVC {
                 }else if itm.gendercount == 100 {
                     cell.femaleSlider.minimumTrackTintColor = .red
                     cell.femaleSlider.maximumTrackTintColor = .red
-
+                    
                 }else {
                     cell.femaleSlider.minimumTrackTintColor = .red
                     cell.femaleSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)
@@ -801,7 +807,7 @@ extension ExternalEventDetailsVC {
                 }else if itm.gendercount == 100 {
                     cell.otherSlider.minimumTrackTintColor = .green
                     cell.otherSlider.maximumTrackTintColor = .green
-
+                    
                 }else {
                     cell.otherSlider.minimumTrackTintColor = .green
                     cell.otherSlider.maximumTrackTintColor = .lightGray.withAlphaComponent(0.3)

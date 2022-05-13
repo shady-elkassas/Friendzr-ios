@@ -29,7 +29,6 @@ class AddGroupVC: UIViewController {
     var addGroupChat:GroupViewModel = GroupViewModel()
     
     var cellSelected:Bool = false
-//    var internetConnect:Bool = false
     
     var currentPage : Int = 1
     var isLoadingList : Bool = false

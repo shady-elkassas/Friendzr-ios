@@ -30,7 +30,6 @@ class NewConversationVC: UIViewController {
     var viewmodel:AllFriendesViewModel = AllFriendesViewModel()
     
     var cellSelected:Bool = false
-//    var internetConnect:Bool = false
     
     var currentPage : Int = 1
     var isLoadingList : Bool = false

@@ -47,7 +47,7 @@ class SettingsVC: UIViewController {
     
     var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
     var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
-
+    
     var locationManager: CLLocationManager!
     var locationLat = 0.0
     var locationLng = 0.0
@@ -60,13 +60,13 @@ class SettingsVC: UIViewController {
     let settingCellID = "SettingsTableViewCell"
     let deleteCllID = "DeleteAccountTableViewCell"
     var ghostmode:String = ""
-
+    
     var isAgeFilterAvailable:Bool = false
     var isDistanceFilterAvailable:Bool = false
-
+    
     
     var bannerView2: GADBannerView!
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,12 +76,12 @@ class SettingsVC: UIViewController {
         }
         
         setupView()
-
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         transparentView.addGestureRecognizer(tap)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateSettings), name: Notification.Name("updateSettings"), object: nil)
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,7 +94,7 @@ class SettingsVC: UIViewController {
         setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
         self.title = "Settings".localizedString
-
+        
         setupCLLocationManager()
         CancelRequest.currentTask = false
         
@@ -266,7 +266,7 @@ class SettingsVC: UIViewController {
             
             Defaults.myAppearanceTypes = data?.myAppearanceTypes ?? []
             Defaults.ghostMode = data?.ghostmode ?? false
-
+            
             DispatchQueue.main.async {
                 if data?.ghostmode == true {
                     if data?.myAppearanceTypes == [1] {
@@ -286,7 +286,7 @@ class SettingsVC: UIViewController {
             }
         }
     }
-
+    
     //MARK: - Helpers
     func setupAds() {
         bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
@@ -431,7 +431,7 @@ class SettingsVC: UIViewController {
         print("thumb \(slider.draggedThumbIndex) moved")
         print("now thumbs are at \(slider.value)") // e.g., [1.0, 5.0]
         
-//        manualDistanceLbl.text = String(describing: Double(slider.value[0]).rounded(toPlaces: 1))
+        //        manualDistanceLbl.text = String(describing: Double(slider.value[0]).rounded(toPlaces: 1))
         
         manualdistancecontrol = Double(slider.value[0]).rounded(toPlaces: 1)
     }
@@ -468,8 +468,8 @@ class SettingsVC: UIViewController {
         print("thumb \(slider.draggedThumbIndex) moved")
         print("now thumbs are at \(slider.value)") // e.g., [1.0, 5.0]
         
-//        ageFromLbl.text = String(describing: Int(slider.value[0]))
-//        ageToLbl.text = String(describing: Int(slider.value[1]))
+        //        ageFromLbl.text = String(describing: Int(slider.value[0]))
+        //        ageToLbl.text = String(describing: Int(slider.value[1]))
         
         ageFrom = Int(slider.value[0])
         ageTo = Int(slider.value[1])
@@ -692,7 +692,7 @@ extension SettingsVC: UITableViewDataSource {
                     self.alertView?.typeIDs.removeAll()
                     self.alertView?.typeStrings.removeAll()
                     SelectedSingleTone.isSelected = false
-
+                    
                     self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
                     
                     for item in self.alertView?.hideArray ?? [] {
@@ -1050,12 +1050,12 @@ extension SettingsVC: UITableViewDataSource {
             cell.titleLbl.text = "Block List".localizedString
             cell.iconImg.image = UIImage(named: "blocked_ic")
             return cell
-//        case 6://Language
-//            guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
-//            cell.titleLbl.text = "Language".localizedString
-//            cell.iconImg.image = UIImage(named: "blocked_ic")
-//            cell.langLbl.text = Language.currentLanguage()
-//            return cell
+            //        case 6://Language
+            //            guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
+            //            cell.titleLbl.text = "Language".localizedString
+            //            cell.iconImg.image = UIImage(named: "blocked_ic")
+            //            cell.langLbl.text = Language.currentLanguage()
+            //            return cell
         case 7://delete account
             guard let cell = tableView.dequeueReusableCell(withIdentifier: deleteCllID, for: indexPath) as? DeleteAccountTableViewCell else {return UITableViewCell()}
             cell.titleLbl.text = "Delete Account".localizedString
@@ -1099,9 +1099,9 @@ extension SettingsVC: UITableViewDelegate {
             self.navigationController?.pushViewController(vc, animated: true)
         }
         
-//        else if indexPath.row == 6 { //Language
-//            self.changeLanguage()
-//        }
+        //        else if indexPath.row == 6 { //Language
+        //            self.changeLanguage()
+        //        }
         
         else if indexPath.row == 7 { //delete account
             deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -1134,7 +1134,7 @@ extension SettingsVC: UITableViewDelegate {
             return
         }
     }
-
+    
 }
 
 extension SettingsVC: GADBannerViewDelegate {
