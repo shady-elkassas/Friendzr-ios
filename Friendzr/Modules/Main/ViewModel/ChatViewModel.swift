@@ -426,7 +426,7 @@ class ChatViewModel {
         let url = URLs.baseURLFirst + "Messages/Chatdata"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         
-        let parameters:[String : Any] = ["userid":userid,"pageNumber": pageNumber,"pageSize":10]
+        let parameters:[String : Any] = ["userid":userid,"pageNumber": pageNumber,"pageSize":20]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
@@ -463,7 +463,7 @@ class ChatViewModel {
         let url = URLs.baseURLFirst + "Messages/EventChat"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         
-        let parameters:[String : Any] = ["Eventid":eventid,"pageNumber": pageNumber,"pageSize":10]
+        let parameters:[String : Any] = ["Eventid":eventid,"pageNumber": pageNumber,"pageSize":20]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
@@ -676,7 +676,7 @@ class ChatViewModel {
         let url = URLs.baseURLFirst + "ChatGroup/GetChat"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         
-        let parameters:[String : Any] = ["ID":groupId,"pageNumber": pageNumber,"pageSize":10]
+        let parameters:[String : Any] = ["ID":groupId,"pageNumber": pageNumber,"pageSize":20]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             

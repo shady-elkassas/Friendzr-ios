@@ -132,8 +132,10 @@ class AddNewUsersForMyGroupVC: UIViewController {
                 self.tableView.dataSource = self
                 self.tableView.reloadData()
                 
-                self.isLoadingList = false
-                self.tableView.tableFooterView = nil
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.isLoadingList = false
+                    self.tableView.tableFooterView = nil
+                }
             }
         }
         
@@ -169,8 +171,11 @@ class AddNewUsersForMyGroupVC: UIViewController {
                     }
                 }
                 
-                self.isLoadingList = false
-                self.tableView.tableFooterView = nil
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.isLoadingList = false
+                    self.tableView.tableFooterView = nil
+                }
+                
                 self.showEmptyView()
             }
         }
@@ -340,7 +345,7 @@ extension AddNewUsersForMyGroupVC: UITableViewDelegate {
         tableView.reloadData()
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
             self.isLoadingList = true
             
@@ -354,7 +359,7 @@ extension AddNewUsersForMyGroupVC: UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data".localizedString)
+//                    self.view.makeToast("No more data".localizedString)
                 }
                 return
             }

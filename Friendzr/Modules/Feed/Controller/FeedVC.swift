@@ -361,9 +361,11 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 self.tableView.dataSource = self
                 self.tableView.reloadData()
                 
-                self.isLoadingList = false
-                self.tableView.tableFooterView = nil
-                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.isLoadingList = false
+                    self.tableView.tableFooterView = nil
+                }
+
                 DispatchQueue.main.async {
                     self.initGhostModeSwitchButton()
                 }
@@ -394,10 +396,11 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 self.tableView.dataSource = self
                 self.tableView.reloadData()
                 
-                DispatchQueue.main.async {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.isLoadingList = false
                     self.tableView.tableFooterView = nil
                 }
+
                 
                 DispatchQueue.main.async {
                     self.initGhostModeSwitchButton()
@@ -430,10 +433,12 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 self.tableView.dataSource = self
                 self.tableView.reloadData()
                 
-                self.tableView.tableFooterView = nil
-                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.isLoadingList = false
+                    self.tableView.tableFooterView = nil
+                }
+
                 self.isSendRequest = false
-                
                 DispatchQueue.main.async {
                     self.initGhostModeSwitchButton()
                 }
@@ -875,8 +880,9 @@ extension FeedVC:UITableViewDelegate {
         }
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == tableView,(scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height, !isLoadingList {
+
             self.isLoadingList = true
             
             if currentPage < viewmodel.feeds.value?.totalPages ?? 0 {
@@ -889,7 +895,7 @@ extension FeedVC:UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data".localizedString)
+//                    self.view.makeToast("No more data".localizedString)
                 }
                 return
             }

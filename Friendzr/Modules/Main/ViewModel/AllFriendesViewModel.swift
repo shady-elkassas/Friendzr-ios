@@ -24,7 +24,7 @@ class AllFriendesViewModel {
         let url = URLs.baseURLFirst + "FrindRequest/AllFriendes"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         
-        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":10,"search":search]
+        let parameters:[String : Any] = ["pageNumber": pageNumber,"pageSize":20,"search":search]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             

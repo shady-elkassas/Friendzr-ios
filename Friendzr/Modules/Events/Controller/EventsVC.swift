@@ -101,8 +101,10 @@ class EventsVC: UIViewController {
                 self.tableView.dataSource = self
                 self.tableView.reloadData()
                 self.initTotalEventsBarButton(total: value.totalRecords ?? 0)
-                self.isLoadingList = false
-                self.tableView.tableFooterView = nil
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.isLoadingList = false
+                    self.tableView.tableFooterView = nil
+                }
             }
         }
         
@@ -143,8 +145,10 @@ class EventsVC: UIViewController {
                 
                 DispatchQueue.main.async {
                     self.initTotalEventsBarButton(total: value.totalRecords ?? 0)
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.isLoadingList = false
+                        self.tableView.tableFooterView = nil
+                    }
                 }
             }
         }
@@ -376,8 +380,12 @@ extension EventsVC: UITableViewDelegate {
         }
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        //        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
+        if scrollView == tableView,(scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height, !isLoadingList {
+            
             self.isLoadingList = true
             if currentPage < viewmodel.events.value?.totalPages ?? 0 {
                 self.tableView.tableFooterView = self.createFooterView()
@@ -389,7 +397,7 @@ extension EventsVC: UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data".localizedString)
+//                    self.view.makeToast("No more data".localizedString)
                 }
                 return
             }

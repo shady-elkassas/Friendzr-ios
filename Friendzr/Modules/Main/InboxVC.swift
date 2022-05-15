@@ -154,7 +154,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.tableView.dataSource = self
                     self.tableView.reloadData()
                     
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         self.isLoadingList = false
                         self.tableView.tableFooterView = nil
                     }
@@ -196,7 +196,8 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.tableView.dataSource = self
                     self.tableView.reloadData()
                 }
-                DispatchQueue.main.async {
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.isLoadingList = false
                     self.tableView.tableFooterView = nil
                 }
@@ -479,7 +480,7 @@ extension InboxVC:UITableViewDelegate {
         }
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList){
             self.isLoadingList = true
             if currentPage < viewmodel.listChat.value?.totalPages ?? 0 {
@@ -492,7 +493,7 @@ extension InboxVC:UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-                    self.view.makeToast("No more data".localizedString)
+//                    self.view.makeToast("No more data".localizedString)
                 }
                 return
             }

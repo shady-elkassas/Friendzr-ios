@@ -25,7 +25,7 @@ class FeedViewModel {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/AllUsers"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-        let parameters:[String : Any] = ["userlat":Defaults.LocationLat,"userlang":Defaults.LocationLng,"pageNumber": pageNumber,"pageSize":20]
+        let parameters:[String : Any] = ["userlat":Defaults.LocationLat,"userlang":Defaults.LocationLng,"pageNumber": pageNumber,"pageSize":30]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
@@ -61,7 +61,7 @@ class FeedViewModel {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/AllUsers"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-        let parameters:[String : Any] = ["userlat":Defaults.LocationLat,"userlang":Defaults.LocationLng,"degree":degree,"pageNumber": pageNumber,"pageSize":20]
+        let parameters:[String : Any] = ["userlat":Defaults.LocationLat,"userlang":Defaults.LocationLng,"degree":degree,"pageNumber": pageNumber,"pageSize":30]
 
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
