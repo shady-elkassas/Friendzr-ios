@@ -11,6 +11,7 @@ import AuthenticationServices
 import Firebase
 import FirebaseMessaging
 import Network
+import GoogleMobileAds
 
 class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRecognizerDelegate,UIPopoverPresentationControllerDelegate {
     
@@ -23,6 +24,9 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     @IBOutlet weak var profileImgH: NSLayoutConstraint!
     @IBOutlet weak var profileImgW: NSLayoutConstraint!
     
+    @IBOutlet var bannerView: UIView!
+    @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
+
     //MARK: - Properties
     let cellID = "MoreTableViewCell"
     var moreList : [(String,UIImage)] = []
@@ -33,6 +37,8 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
 //    var internetConect:Bool = false
     var btnsSelcted:Bool = false
     
+    var bannerView2: GADBannerView!
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,11 +57,19 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
             self.updateUserInterface()
         }
         
+        hideNavigationBar(NavigationBar: false, BackButton: false)
+        
         CancelRequest.currentTask = false
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateNotificationBadge), name: Notification.Name("updateNotificationBadge"), object: nil)
+        
+        if !Defaults.hideAds {
+            setupAds()
+        }else {
+            bannerViewHeight.constant = 0
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -88,6 +102,16 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     }
     
     //MARK: - Helpers
+    
+    func setupAds() {
+        bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
+        bannerView2.adUnitID = URLs.adUnitBanner
+        bannerView2.rootViewController = self
+        bannerView2.load(GADRequest())
+        bannerView2.delegate = self
+        bannerView2.translatesAutoresizingMaskIntoConstraints = false
+        bannerView.addSubview(bannerView2)
+    }
     
     func updateUserInterface() {
         appDelegate.networkReachability()
@@ -149,6 +173,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         }
         
         profileImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 2)
+        bannerView.setCornerforTop()
     }
     
     func setupUserData() {
@@ -392,5 +417,33 @@ extension MoreVC : UITableViewDelegate {
         default:
             break
         }
+    }
+}
+
+//MARK: - Ads Delegate
+extension MoreVC: GADBannerViewDelegate {
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("bannerViewDidReceiveAd")
+    }
+    
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+        bannerViewHeight.constant = 0
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+        print("bannerViewDidRecordImpression")
+    }
+    
+    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillPresentScreen")
+    }
+    
+    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewWillDIsmissScreen")
+    }
+    
+    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("bannerViewDidDismissScreen")
     }
 }

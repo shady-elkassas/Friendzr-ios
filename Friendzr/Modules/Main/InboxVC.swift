@@ -456,6 +456,13 @@ extension InboxVC:UITableViewDelegate {
         }
     }
     
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        guard tableView.isDragging else { return }
+//        cell.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+//        UIView.animate(withDuration: 0.3, animations: {
+//            cell.transform = CGAffineTransform.identity
+//        })
+//    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if NetworkConected.internetConect {
@@ -465,6 +472,8 @@ extension InboxVC:UITableViewDelegate {
             self.view.makeToast("Network is unavailable, please try again!")
         }
         
+//        guard let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC else {return}
+//        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

@@ -376,7 +376,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
                 
                 DispatchQueue.main.async {
                     self.messagesCollectionView.reloadData()
-                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                    self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
                 }
             }
         }
@@ -396,7 +396,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
                     
                     DispatchQueue.main.async {
                         self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
                     }
                 }
             }else {
@@ -414,7 +414,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
                     
                     DispatchQueue.main.async {
                         self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
                     }
                 }
             }
@@ -466,7 +466,7 @@ extension ConversationVC: InputBarAccessoryViewDelegate ,UITextViewDelegate {
             DispatchQueue.main.async { [weak self] in
                 inputBar.sendButton.stopAnimating()
                 inputBar.inputTextView.placeholder = "Aa".localizedString
-                self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
             }
         }
     }
@@ -723,7 +723,7 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
                     
                     DispatchQueue.main.async {
                         self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
                     }
                 }
             }else {
@@ -742,7 +742,7 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
                         
                         DispatchQueue.main.async {
                             self.messagesCollectionView.reloadData()
-                            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
                         }
                     }
                 }else {
@@ -761,7 +761,7 @@ extension ConversationVC : UIImagePickerControllerDelegate,UINavigationControlle
                         
                         DispatchQueue.main.async {
                             self.messagesCollectionView.reloadData()
-                            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
                         }
                     }
                 }
@@ -911,7 +911,7 @@ extension ConversationVC: MessagesLayoutDelegate {
         updateTitleView(title: "Mesaages Room".localizedString, subtitle: isHidden ? "2 Online".localizedString : "Typing...".localizedString)
         setTypingIndicatorViewHidden(isHidden, animated: true, whilePerforming: updates) { [weak self] success in
             if success, self?.isLastSectionVisible() == true {
-                self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
             }
         }
     }
@@ -961,7 +961,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
                     
                     DispatchQueue.main.async {
                         self.messagesCollectionView.reloadData()
-                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                        self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
                     }
                     
                 }
@@ -987,7 +987,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
                         
                         DispatchQueue.main.async {
                             self.messagesCollectionView.reloadData()
-                            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
                         }
                         
                     }
@@ -1012,7 +1012,7 @@ extension ConversationVC: UIDocumentPickerDelegate {
                         
                         DispatchQueue.main.async {
                             self.messagesCollectionView.reloadData()
-                            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                            self.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
                         }
                         
                     }

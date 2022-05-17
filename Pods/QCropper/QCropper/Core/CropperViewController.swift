@@ -222,7 +222,7 @@ open class CropperViewController: UIViewController, Rotatable, StateRestorable, 
     open override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationController?.navigationBar.isHidden = true
+        navigationController?.navigationBar.isHidden = false
         view.clipsToBounds = true
 
         // TODO: transition

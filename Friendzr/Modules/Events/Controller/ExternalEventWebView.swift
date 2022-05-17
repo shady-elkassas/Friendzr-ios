@@ -57,8 +57,8 @@ class ExternalEventWebView: UIViewController,WKNavigationDelegate{
         webView.scrollView.showsHorizontalScrollIndicator = false
         webView.scrollView.showsVerticalScrollIndicator = false
         
-        let myURL = URL(string: urlString)
-        let myRequest = URLRequest(url: myURL!)
+        guard let myURL = URL(string: urlString) else { return }
+        let myRequest = URLRequest(url: myURL)
         webView.load(myRequest)
         
         // add activity

@@ -232,7 +232,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             }
         }
         else {
-            print("This is not a group")
+            print("This is not a User")
         }
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
@@ -257,7 +257,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             }
         }
         else {
-            print("This is not a group")
+            print("This is not a Event")
         }
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
@@ -282,7 +282,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
                 self.insertMessage(UserMessage(linkItem: MessageLinkItem(title: NotificationMessage.messsageLinkTitle, teaser: NotificationMessage.messsageLinkCategory, thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(NotificationMessage.messsageLinkAttendeesJoined) / \(NotificationMessage.messsageLinkAttendeesTotalnumbert)",date: NotificationMessage.messsageLinkEventDate),user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 4,linkPreviewID: NotificationMessage.linkPreviewID,isJoinEvent: NotificationMessage.isJoinEvent, eventType:NotificationMessage.eventTypeLink))
             }
         }else {
-            print("This is not a group")
+            print("This is not a Group")
         }
         
         
@@ -303,7 +303,7 @@ class ConversationVC: MessagesViewController,UIPopoverPresentationControllerDele
             }
         }, completion: { [weak self] _ in
             if self?.isLastSectionVisible() == true {
-                self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
+                self?.messagesCollectionView.scrollToLastItem(at: .bottom, animated: false)
                 self?.reloadLastIndexInCollectionView()
             }
         })

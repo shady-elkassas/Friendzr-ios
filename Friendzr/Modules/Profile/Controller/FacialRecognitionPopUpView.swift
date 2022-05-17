@@ -20,13 +20,10 @@ class FacialRecognitionPopUpView: UIViewController {
         setupViews()
     }
     
-    
-    
     func setupViews() {
         containerView.cornerRadiusView(radius: 12)
         okBtn.cornerRadiusView(radius: 8)
     }
-    
     
     @IBAction func okBtn(_ sender: Any) {
         self.dismiss(animated: true)

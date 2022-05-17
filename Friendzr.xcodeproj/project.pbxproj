@@ -248,10 +248,6 @@
 		43967DC427944E92005B1F5D /* WriteProblemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43967DC627944E92005B1F5D /* WriteProblemTableViewCell.xib */; };
 		4397236D2709CE9E0062D684 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236C2709CE9E0062D684 /* ChatViewModel.swift */; };
 		4397236F2709D8870062D684 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236E2709D8870062D684 /* ChatModel.swift */; };
-		439CE757280D5A30003C0AD3 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE756280D5A30003C0AD3 /* ChatViewController.swift */; };
-		439CE759280D5DA8003C0AD3 /* ConversationChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE758280D5DA8003C0AD3 /* ConversationChatVC.swift */; };
-		439CE75B280D6105003C0AD3 /* CameraInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE75A280D6105003C0AD3 /* CameraInput.swift */; };
-		439CE75E280D614E003C0AD3 /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE75D280D614E003C0AD3 /* AlertService.swift */; };
 		439CE7602810107F003C0AD3 /* SelectFriendsEditEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE75F2810107F003C0AD3 /* SelectFriendsEditEventVC.swift */; };
 		439CE76528107F85003C0AD3 /* SplachFiveVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE76428107F85003C0AD3 /* SplachFiveVC.swift */; };
 		439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */; };
@@ -356,6 +352,12 @@
 		43F473B726E61E7F001E4FAE /* InterestsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */; };
 		43F473B926E61EAA001E4FAE /* InterestsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B826E61EAA001E4FAE /* InterestsModel.swift */; };
 		43F473BB26E63FAE001E4FAE /* EditEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473BA26E63FAE001E4FAE /* EditEventViewModel.swift */; };
+		43F974292832652200F736F3 /* Messages.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43F974282832652200F736F3 /* Messages.storyboard */; };
+		43F9742D2832682200F736F3 /* TextMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F9742B2832682200F736F3 /* TextMessageTableViewCell.swift */; };
+		43F9742E2832682200F736F3 /* TextMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43F9742C2832682200F736F3 /* TextMessageTableViewCell.xib */; };
+		43F9743028327AF800F736F3 /* FacialRecognitionVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 43F9742F28327AF800F736F3 /* FacialRecognitionVideo.mp4 */; };
+		43F974322832977C00F736F3 /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F974312832977C00F736F3 /* MessagesVC.swift */; };
+		43F974342832993C00F736F3 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F974332832993C00F736F3 /* MessageTableViewCell.swift */; };
 		43FBA1D726D4ED40005F4FBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43FBA1D626D4ED40005F4FBF /* AuthenticationServices.framework */; };
 		43FBA1D926D4ED7B005F4FBF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43FBA1D826D4ED7B005F4FBF /* MapKit.framework */; };
 		43FBA22C26D5330F005F4FBF /* SendLocationChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FBA22B26D5330F005F4FBF /* SendLocationChatVC.swift */; };
@@ -657,10 +659,6 @@
 		43967DC527944E92005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/WriteProblemTableViewCell.xib; sourceTree = "<group>"; };
 		4397236C2709CE9E0062D684 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		4397236E2709D8870062D684 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
-		439CE756280D5A30003C0AD3 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
-		439CE758280D5DA8003C0AD3 /* ConversationChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationChatVC.swift; sourceTree = "<group>"; };
-		439CE75A280D6105003C0AD3 /* CameraInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraInput.swift; sourceTree = "<group>"; };
-		439CE75D280D614E003C0AD3 /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
 		439CE75F2810107F003C0AD3 /* SelectFriendsEditEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFriendsEditEventVC.swift; sourceTree = "<group>"; };
 		439CE76428107F85003C0AD3 /* SplachFiveVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachFiveVC.swift; sourceTree = "<group>"; };
 		439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeViewModel.swift; sourceTree = "<group>"; };
@@ -769,6 +767,12 @@
 		43F473B626E61E7F001E4FAE /* InterestsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewModel.swift; sourceTree = "<group>"; };
 		43F473B826E61EAA001E4FAE /* InterestsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsModel.swift; sourceTree = "<group>"; };
 		43F473BA26E63FAE001E4FAE /* EditEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventViewModel.swift; sourceTree = "<group>"; };
+		43F974282832652200F736F3 /* Messages.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Messages.storyboard; sourceTree = "<group>"; };
+		43F9742B2832682200F736F3 /* TextMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextMessageTableViewCell.swift; sourceTree = "<group>"; };
+		43F9742C2832682200F736F3 /* TextMessageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TextMessageTableViewCell.xib; sourceTree = "<group>"; };
+		43F9742F28327AF800F736F3 /* FacialRecognitionVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = FacialRecognitionVideo.mp4; sourceTree = "<group>"; };
+		43F974312832977C00F736F3 /* MessagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
+		43F974332832993C00F736F3 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		43FBA1D626D4ED40005F4FBF /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		43FBA1D826D4ED7B005F4FBF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		43FBA1DA26D4EDBA005F4FBF /* Friendzr.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Friendzr.entitlements; sourceTree = "<group>"; };
@@ -1371,7 +1375,6 @@
 		436288A726C93AEF00B51E51 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				4396A513280C047800FD9685 /* Chat */,
 				43C97DE927A04CF300D87CBE /* MainTBC.swift */,
 				4382AC1A26C27195005C1857 /* InboxVC.swift */,
 				436DD06527E1D68C00A4A7F7 /* ConversationVC */,
@@ -1485,6 +1488,7 @@
 		4371D40F27329535003B8AFD /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				43F974202832643C00F736F3 /* Messages Chat */,
 				4382ACAB26C28EAC005C1857 /* Main */,
 				430A351A26CAAF9E00477A94 /* Events */,
 				436288A926C93B2D00B51E51 /* Profile */,
@@ -1530,6 +1534,7 @@
 				4382AC4926C27297005C1857 /* Supporting_Files */,
 				4382AC2226C27195005C1857 /* Assets.xcassets */,
 				4382AC2426C27195005C1857 /* LaunchScreen.storyboard */,
+				43F9742F28327AF800F736F3 /* FacialRecognitionVideo.mp4 */,
 				439381422816B009002FFED1 /* GoogleService-Info.plist */,
 				4371D40D273127F3003B8AFD /* Info.plist */,
 				4388686927844445004D36B2 /* Friendzr-Bridging-Header.h */,
@@ -1656,25 +1661,6 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		4396A513280C047800FD9685 /* Chat */ = {
-			isa = PBXGroup;
-			children = (
-				439CE75C280D613C003C0AD3 /* Costum Views */,
-				439CE756280D5A30003C0AD3 /* ChatViewController.swift */,
-				439CE758280D5DA8003C0AD3 /* ConversationChatVC.swift */,
-			);
-			name = Chat;
-			sourceTree = "<group>";
-		};
-		439CE75C280D613C003C0AD3 /* Costum Views */ = {
-			isa = PBXGroup;
-			children = (
-				439CE75D280D614E003C0AD3 /* AlertService.swift */,
-				439CE75A280D6105003C0AD3 /* CameraInput.swift */,
-			);
-			name = "Costum Views";
-			sourceTree = "<group>";
-		};
 		439DDE8926F7308800E09FC1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1799,6 +1785,50 @@
 				43DAFA2F27D6472B00D16462 /* Info.plist */,
 			);
 			path = NotificationService;
+			sourceTree = "<group>";
+		};
+		43F974202832643C00F736F3 /* Messages Chat */ = {
+			isa = PBXGroup;
+			children = (
+				43F974232832645600F736F3 /* MessagesHelper */,
+				43F974222832644D00F736F3 /* Controller */,
+				43F974212832644500F736F3 /* View */,
+			);
+			path = "Messages Chat";
+			sourceTree = "<group>";
+		};
+		43F974212832644500F736F3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				43F9742A2832680300F736F3 /* Cells */,
+				43F974282832652200F736F3 /* Messages.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		43F974222832644D00F736F3 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				43F974312832977C00F736F3 /* MessagesVC.swift */,
+				43F974332832993C00F736F3 /* MessageTableViewCell.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		43F974232832645600F736F3 /* MessagesHelper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MessagesHelper;
+			sourceTree = "<group>";
+		};
+		43F9742A2832680300F736F3 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				43F9742B2832682200F736F3 /* TextMessageTableViewCell.swift */,
+				43F9742C2832682200F736F3 /* TextMessageTableViewCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		43FC3CAD2729683800D94ABB /* Helpers */ = {
@@ -2025,6 +2055,7 @@
 				43ACFEC827B3B464001CD340 /* EventDateAndTimeTableViewCell.xib in Resources */,
 				43D00935279441BD00370E2C /* Profile.storyboard in Resources */,
 				43D008F627943A4200370E2C /* RequestsTableViewCell.xib in Resources */,
+				43F974292832652200F736F3 /* Messages.storyboard in Resources */,
 				43967D8427944442005B1F5D /* Events.storyboard in Resources */,
 				43D008E8279438B300370E2C /* Request.storyboard in Resources */,
 				43D008CC279431E000370E2C /* Feed.storyboard in Resources */,
@@ -2048,6 +2079,7 @@
 				43D009272794416500370E2C /* DeleteAccountTableViewCell.xib in Resources */,
 				43D008C527942B9200370E2C /* Register.storyboard in Resources */,
 				43CCD4A5279424FE00C2E46D /* Splach.storyboard in Resources */,
+				43F9742E2832682200F736F3 /* TextMessageTableViewCell.xib in Resources */,
 				43EA53B127DA1F2C0022950E /* StatisticsInfoCollectionViewCell.xib in Resources */,
 				43D0092E2794418C00370E2C /* HideGhostModeView.xib in Resources */,
 				43375F60271313C4009EBED6 /* NotificationTableViewCell.xib in Resources */,
@@ -2058,6 +2090,7 @@
 				4382AC9626C27FF2005C1857 /* Montserrat-Medium.ttf in Resources */,
 				434BCE4927BCE624002DC1DA /* PreferToTableViewCell.xib in Resources */,
 				43E7EC45279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib in Resources */,
+				43F9743028327AF800F736F3 /* FacialRecognitionVideo.mp4 in Resources */,
 				43967DB627944E15005B1F5D /* StatisticsCollectionViewCell.xib in Resources */,
 				4367E46D27BA4BC600FE1880 /* BestDescribesTableViewCell.xib in Resources */,
 				43D008DA2794386A00370E2C /* EmptyViewTableViewCell.xib in Resources */,
@@ -2298,6 +2331,7 @@
 				4382AC5726C27A03005C1857 /* UIViewControllerExtension.swift in Sources */,
 				4336D12326DB88B20093C7A6 /* RegisterViewModel.swift in Sources */,
 				4382AC1B26C27195005C1857 /* InboxVC.swift in Sources */,
+				43F974322832977C00F736F3 /* MessagesVC.swift in Sources */,
 				43119D7A26E4F08D00AD2260 /* LocationEventViewModel.swift in Sources */,
 				4336D13726DB95670093C7A6 /* ProfileModel.swift in Sources */,
 				43119D7826E4F07000AD2260 /* CategoryEventViewModel.swift in Sources */,
@@ -2343,7 +2377,9 @@
 				4319612827A7E1940057FDC2 /* ExtensionMapKit.swift in Sources */,
 				43D545A426CB9DDD0064660A /* AddEventVC.swift in Sources */,
 				4382AC4C26C2748B005C1857 /* UIColorExtension.swift in Sources */,
+				43F9742D2832682200F736F3 /* TextMessageTableViewCell.swift in Sources */,
 				4336D13926DB95D20093C7A6 /* ChangePasswordViewModel.swift in Sources */,
+				43F974342832993C00F736F3 /* MessageTableViewCell.swift in Sources */,
 				4306C59F27426B3F00D8E3EB /* NearbyEventsCollectionViewCell.swift in Sources */,
 				43B05A4527B9056200D9099A /* NotificationManager.swift in Sources */,
 				4337B47A278714630077B794 /* UsersFeedTableViewCell.swift in Sources */,
@@ -2357,7 +2393,6 @@
 				43119D7226E4EFEB00AD2260 /* TitleEventViewModel.swift in Sources */,
 				43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */,
 				436E945C27BD153800CB2F1E /* CustomSwitch.swift in Sources */,
-				439CE757280D5A30003C0AD3 /* ChatViewController.swift in Sources */,
 				4382AC1726C27195005C1857 /* AppDelegate.swift in Sources */,
 				436DCFB627E0B13D00A4A7F7 /* NavController.swift in Sources */,
 				430D426B26D3BF1F00188E42 /* SimpleDataModel.swift in Sources */,
@@ -2417,7 +2452,6 @@
 				43ACFECF27B3B6A5001CD340 /* EventStatisticsTableViewCell.swift in Sources */,
 				43526909276A0EDC00540726 /* BottomSheetViewController.swift in Sources */,
 				4326A8F726F87AE000D471E0 /* SettingsViewModel.swift in Sources */,
-				439CE75B280D6105003C0AD3 /* CameraInput.swift in Sources */,
 				43C97DE6279D76A900D87CBE /* FaceRecognitionViewModel.swift in Sources */,
 				43F473B326E6175F001E4FAE /* AllCategoriesViewModel.swift in Sources */,
 				431FF241270C8DEA002A15E0 /* GenderDistributionVC.swift in Sources */,
@@ -2427,7 +2461,6 @@
 				43FC3CA02727EBD000D94ABB /* MyLocation.swift in Sources */,
 				43D545BF26CBD8BB0064660A /* Toast.swift in Sources */,
 				436DCFAE27DF689A00A4A7F7 /* SelectFriendsVC.swift in Sources */,
-				439CE75E280D614E003C0AD3 /* AlertService.swift in Sources */,
 				4337B47E278718880077B794 /* InboxTableViewCell.swift in Sources */,
 				43119D7E26E4F6D100AD2260 /* AddEventViewModel.swift in Sources */,
 				4344110426CE796300F8233E /* ForgetPasswordVC.swift in Sources */,
@@ -2435,7 +2468,6 @@
 				43CBA9C827DA2D13006020FC /* StatisticsDetailsTableViewCell.swift in Sources */,
 				431D739727BBA08900EC8F7B /* IamVC.swift in Sources */,
 				4336D11026DB7F410093C7A6 /* Constants.swift in Sources */,
-				439CE759280D5DA8003C0AD3 /* ConversationChatVC.swift in Sources */,
 				43F473B526E61791001E4FAE /* CategoriesModel.swift in Sources */,
 				437EE47426E8BC1C00765089 /* AttendeesModel.swift in Sources */,
 				4382ACA626C28327005C1857 /* Initializer.swift in Sources */,
@@ -2890,7 +2922,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.0;
+				CURRENT_PROJECT_VERSION = 3.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2926,7 +2958,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.0;
+				CURRENT_PROJECT_VERSION = 3.0;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

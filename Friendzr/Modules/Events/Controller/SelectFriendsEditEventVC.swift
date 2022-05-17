@@ -2,7 +2,7 @@
 //  SelectFriendsEditEventVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 20/04/2022.
+//  Created by Muhammad Sabri Saad on 20/04/2022.
 //
 
 import UIKit

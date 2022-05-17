@@ -278,7 +278,11 @@ extension MyProfileViewController: UITableViewDataSource {
             
             cell.tagsListView.removeAllTags()
             for item in model?.iamList ?? [] {
-                cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
+                if item.tagname.contains("#") == false {
+                    cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
+                }else {
+                    print("item.tagname.contains(#)")
+                }
             }
             
             print("tagListView.rows \(cell.tagsListView.rows)")
@@ -306,7 +310,11 @@ extension MyProfileViewController: UITableViewDataSource {
             
             cell.tagsListView.removeAllTags()
             for item in model?.prefertoList ?? [] {
-                cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
+                if item.tagname.contains("#") == false {
+                    cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
+                }else {
+                    print("item.tagname.contains(#)")
+                }
             }
             
             print("tagListView.rows \(cell.tagsListView.rows)")

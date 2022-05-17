@@ -366,7 +366,11 @@ extension FriendProfileViewController:UITableViewDataSource {
             
             cell.tagsListView.removeAllTags()
             for item in model?.iamList ?? [] {
-                cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
+                if item.tagname.contains("#") == false {
+                    cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
+                }else {
+                    print("iamList.tagname.contains(#)")
+                }
             }
             
             print("tagListView.rows \(cell.tagsListView.rows)")
@@ -392,7 +396,11 @@ extension FriendProfileViewController:UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: preferCellId, for: indexPath) as? PreferToTableViewCell else {return UITableViewCell()}
             cell.tagsListView.removeAllTags()
             for item in model?.prefertoList ?? [] {
-                cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname))
+                if item.tagname.contains("#") == false {
+                    cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
+                }else {
+                    print("prefertoList.tagname.contains(#)")
+                }
             }
             
             print("tagListView.rows \(cell.tagsListView.rows)")

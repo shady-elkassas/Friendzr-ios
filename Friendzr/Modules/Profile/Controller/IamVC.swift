@@ -23,8 +23,9 @@ class IamVC: UIViewController {
     lazy var addNewTagView = Bundle.main.loadNibNamed("AddNewTagView", owner: self, options: nil)?.first as? AddNewTagView
     
     private var layout: UICollectionViewFlowLayout!
-    var viewmodel = IamViewModel()
-    var selectedIam:[IamObj]!
+//    var viewmodel = IamViewModel()
+    var iamModelArray:[IamObj]? = [IamObj]()
+    var selectedIam:[IamObj]? = [IamObj]()
     
     var onIamCallBackResponse: ((_ data: [String], _ value: [String]) -> ())?
     
@@ -103,27 +104,33 @@ class IamVC: UIViewController {
     
     //MARK: - APIs
     func getAllBestDescrips() {
-        self.collectionView.hideLoader()
-        viewmodel.getAllIam()
-        viewmodel.IAM.bind { [unowned self] value in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                self.collectionView.delegate = self
-                self.collectionView.dataSource = self
-                self.collectionView.reloadData()
-                self.layout = TagsLayout()
-            })
-        }
         
-        // Set View Model Event Listener
-        viewmodel.error.bind { error in
-            DispatchQueue.main.async {
-                self.hideLoading()
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
-            }
-        }
+        self.collectionView.hideLoader()
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.reloadData()
+        self.layout = TagsLayout()
+        
+//        viewmodel.getAllIam()
+//        viewmodel.IAM.bind { [unowned self] value in
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+//                self.collectionView.delegate = self
+//                self.collectionView.dataSource = self
+//                self.collectionView.reloadData()
+//                self.layout = TagsLayout()
+//            })
+//        }
+//
+//        // Set View Model Event Listener
+//        viewmodel.error.bind { error in
+//            DispatchQueue.main.async {
+//                self.hideLoading()
+//                DispatchQueue.main.async {
+//                    self.view.makeToast(error)
+//                }
+//
+//            }
+//        }
     }
     
     func HandleInternetConnection() {
@@ -155,12 +162,12 @@ extension IamVC:UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewmodel.IAM.value?.count ?? 0
+        return iamModelArray?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? TagCollectionViewCell else {return UICollectionViewCell()}
-        let model = viewmodel.IAM.value?[indexPath.row]
+        let model = iamModelArray?[indexPath.row]
         cell.tagNameLbl.text = "#" + (model?.name ?? "").capitalizingFirstLetter()
         
         //        if model?.isSharedForAll == true {
@@ -179,7 +186,7 @@ extension IamVC:UICollectionViewDataSource {
         }
         
         cell.HandleEditBtn = {
-            self.showOptionTags(id:model?.id ?? "",name:model?.name ?? "")
+//            self.showOptionTags(id:model?.id ?? "",name:model?.name ?? "")
         }
         
         cell.layoutSubviews()
@@ -190,7 +197,7 @@ extension IamVC:UICollectionViewDataSource {
 //MARK: - UICollectionViewDelegate && UICollectionViewDelegateFlowLayout
 extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let model = viewmodel.IAM.value?[indexPath.row]
+        let model = iamModelArray?[indexPath.row]
         let width = model?.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
         //        if model?.isSharedForAll == true {
         return CGSize(width: width! + 50, height: 45)
@@ -215,7 +222,7 @@ extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
         btnSelect = true
         if NetworkConected.internetConect {
             print("You selected cell #\(indexPath.row)!")
-            let strData = viewmodel.IAM.value?[indexPath.row]
+            let strData = iamModelArray?[indexPath.row]
             
             if arrSelectedDataIds.contains(strData?.id ?? "") {
                 arrSelectedIndex = arrSelectedIndex.filter { $0 != indexPath}
@@ -265,126 +272,126 @@ extension IamVC: UICollectionViewDelegate ,UICollectionViewDelegateFlowLayout{
     }
     
     @objc func addnewtag() {
-        addNewTagView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        self.addNewTagView?.newTagTxt.text = ""
-        
-        addNewTagView?.HandleConfirmBtn = {
-            if self.addNewTagView?.newTagTxt.text == "" {
-                self.view.makeToast("Please type the name of the tag first".localizedString)
-            }else {
-                
-                self.viewmodel.addMyNewIam(name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
-                    
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.view.makeToast(error)
-                        }
-                        return
-                    }
-                    
-                    guard let data = data else {return}
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.getAllBestDescrips()
-                        
-                        if Defaults.userIAM_MaxLength != 0 {
-                            if self.arrSelectedDataIds.count < Defaults.userIAM_MaxLength {
-                                self.arrSelectedDataIds.append(data.entityId ?? "")
-                                self.arrSelectedDataNames.append(data.name ?? "")
-                                print(self.arrSelectedDataNames)
-                                self.collectionView.reloadData()
-                            }
-                        }else {
-                            if self.arrSelectedDataIds.count < 4 {
-                                self.arrSelectedDataIds.append(data.entityId ?? "")
-                                self.arrSelectedDataNames.append(data.name ?? "")
-                                print(self.arrSelectedDataNames)
-                                self.collectionView.reloadData()
-                            }
-                        }
-                        
-                    }
-                }
-            }
-            
-            
-            // handling code
-            UIView.animate(withDuration: 0.3, animations: {
-                self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.addNewTagView?.alpha = 0
-            }) { (success: Bool) in
-                self.addNewTagView?.removeFromSuperview()
-                self.addNewTagView?.alpha = 1
-                self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        self.view.addSubview((addNewTagView)!)
+//        addNewTagView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+//        self.addNewTagView?.newTagTxt.text = ""
+//
+//        addNewTagView?.HandleConfirmBtn = {
+//            if self.addNewTagView?.newTagTxt.text == "" {
+//                self.view.makeToast("Please type the name of the tag first".localizedString)
+//            }else {
+//
+//                self.viewmodel.addMyNewIam(name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
+//
+//                    if let error = error {
+//                        DispatchQueue.main.async {
+//                            self.view.makeToast(error)
+//                        }
+//                        return
+//                    }
+//
+//                    guard let data = data else {return}
+//
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                        self.getAllBestDescrips()
+//
+//                        if Defaults.userIAM_MaxLength != 0 {
+//                            if self.arrSelectedDataIds.count < Defaults.userIAM_MaxLength {
+//                                self.arrSelectedDataIds.append(data.entityId ?? "")
+//                                self.arrSelectedDataNames.append(data.name ?? "")
+//                                print(self.arrSelectedDataNames)
+//                                self.collectionView.reloadData()
+//                            }
+//                        }else {
+//                            if self.arrSelectedDataIds.count < 4 {
+//                                self.arrSelectedDataIds.append(data.entityId ?? "")
+//                                self.arrSelectedDataNames.append(data.name ?? "")
+//                                print(self.arrSelectedDataNames)
+//                                self.collectionView.reloadData()
+//                            }
+//                        }
+//
+//                    }
+//                }
+//            }
+//
+//
+//            // handling code
+//            UIView.animate(withDuration: 0.3, animations: {
+//                self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+//                self.addNewTagView?.alpha = 0
+//            }) { (success: Bool) in
+//                self.addNewTagView?.removeFromSuperview()
+//                self.addNewTagView?.alpha = 1
+//                self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+//            }
+//        }
+//
+//        self.view.addSubview((addNewTagView)!)
     }
     
     
-    func showOptionTags(id:String,name:String) {
-        let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        actionSheet.addAction(UIAlertAction(title: "Edit".localizedString, style: .default, handler: { action in
-            self.addNewTagView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-            self.addNewTagView?.newTagTxt.text = name
-            
-            self.addNewTagView?.HandleConfirmBtn = {
-                if self.addNewTagView?.newTagTxt.text == "" {
-                    self.view.makeToast("Please type the name of the tag first".localizedString)
-                }else {
-                    self.viewmodel.EditIam(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
-                        if let error = error {
-                            DispatchQueue.main.async {
-                                self.view.makeToast(error)
-                            }
-                            return
-                        }
-                        
-                        guard let _ = data else {return}
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            self.getAllBestDescrips()
-                        }
-                    }
-                }
-                
-                
-                // handling code
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                    self.addNewTagView?.alpha = 0
-                }) { (success: Bool) in
-                    self.addNewTagView?.removeFromSuperview()
-                    self.addNewTagView?.alpha = 1
-                    self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                }
-            }
-            
-            self.view.addSubview((self.addNewTagView)!)
-        }))
-        actionSheet.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
-            self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
-            self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
-            
-            self.viewmodel.deleteIam(ById: id) { error, data in
-                if let error = error {
-                    DispatchQueue.main.async {
-                        self.view.makeToast(error)
-                    }
-                    return
-                }
-                
-                guard let _ = data else {return}
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.getAllBestDescrips()
-                }
-            }
-        }))
-        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
-        }))
-        
-        present(actionSheet, animated: true, completion: nil)
-        
-    }
+//    func showOptionTags(id:String,name:String) {
+//        let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+//        actionSheet.addAction(UIAlertAction(title: "Edit".localizedString, style: .default, handler: { action in
+//            self.addNewTagView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+//            self.addNewTagView?.newTagTxt.text = name
+//
+//            self.addNewTagView?.HandleConfirmBtn = {
+//                if self.addNewTagView?.newTagTxt.text == "" {
+//                    self.view.makeToast("Please type the name of the tag first".localizedString)
+//                }else {
+//                    self.viewmodel.EditIam(ByID: id, name: self.addNewTagView?.newTagTxt.text ?? "") { error, data in
+//                        if let error = error {
+//                            DispatchQueue.main.async {
+//                                self.view.makeToast(error)
+//                            }
+//                            return
+//                        }
+//
+//                        guard let _ = data else {return}
+//
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                            self.getAllBestDescrips()
+//                        }
+//                    }
+//                }
+//
+//
+//                // handling code
+//                UIView.animate(withDuration: 0.3, animations: {
+//                    self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+//                    self.addNewTagView?.alpha = 0
+//                }) { (success: Bool) in
+//                    self.addNewTagView?.removeFromSuperview()
+//                    self.addNewTagView?.alpha = 1
+//                    self.addNewTagView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+//                }
+//            }
+//
+//            self.view.addSubview((self.addNewTagView)!)
+//        }))
+//        actionSheet.addAction(UIAlertAction(title: "Delete".localizedString, style: .default, handler: { action in
+//            self.arrSelectedDataIds = self.arrSelectedDataIds.filter { $0 != id}
+//            self.arrSelectedDataNames = self.arrSelectedDataNames.filter { $0 != name}
+//
+//            self.viewmodel.deleteIam(ById: id) { error, data in
+//                if let error = error {
+//                    DispatchQueue.main.async {
+//                        self.view.makeToast(error)
+//                    }
+//                    return
+//                }
+//
+//                guard let _ = data else {return}
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                    self.getAllBestDescrips()
+//                }
+//            }
+//        }))
+//        actionSheet.addAction(UIAlertAction(title: "Cancel".localizedString, style: .cancel, handler: {  _ in
+//        }))
+//
+//        present(actionSheet, animated: true, completion: nil)
+//
+//    }
 }

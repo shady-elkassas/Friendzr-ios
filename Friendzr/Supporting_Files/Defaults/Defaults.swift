@@ -462,6 +462,27 @@ class Defaults {
         }
     }
     
+    
+    static var iamid: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "iamid")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "iamid") ?? ""
+        }
+    }
+    
+    static var preferToid: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "preferToid")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "preferToid") ?? ""
+        }
+    }
+    
     static func initUser(user:UserObj)  {
         Defaults.userName = user.userName
         Defaults.Email = user.email
@@ -554,6 +575,8 @@ class Defaults {
         defaults.removeObject(forKey: "distanceShowNearbyEvents_Max")
         defaults.removeObject(forKey: "distanceShowNearbyEventsOnMap_Min")
         defaults.removeObject(forKey: "distanceShowNearbyEventsOnMap_Max")
+        defaults.removeObject(forKey: "iamid")
+        defaults.removeObject(forKey: "preferToid")
 
         
         if let token = AccessToken.current,

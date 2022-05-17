@@ -55,7 +55,7 @@ internal extension MessagesViewController {
             if scrollsToLastItemOnKeyboardBeginsEditing {
                 messagesCollectionView.scrollToLastItem()
             } else {
-                messagesCollectionView.scrollToLastItem(animated: true)
+                messagesCollectionView.scrollToLastItem(animated: false)
             }
         }
     }

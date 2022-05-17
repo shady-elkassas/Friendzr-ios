@@ -344,13 +344,16 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
             }
             
             cell.HandleJoinBtn = {
-                if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventWebNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventWebView {
-                    vc.titleVC = model?.title ?? ""
-                    if model?.checkout_details != nil || model?.checkout_details != "" {
+                if model?.checkout_details != nil || model?.checkout_details != "" {
+                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventWebNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventWebView {
                         vc.urlString = (model?.checkout_details ?? "").replacingOccurrences(of: "\'", with: "", options: NSString.CompareOptions.literal, range: nil)
                         vc.onShowconfirmCallBackResponse = self.onShowconfirmCallBack
                         self.present(controller, animated: true)
                     }
+                }
+                else {
+                    self.view.makeToast("Please try again later!")
+                    return
                 }
             }
             

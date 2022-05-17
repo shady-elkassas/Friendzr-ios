@@ -37,6 +37,16 @@ extension FeedVC {
                 print("Access")
                 Defaults.allowMyLocationSettings = true
                 hideView.isHidden = true
+                
+                self.isCompassOpen = false
+                filterDir = false
+                switchCompassBarButton.isOn = false
+                filterHideView.isHidden = true
+                filterHideView.isHidden = true
+                filterBtn.isHidden = true
+                compassContanierView.isHidden = true
+                compassContainerViewHeight.constant = 0
+
                 DispatchQueue.main.async {
                     self.updateUserInterface()
                 }
@@ -213,16 +223,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         self.title = "Feed".localizedString
         pullToRefresh()
         addCompassView()
-        initCompassSwitchBarButton()
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-        
-//        let ads = GADMobileAds.sharedInstance()
-//        ads.start(completionHandler: nil)
-//        ads.requestConfiguration.testDeviceIdentifiers = ["5a6ffdc707088fe3a9f0dff1f251fd08"]
-//        ads.presentAdInspector(from: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -239,6 +243,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         setupHideView()
         setupNavBar()
       
+        initCompassSwitchBarButton()
 
         if !Defaults.hideAds {
             requestIDFA()
@@ -1155,6 +1160,8 @@ extension FeedVC {
         switchCompassBarButton.addGestureRecognizer(createCompassSwipeGestureRecognizer(for: .left))
         switchCompassBarButton.addGestureRecognizer(createCompassSwipeGestureRecognizer(for: .right))
         
+        isCompassOpen = false
+        
         if Defaults.allowMyLocationSettings == true {
             if isCompassOpen {
                 switchCompassBarButton.isOn = true
@@ -1317,7 +1324,6 @@ extension FeedVC {
                             }else {
                                 self.getAllFeeds(pageNumber: 0)
                             }
-                            
                         }
                         self.allowLocView.isHidden = true
                     }else {

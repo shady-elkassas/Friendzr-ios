@@ -25,9 +25,9 @@ class EditProfileViewModel {
     var errorMsg : String = ""
     
     func validateEditProfileCredentials() -> Bool{
-        isSuccess =  userNameViewModel.validateCredentials() && genderViewModel.validateCredentials() && bioViewModel.validateCredentials() && birthdateViewModel.validateCredentials() && generatedUserNameViewModel.validateCredentials()
+        isSuccess =  userNameViewModel.validateCredentials() && genderViewModel.validateCredentials() && birthdateViewModel.validateCredentials() && generatedUserNameViewModel.validateCredentials()
         
-        errorMsg = "\(userNameViewModel.errorValue ?? "")\(genderViewModel.errorValue ?? "")\(bioViewModel.errorValue ?? "")\(birthdateViewModel.errorValue ?? "")\(generatedUserNameViewModel.errorValue ?? "")"
+        errorMsg = "\(userNameViewModel.errorValue ?? "")\(genderViewModel.errorValue ?? "")\(birthdateViewModel.errorValue ?? "")\(generatedUserNameViewModel.errorValue ?? "")"
         
         return isSuccess
     }
@@ -40,7 +40,7 @@ class EditProfileViewModel {
         CancelRequest.currentTask = false
         userNameViewModel.data = userName
         genderViewModel.data = gender
-        bioViewModel.data = bio
+//        bioViewModel.data = bio
         birthdateViewModel.data = birthdate
         generatedUserNameViewModel.data = generatedUserName
         

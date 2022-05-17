@@ -609,11 +609,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="1150"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a9K-qt-o59">
+                                <rect key="frame" x="0.0" y="44" width="414" height="1072"/>
+                                <color key="backgroundColor" name="BGColor"/>
+                            </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gn9-uu-C3i">
                                 <rect key="frame" x="0.0" y="44" width="414" height="1072"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zxh-ag-YVP">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="901"/>
+                                        <rect key="frame" x="0.0" y="1.5" width="414" height="842"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="eGr-IB-vIz">
                                                 <rect key="frame" x="157" y="16" width="100" height="100"/>
@@ -1131,8 +1135,8 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EFU-iW-NCK">
                                                         <rect key="frame" x="0.0" y="510" width="374" height="120"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="More about me..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w21-1i-pAA">
-                                                                <rect key="frame" x="5" y="5" width="121" height="17.5"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="More about me... (optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w21-1i-pAA">
+                                                                <rect key="frame" x="5" y="5" width="194.5" height="17.5"/>
                                                                 <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="14"/>
                                                                 <color key="textColor" name="ColorLbl3"/>
                                                                 <nil key="highlightedColor"/>
@@ -1172,24 +1176,10 @@
                                                 </constraints>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="MN6-Rs-v85">
-                                                <rect key="frame" x="138" y="801" width="138" height="90"/>
+                                                <rect key="frame" x="138" y="801" width="138" height="31"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NHn-io-oG3">
-                                                        <rect key="frame" x="0.0" y="0.0" width="138" height="40"/>
-                                                        <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="40" id="QJB-Br-thj"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
-                                                        <state key="normal" title="SAVE">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="saveBtn:" destination="cct-Cm-hVF" eventType="touchUpInside" id="YgY-5c-Sd4"/>
-                                                        </connections>
-                                                    </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i5a-mM-7UE">
-                                                        <rect key="frame" x="0.0" y="50" width="138" height="40"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="138" height="31"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="15"/>
                                                         <state key="normal" title="LOG OUT">
@@ -1231,7 +1221,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" name="Color0"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="MN6-Rs-v85" secondAttribute="bottom" constant="10" id="0mB-Y5-GGV"/>
                                             <constraint firstItem="eGr-IB-vIz" firstAttribute="centerX" secondItem="zxh-ag-YVP" secondAttribute="centerX" id="4Zh-aw-TyP"/>
@@ -1267,7 +1257,7 @@
                                     <constraint firstAttribute="trailing" secondItem="zxh-ag-YVP" secondAttribute="trailing" id="HpO-IB-1vA"/>
                                     <constraint firstAttribute="bottom" secondItem="zxh-ag-YVP" secondAttribute="bottom" id="JwR-Wm-zQT"/>
                                     <constraint firstItem="zxh-ag-YVP" firstAttribute="leading" secondItem="gn9-uu-C3i" secondAttribute="leading" id="Kj8-Xq-jl1"/>
-                                    <constraint firstItem="zxh-ag-YVP" firstAttribute="top" secondItem="gn9-uu-C3i" secondAttribute="top" id="Z5g-h1-KQy"/>
+                                    <constraint firstItem="zxh-ag-YVP" firstAttribute="top" secondItem="gn9-uu-C3i" secondAttribute="top" constant="1.5" id="Z5g-h1-KQy"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="96I-AH-KsD"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="WO9-fT-RcD"/>
@@ -1276,10 +1266,14 @@
                         <viewLayoutGuide key="safeArea" id="iwv-YT-OnP"/>
                         <color key="backgroundColor" name="Color0"/>
                         <constraints>
+                            <constraint firstItem="iwv-YT-OnP" firstAttribute="bottom" secondItem="a9K-qt-o59" secondAttribute="bottom" id="77n-OV-18H"/>
+                            <constraint firstItem="a9K-qt-o59" firstAttribute="top" secondItem="iwv-YT-OnP" secondAttribute="top" id="FqN-DV-tui"/>
                             <constraint firstItem="gn9-uu-C3i" firstAttribute="trailing" secondItem="iwv-YT-OnP" secondAttribute="trailing" id="IzW-e8-5E2"/>
+                            <constraint firstItem="iwv-YT-OnP" firstAttribute="trailing" secondItem="a9K-qt-o59" secondAttribute="trailing" id="MWL-aB-QaG"/>
                             <constraint firstItem="gn9-uu-C3i" firstAttribute="top" secondItem="iwv-YT-OnP" secondAttribute="top" id="NU0-fM-Oqf"/>
                             <constraint firstItem="iwv-YT-OnP" firstAttribute="bottom" secondItem="gn9-uu-C3i" secondAttribute="bottom" id="aM3-vx-gu2"/>
                             <constraint firstItem="gn9-uu-C3i" firstAttribute="leading" secondItem="iwv-YT-OnP" secondAttribute="leading" id="eD6-5U-tSw"/>
+                            <constraint firstItem="a9K-qt-o59" firstAttribute="leading" secondItem="iwv-YT-OnP" secondAttribute="leading" id="qmq-PD-iKp"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ogz-YM-fbD"/>
@@ -1314,7 +1308,6 @@
                         <outlet property="preferToView" destination="Fxi-pz-CDM" id="XMT-cZ-W5Z"/>
                         <outlet property="preferToViewHeight" destination="AIT-Th-1f7" id="q25-NU-fjY"/>
                         <outlet property="profileImg" destination="eGr-IB-vIz" id="nij-PJ-RsU"/>
-                        <outlet property="saveBtn" destination="NHn-io-oG3" id="1hT-Hg-p7R"/>
                         <outlet property="selectPreferToLbl" destination="37O-0S-fgl" id="gOS-b4-Qpi"/>
                         <outlet property="selectTagsLbl" destination="ymh-qz-id6" id="pQ8-1T-4og"/>
                         <outlet property="selectbestDescribesLbl" destination="AY2-5Y-xUr" id="7L9-Km-qkm"/>
@@ -2111,8 +2104,42 @@ yourself with a one-time selfie</string>
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ckp-bk-zBj">
+                                <rect key="frame" x="34.5" y="235.5" width="345" height="435"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4if-vE-WVL">
+                                        <rect key="frame" x="20" y="20" width="305" height="335"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lRz-gP-Q88">
+                                        <rect key="frame" x="115" y="375" width="115" height="40"/>
+                                        <color key="backgroundColor" name="primaryColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="XUe-dN-5S4"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="NEXT">
+                                            <fontDescription key="titleFontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="nextBtn:" destination="acg-ga-EaI" eventType="touchUpInside" id="tWH-yh-9JP"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="lRz-gP-Q88" firstAttribute="top" secondItem="4if-vE-WVL" secondAttribute="bottom" constant="20" id="Pw3-S7-IRR"/>
+                                    <constraint firstItem="4if-vE-WVL" firstAttribute="leading" secondItem="Ckp-bk-zBj" secondAttribute="leading" constant="20" id="Qpl-ia-7gh"/>
+                                    <constraint firstItem="4if-vE-WVL" firstAttribute="top" secondItem="Ckp-bk-zBj" secondAttribute="top" constant="20" id="Rbx-7r-0et"/>
+                                    <constraint firstItem="lRz-gP-Q88" firstAttribute="centerX" secondItem="Ckp-bk-zBj" secondAttribute="centerX" id="aSo-3Y-5Sh"/>
+                                    <constraint firstItem="lRz-gP-Q88" firstAttribute="width" secondItem="Ckp-bk-zBj" secondAttribute="width" multiplier="1:3" id="d5Y-0Q-v0v"/>
+                                    <constraint firstAttribute="bottom" secondItem="lRz-gP-Q88" secondAttribute="bottom" constant="20" id="kjl-e5-CyE"/>
+                                    <constraint firstAttribute="trailing" secondItem="4if-vE-WVL" secondAttribute="trailing" constant="20" id="u3V-Fg-Hrs"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nzC-CH-gLM">
-                                <rect key="frame" x="34.5" y="203.5" width="345" height="499.5"/>
+                                <rect key="frame" x="34.5" y="235.5" width="345" height="435"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="aVh-nU-PNF">
                                         <rect key="frame" x="92.5" y="20" width="160" height="160"/>
@@ -2122,13 +2149,13 @@ yourself with a one-time selfie</string>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WeH-p2-rt2">
-                                        <rect key="frame" x="115" y="439.5" width="115" height="40"/>
+                                        <rect key="frame" x="115" y="375" width="115" height="40"/>
                                         <color key="backgroundColor" name="primaryColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="icT-8i-kH9"/>
                                         </constraints>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Verify">
+                                        <buttonConfiguration key="configuration" style="plain" title="VERIFY">
                                             <fontDescription key="titleFontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
                                             <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </buttonConfiguration>
@@ -2144,12 +2171,6 @@ yourself with a one-time selfie</string>
                                             <constraint firstAttribute="width" constant="10" id="FgQ-vR-7d3"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use an image where your face occupies a large proportion of the image." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJo-8j-1Br">
-                                        <rect key="frame" x="38" y="338" width="287" height="29.5"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
-                                        <color key="textColor" name="ColorLbl2"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="MfF-WN-JSv">
                                         <rect key="frame" x="20" y="263" width="10" height="10"/>
                                         <constraints>
@@ -2170,27 +2191,20 @@ yourself with a one-time selfie</string>
                                             <constraint firstAttribute="width" constant="10" id="YoW-Lz-kdM"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The image should contain your full head and shoulders against a white background (similar to passport photograph)." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jou-YS-0EK">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Images with a face that occupies a larger portion of the image, are matched with greater accuracy." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jou-YS-0EK">
                                         <rect key="frame" x="38" y="207" width="287" height="44"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                         <color key="textColor" name="ColorLbl2"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="rtp-V3-fkb">
-                                        <rect key="frame" x="20" y="342" width="10" height="10"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="10" id="NUV-im-n6F"/>
-                                            <constraint firstAttribute="width" constant="10" id="gN8-DT-fqs"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Images with a face that occupies a larger portion of the image, are matched with greater accuracy." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVk-YB-wkR">
-                                        <rect key="frame" x="38" y="375.5" width="287" height="44"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The selfie is not saved or used." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVk-YB-wkR">
+                                        <rect key="frame" x="38" y="340" width="287" height="15"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                         <color key="textColor" name="ColorLbl2"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipse_ic" translatesAutoresizingMaskIntoConstraints="NO" id="Iim-bb-0xA">
-                                        <rect key="frame" x="20" y="379.5" width="10" height="10"/>
+                                        <rect key="frame" x="20" y="342" width="10" height="10"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="10" id="TDg-mj-V5X"/>
                                             <constraint firstAttribute="width" constant="10" id="z3K-GY-GTl"/>
@@ -2208,11 +2222,12 @@ yourself with a one-time selfie</string>
                                     <constraint firstAttribute="trailing" secondItem="Evz-VV-IfH" secondAttribute="trailing" constant="20" id="0Aq-t1-jW4"/>
                                     <constraint firstItem="MfF-WN-JSv" firstAttribute="top" secondItem="jou-YS-0EK" secondAttribute="bottom" constant="12" id="1tf-4j-jaA"/>
                                     <constraint firstItem="jte-sy-wzH" firstAttribute="top" secondItem="aVh-nU-PNF" secondAttribute="bottom" constant="30" id="3P8-oc-EES"/>
+                                    <constraint firstItem="cVk-YB-wkR" firstAttribute="top" secondItem="RYd-qC-bHV" secondAttribute="bottom" constant="10" id="3TV-qD-1VL"/>
+                                    <constraint firstItem="Iim-bb-0xA" firstAttribute="centerX" secondItem="MfF-WN-JSv" secondAttribute="centerX" id="4py-wb-mZS"/>
                                     <constraint firstItem="9RB-hV-VE9" firstAttribute="centerX" secondItem="MfF-WN-JSv" secondAttribute="centerX" id="9rX-X2-X3B"/>
-                                    <constraint firstItem="rtp-V3-fkb" firstAttribute="top" secondItem="RYd-qC-bHV" secondAttribute="bottom" constant="12" id="BRR-q4-2aC"/>
+                                    <constraint firstItem="Iim-bb-0xA" firstAttribute="top" secondItem="RYd-qC-bHV" secondAttribute="bottom" constant="12" id="BU8-0p-N59"/>
                                     <constraint firstAttribute="trailing" secondItem="jou-YS-0EK" secondAttribute="trailing" constant="20" id="E6w-DL-uPI"/>
                                     <constraint firstItem="Evz-VV-IfH" firstAttribute="top" secondItem="jou-YS-0EK" secondAttribute="bottom" constant="10" id="EDP-vg-yzJ"/>
-                                    <constraint firstItem="TJo-8j-1Br" firstAttribute="top" secondItem="RYd-qC-bHV" secondAttribute="bottom" constant="8" id="EIZ-Xc-3Fh"/>
                                     <constraint firstItem="RYd-qC-bHV" firstAttribute="leading" secondItem="9RB-hV-VE9" secondAttribute="trailing" constant="8" id="GqJ-aI-gxw"/>
                                     <constraint firstItem="MfF-WN-JSv" firstAttribute="centerX" secondItem="jte-sy-wzH" secondAttribute="centerX" id="Ha4-np-1Ph"/>
                                     <constraint firstItem="jte-sy-wzH" firstAttribute="leading" secondItem="nzC-CH-gLM" secondAttribute="leading" constant="20" id="IdO-6K-bVS"/>
@@ -2221,19 +2236,13 @@ yourself with a one-time selfie</string>
                                     <constraint firstItem="aVh-nU-PNF" firstAttribute="top" secondItem="nzC-CH-gLM" secondAttribute="top" constant="20" id="OV5-Pa-QSQ"/>
                                     <constraint firstItem="cVk-YB-wkR" firstAttribute="leading" secondItem="Iim-bb-0xA" secondAttribute="trailing" constant="8" id="Sbe-3b-R8a"/>
                                     <constraint firstAttribute="bottom" secondItem="WeH-p2-rt2" secondAttribute="bottom" constant="20" id="ThI-Ti-OEL"/>
-                                    <constraint firstItem="TJo-8j-1Br" firstAttribute="leading" secondItem="rtp-V3-fkb" secondAttribute="trailing" constant="8" id="TkN-fY-egK"/>
                                     <constraint firstAttribute="trailing" secondItem="cVk-YB-wkR" secondAttribute="trailing" constant="20" id="W2H-Zg-zSA"/>
-                                    <constraint firstAttribute="trailing" secondItem="TJo-8j-1Br" secondAttribute="trailing" constant="20" id="WNV-dS-583"/>
                                     <constraint firstItem="RYd-qC-bHV" firstAttribute="top" secondItem="Evz-VV-IfH" secondAttribute="bottom" constant="10" id="ZQg-M7-TtL"/>
-                                    <constraint firstItem="rtp-V3-fkb" firstAttribute="centerX" secondItem="9RB-hV-VE9" secondAttribute="centerX" id="bKh-gi-iqx"/>
-                                    <constraint firstItem="Iim-bb-0xA" firstAttribute="centerX" secondItem="rtp-V3-fkb" secondAttribute="centerX" id="htO-y2-j7E"/>
                                     <constraint firstItem="WeH-p2-rt2" firstAttribute="centerX" secondItem="nzC-CH-gLM" secondAttribute="centerX" id="hvb-Ky-hG3"/>
                                     <constraint firstItem="WeH-p2-rt2" firstAttribute="top" secondItem="cVk-YB-wkR" secondAttribute="bottom" constant="20" id="kLV-Xi-K1Q"/>
                                     <constraint firstItem="aVh-nU-PNF" firstAttribute="centerX" secondItem="nzC-CH-gLM" secondAttribute="centerX" id="klN-b9-NNE"/>
-                                    <constraint firstItem="cVk-YB-wkR" firstAttribute="top" secondItem="TJo-8j-1Br" secondAttribute="bottom" constant="8" id="npy-Fs-bsz"/>
                                     <constraint firstItem="jou-YS-0EK" firstAttribute="leading" secondItem="jte-sy-wzH" secondAttribute="trailing" constant="8" id="rxZ-u6-2TU"/>
                                     <constraint firstItem="Evz-VV-IfH" firstAttribute="leading" secondItem="MfF-WN-JSv" secondAttribute="trailing" constant="8" id="sSN-Jk-ZXp"/>
-                                    <constraint firstItem="Iim-bb-0xA" firstAttribute="top" secondItem="TJo-8j-1Br" secondAttribute="bottom" constant="12" id="uaJ-ud-vD3"/>
                                     <constraint firstAttribute="trailing" secondItem="RYd-qC-bHV" secondAttribute="trailing" constant="20" id="wMy-at-14Y"/>
                                     <constraint firstItem="WeH-p2-rt2" firstAttribute="width" secondItem="nzC-CH-gLM" secondAttribute="width" multiplier="1:3" id="zcI-kA-eY8"/>
                                 </constraints>
@@ -2247,14 +2256,21 @@ yourself with a one-time selfie</string>
                             <constraint firstItem="fby-BN-13g" firstAttribute="top" secondItem="mgX-m1-Dhy" secondAttribute="top" id="9uR-3X-HqG"/>
                             <constraint firstItem="fYT-Pv-Zxp" firstAttribute="trailing" secondItem="fby-BN-13g" secondAttribute="trailing" id="AwQ-hH-RQh"/>
                             <constraint firstItem="nzC-CH-gLM" firstAttribute="centerX" secondItem="fYT-Pv-Zxp" secondAttribute="centerX" id="FBf-4J-nan"/>
+                            <constraint firstItem="Ckp-bk-zBj" firstAttribute="centerY" secondItem="nzC-CH-gLM" secondAttribute="centerY" id="GU6-Z5-sdD"/>
                             <constraint firstItem="nzC-CH-gLM" firstAttribute="width" secondItem="mgX-m1-Dhy" secondAttribute="width" multiplier="1:1.2" id="NHF-UU-kt8"/>
+                            <constraint firstItem="Ckp-bk-zBj" firstAttribute="centerX" secondItem="nzC-CH-gLM" secondAttribute="centerX" id="PSQ-7B-MsY"/>
                             <constraint firstAttribute="bottom" secondItem="fby-BN-13g" secondAttribute="bottom" id="XuT-nk-CJP"/>
+                            <constraint firstItem="Ckp-bk-zBj" firstAttribute="width" secondItem="nzC-CH-gLM" secondAttribute="width" id="mby-bQ-i5S"/>
+                            <constraint firstItem="Ckp-bk-zBj" firstAttribute="height" secondItem="nzC-CH-gLM" secondAttribute="height" id="vM1-00-4M8"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="VideoContainerView" destination="Ckp-bk-zBj" id="FDH-Gg-yO6"/>
                         <outlet property="containerView" destination="nzC-CH-gLM" id="77U-zs-2XY"/>
+                        <outlet property="nextBtn" destination="lRz-gP-Q88" id="BJN-2F-cRc"/>
                         <outlet property="profileImg" destination="aVh-nU-PNF" id="sM0-Ek-gc4"/>
                         <outlet property="verifyBtn" destination="WeH-p2-rt2" id="Uvi-r1-DnM"/>
+                        <outlet property="videoView" destination="4if-vE-WVL" id="0U7-2s-6iY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HRN-re-xKK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

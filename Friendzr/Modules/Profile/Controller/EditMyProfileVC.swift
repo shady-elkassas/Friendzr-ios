@@ -28,7 +28,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var maleImg: UIImageView!
     @IBOutlet weak var femaleImg: UIImageView!
     @IBOutlet weak var otherImg: UIImageView!
-    @IBOutlet weak var saveBtn: UIButton!
+//    @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var aboutMeView: UIView!
     @IBOutlet weak var bioTxtView: UITextView!
     @IBOutlet weak var placeHolderLbl: UILabel!
@@ -71,8 +71,13 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var profileModel:ProfileObj? = nil
     var logoutVM:LogoutViewModel = LogoutViewModel()
     var faceRecognitionVM:FaceRecognitionViewModel = FaceRecognitionViewModel()
-    
     var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
+
+    var iamViewModel = IamViewModel()
+    var IamArr:[IamObj]? = [IamObj]()
+
+    var preferToViewModel = PreferToViewModel()
+    var preferToArr:[PreferToObj]? = [PreferToObj]()
 
     var tagsid:[String] = [String]()
     var tagsNames:[String] = [String]()
@@ -117,7 +122,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         
         self.title = "Edit Profile".localizedString
         setup()
-        setupDate()
         
         DispatchQueue.main.async {
             self.updateUserInterface()
@@ -126,9 +130,10 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         showDatePicker()
         
         DispatchQueue.main.async {
-            self.setupDate()
+            self.setupData()
         }
         
+        initSaveBarButton()
         
         if FirstLoginApp.isFirst == 0 {
             imgTake = 0
@@ -191,6 +196,13 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                 NetworkConected.internetConect = true
                 DispatchQueue.main.async {
                     self.getAllValidatConfig()
+                    
+                    DispatchQueue.main.async {
+                        self.getAllBestDescrips()
+                    }
+                    DispatchQueue.main.async {
+                        self.getAllPreferTo()
+                    }
                 }
             }
         case .wifi:
@@ -198,6 +210,13 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                 NetworkConected.internetConect = true
                 DispatchQueue.main.async {
                     self.getAllValidatConfig()
+                    
+                    DispatchQueue.main.async {
+                        self.getAllBestDescrips()
+                    }
+                    DispatchQueue.main.async {
+                        self.getAllPreferTo()
+                    }
                 }
             }
         }
@@ -210,7 +229,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     }
     
     func setup() {
-        saveBtn.cornerRadiusView(radius: 8)
+//        saveBtn.cornerRadiusView(radius: 8)
         nameView.cornerRadiusView(radius: 8)
         dateView.cornerRadiusView(radius: 8)
         bioTxtView.cornerRadiusView(radius: 8)
@@ -227,9 +246,10 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         bioTxtView.delegate = self
         tagsListView.delegate = self
         bestDescribesListView.delegate = self
+        removeNavigationBorder()
     }
     
-    func setupDate() {
+    func setupData() {
         if needUpdateVC {
             nameTxt.text = Defaults.userName
         }
@@ -237,8 +257,13 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             nameTxt.text = profileModel?.userName
             
             if profileModel?.bio != "" {
-                bioTxtView.text = profileModel?.bio
-                placeHolderLbl.isHidden = true
+                if profileModel?.bio.count == 1 && profileModel?.bio == "."{
+                    bioTxtView.text = ""
+                    placeHolderLbl.isHidden = false
+                }else {
+                    bioTxtView.text = profileModel?.bio
+                    placeHolderLbl.isHidden = true
+                }
             }
             else {
                 bioTxtView.text = ""
@@ -298,9 +323,13 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             iamid.removeAll()
             iamNames.removeAll()
             for itm in profileModel?.iamList ?? [] {
-                bestDescribesListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
-                iamid.append(itm.tagID)
-                iamNames.append(itm.tagname)
+                if itm.tagname.contains("#") == false {
+                    bestDescribesListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
+                    iamid.append(itm.tagID)
+                    iamNames.append(itm.tagname)
+                }else {
+                    print("iamList.tagname.contains(#)")
+                }
             }
             
             if bestDescribesListView.rows == 0 {
@@ -339,9 +368,13 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             preferToNames.removeAll()
             preferToid.removeAll()
             for itm in profileModel?.prefertoList ?? [] {
-                preferToListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
-                preferToid.append(itm.tagID)
-                preferToNames.append(itm.tagname)
+                if itm.tagname.contains("#") == false {
+                    preferToListView.addTag(tagId: itm.tagID, title: "#\(itm.tagname)")
+                    preferToid.append(itm.tagID)
+                    preferToNames.append(itm.tagname)
+                }else {
+                    print("prefertoList.tagname.contains(#)")
+                }
             }
             
             if preferToListView.rows == 0 {
@@ -870,6 +903,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     @IBAction func bestDescribesBtn(_ sender: Any) {
         if NetworkConected.internetConect {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "IamVC") as? IamVC else {return}
+            vc.iamModelArray = self.IamArr
             vc.arrSelectedDataIds = iamid
             vc.arrSelectedDataNames = iamNames
             vc.onIamCallBackResponse = self.OnIamCallBack
@@ -880,87 +914,13 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     @IBAction func preferToBtn(_ sender: Any) {
         if NetworkConected.internetConect {
             guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "PreferToVC") as? PreferToVC else {return}
+            vc.preferToModelArray = self.preferToArr
             vc.arrSelectedDataIds = preferToid
             vc.arrSelectedDataNames = preferToNames
             vc.onPreferToCallBackResponse = self.OnPreferToCallBack
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
-    @IBAction func saveBtn(_ sender: Any) {
-        print(imgTake)
-        if imgTake == 0 {
-            if self.attachedImg == false {
-                DispatchQueue.main.async {
-                    self.view.makeToast("Please add a profile image".localizedString)
-                }
-                return
-            }
-            else {
-                if tagsid.isEmpty {
-                    DispatchQueue.main.async {
-                        self.view.makeToast("Please select what you enjoy doing".localizedString)
-                    }
-                    return
-                }else if iamid.isEmpty {
-                    DispatchQueue.main.async {
-                        self.view.makeToast("Please select what best describes you".localizedString)
-                    }
-                    return
-                }else if preferToid.isEmpty {
-                    DispatchQueue.main.async {
-                        self.view.makeToast("Please select what you prefer to do".localizedString)
-                    }
-                    return
-                }
-                else {
-                    if NetworkConected.internetConect {
-                        self.saveBtn.setTitle("Saving...", for: .normal)
-                        self.saveBtn.isUserInteractionEnabled = false
-                        
-                        viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthdayTxt.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),WhatBestDescrips:iamid, preferto: preferToid) { error, data in
-                            
-                            DispatchQueue.main.async {
-                                self.saveBtn.setTitle("Save", for: .normal)
-                                self.saveBtn.isUserInteractionEnabled = true
-                            }
-                            
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard let _ = data else {return}
-                            DispatchQueue.main.async {
-                                if Defaults.needUpdate == 1 {
-                                    return
-                                }else {
-                                    if FirstLoginApp.isFirst == 0 {//toprofile
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                            self.onPopup()
-                                        }
-                                    }
-                                    else if FirstLoginApp.isFirst == 1 {//tofeed if socail media login
-                                        Router().toFeed()
-                                    }
-                                    else {//to login
-                                        Router().toOptionsSignUpVC()
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-        }
-        else {
-            self.view.makeToast("Please wait a moment while the image comparison process is completed")
-        }
-    }
-
 }
 
 //MARK: - Extensions UIImagePickerControllerDelegate && UINavigationControllerDelegate
@@ -995,8 +955,6 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
             let image1 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
             
             let originImg = image1.fixOrientation()
-                    
-//            let cropper = CropperViewController(originalImage: originImg)
              let cropper = CustomCropperViewController(originalImage: originImg)
             cropper.delegate = self
             self.imgTake = 2
@@ -1055,7 +1013,7 @@ extension EditMyProfileVC: CropperViewControllerDelegate {
             popupVC.faceImgOne = self.faceImgOne
             popupVC.onVerifyCallBackResponse = self.onVerifyCallBack
             self.present(popupVC, animated: true, completion: nil)
-
+            
             print(cropper.isCurrentlyInInitialState)
             print(image)
         }
@@ -1108,7 +1066,6 @@ extension EditMyProfileVC {
         button.setImage(image, for: .normal)
         image?.withTintColor(UIColor.blue)
         button.addTarget(self, action:  #selector(backToInbox), for: .touchUpInside)
-        //        button.sendAction(#selector(URLSessionTask.suspend), to: UIApplication.shared, for: nil)
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.leftBarButtonItem = barButton
     }
@@ -1118,4 +1075,155 @@ extension EditMyProfileVC {
             UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
         }
     }
+    
+    //init Add Group Bar Button
+    func initSaveBarButton() {
+        let button = UIButton.init(type: .custom)
+        button.setTitle("Save", for: .normal)
+        button.frame = CGRect(x: 0, y: 0, width: 70, height: 35)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Montserrat-Bold", size: 13)
+        button.backgroundColor = .FriendzrColors.primary!
+        button.cornerRadiusView(radius: 8)
+        button.tintColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
+        button.addTarget(self, action: #selector(handleSaveEdits), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
+    }
+    
+    @objc func handleSaveEdits() {
+        print(imgTake)
+        if imgTake == 0 {
+            if self.attachedImg == false {
+                DispatchQueue.main.async {
+                    self.view.makeToast("Please add a profile image".localizedString)
+                }
+                return
+            }
+            else {
+                if tagsid.isEmpty {
+                    DispatchQueue.main.async {
+                        self.view.makeToast("Please select what you enjoy doing".localizedString)
+                    }
+                    return
+                }
+                else if iamid.isEmpty {
+//                    DispatchQueue.main.async {
+//                        self.view.makeToast("Please select what best describes you".localizedString)
+//                    }
+                    iamid.append(Defaults.iamid)
+//                    return
+                }else if preferToid.isEmpty {
+//                    DispatchQueue.main.async {
+//                        self.view.makeToast("Please select what you prefer to do".localizedString)
+//                    }
+                    preferToid.append(Defaults.preferToid)
+//                    return
+                }
+                else if bioTxtView.text == "" {
+                    bioTxtView.text = "."
+                }
+                else {
+                    if NetworkConected.internetConect {
+                        editSaving()
+                    }
+                }
+            }
+        }
+        else {
+            self.view.makeToast("Please wait a moment while the image comparison process is completed")
+        }
+    }
+    
+    func editSaving() {
+        viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthdayTxt.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),WhatBestDescrips:iamid, preferto: preferToid) { error, data in
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {return}
+            DispatchQueue.main.async {
+                if Defaults.needUpdate == 1 {
+                    return
+                }else {
+                    if FirstLoginApp.isFirst == 0 {//toprofile
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.onPopup()
+                        }
+                    }
+                    else if FirstLoginApp.isFirst == 1 {//tofeed if socail media login
+                        Router().toFeed()
+                    }
+                    else {//to login
+                        Router().toOptionsSignUpVC()
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension EditMyProfileVC {
+    func getAllBestDescrips() {
+        iamViewModel.getAllIam()
+        iamViewModel.IAM.bind { [unowned self] value in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                var arr:[IamObj]? = [IamObj]()
+                for item in value {
+                    arr?.append(item)
+                }
+                
+                for itm in arr ?? [] {
+                    if itm.name?.contains("#") == true {
+                        Defaults.iamid = itm.id ?? ""
+                    }else {
+                        self.IamArr?.append(itm)
+                    }
+                }
+            })
+        }
+        
+        // Set View Model Event Listener
+        iamViewModel.error.bind { error in
+            DispatchQueue.main.async {
+                self.view.makeToast(error)
+            }
+        }
+    }
+    
+    //MARK: - APIs
+    func getAllPreferTo() {
+        preferToViewModel.getAllPreferTo()
+        preferToViewModel.PreferTo.bind { [unowned self] value in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                var arr:[PreferToObj]? = [PreferToObj]()
+                for item in value {
+                    arr?.append(item)
+                }
+                
+                for itm in arr ?? [] {
+                    if itm.name?.contains("#") == true {
+                        Defaults.preferToid = itm.id ?? ""
+                    }else {
+                        self.preferToArr?.append(itm)
+                    }
+                }
+            })
+        }
+
+        // Set View Model Event Listener
+        preferToViewModel.error.bind { error in
+            DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+
+            }
+        }
+    }
+
 }
