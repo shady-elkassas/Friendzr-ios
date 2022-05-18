@@ -33,10 +33,12 @@ class RegisterVC: UIViewController {
     @IBOutlet weak var registerBtnView: GradientView2!
     
     //MARK: - Properties
+    lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
+    
     var checkUserNameVM:CheckUserNameViewModel = CheckUserNameViewModel()
     var registerVM:RegisterViewModel = RegisterViewModel()
     let socialMediaVM: SocialMediaLoginViewModel = SocialMediaLoginViewModel()
-
+    
     let signInConfig = GIDConfiguration.init(clientID: "43837105804-he5jci75mbf7jrhush4cps45plripdvp.apps.googleusercontent.com")
     var UserFBID = ""
     var UserFBMobile = ""
@@ -57,9 +59,9 @@ class RegisterVC: UIViewController {
     
     var myString:String = "By clicking ‘Sign up’, you agree to our terms of usage see more".localizedString
     var myMutableString = NSMutableAttributedString()
-
+    
     var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,7 +84,7 @@ class RegisterVC: UIViewController {
         
         Defaults.availableVC = "RegisterVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
         
@@ -128,13 +130,37 @@ class RegisterVC: UIViewController {
             guard let _ = data else {return}
             
             DispatchQueue.main.async {
-                self.view.makeToast("Please check your email".localizedString)
+                //                self.view.makeToast("Please check your email".localizedString)
+                self.showVerificationEmailAlert()
+                
+            }
+        }
+    }
+    
+    func showVerificationEmailAlert() {
+        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        alertView?.titleLbl.text = "Confirm?".localizedString
+        alertView?.detailsLbl.text = "Your verification email should arrive straight away. Can’t see it? Check your Junk folder and add hello@friendzr.com to your safe senders’ list.".localizedString
+        alertView?.unConfirmBtn.isHidden = true
+        
+        alertView?.HandleConfirmBtn = {
+            DispatchQueue.main.async {
+                Router().toLogin()
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3 , execute: {
-                Router().toLogin()
-            })
+            // handling code
+            UIView.animate(withDuration: 0.3, animations: {
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alertView?.alpha = 0
+            }) { (success: Bool) in
+                self.alertView?.removeFromSuperview()
+                self.alertView?.alpha = 1
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
         }
+        
+        self.view.addSubview((alertView)!)
     }
     
     func socialMediaLoginUser( _ socialMediaId:String, _ email:String) {
@@ -177,7 +203,7 @@ class RegisterVC: UIViewController {
     }
     
     //MARK: - Actions
-
+    
     
     @IBAction func registerBtn(_ sender: Any) {
         hideKeyboard()
@@ -371,11 +397,11 @@ extension RegisterVC {
                     self.UserFBUserName = userInfo["name"] as? String ?? ""
                     self.UserFBEmail = userInfo["email"] as? String ?? ""
                     self.userFace_BookAccessToken = AccessToken.current?.tokenString ?? ""
-//                    let img = userInfo["picture"] as! [String:AnyObject]
+                    //                    let img = userInfo["picture"] as! [String:AnyObject]
                     //                    self.UserFBImage = img["data"]!["url"] as? String ?? ""
-//                    if let imgurL = img["data"] as? [String:AnyObject] {
-//                        self.UserFBImage = imgurL["url"] as? String ?? ""
-//                    }
+                    //                    if let imgurL = img["data"] as? [String:AnyObject] {
+                    //                        self.UserFBImage = imgurL["url"] as? String ?? ""
+                    //                    }
                     
                     print("\(self.UserFBID),\(self.UserFBUserName),\(self.UserFBEmail)")
                     self.socialMediaLoginUser(self.UserFBID, self.UserFBEmail)

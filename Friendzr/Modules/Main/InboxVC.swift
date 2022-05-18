@@ -456,13 +456,13 @@ extension InboxVC:UITableViewDelegate {
         }
     }
     
-//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        guard tableView.isDragging else { return }
-//        cell.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-//        UIView.animate(withDuration: 0.3, animations: {
-//            cell.transform = CGAffineTransform.identity
-//        })
-//    }
+    //    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    //        guard tableView.isDragging else { return }
+    //        cell.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+    //        UIView.animate(withDuration: 0.3, animations: {
+    //            cell.transform = CGAffineTransform.identity
+    //        })
+    //    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if NetworkConected.internetConect {
@@ -473,6 +473,65 @@ extension InboxVC:UITableViewDelegate {
         }
         
 //        guard let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC else {return}
+//        let model = viewmodel.listChat.value?.data?[indexPath.row]
+//        if model?.isevent == true {
+//            vc.isEvent = true
+//            vc.eventChatID = model?.id ?? ""
+//            vc.chatuserID = ""
+//
+//            if model?.leaveventchat == true {
+//                vc.leavevent = 2
+//            }else {
+//                vc.leavevent = model?.leavevent ?? 0
+//            }
+//
+//            vc.leaveGroup = 1
+//            vc.isFriend = false
+//            vc.titleChatImage = model?.image ?? ""
+//            vc.titleChatName = model?.chatName ?? ""
+//            vc.isChatGroupAdmin = false
+//            vc.isChatGroup = false
+//            vc.groupId = ""
+//            vc.isEventAdmin = model?.myevent ?? false
+//            vc.eventType = model?.eventtype ?? ""
+//        }
+//        else {
+//            if (model?.isChatGroup ?? false) == true {
+//                vc.isEvent = false
+//                vc.eventChatID = ""
+//                vc.chatuserID = ""
+//                vc.leavevent = 1
+//                vc.leaveGroup = model?.leaveGroup ?? 0
+//                vc.isFriend = false
+//                vc.titleChatImage = model?.image ?? ""
+//                vc.titleChatName = model?.chatName ?? ""
+//                vc.isChatGroupAdmin = model?.isChatGroupAdmin ?? false
+//                vc.isChatGroup = model?.isChatGroup ?? false
+//                vc.groupId = model?.id ?? ""
+//                vc.isEventAdmin = false
+//            }
+//            else {
+//                vc.isEvent = false
+//                vc.eventChatID = ""
+//                vc.chatuserID = model?.id ?? ""
+//                vc.leaveGroup = 1
+//                vc.isFriend = model?.isfrind ?? false
+//                vc.leavevent = model?.leavevent ?? 0
+//                vc.titleChatImage = model?.image ?? ""
+//                vc.titleChatName = model?.chatName ?? ""
+//                vc.isChatGroupAdmin = false
+//                vc.isChatGroup = false
+//                vc.groupId = ""
+//                vc.isEventAdmin = false
+//            }
+//        }
+//
+//        vc.titleChatImage = model?.image ?? ""
+//        vc.titleChatName = model?.chatName ?? ""
+//        CancelRequest.currentTask = false
+//
+//        Defaults.message_Count = Defaults.message_Count - (model?.message_not_Read ?? 0)
+//        NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
 //        self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -502,7 +561,7 @@ extension InboxVC:UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-//                    self.view.makeToast("No more data".localizedString)
+                    //                    self.view.makeToast("No more data".localizedString)
                 }
                 return
             }
@@ -742,7 +801,7 @@ extension InboxVC {
             return [deleteAction,muteAction]
         }
     }
-
+    
     func LeaveChat(isEvent:Bool,leaveventchat:Bool,isGroup:Bool,ID:String,actionDate:String,actionTime:String) {
         if isEvent {
             if leaveventchat == false {
@@ -772,7 +831,7 @@ extension InboxVC {
             deleteEventOrUserChat(ID, isEvent, registrationDateTime)
         }
     }
-
+    
     func clearGroupChat(_ ID: String, _ registrationDateTime: String) {
         self.groupVM.clearGroupChat(ByID: ID, registrationDateTime: registrationDateTime) { error, data in
             if let error = error {

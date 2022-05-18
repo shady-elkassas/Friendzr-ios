@@ -323,6 +323,7 @@
 		43D0092E2794418C00370E2C /* HideGhostModeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D009302794418C00370E2C /* HideGhostModeView.xib */; };
 		43D00935279441BD00370E2C /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43D00937279441BD00370E2C /* Profile.storyboard */; };
 		43D10EAB271EB6440099A995 /* SearchUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D10EAA271EB6440099A995 /* SearchUserViewModel.swift */; };
+		43D527EC2834FF260002FC64 /* MessagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D527EB2834FF260002FC64 /* MessagesManager.swift */; };
 		43D545A426CB9DDD0064660A /* AddEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545A326CB9DDD0064660A /* AddEventVC.swift */; };
 		43D545A926CBB0450064660A /* EventCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545A826CBB0450064660A /* EventCalendarView.swift */; };
 		43D545AB26CBB61F0064660A /* EventTimeCalenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545AA26CBB61F0064660A /* EventTimeCalenderView.swift */; };
@@ -734,6 +735,7 @@
 		43D0092F2794418C00370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HideGhostModeView.xib; sourceTree = "<group>"; };
 		43D00936279441BD00370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
 		43D10EAA271EB6440099A995 /* SearchUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserViewModel.swift; sourceTree = "<group>"; };
+		43D527EB2834FF260002FC64 /* MessagesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesManager.swift; sourceTree = "<group>"; };
 		43D545A326CB9DDD0064660A /* AddEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventVC.swift; sourceTree = "<group>"; };
 		43D545A826CBB0450064660A /* EventCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCalendarView.swift; sourceTree = "<group>"; };
 		43D545AA26CBB61F0064660A /* EventTimeCalenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTimeCalenderView.swift; sourceTree = "<group>"; };
@@ -1818,6 +1820,7 @@
 		43F974232832645600F736F3 /* MessagesHelper */ = {
 			isa = PBXGroup;
 			children = (
+				43D527EB2834FF260002FC64 /* MessagesManager.swift */,
 			);
 			path = MessagesHelper;
 			sourceTree = "<group>";
@@ -2338,6 +2341,7 @@
 				43D545A926CBB0450064660A /* EventCalendarView.swift in Sources */,
 				43DF596827B942FB000D9F69 /* ShareEventVC.swift in Sources */,
 				43F473B926E61EAA001E4FAE /* InterestsModel.swift in Sources */,
+				43D527EC2834FF260002FC64 /* MessagesManager.swift in Sources */,
 				4320A64C26F20FF7003604EE /* BlockedListVC.swift in Sources */,
 				4367E47527BA4D3200FE1880 /* FriendProfileViewController.swift in Sources */,
 				430A351226CA8A1200477A94 /* TermsAndConditionsVC.swift in Sources */,
@@ -2937,7 +2941,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 1.2.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Friendzr/Friendzr-Bridging-Header.h";
@@ -2972,7 +2976,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 1.2.4;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

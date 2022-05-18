@@ -133,7 +133,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             self.setupData()
         }
         
-        initSaveBarButton()
+        initSaveBarButton(istap: false)
         
         if FirstLoginApp.isFirst == 0 {
             imgTake = 0
@@ -1077,14 +1077,15 @@ extension EditMyProfileVC {
     }
     
     //init Add Group Bar Button
-    func initSaveBarButton() {
+    func initSaveBarButton(istap:Bool) {
         let button = UIButton.init(type: .custom)
-        button.setTitle("Save", for: .normal)
+        button.setTitle(istap ? "Saving..." : "Save", for: .normal)
         button.frame = CGRect(x: 0, y: 0, width: 70, height: 35)
         button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont(name: "Montserrat-Bold", size: 13)
+        button.titleLabel?.font = UIFont(name: "Montserrat-Bold", size: 12)
         button.backgroundColor = .FriendzrColors.primary!
         button.cornerRadiusView(radius: 8)
+        button.isUserInteractionEnabled = istap ? false : true
         button.tintColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
         button.addTarget(self, action: #selector(handleSaveEdits), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
@@ -1093,11 +1094,14 @@ extension EditMyProfileVC {
     
     @objc func handleSaveEdits() {
         print(imgTake)
+        initSaveBarButton(istap: true)
+        
         if imgTake == 0 {
             if self.attachedImg == false {
                 DispatchQueue.main.async {
                     self.view.makeToast("Please add a profile image".localizedString)
                 }
+                initSaveBarButton(istap: false)
                 return
             }
             else {
@@ -1105,25 +1109,22 @@ extension EditMyProfileVC {
                     DispatchQueue.main.async {
                         self.view.makeToast("Please select what you enjoy doing".localizedString)
                     }
+                    initSaveBarButton(istap: false)
                     return
                 }
-                else if iamid.isEmpty {
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast("Please select what best describes you".localizedString)
-//                    }
-                    iamid.append(Defaults.iamid)
-//                    return
-                }else if preferToid.isEmpty {
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast("Please select what you prefer to do".localizedString)
-//                    }
-                    preferToid.append(Defaults.preferToid)
-//                    return
-                }
-                else if bioTxtView.text == "" {
-                    bioTxtView.text = "."
-                }
                 else {
+                    if iamid.isEmpty {
+                        iamid.append(Defaults.iamid)
+                    }
+                    
+                    if preferToid.isEmpty {
+                        preferToid.append(Defaults.preferToid)
+                    }
+
+                    if bioTxtView.text == "" {
+                        bioTxtView.text = "."
+                    }
+                    
                     if NetworkConected.internetConect {
                         editSaving()
                     }
@@ -1141,6 +1142,7 @@ extension EditMyProfileVC {
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
+                    self.initSaveBarButton(istap: false)
                 }
                 return
             }
