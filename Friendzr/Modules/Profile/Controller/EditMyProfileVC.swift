@@ -1094,8 +1094,6 @@ extension EditMyProfileVC {
     
     @objc func handleSaveEdits() {
         print(imgTake)
-        initSaveBarButton(istap: true)
-        
         if imgTake == 0 {
             if self.attachedImg == false {
                 DispatchQueue.main.async {
@@ -1137,6 +1135,8 @@ extension EditMyProfileVC {
     }
     
     func editSaving() {
+        initSaveBarButton(istap: true)
+        
         viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthdayTxt.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),WhatBestDescrips:iamid, preferto: preferToid) { error, data in
             
             if let error = error {

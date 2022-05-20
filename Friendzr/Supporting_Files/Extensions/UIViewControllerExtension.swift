@@ -50,20 +50,13 @@ extension UIViewController {
     }
     
     func initBackButton() {
-        
         var imageName = ""
-//        if Language.currentLanguage() == "ar" {
-            imageName = "back_icon"
-//        }else {
-//            imageName = "back_icon"
-//        }
-        
+        imageName = "back_icon"
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         button.setImage(image, for: .normal)
         image?.withTintColor(UIColor.blue)
-        //        button.tintColor = UIColor.setColor(lightColor: .white, darkColor: .white)
         button.addTarget(self, action:  #selector(onPopup), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.leftBarButtonItem = barButton
