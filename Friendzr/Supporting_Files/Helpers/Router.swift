@@ -103,7 +103,8 @@ class Router {
             }else {
                 vc.needUpdateVC = false
             }
-            FirstLoginApp.isFirst = 1
+            
+            Defaults.isFirstLogin = true
             go(withVC: controller)
         }
     }

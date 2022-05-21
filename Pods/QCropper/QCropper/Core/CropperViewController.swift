@@ -225,6 +225,8 @@ open class CropperViewController: UIViewController, Rotatable, StateRestorable, 
         navigationController?.navigationBar.isHidden = false
         view.clipsToBounds = true
 
+        self.navigationItem.hidesBackButton = true
+        
         // TODO: transition
 
         if originalImage.size.width < 1 || originalImage.size.height < 1 {

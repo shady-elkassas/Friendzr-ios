@@ -118,10 +118,10 @@ class LoginVC: UIViewController {
             
             DispatchQueue.main.async {
                 if Defaults.needUpdate == 1 {
-                    FirstLoginApp.isFirst = 2
+                    Defaults.isFirstLogin = true
                     Router().toSplachOne()
                 }else {
-                    FirstLoginApp.isFirst = 0
+                    Defaults.isFirstLogin = false
                     Router().toFeed()
                 }
             }
@@ -145,10 +145,10 @@ class LoginVC: UIViewController {
             
             DispatchQueue.main.async {
                 if Defaults.needUpdate == 1 {
-                    FirstLoginApp.isFirst = 1
+                    Defaults.isFirstLogin = true
                     Router().toSplachOne()
                 }else {
-                    FirstLoginApp.isFirst = 0
+                    Defaults.isFirstLogin = false
                     Router().toFeed()
                 }
             }

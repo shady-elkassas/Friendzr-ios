@@ -233,9 +233,10 @@ extension MyProfileViewController: UITableViewDataSource {
                 if NetworkConected.internetConect {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC else {return}
                     vc.profileModel = self.viewmodel.userModel.value
-                    FirstLoginApp.isFirst = 0
+                    Defaults.isFirstLogin = false
                     self.navigationController?.pushViewController(vc, animated: true)
-                }else {
+                }
+                else {
                     return
                 }
             }

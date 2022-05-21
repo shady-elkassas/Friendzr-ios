@@ -27,6 +27,7 @@ import AWSCore
 import SwiftUI
 import FBAudienceNetwork
 import AppTrackingTransparency
+//import AppsFlyerLib
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -678,6 +679,7 @@ extension AppDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
         setupUpdateLocation()
+//        AppsFlyerLib.shared().start()
 //        FIRMessaging.messaging().disconnect()
     }
     

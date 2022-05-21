@@ -28,7 +28,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var maleImg: UIImageView!
     @IBOutlet weak var femaleImg: UIImageView!
     @IBOutlet weak var otherImg: UIImageView!
-//    @IBOutlet weak var saveBtn: UIButton!
+    //    @IBOutlet weak var saveBtn: UIButton!
     @IBOutlet weak var aboutMeView: UIView!
     @IBOutlet weak var bioTxtView: UITextView!
     @IBOutlet weak var placeHolderLbl: UILabel!
@@ -58,7 +58,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var otherGenderView: UIView!
     @IBOutlet weak var otherGenderTxt: UITextField!
     @IBOutlet weak var ProcessingLbl: UILabel!
-
+    
     //MARK: - Properties
     lazy var logoutAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     lazy var calendarView = Bundle.main.loadNibNamed("CalendarView", owner: self, options: nil)?.first as? CalendarView
@@ -72,24 +72,24 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var logoutVM:LogoutViewModel = LogoutViewModel()
     var faceRecognitionVM:FaceRecognitionViewModel = FaceRecognitionViewModel()
     var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
-
+    
     var iamViewModel = IamViewModel()
     var IamArr:[IamObj]? = [IamObj]()
-
+    
     var preferToViewModel = PreferToViewModel()
     var preferToArr:[PreferToObj]? = [PreferToObj]()
-
+    
     var tagsid:[String] = [String]()
     var tagsNames:[String] = [String]()
     var iamid:[String] = [String]()
     var iamNames:[String] = [String]()
-
+    
     var preferToid:[String] = [String]()
     var preferToNames:[String] = [String]()
-
+    
     var attachedImg:Bool = false
     var birthDay = ""
-
+    
     var UserFBID = ""
     var UserFBMobile = ""
     var UserFBEmail = ""
@@ -109,13 +109,14 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var faceImgOne: UIImage = UIImage()
     var faceImgTwo: UIImage = UIImage()
     var firstLogin:Int? = 0
-    var imgTake: Int = 1
+    
+    var imgTake: Int = 0
     
     let datePicker = UIDatePicker()
     
     var infoLinksMap: [Int:String] = [1000:""]
     var rekognitionObject:AWSRekognition?
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,7 +136,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         
         initSaveBarButton(istap: false)
         
-        if FirstLoginApp.isFirst == 0 {
+        if Defaults.isFirstLogin == false {
             imgTake = 0
         }
     }
@@ -145,7 +146,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         
         Defaults.availableVC = "EditMyProfileVC"
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         if needUpdateVC == true {
             logoutBtn.isHidden = false
             initCloseApp()
@@ -180,7 +181,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }
     }
     
-
+    
     //MARK: - Helpers
     func updateUserInterface() {
         appDelegate.networkReachability()
@@ -229,7 +230,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     }
     
     func setup() {
-//        saveBtn.cornerRadiusView(radius: 8)
+        //        saveBtn.cornerRadiusView(radius: 8)
         nameView.cornerRadiusView(radius: 8)
         dateView.cornerRadiusView(radius: 8)
         bioTxtView.cornerRadiusView(radius: 8)
@@ -272,7 +273,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             
             dateBirthdayTxt.text = profileModel?.birthdate
             
-            if profileModel?.userImage != "" {
+            if Defaults.isFirstLogin == false {
                 profileImg.sd_setImage(with: URL(string: profileModel?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
                 self.attachedImg = true
             }
@@ -535,7 +536,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }
         
     }
-
+    
     func OnPreferToCallBack(_ data: [String], _ value: [String]) -> () {
         print(data, value)
         
@@ -584,7 +585,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }
         
     }
-
+    
     func onOkCallBack(_ okBtn: Bool) -> () {
         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
         
@@ -619,10 +620,10 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         let credentialsProvider = AWSStaticCredentialsProvider(accessKey: "AKIA5SBX6UH4VP2R7BWK", secretKey:"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")
         let configuration = AWSServiceConfiguration(region:.USEast1, credentialsProvider:credentialsProvider)
         AWSServiceManager.default().defaultServiceConfiguration = configuration
-            
+        
         AWSRekognition.register(with: configuration!, forKey: key)
         let rekognition = AWSRekognition(forKey: key)
-
+        
         guard let request = AWSRekognitionCompareFacesRequest() else {
             puts("Unable to initialize AWSRekognitionDetectLabelsRequest.")
             return
@@ -631,11 +632,11 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         let sourceImage = AWSRekognitionImage()
         sourceImage!.bytes = imageOne.jpegData(compressionQuality: 0)// Specify your source image
         request.sourceImage = sourceImage
-
+        
         let targetImage = AWSRekognitionImage()
         targetImage!.bytes = imageTwo.jpegData(compressionQuality: 0) // Specify your target image
         request.targetImage = targetImage
-
+        
         let startDate = Date()
         rekognition.compareFaces(request) { (respone, error) in
             if error == nil {
@@ -645,22 +646,22 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                     if Double(truncating: face1?.similarity.value ?? 0) > 0.9 {
                         let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
                         print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
-
+                        
                         DispatchQueue.main.async {
                             self.ProcessingLbl.text = "Matched"
                             self.ProcessingLbl.textColor = .green
                             self.attachedImg = true
                         }
-
+                        
                         let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
                         print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
-
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             self.ProcessingLbl.isHidden = true
                             self.ProcessingLbl.text = "Processing...".localizedString
                             self.ProcessingLbl.textColor = .blue
                         }
-
+                        
                         DispatchQueue.main.async {
                             self.profileImg.image = imageOne
                             self.imgTake = 0
@@ -668,22 +669,22 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                     } else {
                         let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
                         print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
-
+                        
                         DispatchQueue.main.async {
                             self.ProcessingLbl.text = "Not Matched"
                             self.ProcessingLbl.textColor = .red
                             
-                            if self.profileModel?.userImage != "" {
+                            if Defaults.isFirstLogin == false {
                                 self.attachedImg = true
                             }
                             else {
                                 self.attachedImg = false
                             }
                         }
-
+                        
                         let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
                         print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
-
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             self.ProcessingLbl.isHidden = true
                             self.ProcessingLbl.text = "Processing...".localizedString
@@ -696,12 +697,12 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.ProcessingLbl.text = "Failed".localizedString
                     self.ProcessingLbl.textColor = .red
-
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         self.showFailAlert()
                     }
                     
-                    if self.profileModel?.userImage != "" {
+                    if Defaults.isFirstLogin == false {
                         self.attachedImg = true
                     }
                     else {
@@ -711,7 +712,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                     self.imgTake = 0
                     let executionTimeWithSuccessVC3 = Date().timeIntervalSince(startDate)
                     print("executionTimeWithSuccessVC3 \(executionTimeWithSuccessVC3 * 1000) second")
-
+                    
                 }
                 return
             }
@@ -812,12 +813,12 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         cancelButton.tintColor = UIColor.red
         
         toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
-
+        
         dateBirthdayTxt.inputAccessoryView = toolbar
         dateBirthdayTxt.inputView = datePicker
         
     }
-
+    
     @objc func donedatePicker(){
         
         let formatter = DateFormatter()
@@ -825,7 +826,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         dateBirthdayTxt.text = formatter.string(from: datePicker.date)
         self.view.endEditing(true)
     }
-
+    
     @objc func cancelDatePicker(){
         self.view.endEditing(true)
     }
@@ -857,7 +858,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         
         present(settingsActionSheet, animated: true, completion: nil)
     }
-
+    
     @IBAction func maleBtn(_ sender: Any) {
         maleImg.image = UIImage(named: "select_ic")
         femaleImg.image = UIImage(named: "unSelect_ic")
@@ -955,13 +956,13 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
             let image1 = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
             
             let originImg = image1.fixOrientation()
-             let cropper = CustomCropperViewController(originalImage: originImg)
+            let cropper = CustomCropperViewController(originalImage: originImg)
             cropper.delegate = self
             self.imgTake = 2
             print(self.imgTake)
-
+            
             self.navigationController?.pushViewController(cropper, animated: true)
-
+            
             picker.dismiss(animated:true, completion: {
             })
         }else if self.imgTake == 2 {
@@ -976,12 +977,15 @@ extension EditMyProfileVC : UIImagePickerControllerDelegate,UINavigationControll
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         print(imgTake)
-        self.attachedImg = false
+        
         self.tabBarController?.tabBar.isHidden = false
         
         picker.dismiss(animated:true, completion: {
-            if FirstLoginApp.isFirst == 0 {
+            if Defaults.isFirstLogin == false {
                 self.imgTake = 0
+                self.attachedImg = true
+            }else {
+                self.attachedImg = false
             }
         })
     }
@@ -998,7 +1002,7 @@ extension EditMyProfileVC: CropperViewControllerDelegate {
     func cropperDidConfirm(_ cropper: CropperViewController, state: CropperState?) {
         cropper.onPopup()
         if let state = state,
-            let image = cropper.originalImage.cropped(withCropperState: state) {
+           let image = cropper.originalImage.cropped(withCropperState: state) {
             self.faceImgOne = image
             self.attachedImg = true
             imgTake = 2
@@ -1022,8 +1026,11 @@ extension EditMyProfileVC: CropperViewControllerDelegate {
     func cropperDidCancel(_ cropper: CropperViewController) {
         cropper.onPopup()
         
-        if FirstLoginApp.isFirst == 0 {
+        if Defaults.isFirstLogin == false {
             imgTake = 0
+            self.attachedImg = true
+        }else {
+            self.attachedImg = false
         }
     }
 }
@@ -1035,7 +1042,7 @@ extension EditMyProfileVC: UITextViewDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-            let newText = (bioTxtView.text as NSString).replacingCharacters(in: range, with: text)
+        let newText = (bioTxtView.text as NSString).replacingCharacters(in: range, with: text)
         return newText.count < 300
     }
 }
@@ -1094,15 +1101,15 @@ extension EditMyProfileVC {
     
     @objc func handleSaveEdits() {
         print(imgTake)
-        if imgTake == 0 {
-            if self.attachedImg == false {
-                DispatchQueue.main.async {
-                    self.view.makeToast("Please add a profile image".localizedString)
-                }
-                initSaveBarButton(istap: false)
-                return
+        if self.attachedImg == false {
+            DispatchQueue.main.async {
+                self.view.makeToast("Please add a profile image".localizedString)
             }
-            else {
+            initSaveBarButton(istap: false)
+            return
+        }
+        else {
+            if imgTake == 0 {
                 if tagsid.isEmpty {
                     DispatchQueue.main.async {
                         self.view.makeToast("Please select what you enjoy doing".localizedString)
@@ -1118,7 +1125,7 @@ extension EditMyProfileVC {
                     if preferToid.isEmpty {
                         preferToid.append(Defaults.preferToid)
                     }
-
+                    
                     if bioTxtView.text == "" {
                         bioTxtView.text = "."
                     }
@@ -1128,10 +1135,50 @@ extension EditMyProfileVC {
                     }
                 }
             }
+            else {
+                self.view.makeToast("Please wait a moment while the image comparison process is completed")
+            }
         }
-        else {
-            self.view.makeToast("Please wait a moment while the image comparison process is completed")
-        }
+
+//        if imgTake == 0 //There is already a picture
+//        {
+//            if self.attachedImg == false {
+//                DispatchQueue.main.async {
+//                    self.view.makeToast("Please add a profile image".localizedString)
+//                }
+//                initSaveBarButton(istap: false)
+//                return
+//            }
+//            else {
+//                if tagsid.isEmpty {
+//                    DispatchQueue.main.async {
+//                        self.view.makeToast("Please select what you enjoy doing".localizedString)
+//                    }
+//                    initSaveBarButton(istap: false)
+//                    return
+//                }
+//                else {
+//                    if iamid.isEmpty {
+//                        iamid.append(Defaults.iamid)
+//                    }
+//
+//                    if preferToid.isEmpty {
+//                        preferToid.append(Defaults.preferToid)
+//                    }
+//
+//                    if bioTxtView.text == "" {
+//                        bioTxtView.text = "."
+//                    }
+//
+//                    if NetworkConected.internetConect {
+//                        editSaving()
+//                    }
+//                }
+//            }
+//        }
+//        else {
+//            self.view.makeToast("Please wait a moment while the image comparison process is completed")
+//        }
     }
     
     func editSaving() {
@@ -1152,12 +1199,12 @@ extension EditMyProfileVC {
                 if Defaults.needUpdate == 1 {
                     return
                 }else {
-                    if FirstLoginApp.isFirst == 0 {//toprofile
+                    if Defaults.isFirstLogin == false {//toprofile
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             self.onPopup()
                         }
                     }
-                    else if FirstLoginApp.isFirst == 1 {//tofeed if socail media login
+                    else if Defaults.isFirstLogin == true {//tofeed if socail media login
                         Router().toFeed()
                     }
                     else {//to login
@@ -1216,16 +1263,16 @@ extension EditMyProfileVC {
                 }
             })
         }
-
+        
         // Set View Model Event Listener
         preferToViewModel.error.bind { error in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                 }
-
+                
             }
         }
     }
-
+    
 }

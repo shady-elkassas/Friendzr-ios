@@ -12,10 +12,6 @@ import GoogleSignIn
 import AuthenticationServices
 import Network
 
-class FirstLoginApp {
-    static var isFirst: Int = 0
-}
-
 class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
 
     //MARK:- Outlets
@@ -124,10 +120,10 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
             
             DispatchQueue.main.async {
                 if Defaults.needUpdate == 1 {
-                    FirstLoginApp.isFirst = 1
+                    Defaults.isFirstLogin = true
                     Router().toSplachOne()
                 }else {
-                    FirstLoginApp.isFirst = 0
+                    Defaults.isFirstLogin = false
                     Router().toFeed()
                 }
             }
@@ -188,13 +184,13 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
     
     @IBAction func loginBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .Login, AndContollerID: "LoginVC") as? LoginVC else {return}
-        FirstLoginApp.isFirst = 0
+        Defaults.isFirstLogin = false
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func emailBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .Register, AndContollerID: "RegisterVC") as? RegisterVC else {return}
-        FirstLoginApp.isFirst = 2
+        Defaults.isFirstLogin = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

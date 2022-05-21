@@ -113,7 +113,15 @@ class RequestManager: NSObject, URLSessionDelegate {
                         print(error)
                     }
                 }
-                
+                else if code == 406 {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                        print(json)
+                        completion([:],"Network interrupted, please try again")
+                    } catch {
+                        print(error)
+                    }
+                }
                 else if code == 405 {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)

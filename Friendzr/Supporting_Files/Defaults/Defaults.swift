@@ -483,6 +483,16 @@ class Defaults {
         }
     }
     
+    static var isFirstLogin: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "isFirstLogin")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "isFirstLogin") ?? false
+        }
+    }
+    
     static func initUser(user:UserObj)  {
         Defaults.userName = user.userName
         Defaults.Email = user.email
@@ -577,6 +587,7 @@ class Defaults {
         defaults.removeObject(forKey: "distanceShowNearbyEventsOnMap_Max")
         defaults.removeObject(forKey: "iamid")
         defaults.removeObject(forKey: "preferToid")
+        defaults.removeObject(forKey: "isFirstLogin")
 
         
         if let token = AccessToken.current,
