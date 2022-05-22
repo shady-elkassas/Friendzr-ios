@@ -604,6 +604,9 @@ PODS:
   - AppAuth/ExternalUserAgent (1.5.0):
     - AppAuth/Core
   - AppLovinSDK (11.3.3)
+  - AppsFlyerFramework (6.6.1):
+    - AppsFlyerFramework/Main (= 6.6.1)
+  - AppsFlyerFramework/Main (6.6.1)
   - AvailableHapticFeedback (1.0.2)
   - AWSCore (2.27.6)
   - AWSRekognition (2.27.6):
@@ -883,6 +886,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.4)
+  - AppsFlyerFramework
   - AWSRekognition
   - FBSDKLoginKit
   - Firebase
@@ -916,6 +920,7 @@ SPEC REPOS:
     - Alamofire
     - AppAuth
     - AppLovinSDK
+    - AppsFlyerFramework
     - AvailableHapticFeedback
     - AWSCore
     - AWSRekognition
@@ -974,6 +979,7 @@ SPEC CHECKSUMS:
   Alamofire: 87bd8c952f9a4454320fce00d9cc3de57bcadaf5
   AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
   AppLovinSDK: 6ed446d284d8852520a786ad5a91796f1730c3f3
+  AppsFlyerFramework: 5e4b385a27dc6179e132b1617f76809412eb2f88
   AvailableHapticFeedback: 9b21b9f6d3e4566015988b5de35b40abefe6c09a
   AWSCore: 0b6fa020f5f343a211862d702ba7a067272a60f7
   AWSRekognition: e55a57b151768a6fc17020ad63320f9f1570d5e7
@@ -1027,6 +1033,6 @@ SPEC CHECKSUMS:
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
   SweeterSwift: 61baeda1c0c27d1dc57c8112c3d6a82e5aff3139
 
-PODFILE CHECKSUM: 41254b723f87f3614f8f7a716c3d259ceaaa2968
+PODFILE CHECKSUM: 90a482bbe6d81282ab65cb5b07d4798d66f9fc75
 
 COCOAPODS: 1.10.2

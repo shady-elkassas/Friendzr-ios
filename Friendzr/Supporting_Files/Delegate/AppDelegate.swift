@@ -27,7 +27,7 @@ import AWSCore
 import SwiftUI
 import FBAudienceNetwork
 import AppTrackingTransparency
-//import AppsFlyerLib
+import AppsFlyerLib
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -57,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "Montserrat-Medium", size: 14)!], for: .selected)
         setupHeightApp()
-
+        
         
         let ads = GADMobileAds.sharedInstance()
         ads.start(completionHandler: nil)
@@ -72,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // Start loading ads here...
         }
-
+        
         // Initialize Identity Provider //AWS
         let credentialsProvider = AWSCognitoCredentialsProvider(
             regionType: .USEast1,
@@ -158,8 +158,62 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        setupAppsFlyer()
+        
         return true
     }
+    
+    
+    func setupAppsFlyer() {
+        AppsFlyerLib.shared().appsFlyerDevKey = "vsg4WBcUHeJBLTpcHDpuJ"
+        AppsFlyerLib.shared().appleAppID = "id1585963463"
+        AppsFlyerLib.shared().delegate = self
+        //  Set isDebug to true to see AppsFlyer debug logs
+        AppsFlyerLib.shared().isDebug = true
+        
+        // The following block is optional for applications wishing to give users the option to collect IDFA.
+        // for iOS 14 and above - The user may be prompted to collect IDFA.
+        //                        If user opts-in, the IDFA will be collected by the SDK.
+        // for iOS 13 and below - The IDFA will be collected by the SDK. The user will NOT be prompted to consent.
+        if #available(iOS 14, *) {
+            // Set a timeout for the SDK to wait for the IDFA collection before handling app launch
+            // If timeout expires before the user allows to collect IDFA , the IDFA will NOT be collected.
+            AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
+            // Show the user the Apple IDFA consent dialog (AppTrackingTransparency)
+            // MUST be called here before start() in order to allow IDFA collection by the SDK
+            ATTrackingManager.requestTrackingAuthorization { (status) in
+            }
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: NSSelectorFromString("sendLaunch"), name: UIApplication.didBecomeActiveNotification, object: nil)
+        
+    }
+    
+    @objc func sendLaunch() {
+        AppsFlyerLib.shared().start()
+    }
+    
+    @objc func didBecomeActiveNotification() {
+        // start is usually called here:
+        // AppsFlyerLib.shared().start()
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { (status) in
+                switch status {
+                case .denied:
+                    print("AuthorizationSatus is denied")
+                case .notDetermined:
+                    print("AuthorizationSatus is notDetermined")
+                case .restricted:
+                    print("AuthorizationSatus is restricted")
+                case .authorized:
+                    print("AuthorizationSatus is authorized")
+                @unknown default:
+                    fatalError("Invalid authorization status")
+                }
+            }
+        }
+    }
+    
     
     func setupUpdateLocation() {
         locationManager.requestAlwaysAuthorization()
@@ -195,6 +249,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
+    // Open Univerasal Links
+    
+    // For Swift version < 4.2 replace function signature with the commented out code
+    // func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool { // this line for Swift < 4.2
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        AppsFlyerLib.shared().continue(userActivity, restorationHandler: nil)
+        return true
+    }
+    
+    // Open Deeplinks
+    
+    // Open URI-scheme for iOS 8 and below
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        AppsFlyerLib.shared().handleOpen(url, sourceApplication: sourceApplication, withAnnotation: annotation)
+        return true
+    }
+    
     // MARK: UISceneSession Lifecycle
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
@@ -213,6 +284,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let sourceApplication: String? = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String
         let googleDidHandle = GIDSignIn.sharedInstance.handle(url as URL)
         let facebookDidHandle = ApplicationDelegate.shared.application(app, open: url, sourceApplication: sourceApplication, annotation: options[UIApplication.OpenURLOptionsKey.annotation])
+        
+        AppsFlyerLib.shared().handleOpen(url, options: options)
+        
         return googleDidHandle || facebookDidHandle //|| snapDidHandle || TikTokDidHandle
     }
     
@@ -405,7 +479,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             let action = userInfo["Action"] as? String //action transaction
             let actionId = userInfo["Action_code"] as? String //userid
             let chatTitle = userInfo["name"] as? String
-             let imageNotifications = userInfo["ImageUrl"] as? String
+            let imageNotifications = userInfo["ImageUrl"] as? String
             let isEventAdmin = userInfo["isAdmin"] as? String
             //            let messageType = userInfo["Messagetype"] as? Int
             _ = userInfo["messsageLinkEvenMyEvent"] as? String ?? ""
@@ -438,7 +512,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
         Messaging.messaging().appDidReceiveMessage(userInfo)
-
+        
         let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
         let alert = apsAlert?["alert"] as? [String:Any]
         let body =  alert?["body"]  as? String
@@ -496,7 +570,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
         self.content.badge = 0
-
+        
         Messaging.messaging().appDidReceiveMessage(userInfo)
         
         let apsAlert = userInfo["aps"] as? [String:Any] //?[""]
@@ -679,8 +753,8 @@ extension AppDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
         setupUpdateLocation()
-//        AppsFlyerLib.shared().start()
-//        FIRMessaging.messaging().disconnect()
+        AppsFlyerLib.shared().start()
+        //        FIRMessaging.messaging().disconnect()
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -690,14 +764,15 @@ extension AppDelegate {
         }
     }
     
-//    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
-//
-//    }
+    //    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
+    //
+    //    }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         application.applicationIconBadgeNumber = 0
         registrationFCM()
+        AppsFlyerLib.shared().start()
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -896,7 +971,7 @@ extension AppDelegate {
             print("fail")
         }
     }
-        
+    
     func updateAppWhenPresentNotification(_ action: String?, _ actionId: String?) {
         if action == "Friend_Request" {
             Defaults.frindRequestNumber += 1
@@ -1084,5 +1159,52 @@ extension AppDelegate {
             NotificationMessage.linkPreviewID = messsageLinkEvenId
         }
     }
+    
+}
 
+extension AppDelegate: AppsFlyerLibDelegate {
+    
+    // Handle Organic/Non-organic installation
+    func onConversionDataSuccess(_ data: [AnyHashable: Any]) {
+        
+        print("onConversionDataSuccess data:")
+        for (key, value) in data {
+            print(key, ":", value)
+        }
+        
+        if let status = data["af_status"] as? String {
+            if (status == "Non-organic") {
+                if let sourceID = data["media_source"],
+                   let campaign = data["campaign"] {
+                    print("This is a Non-Organic install. Media source: \(sourceID)  Campaign: \(campaign)")
+                }
+            } else {
+                print("This is an organic install.")
+            }
+            if let is_first_launch = data["is_first_launch"] as? Bool,
+               is_first_launch {
+                print("First Launch")
+                
+            } else {
+                print("Not First Launch")
+            }
+        }
+    }
+    
+    func onConversionDataFail(_ error: Error) {
+        print("\(error)")
+    }
+    
+    // Handle Deeplink
+    func onAppOpenAttribution(_ attributionData: [AnyHashable: Any]) {
+        //Handle Deep Link Data
+        print("onAppOpenAttribution data:")
+        for (key, value) in attributionData {
+            print(key, ":",value)
+        }
+    }
+    
+    func onAppOpenAttributionFailure(_ error: Error) {
+        print("\(error)")
+    }
 }
