@@ -6,8 +6,19 @@
 //
 
 import UIKit
-import MessageKit
+import InputBarAccessoryView
+import MapKit
+import AVFoundation
+import MobileCoreServices
+import AVKit
+import FirebaseAuth
+import Firebase
+import FirebaseDatabase
+import FirebaseFirestore
+import ListPlaceholder
 import SwiftUI
+import SDWebImage
+
 
 class MessagesVC: UIViewController {
     
@@ -16,8 +27,8 @@ class MessagesVC: UIViewController {
     @IBOutlet weak var inputTextField: UITextField!
     @IBOutlet weak var expandButton: UIButton!
     @IBOutlet weak var barBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var stackViewWidthConstraint: NSLayoutConstraint!
-    @IBOutlet var actionButtons: [UIButton]!
+//    @IBOutlet weak var stackViewWidthConstraint: NSLayoutConstraint!
+//    @IBOutlet var actionButtons: [UIButton]!
     @IBOutlet weak var sendBtn: UIButton!
     @IBOutlet weak var messageInputBarView: UIView!
     @IBOutlet weak var downView: UIView!
@@ -60,6 +71,8 @@ class MessagesVC: UIViewController {
     var isChatGroup:Bool = false
     var groupId:String = ""
     var leaveGroup:Int = 0
+    
+    var fileUpload = ""
     
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -109,10 +122,34 @@ class MessagesVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
+        initBackButton()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(listenToMessages), name: Notification.Name("listenToMessages"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(listenToMessagesForEvent), name: Notification.Name("listenToMessagesForEvent"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(listenToMessagesForGroup), name: Notification.Name("listenToMessagesForGroup"), object: nil)
+        
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(updateMessagesChat), name: UIResponder.keyboardDidShowNotification, object: nil)
+        
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+//        alertView?.addGestureRecognizer(tap)
+        
+        Defaults.availableVC = "MessagesVC"
+        print("availableVC >> \(Defaults.availableVC)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setupMessages()
+        
+        if isEvent {
+            Defaults.ConversationID = eventChatID
+        }else if isChatGroup {
+            Defaults.ConversationID = groupId
+        }else {
+            Defaults.ConversationID = chatuserID
+        }
     }
     
     func setupViews() {
@@ -124,11 +161,11 @@ class MessagesVC: UIViewController {
     //MARK: - Setup Messages
     func setupMessages() {
         if isEvent {
-            //            self.getEventChatMessages(pageNumber: 1)
+            self.getEventChatMessages(pageNumber: 1)
         }
         else {
             if isChatGroup {
-                //                self.getGroupChatMessages(pageNumber: 1)
+                self.getGroupChatMessages(pageNumber: 1)
             }else {
                 self.getUserChatMessages(pageNumber: 1)
             }
@@ -143,11 +180,11 @@ class MessagesVC: UIViewController {
         print("current page == \(self.currentPage)")
         DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
             if self.isEvent {
-                //                self.getEventChatMessages(pageNumber: self.currentPage)
+                self.getEventChatMessages(pageNumber: self.currentPage)
             }
             else {
                 if self.isChatGroup {
-                    //                    self.getGroupChatMessages(pageNumber: self.currentPage)
+                    self.getGroupChatMessages(pageNumber: self.currentPage)
                 }else {
                     self.getUserChatMessages(pageNumber: self.currentPage)
                 }
@@ -158,8 +195,48 @@ class MessagesVC: UIViewController {
     
     func insertMessage(_ message: ChatMessage) {
         messageList.append(message)
-        tableView.insertSections([messageList.count - 1], with: .bottom)
-        tableView.reloadData()
+
+        //Reload last section to update header/footer labels and insert a new one
+        tableView.performBatchUpdates({
+            tableView.insertSections([messageList.count - 1], with: .bottom)
+            if messageList.count >= 2 {
+                tableView.reloadSections([messageList.count - 2], with: .bottom)
+            }
+        }, completion: { [weak self] _ in
+            if self?.isLastSectionVisible() == true {
+                self?.tableView.scrollToRow(at: IndexPath(row: 0, section: ((self?.messageList.count ?? 0) - 1)), at: .bottom, animated: true)
+                self?.reloadLastIndexInTableView()
+            }
+        })
+
+    }
+    
+    func isLastSectionVisible() -> Bool {
+        guard !messageList.isEmpty else { return false }
+        let lastIndexPath = IndexPath(item: 0, section: messageList.count - 1)
+        let visibleRows = tableView.indexPathsForVisibleRows?.contains(lastIndexPath)
+        return visibleRows ?? false
+    }
+    
+    func reloadLastIndexInTableView() {
+        let lastSectionIndex = self.messageList.count - 1
+        
+        // Now just construct the index path
+        let pathToLastRow = IndexPath(row: 0, section: lastSectionIndex)
+        
+        let contentOffset = tableView.contentOffset
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.tableView.layoutIfNeeded()
+        }
+        
+        DispatchQueue.main.async {
+            self.tableView.setContentOffset(contentOffset, animated: false)
+             
+            // Make the last row visible
+            self.tableView.scrollToRow(at: pathToLastRow, at: .bottom, animated: true)
+        }
     }
 }
 
@@ -167,30 +244,114 @@ class MessagesVC: UIViewController {
 extension MessagesVC {
     
     @IBAction func sendMessagePressed(_ sender: Any) {
+        
         let messageDate = formatterDate.string(from: Date())
         let messageTime = formatterTime.string(from: Date())
         let messageTime2 = formatterTime2.string(from: Date())
-
+        
         guard let text = inputTextField.text, !text.isEmpty else { return }
         let url:URL? = URL(string: "https://www.apple.com/eg/")
-
+        
         self.insertMessage(ChatMessage(sender: SenderMessage(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName), messageId: "", messageType: 1, messageText: MessageText(text: inputTextField.text ?? ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: messageDate, messageTime: messageTime2))
         
-        viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),fileUrl: url!,eventShareid: "") { error, data in
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
+        inputTextField.text = ""
+        
+        if isEvent {
+            viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!,eventShareid: "") { error, data in
+                
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    return
                 }
-                return
+                
+                guard let _ = data else {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    let lastSection = self.messageList.count - 1
+                    self.tableView.scrollToRow(at: IndexPath(row: 0, section: lastSection), at: .bottom, animated: true)
+                }
             }
-            
-            guard data != nil else {
-                return
+        }
+        else {
+            if isChatGroup {
+                viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 1, AndMessage: text, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(), fileUrl: url!,eventShareid: "") { error, data in
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard let _ = data else {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        let lastSection = self.messageList.count - 1
+                        self.tableView.scrollToRow(at: IndexPath(row: 0, section: lastSection), at: .bottom, animated: true)
+                    }
+                }
             }
-        }        
+            else {
+                viewmodel.SendMessage(withUserId: chatuserID, AndMessage: text, AndMessageType: 1, messagesdate: messageDate, messagestime: messageTime, attachedImg: false, AndAttachImage: UIImage(),fileUrl: url!,eventShareid: "") { error, data in
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard data != nil else {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        let lastSection = self.messageList.count - 1
+                        self.tableView.scrollToRow(at: IndexPath(row: 0, section: lastSection), at: .bottom, animated: true)
+                    }
+                }
+            }
+        }
+
     }
     
     @IBAction func expandItemsPressed(_ sender: UIButton) {
+        presentInputActionSheet()
+    }
+    
+    private func presentInputActionSheet() {
+        let actionSheet  = UIAlertController(title: "Attach Media".localizedString, message: "What would you like attach?".localizedString, preferredStyle: .actionSheet)
+        
+        let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
+            self.openCamera()
+        }
+        let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
+            self.openLibrary()
+        }
+        let fileBtn = UIAlertAction(title: "File", style: .default) {_ in
+            self.openFileLibrary()
+        }
+        
+        let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+        
+        actionSheet.addAction(cameraBtn)
+        actionSheet.addAction(libraryBtn)
+        actionSheet.addAction(fileBtn)
+        actionSheet.addAction(cancelBtn)
+        
+        present(actionSheet, animated: true, completion: nil)
     }
 }
 
@@ -215,15 +376,51 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.messageDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
             return cell
         }
-        else if model.messageType == 2 {
+        else if model.messageType == 2 { //image
             let cell = tableView.dequeueReusableCell(withIdentifier: model.sender.senderId == Defaults.token ? "MessageAttachmentTableViewCell" : "UserMessageAttachmentTableViewCell") as! MessageAttachmentTableViewCell
-            cell.attachmentImageView.sd_setImage(with: URL(string: model.messageImage.image), placeholderImage: UIImage(named: "placeHolderApp"))
+            cell.attachmentImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            
+            if model.messageImage.image == "" {
+                cell.attachmentImageView.image = model.messageImage.imageView
+            }
+            else {
+                cell.attachmentImageView.sd_setImage(with: URL(string: model.messageImage.image), placeholderImage: UIImage(named: "placeHolderApp"))
+            }
+            
             cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
+            
             cell.attachmentDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
             return cell
         }
-        
-        return UITableViewCell()
+        else if model.messageType == 3 { //file
+            let cell = tableView.dequeueReusableCell(withIdentifier: model.sender.senderId == Defaults.token ? "MessageAttachmentTableViewCell" : "UserMessageAttachmentTableViewCell") as! MessageAttachmentTableViewCell
+            cell.attachmentImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            
+            if model.messageFile.file == "" {
+                cell.attachmentImageView.image = model.messageFile.fileView
+            }else {
+                cell.attachmentImageView.sd_setImage(with: URL(string: model.messageFile.file), placeholderImage: UIImage(named: "placeHolderApp"))
+            }
+            cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
+            cell.attachmentDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
+            cell.attachmentContainerView.backgroundColor = .clear
+            cell.attachmentContainerView.setBorder()
+            return cell
+        }
+        else if model.messageType == 4 {//share
+            let cell = tableView.dequeueReusableCell(withIdentifier: model.sender.senderId == Defaults.token ? "ShareEventMessageTableViewCell" : "UserShareEventMessageTableViewCell") as! ShareEventMessageTableViewCell
+            cell.eventImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            cell.eventImage.sd_setImage(with: URL(string: model.messageLink.messsageLinkImageURL), placeholderImage: UIImage(named: "placeHolderApp"))
+            cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
+            cell.eventNameLbl.text = model.messageLink.messsageLinkTitle
+            cell.categoryNameLbl.text = model.messageLink.messsageLinkCategory
+            cell.attendeesLbl.text = "Attendees: \(model.messageLink.messsageLinkAttendeesJoined) / \(model.messageLink.messsageLinkAttendeesTotalnumbert)"
+            cell.startEventDateLbl.text = model.messageLink.messsageLinkEventDate
+            return cell
+        }
+        else {
+            return UITableViewCell()
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -257,227 +454,218 @@ extension MessagesVC: MessageTableViewCellDelegate {
 
 extension MessagesVC {
     //    getEventChatMessages
-    //    func getEventChatMessages(pageNumber:Int) {
-    //        let startDate = Date()
+        func getEventChatMessages(pageNumber:Int) {
+            let startDate = Date()
+    
+            CancelRequest.currentTask = false
+            if isRefreshNewMessages == true {
+                self.hideLoading()
+            }else {
+                self.showLoading()
+                messageInputBarView.isHidden = true
+            }
+    
+            viewmodel.getChatMessages(ByEventId: eventChatID, pageNumber: pageNumber)
+            viewmodel.eventmessages.bind { [unowned self] value in
+                let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
+                print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
+    
+                DispatchQueue.main.async {
+                    for itm in value.pagedModel?.data ?? [] {
+                        if !(self.messageList.contains(where: { $0.messageId == itm.id})) {
+                            switch itm.currentuserMessage! {
+                            case true:
+                                switch itm.messagetype {
+                                case 1://text
+                                    self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName), messageId: itm.id ?? "", messageType: 1, messageText: MessageText(text: itm.messages ?? ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                case 2://image
+                                    if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                        
+                                        self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName), messageId: itm.id ?? "", messageType: 2, messageText: MessageText(text: ""), messageImage: MessageImage(image: itm.messageAttachedVM?[0].attached ?? ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                    }
+                                case 3://file
+                                    if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                        self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName), messageId: itm.id ?? "", messageType: 3, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: itm.messageAttachedVM?[0].attached ?? ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                    }
+                                case 4://link
+                                    self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName), messageId: itm.id ?? "", messageType: 4, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: itm.eventData?.id ?? "", eventTypeLink: itm.eventData?.eventtype ?? "", isJoinEvent: itm.eventData?.key ?? 0, messsageLinkTitle: itm.eventData?.title ?? "", messsageLinkCategory: itm.eventData?.categorie ?? "", messsageLinkImageURL: itm.eventData?.image ?? "", messsageLinkAttendeesJoined: "\(itm.eventData?.joined ?? 0)", messsageLinkAttendeesTotalnumbert: "\(itm.eventData?.totalnumbert ?? 0)", messsageLinkEventDate: itm.eventData?.eventdate ?? "", linkPreviewID: itm.eventData?.id ?? ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                default:
+                                    break
+                                }
+                            case false:
+                                switch itm.messagetype {
+                                case 1://text
+                                    self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", messageType: 1, messageText: MessageText(text: itm.messages ?? ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                case 2://image
+                                    if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                        
+                                        self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", messageType: 2, messageText: MessageText(text: ""), messageImage: MessageImage(image: itm.messageAttachedVM?[0].attached ?? ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                    }
+                                case 3://file
+                                    if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                        self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", messageType: 3, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: itm.messageAttachedVM?[0].attached ?? ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                    }
+                                case 4://link
+                                    
+                                    self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", messageType: 4, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: itm.eventData?.id ?? "", eventTypeLink: itm.eventData?.eventtype ?? "", isJoinEvent: itm.eventData?.key ?? 0, messsageLinkTitle: itm.eventData?.title ?? "", messsageLinkCategory: itm.eventData?.categorie ?? "", messsageLinkImageURL: itm.eventData?.image ?? "", messsageLinkAttendeesJoined: "\(itm.eventData?.joined ?? 0)", messsageLinkAttendeesTotalnumbert: "\(itm.eventData?.totalnumbert ?? 0)", messsageLinkEventDate: itm.eventData?.eventdate ?? "", linkPreviewID: itm.eventData?.id ?? ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                default:
+                                    break
+                                }
+                                
+                                self.receiveimg = itm.userimage ?? ""
+                                self.receiveName = itm.username ?? ""
+                            }
+                        }
+                    }
+    
+                    let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
+                    print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
+    
+                    self.hideLoading()
+                    DispatchQueue.main.async {
+                        if self.currentPage != 1 {
+                            DispatchQueue.main.async {
+                                self.tableView.reloadDataAndKeepOffset()
+                            }
+                            
+                            self.refreshControl.endRefreshing()
+                        }else {
+                            if self.messageList.isEmpty {
+                                self.tableView.reloadData()
+                            }else {
+                                self.reloadLastIndexInTableView()
+                            }
+                        }
+                    }
+    
+                    self.showDownView()
+                    self.updateTitleView(image: self.titleChatImage, subtitle: self.titleChatName, titleId: self.eventChatID, isEvent: true)
+                }
+            }
+    
+            // Set View Model Event Listener
+            viewmodel.error.bind { [unowned self]error in
+                DispatchQueue.main.async {
+                    self.hideLoading()
+                    if error == "Internal Server Error" {
+                        self.HandleInternetConnection()
+                    }else if error == "Bad Request" {
+                        self.HandleinvalidUrl()
+                    }else {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                    }
+                }
+            }
+        }
     //
-    //        CancelRequest.currentTask = false
-    //        if isRefreshNewMessages == true {
-    //            self.hideLoading()
-    //        }else {
-    //            self.showLoading()
-    //            messageInputBarView.isHidden = true
-    //        }
-    //
-    //        viewmodel.getChatMessages(ByEventId: eventChatID, pageNumber: pageNumber)
-    //        viewmodel.eventmessages.bind { [unowned self] value in
-    //            let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
-    //            print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
-    //
-    //            DispatchQueue.main.async {
-    //                for itm in value.pagedModel?.data ?? [] {
-    //                    if !(self.messageList.contains(where: { $0.messageId == itm.id})) {
-    //                        switch itm.currentuserMessage! {
-    //                        case true:
-    //                            switch itm.messagetype {
-    //                            case 1://text
-    //                                self.messageList.insert(UserMessage(text: , user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                            case 2://image
-    //                                if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-    //                                    self.messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                                }else {
-    //                                    self.messageList.insert(UserMessage(image: UIImage(named: "placeHolderApp")!, user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                                }
-    //                            case 3: //file
-    //                                if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-    //                                    self.messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                                }else {
-    //                                    self.messageList.insert(UserMessage(image: UIImage(named: "placeHolderApp")!, user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                                }
-    //                            case 4://link
-    //                                let url = URL(string: itm.eventData?.image ?? "")
-    //                                let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-    //
-    //                                self.messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0, eventType:itm.eventData?.eventtype ?? ""), at: 0)
-    //                            default:
-    //                                break
-    //                            }
-    //                        case false:
-    //                            switch itm.messagetype {
-    //                            case 1://text
-    //                                self.messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                            case 2: //image
-    //                                if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-    //                                    self.messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                                }
-    //                            case 3://file
-    //                                if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-    //                                    self.messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                                }
-    //                            case 4://link
-    //                                let url = URL(string: itm.eventData?.image ?? "")
-    //                                let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-    //                                self.messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0, eventType:itm.eventData?.eventtype ?? ""), at: 0)
-    //                            default:
-    //                                break
-    //                            }
-    //                            self.receiveimg = itm.userimage ?? ""
-    //                            self.receiveName = itm.username ?? ""
-    //                        }
-    //                    }
-    //                }
-    //
-    //                let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
-    //                print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
-    //
-    //                self.hideLoading()
-    //                DispatchQueue.main.async {
-    //                    if self.currentPage != 1 {
-    //                        self.tableView.reloadData()
-    //                        //                        self.tableView.reloadDataAndKeepOffset()
-    //                        self.refreshControl.endRefreshing()
-    //                    }else {
-    //                        if self.messageList.isEmpty {
-    //                            self.tableView.reloadData()
-    //                        }else {
-    //                            self.tableView.reloadData()
-    //                            //                            self.reloadLastIndexInCollectionView()
-    //                        }
-    //                    }
-    //                }
-    //
-    //                self.showDownView()
-    //                self.updateTitleView(image: self.titleChatImage, subtitle: self.titleChatName, titleId: self.eventChatID, isEvent: true)
-    //            }
-    //        }
-    //
-    //        // Set View Model Event Listener
-    //        viewmodel.error.bind { [unowned self]error in
-    //            DispatchQueue.main.async {
-    //                self.hideLoading()
-    //                if error == "Internal Server Error" {
-    //                    self.HandleInternetConnection()
-    //                }else if error == "Bad Request" {
-    //                    self.HandleinvalidUrl()
-    //                }else {
-    //                    DispatchQueue.main.async {
-    //                        self.view.makeToast(error)
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-    //
-    //    func getGroupChatMessages(pageNumber:Int) {
-    //        let startDate = Date()
-    //
-    //        CancelRequest.currentTask = false
-    //        if isRefreshNewMessages == true {
-    //            self.hideLoading()
-    //        }else {
-    //            self.showLoading()
-    //            messageInputBarView.isHidden = true
-    //        }
-    //
-    //        viewmodel.getChatMessages(BygroupId: groupId, pageNumber: pageNumber)
-    //        viewmodel.groupmessages.bind { [unowned self] value in
-    //            let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
-    //            print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
-    //
-    //            DispatchQueue.main.async {
-    //                for itm in value.pagedModel?.data ?? [] {
-    //                    if !(self.messageList.contains(where: { $0.messageId == itm.id})) {
-    //                        switch itm.currentuserMessage! {
-    //                        case true:
-    //                            switch itm.messagetype {
-    //                            case 1://text
-    //                                self.messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                            case 2://image
-    //                                if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-    //                                    self.messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                                }else {
-    //                                    self.messageList.insert(UserMessage(image: UIImage(named: "placeHolderApp")!, user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                                }
-    //                            case 3://file
-    //                                if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-    //                                    self.messageList.insert(UserMessage(imageURL: URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                                }else {
-    //                                    self.messageList.insert(UserMessage(image: UIImage(named: "placeHolderApp")!, user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                                }
-    //                            case 4://link
-    //                                let url = URL(string: itm.eventData?.image ?? "")
-    //                                let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-    //                                self.messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""),user: UserSender(senderId: self.senderUser.senderId, photoURL: Defaults.Image, displayName: self.senderUser.displayName), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0, eventType:itm.eventData?.eventtype ?? ""), at: 0)
-    //                            default:
-    //                                break
-    //                            }
-    //                        case false:
-    //                            switch itm.messagetype {
-    //                            case 1://text
-    //                                self.messageList.insert(UserMessage(text: itm.messages ?? "", user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                            case 2: //image
-    //                                if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-    //                                    self.messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                                }
-    //                            case 3: //file
-    //                                if itm.messageAttachedVM?.isEmpty == false || itm.messageAttachedVM?.count != 0 {
-    //                                    self.messageList.insert(UserMessage(imageURL:  URL(string: itm.messageAttachedVM?[0].attached ?? "") ?? URL(string: "bit.ly/3ES3blM")!, user:  UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: itm.messagetype ?? 0,linkPreviewID: "",isJoinEvent: 0,eventType: ""), at: 0)
-    //                                }
-    //                            case 4://link
-    //                                let url = URL(string: itm.eventData?.image ?? "")
-    //                                let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-    //
-    //                                self.messageList.insert(UserMessage(linkItem: MessageLinkItem(title: itm.eventData?.title ?? "", teaser: itm.eventData?.categorie ?? "", thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(itm.eventData?.joined ?? 0) / \(itm.eventData?.totalnumbert ?? 0)",date: itm.eventData?.eventdate ?? ""), user: UserSender(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", date: Date(), dateandtime: self.messageDateTime(date: itm.messagesdate ?? "", time: itm.messagestime ?? ""), messageType: 4,linkPreviewID: itm.eventData?.id ?? "",isJoinEvent: itm.eventData?.key ?? 0, eventType:itm.eventData?.eventtype ?? ""), at: 0)
-    //                            default:
-    //                                break
-    //                            }
-    //                            self.receiveimg = itm.userimage ?? ""
-    //                            self.receiveName = itm.username ?? ""
-    //
-    //                        }
-    //                    }
-    //                }
-    //
-    //                let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
-    //                print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
-    //                self.hideLoading()
-    //
-    //                DispatchQueue.main.async {
-    //                    if self.currentPage != 1 {
-    //                        self.tableView.reloadData()
-    //                        //                        self.tableView.reloadDataAndKeepOffset()
-    //                        self.refreshControl.endRefreshing()
-    //                    }else {
-    //                        if self.messageList.isEmpty {
-    //                            self.tableView.reloadData()
-    //                        }else {
-    //                            self.tableView.reloadData()
-    //                            //                            self.reloadLastIndexInCollectionView()
-    //                        }
-    //                    }
-    //                }
-    //
-    //                self.showDownView()
-    //                self.updateTitleView(image: self.titleChatImage, subtitle: self.titleChatName, titleId: self.groupId, isEvent: false)
-    //            }
-    //        }
-    //
-    //        // Set View Model Event Listener
-    //        viewmodel.error.bind { [unowned self]error in
-    //            DispatchQueue.main.async {
-    //                self.hideLoading()
-    //                if error == "Internal Server Error" {
-    //                    self.HandleInternetConnection()
-    //                }else if error == "Bad Request" {
-    //                    self.HandleinvalidUrl()
-    //                }else {
-    //                    DispatchQueue.main.async {
-    //                        self.view.makeToast(error)
-    //                    }
-    //
-    //                }
-    //            }
-    //        }
-    //    }
+        func getGroupChatMessages(pageNumber:Int) {
+            let startDate = Date()
+    
+            CancelRequest.currentTask = false
+            if isRefreshNewMessages == true {
+                self.hideLoading()
+            }else {
+                self.showLoading()
+                messageInputBarView.isHidden = true
+            }
+    
+            viewmodel.getChatMessages(BygroupId: groupId, pageNumber: pageNumber)
+            viewmodel.groupmessages.bind { [unowned self] value in
+                let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
+                print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
+    
+                DispatchQueue.main.async {
+                    for itm in value.pagedModel?.data ?? [] {
+                        if !(self.messageList.contains(where: { $0.messageId == itm.id})) {
+                            switch itm.currentuserMessage! {
+                            case true:
+                                switch itm.messagetype {
+                                case 1://text
+                                    self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName), messageId: itm.id ?? "", messageType: 1, messageText: MessageText(text: itm.messages ?? ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                case 2://image
+                                    if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                        
+                                        self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName), messageId: itm.id ?? "", messageType: 2, messageText: MessageText(text: ""), messageImage: MessageImage(image: itm.messageAttachedVM?[0].attached ?? ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                    }
+                                case 3://file
+                                    if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                        self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName), messageId: itm.id ?? "", messageType: 3, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: itm.messageAttachedVM?[0].attached ?? ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                    }
+                                case 4://link
+                                    self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName), messageId: itm.id ?? "", messageType: 4, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: itm.eventData?.id ?? "", eventTypeLink: itm.eventData?.eventtype ?? "", isJoinEvent: itm.eventData?.key ?? 0, messsageLinkTitle: itm.eventData?.title ?? "", messsageLinkCategory: itm.eventData?.categorie ?? "", messsageLinkImageURL: itm.eventData?.image ?? "", messsageLinkAttendeesJoined: "\(itm.eventData?.joined ?? 0)", messsageLinkAttendeesTotalnumbert: "\(itm.eventData?.totalnumbert ?? 0)", messsageLinkEventDate: itm.eventData?.eventdate ?? "", linkPreviewID: itm.eventData?.id ?? ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                default:
+                                    break
+                                }
+                            case false:
+                                switch itm.messagetype {
+                                case 1://text
+                                    self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", messageType: 1, messageText: MessageText(text: itm.messages ?? ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                case 2://image
+                                    if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                        
+                                        self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", messageType: 2, messageText: MessageText(text: ""), messageImage: MessageImage(image: itm.messageAttachedVM?[0].attached ?? ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                    }
+                                case 3://file
+                                    if itm.messageAttachedVM?.count != 0 || itm.messageAttachedVM?[0].attached != "" {
+                                        self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", messageType: 3, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: itm.messageAttachedVM?[0].attached ?? ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                    }
+                                case 4://link
+                                    
+                                    self.messageList.insert(ChatMessage(sender: SenderMessage(senderId: itm.userId ?? "", photoURL: itm.userimage ?? "", displayName: itm.username ?? ""), messageId: itm.id ?? "", messageType: 4, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: itm.eventData?.id ?? "", eventTypeLink: itm.eventData?.eventtype ?? "", isJoinEvent: itm.eventData?.key ?? 0, messsageLinkTitle: itm.eventData?.title ?? "", messsageLinkCategory: itm.eventData?.categorie ?? "", messsageLinkImageURL: itm.eventData?.image ?? "", messsageLinkAttendeesJoined: "\(itm.eventData?.joined ?? 0)", messsageLinkAttendeesTotalnumbert: "\(itm.eventData?.totalnumbert ?? 0)", messsageLinkEventDate: itm.eventData?.eventdate ?? "", linkPreviewID: itm.eventData?.id ?? ""), date: Date(), messageDate: itm.messagesdate ?? "", messageTime: itm.messagestime ?? ""), at: 0)
+                                default:
+                                    break
+                                }
+                                
+                                self.receiveimg = itm.userimage ?? ""
+                                self.receiveName = itm.username ?? ""
+                            }
+                        }
+                    }
+    
+                    let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
+                    print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
+                    self.hideLoading()
+    
+                    DispatchQueue.main.async {
+                        if self.currentPage != 1 {
+                            DispatchQueue.main.async {
+                                self.tableView.reloadDataAndKeepOffset()
+                            }
+                            
+                            self.refreshControl.endRefreshing()
+                        }else {
+                            if self.messageList.isEmpty {
+                                self.tableView.reloadData()
+                            }else {
+                                self.reloadLastIndexInTableView()
+                            }
+                        }
+                    }
+    
+                    self.showDownView()
+                    self.updateTitleView(image: self.titleChatImage, subtitle: self.titleChatName, titleId: self.groupId, isEvent: false)
+                }
+            }
+    
+            // Set View Model Event Listener
+            viewmodel.error.bind { [unowned self]error in
+                DispatchQueue.main.async {
+                    self.hideLoading()
+                    if error == "Internal Server Error" {
+                        self.HandleInternetConnection()
+                    }else if error == "Bad Request" {
+                        self.HandleinvalidUrl()
+                    }else {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+    
+                    }
+                }
+            }
+        }
     
     func getUserChatMessages(pageNumber:Int) {
         CancelRequest.currentTask = false
@@ -552,15 +740,16 @@ extension MessagesVC {
                 self.hideLoading()
                 DispatchQueue.main.async {
                     if self.currentPage != 1 {
-                        self.tableView.reloadData()
-                        //                        self.tableView.reloadDataAndKeepOffset()
+                        DispatchQueue.main.async {
+                            self.tableView.reloadDataAndKeepOffset()
+                        }
+                        
                         self.refreshControl.endRefreshing()
                     }else {
                         if self.messageList.isEmpty {
                             self.tableView.reloadData()
                         }else {
-                            self.tableView.reloadData()
-                            //                            self.reloadLastIndexInCollectionView()
+                            self.reloadLastIndexInTableView()
                         }
                     }
                 }
@@ -809,7 +998,6 @@ extension MessagesVC {
         }
     }
 }
-
 
 //MARK: - Navigation Buttons
 extension MessagesVC {
@@ -1115,80 +1303,352 @@ extension MessagesVC {
 
 //MARK: - listen To Messages
 extension MessagesVC {
-    //    @objc func listenToMessages() {
-    //        if NotificationMessage.actionCode == chatuserID {
-    //            if NotificationMessage.messageType == 1 {
-    //                self.insertMessage(UserMessage(text: NotificationMessage.messageText, user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 1, linkPreviewID: "", isJoinEvent: 0,eventType:""))
-    //            }
-    //            else if NotificationMessage.messageType == 2 {
-    //                self.insertMessage(UserMessage(imageURL: URL(string: NotificationMessage.messsageImageURL) ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 2, linkPreviewID: "", isJoinEvent: 0, eventType: ""))
-    //            }
-    //            else if NotificationMessage.messageType == 3 {
-    //                self.insertMessage(UserMessage(imageURL:  URL(string: NotificationMessage.messsageImageURL) ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 3, linkPreviewID: "", isJoinEvent: 0, eventType:""))
-    //            }
-    //            else if NotificationMessage.messageType == 4 {
-    //                let url = URL(string: NotificationMessage.messsageLinkImageURL)
-    //                let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-    //                self.insertMessage(UserMessage(linkItem: MessageLinkItem(title: NotificationMessage.messsageLinkTitle, teaser: NotificationMessage.messsageLinkCategory, thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(NotificationMessage.messsageLinkAttendeesJoined) / \(NotificationMessage.messsageLinkAttendeesTotalnumbert)",date: NotificationMessage.messsageLinkEventDate),user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 4,linkPreviewID: NotificationMessage.linkPreviewID,isJoinEvent: NotificationMessage.isJoinEvent, eventType:NotificationMessage.eventTypeLink))
-    //            }
-    //        }
-    //        else {
-    //            print("This is not a User")
-    //        }
-    //        DispatchQueue.main.async {
-    //            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-    //        }
-    //    }
-    //
-    //    @objc func listenToMessagesForEvent() {
-    //        if NotificationMessage.actionCode == eventChatID {
-    //            if NotificationMessage.messageType == 1 {
-    //                self.insertMessage(UserMessage(text: NotificationMessage.messageText, user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 1, linkPreviewID: "", isJoinEvent: 0, eventType: ""))
-    //            }
-    //            else if NotificationMessage.messageType == 2 {
-    //                self.insertMessage(UserMessage(imageURL: URL(string: NotificationMessage.messsageImageURL) ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 2, linkPreviewID: "", isJoinEvent: 0, eventType: ""))
-    //            }
-    //            else if NotificationMessage.messageType == 3 {
-    //                self.insertMessage(UserMessage(imageURL:  URL(string: NotificationMessage.messsageImageURL) ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 3, linkPreviewID: "", isJoinEvent: 0, eventType: ""))
-    //            }
-    //            else if NotificationMessage.messageType == 4 {
-    //                let url = URL(string: NotificationMessage.messsageLinkImageURL)
-    //                let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-    //                self.insertMessage(UserMessage(linkItem: MessageLinkItem(title: NotificationMessage.messsageLinkTitle, teaser: NotificationMessage.messsageLinkCategory, thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(NotificationMessage.messsageLinkAttendeesJoined) / \(NotificationMessage.messsageLinkAttendeesTotalnumbert)",date: NotificationMessage.messsageLinkEventDate),user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 4,linkPreviewID: NotificationMessage.linkPreviewID,isJoinEvent: NotificationMessage.isJoinEvent, eventType:NotificationMessage.eventTypeLink))
-    //            }
-    //        }
-    //        else {
-    //            print("This is not a Event")
-    //        }
-    //        DispatchQueue.main.async {
-    //            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-    //        }
-    //    }
-    //
-    //    @objc func listenToMessagesForGroup() {
-    //        if NotificationMessage.actionCode == groupId {
-    //            if NotificationMessage.messageType == 1 {
-    //                self.insertMessage(UserMessage(text: NotificationMessage.messageText, user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 1, linkPreviewID: "", isJoinEvent: 0,eventType: ""))
-    //            }
-    //            else if NotificationMessage.messageType == 2 {
-    //                self.insertMessage(UserMessage(imageURL: URL(string: NotificationMessage.messsageImageURL) ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 2, linkPreviewID: "", isJoinEvent: 0, eventType: ""))
-    //            }
-    //            else if NotificationMessage.messageType == 3 {
-    //                self.insertMessage(UserMessage(imageURL:  URL(string: NotificationMessage.messsageImageURL) ?? URL(string: "bit.ly/3ES3blM")!, user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 3, linkPreviewID: "", isJoinEvent: 0, eventType: ""))
-    //            }
-    //
-    //            else if NotificationMessage.messageType == 4 {
-    //                let url = URL(string: NotificationMessage.messsageLinkImageURL)
-    //                let data = try? Data(contentsOf: (url ?? URL(string: "bit.ly/3sbXHy5"))!)
-    //                self.insertMessage(UserMessage(linkItem: MessageLinkItem(title: NotificationMessage.messsageLinkTitle, teaser: NotificationMessage.messsageLinkCategory, thumbnailImage: ((UIImage(data: data ?? Data())) ??  UIImage(named: "placeHolderApp"))!,people: "Attendees: \(NotificationMessage.messsageLinkAttendeesJoined) / \(NotificationMessage.messsageLinkAttendeesTotalnumbert)",date: NotificationMessage.messsageLinkEventDate),user: UserSender(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, date: Date(), dateandtime: messageDateTime(date: NotificationMessage.messageDate, time: NotificationMessage.messageTime), messageType: 4,linkPreviewID: NotificationMessage.linkPreviewID,isJoinEvent: NotificationMessage.isJoinEvent, eventType:NotificationMessage.eventTypeLink))
-    //            }
-    //        }else {
-    //            print("This is not a Group")
-    //        }
-    //
-    //
-    //        DispatchQueue.main.async {
-    //            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
-    //        }
-    //    }
+        @objc func listenToMessages() {
+            if NotificationMessage.actionCode == chatuserID {
+                if NotificationMessage.messageType == 1 {
+                    self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, messageType: 1, messageText: MessageText(text: NotificationMessage.messageText), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime))
+                }
+                else if NotificationMessage.messageType == 2 {
+                    self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, messageType: 2, messageText: MessageText(text: ""), messageImage: MessageImage(image: NotificationMessage.messsageImageURL), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime))
+                }
+                else if NotificationMessage.messageType == 3 {
+                    self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, messageType: 3, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: NotificationMessage.messsageImageURL), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime))
+                }
+                else if NotificationMessage.messageType == 4 {
+                    self.insertMessage(ChatMessage(sender:  SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, messageType: 4, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: NotificationMessage.linkPreviewID, eventTypeLink: NotificationMessage.eventTypeLink, isJoinEvent: NotificationMessage.isJoinEvent, messsageLinkTitle: NotificationMessage.messsageLinkTitle, messsageLinkCategory: NotificationMessage.messsageLinkCategory, messsageLinkImageURL: NotificationMessage.messsageLinkImageURL, messsageLinkAttendeesJoined: NotificationMessage.messsageLinkAttendeesJoined, messsageLinkAttendeesTotalnumbert: NotificationMessage.messsageLinkAttendeesTotalnumbert, messsageLinkEventDate: NotificationMessage.messsageLinkEventDate, linkPreviewID: NotificationMessage.linkPreviewID), date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime))
+                }
+            }
+            else {
+                print("This is not a User")
+            }
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+        }
+    
+        @objc func listenToMessagesForEvent() {
+            if NotificationMessage.actionCode == eventChatID {
+                if NotificationMessage.messageType == 1 {
+                    self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, messageType: 1, messageText: MessageText(text: NotificationMessage.messageText), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime))
+                }
+                else if NotificationMessage.messageType == 2 {
+                    self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, messageType: 2, messageText: MessageText(text: ""), messageImage: MessageImage(image: NotificationMessage.messsageImageURL), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime))
+                }
+                else if NotificationMessage.messageType == 3 {
+                    self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, messageType: 3, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: NotificationMessage.messsageImageURL), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime))
+                }
+                else if NotificationMessage.messageType == 4 {
+                    self.insertMessage(ChatMessage(sender:  SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, messageType: 4, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: NotificationMessage.linkPreviewID, eventTypeLink: NotificationMessage.eventTypeLink, isJoinEvent: NotificationMessage.isJoinEvent, messsageLinkTitle: NotificationMessage.messsageLinkTitle, messsageLinkCategory: NotificationMessage.messsageLinkCategory, messsageLinkImageURL: NotificationMessage.messsageLinkImageURL, messsageLinkAttendeesJoined: NotificationMessage.messsageLinkAttendeesJoined, messsageLinkAttendeesTotalnumbert: NotificationMessage.messsageLinkAttendeesTotalnumbert, messsageLinkEventDate: NotificationMessage.messsageLinkEventDate, linkPreviewID: NotificationMessage.linkPreviewID), date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime))
+                }
+            }
+            else {
+                print("This is not a Event")
+            }
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+        }
+    
+        @objc func listenToMessagesForGroup() {
+            if NotificationMessage.actionCode == groupId {
+                if NotificationMessage.messageType == 1 {
+                    self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, messageType: 1, messageText: MessageText(text: NotificationMessage.messageText), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime))
+                }
+                else if NotificationMessage.messageType == 2 {
+                    self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, messageType: 2, messageText: MessageText(text: ""), messageImage: MessageImage(image: NotificationMessage.messsageImageURL), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime))
+                }
+                else if NotificationMessage.messageType == 3 {
+                    self.insertMessage(ChatMessage(sender: SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, messageType: 3, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: NotificationMessage.messsageImageURL), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime))
+                }
+                else if NotificationMessage.messageType == 4 {
+                    self.insertMessage(ChatMessage(sender:  SenderMessage(senderId: NotificationMessage.senderId, photoURL: NotificationMessage.photoURL, displayName: NotificationMessage.displayName), messageId: NotificationMessage.messageId, messageType: 4, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: NotificationMessage.linkPreviewID, eventTypeLink: NotificationMessage.eventTypeLink, isJoinEvent: NotificationMessage.isJoinEvent, messsageLinkTitle: NotificationMessage.messsageLinkTitle, messsageLinkCategory: NotificationMessage.messsageLinkCategory, messsageLinkImageURL: NotificationMessage.messsageLinkImageURL, messsageLinkAttendeesJoined: NotificationMessage.messsageLinkAttendeesJoined, messsageLinkAttendeesTotalnumbert: NotificationMessage.messsageLinkAttendeesTotalnumbert, messsageLinkEventDate: NotificationMessage.messsageLinkEventDate, linkPreviewID: NotificationMessage.linkPreviewID), date: Date(), messageDate: NotificationMessage.messageDate, messageTime: NotificationMessage.messageTime))
+                }
+            }else {
+                print("This is not a Group")
+            }
+    
+    
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+            }
+        }
+}
+
+
+//MARK: - UIImagePickerControllerDelegate && UINavigationControllerDelegate
+extension MessagesVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+    //MARK:- Take Picture
+    func openCamera(){
+        fileUpload = "IMAGE"
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera;
+            imagePicker.allowsEditing = false
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    //MARK:- Open Library
+    func openLibrary(){
+        fileUpload = "IMAGE"
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = false
+            imagePicker.mediaTypes = ["public.image"]
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func openVideoLibrary() {
+        fileUpload = "VIDEO"
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = false
+            imagePicker.mediaTypes = ["public.movie"]
+            imagePicker.videoQuality = .typeMedium
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func openVideoCamera() {
+        fileUpload = "VIDEO"
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePicker.delegate = self
+            imagePicker.sourceType = .camera
+            imagePicker.allowsEditing = false
+            imagePicker.videoQuality = .typeMedium
+            imagePicker.mediaTypes = ["public.movie"]
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    //selct file to send in chat
+    func openFileLibrary() {
+        fileUpload = "File"
+        let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypePDF,kUTTypeUTF8PlainText] as [String] , in: .import)
+        documentPicker.delegate = self
+        documentPicker.allowsMultipleSelection = false
+        documentPicker.modalPresentationStyle = .formSheet
+        present(documentPicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        let messageDate = formatterDate.string(from: Date())
+        let messageTime = formatterTime.string(from: Date())
+        let messageTime2 = formatterTime2.string(from: Date())
+        let url:URL? = URL(string: "https://www.apple.com/eg/")
+        
+        if let videoURL = info[UIImagePickerController.InfoKey.mediaURL] as? URL {
+            print(videoURL)
+            picker.dismiss(animated:true, completion: {
+            })
+        }else {
+            let image = info[.originalImage] as! UIImage
+
+            self.insertMessage(ChatMessage(sender: SenderMessage(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName), messageId: "", messageType: 2, messageText: MessageText(text: ""), messageImage: MessageImage(imageView: image), messageFile: MessageFile(file: ""), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: messageDate, messageTime: messageTime2))
+            
+            if isEvent {
+                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,eventShareid: "") { error, data in
+                    
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard let _ = data else {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        let lastSection = self.messageList.count - 1
+                        self.tableView.scrollToRow(at: IndexPath(row: 0, section: lastSection), at: .bottom, animated: true)
+                    }
+                }
+            }else {
+                if isChatGroup {
+                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,eventShareid: "") { error, data in
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                            let lastSection = self.messageList.count - 1
+                            self.tableView.scrollToRow(at: IndexPath(row: 0, section: lastSection), at: .bottom, animated: true)
+                        }
+                    }
+                }
+                else {
+                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 2, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,eventShareid: "") { error, data in
+                        
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                            let lastSection = self.messageList.count - 1
+                            self.tableView.scrollToRow(at: IndexPath(row: 0, section: lastSection), at: .bottom, animated: true)
+                        }
+                    }
+                }
+            }
+            
+            picker.dismiss(animated:true, completion: {
+                
+            })
+        }
+        
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated:true, completion: nil)
+    }
+}
+
+//MARK: - UIDocumentPickerDelegate
+extension MessagesVC: UIDocumentPickerDelegate {
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        
+        guard let selectedFileURL = urls.first else {
+            return
+        }
+        
+        //        let dir = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let sandboxFileURL = dir.appendingPathComponent(selectedFileURL.lastPathComponent)
+        
+        do {
+            if FileManager.default.fileExists(atPath: sandboxFileURL.path) {
+                try FileManager.default.removeItem(at: sandboxFileURL)
+            }
+            
+            try FileManager.default.copyItem(at: selectedFileURL, to: sandboxFileURL)
+            
+            let messageDate = formatterDate.string(from: Date())
+            let messageTime = formatterTime.string(from: Date())
+            let messageTime2 = formatterTime2.string(from: Date())
+            let imgView:UIImageView = UIImageView()
+            imgView.sd_setImage(with: selectedFileURL, placeholderImage: UIImage(named: "placeHolderApp"))
+            
+            self.insertMessage(ChatMessage(sender: SenderMessage(senderId: Defaults.token, photoURL: Defaults.Image, displayName: Defaults.userName), messageId: "", messageType: 3, messageText: MessageText(text: ""), messageImage: MessageImage(image: ""), messageFile: MessageFile(fileView: imgView.image ?? UIImage()), messageLink: LinkPreviewEvent(eventID: "", eventTypeLink: "", isJoinEvent: 0, messsageLinkTitle: "", messsageLinkCategory: "", messsageLinkImageURL: "", messsageLinkAttendeesJoined: "", messsageLinkAttendeesTotalnumbert: "", messsageLinkEventDate: "", linkPreviewID: ""), date: Date(), messageDate: messageDate, messageTime: messageTime2))
+            
+
+            if isEvent {
+                viewmodel.SendMessage(withEventId: eventChatID, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard let _ = data else {
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        let lastSection = self.messageList.count - 1
+                        self.tableView.scrollToRow(at: IndexPath(row: 0, section: lastSection), at: .bottom, animated: true)
+                    }
+                    
+                }
+            }
+            else {
+                if isChatGroup {
+                    viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 3, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in
+                        
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                            let lastSection = self.messageList.count - 1
+                            self.tableView.scrollToRow(at: IndexPath(row: 0, section: lastSection), at: .bottom, animated: true)
+                        }
+                        
+                    }
+                }else {
+                    viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in
+                        
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let _ = data else {
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                            let lastSection = self.messageList.count - 1
+                            self.tableView.scrollToRow(at: IndexPath(row: 0, section: lastSection), at: .bottom, animated: true)
+                        }
+                        
+                    }
+                }
+                
+            }
+            
+        }
+        
+        catch {
+            print("Error: \(error)")
+        }
+    }
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        print("close")
+        controller.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension UITableView {
+    func reloadDataAndKeepOffset() {
+        // stop scrolling
+        setContentOffset(contentOffset, animated: false)
+        // calculate the offset and reloadData
+        let beforeContentSize = contentSize
+        reloadData()
+        layoutIfNeeded()
+        let afterContentSize = contentSize
+        
+        // reset the contentOffset after data is updated
+        let newOffset = CGPoint(
+            x: contentOffset.x + (afterContentSize.width - beforeContentSize.width),
+            y: contentOffset.y + (afterContentSize.height - beforeContentSize.height))
+        setContentOffset(newOffset, animated: false)
+    }
 }

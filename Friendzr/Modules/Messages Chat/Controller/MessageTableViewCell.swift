@@ -14,6 +14,7 @@ protocol MessageTableViewCellDelegate: class {
 class MessageTableViewCell: UITableViewCell {
     
     
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var profilePic: UIImageView?
     @IBOutlet weak var messageTextView: UITextView?
     @IBOutlet weak var messageDateLbl: UILabel!
@@ -34,10 +35,10 @@ class MessageTableViewCell: UITableViewCell {
 
 class MessageAttachmentTableViewCell: MessageTableViewCell {
     
+    @IBOutlet weak var attachmentContainerView: UIView!
     @IBOutlet weak var attachmentImageView: UIImageView!
     @IBOutlet weak var attachmentImageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var attachmentImageViewWidthConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var attachmentDateLbl: UILabel!
     
     weak var delegate: MessageTableViewCellDelegate?
@@ -57,6 +58,5 @@ class MessageAttachmentTableViewCell: MessageTableViewCell {
         attachmentImageView.image = nil
         attachmentImageViewHeightConstraint.constant = 250
         attachmentImageViewWidthConstraint.constant = 250
-        
     }    
 }

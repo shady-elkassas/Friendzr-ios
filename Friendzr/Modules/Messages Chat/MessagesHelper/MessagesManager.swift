@@ -44,17 +44,27 @@ class MessageText {
 
 class MessageImage {
     var image:String = ""
+    var imageView:UIImage = UIImage()
     
     init(image:String) {
         self.image = image
+    }
+    
+    init(imageView:UIImage) {
+        self.imageView = imageView
     }
 }
 
 class MessageFile {
     var file:String = ""
+    var fileView:UIImage = UIImage()
     
     init(file:String) {
         self.file = file
+    }
+    
+    init(fileView:UIImage) {
+        self.fileView = fileView
     }
 }
 
