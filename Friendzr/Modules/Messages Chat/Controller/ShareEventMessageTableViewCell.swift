@@ -19,8 +19,13 @@ class ShareEventMessageTableViewCell: UITableViewCell {
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var attachmentImageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var attachmentImageViewWidthConstraint: NSLayoutConstraint!
-
+    @IBOutlet weak var eventLinkBtn: UIButton!
+    @IBOutlet weak var profileBtn: UIButton!
     
+    
+    var HandleTapEventLinkBtn: (() -> ())?
+    var HandleUserProfileBtn: (() -> ())?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -34,6 +39,14 @@ class ShareEventMessageTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    @IBAction func eventLinkBtn(_ sender: Any) {
+        HandleTapEventLinkBtn?()
+    }
+    
+    @IBAction func profileBtn(_ sender: Any) {
+        HandleUserProfileBtn?()
     }
     
 }

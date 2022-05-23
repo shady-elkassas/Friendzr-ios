@@ -374,6 +374,14 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.messageTextView?.text = model.messageText.text
             cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.messageDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
+            
+            cell.HandleUserProfileBtn = {
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+                vc.userID = model.sender.senderId
+                vc.selectedVC = false
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+
             return cell
         }
         else if model.messageType == 2 { //image
@@ -390,6 +398,36 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
             
             cell.attachmentDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
+            
+            cell.HandleProfileBtn = {
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+                vc.userID = model.sender.senderId
+                vc.selectedVC = false
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
+            cell.HandleTapAttachmentBtn = {
+                if model.messageType == 2 {
+                    let imgURL: String = model.messageImage.image
+                    guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
+                    popupVC.modalPresentationStyle = .overCurrentContext
+                    popupVC.modalTransitionStyle = .crossDissolve
+                    let pVC = popupVC.popoverPresentationController
+                    pVC?.permittedArrowDirections = .any
+                    pVC?.delegate = self
+                    pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+                    popupVC.imgURL = imgURL
+                    self.present(popupVC, animated: true, completion: nil)
+                }else if model.messageType == 3 {
+                    //downlaod file
+                    print("PDF FILE")
+                    let fileUrl = model.messageFile.file
+                    DispatchQueue.main.async {
+                        UIApplication.shared.open(URL(string: fileUrl)!)
+                    }
+                }
+            }
+            
             return cell
         }
         else if model.messageType == 3 { //file
@@ -405,6 +443,34 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.attachmentDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
             cell.attachmentContainerView.backgroundColor = .clear
             cell.attachmentContainerView.setBorder()
+            cell.HandleProfileBtn = {
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+                vc.userID = model.sender.senderId
+                vc.selectedVC = false
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
+            cell.HandleTapAttachmentBtn = {
+                if model.messageType == 2 {
+                    let imgURL: String = model.messageImage.image
+                    guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
+                    popupVC.modalPresentationStyle = .overCurrentContext
+                    popupVC.modalTransitionStyle = .crossDissolve
+                    let pVC = popupVC.popoverPresentationController
+                    pVC?.permittedArrowDirections = .any
+                    pVC?.delegate = self
+                    pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+                    popupVC.imgURL = imgURL
+                    self.present(popupVC, animated: true, completion: nil)
+                }else if model.messageType == 3 {
+                    //downlaod file
+                    print("PDF FILE")
+                    let fileUrl = model.messageFile.file
+                    DispatchQueue.main.async {
+                        UIApplication.shared.open(URL(string: fileUrl)!)
+                    }
+                }
+            }
             return cell
         }
         else if model.messageType == 4 {//share
@@ -416,6 +482,29 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.categoryNameLbl.text = model.messageLink.messsageLinkCategory
             cell.attendeesLbl.text = "Attendees: \(model.messageLink.messsageLinkAttendeesJoined) / \(model.messageLink.messsageLinkAttendeesTotalnumbert)"
             cell.startEventDateLbl.text = model.messageLink.messsageLinkEventDate
+            
+            cell.HandleUserProfileBtn = {
+                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+                vc.userID = model.sender.senderId
+                vc.selectedVC = false
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            cell.HandleTapEventLinkBtn = {
+                if model.messageLink.eventTypeLink == "External" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+                    vc.eventId = model.messageLink.linkPreviewID
+                    vc.isEventAdmin = self.isEventAdmin
+                    vc.selectedVC = false
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }else {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                    vc.eventId = model.messageLink.linkPreviewID
+                    vc.isEventAdmin = self.isEventAdmin
+                    vc.selectedVC = false
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+            
             return cell
         }
         else {
@@ -451,6 +540,9 @@ extension MessagesVC: MessageTableViewCellDelegate {
     }
 }
 
+extension MessagesVC:UIPopoverPresentationControllerDelegate {
+    
+}
 
 extension MessagesVC {
     //    getEventChatMessages
@@ -964,37 +1056,33 @@ extension MessagesVC {
     }
     
     @objc func goToGroupVC() {
-        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
-            vc.groupId = self.groupId
-            vc.isGroupAdmin = self.isChatGroupAdmin
-            vc.selectedVC = true
-            self.present(controller, animated: true)
-        }
+        guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsVC") as? GroupDetailsVC else {return}
+        vc.groupId = self.groupId
+        vc.isGroupAdmin = self.isChatGroupAdmin
+        vc.selectedVC = false
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func goToUserProfileVC() {
-        if let controller = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileNC") as? UINavigationController, let vc = controller.viewControllers.first as? FriendProfileViewController {
-            vc.userID = self.chatuserID
-            vc.selectedVC = true
-            self.present(controller, animated: true)
-        }
+        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+        vc.userID = self.chatuserID
+        vc.selectedVC = false
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func goToEventDetailsVC() {
         if self.eventType == "External" {
-            if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
-                vc.eventId = self.eventChatID
-                vc.isEventAdmin = self.isEventAdmin
-                vc.selectedVC = true
-                self.present(controller, animated: true)
-            }
+            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+            vc.eventId = self.eventChatID
+            vc.isEventAdmin = self.isEventAdmin
+            vc.selectedVC = false
+            self.navigationController?.pushViewController(vc, animated: true)
         }else {
-            if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                vc.eventId = self.eventChatID
-                vc.isEventAdmin = self.isEventAdmin
-                vc.selectedVC = true
-                self.present(controller, animated: true)
-            }
+            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+            vc.eventId = self.eventChatID
+            vc.isEventAdmin = self.isEventAdmin
+            vc.selectedVC = false
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }
@@ -1035,33 +1123,22 @@ extension MessagesVC {
         }))
         actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
             if self.isEvent == true {
-                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                    vc.id = self.eventChatID
-                    vc.chatimg = self.titleChatImage
-                    vc.chatname = self.titleChatName
-                    vc.reportType = 2
-                    vc.selectedVC = "Present"
-                    self.present(controller, animated: true)
-                }
+                guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportVC") as? ReportVC else {return}
+                vc.id = self.eventChatID
+                vc.reportType = 2
+                self.navigationController?.pushViewController(vc, animated: true)
             }else {
                 if self.isChatGroup == true {
-                    if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                        vc.id = self.groupId
-                        vc.chatimg = self.titleChatImage
-                        vc.chatname = self.titleChatName
-                        vc.reportType = 1
-                        vc.selectedVC = "Present"
-                        self.present(controller, animated: true)
-                    }
+                    guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportVC") as? ReportVC else {return}
+                    vc.id = self.groupId
+                    vc.reportType = 1
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }else {
-                    if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                        vc.id = self.chatuserID
-                        vc.chatimg = self.titleChatImage
-                        vc.chatname = self.titleChatName
-                        vc.reportType = 3
-                        vc.selectedVC = "Present"
-                        self.present(controller, animated: true)
-                    }
+                    guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportVC") as? ReportVC else {return}
+                    vc.id = self.chatuserID
+                    vc.reportType = 3
+                    self.navigationController?.pushViewController(vc, animated: true)
+
                 }
             }
         }))
@@ -1078,61 +1155,45 @@ extension MessagesVC {
         actionSheet.addAction(UIAlertAction(title: "Details".localizedString, style: .default, handler: { action in
             if self.isEvent == true {
                 if self.eventType == "External" {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventDetailsVC {
-                        vc.eventId = self.eventChatID
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
-                    }
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+                    vc.eventId = self.eventChatID
+                    vc.isEventAdmin = self.isEventAdmin
+                    vc.selectedVC = false
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }else {
-                    if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {
-                        vc.eventId = self.eventChatID
-                        vc.isEventAdmin = self.isEventAdmin
-                        vc.selectedVC = true
-                        self.present(controller, animated: true)
-                    }
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                    vc.eventId = self.eventChatID
+                    vc.isEventAdmin = self.isEventAdmin
+                    vc.selectedVC = false
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
             }else {
-                if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
-                    vc.groupId = self.groupId
-                    vc.isGroupAdmin = self.isChatGroupAdmin
-                    vc.selectedVC = true
-                    self.present(controller, animated: true)
-                }
-                
+                guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsVC") as? GroupDetailsVC else {return}
+                vc.groupId = self.groupId
+                vc.isGroupAdmin = self.isChatGroupAdmin
+                vc.selectedVC = false
+                self.navigationController?.pushViewController(vc, animated: true)
             }
         }))
         if self.isEvent {
             if !self.isEventAdmin {
                 actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                     if self.isEvent == true {
-                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                            vc.id = self.eventChatID
-                            vc.chatimg = self.titleChatImage
-                            vc.chatname = self.titleChatName
-                            vc.reportType = 2
-                            vc.selectedVC = "Present"
-                            self.present(controller, animated: true)
-                        }
+                        guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportVC") as? ReportVC else {return}
+                        vc.id = self.eventChatID
+                        vc.reportType = 2
+                        self.navigationController?.pushViewController(vc, animated: true)
                     }else {
                         if self.isChatGroup == true {
-                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                vc.id = self.groupId
-                                vc.chatimg = self.titleChatImage
-                                vc.chatname = self.titleChatName
-                                vc.reportType = 1
-                                vc.selectedVC = "Present"
-                                self.present(controller, animated: true)
-                            }
+                            guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportVC") as? ReportVC else {return}
+                            vc.id = self.groupId
+                            vc.reportType = 1
+                            self.navigationController?.pushViewController(vc, animated: true)
                         }else {
-                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                vc.id = self.chatuserID
-                                vc.chatimg = self.titleChatImage
-                                vc.chatname = self.titleChatName
-                                vc.reportType = 3
-                                vc.selectedVC = "Present"
-                                self.present(controller, animated: true)
-                            }
+                            guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportVC") as? ReportVC else {return}
+                            vc.id = self.chatuserID
+                            vc.reportType = 3
+                            self.navigationController?.pushViewController(vc, animated: true)
                         }
                     }
                 }))
@@ -1141,33 +1202,22 @@ extension MessagesVC {
             if !self.isChatGroupAdmin {
                 actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
                     if self.isEvent == true {
-                        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                            vc.id = self.eventChatID
-                            vc.chatimg = self.titleChatImage
-                            vc.chatname = self.titleChatName
-                            vc.reportType = 2
-                            vc.selectedVC = "Present"
-                            self.present(controller, animated: true)
-                        }
+                        guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportVC") as? ReportVC else {return}
+                        vc.id = self.eventChatID
+                        vc.reportType = 2
+                        self.navigationController?.pushViewController(vc, animated: true)
                     }else {
                         if self.isChatGroup == true {
-                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                vc.id = self.groupId
-                                vc.chatimg = self.titleChatImage
-                                vc.chatname = self.titleChatName
-                                vc.reportType = 1
-                                vc.selectedVC = "Present"
-                                self.present(controller, animated: true)
-                            }
+                            guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportVC") as? ReportVC else {return}
+                            vc.id = self.groupId
+                            vc.reportType = 1
+                            self.navigationController?.pushViewController(vc, animated: true)
+
                         }else {
-                            if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
-                                vc.id = self.chatuserID
-                                vc.chatimg = self.titleChatImage
-                                vc.chatname = self.titleChatName
-                                vc.reportType = 3
-                                vc.selectedVC = "Present"
-                                self.present(controller, animated: true)
-                            }
+                            guard let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportVC") as? ReportVC else {return}
+                            vc.id = self.chatuserID
+                            vc.reportType = 3
+                            self.navigationController?.pushViewController(vc, animated: true)
                         }
                     }
                 }))

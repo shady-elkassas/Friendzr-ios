@@ -18,7 +18,11 @@ class MessageTableViewCell: UITableViewCell {
     @IBOutlet weak var profilePic: UIImageView?
     @IBOutlet weak var messageTextView: UITextView?
     @IBOutlet weak var messageDateLbl: UILabel!
+    @IBOutlet weak var profileBtn: UIButton!
     
+    
+    var HandleUserProfileBtn: (() -> ())?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -31,6 +35,9 @@ class MessageTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    @IBAction func profileBtn(_ sender: Any) {
+        HandleUserProfileBtn?()
+    }
 }
 
 class MessageAttachmentTableViewCell: MessageTableViewCell {
@@ -40,9 +47,15 @@ class MessageAttachmentTableViewCell: MessageTableViewCell {
     @IBOutlet weak var attachmentImageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var attachmentImageViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var attachmentDateLbl: UILabel!
+    @IBOutlet weak var tapImageBtn: UIButton!
+    @IBOutlet weak var userProfileBtn: UIButton!
+    
     
     weak var delegate: MessageTableViewCellDelegate?
     
+    var HandleTapAttachmentBtn: (() -> ())?
+    var HandleProfileBtn: (() -> ())?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -58,5 +71,14 @@ class MessageAttachmentTableViewCell: MessageTableViewCell {
         attachmentImageView.image = nil
         attachmentImageViewHeightConstraint.constant = 250
         attachmentImageViewWidthConstraint.constant = 250
-    }    
+    }
+    
+    @IBAction func tapattachmentBtn(_ sender: Any) {
+        HandleTapAttachmentBtn?()
+    }
+    
+    @IBAction func userProfileBtn(_ sender: Any) {
+        HandleProfileBtn?()
+    }
+    
 }

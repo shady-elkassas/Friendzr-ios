@@ -123,9 +123,17 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QaN-Lm-WHp">
+                                                    <rect key="frame" x="10" y="48" width="36" height="36"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <connections>
+                                                        <action selector="profileBtn:" destination="uf2-cY-VmG" eventType="touchUpInside" id="va4-GH-QxW"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
+                                                <constraint firstItem="QaN-Lm-WHp" firstAttribute="width" secondItem="Yw7-KC-7a2" secondAttribute="width" id="16Q-jc-0zi"/>
                                                 <constraint firstItem="PrI-Bj-My1" firstAttribute="top" secondItem="4Py-5V-sEx" secondAttribute="top" constant="5" id="3TV-HI-jtm"/>
                                                 <constraint firstItem="Yw7-KC-7a2" firstAttribute="leading" secondItem="4Py-5V-sEx" secondAttribute="leading" constant="10" id="BaU-MD-vuq"/>
                                                 <constraint firstAttribute="bottom" secondItem="PrI-Bj-My1" secondAttribute="bottom" constant="5" id="Dg1-h2-Mge"/>
@@ -133,11 +141,14 @@
                                                 <constraint firstAttribute="bottom" secondItem="Yw7-KC-7a2" secondAttribute="bottom" constant="6" id="IuG-D7-bvx"/>
                                                 <constraint firstItem="fB9-Vq-0P3" firstAttribute="trailing" secondItem="PrI-Bj-My1" secondAttribute="trailing" constant="-5" id="QtD-CQ-9wP"/>
                                                 <constraint firstItem="PrI-Bj-My1" firstAttribute="leading" secondItem="Yw7-KC-7a2" secondAttribute="trailing" constant="10" id="XKz-Eq-H4G"/>
+                                                <constraint firstItem="QaN-Lm-WHp" firstAttribute="centerX" secondItem="Yw7-KC-7a2" secondAttribute="centerX" id="Yvw-RB-cyu"/>
                                                 <constraint firstItem="e4m-9R-GhM" firstAttribute="trailing" secondItem="fB9-Vq-0P3" secondAttribute="trailing" id="ZX8-C0-1c7"/>
                                                 <constraint firstItem="e4m-9R-GhM" firstAttribute="bottom" secondItem="PrI-Bj-My1" secondAttribute="bottom" constant="-5" id="cd6-sO-Udw"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PrI-Bj-My1" secondAttribute="trailing" constant="60" id="ejS-BA-fwR"/>
                                                 <constraint firstItem="fB9-Vq-0P3" firstAttribute="leading" secondItem="PrI-Bj-My1" secondAttribute="leading" constant="5" id="fgf-NS-QqY"/>
                                                 <constraint firstItem="e4m-9R-GhM" firstAttribute="top" secondItem="fB9-Vq-0P3" secondAttribute="bottom" constant="2" id="xPQ-bH-MIU"/>
+                                                <constraint firstItem="QaN-Lm-WHp" firstAttribute="height" secondItem="Yw7-KC-7a2" secondAttribute="height" id="y05-4S-UzC"/>
+                                                <constraint firstItem="QaN-Lm-WHp" firstAttribute="centerY" secondItem="Yw7-KC-7a2" secondAttribute="centerY" id="y7p-Cm-LD8"/>
                                                 <constraint firstItem="fB9-Vq-0P3" firstAttribute="top" secondItem="PrI-Bj-My1" secondAttribute="top" id="ySM-ty-b81"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -146,6 +157,7 @@
                                             <outlet property="containerView" destination="PrI-Bj-My1" id="kaN-47-T1Z"/>
                                             <outlet property="messageDateLbl" destination="e4m-9R-GhM" id="wCL-ZH-vug"/>
                                             <outlet property="messageTextView" destination="fB9-Vq-0P3" id="iWm-Am-5uL"/>
+                                            <outlet property="profileBtn" destination="QaN-Lm-WHp" id="lWY-8Y-xCN"/>
                                             <outlet property="profilePic" destination="Yw7-KC-7a2" id="hE5-5c-fQO"/>
                                         </connections>
                                     </tableViewCell>
@@ -186,15 +198,26 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VXb-GD-iYp">
+                                                    <rect key="frame" x="299" y="5" width="100" height="100"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <connections>
+                                                        <action selector="tapattachmentBtn:" destination="Xii-zH-oAl" eventType="touchUpInside" id="NwF-i6-g96"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
+                                                <constraint firstItem="VXb-GD-iYp" firstAttribute="width" secondItem="vdE-gm-nat" secondAttribute="width" id="DII-P1-EtW"/>
                                                 <constraint firstItem="opr-hd-Rgc" firstAttribute="bottom" secondItem="vdE-gm-nat" secondAttribute="bottom" constant="-5" id="KZr-La-KMe"/>
                                                 <constraint firstItem="opr-hd-Rgc" firstAttribute="leading" secondItem="vdE-gm-nat" secondAttribute="leading" id="Kyn-b7-SM9"/>
                                                 <constraint firstAttribute="trailing" secondItem="vdE-gm-nat" secondAttribute="trailing" constant="15" id="OlJ-di-Vvc"/>
                                                 <constraint firstItem="vdE-gm-nat" firstAttribute="top" secondItem="JU4-hr-dPb" secondAttribute="top" constant="5" id="PCV-8Z-TOl"/>
+                                                <constraint firstItem="VXb-GD-iYp" firstAttribute="centerX" secondItem="vdE-gm-nat" secondAttribute="centerX" id="Pbq-mj-nCa"/>
+                                                <constraint firstItem="VXb-GD-iYp" firstAttribute="height" secondItem="vdE-gm-nat" secondAttribute="height" id="Ph0-ez-veL"/>
                                                 <constraint firstAttribute="bottom" secondItem="vdE-gm-nat" secondAttribute="bottom" constant="5" id="Pv2-Fs-IvT"/>
                                                 <constraint firstItem="opr-hd-Rgc" firstAttribute="trailing" secondItem="vdE-gm-nat" secondAttribute="trailing" constant="-6" id="bZ9-Yr-EUg"/>
+                                                <constraint firstItem="VXb-GD-iYp" firstAttribute="centerY" secondItem="vdE-gm-nat" secondAttribute="centerY" id="bbQ-A6-aQh"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -204,6 +227,7 @@
                                             <outlet property="attachmentImageView" destination="lXw-R5-SUI" id="DBi-0R-2TF"/>
                                             <outlet property="attachmentImageViewHeightConstraint" destination="1yK-qB-3sJ" id="lNz-6B-W8v"/>
                                             <outlet property="attachmentImageViewWidthConstraint" destination="h4n-Si-cLw" id="7Y5-My-6gn"/>
+                                            <outlet property="tapImageBtn" destination="VXb-GD-iYp" id="pOT-C9-Wr9"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="UserMessageAttachmentTableViewCell" rowHeight="90" id="6BJ-rk-h22" customClass="MessageAttachmentTableViewCell" customModule="Friendzr" customModuleProvider="target">
@@ -249,6 +273,20 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n3H-CT-vrI">
+                                                    <rect key="frame" x="56" y="5" width="240" height="80"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <connections>
+                                                        <action selector="tapattachmentBtn:" destination="6BJ-rk-h22" eventType="touchUpInside" id="f1h-BR-Dzf"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4tM-28-LCm">
+                                                    <rect key="frame" x="10" y="48" width="36" height="36"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <connections>
+                                                        <action selector="userProfileBtn:" destination="6BJ-rk-h22" eventType="touchUpInside" id="MCW-BN-14a"/>
+                                                    </connections>
+                                                </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18-5-2022" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A6t-fj-ok0">
                                                     <rect key="frame" x="64" y="65" width="232" height="15"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
@@ -258,14 +296,22 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
+                                                <constraint firstItem="4tM-28-LCm" firstAttribute="centerX" secondItem="zf6-HX-DtE" secondAttribute="centerX" id="0OS-KJ-NA9"/>
+                                                <constraint firstItem="n3H-CT-vrI" firstAttribute="centerY" secondItem="yAX-ZV-YkT" secondAttribute="centerY" id="6dX-zc-YmH"/>
                                                 <constraint firstItem="yAX-ZV-YkT" firstAttribute="top" secondItem="0xk-Sb-DHS" secondAttribute="top" constant="5" id="Ahz-7h-H6z"/>
                                                 <constraint firstAttribute="bottom" secondItem="yAX-ZV-YkT" secondAttribute="bottom" constant="5" id="MrQ-oY-WYm"/>
                                                 <constraint firstItem="yAX-ZV-YkT" firstAttribute="leading" secondItem="zf6-HX-DtE" secondAttribute="trailing" constant="10" id="NsF-Mo-xhz"/>
                                                 <constraint firstItem="A6t-fj-ok0" firstAttribute="trailing" secondItem="yAX-ZV-YkT" secondAttribute="trailing" id="O2h-um-k5a"/>
                                                 <constraint firstItem="A6t-fj-ok0" firstAttribute="bottom" secondItem="yAX-ZV-YkT" secondAttribute="bottom" constant="-5" id="YPQ-Zq-QkT"/>
+                                                <constraint firstItem="n3H-CT-vrI" firstAttribute="centerX" secondItem="yAX-ZV-YkT" secondAttribute="centerX" id="fOw-hu-Bbk"/>
                                                 <constraint firstItem="zf6-HX-DtE" firstAttribute="leading" secondItem="0xk-Sb-DHS" secondAttribute="leading" constant="10" id="j0l-O5-ZoK"/>
                                                 <constraint firstAttribute="bottom" secondItem="zf6-HX-DtE" secondAttribute="bottom" constant="6" id="r2q-4B-p6j"/>
+                                                <constraint firstItem="n3H-CT-vrI" firstAttribute="width" secondItem="yAX-ZV-YkT" secondAttribute="width" id="rbY-li-G5L"/>
+                                                <constraint firstItem="4tM-28-LCm" firstAttribute="height" secondItem="zf6-HX-DtE" secondAttribute="height" id="rbq-7p-aXP"/>
                                                 <constraint firstItem="A6t-fj-ok0" firstAttribute="leading" secondItem="yAX-ZV-YkT" secondAttribute="leading" constant="8" id="tGT-oC-OcR"/>
+                                                <constraint firstItem="4tM-28-LCm" firstAttribute="centerY" secondItem="zf6-HX-DtE" secondAttribute="centerY" id="vPJ-yX-hdX"/>
+                                                <constraint firstItem="n3H-CT-vrI" firstAttribute="height" secondItem="yAX-ZV-YkT" secondAttribute="height" id="ycr-7D-eBJ"/>
+                                                <constraint firstItem="4tM-28-LCm" firstAttribute="width" secondItem="zf6-HX-DtE" secondAttribute="width" id="z1j-xj-rGj"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -276,6 +322,8 @@
                                             <outlet property="attachmentImageViewHeightConstraint" destination="bjG-nh-Pme" id="mWu-cP-bR9"/>
                                             <outlet property="attachmentImageViewWidthConstraint" destination="rxO-VH-qsd" id="xyr-zo-mSf"/>
                                             <outlet property="profilePic" destination="zf6-HX-DtE" id="Uld-6t-vv0"/>
+                                            <outlet property="tapImageBtn" destination="n3H-CT-vrI" id="QdH-Ad-XO4"/>
+                                            <outlet property="userProfileBtn" destination="4tM-28-LCm" id="S3O-fe-9s0"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ShareEventMessageTableViewCell" rowHeight="90" id="4cW-qP-PVf" customClass="ShareEventMessageTableViewCell" customModule="Friendzr" customModuleProvider="target">
@@ -357,12 +405,23 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ySh-lA-nWX">
+                                                    <rect key="frame" x="159" y="5" width="240" height="80"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <connections>
+                                                        <action selector="eventLinkBtn:" destination="4cW-qP-PVf" eventType="touchUpInside" id="36o-iB-ZOg"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="h09-zY-el3" secondAttribute="trailing" constant="15" id="2XG-rR-4mi"/>
+                                                <constraint firstItem="ySh-lA-nWX" firstAttribute="centerX" secondItem="h09-zY-el3" secondAttribute="centerX" id="CKg-S3-TNE"/>
+                                                <constraint firstItem="ySh-lA-nWX" firstAttribute="width" secondItem="h09-zY-el3" secondAttribute="width" id="Kmr-WB-Ykh"/>
+                                                <constraint firstItem="ySh-lA-nWX" firstAttribute="centerY" secondItem="h09-zY-el3" secondAttribute="centerY" id="LSY-RV-fKf"/>
                                                 <constraint firstItem="h09-zY-el3" firstAttribute="top" secondItem="xhj-Eo-VcI" secondAttribute="top" constant="5" id="Nfc-MY-9W9"/>
                                                 <constraint firstAttribute="bottom" secondItem="h09-zY-el3" secondAttribute="bottom" constant="5" id="WKR-C0-UZj"/>
+                                                <constraint firstItem="ySh-lA-nWX" firstAttribute="height" secondItem="h09-zY-el3" secondAttribute="height" id="pZu-Yn-0za"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -373,6 +432,7 @@
                                             <outlet property="categoryNameLbl" destination="Chf-KW-TUK" id="ae5-lc-4Vy"/>
                                             <outlet property="containerView" destination="h09-zY-el3" id="Wa3-ut-Vjw"/>
                                             <outlet property="eventImage" destination="zDP-YS-sgM" id="EHd-D0-uqs"/>
+                                            <outlet property="eventLinkBtn" destination="ySh-lA-nWX" id="4wS-Fi-Lxz"/>
                                             <outlet property="eventNameLbl" destination="MQN-qP-ZVi" id="xze-rU-EL2"/>
                                             <outlet property="gradientView" destination="VYq-xc-biR" id="2wT-9f-ECE"/>
                                             <outlet property="startEventDateLbl" destination="efc-g0-NqG" id="IGg-dM-TUT"/>
@@ -469,14 +529,36 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JeL-C8-zif">
+                                                    <rect key="frame" x="56" y="5" width="240" height="80"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <connections>
+                                                        <action selector="eventLinkBtn:" destination="NqK-7K-XeF" eventType="touchUpInside" id="IS7-Eb-k7j"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p9W-bC-9V8">
+                                                    <rect key="frame" x="10" y="48" width="36" height="36"/>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <connections>
+                                                        <action selector="profileBtn:" destination="NqK-7K-XeF" eventType="touchUpInside" id="U6J-Aj-MoV"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
+                                                <constraint firstItem="p9W-bC-9V8" firstAttribute="centerY" secondItem="kXk-qC-BpQ" secondAttribute="centerY" id="1dE-0O-CnD"/>
                                                 <constraint firstAttribute="bottom" secondItem="kXk-qC-BpQ" secondAttribute="bottom" constant="6" id="1hR-Tv-w2c"/>
+                                                <constraint firstItem="JeL-C8-zif" firstAttribute="height" secondItem="0Ta-hW-nki" secondAttribute="height" id="1rI-JS-MDK"/>
+                                                <constraint firstItem="JeL-C8-zif" firstAttribute="width" secondItem="0Ta-hW-nki" secondAttribute="width" id="FJ9-Jg-O92"/>
                                                 <constraint firstItem="0Ta-hW-nki" firstAttribute="top" secondItem="Swd-vy-LGx" secondAttribute="top" constant="5" id="Ksa-7h-uJF"/>
                                                 <constraint firstAttribute="bottom" secondItem="0Ta-hW-nki" secondAttribute="bottom" constant="5" id="UeQ-Ms-Tb2"/>
                                                 <constraint firstItem="0Ta-hW-nki" firstAttribute="leading" secondItem="kXk-qC-BpQ" secondAttribute="trailing" constant="10" id="XNZ-WM-drf"/>
+                                                <constraint firstItem="JeL-C8-zif" firstAttribute="centerX" secondItem="0Ta-hW-nki" secondAttribute="centerX" id="Z19-1z-ttJ"/>
+                                                <constraint firstItem="p9W-bC-9V8" firstAttribute="height" secondItem="kXk-qC-BpQ" secondAttribute="height" id="a9H-t1-nsY"/>
                                                 <constraint firstItem="kXk-qC-BpQ" firstAttribute="leading" secondItem="Swd-vy-LGx" secondAttribute="leading" constant="10" id="np5-hX-mXh"/>
+                                                <constraint firstItem="p9W-bC-9V8" firstAttribute="centerX" secondItem="kXk-qC-BpQ" secondAttribute="centerX" id="sME-XF-OsT"/>
+                                                <constraint firstItem="p9W-bC-9V8" firstAttribute="width" secondItem="kXk-qC-BpQ" secondAttribute="width" id="uRi-v2-ZZ6"/>
+                                                <constraint firstItem="JeL-C8-zif" firstAttribute="centerY" secondItem="0Ta-hW-nki" secondAttribute="centerY" id="uZo-jF-zaJ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -487,8 +569,10 @@
                                             <outlet property="categoryNameLbl" destination="ZXK-3p-4a7" id="Akn-61-Xj4"/>
                                             <outlet property="containerView" destination="0Ta-hW-nki" id="TA5-4B-BTC"/>
                                             <outlet property="eventImage" destination="e67-I3-Hhl" id="Gfj-di-K4t"/>
+                                            <outlet property="eventLinkBtn" destination="JeL-C8-zif" id="ChL-n4-pI1"/>
                                             <outlet property="eventNameLbl" destination="ovI-Lc-rXs" id="d6C-As-lFl"/>
                                             <outlet property="gradientView" destination="PrV-e0-mml" id="0ry-ms-mAo"/>
+                                            <outlet property="profileBtn" destination="p9W-bC-9V8" id="tcC-4u-v9b"/>
                                             <outlet property="profilePic" destination="kXk-qC-BpQ" id="dns-QD-aXR"/>
                                             <outlet property="startEventDateLbl" destination="C9B-1u-Gru" id="29h-RJ-Bec"/>
                                         </connections>

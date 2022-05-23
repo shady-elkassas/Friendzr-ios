@@ -208,7 +208,8 @@ extension ConversationVC: MessageCellDelegate {
                 DispatchQueue.main.async {
                     UIApplication.shared.open(fileUrl)
                 }
-            }else {
+            }
+            else {
                 
             }
         case .video(let media):
