@@ -27,7 +27,6 @@ class CategoriesVC: UIViewController {
         
         self.title = "Categories".localizedString
         initBackButton()
-        setupNavBar()
         setupViews()
         getCats()
     }
@@ -39,6 +38,7 @@ class CategoriesVC: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
 
         CancelRequest.currentTask = false
+        setupNavBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

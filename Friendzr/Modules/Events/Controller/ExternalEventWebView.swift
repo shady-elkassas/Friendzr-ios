@@ -23,7 +23,6 @@ class ExternalEventWebView: UIViewController,WKNavigationDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNavBar()
         initCloseBarButton()
         setupWebView()
         self.title = "Pinch in/out to zoom"
@@ -37,6 +36,7 @@ class ExternalEventWebView: UIViewController,WKNavigationDelegate{
         
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
+        setupNavBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

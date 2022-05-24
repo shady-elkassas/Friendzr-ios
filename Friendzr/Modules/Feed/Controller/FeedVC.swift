@@ -46,7 +46,7 @@ extension FeedVC {
                 filterBtn.isHidden = true
                 compassContanierView.isHidden = true
                 compassContainerViewHeight.constant = 0
-
+                
                 DispatchQueue.main.async {
                     self.updateUserInterface()
                 }
@@ -141,7 +141,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     
     var bannerView2: GADBannerView!
-
+    
     //MARK: - Properties
     private lazy var currLocation: CLLocation = CLLocation()
     private lazy var locationManager : CLLocationManager = CLLocationManager()
@@ -224,6 +224,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         pullToRefresh()
         addCompassView()
         
+        setupNavBar()
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
@@ -231,7 +232,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         currentPage = 1
         setup()
         Defaults.availableVC = "FeedVC"
@@ -239,12 +239,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         
         filterDir = switchCompassBarButton.isOn
         CancelRequest.currentTask = false
-        initGhostModeSwitchButton()
         setupHideView()
-        setupNavBar()
-      
+        
         initCompassSwitchBarButton()
-
+        
         if !Defaults.hideAds {
             requestIDFA()
             bannerViewHeight.constant = 50
@@ -252,9 +250,12 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             bannerViewHeight.constant = 0
         }
         
+        
+        initGhostModeSwitchButton()
+        
         self.checkLocationPermission()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
@@ -370,7 +371,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                     self.isLoadingList = false
                     self.tableView.tableFooterView = nil
                 }
-
+                
                 DispatchQueue.main.async {
                     self.initGhostModeSwitchButton()
                 }
@@ -405,7 +406,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                     self.isLoadingList = false
                     self.tableView.tableFooterView = nil
                 }
-
+                
                 
                 DispatchQueue.main.async {
                     self.initGhostModeSwitchButton()
@@ -442,7 +443,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                     self.isLoadingList = false
                     self.tableView.tableFooterView = nil
                 }
-
+                
                 self.isSendRequest = false
                 DispatchQueue.main.async {
                     self.initGhostModeSwitchButton()
@@ -692,7 +693,7 @@ extension FeedVC:UITableViewDataSource {
         }
     }
     
-        
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let actionDate = formatterDate.string(from: Date())
@@ -825,7 +826,7 @@ extension FeedVC:UITableViewDataSource {
             cell.HandleCancelRequestBtn = { // cancel request
                 
                 self.btnsSelected = true
-
+                
                 if NetworkConected.internetConect {
                     self.cancelRequest(model, "\(actionDate) \(actionTime)", cell)
                 }
@@ -887,7 +888,7 @@ extension FeedVC:UITableViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView == tableView,(scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height, !isLoadingList {
-
+            
             self.isLoadingList = true
             
             if currentPage < viewmodel.feeds.value?.totalPages ?? 0 {
@@ -900,7 +901,7 @@ extension FeedVC:UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-//                    self.view.makeToast("No more data".localizedString)
+                    //                    self.view.makeToast("No more data".localizedString)
                 }
                 return
             }
@@ -1117,7 +1118,7 @@ extension FeedVC: CLLocationManagerDelegate {
 extension FeedVC: GADBannerViewDelegate {
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
         print("bannerViewDidReceiveAd")
-//        addBannerViewToView(bannerView2)
+        //        addBannerViewToView(bannerView2)
     }
     
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
@@ -1330,7 +1331,7 @@ extension FeedVC {
                         self.emptyView.isHidden = true
                         self.allowLocView.isHidden = false
                     }
-                } 
+                }
                 else {
                     self.isCompassOpen = false
                     switchCompassBarButton.isOn = false
@@ -1433,7 +1434,7 @@ extension FeedVC {
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .down))
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .left))
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .right))
-
+        
         let barButton = UIBarButtonItem(customView: switchGhostModeBarButton)
         self.navigationItem.leftBarButtonItem = barButton
     }
@@ -1876,9 +1877,10 @@ extension FeedVC {
                 NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
             }
             
-
+            
         }
     }
+    
     func cancelRequest(_ model: UserFeedObj?, _ requestdate:String, _ cell: UsersFeedTableViewCell) {
         self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Canceling...".localizedString)
         cell.cancelRequestBtn.isUserInteractionEnabled = false

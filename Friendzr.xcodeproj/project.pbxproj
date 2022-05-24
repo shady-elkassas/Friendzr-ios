@@ -36,6 +36,9 @@
 		430D426B26D3BF1F00188E42 /* SimpleDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D426A26D3BF1F00188E42 /* SimpleDataModel.swift */; };
 		430D426D26D3C10900188E42 /* MessageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D426C26D3C10900188E42 /* MessageItem.swift */; };
 		430D427026D3C33B00188E42 /* AudioVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430D426F26D3C33B00188E42 /* AudioVC.swift */; };
+		430DCA3D283CCB1B00A2ED11 /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430DCA3C283CCB1B00A2ED11 /* KeyboardHandler.swift */; };
+		430DCA3F283CCC3500A2ED11 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430DCA3E283CCC3500A2ED11 /* Typealiases.swift */; };
+		430DCA41283D061800A2ED11 /* NavViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430DCA40283D061800A2ED11 /* NavViewController.swift */; };
 		43119D6626E4BFDB00AD2260 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D6526E4BFDB00AD2260 /* EditProfileViewModel.swift */; };
 		43119D6826E4C18A00AD2260 /* GenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D6726E4C18A00AD2260 /* GenderViewModel.swift */; };
 		43119D6A26E4C1A000AD2260 /* BioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43119D6926E4C1A000AD2260 /* BioViewModel.swift */; };
@@ -443,6 +446,9 @@
 		430D426A26D3BF1F00188E42 /* SimpleDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleDataModel.swift; sourceTree = "<group>"; };
 		430D426C26D3C10900188E42 /* MessageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
 		430D426F26D3C33B00188E42 /* AudioVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVC.swift; sourceTree = "<group>"; };
+		430DCA3C283CCB1B00A2ED11 /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
+		430DCA3E283CCC3500A2ED11 /* Typealiases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
+		430DCA40283D061800A2ED11 /* NavViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavViewController.swift; sourceTree = "<group>"; };
 		43119D6526E4BFDB00AD2260 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		43119D6726E4C18A00AD2260 /* GenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderViewModel.swift; sourceTree = "<group>"; };
 		43119D6926E4C1A000AD2260 /* BioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BioViewModel.swift; sourceTree = "<group>"; };
@@ -1811,6 +1817,7 @@
 				43F974312832977C00F736F3 /* MessagesVC.swift */,
 				43F974332832993C00F736F3 /* MessageTableViewCell.swift */,
 				4389A5CC283A7D6300BC6642 /* ShareEventMessageTableViewCell.swift */,
+				430DCA40283D061800A2ED11 /* NavViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1819,6 +1826,8 @@
 			isa = PBXGroup;
 			children = (
 				43D527EB2834FF260002FC64 /* MessagesManager.swift */,
+				430DCA3C283CCB1B00A2ED11 /* KeyboardHandler.swift */,
+				430DCA3E283CCC3500A2ED11 /* Typealiases.swift */,
 			);
 			path = MessagesHelper;
 			sourceTree = "<group>";
@@ -2213,6 +2222,7 @@
 				4333DA7726C3BC350029F2B0 /* OptionsSignUpVC.swift in Sources */,
 				43375F5F271313C4009EBED6 /* NotificationTableViewCell.swift in Sources */,
 				430A351926CAA97F00477A94 /* HideGhostModeView.swift in Sources */,
+				430DCA3D283CCB1B00A2ED11 /* KeyboardHandler.swift in Sources */,
 				43148538278C3E110048EC01 /* SelectedFriendTableViewCell.swift in Sources */,
 				4336D12F26DB8AF80093C7A6 /* CheckUserNameViewModel.swift in Sources */,
 				43886863278344F1004D36B2 /* WriteProblemTableViewCell.swift in Sources */,
@@ -2236,6 +2246,7 @@
 				43FED20C26DE3FD900255B96 /* EventsViewModel.swift in Sources */,
 				432E4A9A270AFC5E00963448 /* MessagesModel.swift in Sources */,
 				430A351E26CAB01A00477A94 /* EditEventsVC.swift in Sources */,
+				430DCA41283D061800A2ED11 /* NavViewController.swift in Sources */,
 				433CDE1D27CCBAF200A80A40 /* EventCalendarVC.swift in Sources */,
 				432940FB26EE0FB60066BE87 /* FriendModel.swift in Sources */,
 				439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */,
@@ -2413,6 +2424,7 @@
 				43BDFAE527B5473C005302CD /* GroupsShareTableViewCell.swift in Sources */,
 				43119D6C26E4C1BF00AD2260 /* BirthdateViewModel.swift in Sources */,
 				431D739327BB9EEC00EC8F7B /* IamViewModel.swift in Sources */,
+				430DCA3F283CCC3500A2ED11 /* Typealiases.swift in Sources */,
 				43ACFEC327B3B2DE001CD340 /* EventButtonsTableViewCell.swift in Sources */,
 				43FC3CA427280B9800D94ABB /* SettingsVC.swift in Sources */,
 				439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */,

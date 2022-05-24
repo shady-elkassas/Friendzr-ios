@@ -112,13 +112,13 @@ class ExternalEventDetailsVC: UIViewController {
         }
         
         print("availableVC >> \(Defaults.availableVC)")
-        
-        setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
         
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        setupNavBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

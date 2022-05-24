@@ -74,6 +74,8 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateGroupDetails), name: Notification.Name("updateGroupDetails"), object: nil)
         
         editOrShowImageBtn.isHidden = false
+        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -87,8 +89,8 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
         print("availableVC >> \(Defaults.availableVC)")
         
         title = "Group Details"
-        setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
+        setupNavBar()
     }
     
     

@@ -959,6 +959,19 @@ extension MapVC : GMSMapViewDelegate {
             
             print("Center Location is === \(location!)")
         }
+        
+        // Find the coordinates
+        let visibleRegion = mapView.projection.visibleRegion()
+        let farLeftLocation = CLLocation(latitude: visibleRegion.farLeft.latitude, longitude: visibleRegion.farLeft.longitude)
+        let centerLocation = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
+        
+        // Calculate the distance as radius.
+        // The distance result from CLLocation is in meters, so we divide it by 1000 to get the value in kilometers
+        let radiusKM = (centerLocation.distance(from: farLeftLocation) / 1000.0).rounded(toPlaces: 1)
+        // Do something with the radius...
+        print("radiusKM \(radiusKM)")
+        radiusMLbl.text = "\(radiusKM * 1000) m"
+        radiusKMLbl.text = "\(radiusKM) km"
     }
 }
 
@@ -968,7 +981,6 @@ extension MapVC : CLLocationManagerDelegate {
         if NetworkConected.internetConect {
             self.location = manager.location?.coordinate
             locationManager.stopUpdatingLocation()
-            
             self.setupGoogleMap(zoom1: 8, zoom2: 14)
             
         }else {
@@ -1329,22 +1341,21 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
 }
 
 extension MapVC {
-    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-        
-        // Find the coordinates
-        let visibleRegion = mapView.projection.visibleRegion()
-        let farLeftLocation = CLLocation(latitude: visibleRegion.farLeft.latitude, longitude: visibleRegion.farLeft.longitude)
-        let centerLocation = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
-        
-        // Calculate the distance as radius.
-        // The distance result from CLLocation is in meters, so we divide it by 1000 to get the value in kilometers
-        let radiusKM = (centerLocation.distance(from: farLeftLocation) / 1000.0).rounded(toPlaces: 1)
-        // Do something with the radius...
-        print("radiusKM \(radiusKM)")
-        
-        radiusMLbl.text = "\(radiusKM * 1000) m"
-        radiusKMLbl.text = "\(radiusKM) km"
-    }
+//    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+//
+//        // Find the coordinates
+//        let visibleRegion = mapView.projection.visibleRegion()
+//        let farLeftLocation = CLLocation(latitude: visibleRegion.farLeft.latitude, longitude: visibleRegion.farLeft.longitude)
+//        let centerLocation = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
+//
+//        // Calculate the distance as radius.
+//        // The distance result from CLLocation is in meters, so we divide it by 1000 to get the value in kilometers
+//        let radiusKM = (centerLocation.distance(from: farLeftLocation) / 1000.0).rounded(toPlaces: 1)
+//        // Do something with the radius...
+//        print("radiusKM \(radiusKM)")
+//        radiusMLbl.text = "\(radiusKM * 1000) m"
+//        radiusKMLbl.text = "\(radiusKM) km"
+//    }
     
     func delay(seconds: Double, closure: @escaping () -> ()) {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {

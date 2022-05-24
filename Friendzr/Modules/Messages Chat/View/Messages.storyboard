@@ -578,6 +578,7 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <sections/>
                                 <connections>
                                     <outlet property="dataSource" destination="4OD-n2-etq" id="ZzP-EH-KxD"/>
                                     <outlet property="delegate" destination="4OD-n2-etq" id="o2s-wW-xa5"/>
@@ -624,7 +625,7 @@
                                                         <rect key="frame" x="10" y="0.0" width="294" height="45"/>
                                                         <color key="tintColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
-                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardAppearance="alert" returnKeyType="done"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                         <connections>
                                                             <outlet property="delegate" destination="4OD-n2-etq" id="csU-sh-cn8"/>
                                                         </connections>
@@ -732,10 +733,10 @@
             </objects>
             <point key="canvasLocation" x="2494" y="429"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Nav View Controller-->
         <scene sceneID="O1l-jF-xjh">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dBn-99-a5y" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MessagesNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dBn-99-a5y" customClass="NavViewController" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fuy-Ky-W7I">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

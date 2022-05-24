@@ -541,7 +541,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
         
-        if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId{
+        if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId{
             notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId)
         }
         
@@ -606,7 +606,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let senderImage = userInfo["senderImage"] as? String ?? ""
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
-        if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId {
+        if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
             notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId)
         }
         
@@ -1020,7 +1020,7 @@ extension AppDelegate {
         }
         
         if action == "user_chat" {
-            if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId {
+            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
             }
             else if Defaults.availableVC == "InboxVC" {
@@ -1028,7 +1028,7 @@ extension AppDelegate {
             }
         }
         else if action == "event_chat" {
-            if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId {
+            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
             }
             else if Defaults.availableVC == "InboxVC" {
@@ -1036,7 +1036,7 @@ extension AppDelegate {
             }
         }
         else if action == "user_chatGroup" {
-            if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId{
+            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId{
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForGroup"), object: nil, userInfo: nil)
             }
             else if Defaults.availableVC == "InboxVC" {
@@ -1081,7 +1081,7 @@ extension AppDelegate {
             if action == "Friend_request_cancelled" || action == "Friend_block" {
                 completionHandler([[]])
             }
-            else if Defaults.availableVC == "MessagesVC" && Defaults.ConversationID == actionId
+            else if Defaults.availableVC == "ConversationVC" && Defaults.ConversationID == actionId
             {
                 completionHandler([[]])
             }

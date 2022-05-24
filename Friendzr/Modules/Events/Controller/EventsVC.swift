@@ -55,6 +55,7 @@ class EventsVC: UIViewController {
         initBackButton()
         pullToRefresh()
         NotificationCenter.default.addObserver(self, selector: #selector(reloadAllEvents), name: Notification.Name("reloadAllEvents"), object: nil)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,7 +64,6 @@ class EventsVC: UIViewController {
         Defaults.availableVC = "EventsVC"
         print("availableVC >> \(Defaults.availableVC)")
         
-        setupNavBar()
         CancelRequest.currentTask = false
         
         setupHideView()
@@ -73,6 +73,7 @@ class EventsVC: UIViewController {
         }
         
         setupAds()
+        setupNavBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -21,7 +21,7 @@ class ReportVC: UIViewController {
     let detailsCellID = "WriteProblemTableViewCell"
     var selectedVC = ""
     var viewmodel:ReportViewModel = ReportViewModel()
-
+    
     var id:String = ""
     var problemID:String = ""
     var message:String = ""
@@ -38,6 +38,9 @@ class ReportVC: UIViewController {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        
+        title = "Report".localizedString
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -54,16 +57,15 @@ class ReportVC: UIViewController {
             Defaults.availableVC = "ReportVC"
         }
         print("availableVC >> \(Defaults.availableVC)")
-
+        
         if selectedVC == "Present" || selectedVC == "PresentC" {
             initCloseBarButton()
         }else {
             initBackButton()
         }
         
-        title = "Report".localizedString
-        setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
+        setupNavBar()
     }
     
     //MARK: - Helpers
@@ -160,7 +162,7 @@ extension ReportVC: UITableViewDataSource {
                 cell.titleLbl.font = UIFont.init(name: "Montserrat-Medium", size: 12)
                 cell.titleLbl.textColor = .gray
             }
-
+            
             return cell
         }
         else if indexPath.section == 1 {

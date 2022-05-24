@@ -80,6 +80,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         
         segmentControl.selectedSegmentIndex = 0
         RequestesType.type = 2
+        initProfileBarButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,17 +89,14 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         Defaults.availableVC = "RequestVC"
         print("availableVC >> \(Defaults.availableVC)")
         
-        initProfileBarButton()
-        
         CancelRequest.currentTask = false
         setupHideView()
+        
+        setupNavBar()
         
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
-        
-        setupNavBar()
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

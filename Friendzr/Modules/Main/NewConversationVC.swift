@@ -54,12 +54,13 @@ class NewConversationVC: UIViewController {
         CancelRequest.currentTask = false
         setupHideView()
         
-        setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
         
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+        
+        setupNavBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

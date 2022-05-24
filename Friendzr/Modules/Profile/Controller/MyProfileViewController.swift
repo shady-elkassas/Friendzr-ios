@@ -75,8 +75,10 @@ class MyProfileViewController: UIViewController {
             self.updateUserInterface()
         }
         
-        setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
+        
+        
+        setupNavBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
