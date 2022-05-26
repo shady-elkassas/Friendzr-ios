@@ -27,6 +27,7 @@ class AddNewTagView: UIView {
         textBorderView.cornerRadiusView(radius: 8)
         confirmBtn.cornerRadiusView(radius: 8)
         cancelBtn.cornerRadiusView(radius: 8)
+//        newTagTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
     }
     
     @IBAction func confirmBtn(_ sender: Any) {

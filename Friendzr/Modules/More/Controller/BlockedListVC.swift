@@ -213,6 +213,7 @@ class BlockedListVC: UIViewController {
         let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
         placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
         searchbar.searchTextField.attributedPlaceholder = placeHolder
+        searchbar.searchTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
         searchbar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
     }
     

@@ -333,6 +333,12 @@ class RegisterVC: UIViewController {
         myMutableString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.FriendzrColors.primary!, range: NSRange(location:55,length:8))
         // set label Attribute
         termsLbl.attributedText = myMutableString
+        
+        userNameTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        emailTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        passwordTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        confirmPasswordTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+
     }
     
     func updateUserInterface() {

@@ -20,7 +20,6 @@ class MessageTableViewCell: UITableViewCell {
     @IBOutlet weak var messageDateLbl: UILabel!
     @IBOutlet weak var profileBtn: UIButton!
     
-    
     var HandleUserProfileBtn: (() -> ())?
 
     override func awakeFromNib() {
@@ -49,10 +48,9 @@ class MessageAttachmentTableViewCell: MessageTableViewCell {
     @IBOutlet weak var attachmentDateLbl: UILabel!
     @IBOutlet weak var tapImageBtn: UIButton!
     @IBOutlet weak var userProfileBtn: UIButton!
-    
-    
+
     weak var delegate: MessageTableViewCellDelegate?
-    
+
     var HandleTapAttachmentBtn: (() -> ())?
     var HandleProfileBtn: (() -> ())?
 

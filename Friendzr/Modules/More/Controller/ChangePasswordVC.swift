@@ -109,6 +109,10 @@ class ChangePasswordVC: UIViewController  {
         
         saveBtn.cornerRadiusView(radius: 8)
         saveBtnView.cornerRadiusView(radius: 8)
+        
+        oldPasswordTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        newPasswordTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        confirmNewPasswordTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
     }
     
     //MARK: - Actions

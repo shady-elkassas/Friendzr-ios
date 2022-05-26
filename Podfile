@@ -43,7 +43,8 @@ target 'Friendzr' do
   pod 'GoogleMobileAdsMediationInMobi'
   pod 'GoogleMobileAdsMediationFacebook'
   
-  pod "AppsFlyerFramework"
+  pod 'AppsFlyerFramework'
+  pod 'MSImagePickerSheetController'
 
 #  pod 'GoogleMobileAdsMediationTestSuite'
   

@@ -176,6 +176,7 @@ extension ReportVC: UITableViewDataSource {
         else if indexPath.section == 2 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: detailsCellID, for: indexPath) as? WriteProblemTableViewCell else {return UITableViewCell()}
             self.message = cell.textView.text
+            cell.textView.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
             return cell
         }
         else {

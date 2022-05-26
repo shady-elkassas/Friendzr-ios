@@ -246,6 +246,8 @@ class EditEventsVC: UIViewController {
         limitUsersView.cornerRadiusView(radius: 5)
         descriptionTxtView.cornerRadiusView(radius: 5)
         descriptionTxtView.delegate = self
+        descriptionTxtView.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+
         switchAllDays.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
         
         tableView.register(UINib(nibName: attendeesCellID, bundle: nil), forCellReuseIdentifier: attendeesCellID)
@@ -259,6 +261,14 @@ class EditEventsVC: UIViewController {
             self.setupDatePickerForStartTime()
             self.setupDatePickerForEndTime()
         }
+        
+        
+        addTitleTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        limitUsersTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        selectStartDateTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        selectStartTimeTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        selectEndTimeTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        selectEndDateTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
     }
     func initDeleteEventButton(btnColor: UIColor? = .red) {
         let button = UIButton.init(type: .custom)

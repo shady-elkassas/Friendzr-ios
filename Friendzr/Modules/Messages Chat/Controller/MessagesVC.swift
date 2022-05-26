@@ -6,19 +6,22 @@
 //
 
 import UIKit
-import InputBarAccessoryView
 import MapKit
 import AVFoundation
 import MobileCoreServices
 import AVKit
-import FirebaseAuth
-import Firebase
-import FirebaseDatabase
-import FirebaseFirestore
 import ListPlaceholder
 import SwiftUI
 import SDWebImage
+import MSImagePickerSheetController
+import Photos
+import ListPlaceholder
 
+
+////MARK: - singletone
+//class DidSelectPhoto {
+//    static var count: Int = 0
+//}
 
 class MessagesVC: UIViewController {
     
@@ -31,7 +34,9 @@ class MessagesVC: UIViewController {
     @IBOutlet weak var messageInputBarView: UIView!
     @IBOutlet weak var downView: UIView!
     @IBOutlet weak var statusLbl: UILabel!
-    
+    @IBOutlet weak var hideView: UIView!
+    @IBOutlet var imgsView: [UIImageView]!
+
     var bottomInset: CGFloat {
         return view.safeAreaInsets.bottom + 50
     }
@@ -146,20 +151,24 @@ class MessagesVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(listenToMessagesForGroup), name: Notification.Name("listenToMessagesForGroup"), object: nil)
         
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(updateNavBar), name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateNavBar), name: UIResponder.keyboardDidShowNotification, object: nil)
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.handleKeyboardDidChangeState(_:)), name: UIResponder.ke yboardDidShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleKeyboardDidChangeState(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
 
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         alertView?.addGestureRecognizer(tap)
+        
+//        let tapInTextField =  UITapGestureRecognizer(target: self, action: #selector(self.handleTouched(_:)))
+//        inputTextField.addGestureRecognizer(tapInTextField)
         
         Defaults.availableVC = "MessagesVC"
         print("availableVC >> \(Defaults.availableVC)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        setupNavigationbar()
         setupMessages()
         setScrollTableViewWithKeyboard()
         
@@ -170,12 +179,30 @@ class MessagesVC: UIViewController {
         }else {
             Defaults.ConversationID = chatuserID
         }
+        
+        hideNavigationBar(NavigationBar: false, BackButton: false)
+        self.tabBarController?.tabBar.isHidden = true
+        NotificationCenter.default.post(name: Notification.Name("updateNavBar"), object: nil, userInfo: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        CancelRequest.currentTask = true
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     func setupViews() {
         expandButton.cornerRadiusView()
         sendBtn.cornerRadiusView()
         tableView.refreshControl = refreshControl
+        inputTextField.delegate = self
+        
+        inputTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        
+        for item in imgsView {
+            item.cornerRadiusView(radius: 10)
+        }
     }
     
     //MARK: - Setup Messages
@@ -261,12 +288,16 @@ class MessagesVC: UIViewController {
         }
     }
     
+    @objc func handleTouched(_ sender: UITapGestureRecognizer? = nil) {
+        // handling code
+        print("handleTouched handleTouched")
+    }
+
     @objc func updateNavBar() {
         setupNavigationbar()
-        
-//        NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
-//
-//        NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: UIResponder.keyboardWillChangeFrameNotification, object: nil, userInfo: nil)
+
+        NotificationCenter.default.post(name: UITextView.textDidBeginEditingNotification, object: nil, userInfo: nil)
     }
 }
 
@@ -351,6 +382,7 @@ extension MessagesVC {
     
     @IBAction func expandItemsPressed(_ sender: UIButton) {
         presentInputActionSheet()
+//        presentImagePickerSheet()
     }
     
     private func presentInputActionSheet() {
@@ -380,8 +412,79 @@ extension MessagesVC {
         
         present(actionSheet, animated: true, completion: nil)
     }
+    
+    func presentImagePickerSheet() {
+        let presentImagePickerController: (UIImagePickerController.SourceType) -> () = { source in
+            let controller = UIImagePickerController()
+            controller.delegate = self
+            var sourceType = source
+            if (!UIImagePickerController.isSourceTypeAvailable(sourceType)) {
+                sourceType = .photoLibrary
+                print("Fallback to camera roll as a source since the simulator doesn't support taking pictures")
+            }
+            controller.sourceType = sourceType
+            self.present(controller, animated: true, completion: nil)
+        }
+        
+        let controller = MSImagePickerSheetController(mediaType: .Image)
+        controller.maximumSelection = 3
+        controller.delegate = self
+
+        controller.addAction(action: ImagePickerAction(title: NSLocalizedString("Camera", comment: "Camera"), secondaryTitle: NSLocalizedString("Camera", comment: "Camera"), handler: { _ in
+            presentImagePickerController(.camera)
+        }, secondaryHandler: { _, numberOfPhotos in
+            print("Comment \(numberOfPhotos) photos")
+            presentImagePickerController(.camera)
+        }))
+        
+        controller.addAction(action: ImagePickerAction(title: "Photo Library", secondaryTitle: "Send \(controller.selectedImageAssets.count)", style: .Default, handler: { _ in
+            presentImagePickerController(.photoLibrary)
+        }, secondaryHandler: { _, numberOfPhotos in
+            print("Send \(numberOfPhotos)")
+        }))
+        
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            controller.modalPresentationStyle = .popover
+            controller.popoverPresentationController?.sourceView = view
+            controller.popoverPresentationController?.sourceRect = CGRect(origin: view.center, size: CGSize())
+        }
+        
+        present(controller, animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
 
+// MARK: - ImagePickerSheetControllerDelegate
+extension MessagesVC :ImagePickerSheetControllerDelegate {
+    
+    func controllerWillEnlargePreview(_ controller: MSImagePickerSheetController) {
+        print("Will enlarge the preview")
+    }
+    
+    func controllerDidEnlargePreview(_ controller: MSImagePickerSheetController) {
+        print("Did enlarge the preview")
+    }
+    
+    func controller(_ controller: MSImagePickerSheetController, willSelectAsset asset: PHAsset) {
+        print("Will select an asset")
+    }
+    
+    func controller(_ controller: MSImagePickerSheetController, didSelectAsset asset: PHAsset) {
+        print("Did select an asset = \(controller.selectedImageAssets.count)")
+    }
+    
+    func controller(_ controller: MSImagePickerSheetController, willDeselectAsset asset: PHAsset) {
+        print("Will deselect an asset")
+    }
+    
+    func controller(_ controller: MSImagePickerSheetController, didDeselectAsset asset: PHAsset) {
+        print("Did deselect an asset")
+    }
+}
 
 //MARK: UITableView Delegate & DataSource
 extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
@@ -413,6 +516,7 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
         }
         else if model.messageType == 2 { //image
             let cell = tableView.dequeueReusableCell(withIdentifier: model.sender.senderId == Defaults.token ? "MessageAttachmentTableViewCell" : "UserMessageAttachmentTableViewCell") as! MessageAttachmentTableViewCell
+            
             cell.attachmentImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
             
             if model.messageImage.image == "" {
@@ -453,21 +557,18 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
                     }
                     
                     self.present(popupVC, animated: true, completion: nil)
-                }else if model.messageType == 3 {
-                    //downlaod file
-                    print("PDF FILE")
-                    let fileUrl = model.messageFile.file
-                    DispatchQueue.main.async {
-                        UIApplication.shared.open(URL(string: fileUrl)!)
-                    }
                 }
             }
             
+//            cell.delegate = self
+//            cell.delegate?.messageTableViewCellUpdate()
             return cell
         }
         else if model.messageType == 3 { //file
             let cell = tableView.dequeueReusableCell(withIdentifier: model.sender.senderId == Defaults.token ? "MessageAttachmentTableViewCell" : "UserMessageAttachmentTableViewCell") as! MessageAttachmentTableViewCell
-            cell.attachmentImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            
+//            cell.delegate = self
+//            cell.attachmentImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
             
             if model.messageFile.file == "" {
                 cell.attachmentImageView.image = model.messageFile.fileView
@@ -486,31 +587,16 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             }
             
             cell.HandleTapAttachmentBtn = {
-                if model.messageType == 2 {
-                    let imgURL: String = model.messageImage.image
-                    guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
-                    popupVC.modalPresentationStyle = .overCurrentContext
-                    popupVC.modalTransitionStyle = .crossDissolve
-                    let pVC = popupVC.popoverPresentationController
-                    pVC?.permittedArrowDirections = .any
-                    pVC?.delegate = self
-                    pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
-                    popupVC.imgURL = imgURL
-                    self.present(popupVC, animated: true, completion: nil)
-                }else if model.messageType == 3 {
+                if model.messageType == 3 {
                     //downlaod file
                     print("PDF FILE")
-                    if model.messageFile.file == "" {
-                        return
-                    }else {
-                        DispatchQueue.main.async {
-                            if UIApplication.shared.canOpenURL(URL(string: model.messageFile.file)!) {
-                                UIApplication.shared.open(URL(string: model.messageFile.file)!)
-                            }
-                        }
+                    let fileUrl = model.messageFile.file
+                    DispatchQueue.main.async {
+                        UIApplication.shared.open(URL(string: fileUrl)!)
                     }
                 }
             }
+            
             return cell
         }
         else if model.messageType == 4 {//share
@@ -545,6 +631,8 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
                 }
             }
             
+//            cell.delegate = self
+//            cell.delegate?.messageTableViewCellUpdate()
             return cell
         }
         else {
@@ -552,18 +640,24 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard tableView.isDragging else { return }
-        cell.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-        UIView.animate(withDuration: 0.3, animations: {
-            cell.transform = CGAffineTransform.identity
-        })
-    }
+//    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        guard tableView.isDragging else { return }
+//        cell.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+//        UIView.animate(withDuration: 0.3, animations: {
+//            cell.transform = CGAffineTransform.identity
+//        })
+//    }
 }
 
 //MARK: UItextField Delegate
 extension MessagesVC: UITextFieldDelegate ,UIPopoverPresentationControllerDelegate{
+    func textFieldDidBeginEditing(_ textField: UITextField) {    //delegate method
+        print("handleTouched handleTouched")
+        NotificationCenter.default.post(name: Notification.Name("updateNavBar"), object: nil, userInfo: nil)
+    }
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("textField handleTouched")
         return textField.resignFirstResponder()
     }
     
@@ -581,15 +675,16 @@ extension MessagesVC: MessageTableViewCellDelegate {
 }
 
 extension MessagesVC {
-    //    getEventChatMessages
     func getEventChatMessages(pageNumber:Int) {
         let startDate = Date()
         
         CancelRequest.currentTask = false
         if isRefreshNewMessages == true {
-            self.hideLoading()
+            self.hideView.isHidden = true
+//            self.hideView.hideLoader()
         }else {
-            self.showLoading()
+            self.hideView.isHidden = false
+            self.hideView.showLoader()
             messageInputBarView.isHidden = true
         }
         
@@ -648,7 +743,9 @@ extension MessagesVC {
                 let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
                 print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
                 
-                self.hideLoading()
+                self.hideView.isHidden = true
+                self.hideView.hideLoader()
+                
                 DispatchQueue.main.async {
                     if self.currentPage != 1 {
                         DispatchQueue.main.async {
@@ -673,7 +770,9 @@ extension MessagesVC {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
+                self.hideView.isHidden = true
+                self.hideView.hideLoader()
+                
                 if error == "Internal Server Error" {
                     self.HandleInternetConnection()
                 }else if error == "Bad Request" {
@@ -686,15 +785,16 @@ extension MessagesVC {
             }
         }
     }
-    //
     func getGroupChatMessages(pageNumber:Int) {
         let startDate = Date()
         
         CancelRequest.currentTask = false
         if isRefreshNewMessages == true {
-            self.hideLoading()
-        }else {
-            self.showLoading()
+            self.hideView.isHidden = true
+        }
+        else {
+            self.hideView.isHidden = false
+            self.hideView.showLoader()
             messageInputBarView.isHidden = true
         }
         
@@ -753,8 +853,10 @@ extension MessagesVC {
                 
                 let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
                 print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
-                self.hideLoading()
                 
+                self.hideView.isHidden = true
+                self.hideView.hideLoader()
+
                 DispatchQueue.main.async {
                     if self.currentPage != 1 {
                         DispatchQueue.main.async {
@@ -779,7 +881,9 @@ extension MessagesVC {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
+                self.hideView.isHidden = true
+                self.hideView.hideLoader()
+
                 if error == "Internal Server Error" {
                     self.HandleInternetConnection()
                 }else if error == "Bad Request" {
@@ -793,7 +897,6 @@ extension MessagesVC {
             }
         }
     }
-    
     func getUserChatMessages(pageNumber:Int) {
         CancelRequest.currentTask = false
         if pageNumber > viewmodel.messages.value?.totalPages ?? 1 {
@@ -802,9 +905,10 @@ extension MessagesVC {
         
         let startDate = Date()
         if isRefreshNewMessages == true {
-            self.hideLoading()
+            self.hideView.isHidden = true
         }else {
-            self.showLoading()
+            self.hideView.isHidden = false
+            self.hideView.showLoader()
             messageInputBarView.isHidden = true
         }
         
@@ -864,7 +968,9 @@ extension MessagesVC {
                 let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
                 print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
                 
-                self.hideLoading()
+                self.hideView.isHidden = true
+                self.hideView.hideLoader()
+                
                 DispatchQueue.main.async {
                     if self.currentPage != 1 {
                         DispatchQueue.main.async {
@@ -890,6 +996,9 @@ extension MessagesVC {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
+                self.hideView.isHidden = true
+                self.hideView.hideLoader()
+
                 if error == "Internal Server Error" {
                     self.HandleInternetConnection()
                 }else if error == "Bad Request" {
@@ -905,6 +1014,8 @@ extension MessagesVC {
     
     //Show Down View
     func showDownView() {
+        downView.setBorder()
+        
         if isEvent {
             if leavevent == 0 {
                 messageInputBarView.isHidden = false
@@ -938,19 +1049,16 @@ extension MessagesVC {
             }
         }
     }
-    
     func setupDownView(textLbl:String) {
         messageInputBarView.isHidden = true
         downView.isHidden = false
         statusLbl.text = textLbl
     }
-    
     func HandleinvalidUrl() {
         DispatchQueue.main.async {
             self.view.makeToast("Please try again later".localizedString)
         }
     }
-    
     func HandleInternetConnection() {
         DispatchQueue.main.async {
             self.view.makeToast("Network is unavailable, please try again!".localizedString)
@@ -959,7 +1067,6 @@ extension MessagesVC {
             })
         }
     }
-    
 }
 
 //MARK: custom Message Date Time
@@ -1277,6 +1384,7 @@ extension MessagesVC {
     }
     
     func leaveEvent() {
+        self.view.endEditing(true)
         alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         alertView?.titleLbl.text = "Confirm?".localizedString
@@ -1318,6 +1426,7 @@ extension MessagesVC {
     }
     
     func unFriendAccount() {
+        self.view.endEditing(true)
         alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         alertView?.titleLbl.text = "Confirm?".localizedString
@@ -1358,6 +1467,8 @@ extension MessagesVC {
     }
     
     func blockFriendAccount() {
+        self.view.endEditing(true)
+
         alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
         let actionDate = formatterUnfriendDate.string(from: Date())
@@ -1611,10 +1722,11 @@ extension MessagesVC : UIImagePickerControllerDelegate,UINavigationControllerDel
             })
         }
         
+        
     }
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated:true, completion: nil)
-    }
+//    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+//        picker.dismiss(animated:true, completion: nil)
+//    }
 }
 
 //MARK: - UIDocumentPickerDelegate
@@ -1772,39 +1884,39 @@ extension UITableView {
 
 //MARK: - handleKeyboardDidChangeState
 extension MessagesVC {
-//    @objc func handleKeyboardDidChangeState(_ notification: Notification) {
-//        setupNavigationbar()
-//        guard !isMessagesControllerBeingDismissed else { return }
-//
-//        guard let keyboardStartFrameInScreenCoords = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect else { return }
-//        guard !keyboardStartFrameInScreenCoords.isEmpty || UIDevice.current.userInterfaceIdiom != .pad else {
-//            return
-//        }
-//
-//        guard self.presentedViewController == nil else {
-//            // This is important to skip notifications from child modal controllers in iOS >= 13.0
-//            return
-//        }
-//
-//        guard let keyboardEndFrameInScreenCoords = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-//        let keyboardEndFrame = view.convert(keyboardEndFrameInScreenCoords, from: view.window)
-//
-//        let newBottomInset = requiredScrollViewBottomInset(forKeyboardFrame: keyboardEndFrame)
-//        let differenceOfBottomInset = newBottomInset - messageTableViewViewBottomInset
-//
-//        if maintainPositionOnKeyboardFrameChanged && differenceOfBottomInset != 0 {
-//            let contentOffset = CGPoint(x: tableView.contentOffset.x, y: tableView.contentOffset.y + differenceOfBottomInset)
-//            guard contentOffset.y <= tableView.contentSize.height else {
-//                return
-//            }
-//
-//            tableView.setContentOffset(contentOffset, animated: false)
-//        }
-//
-//        UIView.performWithoutAnimation {
-//            messageTableViewViewBottomInset = newBottomInset
-//        }
-//    }
+    @objc func handleKeyboardDidChangeState(_ notification: Notification) {
+        setupNavigationbar()
+        guard !isMessagesControllerBeingDismissed else { return }
+
+        guard let keyboardStartFrameInScreenCoords = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect else { return }
+        guard !keyboardStartFrameInScreenCoords.isEmpty || UIDevice.current.userInterfaceIdiom != .pad else {
+            return
+        }
+
+        guard self.presentedViewController == nil else {
+            // This is important to skip notifications from child modal controllers in iOS >= 13.0
+            return
+        }
+
+        guard let keyboardEndFrameInScreenCoords = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        let keyboardEndFrame = view.convert(keyboardEndFrameInScreenCoords, from: view.window)
+
+        let newBottomInset = requiredScrollViewBottomInset(forKeyboardFrame: keyboardEndFrame)
+        let differenceOfBottomInset = newBottomInset - messageTableViewViewBottomInset
+
+        if maintainPositionOnKeyboardFrameChanged && differenceOfBottomInset != 0 {
+            let contentOffset = CGPoint(x: tableView.contentOffset.x, y: tableView.contentOffset.y + differenceOfBottomInset)
+            guard contentOffset.y <= tableView.contentSize.height else {
+                return
+            }
+
+            tableView.setContentOffset(contentOffset, animated: false)
+        }
+
+        UIView.performWithoutAnimation {
+            messageTableViewViewBottomInset = newBottomInset
+        }
+    }
     
     private func requiredScrollViewBottomInset(forKeyboardFrame keyboardFrame: CGRect) -> CGFloat {
         let intersection = tableView.frame.intersection(keyboardFrame)
@@ -1829,15 +1941,15 @@ extension MessagesVC {
 //MARK: -setup navigation bar
 extension MessagesVC {
     func setupNavigationbar() {
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-SemiBold", size: 14) ?? "",NSAttributedString.Key.foregroundColor: UIColor.setColor(lightColor: UIColor.color("#241332")!, darkColor: .white)]
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.navigationBar.barTintColor = UIColor.setColor(lightColor: .white, darkColor: .black)
-        self.navigationController?.navigationBar.shadowImage = UIColor.black.as1ptImage()
-        self.navigationController?.navigationBar.setBackgroundImage(UIColor.white.as1ptImage(), for: .default)
-        self.navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Montserrat-SemiBold", size: 14) ?? "",NSAttributedString.Key.foregroundColor: UIColor.setColor(lightColor: UIColor.color("#241332")!, darkColor: .white)]
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.barTintColor = UIColor.setColor(lightColor: .white, darkColor: .black)
+        navigationController?.navigationBar.shadowImage = UIColor.black.as1ptImage()
+        navigationController?.navigationBar.setBackgroundImage(UIColor.white.as1ptImage(), for: .default)
+        navigationController?.navigationBar.backgroundColor = .white
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         self.view.backgroundColor = .white
-        self.navigationController?.navigationBar.layoutIfNeeded()
+        navigationController?.navigationBar.layoutIfNeeded()
+        self.view.layoutIfNeeded()
     }
 }
-

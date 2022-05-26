@@ -319,6 +319,10 @@ class LoginVC: UIViewController {
         googleView.setBorder()
         loginBtn.cornerRadiusView(radius: 8)
         loginBtnView.cornerRadiusView(radius: 8)
+        
+        emailTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        passwordTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+
     }
 }
 

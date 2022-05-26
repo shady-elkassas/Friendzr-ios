@@ -20,6 +20,8 @@ class WriteProblemTableViewCell: UITableViewCell {
         containerView.setBorder()
         containerView.cornerRadiusView(radius: 12)
         textView.delegate = self
+        
+        textView
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

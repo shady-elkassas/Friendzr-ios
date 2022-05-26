@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import IQKeyboardManager
 
 let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as! SceneDelegate
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -207,8 +208,6 @@ extension UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    
-    
     func initSkipBarButton() {
         let skipBtn = UIButton()
         skipBtn.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
@@ -302,16 +301,4 @@ extension UIViewController {
     func hideKeyboard() {
         view.endEditing(true)
     }
-    
-    //    func updateTextField(iView:UIView,txtField:SkyFloatingLabelTextField,placeholder:String,titleLbl:String) {
-    //        txtField.placeholder = placeholder
-    //        txtField.title = titleLbl
-    //        txtField.backgroundColor = .clear
-    //        txtField.placeholderFont = UIFont(name: "Montserrat-Medium", size: 14)!
-    //        txtField.textColor = UIColor.color("#141414")
-    //        txtField.titleFont = UIFont(name: "Montserrat-Medium", size: 16)!
-    //        txtField.lineView = UIView()
-    //        txtField.selectedTitleColor = UIColor.FriendzrColors.primary!
-    //        iView.addSubview(txtField)
-    //    }
 }

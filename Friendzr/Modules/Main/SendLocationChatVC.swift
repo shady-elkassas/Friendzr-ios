@@ -56,6 +56,7 @@ class SendLocationChatVC: UIViewController {
     //MARK: - Helpers
     func setupViews() {
         sendBtn.cornerRadiusView(radius: 8)
+        searchBar.searchTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
         searchBar = UISearchBar(frame: CGRect(x: 0, y: 95, width: self.view.frame.size.width, height: 56.0))
         searchBar.delegate = self
         searchBar.backgroundColor = UIColor.clear

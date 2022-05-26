@@ -248,6 +248,11 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         tagsListView.delegate = self
         bestDescribesListView.delegate = self
         removeNavigationBorder()
+        
+        nameTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        dateBirthdayTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        otherGenderTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        bioTxtView.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
     }
     
     func setupData() {

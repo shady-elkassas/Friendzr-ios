@@ -92,6 +92,8 @@ class ForgetPasswordVC: UIViewController {
         emailView.cornerRadiusView(radius: 6)
         resetBtn.cornerRadiusView(radius: 8)
         resetBtnView.cornerRadiusView(radius: 8)
+        
+        emailTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
     }
     
     func updateUserInterface() {

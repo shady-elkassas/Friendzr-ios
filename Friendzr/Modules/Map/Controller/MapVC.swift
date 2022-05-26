@@ -533,6 +533,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         searchBar.searchTextField.backgroundColor = .clear
         searchBar.searchTextField.tintColor = .black
         searchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 14)
+        searchBar.searchTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
         
         //setup search tableView
         tableDataSource = GMSAutocompleteTableDataSource()

@@ -32,6 +32,7 @@ class ExpandDescriptionVC: UIViewController {
         textView.text = myString
         closeBtn.tintColor = .white
         closeBtn.cornerRadiusForHeight()
+        textView.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
     }
     
     //MARK: - Actions

@@ -528,7 +528,7 @@ class ShareEventVC: UIViewController {
         friendsSearchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 12)
         friendsSearchBar.searchTextField.attributedPlaceholder = placeHolder
         friendsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchFriendsResult), for: .editingChanged)
-        
+        friendsSearchBar.searchTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
         
         groupsSearchBar.delegate = self
         groupsSearchView.cornerRadiusView(radius: 6)
@@ -540,7 +540,8 @@ class ShareEventVC: UIViewController {
         groupsSearchBar.searchTextField.attributedPlaceholder = placeHolder
         groupsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchFriendsResult), for: .editingChanged)
         
-        
+        groupsSearchBar.searchTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+
         eventsSearchBar.delegate = self
         eventsSearchView.cornerRadiusView(radius: 6)
         eventsSearchView.setBorder()
@@ -550,6 +551,8 @@ class ShareEventVC: UIViewController {
         eventsSearchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 12)
         eventsSearchBar.searchTextField.attributedPlaceholder = placeHolder
         eventsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchFriendsResult), for: .editingChanged)
+        eventsSearchBar.searchTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+
     }
     
     //MARK: - Actions

@@ -23,6 +23,7 @@ ${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework
 ${BUILT_PRODUCTS_DIR}/InputBarAccessoryView/InputBarAccessoryView.framework
 ${BUILT_PRODUCTS_DIR}/Libuv-gRPC/uv.framework
 ${BUILT_PRODUCTS_DIR}/ListPlaceholder/ListPlaceholder.framework
+${BUILT_PRODUCTS_DIR}/MSImagePickerSheetController/MSImagePickerSheetController.framework
 ${BUILT_PRODUCTS_DIR}/MessageKit/MessageKit.framework
 ${BUILT_PRODUCTS_DIR}/MultiSlider/MultiSlider.framework
 ${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework

@@ -224,6 +224,7 @@ class SharePrivateEventVC: UIViewController {
         let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
         placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
         searchBar.searchTextField.attributedPlaceholder = placeHolder
+        searchBar.searchTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
         searchBar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
     }
     func showEmptyView() {

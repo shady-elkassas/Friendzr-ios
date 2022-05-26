@@ -8,7 +8,7 @@
 import UIKit
 
 class ShareEventMessageTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var eventImage: UIImageView!
     @IBOutlet weak var gradientView: GradientView!
@@ -22,10 +22,11 @@ class ShareEventMessageTableViewCell: UITableViewCell {
     @IBOutlet weak var eventLinkBtn: UIButton!
     @IBOutlet weak var profileBtn: UIButton!
     
+    weak var delegate: MessageTableViewCellDelegate?
     
     var HandleTapEventLinkBtn: (() -> ())?
     var HandleUserProfileBtn: (() -> ())?
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -34,10 +35,10 @@ class ShareEventMessageTableViewCell: UITableViewCell {
         attachmentImageViewHeightConstraint.constant = 180
         attachmentImageViewWidthConstraint.constant = screenW / 1.4
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     

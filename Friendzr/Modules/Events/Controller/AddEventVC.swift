@@ -605,6 +605,7 @@ class AddEventVC: UIViewController {
         eventTypesView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
         
         descriptionTxtView.delegate = self
+        descriptionTxtView.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
         
         DispatchQueue.main.async {
             self.setupDatePickerForStartDate()
@@ -614,6 +615,15 @@ class AddEventVC: UIViewController {
 
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         eventTypesTV.register(UINib(nibName: eventTypeCellId, bundle: nil), forCellReuseIdentifier: eventTypeCellId)
+        
+        
+        addTitleTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        limitUsersTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        selectStartDateTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        selectStartTimeTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        selectEndTimeTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        selectEndDateTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+
     }
     
     func onListFriendsCallBack(_ listIDs: [String],_ listNames: [String],_ selectFriends:[UserConversationModel]) -> () {

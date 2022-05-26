@@ -104,7 +104,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
-
+        
         setupHideView()
     }
     
@@ -346,6 +346,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         let font = UIFont(name: "Montserrat-Medium", size: 14) ?? UIFont.systemFont(ofSize: 14)
         placeHolder = NSMutableAttributedString(string:textHolder, attributes: [NSAttributedString.Key.font: font])
         searchBar.searchTextField.attributedPlaceholder = placeHolder
+        searchBar.searchTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
         searchBar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
     }
     
@@ -467,75 +468,76 @@ extension InboxVC:UITableViewDelegate {
     //    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if NetworkConected.internetConect {
-            goToConversation(indexPath)
-        }
-        else {
-            self.view.makeToast("Network is unavailable, please try again!")
-        }
-//        if viewmodel.listChat.value?.data?.count != 0 {
-//            guard let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC else {return}
-//            let model = viewmodel.listChat.value?.data?[indexPath.row]
-//            if model?.isevent == true {
-//                vc.isEvent = true
-//                vc.eventChatID = model?.id ?? ""
-//                vc.chatuserID = ""
-//
-//                if model?.leaveventchat == true {
-//                    vc.leavevent = 2
-//                }else {
-//                    vc.leavevent = model?.leavevent ?? 0
-//                }
-//
-//                vc.leaveGroup = 1
-//                vc.isFriend = false
-//                vc.titleChatImage = model?.image ?? ""
-//                vc.titleChatName = model?.chatName ?? ""
-//                vc.isChatGroupAdmin = false
-//                vc.isChatGroup = false
-//                vc.groupId = ""
-//                vc.isEventAdmin = model?.myevent ?? false
-//                vc.eventType = model?.eventtype ?? ""
-//            }
-//            else {
-//                if (model?.isChatGroup ?? false) == true {
-//                    vc.isEvent = false
-//                    vc.eventChatID = ""
-//                    vc.chatuserID = ""
-//                    vc.leavevent = 1
-//                    vc.leaveGroup = model?.leaveGroup ?? 0
-//                    vc.isFriend = false
-//                    vc.titleChatImage = model?.image ?? ""
-//                    vc.titleChatName = model?.chatName ?? ""
-//                    vc.isChatGroupAdmin = model?.isChatGroupAdmin ?? false
-//                    vc.isChatGroup = model?.isChatGroup ?? false
-//                    vc.groupId = model?.id ?? ""
-//                    vc.isEventAdmin = false
-//                }
-//                else {
-//                    vc.isEvent = false
-//                    vc.eventChatID = ""
-//                    vc.chatuserID = model?.id ?? ""
-//                    vc.leaveGroup = 1
-//                    vc.isFriend = model?.isfrind ?? false
-//                    vc.leavevent = model?.leavevent ?? 0
-//                    vc.titleChatImage = model?.image ?? ""
-//                    vc.titleChatName = model?.chatName ?? ""
-//                    vc.isChatGroupAdmin = false
-//                    vc.isChatGroup = false
-//                    vc.groupId = ""
-//                    vc.isEventAdmin = false
-//                }
-//            }
-//
-//            vc.titleChatImage = model?.image ?? ""
-//            vc.titleChatName = model?.chatName ?? ""
-//            CancelRequest.currentTask = false
-//
-//            Defaults.message_Count = Defaults.message_Count - (model?.message_not_Read ?? 0)
-//            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
-//            self.navigationController?.pushViewController(vc, animated: true)
+//        if NetworkConected.internetConect {
+//            goToConversation(indexPath)
 //        }
+//        else {
+//            self.view.makeToast("Network is unavailable, please try again!")
+//        }
+        
+        if viewmodel.listChat.value?.data?.count != 0 {
+            guard let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC else {return}
+            let model = viewmodel.listChat.value?.data?[indexPath.row]
+            if model?.isevent == true {
+                vc.isEvent = true
+                vc.eventChatID = model?.id ?? ""
+                vc.chatuserID = ""
+
+                if model?.leaveventchat == true {
+                    vc.leavevent = 2
+                }else {
+                    vc.leavevent = model?.leavevent ?? 0
+                }
+
+                vc.leaveGroup = 1
+                vc.isFriend = false
+                vc.titleChatImage = model?.image ?? ""
+                vc.titleChatName = model?.chatName ?? ""
+                vc.isChatGroupAdmin = false
+                vc.isChatGroup = false
+                vc.groupId = ""
+                vc.isEventAdmin = model?.myevent ?? false
+                vc.eventType = model?.eventtype ?? ""
+            }
+            else {
+                if (model?.isChatGroup ?? false) == true {
+                    vc.isEvent = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = ""
+                    vc.leavevent = 1
+                    vc.leaveGroup = model?.leaveGroup ?? 0
+                    vc.isFriend = false
+                    vc.titleChatImage = model?.image ?? ""
+                    vc.titleChatName = model?.chatName ?? ""
+                    vc.isChatGroupAdmin = model?.isChatGroupAdmin ?? false
+                    vc.isChatGroup = model?.isChatGroup ?? false
+                    vc.groupId = model?.id ?? ""
+                    vc.isEventAdmin = false
+                }
+                else {
+                    vc.isEvent = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = model?.id ?? ""
+                    vc.leaveGroup = 1
+                    vc.isFriend = model?.isfrind ?? false
+                    vc.leavevent = model?.leavevent ?? 0
+                    vc.titleChatImage = model?.image ?? ""
+                    vc.titleChatName = model?.chatName ?? ""
+                    vc.isChatGroupAdmin = false
+                    vc.isChatGroup = false
+                    vc.groupId = ""
+                    vc.isEventAdmin = false
+                }
+            }
+
+            vc.titleChatImage = model?.image ?? ""
+            vc.titleChatName = model?.chatName ?? ""
+            CancelRequest.currentTask = false
+
+            Defaults.message_Count = Defaults.message_Count - (model?.message_not_Read ?? 0)
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {

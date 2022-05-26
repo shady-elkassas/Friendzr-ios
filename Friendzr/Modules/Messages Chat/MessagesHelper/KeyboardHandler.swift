@@ -27,7 +27,7 @@ extension KeyboardHandler {
     private func handleKeyboard(notification: Notification) {
         guard let userInfo = notification.userInfo else { return }
         guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        barBottomConstraint.constant = notification.name == UIResponder.keyboardWillHideNotification ? 0 : keyboardFrame.height - view.safeAreaInsets.bottom
+        barBottomConstraint.constant = notification.name == UIResponder.keyboardWillHideNotification ? 0 : keyboardFrame.height
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
