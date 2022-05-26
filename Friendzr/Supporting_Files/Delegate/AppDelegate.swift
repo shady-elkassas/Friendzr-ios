@@ -541,7 +541,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
         
-        if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId{
+        if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId{
             notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId)
         }
         
@@ -606,7 +606,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let senderImage = userInfo["senderImage"] as? String ?? ""
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
-        if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
+        if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId {
             notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId)
         }
         
@@ -837,7 +837,7 @@ extension AppDelegate {
         }
         else if action == "event_chat"{
             if isEventAdmin == "False" {
-                if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
+                if let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.isEvent = true
@@ -856,7 +856,7 @@ extension AppDelegate {
                 }
             }
             else {
-                if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
+                if let vc = MessagesVC.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC,
                    let tabBarController = rootViewController as? UITabBarController,
                    let navController = tabBarController.selectedViewController as? UINavigationController {
                     vc.isEvent = true
@@ -876,7 +876,7 @@ extension AppDelegate {
             }
         }
         else if action == "user_chat" {
-            if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
+            if let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
                 vc.isEvent = false
@@ -895,7 +895,7 @@ extension AppDelegate {
             }
         }
         else if action == "user_chatGroup" {
-            if let vc = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationVC") as? ConversationVC,
+            if let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
                 vc.isEvent = false
@@ -1020,7 +1020,7 @@ extension AppDelegate {
         }
         
         if action == "user_chat" {
-            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
+            if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
             }
             else if Defaults.availableVC == "InboxVC" {
@@ -1028,7 +1028,7 @@ extension AppDelegate {
             }
         }
         else if action == "event_chat" {
-            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId {
+            if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId {
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForEvent"), object: nil, userInfo: nil)
             }
             else if Defaults.availableVC == "InboxVC" {
@@ -1036,7 +1036,7 @@ extension AppDelegate {
             }
         }
         else if action == "user_chatGroup" {
-            if Defaults.availableVC == "ConversationVC" || Defaults.ConversationID == actionId{
+            if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId{
                 NotificationCenter.default.post(name: Notification.Name("listenToMessagesForGroup"), object: nil, userInfo: nil)
             }
             else if Defaults.availableVC == "InboxVC" {
@@ -1067,7 +1067,7 @@ extension AppDelegate {
         
         //badge inbox
         if action == "user_chat" ||  action == "event_chat" || action == "user_chatGroup" {
-            if Defaults.availableVC != "ConversationVC" && Defaults.ConversationID != actionId {
+            if Defaults.availableVC != "MessagesVC" && Defaults.ConversationID != actionId {
                 Defaults.message_Count += 1
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
             }
@@ -1081,7 +1081,7 @@ extension AppDelegate {
             if action == "Friend_request_cancelled" || action == "Friend_block" {
                 completionHandler([[]])
             }
-            else if Defaults.availableVC == "ConversationVC" && Defaults.ConversationID == actionId
+            else if Defaults.availableVC == "MessagesVC" && Defaults.ConversationID == actionId
             {
                 completionHandler([[]])
             }

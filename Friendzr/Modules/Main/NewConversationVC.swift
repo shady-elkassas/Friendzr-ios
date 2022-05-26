@@ -292,7 +292,7 @@ extension NewConversationVC: UITableViewDelegate {
         cellSelected = true
         
         if NetworkConected.internetConect {
-            let vc = ConversationVC()
+            guard let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC else {return}
             let model = viewmodel.friends.value?.data?[indexPath.row]
             vc.isEvent = false
             vc.eventChatID = ""

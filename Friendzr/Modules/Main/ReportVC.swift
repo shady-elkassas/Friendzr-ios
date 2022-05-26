@@ -244,26 +244,3 @@ extension ReportVC: UITableViewDelegate {
         }
     }
 }
-
-
-extension ReportVC {
-    //init Back Chat Button
-    func initBackChatButton() {
-        
-        var imageName = ""
-        imageName = "back_icon"
-        
-        let button = UIButton.init(type: .custom)
-        let image = UIImage.init(named: imageName)
-        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        button.setImage(image, for: .normal)
-        image?.withTintColor(UIColor.blue)
-        button.addTarget(self, action:  #selector(backToConversationVC), for: .touchUpInside)
-        let barButton = UIBarButtonItem(customView: button)
-        self.navigationItem.leftBarButtonItem = barButton
-    }
-    
-    @objc func backToConversationVC() {
-        Router().toHome()
-    }
-}

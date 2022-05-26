@@ -644,7 +644,7 @@ extension EventDetailsViewController {
     }
     func handleEventChat(_ model:Event?, _ JoinDate:String, _ Jointime:String) {
         if model?.leveevent == 1 {
-            let vc = ConversationVC()
+            guard let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC else {return}
             vc.isEvent = true
             vc.eventChatID = self.eventId
             vc.chatuserID = ""
@@ -676,7 +676,7 @@ extension EventDetailsViewController {
             
             guard let _ = data else {return}
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                let vc = ConversationVC()
+                guard let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC else {return}
                 vc.isEvent = true
                 vc.eventChatID = self.eventId
                 vc.chatuserID = ""

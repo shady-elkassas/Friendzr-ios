@@ -131,7 +131,7 @@ class Router {
     }
     
     func toConversationVC(isEvent:Bool,eventChatID:String,leavevent:Int,chatuserID:String,isFriend:Bool,titleChatImage:String,titleChatName:String,isChatGroupAdmin:Bool,isChatGroup:Bool,groupId:String,leaveGroup:Int,isEventAdmin:Bool) {
-        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ConversationNC") as? UINavigationController, let vc = controller.viewControllers.first as? ConversationVC {
+        if let controller = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesNC") as? UINavigationController, let vc = controller.viewControllers.first as? MessagesVC {
             if isEvent == true {
                 vc.isEvent = true
                 vc.eventChatID = eventChatID

@@ -782,7 +782,7 @@ extension FeedVC:UITableViewDataSource {
             cell.HandleMessageBtn = { //messages chat
                 self.btnsSelected = true
                 if NetworkConected.internetConect {
-                    let vc = ConversationVC()
+                    guard let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC else {return}
                     vc.isEvent = false
                     vc.eventChatID = ""
                     vc.chatuserID = model?.userId ?? ""

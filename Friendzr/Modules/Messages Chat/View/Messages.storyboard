@@ -611,10 +611,10 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
                                         <subviews>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0HC-s3-wXe">
-                                                <rect key="frame" x="50" y="2" width="356" height="58"/>
+                                                <rect key="frame" x="50" y="3" width="356" height="57"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n2Y-2v-j34">
-                                                        <rect key="frame" x="312" y="11" width="36" height="36"/>
+                                                        <rect key="frame" x="312" y="10.5" width="36" height="36"/>
                                                         <color key="backgroundColor" name="primaryColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="36" id="2hh-Jr-6zH"/>
@@ -626,7 +626,7 @@
                                                         </connections>
                                                     </button>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Aa" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mRK-3Q-zXM">
-                                                        <rect key="frame" x="10" y="0.0" width="292" height="58"/>
+                                                        <rect key="frame" x="10" y="0.0" width="292" height="57"/>
                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -675,7 +675,7 @@
                                             <constraint firstAttribute="bottom" secondItem="0HC-s3-wXe" secondAttribute="bottom" constant="20" id="1r4-lr-Cuz"/>
                                             <constraint firstItem="0HC-s3-wXe" firstAttribute="leading" secondItem="Rcp-0N-OwA" secondAttribute="trailing" constant="8" id="2KK-XA-vd8"/>
                                             <constraint firstAttribute="trailing" secondItem="0HC-s3-wXe" secondAttribute="trailing" constant="8" id="Bow-aU-R6Q"/>
-                                            <constraint firstItem="0HC-s3-wXe" firstAttribute="top" secondItem="Wq8-Sd-0xP" secondAttribute="top" constant="2" id="IOF-49-Kzu"/>
+                                            <constraint firstItem="0HC-s3-wXe" firstAttribute="top" secondItem="Wq8-Sd-0xP" secondAttribute="top" constant="3" id="IOF-49-Kzu"/>
                                             <constraint firstItem="Rcp-0N-OwA" firstAttribute="centerY" secondItem="Wq8-Sd-0xP" secondAttribute="centerY" id="J28-Yg-MxJ"/>
                                             <constraint firstItem="Rcp-0N-OwA" firstAttribute="leading" secondItem="Wq8-Sd-0xP" secondAttribute="leading" constant="6" id="RH3-ZA-h7C"/>
                                         </constraints>
