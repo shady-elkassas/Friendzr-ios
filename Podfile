@@ -12,9 +12,7 @@ target 'Friendzr' do
 
   pod 'FBSDKLoginKit'
   pod 'GoogleSignIn'
-  #  pod 'SnapSDK', :subspecs => ['SCSDKLoginKit', 'SCSDKCreativeKit', 'SCSDKBitmojiKit']
-  #  pod 'TikTokOpenSDK', '~> 5.0.0'
-
+  
   pod 'Firebase'
   pod 'Firebase/Auth'
   pod 'Firebase/Crashlytics'
@@ -24,9 +22,9 @@ target 'Friendzr' do
   pod 'Firebase/Storage'
   pod 'Firebase/Firestore'
 
-  pod 'MessageKit', '~> 3.5.1'
   pod 'IQKeyboardManager'
   pod 'SDWebImage'
+  pod 'Kingfisher'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'MultiSlider'
@@ -34,19 +32,14 @@ target 'Friendzr' do
   pod 'RevealingSplashView'
 
   pod 'QCropper'
-
   pod 'AWSRekognition'
-
   pod 'Google-Mobile-Ads-SDK'
   pod 'GoogleMobileAdsMediationAppLovin'
   pod 'GoogleMobileAdsMediationFyber'
   pod 'GoogleMobileAdsMediationInMobi'
   pod 'GoogleMobileAdsMediationFacebook'
-  
   pod 'AppsFlyerFramework'
   pod 'MSImagePickerSheetController'
-
-#  pod 'GoogleMobileAdsMediationTestSuite'
   
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|

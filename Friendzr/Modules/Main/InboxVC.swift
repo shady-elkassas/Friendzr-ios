@@ -87,6 +87,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         initProfileBarButton()
+        hideKeyboardWhenTappedAround()
     }
     
     override func viewWillAppear(_ animated: Bool) {

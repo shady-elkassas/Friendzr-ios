@@ -289,7 +289,7 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>47</integer>
+			<integer>46</integer>
 		</dict>
 		<key>InMobiSDK.xcscheme</key>
 		<dict>
@@ -298,12 +298,12 @@
 			<key>orderHint</key>
 			<integer>45</integer>
 		</dict>
-		<key>InputBarAccessoryView.xcscheme</key>
+		<key>Kingfisher.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>46</integer>
+			<integer>47</integer>
 		</dict>
 		<key>Libuv-gRPC.xcscheme</key>
 		<dict>
@@ -324,20 +324,6 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>53</integer>
-		</dict>
-		<key>MessageKit-MessageKit.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
-			<integer>52</integer>
-		</dict>
-		<key>MessageKit.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-			<key>orderHint</key>
 			<integer>51</integer>
 		</dict>
 		<key>MultiSlider.xcscheme</key>
@@ -345,56 +331,56 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>54</integer>
+			<integer>52</integer>
 		</dict>
 		<key>ObjectMapper.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>56</integer>
+			<integer>54</integer>
 		</dict>
 		<key>Pods-Friendzr.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>57</integer>
+			<integer>55</integer>
 		</dict>
 		<key>PromisesObjC.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>58</integer>
+			<integer>56</integer>
 		</dict>
 		<key>QCropper.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>59</integer>
+			<integer>57</integer>
 		</dict>
 		<key>RevealingSplashView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>60</integer>
+			<integer>58</integer>
 		</dict>
 		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>61</integer>
+			<integer>59</integer>
 		</dict>
 		<key>SweeterSwift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>62</integer>
+			<integer>60</integer>
 		</dict>
 		<key>abseil.xcscheme</key>
 		<dict>
@@ -436,7 +422,7 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>55</integer>
+			<integer>53</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
