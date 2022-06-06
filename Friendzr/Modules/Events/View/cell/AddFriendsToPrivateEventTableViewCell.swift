@@ -13,7 +13,6 @@ class AddFriendsToPrivateEventTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var selectedImg: UIImageView!
     @IBOutlet weak var bottomView: UIView!
-
     
     override func awakeFromNib() {
         super.awakeFromNib()

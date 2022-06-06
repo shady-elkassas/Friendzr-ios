@@ -10,6 +10,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Montserrat-Bold.ttf">
+            <string>Montserrat-Bold</string>
+        </array>
         <array key="Montserrat-Medium.ttf">
             <string>Montserrat-Medium</string>
         </array>
@@ -226,16 +229,19 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Erl-g5-LHz">
-                                <rect key="frame" x="358" y="608" width="40" height="40"/>
+                                <rect key="frame" x="358" y="648" width="40" height="40"/>
                                 <color key="backgroundColor" name="Color0"/>
                                 <state key="normal" image="current_location_ic"/>
                                 <connections>
                                     <action selector="currentLocationBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="YAC-X2-f3B"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ky-Fj-X6K">
-                                <rect key="frame" x="358" y="658" width="40" height="40"/>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ky-Fj-X6K">
+                                <rect key="frame" x="358" y="698" width="40" height="0.0"/>
                                 <color key="backgroundColor" name="Color0"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="SqP-e5-pga"/>
+                                </constraints>
                                 <state key="normal" image="satellite_ic"/>
                                 <connections>
                                     <action selector="convertMapStyleBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="lDC-V6-XGv"/>
@@ -370,7 +376,6 @@
                             <constraint firstItem="Erl-g5-LHz" firstAttribute="height" secondItem="OIM-6b-ASS" secondAttribute="height" id="tyH-KU-2hR"/>
                             <constraint firstItem="wUG-6d-BKB" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="vHi-jJ-vmP"/>
                             <constraint firstItem="Kad-lD-qUK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="w0x-ef-S5E"/>
-                            <constraint firstItem="0Ky-Fj-X6K" firstAttribute="height" secondItem="OIM-6b-ASS" secondAttribute="height" id="wB1-PK-jJ6"/>
                             <constraint firstItem="Jhb-xC-bQx" firstAttribute="centerY" secondItem="FZl-vM-xh3" secondAttribute="centerY" id="wzE-zb-IyL"/>
                             <constraint firstItem="Jhb-xC-bQx" firstAttribute="height" secondItem="FZl-vM-xh3" secondAttribute="height" id="zYd-kq-JKT"/>
                         </constraints>
@@ -523,7 +528,69 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1TI-E5-e7K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3264" y="269"/>
+            <point key="canvasLocation" x="3338" y="74"/>
+        </scene>
+        <!--Categories View Controller-->
+        <scene sceneID="Vgm-Uk-wMP">
+            <objects>
+                <viewController storyboardIdentifier="CategoriesViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1CU-m8-rns" customClass="CategoriesViewController" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="eLd-TT-miT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CKK-BK-9Yj">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <color key="backgroundColor" name="BGColor"/>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="2AL-2a-O18">
+                                <rect key="frame" x="0.0" y="88" width="414" height="702"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="1CU-m8-rns" id="k6J-6s-VbA"/>
+                                    <outlet property="delegate" destination="1CU-m8-rns" id="7Bm-Yn-22x"/>
+                                </connections>
+                            </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FL5-qb-hWe">
+                                <rect key="frame" x="138" y="800" width="138" height="42"/>
+                                <color key="backgroundColor" red="0.043137254901960784" green="0.74509803921568629" blue="0.63137254901960782" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="KmI-TS-pvU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Apply">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="applyBtn:" destination="1CU-m8-rns" eventType="touchUpInside" id="t4M-fa-81P"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="d5p-Fj-Kkw"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="2AL-2a-O18" firstAttribute="leading" secondItem="d5p-Fj-Kkw" secondAttribute="leading" id="1ZZ-UP-89w"/>
+                            <constraint firstItem="FL5-qb-hWe" firstAttribute="width" secondItem="eLd-TT-miT" secondAttribute="width" multiplier="0.333333" id="KDE-2o-Gx7"/>
+                            <constraint firstAttribute="bottom" secondItem="CKK-BK-9Yj" secondAttribute="bottom" id="Kcl-LK-Foc"/>
+                            <constraint firstItem="2AL-2a-O18" firstAttribute="top" secondItem="d5p-Fj-Kkw" secondAttribute="top" id="LJX-GX-hhN"/>
+                            <constraint firstItem="FL5-qb-hWe" firstAttribute="centerX" secondItem="d5p-Fj-Kkw" secondAttribute="centerX" id="UZl-AK-Fnc"/>
+                            <constraint firstItem="CKK-BK-9Yj" firstAttribute="top" secondItem="d5p-Fj-Kkw" secondAttribute="top" id="XOx-T1-mw2"/>
+                            <constraint firstItem="CKK-BK-9Yj" firstAttribute="leading" secondItem="d5p-Fj-Kkw" secondAttribute="leading" id="ZsY-j4-bow"/>
+                            <constraint firstItem="d5p-Fj-Kkw" firstAttribute="trailing" secondItem="CKK-BK-9Yj" secondAttribute="trailing" id="eFx-IS-25Q"/>
+                            <constraint firstItem="FL5-qb-hWe" firstAttribute="top" secondItem="2AL-2a-O18" secondAttribute="bottom" constant="10" id="lXb-Pw-fHR"/>
+                            <constraint firstItem="d5p-Fj-Kkw" firstAttribute="bottom" secondItem="FL5-qb-hWe" secondAttribute="bottom" constant="20" id="w2W-28-PKB"/>
+                            <constraint firstItem="2AL-2a-O18" firstAttribute="trailing" secondItem="d5p-Fj-Kkw" secondAttribute="trailing" id="yZc-fN-jNc"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="sqO-7Z-SDA"/>
+                    <connections>
+                        <outlet property="applyBtn" destination="FL5-qb-hWe" id="WFG-0j-hGv"/>
+                        <outlet property="tableView" destination="2AL-2a-O18" id="Xd9-B1-b90"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XDk-ff-fBN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5030" y="60"/>
         </scene>
         <!--Map-->
         <scene sceneID="hPz-wL-3GT">
@@ -563,6 +630,24 @@
             </objects>
             <point key="canvasLocation" x="1767" y="74"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Dco-dI-6jx">
+            <objects>
+                <navigationController storyboardIdentifier="CategoriesNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ZVx-4c-gLR" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Rgv-0k-REL">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="1CU-m8-rns" kind="relationship" relationship="rootViewController" id="mMi-ku-iUQ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZzU-AC-egy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4211.594202898551" y="59.598214285714285"/>
+        </scene>
     </scenes>
     <resources>
         <image name="addEvent_ic" width="256" height="256"/>
@@ -574,6 +659,9 @@
         <image name="map_unselected_ic" width="27" height="27"/>
         <image name="placeHolderApp" width="2583" height="2479"/>
         <image name="satellite_ic" width="256" height="256"/>
+        <namedColor name="BGColor">
+            <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="Color0">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

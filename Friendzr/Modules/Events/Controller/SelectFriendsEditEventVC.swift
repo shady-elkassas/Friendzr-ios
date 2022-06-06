@@ -373,7 +373,6 @@ extension SelectFriendsEditEventVC:UITableViewDelegate {
         print("selectedNames = \(selectedNames)")
         tableView.reloadData()
     }
-    
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         selectImg.image = UIImage(named: "unSelected_ic")
         selectAllBtn.isSelected = false

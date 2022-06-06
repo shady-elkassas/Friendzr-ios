@@ -140,6 +140,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }else {
             bannerViewHeight.constant = 0
         }
+        
+        initFilterBarButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -555,7 +557,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         subView.setCornerforTop()
         
         zoomingStatisticsView.cornerRadiusView(radius: 6)
-                
+        
         for itm in hideImgs {
             itm.cornerRadiusView(radius: 8)
         }
@@ -1342,21 +1344,21 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
 }
 
 extension MapVC {
-//    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-//
-//        // Find the coordinates
-//        let visibleRegion = mapView.projection.visibleRegion()
-//        let farLeftLocation = CLLocation(latitude: visibleRegion.farLeft.latitude, longitude: visibleRegion.farLeft.longitude)
-//        let centerLocation = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
-//
-//        // Calculate the distance as radius.
-//        // The distance result from CLLocation is in meters, so we divide it by 1000 to get the value in kilometers
-//        let radiusKM = (centerLocation.distance(from: farLeftLocation) / 1000.0).rounded(toPlaces: 1)
-//        // Do something with the radius...
-//        print("radiusKM \(radiusKM)")
-//        radiusMLbl.text = "\(radiusKM * 1000) m"
-//        radiusKMLbl.text = "\(radiusKM) km"
-//    }
+    //    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+    //
+    //        // Find the coordinates
+    //        let visibleRegion = mapView.projection.visibleRegion()
+    //        let farLeftLocation = CLLocation(latitude: visibleRegion.farLeft.latitude, longitude: visibleRegion.farLeft.longitude)
+    //        let centerLocation = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
+    //
+    //        // Calculate the distance as radius.
+    //        // The distance result from CLLocation is in meters, so we divide it by 1000 to get the value in kilometers
+    //        let radiusKM = (centerLocation.distance(from: farLeftLocation) / 1000.0).rounded(toPlaces: 1)
+    //        // Do something with the radius...
+    //        print("radiusKM \(radiusKM)")
+    //        radiusMLbl.text = "\(radiusKM * 1000) m"
+    //        radiusKMLbl.text = "\(radiusKM) km"
+    //    }
     
     func delay(seconds: Double, closure: @escaping () -> ()) {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
@@ -1399,48 +1401,40 @@ extension MapVC {
     }
 }
 
-//class MapUtil {
-//    class func translateCoordinate(coordinate: CLLocationCoordinate2D, metersLat: Double,metersLong: Double) -> (CLLocationCoordinate2D) {
-//        var tempCoord = coordinate
-//
-//        //        let tempRegion = MKCoordinateRegionMakeWithDistance(coordinate, metersLat, metersLong)
-//        let tempRegion = MKCoordinateRegion(center: coordinate, latitudinalMeters: metersLat, longitudinalMeters: metersLong)
-//
-//        let tempSpan = tempRegion.span
-//
-//        tempCoord.latitude = coordinate.latitude + tempSpan.latitudeDelta
-//        tempCoord.longitude = coordinate.longitude + tempSpan.longitudeDelta
-//
-//        return tempCoord
-//    }
-//
-//    class func setRadius(radius: Double,withCity city: CLLocationCoordinate2D,InMapView mapView: GMSMapView) {
-//
-//        let range = MapUtil.translateCoordinate(coordinate: city, metersLat: radius * 2, metersLong: radius * 2)
-//
-//        let bounds = GMSCoordinateBounds(coordinate: city, coordinate: range)
-//
-//        let update = GMSCameraUpdate.fit(bounds, withPadding: 5.0)    // padding set to 5.0
-//
-//        mapView.moveCamera(update)
-//
-//        // location
-//        let marker = GMSMarker(position: city)
-//        marker.title = "title"
-//        marker.snippet = "snippet"
-//        marker.isFlat = true
-//        marker.map = mapView
-//
-//        // draw circle
-//        let circle = GMSCircle(position: city, radius: radius)
-//        circle.map = mapView
-//        circle.fillColor = UIColor(red:0.09, green:0.6, blue:0.41, alpha:0.5)
-//
-//        mapView.animate(toLocation: city) // animate to center
-//    }
-//}
-
 extension MapVC {
+    func onFilterByCatsCallBack(_ listIDs: [String],_ listNames: [String],_ selectFriends:[CategoryObj]) -> () {
+
+//        var locs:[EventsLocation] = [EventsLocation]()
+//        for obj in locations {
+//            for eventCat in obj.eventList ?? [] {
+//                for item in listIDs {
+//                    if eventCat.categorie == item {
+//                        locs.append(obj)
+//                    }
+//                }
+//            }
+//        }
+    }
+    
+    func initFilterBarButton() {
+        let button = UIButton.init(type: .custom)
+        button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        let image = UIImage(named: "filter_ic")?.withRenderingMode(.automatic)
+        button.frame = CGRect(x: 0, y: 0, width: 36, height: 36)
+        button.setImage(image, for: .normal)
+        button.tintColor = .white
+        button.addTarget(self, action: #selector(presentFilterByCats), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
+    }
+    
+    @objc func presentFilterByCats() {
+        if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "CategoriesNC") as? UINavigationController, let vc = controller.viewControllers.first as? CategoriesViewController {
+            vc.onListCatsCallBackResponse = self.onFilterByCatsCallBack
+            self.present(controller, animated: true)
+        }
+    }
+    
     func addBottomSheetView(scrollable: Bool? = true) {
         let bottomSheetVC = scrollable! ? ScrollableBottomSheetViewController() : BottomSheetViewController()
         
