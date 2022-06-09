@@ -422,6 +422,16 @@ class Defaults {
         }
     }
     
+    static var isFirstOpenFeed: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "isFirstOpenFeed")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "isFirstOpenFeed")
+        }
+    }
+    
     static var isIPhoneLessThan1500: Bool {
         set{
             UserDefaults.standard.set(newValue, forKey: "isIPhoneLessThan1500")
@@ -588,6 +598,7 @@ class Defaults {
         defaults.removeObject(forKey: "iamid")
         defaults.removeObject(forKey: "preferToid")
         defaults.removeObject(forKey: "isFirstLogin")
+        defaults.removeObject(forKey: "isFirstOpenFeed")
 
         
         if let token = AccessToken.current,

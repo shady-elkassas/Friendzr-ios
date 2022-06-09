@@ -41,8 +41,17 @@ extension FeedVC {
                 self.isCompassOpen = false
                 filterDir = false
                 switchCompassBarButton.isOn = false
-                filterHideView.isHidden = true
-                filterHideView.isHidden = true
+                
+                if !Defaults.isFirstOpenFeed {
+                    showCompassExplainedView.isHidden = false
+                    showPrivateModeExplainedView.isHidden = true
+                    showSortByInterestsExplainedView.isHidden = true
+                }else {
+                    showCompassExplainedView.isHidden = true
+                    showPrivateModeExplainedView.isHidden = true
+                    showSortByInterestsExplainedView.isHidden = true
+                }
+                
                 filterBtn.isHidden = true
                 compassContanierView.isHidden = true
                 compassContainerViewHeight.constant = 0
@@ -129,8 +138,12 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var compassContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var filterBtn: UIButton!
     @IBOutlet weak var allowLocView: UIView!
-    @IBOutlet weak var nextBtn: UIButton!
-    @IBOutlet weak var filterHideView: UIView!
+    @IBOutlet weak var next1Btn: UIButton!
+    @IBOutlet weak var next2Btn: UIButton!
+    @IBOutlet weak var next3Btn: UIButton!
+    @IBOutlet weak var showCompassExplainedView: UIView!
+    @IBOutlet weak var showPrivateModeExplainedView: UIView!
+    @IBOutlet weak var showSortByInterestsExplainedView: UIView!
     @IBOutlet weak var dialogimg: UIImageView!
     @IBOutlet weak var allowBtn: UIButton!
     @IBOutlet var bannerView: UIView!
@@ -158,6 +171,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     lazy var alertView = Bundle.main.loadNibNamed("HideGhostModeView", owner: self, options: nil)?.first as? HideGhostModeView
     
+    lazy var showSortView = Bundle.main.loadNibNamed("SortFeedView", owner: self, options: nil)?.first as? SortFeedView
+
     private func createLocationManager() {
         locationManager.delegate = self
         locationManager.distanceFilter = 0
@@ -203,6 +218,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     var refreshControl = UIRefreshControl()
     let switchCompassBarButton: CustomSwitch = CustomSwitch()
     var switchGhostModeBarButton: CustomSwitch = CustomSwitch()
+    var switchSortedByInterestsButton: CustomSwitch = CustomSwitch()
+    
+    var titleViewBtn:UIButton = UIButton()
     var btnsSelected:Bool = false
     
     var currentPage : Int = 1
@@ -221,6 +239,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         
         self.title = "Feed".localizedString
+//        updateTitleView()
         pullToRefresh()
         addCompassView()
         
@@ -251,7 +270,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         }
         
         
-        initGhostModeSwitchButton()
+        initGhostModeAndSortSwitchButton()
         
         self.checkLocationPermission()
     }
@@ -339,7 +358,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             switchGhostModeBarButton.isUserInteractionEnabled = false
         }
         
-        initGhostModeSwitchButton()
+        initGhostModeAndSortSwitchButton()
     }
     
     func loadMoreItemsForList(){
@@ -373,7 +392,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 }
                 
                 DispatchQueue.main.async {
-                    self.initGhostModeSwitchButton()
+                    self.initGhostModeAndSortSwitchButton()
                 }
             })
         }
@@ -409,7 +428,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 
                 
                 DispatchQueue.main.async {
-                    self.initGhostModeSwitchButton()
+                    self.initGhostModeAndSortSwitchButton()
                 }
             })
         }
@@ -446,7 +465,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 
                 self.isSendRequest = false
                 DispatchQueue.main.async {
-                    self.initGhostModeSwitchButton()
+                    self.initGhostModeAndSortSwitchButton()
                 }
             })
         }
@@ -631,8 +650,12 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         tableView.register(UINib(nibName:emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
         allowBtn.cornerRadiusView(radius: 8)
-        nextBtn.setBorder(color: UIColor.white.cgColor, width: 2)
-        nextBtn.cornerRadiusForHeight()
+        next1Btn.setBorder(color: UIColor.white.cgColor, width: 2)
+        next1Btn.cornerRadiusForHeight()
+        next2Btn.setBorder(color: UIColor.white.cgColor, width: 2)
+        next2Btn.cornerRadiusForHeight()
+        next3Btn.setBorder(color: UIColor.white.cgColor, width: 2)
+        next3Btn.cornerRadiusForHeight()
         bannerView.setCornerforTop()
     }
     
@@ -642,26 +665,43 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     //MARK: - Actions
-    @IBAction func nextBtn(_ sender: Any) {
-        self.btnsSelected = true
-        if NetworkConected.internetConect {
-            filterHideView.isHidden = true
-            Defaults.isFirstFilter = true
-            
-            createLocationManager()
-            filterDir = true
-            filterBtn.isHidden = false
-            compassContanierView.isHidden = false
-            
-            if Defaults.isIPhoneLessThan2500 {
-                compassContainerViewHeight.constant = 200
-            }else {
-                compassContainerViewHeight.constant = 270
-            }
-            
-        }
+    
+    @IBAction func next1Btn(_ sender: Any) {
+        Defaults.isFirstOpenFeed = true
+        
+        showCompassExplainedView.isHidden = true
+        showPrivateModeExplainedView.isHidden = false
+        showSortByInterestsExplainedView.isHidden = true
+//        self.btnsSelected = true
+//        if NetworkConected.internetConect {
+//            filterHideView.isHidden = true
+//            Defaults.isFirstFilter = true
+//
+//            createLocationManager()
+//            filterDir = true
+//            filterBtn.isHidden = false
+//            compassContanierView.isHidden = false
+//
+//            if Defaults.isIPhoneLessThan2500 {
+//                compassContainerViewHeight.constant = 200
+//            }else {
+//                compassContainerViewHeight.constant = 270
+//            }
+//
+//        }
     }
     
+    @IBAction func next2Btn(_ sender: Any) {
+        showCompassExplainedView.isHidden = true
+        showPrivateModeExplainedView.isHidden = true
+        showSortByInterestsExplainedView.isHidden = false
+    }
+    
+    @IBAction func next3Btn(_ sender: Any) {
+        showCompassExplainedView.isHidden = true
+        showPrivateModeExplainedView.isHidden = true
+        showSortByInterestsExplainedView.isHidden = true
+    }
     
     @IBAction func tryAgainBtn(_ sender: Any) {
         updateUserInterface()
@@ -1143,6 +1183,89 @@ extension FeedVC: GADBannerViewDelegate {
     }
 }
 
+//MARK: - Navigation Btns
+extension FeedVC {
+    func updateTitleView() {
+        let titleView = UIView(frame: CGRect(x: 0, y: 0, width: 100 , height: 45))
+        let imag:UIImageView = UIImageView(image: UIImage(named: "arrow-black-down_ic"))
+        titleViewBtn = UIButton(frame: titleView.frame)
+        titleViewBtn.titleLabel?.text = "Sort by"
+        titleViewBtn.setTitle("Sort by", for: .normal)
+        titleViewBtn.setImage(imag.image, for: .normal)
+        titleViewBtn.setTitleColor(.black, for: .normal)
+        titleViewBtn.imageEdgeInsets.left = 70
+        titleViewBtn.titleEdgeInsets.left = -30
+        titleViewBtn.titleLabel?.font = UIFont(name: "Montserrat-SemiBold", size: 14)
+        
+        titleViewBtn.addTarget(self, action: #selector(showSortByView), for: .touchUpInside)
+        titleView.addSubview(titleViewBtn)
+        navigationItem.titleView = titleView
+    }
+    
+   @objc func showSortByView() {
+        print("showSortByView")
+       self.switchCompassBarButton.isUserInteractionEnabled = false
+       self.switchGhostModeBarButton.isUserInteractionEnabled = false
+       
+       self.showSortView?.frame = CGRect(x: -100, y: -100 , width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+
+       self.showSortView?.HandleSortByDistanceBtn = {
+           
+           self.showSortView?.selectDistanceImg.image = UIImage(named: "select_ic")
+           self.showSortView?.selectInterestsImg.image = UIImage(named: "unSelect_ic")
+           self.switchCompassBarButton.isUserInteractionEnabled = true
+           self.switchGhostModeBarButton.isUserInteractionEnabled = true
+
+           // handling code
+           UIView.animate(withDuration: 0.3, animations: {
+               self.showSortView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+               self.showSortView?.alpha = 0
+           }) { (success: Bool) in
+               self.showSortView?.removeFromSuperview()
+               self.showSortView?.alpha = 1
+               self.showSortView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+           }
+       }
+       
+       self.showSortView?.HandleSortByInterestsBtn = {
+           self.switchCompassBarButton.isUserInteractionEnabled = true
+           self.switchGhostModeBarButton.isUserInteractionEnabled = true
+
+           self.showSortView?.selectDistanceImg.image = UIImage(named: "unSelect_ic")
+           self.showSortView?.selectInterestsImg.image = UIImage(named: "select_ic")
+
+           // handling code
+           UIView.animate(withDuration: 0.3, animations: {
+               self.showSortView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+               self.showSortView?.alpha = 0
+           }) { (success: Bool) in
+               self.showSortView?.removeFromSuperview()
+               self.showSortView?.alpha = 1
+               self.showSortView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+           }
+       }
+       
+       self.showSortView?.HandlehideViewBtn = {
+           self.switchCompassBarButton.isUserInteractionEnabled = true
+           self.switchGhostModeBarButton.isUserInteractionEnabled = true
+
+           // handling code
+           UIView.animate(withDuration: 0.3, animations: {
+               self.showSortView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+               self.showSortView?.alpha = 0
+           }) { (success: Bool) in
+               self.showSortView?.removeFromSuperview()
+               self.showSortView?.alpha = 1
+               self.showSortView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+           }
+       }
+       
+       self.view.addSubview((self.showSortView)!)
+
+    }
+    
+}
+
 extension FeedVC {
     func initCompassSwitchBarButton() {
         switchCompassBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
@@ -1196,29 +1319,23 @@ extension FeedVC {
                         bannerViewHeight.constant = 0
                     }
                     
-                    if !Defaults.isFirstFilter {
-                        filterHideView.isHidden = false
-                        Defaults.isFirstFilter = true
+                    
+                    createLocationManager()
+                    filterDir = true
+                    filterBtn.isHidden = false
+                    compassContanierView.isHidden = false
+                    if Defaults.isIPhoneLessThan2500 {
+                        compassContainerViewHeight.constant = 200
                     }else {
-                        filterHideView.isHidden = true
-                        Defaults.isFirstFilter = true
-                        
-                        createLocationManager()
-                        filterDir = true
-                        filterBtn.isHidden = false
-                        compassContanierView.isHidden = false
-                        if Defaults.isIPhoneLessThan2500 {
-                            compassContainerViewHeight.constant = 200
-                        }else {
-                            compassContainerViewHeight.constant = 270
-                        }
-                        
-                        compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
+                        compassContainerViewHeight.constant = 270
                     }
+                    
+                    compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
+                    
                 }else {
                     self.isCompassOpen = false
-                    filterHideView.isHidden = true
-                    Defaults.isFirstFilter = true
+//                    filterHideView.isHidden = true
+//                    Defaults.isFirstFilter = true
                     
                     if !Defaults.hideAds {
                         DispatchQueue.main.async {
@@ -1297,8 +1414,8 @@ extension FeedVC {
                 if Defaults.allowMyLocationSettings == true {
                     switchCompassBarButton.isOn = false
                     self.isCompassOpen = false
-                    filterHideView.isHidden = true
-                    Defaults.isFirstFilter = true
+//                    filterHideView.isHidden = true
+//                    Defaults.isFirstFilter = true
                     
                     if !Defaults.hideAds {
                         DispatchQueue.main.async {
@@ -1363,25 +1480,25 @@ extension FeedVC {
                         bannerViewHeight.constant = 0
                     }
                     
-                    if !Defaults.isFirstFilter {
-                        filterHideView.isHidden = false
-                        Defaults.isFirstFilter = true
+//                    if !Defaults.isFirstFilter {
+//                        filterHideView.isHidden = false
+//                        Defaults.isFirstFilter = true
+//                    }else {
+//                        filterHideView.isHidden = true
+//                        Defaults.isFirstFilter = true
+//
+                    createLocationManager()
+                    filterDir = true
+                    filterBtn.isHidden = false
+                    compassContanierView.isHidden = false
+                    if Defaults.isIPhoneLessThan2500 {
+                        compassContainerViewHeight.constant = 200
                     }else {
-                        filterHideView.isHidden = true
-                        Defaults.isFirstFilter = true
-                        
-                        createLocationManager()
-                        filterDir = true
-                        filterBtn.isHidden = false
-                        compassContanierView.isHidden = false
-                        if Defaults.isIPhoneLessThan2500 {
-                            compassContainerViewHeight.constant = 200
-                        }else {
-                            compassContainerViewHeight.constant = 270
-                        }
-                        
-                        compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
+                        compassContainerViewHeight.constant = 270
                     }
+                    
+                    compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
+//                    }
                 }
                 else {
                     self.isCompassOpen = false
@@ -1409,9 +1526,8 @@ extension FeedVC {
     }
     
     
-    func initGhostModeSwitchButton() {
+    func initGhostModeAndSortSwitchButton() {
         switchGhostModeBarButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
-        
         switchGhostModeBarButton.onTintColor = UIColor.FriendzrColors.primary!
         switchGhostModeBarButton.setBorder()
         switchGhostModeBarButton.offTintColor = UIColor.white
@@ -1427,16 +1543,34 @@ extension FeedVC {
             self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-off-ic")
         }
         
-        
         switchGhostModeBarButton.addTarget(self, action:  #selector(handleGhostModeSwitchBtn), for: .touchUpInside)
         
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .up))
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .down))
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .left))
         switchGhostModeBarButton.addGestureRecognizer(createGhostModeSwipeGestureRecognizer(for: .right))
-        
         let barButton = UIBarButtonItem(customView: switchGhostModeBarButton)
-        self.navigationItem.leftBarButtonItem = barButton
+        
+        
+        switchSortedByInterestsButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
+        switchSortedByInterestsButton.onTintColor = UIColor.FriendzrColors.primary!
+        switchSortedByInterestsButton.setBorder()
+        switchSortedByInterestsButton.offTintColor = UIColor.white
+        switchSortedByInterestsButton.cornerRadius = 0.5
+        switchSortedByInterestsButton.thumbCornerRadius = 0.5
+        switchSortedByInterestsButton.animationDuration = 0.25
+//        switchSortedByInterestsButton.isOn = Defaults.ghostMode
+        
+        self.switchSortedByInterestsButton.thumbImage = UIImage(named: "filterFeedByInterests_ic")
+        switchSortedByInterestsButton.addTarget(self, action:  #selector(handleSortedByInterestsSwitchBtn), for: .touchUpInside)
+
+        switchSortedByInterestsButton.addGestureRecognizer(createSortedByInterestsSwipeGestureRecognizer(for: .up))
+        switchSortedByInterestsButton.addGestureRecognizer(createSortedByInterestsSwipeGestureRecognizer(for: .down))
+        switchSortedByInterestsButton.addGestureRecognizer(createSortedByInterestsSwipeGestureRecognizer(for: .left))
+        switchSortedByInterestsButton.addGestureRecognizer(createSortedByInterestsSwipeGestureRecognizer(for: .right))
+        let barButton2 = UIBarButtonItem(customView: switchSortedByInterestsButton)
+        
+        self.navigationItem.leftBarButtonItems = [barButton,barButton2]
     }
     
     private func createGhostModeSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
@@ -1511,7 +1645,7 @@ extension FeedVC {
                 
                 self.showAlertView?.HandleCancelBtn = {
                     DispatchQueue.main.async {
-                        self.initGhostModeSwitchButton()
+                        self.initGhostModeAndSortSwitchButton()
                         self.switchGhostModeBarButton.isUserInteractionEnabled = true
                         self.switchCompassBarButton.isUserInteractionEnabled = true
                     }
@@ -1545,7 +1679,7 @@ extension FeedVC {
                 
                 //cancel view
                 self.alertView?.HandlehideViewBtn = {
-                    self.initGhostModeSwitchButton()
+                    self.initGhostModeAndSortSwitchButton()
                     DispatchQueue.main.async {
                         self.switchGhostModeBarButton.isUserInteractionEnabled = true
                         self.switchCompassBarButton.isUserInteractionEnabled = true
@@ -1597,7 +1731,7 @@ extension FeedVC {
                 
                 //cancel view
                 self.alertView?.HandlehideViewBtn = {
-                    self.initGhostModeSwitchButton()
+                    self.initGhostModeAndSortSwitchButton()
                     DispatchQueue.main.async {
                         self.switchGhostModeBarButton.isUserInteractionEnabled = true
                         self.switchCompassBarButton.isUserInteractionEnabled = true
@@ -1675,7 +1809,7 @@ extension FeedVC {
                 
                 self.showAlertView?.HandleCancelBtn = {
                     DispatchQueue.main.async {
-                        self.initGhostModeSwitchButton()
+                        self.initGhostModeAndSortSwitchButton()
                         self.switchGhostModeBarButton.isUserInteractionEnabled = true
                         self.switchCompassBarButton.isUserInteractionEnabled = true
                     }
@@ -1695,7 +1829,6 @@ extension FeedVC {
         print(value)
         ghostModeToggle(ghostMode: true, myAppearanceTypes:value)
     }
-    
     
     //ghostmode toggle
     func ghostModeToggle(ghostMode:Bool,myAppearanceTypes:[Int]) {
@@ -1743,6 +1876,36 @@ extension FeedVC {
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
             }
+        }
+    }
+    
+    
+    @objc func handleSortedByInterestsSwitchBtn() {
+        print("handleSortedByInterestsSwitchBtn")
+    }
+    
+    private func createSortedByInterestsSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
+        // Initialize Swipe Gesture Recognizer
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSortByInterestsSwipe(_:)))
+        
+        // Configure Swipe Gesture Recognizer
+        swipeGestureRecognizer.direction = direction
+        
+        return swipeGestureRecognizer
+    }
+    
+    @objc private func didSortByInterestsSwipe(_ sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case .up:
+            break
+        case .down:
+            break
+        case .left:
+            break
+        case .right:
+            break
+        default:
+            break
         }
     }
 }

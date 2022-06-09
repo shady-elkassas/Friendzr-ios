@@ -80,12 +80,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        if !Defaults.hideAds {
-            setupAds()
-        }else {
-            bannerViewHeight.constant = 0
-        }
-        
         initProfileBarButton()
         hideKeyboardWhenTappedAround()
     }
@@ -107,6 +101,12 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         setupHideView()
+        
+        if !Defaults.hideAds {
+            setupAds()
+        }else {
+            bannerViewHeight.constant = 0
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

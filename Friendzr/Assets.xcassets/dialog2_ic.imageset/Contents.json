@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "sort (3).png",
+      "filename" : "tooltip.pdf",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "sort (4).png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "sort (5).png",
       "idiom" : "universal",
       "scale" : "3x"
     }

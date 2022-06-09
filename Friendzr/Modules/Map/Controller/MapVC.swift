@@ -67,7 +67,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK:- Outlets
     @IBOutlet weak var nextBtn: UIButton!
-    @IBOutlet weak var firstOpenMapView: UIView!
+    @IBOutlet weak var showAddEventExplainedView: UIView!
+    @IBOutlet weak var showFilterExplainedView: UIView!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addEventBtn: UIButton!
     @IBOutlet weak var goAddEventBtn: UIButton!
@@ -93,6 +94,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var hideCollectionView: UIView!
     @IBOutlet var hideImgs: [UIImageView]!
     @IBOutlet weak var dualogImg: UIImageView!
+    @IBOutlet weak var nextToShowMapBtn: UIButton!
+    
     
     //MARK: - Properties
     var locations:[EventsLocation] = [EventsLocation]()
@@ -135,11 +138,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
         isViewUp = false
         
-        if !Defaults.hideAds {
-            setupAds()
-        }else {
-            bannerViewHeight.constant = 0
-        }
         
         initFilterBarButton()
     }
@@ -197,6 +195,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         checkLocationPermission()
         markerImg.isHidden = true
+        
+        if !Defaults.hideAds {
+            setupAds()
+        }else {
+            bannerViewHeight.constant = 0
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -524,7 +528,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         currentLocationBtn.cornerRadiusView(radius: 10)
         topContainerView.cornerRadiusView(radius: 10)
         nextBtn.setBorder(color: UIColor.white.cgColor, width: 2)
+        nextToShowMapBtn.setBorder(color: UIColor.white.cgColor, width: 2)
         nextBtn.cornerRadiusForHeight()
+        nextToShowMapBtn.cornerRadiusForHeight()
         bannerView.cornerRadiusView(radius: 8)
         
         profileImg.isHidden = true
@@ -724,7 +730,13 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     //MARK: - Actions
     @IBAction func nextBtn(_ sender: Any) {
         Defaults.isFirstOpenMap = true
-        firstOpenMapView.isHidden = true
+        showAddEventExplainedView.isHidden = true
+        showFilterExplainedView.isHidden = false
+    }
+    
+    @IBAction func nextToShowMapBtn(_ sender: Any) {
+        showAddEventExplainedView.isHidden = true
+        showFilterExplainedView.isHidden = true
     }
     
     @IBAction func addEventBtn(_ sender: Any) {
@@ -1001,9 +1013,9 @@ extension MapVC : CLLocationManagerDelegate {
     func checkLocationPermission() {
         
         if !Defaults.isFirstOpenMap {
-            firstOpenMapView.isHidden = false
+            showAddEventExplainedView.isHidden = false
         }else {
-            firstOpenMapView.isHidden = true
+            showAddEventExplainedView.isHidden = true
         }
         
         if CLLocationManager.locationServicesEnabled() {
@@ -1419,7 +1431,7 @@ extension MapVC {
     func initFilterBarButton() {
         let button = UIButton.init(type: .custom)
         button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-        let image = UIImage(named: "filter_ic")?.withRenderingMode(.automatic)
+        let image = UIImage(named: "filter_ic")?.withRenderingMode(.alwaysOriginal)
         button.frame = CGRect(x: 0, y: 0, width: 36, height: 36)
         button.setImage(image, for: .normal)
         button.tintColor = .white
