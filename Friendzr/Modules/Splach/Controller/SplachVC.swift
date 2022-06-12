@@ -84,14 +84,12 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
                     DispatchQueue.main.async {
                         Router().toSplachOne()
                     }
-                }else {
-                    if Defaults.token != "" {
-                        Router().toFeed()
-                    }else {
-                        Router().toOptionsSignUpVC()
-                    }
+                }
+                else {
+                    Router().toFeed()
                 }
             }
+            
         }
         
         

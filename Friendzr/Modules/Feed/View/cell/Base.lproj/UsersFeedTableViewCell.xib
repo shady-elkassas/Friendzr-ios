@@ -188,16 +188,10 @@
                         </constraints>
                         <color key="progressTintColor" red="0.043137254899999998" green="0.74500000479999995" blue="0.63099998239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </progressView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50 %" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="fux-tx-UhI">
-                        <rect key="frame" x="126" y="67.5" width="24" height="12.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50 % interests match" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="fux-tx-UhI">
+                        <rect key="frame" x="126" y="67.5" width="106" height="12.5"/>
                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="interests match" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="sXt-aT-Oni">
-                        <rect key="frame" x="153" y="67.5" width="80" height="12.5"/>
-                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
-                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -205,14 +199,11 @@
                     <constraint firstItem="2un-cW-8Zy" firstAttribute="centerY" secondItem="j3q-OK-73z" secondAttribute="centerY" id="07J-Fc-w7M"/>
                     <constraint firstItem="gU2-4c-CCD" firstAttribute="top" secondItem="j3q-OK-73z" secondAttribute="top" constant="10" id="1AP-uZ-ZM3"/>
                     <constraint firstAttribute="bottom" secondItem="P0K-fl-uqX" secondAttribute="bottom" id="2qL-uh-Ddl"/>
-                    <constraint firstItem="sXt-aT-Oni" firstAttribute="leading" secondItem="fux-tx-UhI" secondAttribute="trailing" constant="3" id="6AI-GT-a5b"/>
                     <constraint firstItem="vhv-lO-oaP" firstAttribute="height" secondItem="9sO-WH-tQf" secondAttribute="height" id="80a-Ha-qMl"/>
-                    <constraint firstItem="sXt-aT-Oni" firstAttribute="centerY" secondItem="fux-tx-UhI" secondAttribute="centerY" id="88w-Fz-hgp"/>
                     <constraint firstItem="j3q-OK-73z" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="HDx-9K-stH"/>
                     <constraint firstItem="gU2-4c-CCD" firstAttribute="leading" secondItem="j3q-OK-73z" secondAttribute="trailing" constant="8" id="Nsh-Gd-gUd"/>
                     <constraint firstAttribute="trailing" secondItem="P0K-fl-uqX" secondAttribute="trailing" id="PTk-5w-hpz"/>
                     <constraint firstItem="vhv-lO-oaP" firstAttribute="centerX" secondItem="9sO-WH-tQf" secondAttribute="centerX" id="Q19-R5-I0U"/>
-                    <constraint firstItem="9sO-WH-tQf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="sXt-aT-Oni" secondAttribute="trailing" constant="10" id="QIR-Ji-FFc"/>
                     <constraint firstItem="9sO-WH-tQf" firstAttribute="centerY" secondItem="j3q-OK-73z" secondAttribute="centerY" id="T5c-Bi-OTJ"/>
                     <constraint firstItem="NSH-MH-y80" firstAttribute="centerY" secondItem="fux-tx-UhI" secondAttribute="centerY" id="TYm-Is-KhF"/>
                     <constraint firstItem="P0K-fl-uqX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="X3h-NU-rcS"/>
@@ -222,6 +213,7 @@
                     <constraint firstItem="6Ld-CC-cBM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="qA8-l2-bZc"/>
                     <constraint firstItem="j3q-OK-73z" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="rmX-s0-66z"/>
                     <constraint firstItem="fux-tx-UhI" firstAttribute="top" secondItem="gU2-4c-CCD" secondAttribute="bottom" constant="5" id="rnA-vu-VbP"/>
+                    <constraint firstItem="9sO-WH-tQf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fux-tx-UhI" secondAttribute="trailing" constant="10" id="sdl-9m-xjq"/>
                     <constraint firstAttribute="trailing" secondItem="6Ld-CC-cBM" secondAttribute="trailing" id="sta-Xy-UzX"/>
                     <constraint firstItem="NSH-MH-y80" firstAttribute="leading" secondItem="gU2-4c-CCD" secondAttribute="leading" id="wxG-wH-pZc"/>
                     <constraint firstItem="vhv-lO-oaP" firstAttribute="centerY" secondItem="j3q-OK-73z" secondAttribute="centerY" id="xHA-Ke-VFd"/>
@@ -237,8 +229,10 @@
                 <outlet property="friendRequestImg" destination="j3q-OK-73z" id="7NY-nk-TLp"/>
                 <outlet property="friendRequestNameLbl" destination="2mt-gd-63X" id="b7i-79-0Ae"/>
                 <outlet property="friendRequestUserNameLbl" destination="HVf-lY-knW" id="ZZF-GF-CJU"/>
+                <outlet property="interestMatchPercentLbl" destination="fux-tx-UhI" id="wac-Pf-yxu"/>
                 <outlet property="loaderImg" destination="2un-cW-8Zy" id="uIN-Gf-lh9"/>
                 <outlet property="messageBtn" destination="wjr-cu-EjV" id="FbV-m2-zQR"/>
+                <outlet property="progressBarView" destination="NSH-MH-y80" id="LCb-Jl-NGl"/>
                 <outlet property="refusedRequestBtn" destination="IWi-hd-7t5" id="Vu1-Wt-HjQ"/>
                 <outlet property="sendRequestBtn" destination="Veo-yp-N1D" id="Fn6-Qv-ZdI"/>
                 <outlet property="subStackView" destination="vhv-lO-oaP" id="ZDj-j6-ePj"/>

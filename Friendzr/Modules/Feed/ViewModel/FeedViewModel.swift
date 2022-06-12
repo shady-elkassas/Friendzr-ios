@@ -23,7 +23,13 @@ class FeedViewModel {
     //MARK:- Get All Users Request
     func getAllUsers(pageNumber:Int) {
         CancelRequest.currentTask = false
-        let url = URLs.baseURLFirst + "FrindRequest/AllUsers"
+
+        var url = URLs.baseURLFirst + "Public/AllUserPublic"
+        
+        if Defaults.token != "" {
+            url = URLs.baseURLFirst + "FrindRequest/AllUsers"
+        }
+        
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["userlat":Defaults.LocationLat,"userlang":Defaults.LocationLng,"pageNumber": pageNumber,"pageSize":30]
 
@@ -57,12 +63,18 @@ class FeedViewModel {
     }
     
     //MARK:- filter All Users Request by degree
-    func filterFeeds(Bydegree degree:Double,pageNumber:Int) {
+    func filterFeeds(isCompassOpen:Bool,Bydegree degree:Double,sortByInterestMatch:Bool,pageNumber:Int) {
         CancelRequest.currentTask = false
+        
         let url = URLs.baseURLFirst + "FrindRequest/AllUsers"
+        
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-        let parameters:[String : Any] = ["userlat":Defaults.LocationLat,"userlang":Defaults.LocationLng,"degree":degree,"pageNumber": pageNumber,"pageSize":30]
+        var parameters:[String : Any] = ["userlat":Defaults.LocationLat,"userlang":Defaults.LocationLng,"sortByInterestMatch":sortByInterestMatch,"degree":degree,"pageNumber": pageNumber,"pageSize":30]
 
+        if !isCompassOpen {
+            parameters = ["userlat":Defaults.LocationLat,"userlang":Defaults.LocationLng,"sortByInterestMatch":sortByInterestMatch,"pageNumber": pageNumber,"pageSize":30]
+        }
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<FeedModel>().map(JSON: data!) else {

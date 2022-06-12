@@ -59,6 +59,8 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        initBackToFeedButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,7 +69,7 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
         Defaults.availableVC = "OptionsSignUpVC"
         print("availableVC >> \(Defaults.availableVC)")
 
-        hideNavigationBar(NavigationBar: true, BackButton: true)
+        hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
         
         DispatchQueue.main.async {
@@ -431,5 +433,24 @@ extension OptionsSignUpVC: ASAuthorizationControllerPresentationContextProviding
     /// - Tag: provide_presentation_anchor
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return self.view.window!
+    }
+}
+
+extension OptionsSignUpVC {
+    func initBackToFeedButton() {
+        var imageName = ""
+        imageName = "back_icon"
+        let button = UIButton.init(type: .custom)
+        let image = UIImage.init(named: imageName)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.setImage(image, for: .normal)
+        image?.withTintColor(UIColor.blue)
+        button.addTarget(self, action:  #selector(goToFeed), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.leftBarButtonItem = barButton
+    }
+    
+    @objc func goToFeed() {
+        Router().toFeed()
     }
 }

@@ -189,7 +189,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         clearNavigationBar()
         
         DispatchQueue.main.async {
-            self.updateLocation()
+            if Defaults.token != "" {
+                self.updateLocation()
+            }
             self.setupGoogleMap(zoom1: 8, zoom2: 14)
         }
         
@@ -223,7 +225,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         self.hideCollectionView.showLoader()
-        viewmodel.getAllEventsOnlyAroundMe(lat: Defaults.LocationLat, lng: Defaults.LocationLng, pageNumber: 1)
+        viewmodel.getAllEventsOnlyAroundMe(pageNumber: 1)
         viewmodel.eventsOnlyMe.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 DispatchQueue.main.async {
@@ -352,7 +354,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 
                 if Defaults.allowMyLocationSettings == true {
                     self.bindToModel()
-                    self.updateMyLocation()
+                    
+                    if Defaults.token != "" {
+                        self.updateMyLocation()
+                    }                    
                 }
             }
         }else {
@@ -918,39 +923,44 @@ extension MapVC : GMSMapViewDelegate {
             print("locationEvent: \(pos?.latitude ?? 0.0),\(pos?.longitude ?? 0.0)")
             
             if marker.snippet == "event" {
-                //Events by location
-                if marker.title != "" {
-                    if marker.accessibilityValue == "External" {
+                if Defaults.token != "" {
+                    //Events by location
+                    if marker.title != "" {
+                        if marker.accessibilityValue == "External" {
+                            DispatchQueue.main.async {
+                                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+                                vc.eventId = marker.title!
+                                vc.inMap = true
+                                
+                                self.navigationController?.pushViewController(vc, animated: true)
+                            }
+                        }
+                        else {
+                            DispatchQueue.main.async {
+                                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                                vc.eventId = marker.title!
+                                vc.inMap = true
+                                self.navigationController?.pushViewController(vc, animated: true)
+                            }
+                        }
+                    }else {
+                        for itm in self.locations {
+                            if ((pos?.latitude ?? 0.0 ) == itm.location.latitude) && ((pos?.longitude ?? 0.0) == itm.location.longitude) {
+                                sliderEventList = itm.eventList
+                            }
+                        }
+                        
                         DispatchQueue.main.async {
-                            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
-                            vc.eventId = marker.title!
-                            vc.inMap = true
-                            
-                            self.navigationController?.pushViewController(vc, animated: true)
+                            self.eventsTableView.delegate = self
+                            self.eventsTableView.dataSource = self
+                            self.eventsTableView.reloadData()
                         }
+                        
+                        CreateSlideUpMenu()
                     }
-                    else {
-                        DispatchQueue.main.async {
-                            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-                            vc.eventId = marker.title!
-                            vc.inMap = true
-                            self.navigationController?.pushViewController(vc, animated: true)
-                        }
-                    }
-                }else {
-                    for itm in self.locations {
-                        if ((pos?.latitude ?? 0.0 ) == itm.location.latitude) && ((pos?.longitude ?? 0.0) == itm.location.longitude) {
-                            sliderEventList = itm.eventList
-                        }
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.eventsTableView.delegate = self
-                        self.eventsTableView.dataSource = self
-                        self.eventsTableView.reloadData()
-                    }
-                    
-                    CreateSlideUpMenu()
+                }
+                else {
+                    Router().toOptionsSignUpVC()
                 }
             }else if marker.snippet == "NewEvent" {
                 print("NEW EVENT")
@@ -1228,29 +1238,32 @@ extension MapVC:UITableViewDelegate {
             }
             
             let model = sliderEventList?[indexPath.row]
-            
-            if model?.eventtype == "External" {
-                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
-                vc.eventId = model?.id ?? ""
-                if model?.key == 1 {
-                    vc.isEventAdmin = true
+            if Defaults.token != "" {
+                if model?.eventtype == "External" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+                    vc.eventId = model?.id ?? ""
+                    if model?.key == 1 {
+                        vc.isEventAdmin = true
+                    }else {
+                        vc.isEventAdmin = false
+                    }
+
+                    vc.inMap = true
+                    self.navigationController?.pushViewController(vc, animated: true)
+                    
                 }else {
-                    vc.isEventAdmin = false
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                    vc.eventId = model?.id ?? ""
+                    if model?.key == 1 {
+                        vc.isEventAdmin = true
+                    }else {
+                        vc.isEventAdmin = false
+                    }
+                    vc.inMap = true
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
-                
-                vc.inMap = true
-                self.navigationController?.pushViewController(vc, animated: true)
-                
             }else {
-                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-                vc.eventId = model?.id ?? ""
-                if model?.key == 1 {
-                    vc.isEventAdmin = true
-                }else {
-                    vc.isEventAdmin = false
-                }
-                vc.inMap = true
-                self.navigationController?.pushViewController(vc, animated: true)
+                Router().toOptionsSignUpVC()
             }
         }
     }
@@ -1286,28 +1299,33 @@ extension MapVC:UICollectionViewDataSource {
         cell.eventDateLbl.textColor = UIColor.color((model?.color ?? ""))
         
         cell.HandledetailsBtn = {
-            if model?.eventtype == "External" {
-                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
-                vc.eventId = model?.id ?? ""
-                
-                if model?.key == 1 {
-                    vc.isEventAdmin = true
+            if Defaults.token != "" {
+                if model?.eventtype == "External" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+                    vc.eventId = model?.id ?? ""
+                    
+                    if model?.key == 1 {
+                        vc.isEventAdmin = true
+                    }else {
+                        vc.isEventAdmin = false
+                    }
+                    vc.inMap = true
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }else {
-                    vc.isEventAdmin = false
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                    vc.eventId = model?.id ?? ""
+                    
+                    if model?.key == 1 {
+                        vc.isEventAdmin = true
+                    }else {
+                        vc.isEventAdmin = false
+                    }
+                    vc.inMap = true
+                    self.navigationController?.pushViewController(vc, animated: true)
                 }
-                vc.inMap = true
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else {
-                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-                vc.eventId = model?.id ?? ""
-                
-                if model?.key == 1 {
-                    vc.isEventAdmin = true
-                }else {
-                    vc.isEventAdmin = false
-                }
-                vc.inMap = true
-                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            else {
+                Router().toOptionsSignUpVC()
             }
         }
         return cell

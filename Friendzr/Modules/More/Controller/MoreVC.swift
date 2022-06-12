@@ -53,9 +53,14 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         print("availableVC >> \(Defaults.availableVC)")
         
         clearNavigationBar()
-        DispatchQueue.main.async {
-            self.updateUserInterface()
+        if Defaults.token != "" {
+            DispatchQueue.main.async {
+                self.updateUserInterface()
+            }
+        }else {
+            Router().toOptionsSignUpVC()
         }
+       
         
         hideNavigationBar(NavigationBar: false, BackButton: false)
         

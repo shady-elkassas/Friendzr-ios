@@ -33,6 +33,7 @@ extension FeedVC {
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                 switchCompassBarButton.isUserInteractionEnabled = false
                 switchGhostModeBarButton.isUserInteractionEnabled = false
+                self.switchSortedByInterestsButton.isUserInteractionEnabled = false
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
                 Defaults.allowMyLocationSettings = true
@@ -62,6 +63,7 @@ extension FeedVC {
                 
                 switchCompassBarButton.isUserInteractionEnabled = true
                 switchGhostModeBarButton.isUserInteractionEnabled = true
+                switchSortedByInterestsButton.isUserInteractionEnabled = true
                 locationManager.showsBackgroundLocationIndicator = false
             default:
                 break
@@ -73,6 +75,7 @@ extension FeedVC {
             hideView.isHidden = true
             switchCompassBarButton.isUserInteractionEnabled = false
             switchGhostModeBarButton.isUserInteractionEnabled = false
+            switchSortedByInterestsButton.isUserInteractionEnabled = false
             NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
             //            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
         }
@@ -104,12 +107,14 @@ extension FeedVC {
                 hideView.isHidden = true
                 switchCompassBarButton.isUserInteractionEnabled = false
                 switchGhostModeBarButton.isUserInteractionEnabled = false
+                switchSortedByInterestsButton.isUserInteractionEnabled = false
             case .authorizedAlways, .authorizedWhenInUse:
                 print("Access")
                 Defaults.allowMyLocationSettings = true
                 hideView.isHidden = true
                 switchCompassBarButton.isUserInteractionEnabled = true
                 switchGhostModeBarButton.isUserInteractionEnabled = true
+                switchSortedByInterestsButton.isUserInteractionEnabled = true
                 locationManager.showsBackgroundLocationIndicator = false
             default:
                 break
@@ -121,6 +126,7 @@ extension FeedVC {
             hideView.isHidden = true
             switchCompassBarButton.isUserInteractionEnabled = false
             switchGhostModeBarButton.isUserInteractionEnabled = false
+            switchSortedByInterestsButton.isUserInteractionEnabled = false
             createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
         }
     }
@@ -234,6 +240,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     var isCompassOpen:Bool = false
     var isPrivateModesOpen:Bool = false
     
+    var sortByInterestMatch:Bool = false
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -256,6 +264,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         Defaults.availableVC = "FeedVC"
         print("availableVC >> \(Defaults.availableVC)")
         
+        sortByInterestMatch = false
         filterDir = switchCompassBarButton.isOn
         CancelRequest.currentTask = false
         setupHideView()
@@ -269,11 +278,11 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             bannerViewHeight.constant = 0
         }
         
-        
         initGhostModeAndSortSwitchButton()
         
         self.checkLocationPermission()
     }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
@@ -343,19 +352,25 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         if Defaults.allowMyLocationSettings == true {
             DispatchQueue.main.async {
                 if self.isCompassOpen {
-                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
                 }else {
-                    self.getAllFeeds(pageNumber: 0)
+                    if self.sortByInterestMatch {
+                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                    }else {
+                        self.getAllFeeds(pageNumber: 0)
+                    }
                 }
             }
             self.allowLocView.isHidden = true
             switchCompassBarButton.isUserInteractionEnabled = true
             switchGhostModeBarButton.isUserInteractionEnabled = true
+            switchSortedByInterestsButton.isUserInteractionEnabled = true
         }else {
             self.emptyView.isHidden = true
             self.allowLocView.isHidden = false
             switchCompassBarButton.isUserInteractionEnabled = false
             switchGhostModeBarButton.isUserInteractionEnabled = false
+            switchSortedByInterestsButton.isUserInteractionEnabled = false
         }
         
         initGhostModeAndSortSwitchButton()
@@ -366,10 +381,16 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         if Defaults.allowMyLocationSettings {
             self.allowLocView.isHidden = true
             currentPage += 1
-            if self.isCompassOpen {
-                self.filterFeedsBy(degree: compassDegree, pageNumber: currentPage)
-            }else {
-                self.getAllFeeds(pageNumber: currentPage)
+            DispatchQueue.main.async {
+                if self.isCompassOpen {
+                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                }else {
+                    if self.sortByInterestMatch {
+                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                    }else {
+                        self.getAllFeeds(pageNumber: 0)
+                    }
+                }
             }
         }else {
             self.allowLocView.isHidden = false
@@ -442,10 +463,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    func filterFeedsBy(degree:Double,pageNumber:Int) {
+    func filterFeedsBy(isCompassOpen:Bool,degree:Double,sortByInterestMatch:Bool,pageNumber:Int) {
         self.hideView.isHidden = false
         self.hideView.showLoader()
-        viewmodel.filterFeeds(Bydegree: degree, pageNumber: pageNumber)
+        viewmodel.filterFeeds(isCompassOpen: isCompassOpen, Bydegree: degree, sortByInterestMatch: sortByInterestMatch, pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 
@@ -525,6 +546,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 }
                 self.switchGhostModeBarButton.isUserInteractionEnabled = false
                 self.switchCompassBarButton.isUserInteractionEnabled = false
+                self.switchSortedByInterestsButton.isUserInteractionEnabled = false
                 NetworkConected.internetConect = false
                 self.HandleInternetConnection()
             }
@@ -534,12 +556,17 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 self.hideView.isHidden = false
                 self.switchGhostModeBarButton.isUserInteractionEnabled = true
                 self.switchCompassBarButton.isUserInteractionEnabled = true
+                self.switchSortedByInterestsButton.isUserInteractionEnabled = true
                 NetworkConected.internetConect = true
                 
                 if self.isCompassOpen {
-                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
+                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
                 }else {
-                    self.LoadAllFeeds(pageNumber: 0)
+                    if self.sortByInterestMatch {
+                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
+                    }else {
+                        self.LoadAllFeeds(pageNumber: 0)
+                    }
                 }
                 
                 if Defaults.allowMyLocationSettings == true {
@@ -549,7 +576,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now()) {
-                    self.updateMyLocation()
+                    if Defaults.token != "" {
+                        self.updateMyLocation()
+                    }
                 }
             }
         case .wifi:
@@ -558,12 +587,17 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 self.hideView.isHidden = false
                 self.switchGhostModeBarButton.isUserInteractionEnabled = true
                 self.switchCompassBarButton.isUserInteractionEnabled = true
+                self.switchSortedByInterestsButton.isUserInteractionEnabled = true
                 NetworkConected.internetConect = true
                 
                 if self.isCompassOpen {
-                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 1)
+                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
                 }else {
-                    self.LoadAllFeeds(pageNumber: 0)
+                    if self.sortByInterestMatch {
+                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
+                    }else {
+                        self.LoadAllFeeds(pageNumber: 0)
+                    }
                 }
                 
                 if Defaults.allowMyLocationSettings == true {
@@ -573,7 +607,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now()) {
-                    self.updateMyLocation()
+                    if Defaults.token != "" {
+                        self.updateMyLocation()
+                    }
                 }
             }
         }
@@ -710,16 +746,14 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @IBAction func filterBtn(_ sender: Any) {
         self.btnsSelected = true
         if NetworkConected.internetConect {
-            filterFeedsBy(degree: compassDegree, pageNumber: 1)
+            filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: compassDegree, sortByInterestMatch: sortByInterestMatch, pageNumber: 1)
         }
     }
     
     @IBAction func allowLocationBtn(_ sender: Any) {
         self.btnsSelected = true
-        if NetworkConected.internetConect {
-            self.refreshControl.endRefreshing()
-            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
-        }
+        self.refreshControl.endRefreshing()
+        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
     }
 }
 
@@ -750,6 +784,15 @@ extension FeedVC:UITableViewDataSource {
             cell.friendRequestImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
+            if Defaults.token != "" {
+                cell.interestMatchPercentLbl.isHidden = false
+                cell.progressBarView.isHidden = false
+                cell.interestMatchPercentLbl.text = (model?.interestMatchPercent ?? "") + " interests match"
+            }else {
+                cell.interestMatchPercentLbl.isHidden = true
+                cell.progressBarView.isHidden = true
+            }
+
             if indexPath.row == 0 {
                 cell.upView.isHidden = false
             }else {
@@ -912,17 +955,21 @@ extension FeedVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         btnsSelected = true
-        if NetworkConected.internetConect {
-            if viewmodel.feeds.value?.data?.count != 0 {
-                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-                vc.userID = viewmodel.feeds.value?.data?[indexPath.row].userId ?? ""
-                //                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-                self.navigationController?.pushViewController(vc, animated: true)
+        if Defaults.token != "" {
+            if NetworkConected.internetConect {
+                if viewmodel.feeds.value?.data?.count != 0 {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+                    vc.userID = viewmodel.feeds.value?.data?[indexPath.row].userId ?? ""
+                    //                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }else {
+                    return
+                }
             }else {
                 return
             }
         }else {
-            return
+            Router().toOptionsSignUpVC()
         }
     }
     
@@ -1206,7 +1253,7 @@ extension FeedVC {
         print("showSortByView")
        self.switchCompassBarButton.isUserInteractionEnabled = false
        self.switchGhostModeBarButton.isUserInteractionEnabled = false
-       
+       self.switchSortedByInterestsButton.isUserInteractionEnabled = false
        self.showSortView?.frame = CGRect(x: -100, y: -100 , width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
 
        self.showSortView?.HandleSortByDistanceBtn = {
@@ -1215,7 +1262,7 @@ extension FeedVC {
            self.showSortView?.selectInterestsImg.image = UIImage(named: "unSelect_ic")
            self.switchCompassBarButton.isUserInteractionEnabled = true
            self.switchGhostModeBarButton.isUserInteractionEnabled = true
-
+           self.switchSortedByInterestsButton.isUserInteractionEnabled = true
            // handling code
            UIView.animate(withDuration: 0.3, animations: {
                self.showSortView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -1230,7 +1277,8 @@ extension FeedVC {
        self.showSortView?.HandleSortByInterestsBtn = {
            self.switchCompassBarButton.isUserInteractionEnabled = true
            self.switchGhostModeBarButton.isUserInteractionEnabled = true
-
+           self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+           
            self.showSortView?.selectDistanceImg.image = UIImage(named: "unSelect_ic")
            self.showSortView?.selectInterestsImg.image = UIImage(named: "select_ic")
 
@@ -1248,7 +1296,7 @@ extension FeedVC {
        self.showSortView?.HandlehideViewBtn = {
            self.switchCompassBarButton.isUserInteractionEnabled = true
            self.switchGhostModeBarButton.isUserInteractionEnabled = true
-
+           self.switchSortedByInterestsButton.isUserInteractionEnabled = true
            // handling code
            UIView.animate(withDuration: 0.3, animations: {
                self.showSortView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
@@ -1319,7 +1367,6 @@ extension FeedVC {
                         bannerViewHeight.constant = 0
                     }
                     
-                    
                     createLocationManager()
                     filterDir = true
                     filterBtn.isHidden = false
@@ -1332,11 +1379,9 @@ extension FeedVC {
                     
                     compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
                     
-                }else {
+                }
+                else {
                     self.isCompassOpen = false
-//                    filterHideView.isHidden = true
-//                    Defaults.isFirstFilter = true
-                    
                     if !Defaults.hideAds {
                         DispatchQueue.main.async {
                             self.setupAds()
@@ -1358,11 +1403,14 @@ extension FeedVC {
                     if Defaults.allowMyLocationSettings == true {
                         DispatchQueue.main.async {
                             if self.isCompassOpen {
-                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                                self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
                             }else {
-                                self.getAllFeeds(pageNumber: 0)
+                                if self.sortByInterestMatch {
+                                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                                }else {
+                                    self.getAllFeeds(pageNumber: 0)
+                                }
                             }
-                            
                         }
                         self.allowLocView.isHidden = true
                     }else {
@@ -1414,9 +1462,6 @@ extension FeedVC {
                 if Defaults.allowMyLocationSettings == true {
                     switchCompassBarButton.isOn = false
                     self.isCompassOpen = false
-//                    filterHideView.isHidden = true
-//                    Defaults.isFirstFilter = true
-                    
                     if !Defaults.hideAds {
                         DispatchQueue.main.async {
                             self.setupAds()
@@ -1438,9 +1483,13 @@ extension FeedVC {
                     if Defaults.allowMyLocationSettings == true {
                         DispatchQueue.main.async {
                             if self.isCompassOpen {
-                                self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
+                                self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
                             }else {
-                                self.getAllFeeds(pageNumber: 0)
+                                if self.sortByInterestMatch {
+                                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                                }else {
+                                    self.getAllFeeds(pageNumber: 0)
+                                }
                             }
                         }
                         self.allowLocView.isHidden = true
@@ -1479,14 +1528,6 @@ extension FeedVC {
                     }else {
                         bannerViewHeight.constant = 0
                     }
-                    
-//                    if !Defaults.isFirstFilter {
-//                        filterHideView.isHidden = false
-//                        Defaults.isFirstFilter = true
-//                    }else {
-//                        filterHideView.isHidden = true
-//                        Defaults.isFirstFilter = true
-//
                     createLocationManager()
                     filterDir = true
                     filterBtn.isHidden = false
@@ -1498,12 +1539,10 @@ extension FeedVC {
                     }
                     
                     compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
-//                    }
                 }
                 else {
                     self.isCompassOpen = false
                     switchCompassBarButton.isOn = false
-                    //                self.showAlert(withMessage: "Please allow your location".localizedString)
                     createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                     initCompassSwitchBarButton()
                     if !Defaults.hideAds {
@@ -1534,7 +1573,6 @@ extension FeedVC {
         switchGhostModeBarButton.cornerRadius = 0.5
         switchGhostModeBarButton.thumbCornerRadius = 0.5
         switchGhostModeBarButton.animationDuration = 0.25
-        
         switchGhostModeBarButton.isOn = Defaults.ghostMode
         
         if switchGhostModeBarButton.isOn {
@@ -1559,11 +1597,12 @@ extension FeedVC {
         switchSortedByInterestsButton.cornerRadius = 0.5
         switchSortedByInterestsButton.thumbCornerRadius = 0.5
         switchSortedByInterestsButton.animationDuration = 0.25
-//        switchSortedByInterestsButton.isOn = Defaults.ghostMode
+        
+        switchSortedByInterestsButton.isOn = self.sortByInterestMatch
         
         self.switchSortedByInterestsButton.thumbImage = UIImage(named: "filterFeedByInterests_ic")
         switchSortedByInterestsButton.addTarget(self, action:  #selector(handleSortedByInterestsSwitchBtn), for: .touchUpInside)
-
+        
         switchSortedByInterestsButton.addGestureRecognizer(createSortedByInterestsSwipeGestureRecognizer(for: .up))
         switchSortedByInterestsButton.addGestureRecognizer(createSortedByInterestsSwipeGestureRecognizer(for: .down))
         switchSortedByInterestsButton.addGestureRecognizer(createSortedByInterestsSwipeGestureRecognizer(for: .left))
@@ -1592,110 +1631,126 @@ extension FeedVC {
             break
         case .left:
             btnsSelected = true
-            if NetworkConected.internetConect {
-                self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                
-                self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-                self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
-                
-                self.showAlertView?.HandleConfirmBtn = {
-                    self.btnsSelected = true
-                    if NetworkConected.internetConect {
-                        self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
+            if Defaults.token != "" {
+                if NetworkConected.internetConect {
+                    self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    
+                    self.showAlertView?.titleLbl.text = "Confirm?".localizedString
+                    self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
+                    
+                    self.showAlertView?.HandleConfirmBtn = {
+                        self.btnsSelected = true
+                        if NetworkConected.internetConect {
+                            self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
+                                    return
                                 }
-                                return
+                                
+                                guard data != nil else {return}
+                                DispatchQueue.main.async {
+                                    Defaults.ghostMode = false
+                                    Defaults.ghostModeEveryOne = false
+                                    Defaults.myAppearanceTypes = [0]
+                                    self.switchGhostModeBarButton.isOn = false
+                                    self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-off-ic")
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    NotificationCenter.default.post(name: Notification.Name("updateSettings"), object: nil, userInfo: nil)
+                                }
+                            })
+                        }
+                        // handling code
+                        UIView.animate(withDuration: 0.3, animations: {
+                            DispatchQueue.main.async {
+                                self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                                self.switchCompassBarButton.isUserInteractionEnabled = true
+                                self.switchSortedByInterestsButton.isUserInteractionEnabled = true
                             }
                             
-                            guard data != nil else {return}
-                            DispatchQueue.main.async {
-                                Defaults.ghostMode = false
-                                Defaults.ghostModeEveryOne = false
-                                Defaults.myAppearanceTypes = [0]
-                                self.switchGhostModeBarButton.isOn = false
-                                self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-off-ic")
-                            }
-                            
-                            DispatchQueue.main.async {
-                                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                            }
-                            
-                            DispatchQueue.main.async {
-                                NotificationCenter.default.post(name: Notification.Name("updateSettings"), object: nil, userInfo: nil)
-                            }
-                        })
+                            self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                            self.showAlertView?.alpha = 0
+                        }) { (success: Bool) in
+                            self.showAlertView?.removeFromSuperview()
+                            self.showAlertView?.alpha = 1
+                            self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                        }
                     }
-                    // handling code
-                    UIView.animate(withDuration: 0.3, animations: {
+                    
+                    self.showAlertView?.HandleCancelBtn = {
                         DispatchQueue.main.async {
+                            self.initGhostModeAndSortSwitchButton()
                             self.switchGhostModeBarButton.isUserInteractionEnabled = true
                             self.switchCompassBarButton.isUserInteractionEnabled = true
+                            self.switchSortedByInterestsButton.isUserInteractionEnabled = true
                         }
-                        
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.showAlertView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.showAlertView?.removeFromSuperview()
-                        self.showAlertView?.alpha = 1
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
                     }
+                    
+                    self.view.addSubview((self.showAlertView)!)
+                    
                 }
                 
-                self.showAlertView?.HandleCancelBtn = {
-                    DispatchQueue.main.async {
-                        self.initGhostModeAndSortSwitchButton()
-                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                        self.switchCompassBarButton.isUserInteractionEnabled = true
-                    }
-                }
-                
-                self.view.addSubview((self.showAlertView)!)
-                
+            }
+            else {
+                Router().toOptionsSignUpVC()
             }
         case .right:
             self.btnsSelected = true
-            if NetworkConected.internetConect {
-                self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                
-                DispatchQueue.main.async {
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = false
-                    self.switchCompassBarButton.isUserInteractionEnabled = false
-                }
-                
-                self.alertView?.parentVC = self
-                
-                self.alertView?.selectedHideType.removeAll()
-                self.alertView?.typeIDs.removeAll()
-                self.alertView?.typeStrings.removeAll()
-                
-                for item in self.alertView?.hideArray ?? [] {
-                    item.isSelected = false
-                    self.alertView?.tableView.reloadData()
-                }
-                
-                self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
-                
-                //cancel view
-                self.alertView?.HandlehideViewBtn = {
-                    self.initGhostModeAndSortSwitchButton()
+            if Defaults.token != "" {
+                if NetworkConected.internetConect {
+                    self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    
                     DispatchQueue.main.async {
-                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                        self.switchCompassBarButton.isUserInteractionEnabled = true
+                        self.switchGhostModeBarButton.isUserInteractionEnabled = false
+                        self.switchCompassBarButton.isUserInteractionEnabled = false
+                        self.switchSortedByInterestsButton.isUserInteractionEnabled = false
                     }
-                }
-                
-                self.alertView?.HandleSaveBtn = {
-                    DispatchQueue.main.async {
-                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                        self.switchCompassBarButton.isUserInteractionEnabled = true
+                    
+                    self.alertView?.parentVC = self
+                    
+                    self.alertView?.selectedHideType.removeAll()
+                    self.alertView?.typeIDs.removeAll()
+                    self.alertView?.typeStrings.removeAll()
+                    
+                    for item in self.alertView?.hideArray ?? [] {
+                        item.isSelected = false
+                        self.alertView?.tableView.reloadData()
                     }
+                    
+                    self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
+                    
+                    //cancel view
+                    self.alertView?.HandlehideViewBtn = {
+                        self.initGhostModeAndSortSwitchButton()
+                        DispatchQueue.main.async {
+                            self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                            self.switchCompassBarButton.isUserInteractionEnabled = true
+                            self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+                        }
+                    }
+                    
+                    self.alertView?.HandleSaveBtn = {
+                        DispatchQueue.main.async {
+                            self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                            self.switchCompassBarButton.isUserInteractionEnabled = true
+                            self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+                        }
+                    }
+                    
+                    self.view.addSubview((self.alertView)!)
+                    
+                    
                 }
-                
-                self.view.addSubview((self.alertView)!)
-                
-                
+            }
+            else {
+                Router().toOptionsSignUpVC()
             }
         default:
             break
@@ -1706,121 +1761,137 @@ extension FeedVC {
     
     @objc func handleGhostModeSwitchBtn() {
         btnsSelected = true
-        if NetworkConected.internetConect {
-            if Defaults.ghostMode == false {
-                self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                
-                DispatchQueue.main.async {
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = false
-                    self.switchCompassBarButton.isUserInteractionEnabled = false
-                }
-                
-                self.alertView?.parentVC = self
-                
-                self.alertView?.selectedHideType.removeAll()
-                self.alertView?.typeIDs.removeAll()
-                self.alertView?.typeStrings.removeAll()
-                SelectedSingleTone.isSelected = false
-                
-                for item in self.alertView?.hideArray ?? [] {
-                    item.isSelected = false
-                    self.alertView?.tableView.reloadData()
-                }
-                
-                self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
-                
-                //cancel view
-                self.alertView?.HandlehideViewBtn = {
-                    self.initGhostModeAndSortSwitchButton()
+        if Defaults.token != "" {
+            if NetworkConected.internetConect {
+                if Defaults.ghostMode == false {
+                    self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    
                     DispatchQueue.main.async {
-                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                        self.switchCompassBarButton.isUserInteractionEnabled = true
+                        self.switchGhostModeBarButton.isUserInteractionEnabled = false
+                        self.switchCompassBarButton.isUserInteractionEnabled = false
+                        self.switchSortedByInterestsButton.isUserInteractionEnabled = false
                     }
-                }
-                
-                self.alertView?.HandleSaveBtn = {
-                    DispatchQueue.main.async {
-                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                        self.switchCompassBarButton.isUserInteractionEnabled = true
+                    
+                    self.alertView?.parentVC = self
+                    
+                    self.alertView?.selectedHideType.removeAll()
+                    self.alertView?.typeIDs.removeAll()
+                    self.alertView?.typeStrings.removeAll()
+                    SelectedSingleTone.isSelected = false
+                    
+                    for item in self.alertView?.hideArray ?? [] {
+                        item.isSelected = false
+                        self.alertView?.tableView.reloadData()
                     }
-                }
-                
-                self.view.addSubview((self.alertView)!)
-            }
-            else {
-                self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                
-                self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-                self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
-                
-                DispatchQueue.main.async {
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = false
-                    self.switchCompassBarButton.isUserInteractionEnabled = false
-                }
-                
-                self.showAlertView?.HandleConfirmBtn = {
-                    self.btnsSelected = true
-                    if NetworkConected.internetConect {
-                        self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
-                            if let error = error {
-                                DispatchQueue.main.async {
-                                    self.view.makeToast(error)
-                                }
-                                return
-                            }
-                            
-                            guard data != nil else {return}
-                            DispatchQueue.main.async {
-                                Defaults.ghostMode = false
-                                Defaults.ghostModeEveryOne = false
-                                Defaults.myAppearanceTypes = [0]
-                                self.switchGhostModeBarButton.isOn = false
-                                self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-off-ic")
-                            }
-                            
-                            DispatchQueue.main.async {
-                                if self.isCompassOpen {
-                                    self.filterFeedsBy(degree: self.compassDegree, pageNumber: 0)
-                                }else {
-                                    self.getAllFeeds(pageNumber: 0)
-                                }
-                            }
-                            
-                            DispatchQueue.main.async {
-                                NotificationCenter.default.post(name: Notification.Name("updateSettings"), object: nil, userInfo: nil)
-                            }
-                        })
-                    }
-                    // handling code
-                    UIView.animate(withDuration: 0.3, animations: {
+                    
+                    self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
+                    
+                    //cancel view
+                    self.alertView?.HandlehideViewBtn = {
+                        self.initGhostModeAndSortSwitchButton()
                         DispatchQueue.main.async {
                             self.switchGhostModeBarButton.isUserInteractionEnabled = true
                             self.switchCompassBarButton.isUserInteractionEnabled = true
+                            self.switchSortedByInterestsButton.isUserInteractionEnabled = true
                         }
-                        
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.showAlertView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.showAlertView?.removeFromSuperview()
-                        self.showAlertView?.alpha = 1
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
                     }
+                    
+                    self.alertView?.HandleSaveBtn = {
+                        DispatchQueue.main.async {
+                            self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                            self.switchCompassBarButton.isUserInteractionEnabled = true
+                            self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+                        }
+                    }
+                    
+                    self.view.addSubview((self.alertView)!)
                 }
-                
-                self.showAlertView?.HandleCancelBtn = {
+                else {
+                    self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    
+                    self.showAlertView?.titleLbl.text = "Confirm?".localizedString
+                    self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
+                    
                     DispatchQueue.main.async {
-                        self.initGhostModeAndSortSwitchButton()
-                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                        self.switchCompassBarButton.isUserInteractionEnabled = true
+                        self.switchGhostModeBarButton.isUserInteractionEnabled = false
+                        self.switchCompassBarButton.isUserInteractionEnabled = false
+                        self.switchSortedByInterestsButton.isUserInteractionEnabled = false
                     }
+                    
+                    self.showAlertView?.HandleConfirmBtn = {
+                        self.btnsSelected = true
+                        if NetworkConected.internetConect {
+                            self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
+                                if let error = error {
+                                    DispatchQueue.main.async {
+                                        self.view.makeToast(error)
+                                    }
+                                    return
+                                }
+                                
+                                guard data != nil else {return}
+                                DispatchQueue.main.async {
+                                    Defaults.ghostMode = false
+                                    Defaults.ghostModeEveryOne = false
+                                    Defaults.myAppearanceTypes = [0]
+                                    self.switchGhostModeBarButton.isOn = false
+                                    self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-off-ic")
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    if self.isCompassOpen {
+                                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                                    }else {
+                                        if self.sortByInterestMatch {
+                                            self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                                        }else {
+                                            self.getAllFeeds(pageNumber: 0)
+                                        }
+                                    }
+                                }
+                                
+                                DispatchQueue.main.async {
+                                    NotificationCenter.default.post(name: Notification.Name("updateSettings"), object: nil, userInfo: nil)
+                                }
+                            })
+                        }
+                        // handling code
+                        UIView.animate(withDuration: 0.3, animations: {
+                            DispatchQueue.main.async {
+                                self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                                self.switchCompassBarButton.isUserInteractionEnabled = true
+                                self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+                            }
+                            
+                            self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                            self.showAlertView?.alpha = 0
+                        }) { (success: Bool) in
+                            self.showAlertView?.removeFromSuperview()
+                            self.showAlertView?.alpha = 1
+                            self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                        }
+                    }
+                    
+                    self.showAlertView?.HandleCancelBtn = {
+                        DispatchQueue.main.async {
+                            self.initGhostModeAndSortSwitchButton()
+                            self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                            self.switchCompassBarButton.isUserInteractionEnabled = true
+                            self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+                        }
+                    }
+                    
+                    self.view.addSubview((self.showAlertView)!)
                 }
-                
-                self.view.addSubview((self.showAlertView)!)
             }
+            else {
+                HandleInternetConnection()
+                self.switchGhostModeBarButton.isOn = Defaults.ghostMode
+            }
+            
         }
         else {
-            HandleInternetConnection()
-            self.switchGhostModeBarButton.isOn = Defaults.ghostMode
+            Router().toOptionsSignUpVC()
         }
     }
     
@@ -1867,6 +1938,7 @@ extension FeedVC {
             DispatchQueue.main.async {
                 self.switchGhostModeBarButton.isUserInteractionEnabled = true
                 self.switchCompassBarButton.isUserInteractionEnabled = true
+                self.switchSortedByInterestsButton.isUserInteractionEnabled = true
             }
             
             DispatchQueue.main.async {
@@ -1882,6 +1954,23 @@ extension FeedVC {
     
     @objc func handleSortedByInterestsSwitchBtn() {
         print("handleSortedByInterestsSwitchBtn")
+        if Defaults.token != "" {
+            if switchSortedByInterestsButton.isOn {
+                self.sortByInterestMatch = true
+                self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+            }
+            else {
+                self.sortByInterestMatch = false
+                if isCompassOpen {
+                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                }else {
+                    self.getAllFeeds(pageNumber: 0)
+                }
+            }
+        }
+        else {
+            Router().toOptionsSignUpVC()
+        }
     }
     
     private func createSortedByInterestsSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
@@ -1901,8 +1990,40 @@ extension FeedVC {
         case .down:
             break
         case .left:
+            if Defaults.token != "" {
+                if switchSortedByInterestsButton.isOn {
+                    self.sortByInterestMatch = true
+                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                }else {
+                    self.sortByInterestMatch = false
+                    if isCompassOpen {
+                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                    }else {
+                        self.getAllFeeds(pageNumber: 0)
+                    }
+                }
+            }
+            else {
+                Router().toOptionsSignUpVC()
+            }
             break
         case .right:
+            if Defaults.token != "" {
+                if switchSortedByInterestsButton.isOn {
+                    self.sortByInterestMatch = true
+                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                }else {
+                    self.sortByInterestMatch = false
+                    if isCompassOpen {
+                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                    }else {
+                        self.getAllFeeds(pageNumber: 0)
+                    }
+                }
+            }
+            else {
+                Router().toOptionsSignUpVC()
+            }
             break
         default:
             break

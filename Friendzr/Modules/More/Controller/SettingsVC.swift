@@ -536,7 +536,9 @@ extension SettingsVC :CLLocationManagerDelegate {
                 print(placemark.country!)
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                    self.updateMyLocation()
+                    if Defaults.token != "" {
+                        self.updateMyLocation()
+                    }
                 }
             }
         }

@@ -61,6 +61,7 @@ class UserFeedObj: NSObject,Mappable {
     var image: String?
     var key: Int?
     var regestdata:String?
+    var interestMatchPercent:String?
     
     required init?(map: Map) {
     }
@@ -80,5 +81,6 @@ class UserFeedObj: NSObject,Mappable {
         image    <- map["image"]
         key    <- map["key"]
         regestdata    <- map["regestdata"]
+        interestMatchPercent    <- map["interestMatchPercent"]
     }
 }

@@ -94,8 +94,12 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         
         setupNavBar()
         
-        DispatchQueue.main.async {
-            self.updateUserInterface()
+        if Defaults.token != "" {
+            DispatchQueue.main.async {
+                self.updateUserInterface()
+            }
+        }else {
+            Router().toOptionsSignUpVC()
         }
     }
     

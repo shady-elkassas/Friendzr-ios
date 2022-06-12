@@ -653,13 +653,18 @@ extension AppDelegate: CLLocationManagerDelegate {
         //        center.add(request, withCompletionHandler: nil)
         
         //update location server
-        self.updateLocationVM.updatelocation(ByLat: "\(location.latitude)", AndLng: "\(location.longitude)") { error, data in
-            if let error = error {
-                print(error)
-                return
+        if Defaults.token != "" {
+            self.updateLocationVM.updatelocation(ByLat: "\(location.latitude)", AndLng: "\(location.longitude)") { error, data in
+                if let error = error {
+                    print(error)
+                    return
+                }
+                
+                guard let _ = data else {return}
+                Defaults.LocationLat = "\(location.latitude)"
+                Defaults.LocationLng = "\(location.longitude)"
             }
-            
-            guard let _ = data else {return}
+        }else {
             Defaults.LocationLat = "\(location.latitude)"
             Defaults.LocationLng = "\(location.longitude)"
         }

@@ -499,7 +499,7 @@ class Defaults {
             UserDefaults.standard.synchronize()
         }
         get{
-            return UserDefaults.standard.bool(forKey: "isFirstLogin") ?? false
+            return UserDefaults.standard.bool(forKey: "isFirstLogin")
         }
     }
     
