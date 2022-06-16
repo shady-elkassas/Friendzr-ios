@@ -40,5 +40,11 @@ class CategoryObj: Mappable {
         id    <- map["id"]
         name   <- map["name"]
     }
+    
+    init(id:String,name:String,isSelected:Bool) {
+        self.id = id
+        self.name = name
+        self.isSelected = isSelected
+    }
 }
 

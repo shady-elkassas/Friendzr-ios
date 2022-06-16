@@ -23,10 +23,10 @@ class FilterCatsTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-        if isSelected {
-            selectedImg.image = UIImage(named: "selected_ic")
-        }else {
-            selectedImg.image = UIImage(named: "unSelected_ic")
-        }
+//        if isSelected {
+//            selectedImg.image = UIImage(named: "selected_ic")
+//        }else {
+//            selectedImg.image = UIImage(named: "unSelected_ic")
+//        }
     }
 }

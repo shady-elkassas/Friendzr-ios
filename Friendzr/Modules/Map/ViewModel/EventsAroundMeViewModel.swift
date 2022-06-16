@@ -20,15 +20,15 @@ class EventsAroundMeViewModel {
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
-    func getAllEventsAroundMe() {
+    func getAllEventsAroundMe(ByCatIds catIDs: [String]) {
         CancelRequest.currentTask = false
         var url = URLs.baseURLFirst + "Public/EventsAroundMe"
         if Defaults.token != "" {
             url = URLs.baseURLFirst + "Events/Eventsaroundme"
         }
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-        let params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng]
-
+        let params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"categories": catIDs]
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: params, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<EventsAroundMeModel>().map(JSON: data!) else {
@@ -49,7 +49,7 @@ class EventsAroundMeViewModel {
     }
     
     
-    func getAllEventsOnlyAroundMe(pageNumber:Int) {
+    func getAllEventsOnlyAroundMe(ByCatIds catIDs: [String],pageNumber:Int) {
         CancelRequest.currentTask = false
         
         var url = URLs.baseURLFirst + "Public/OnlyEventsAround"
@@ -59,7 +59,7 @@ class EventsAroundMeViewModel {
         }
         
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-        let params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"PageSize":100,"PageNumber":pageNumber]
+        let params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"categories": catIDs,"PageSize":100,"PageNumber":pageNumber]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: params, andHeaders: headers) { (data,error) in
             

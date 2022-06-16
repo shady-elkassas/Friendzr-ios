@@ -181,7 +181,7 @@
                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="2un-cW-8Zy">
                         <rect key="frame" x="35" y="50" width="20" height="20"/>
                     </activityIndicatorView>
-                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NSH-MH-y80">
+                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.12" translatesAutoresizingMaskIntoConstraints="NO" id="NSH-MH-y80">
                         <rect key="frame" x="78" y="72" width="45" height="4"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="45" id="aLI-9B-hyS"/>

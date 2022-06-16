@@ -39,9 +39,9 @@ extension FeedVC {
                 Defaults.allowMyLocationSettings = true
                 hideView.isHidden = true
                 
-                self.isCompassOpen = false
-                filterDir = false
-                switchCompassBarButton.isOn = false
+                //                self.isCompassOpen = false
+                //                filterDir = false
+                //                switchCompassBarButton.isOn = false
                 
                 if !Defaults.isFirstOpenFeed {
                     showCompassExplainedView.isHidden = false
@@ -53,9 +53,11 @@ extension FeedVC {
                     showSortByInterestsExplainedView.isHidden = true
                 }
                 
-                filterBtn.isHidden = true
-                compassContanierView.isHidden = true
-                compassContainerViewHeight.constant = 0
+                //                filterBtn.isHidden = true
+                //                compassContanierView.isHidden = true
+                //                compassContainerViewHeight.constant = 0
+                
+                setupCompassContainerView()
                 
                 DispatchQueue.main.async {
                     self.updateUserInterface()
@@ -178,7 +180,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     lazy var alertView = Bundle.main.loadNibNamed("HideGhostModeView", owner: self, options: nil)?.first as? HideGhostModeView
     
     lazy var showSortView = Bundle.main.loadNibNamed("SortFeedView", owner: self, options: nil)?.first as? SortFeedView
-
+    
     private func createLocationManager() {
         locationManager.delegate = self
         locationManager.distanceFilter = 0
@@ -241,13 +243,13 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     var isPrivateModesOpen:Bool = false
     
     var sortByInterestMatch:Bool = false
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Feed".localizedString
-//        updateTitleView()
+        //        updateTitleView()
         pullToRefresh()
         addCompassView()
         
@@ -255,6 +257,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        
+        initCompassSwitchBarButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -264,12 +268,11 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         Defaults.availableVC = "FeedVC"
         print("availableVC >> \(Defaults.availableVC)")
         
-        sortByInterestMatch = false
-        filterDir = switchCompassBarButton.isOn
+        //        sortByInterestMatch = false
+        //        filterDir = switchCompassBarButton.isOn
+        
         CancelRequest.currentTask = false
         setupHideView()
-        
-        initCompassSwitchBarButton()
         
         if !Defaults.hideAds {
             requestIDFA()
@@ -278,9 +281,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             bannerViewHeight.constant = 0
         }
         
+        checkLocationPermission()
         initGhostModeAndSortSwitchButton()
-        
-        self.checkLocationPermission()
     }
     
     
@@ -349,30 +351,32 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     //MARK:- APIs
     @objc func updateFeeds() {
-        if Defaults.allowMyLocationSettings == true {
-            DispatchQueue.main.async {
-                if self.isCompassOpen {
-                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
-                }else {
-                    if self.sortByInterestMatch {
-                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
-                    }else {
-                        self.getAllFeeds(pageNumber: 0)
-                    }
-                }
-            }
-            self.allowLocView.isHidden = true
-            switchCompassBarButton.isUserInteractionEnabled = true
-            switchGhostModeBarButton.isUserInteractionEnabled = true
-            switchSortedByInterestsButton.isUserInteractionEnabled = true
-        }else {
-            self.emptyView.isHidden = true
-            self.allowLocView.isHidden = false
-            switchCompassBarButton.isUserInteractionEnabled = false
-            switchGhostModeBarButton.isUserInteractionEnabled = false
-            switchSortedByInterestsButton.isUserInteractionEnabled = false
-        }
+        self.checkLocationPermission()
         
+        //        if Defaults.allowMyLocationSettings == true {
+        //            DispatchQueue.main.async {
+        //                if self.isCompassOpen {
+        //                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+        //                }else {
+        //                    if self.sortByInterestMatch {
+        //                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+        //                    }else {
+        //                        self.getAllFeeds(pageNumber: 0)
+        //                    }
+        //                }
+        //            }
+        //            self.allowLocView.isHidden = true
+        //            switchCompassBarButton.isUserInteractionEnabled = true
+        //            switchGhostModeBarButton.isUserInteractionEnabled = true
+        //            switchSortedByInterestsButton.isUserInteractionEnabled = true
+        //        }else {
+        //            self.emptyView.isHidden = true
+        //            self.allowLocView.isHidden = false
+        //            switchCompassBarButton.isUserInteractionEnabled = false
+        //            switchGhostModeBarButton.isUserInteractionEnabled = false
+        //            switchSortedByInterestsButton.isUserInteractionEnabled = false
+        //        }
+        //
         initGhostModeAndSortSwitchButton()
     }
     
@@ -700,6 +704,72 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         btn.setTitle(title, for: .normal)
     }
     
+    func setupCompassContainerView() {
+        if isCompassOpen {
+            switchCompassBarButton.isOn = true
+            if !Defaults.hideAds {
+                DispatchQueue.main.async {
+                    self.setupAds()
+                }
+                bannerViewHeight.constant = 50
+            }
+            else {
+                bannerViewHeight.constant = 0
+            }
+            
+            createLocationManager()
+            filterDir = true
+            filterBtn.isHidden = false
+            compassContanierView.isHidden = false
+            if Defaults.isIPhoneLessThan2500 {
+                compassContainerViewHeight.constant = 200
+            }else {
+                compassContainerViewHeight.constant = 270
+            }
+            
+            compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
+            
+        }
+        else {
+            switchCompassBarButton.isOn = false
+            
+            if !Defaults.hideAds {
+                DispatchQueue.main.async {
+                    self.setupAds()
+                }
+                bannerViewHeight.constant = 50
+            }else {
+                bannerViewHeight.constant = 0
+            }
+            
+            locationManager.stopUpdatingLocation()
+            locationManager.stopUpdatingHeading()
+            filterDir = false
+            compassContanierView.isHidden = true
+            
+            filterBtn.isHidden = true
+            compassContainerViewHeight.constant = 0
+            
+            if Defaults.allowMyLocationSettings == true {
+                DispatchQueue.main.async {
+                    if self.isCompassOpen {
+                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                    }else {
+                        if self.sortByInterestMatch {
+                            self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                        }else {
+                            self.getAllFeeds(pageNumber: 0)
+                        }
+                    }
+                }
+                self.allowLocView.isHidden = true
+            }else {
+                self.emptyView.isHidden = true
+                self.allowLocView.isHidden = false
+            }
+        }
+    }
+    
     //MARK: - Actions
     
     @IBAction func next1Btn(_ sender: Any) {
@@ -708,23 +778,23 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         showCompassExplainedView.isHidden = true
         showPrivateModeExplainedView.isHidden = false
         showSortByInterestsExplainedView.isHidden = true
-//        self.btnsSelected = true
-//        if NetworkConected.internetConect {
-//            filterHideView.isHidden = true
-//            Defaults.isFirstFilter = true
-//
-//            createLocationManager()
-//            filterDir = true
-//            filterBtn.isHidden = false
-//            compassContanierView.isHidden = false
-//
-//            if Defaults.isIPhoneLessThan2500 {
-//                compassContainerViewHeight.constant = 200
-//            }else {
-//                compassContainerViewHeight.constant = 270
-//            }
-//
-//        }
+        //        self.btnsSelected = true
+        //        if NetworkConected.internetConect {
+        //            filterHideView.isHidden = true
+        //            Defaults.isFirstFilter = true
+        //
+        //            createLocationManager()
+        //            filterDir = true
+        //            filterBtn.isHidden = false
+        //            compassContanierView.isHidden = false
+        //
+        //            if Defaults.isIPhoneLessThan2500 {
+        //                compassContainerViewHeight.constant = 200
+        //            }else {
+        //                compassContainerViewHeight.constant = 270
+        //            }
+        //
+        //        }
     }
     
     @IBAction func next2Btn(_ sender: Any) {
@@ -787,12 +857,13 @@ extension FeedVC:UITableViewDataSource {
             if Defaults.token != "" {
                 cell.interestMatchPercentLbl.isHidden = false
                 cell.progressBarView.isHidden = false
-                cell.interestMatchPercentLbl.text = (model?.interestMatchPercent ?? "") + " interests match"
+                cell.interestMatchPercentLbl.text = "\(model?.interestMatchPercent ?? 0) % interests match"
+                cell.progressBarView.progress = Float(model?.interestMatchPercent ?? 0) / 100
             }else {
                 cell.interestMatchPercentLbl.isHidden = true
                 cell.progressBarView.isHidden = true
             }
-
+            
             if indexPath.row == 0 {
                 cell.upView.isHidden = false
             }else {
@@ -953,7 +1024,6 @@ extension FeedVC:UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         btnsSelected = true
         if Defaults.token != "" {
             if NetworkConected.internetConect {
@@ -1249,67 +1319,67 @@ extension FeedVC {
         navigationItem.titleView = titleView
     }
     
-   @objc func showSortByView() {
+    @objc func showSortByView() {
         print("showSortByView")
-       self.switchCompassBarButton.isUserInteractionEnabled = false
-       self.switchGhostModeBarButton.isUserInteractionEnabled = false
-       self.switchSortedByInterestsButton.isUserInteractionEnabled = false
-       self.showSortView?.frame = CGRect(x: -100, y: -100 , width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-
-       self.showSortView?.HandleSortByDistanceBtn = {
-           
-           self.showSortView?.selectDistanceImg.image = UIImage(named: "select_ic")
-           self.showSortView?.selectInterestsImg.image = UIImage(named: "unSelect_ic")
-           self.switchCompassBarButton.isUserInteractionEnabled = true
-           self.switchGhostModeBarButton.isUserInteractionEnabled = true
-           self.switchSortedByInterestsButton.isUserInteractionEnabled = true
-           // handling code
-           UIView.animate(withDuration: 0.3, animations: {
-               self.showSortView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-               self.showSortView?.alpha = 0
-           }) { (success: Bool) in
-               self.showSortView?.removeFromSuperview()
-               self.showSortView?.alpha = 1
-               self.showSortView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-           }
-       }
-       
-       self.showSortView?.HandleSortByInterestsBtn = {
-           self.switchCompassBarButton.isUserInteractionEnabled = true
-           self.switchGhostModeBarButton.isUserInteractionEnabled = true
-           self.switchSortedByInterestsButton.isUserInteractionEnabled = true
-           
-           self.showSortView?.selectDistanceImg.image = UIImage(named: "unSelect_ic")
-           self.showSortView?.selectInterestsImg.image = UIImage(named: "select_ic")
-
-           // handling code
-           UIView.animate(withDuration: 0.3, animations: {
-               self.showSortView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-               self.showSortView?.alpha = 0
-           }) { (success: Bool) in
-               self.showSortView?.removeFromSuperview()
-               self.showSortView?.alpha = 1
-               self.showSortView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-           }
-       }
-       
-       self.showSortView?.HandlehideViewBtn = {
-           self.switchCompassBarButton.isUserInteractionEnabled = true
-           self.switchGhostModeBarButton.isUserInteractionEnabled = true
-           self.switchSortedByInterestsButton.isUserInteractionEnabled = true
-           // handling code
-           UIView.animate(withDuration: 0.3, animations: {
-               self.showSortView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-               self.showSortView?.alpha = 0
-           }) { (success: Bool) in
-               self.showSortView?.removeFromSuperview()
-               self.showSortView?.alpha = 1
-               self.showSortView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-           }
-       }
-       
-       self.view.addSubview((self.showSortView)!)
-
+        self.switchCompassBarButton.isUserInteractionEnabled = false
+        self.switchGhostModeBarButton.isUserInteractionEnabled = false
+        self.switchSortedByInterestsButton.isUserInteractionEnabled = false
+        self.showSortView?.frame = CGRect(x: -100, y: -100 , width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        self.showSortView?.HandleSortByDistanceBtn = {
+            
+            self.showSortView?.selectDistanceImg.image = UIImage(named: "select_ic")
+            self.showSortView?.selectInterestsImg.image = UIImage(named: "unSelect_ic")
+            self.switchCompassBarButton.isUserInteractionEnabled = true
+            self.switchGhostModeBarButton.isUserInteractionEnabled = true
+            self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+            // handling code
+            UIView.animate(withDuration: 0.3, animations: {
+                self.showSortView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.showSortView?.alpha = 0
+            }) { (success: Bool) in
+                self.showSortView?.removeFromSuperview()
+                self.showSortView?.alpha = 1
+                self.showSortView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.showSortView?.HandleSortByInterestsBtn = {
+            self.switchCompassBarButton.isUserInteractionEnabled = true
+            self.switchGhostModeBarButton.isUserInteractionEnabled = true
+            self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+            
+            self.showSortView?.selectDistanceImg.image = UIImage(named: "unSelect_ic")
+            self.showSortView?.selectInterestsImg.image = UIImage(named: "select_ic")
+            
+            // handling code
+            UIView.animate(withDuration: 0.3, animations: {
+                self.showSortView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.showSortView?.alpha = 0
+            }) { (success: Bool) in
+                self.showSortView?.removeFromSuperview()
+                self.showSortView?.alpha = 1
+                self.showSortView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.showSortView?.HandlehideViewBtn = {
+            self.switchCompassBarButton.isUserInteractionEnabled = true
+            self.switchGhostModeBarButton.isUserInteractionEnabled = true
+            self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+            // handling code
+            UIView.animate(withDuration: 0.3, animations: {
+                self.showSortView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.showSortView?.alpha = 0
+            }) { (success: Bool) in
+                self.showSortView?.removeFromSuperview()
+                self.showSortView?.alpha = 1
+                self.showSortView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((self.showSortView)!)
+        
     }
     
 }
@@ -1363,7 +1433,8 @@ extension FeedVC {
                             self.setupAds()
                         }
                         bannerViewHeight.constant = 50
-                    }else {
+                    }
+                    else {
                         bannerViewHeight.constant = 0
                     }
                     

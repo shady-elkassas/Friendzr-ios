@@ -20,7 +20,9 @@ class RequestsTableViewCell: UITableViewCell {
     @IBOutlet weak var messageBtn: UIButton!
     @IBOutlet weak var requestRemovedLbl: UILabel!
     @IBOutlet weak var bottomView: UIView!
-    
+    @IBOutlet weak var interestMatchPercentLbl: UILabel!
+    @IBOutlet weak var progressBarView: UIProgressView!
+
     var HandleDeleteBtn: (() -> ())?
     var HandleAcceptBtn: (() -> ())?
     var HandleMessageBtn: (() -> ())?

@@ -466,8 +466,10 @@ extension RequestVC:UITableViewDataSource {
             setupCellBtns(cell, model)
             
             cell.friendRequestNameLbl.text = model?.userName
-            cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
             cell.friendRequestDateLbl.text = model?.regestdata
+            
+            cell.interestMatchPercentLbl.text = "\(model?.interestMatchPercent ?? 0) % interests match"
+            cell.progressBarView.progress = Float(model?.interestMatchPercent ?? 0) / 100
             
             cell.friendRequestImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))

@@ -197,6 +197,7 @@ class AddEventVC: UIViewController {
             }
         }
     }
+    
     func getEventTypes() {
         hideView.isHidden = false
         typesVM.getAllEventType()
@@ -219,6 +220,7 @@ class AddEventVC: UIViewController {
             }
         }
     }
+    
     func addNewEvent(_ eventDate: String, _ eventTime: String) {
         self.saveBtn.setTitle("Saving...", for: .normal)
         self.saveBtn.isUserInteractionEnabled = false
@@ -897,7 +899,6 @@ extension AddEventVC:UITableViewDelegate {
         eventTypesView.isHidden = true
     }
 }
-
 
 //MARK: - Setup Date Picker
 extension AddEventVC {

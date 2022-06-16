@@ -19,7 +19,7 @@ class CategoriesViewController: UIViewController {
     var selectedNames = [String]()
     var selectedCats:[CategoryObj] = [CategoryObj]()
 
-    var onListCatsCallBackResponse: ((_ listIDs: [String],_ listNames: [String],_ selectFriends:[CategoryObj]) -> ())?
+    var onListCatsCallBackResponse: ((_ listIDs: [String],_ listNames: [String],_ selectCats:[CategoryObj]) -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +83,13 @@ extension CategoriesViewController:UITableViewDataSource {
             cell.bottomView.isHidden = true
         }
         
+        if selectedIDs.contains(model?.id ?? "") {
+            cell.selectedImg.image = UIImage(named: "selected_ic")
+        }
+        else {
+            cell.selectedImg.image = UIImage(named: "unSelected_ic")
+        }
+        
         return cell
     }
     
@@ -121,6 +128,7 @@ extension CategoriesViewController:UITableViewDelegate {
         
         print("selectedIDs = \(selectedIDs)")
         print("selectedNames = \(selectedNames)")
+        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -143,5 +151,7 @@ extension CategoriesViewController:UITableViewDelegate {
         
         print("selectedIDs = \(selectedIDs)")
         print("selectedNames = \(selectedNames)")
+        tableView.reloadData()
+
     }
 }

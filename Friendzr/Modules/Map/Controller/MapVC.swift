@@ -127,6 +127,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     var sliderEventList:[EventObj]? = nil
     
+    var catIDs:[String] = [String]()
+    var catSelectedNames:[String] = [String]()
+    var catSelectedArr:[CategoryObj] = [CategoryObj]()
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,8 +141,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
         isViewUp = false
-        
-        
         initFilterBarButton()
     }
     
@@ -158,13 +160,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             let contentOffset = CGPoint(x: 0, y: 0)
             self.collectionView.setContentOffset(contentOffset, animated: false)
         }
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -173,6 +172,16 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         Defaults.availableVC = "MapVC"
         print("availableVC >> \(Defaults.availableVC)")
         
+        catIDs = Defaults.catIDs
+        
+        for cat in Defaults.catIDs {
+            for item in Defaults.catSelectedNames {
+                catSelectedArr.append(CategoryObj(id: cat, name: item, isSelected: true))
+            }
+        }
+        
+        catSelectedNames = Defaults.catSelectedNames
+
         locationsModel.peoplocationDataMV?.removeAll()
         locationsModel.eventlocationDataMV?.removeAll()
         locations.removeAll()
@@ -184,7 +193,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         CancelRequest.currentTask = false
         isViewUp = false
         self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-        initProfileBarButton()
+        
+        if Defaults.token != "" {
+            initProfileBarButton()
+        }
         
         clearNavigationBar()
         
@@ -225,7 +237,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         self.hideCollectionView.showLoader()
-        viewmodel.getAllEventsOnlyAroundMe(pageNumber: 1)
+        viewmodel.getAllEventsOnlyAroundMe(ByCatIds: catIDs, pageNumber: 1)
         viewmodel.eventsOnlyMe.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 DispatchQueue.main.async {
@@ -273,7 +285,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         self.mapView.clear()
         let startDate = Date()
         
-        viewmodel.getAllEventsAroundMe()
+        viewmodel.getAllEventsAroundMe(ByCatIds: catIDs)
         viewmodel.locations.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
@@ -357,7 +369,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     
                     if Defaults.token != "" {
                         self.updateMyLocation()
-                    }                    
+                    }
                 }
             }
         }else {
@@ -737,6 +749,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         Defaults.isFirstOpenMap = true
         showAddEventExplainedView.isHidden = true
         showFilterExplainedView.isHidden = false
+        //        showAddEventExplainedView.isHidden = true
+        //        showFilterExplainedView.isHidden = true
     }
     
     @IBAction func nextToShowMapBtn(_ sender: Any) {
@@ -830,6 +844,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         searchBar.text = ""
     }
     
+    
     @IBAction func upDownBtn(_ sender: Any) {
         if NetworkConected.internetConect {
             isViewUp.toggle()
@@ -842,7 +857,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     subView.isHidden = false
                     isViewUp = true
                     arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
-                    self.getEventsOnlyAroundMe()
+                    
+                    DispatchQueue.main.async {
+                        self.getEventsOnlyAroundMe()
+                    }
+                    
                 }else {
                     print("Down")
                     collectionViewHeight.constant = 0
@@ -1247,7 +1266,7 @@ extension MapVC:UITableViewDelegate {
                     }else {
                         vc.isEventAdmin = false
                     }
-
+                    
                     vc.inMap = true
                     self.navigationController?.pushViewController(vc, animated: true)
                     
@@ -1432,18 +1451,60 @@ extension MapVC {
 }
 
 extension MapVC {
-    func onFilterByCatsCallBack(_ listIDs: [String],_ listNames: [String],_ selectFriends:[CategoryObj]) -> () {
-
-//        var locs:[EventsLocation] = [EventsLocation]()
-//        for obj in locations {
-//            for eventCat in obj.eventList ?? [] {
-//                for item in listIDs {
-//                    if eventCat.categorie == item {
-//                        locs.append(obj)
-//                    }
-//                }
-//            }
-//        }
+    func json(from object:Any) -> String? {
+        guard let data = try? JSONSerialization.data(withJSONObject: object, options: []) else {
+            return nil
+        }
+        return String(data: data, encoding: String.Encoding.utf8)
+    }
+    
+    func onFilterByCatsCallBack(_ listIDs: [String],_ listNames: [String],_ selectCats:[CategoryObj]) -> () {
+        
+        catIDs = listIDs
+        catSelectedNames = listNames
+        catSelectedArr = selectCats
+        
+        DispatchQueue.main.async {
+            Defaults.catSelectedNames = listNames
+            Defaults.catIDs = listIDs
+        }
+        
+        print("catIDs = \(catIDs)")
+        
+        DispatchQueue.main.async {
+            
+            DispatchQueue.main.async {
+                self.locationsModel.peoplocationDataMV?.removeAll()
+                self.locationsModel.eventlocationDataMV?.removeAll()
+                self.locations.removeAll()
+                self.mapView.clear()
+            }
+            
+            DispatchQueue.main.async {
+                if Defaults.token != "" {
+                    self.updateLocation()
+                }
+                self.setupGoogleMap(zoom1: 8, zoom2: 14)
+            }
+            
+            DispatchQueue.main.async {
+                self.collectionViewHeight.constant = 0
+                self.noeventNearbyLbl.isHidden = true
+                self.subViewHeight.constant = 50
+                self.subView.isHidden = false
+                self.isViewUp = false
+                self.hideCollectionView.isHidden = true
+                self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+            }
+            
+            DispatchQueue.main.async {
+                self.checkLocationPermission()
+            }
+            
+            DispatchQueue.main.async {
+                self.getEventsOnlyAroundMe()
+            }
+        }
     }
     
     func initFilterBarButton() {
@@ -1459,10 +1520,19 @@ extension MapVC {
     }
     
     @objc func presentFilterByCats() {
-        if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "CategoriesNC") as? UINavigationController, let vc = controller.viewControllers.first as? CategoriesViewController {
-            vc.onListCatsCallBackResponse = self.onFilterByCatsCallBack
-            self.present(controller, animated: true)
+        if Defaults.token != "" {
+            if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "CategoriesNC") as? UINavigationController, let vc = controller.viewControllers.first as? CategoriesViewController {
+                vc.selectedIDs = self.catIDs
+                vc.selectedCats = self.catSelectedArr
+                vc.selectedNames = self.catSelectedNames
+                vc.onListCatsCallBackResponse = self.onFilterByCatsCallBack
+                self.present(controller, animated: true)
+            }
         }
+        else {
+            Router().toOptionsSignUpVC()
+        }
+        
     }
     
     func addBottomSheetView(scrollable: Bool? = true) {
@@ -1492,15 +1562,18 @@ extension MapVC {
                     subView.isHidden = false
                     isViewUp = true
                     arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
-                    self.getEventsOnlyAroundMe()
+                    
+                    DispatchQueue.main.async {
+                        self.getEventsOnlyAroundMe()
+                    }
                 }
                 else {
                     collectionViewHeight.constant = 0
-                    self.hideCollectionView.isHidden = true
                     self.noeventNearbyLbl.isHidden = true
                     subViewHeight.constant = 50
                     subView.isHidden = false
                     isViewUp = false
+                    self.hideCollectionView.isHidden = true
                     arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
                     
                     createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)

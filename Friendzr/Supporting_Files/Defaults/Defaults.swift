@@ -141,6 +141,26 @@ class Defaults {
         }
     }
     
+    static var catIDs: Array<String> {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "catIDs")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.object(forKey: "catIDs") as? Array ?? []
+        }
+    }
+    
+    static var catSelectedNames: Array<String> {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "catSelectedNames")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.object(forKey: "catSelectedNames") as? Array ?? []
+        }
+    }
+    
     static var myAppearanceTypes: Array<Int> {
         set{
             UserDefaults.standard.set(newValue, forKey: "myAppearanceTypes")
@@ -599,7 +619,8 @@ class Defaults {
         defaults.removeObject(forKey: "preferToid")
         defaults.removeObject(forKey: "isFirstLogin")
         defaults.removeObject(forKey: "isFirstOpenFeed")
-
+        defaults.removeObject(forKey: "catSelectedNames")
+        defaults.removeObject(forKey: "catIDs")
         
         if let token = AccessToken.current,
            !token.isExpired {

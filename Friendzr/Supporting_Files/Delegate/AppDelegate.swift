@@ -236,12 +236,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             case .notDetermined, .restricted, .denied:
                 //open setting app when location services are disabled
                 locationManager.stopUpdatingLocation()
+                Defaults.allowMyLocationSettings = false
             case .authorizedAlways:
                 if CLLocationManager.locationServicesEnabled() {
                     locationManager.startUpdatingLocation()
                 }
+                Defaults.allowMyLocationSettings = true
             case .authorizedWhenInUse:
                 locationManager.stopUpdatingLocation()
+                Defaults.allowMyLocationSettings = true
             default:
                 break
             }

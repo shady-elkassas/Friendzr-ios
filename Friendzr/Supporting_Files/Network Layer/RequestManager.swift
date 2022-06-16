@@ -34,7 +34,7 @@ class RequestManager: NSObject, URLSessionDelegate {
         //        urlRequest.networkServiceType = URLRequest.NetworkServiceType.default
         //        urlRequest.allowsCellularAccess = true
         //        urlRequest.allowsExpensiveNetworkAccess = true
-        
+         
         urlRequest.httpMethod = method
         
         var bodyData = Data()

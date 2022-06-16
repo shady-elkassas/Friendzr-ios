@@ -52,16 +52,16 @@ class FeedDataModel: Mappable {
 
 class UserFeedObj: NSObject,Mappable {
     
-    var userId: String?
-    var lang: String?
-    var lat: String?
-    var displayedUserName: String?
-    var email: String?
-    var userName: String?
-    var image: String?
-    var key: Int?
-    var regestdata:String?
-    var interestMatchPercent:String?
+    var userId: String? = ""
+    var lang: String? = ""
+    var lat: String? = ""
+    var displayedUserName: String? = ""
+    var email: String? = ""
+    var userName: String? = ""
+    var image: String? = ""
+    var key: Int? = 0
+    var regestdata:String? = ""
+    var interestMatchPercent:Int? = 0
     
     required init?(map: Map) {
     }
