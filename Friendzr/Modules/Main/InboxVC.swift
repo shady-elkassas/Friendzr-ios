@@ -80,8 +80,10 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        initProfileBarButton()
+        initProfileBarButton(didTap: true)
         hideKeyboardWhenTappedAround()
+        currentPage = 1
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,7 +94,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         hideNavigationBar(NavigationBar: false, BackButton: true)
         CancelRequest.currentTask = false
         
-        currentPage = 1
         
         setupNavBar()
         

@@ -86,7 +86,12 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
                     }
                 }
                 else {
-                    Router().toFeed()
+                    if Defaults.allowMyLocationSettings {
+                        Router().toFeed()
+                    }else {
+                        print("please allowMyLocationSettings")
+                        Router().toFeed()
+                    }
                 }
             }
             
@@ -97,7 +102,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
             self.updateLocation()
         }
         
-        initProfileBarButton()
+        initProfileBarButton(didTap: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {

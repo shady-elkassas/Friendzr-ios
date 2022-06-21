@@ -36,6 +36,10 @@ class CategoriesViewController: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
     }
     
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
+    }
     //MARK: - APIs
     func getCats() {
         viewmodel.getAllCategories()

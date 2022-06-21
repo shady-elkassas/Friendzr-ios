@@ -1,4 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-Friendzr/Pods-Friendzr-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AMShimmer/AMShimmer.framework
 ${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework
 ${BUILT_PRODUCTS_DIR}/AWSRekognition/AWSRekognition.framework
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework

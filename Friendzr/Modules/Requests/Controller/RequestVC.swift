@@ -80,7 +80,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         
         segmentControl.selectedSegmentIndex = 0
         RequestesType.type = 2
-        initProfileBarButton()
+        initProfileBarButton(didTap: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -138,7 +138,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.isLoadingList = false
                     self.tableView.tableFooterView = nil
                 }
-
+                
                 
                 self.xrecieved.removeAll()
                 for itm in value.data ?? [] {
@@ -574,7 +574,7 @@ extension RequestVC:UITableViewDelegate {
             }else {
                 self.tableView.tableFooterView = nil
                 DispatchQueue.main.async {
-//                    self.view.makeToast("No more data".localizedString)
+                    //                    self.view.makeToast("No more data".localizedString)
                 }
                 return
             }

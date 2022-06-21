@@ -597,6 +597,7 @@ PODS:
     - abseil/base/config
     - abseil/meta/type_traits
   - Alamofire (5.6.1)
+  - AMShimmer (1.0.6)
   - AppAuth (1.5.0):
     - AppAuth/Core (= 1.5.0)
     - AppAuth/ExternalUserAgent (= 1.5.0)
@@ -883,6 +884,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.4)
+  - AMShimmer
   - AppsFlyerFramework
   - AWSRekognition
   - FBSDKLoginKit
@@ -916,6 +918,7 @@ SPEC REPOS:
   trunk:
     - abseil
     - Alamofire
+    - AMShimmer
     - AppAuth
     - AppLovinSDK
     - AppsFlyerFramework
@@ -975,6 +978,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
   Alamofire: 87bd8c952f9a4454320fce00d9cc3de57bcadaf5
+  AMShimmer: 681eeaaedf9fc4e390e95e9dd6fe59df947cfee0
   AppAuth: 80317d99ac7ff2801a2f18ff86b48cd315ed465d
   AppLovinSDK: 6ed446d284d8852520a786ad5a91796f1730c3f3
   AppsFlyerFramework: 5e4b385a27dc6179e132b1617f76809412eb2f88
@@ -1031,6 +1035,6 @@ SPEC CHECKSUMS:
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
   SweeterSwift: 61baeda1c0c27d1dc57c8112c3d6a82e5aff3139
 
-PODFILE CHECKSUM: dce4b08c3197c86f3446d5d07af1f3c35701e371
+PODFILE CHECKSUM: 4c9faca2e04250c52a70843808ba1a207b40c724
 
 COCOAPODS: 1.10.2

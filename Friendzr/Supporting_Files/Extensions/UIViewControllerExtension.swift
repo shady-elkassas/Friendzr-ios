@@ -118,7 +118,7 @@ extension UIViewController {
         self.navigationItem.leftBarButtonItem = barButton
     }
     
-    func initProfileBarButton(_ color: UIColor? = .white) {
+    func initProfileBarButton(didTap:Bool) {
         let view = UIView()
         view.frame = CGRect(x: 0, y: 0, width: 44, height: 44)
         
@@ -129,11 +129,10 @@ extension UIViewController {
         imgView.cornerRadiusView(radius: 22)
         
         let btn = UIButton(type: .custom)
+        btn.isUserInteractionEnabled = didTap
         btn.addTarget(self, action: #selector(goToMyProfile), for: .touchUpInside)
         btn.frame = view.bounds
         btn.tintColor = .clear
-        
-//        btn.setImage(imgView.image, for: .normal)
         btn.cornerRadiusView(radius: 22)
         
         view.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
