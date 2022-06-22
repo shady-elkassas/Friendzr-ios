@@ -175,6 +175,7 @@ class AddGroupVC: UIViewController {
             }
         }
     }
+    
     func LaodAllFriends(pageNumber:Int,search:String) {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in

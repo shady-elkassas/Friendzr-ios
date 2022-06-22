@@ -34,6 +34,7 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var categoriesSuperView: UIView!
     @IBOutlet weak var categoriesView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionViewHeight: NSLayoutConstraint!
     @IBOutlet weak var saveCategoryBtn: UIButton!
     @IBOutlet weak var hideView: UIView!
     
@@ -184,6 +185,24 @@ class AddEventVC: UIViewController {
                 self.collectionView.reloadData()
                 
                 self.layout = TagsLayout()
+                
+                DispatchQueue.main.async {
+                    if Defaults.isIPhoneLessThan2500 {
+                        if value.count < 15 {
+                            self.collectionViewHeight.constant = CGFloat(((((value.count) / 3)) * 50) + 50)
+                        }
+                        else {
+                            self.collectionViewHeight.constant = 280
+                        }
+                    }else {
+                        if value.count < 22 {
+                            self.collectionViewHeight.constant = CGFloat(((((value.count) / 3)) * 50) + 50)
+                        }
+                        else {
+                            self.collectionViewHeight.constant = 420
+                        }
+                    }
+                }
             }
         }
         

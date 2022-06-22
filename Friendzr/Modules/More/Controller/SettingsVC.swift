@@ -198,7 +198,7 @@ class SettingsVC: UIViewController {
             KeychainItem.deleteUserIdentifierFromKeychain()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                Router().toOptionsSignUpVC()
+                Router().toOptionsSignUpVC(IsLogout: true)
             }
         }
     }

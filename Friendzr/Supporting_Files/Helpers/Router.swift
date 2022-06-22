@@ -26,9 +26,13 @@ class Router {
         window.rootViewController = navVC
     }
     
-    func toOptionsSignUpVC() {
+    func toOptionsSignUpVC(IsLogout:Bool) {
         let id = "OptionsSignUpNC"
         let nextVC = Initializer.createViewController(storyBoard: .Register, andId: id)
+        
+//        if !IsLogout {
+//            nextVC.view.makeToast("To enjoy these features, you must log in first.")
+//        }
         go(withVC: nextVC)
     }
     

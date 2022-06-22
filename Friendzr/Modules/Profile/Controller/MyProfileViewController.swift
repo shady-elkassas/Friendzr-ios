@@ -9,6 +9,7 @@ import UIKit
 import SDWebImage
 import ListPlaceholder
 import Network
+import AMShimmer
 
 class MyProfileViewController: UIViewController {
     
@@ -104,11 +105,10 @@ class MyProfileViewController: UIViewController {
     //MARK: - APIs
     func getProfileInformation() {
         self.hideView.isHidden = false
-        self.hideView.showLoader()
+        AMShimmer.start(for: self.hideView)
         viewmodel.getProfileInfo()
         viewmodel.userModel.bind { [unowned self]value in
             DispatchQueue.main.async {
-                
                 DispatchQueue.main.async {
                     self.tableView.dataSource = self
                     self.tableView.delegate = self
@@ -116,7 +116,7 @@ class MyProfileViewController: UIViewController {
                 }
                 
                 DispatchQueue.main.async {
-                    self.hideView.hideLoader()
+                    AMShimmer.stop(for: self.hideView)
                     self.hideView.isHidden = true
                 }
             }

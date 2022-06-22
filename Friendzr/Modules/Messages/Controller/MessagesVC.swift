@@ -560,17 +560,10 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
                     self.present(popupVC, animated: true, completion: nil)
                 }
             }
-            
-            //            cell.delegate = self
-            //            cell.delegate?.messageTableViewCellUpdate()
             return cell
         }
         else if model.messageType == 3 { //file
             let cell = tableView.dequeueReusableCell(withIdentifier: model.sender.senderId == Defaults.token ? "MessageAttachmentTableViewCell" : "UserMessageAttachmentTableViewCell") as! MessageAttachmentTableViewCell
-            
-            //            cell.delegate = self
-            //            cell.attachmentImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            
             if model.messageFile.file == "" {
                 cell.attachmentImageView.image = model.messageFile.fileView
             }else {
@@ -679,6 +672,14 @@ extension MessagesVC: MessageTableViewCellDelegate {
 
 extension MessagesVC {
     func getEventChatMessages(pageNumber:Int) {
+        DispatchQueue.main.async {
+            if pageNumber > self.viewmodel.messages.value?.totalPages ?? 1 {
+                self.tableView.refreshControl = nil
+                self.refreshControl.endRefreshing()
+                return
+            }
+        }
+        
         let startDate = Date()
         
         CancelRequest.currentTask = false
@@ -787,7 +788,16 @@ extension MessagesVC {
             }
         }
     }
+    
     func getGroupChatMessages(pageNumber:Int) {
+        DispatchQueue.main.async {
+            if pageNumber > self.viewmodel.messages.value?.totalPages ?? 1 {
+                self.tableView.refreshControl = nil
+                self.refreshControl.endRefreshing()
+                return
+            }
+        }
+        
         let startDate = Date()
         
         CancelRequest.currentTask = false
@@ -899,21 +909,29 @@ extension MessagesVC {
             }
         }
     }
+    
     func getUserChatMessages(pageNumber:Int) {
         CancelRequest.currentTask = false
-        if pageNumber > viewmodel.messages.value?.totalPages ?? 1 {
-            return
+        
+        DispatchQueue.main.async {
+            if pageNumber > self.viewmodel.messages.value?.totalPages ?? 1 {
+                self.tableView.refreshControl = nil
+                self.refreshControl.endRefreshing()
+                return
+            }
         }
         
         let startDate = Date()
-        if isRefreshNewMessages == true {
-            self.hideView.isHidden = true
-        }else {
-            self.hideView.isHidden = false
-            self.hideView.showLoader()
-            messageInputBarView.isHidden = true
-        }
         
+        DispatchQueue.main.async {
+            if self.isRefreshNewMessages == true {
+                self.hideView.isHidden = true
+            }else {
+                self.hideView.isHidden = false
+                self.hideView.showLoader()
+                self.messageInputBarView.isHidden = true
+            }
+        }
         viewmodel.getChatMessages(ByUserId: chatuserID, pageNumber: pageNumber)
         viewmodel.messages.bind { [unowned self] value in
             let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
@@ -990,6 +1008,7 @@ extension MessagesVC {
                     }
                 }
                 
+                self.refreshControl.endRefreshing()
                 self.showDownView()
                 self.updateTitleView(image: self.titleChatImage, subtitle: self.titleChatName, titleId:  self.chatuserID, isEvent: false)
             }
@@ -1051,6 +1070,7 @@ extension MessagesVC {
             }
         }
     }
+    
     func setupDownView(textLbl:String) {
         messageInputBarView.isHidden = true
         downView.isHidden = false

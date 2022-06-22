@@ -9,6 +9,7 @@ import UIKit
 import ListPlaceholder
 import SDWebImage
 import Network
+import AMShimmer
 
 class NewConversationVC: UIViewController {
     
@@ -184,13 +185,13 @@ class NewConversationVC: UIViewController {
     }
     func LaodAllFriends(pageNumber:Int,search:String) {
         hideView.isHidden = false
-        hideView.showLoader()
+        AMShimmer.start(for: self.hideView)
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
             DispatchQueue.main.async {
                 
                 DispatchQueue.main.async {
-                    self.hideView.hideLoader()
+                    AMShimmer.stop(for: self.hideView)
                     self.hideView.isHidden = true
                 }
                 

@@ -96,6 +96,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var dualogImg: UIImageView!
     @IBOutlet weak var nextToShowMapBtn: UIButton!
     
+    @IBOutlet weak var catsSuperView: UIView!
+    @IBOutlet weak var catsSubView: UIView!
+    @IBOutlet weak var catsCollectionView: UICollectionView!
+    @IBOutlet weak var catsCollectionViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var applyBtn: UIButton!
+    
     
     //MARK: - Properties
     lazy var showAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
@@ -114,7 +120,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var genderbylocationVM: GenderbylocationViewModel = GenderbylocationViewModel()
     var updateLocationVM:UpdateLocationViewModel = UpdateLocationViewModel()
     var locationsModel:EventsAroundMeDataModel = EventsAroundMeDataModel()
-    
+    var catsviewmodel:AllCategoriesViewModel = AllCategoriesViewModel()
+    let catsCellId = "TagCollectionViewCell"
+
     var transparentView = UIView()
     var eventsTableView = UITableView()
     var eventCellID = "EventsInLocationTableViewCell"
@@ -134,6 +142,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var catSelectedArr:[CategoryObj] = [CategoryObj]()
     
     var switchFilterButton: CustomSwitch = CustomSwitch()
+
+    private var layout: UICollectionViewFlowLayout!
 
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -166,6 +176,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             let contentOffset = CGPoint(x: 0, y: 0)
             self.collectionView.setContentOffset(contentOffset, animated: false)
         }
+        
+        catsSuperView.isHidden = true
+        NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
+
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -177,7 +191,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         Defaults.availableVC = "MapVC"
         print("availableVC >> \(Defaults.availableVC)")
-        
 
         catIDs = Defaults.catIDs
         for cat in Defaults.catIDs {
@@ -187,8 +200,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         catSelectedNames = Defaults.catSelectedNames
-
-        
         initFilterBarButton()
 
         locationsModel.peoplocationDataMV?.removeAll()
@@ -303,7 +314,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 print("peoplocationDataCount>> \(value.peoplocationDataMV?.count ?? 0)")
                 print("eventlocationDataCount>> \(value.eventlocationDataMV?.count ?? 0)")
                 
-                self.locationsModel = value
+                DispatchQueue.main.async {
+                    self.locationsModel = value
+                }
+                
                 DispatchQueue.main.async {
                     self.setupMarkers(model: value)
                 }
@@ -342,6 +356,45 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
+    func getCats() {
+        catsviewmodel.getAllCategories()
+        catsviewmodel.cats.bind { [unowned self] value in
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.5) {
+                self.catsCollectionView.dataSource = self
+                self.catsCollectionView.delegate = self
+                self.catsCollectionView.reloadData()
+                self.layout = TagsLayout()
+                
+                DispatchQueue.main.async {
+                    if Defaults.isIPhoneLessThan2500 {
+                        if value.count < 15 {
+                            self.catsCollectionViewHeight.constant = CGFloat(((((value.count) / 3)) * 50) + 50)
+                        }
+                        else {
+                            self.catsCollectionViewHeight.constant = 280
+                        }
+                    }else {
+                        if value.count < 22 {
+                            self.catsCollectionViewHeight.constant = CGFloat(((((value.count) / 3)) * 50) + 50)
+                        }
+                        else {
+                            self.catsCollectionViewHeight.constant = 420
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Set View Model Event Listener
+        catsviewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+            }
+        }
+    }
+    
     //MARK: - Helpers
     func updateUserInterface() {
         if NetworkMonitor.shared.isConnected {
@@ -350,10 +403,15 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.zoomingStatisticsView.isHidden = false
                 
                 if Defaults.allowMyLocationSettings == true {
-                    self.bindToModel()
                     
+                    self.bindToModel()
+                
                     if Defaults.token != "" {
                         self.updateMyLocation()
+
+                        DispatchQueue.main.async {
+                            self.getCats()
+                        }
                     }
                 }
             }
@@ -391,6 +449,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @objc func updateFilterBtn() {
+        switchFilterButton.isUserInteractionEnabled = true
         initFilterBarButton()
     }
     
@@ -566,19 +625,25 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         eventsTableView.dataSource = self
         
         collectionView.register(UINib(nibName: nearbyEventCellId, bundle: nil), forCellWithReuseIdentifier: nearbyEventCellId)
+        catsCollectionView.register(UINib(nibName: catsCellId, bundle: nil), forCellWithReuseIdentifier: catsCellId)
         subView.setCornerforTop()
         
         zoomingStatisticsView.cornerRadiusView(radius: 6)
-        
+        catsSubView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
+        applyBtn.cornerRadiusView(radius: 8)
+
         for itm in hideImgs {
             itm.cornerRadiusView(radius: 8)
         }
     }
     
+    @objc func hideCatViews(_ sender: UITapGestureRecognizer? = nil) {
+        catsSuperView.isHidden = true
+        NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
+    }
+    
     func setupSwipeSubView() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleSubViewHide), name: Notification.Name("handleSubViewHide"), object: nil)
-        
-        //        checkLocationPermission()
         if Defaults.allowMyLocationSettings {
             subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
             subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
@@ -734,15 +799,70 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //MARK: - Actions
+    @IBAction func applyBtn(_ sender: Any) {
+        print("catIDs = \(catIDs) \\ \(Defaults.catIDs)")
+        
+        NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
+
+        DispatchQueue.main.async {
+            
+            DispatchQueue.main.async {
+                self.locationsModel.peoplocationDataMV?.removeAll()
+                self.locationsModel.eventlocationDataMV?.removeAll()
+                self.locations.removeAll()
+                self.mapView.clear()
+            }
+            
+            DispatchQueue.main.async {
+                if Defaults.token != "" {
+                    self.updateLocation()
+                }
+                self.setupGoogleMap(zoom1: 8, zoom2: 14)
+            }
+            
+            DispatchQueue.main.async {
+                self.collectionViewHeight.constant = 0
+                self.noeventNearbyLbl.isHidden = true
+                self.subViewHeight.constant = 50
+                self.subView.isHidden = false
+                self.isViewUp = false
+                self.hideCollectionView.isHidden = true
+                self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+            }
+            
+            DispatchQueue.main.async {
+                self.checkLocationPermission()
+            }
+            
+            DispatchQueue.main.async {
+                self.getEventsOnlyAroundMe()
+            }
+        }
+        
+        NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
+
+        catsSuperView.isHidden = true
+        
+        self.onDismiss()
+    }
+    
+    @IBAction func hideCatsSuperView(_ sender: Any) {
+        catsSuperView.isHidden = true
+        NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
+    }
+    
     @IBAction func nextBtn(_ sender: Any) {
         showAddEventExplainedView.isHidden = true
         showFilterExplainedView.isHidden = false
     }
     
+
+    
     @IBAction func nextToShowMapBtn(_ sender: Any) {
         Defaults.isFirstOpenMap = true
         showAddEventExplainedView.isHidden = true
         showFilterExplainedView.isHidden = true
+        switchFilterButton.isUserInteractionEnabled = true
         
         if Defaults.token != "" {
             initProfileBarButton(didTap: true)
@@ -970,7 +1090,7 @@ extension MapVC : GMSMapViewDelegate {
                     }
                 }
                 else {
-                    Router().toOptionsSignUpVC()
+                    Router().toOptionsSignUpVC(IsLogout: false)
                 }
             }else if marker.snippet == "NewEvent" {
                 print("NEW EVENT")
@@ -1283,7 +1403,7 @@ extension MapVC:UITableViewDelegate {
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }else {
-                Router().toOptionsSignUpVC()
+                Router().toOptionsSignUpVC(IsLogout: false)
             }
         }
     }
@@ -1293,70 +1413,99 @@ extension MapVC:UITableViewDelegate {
 extension MapVC:UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewmodel.eventsOnlyMe.value?.data?.count ?? 0
+        if collectionView == catsCollectionView {
+            return catsviewmodel.cats.value?.count ?? 0
+        }else {
+            return viewmodel.eventsOnlyMe.value?.data?.count ?? 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nearbyEventCellId, for: indexPath) as? NearbyEventsCollectionViewCell else {return UICollectionViewCell()}
-        let model = viewmodel.eventsOnlyMe.value?.data?[indexPath.row]
-        
-        cell.eventTitleLbl.text = model?.title
-        cell.eventDateLbl.text = model?.eventdate
-        cell.joinedLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
-        
-        cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-        
-        if model?.eventtype == "External" {
-            cell.eventColorView.backgroundColor = UIColor.color("#00284c")
-        }else {
-            cell.eventColorView.backgroundColor = UIColor.FriendzrColors.primary!
-        }
-        
-        //        cell.detailsBtn.backgroundColor = UIColor.color((model?.color ?? ""))
-        cell.detailsBtn.tintColor = UIColor.color((model?.color ?? ""))
-        cell.expandLbl.textColor = UIColor.color((model?.color ?? ""))
-        cell.eventDateLbl.textColor = UIColor.color((model?.color ?? ""))
-        
-        cell.HandledetailsBtn = {
-            if Defaults.token != "" {
-                if model?.eventtype == "External" {
-                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
-                    vc.eventId = model?.id ?? ""
-                    
-                    if model?.key == 1 {
-                        vc.isEventAdmin = true
-                    }else {
-                        vc.isEventAdmin = false
-                    }
-                    vc.inMap = true
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }else {
-                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-                    vc.eventId = model?.id ?? ""
-                    
-                    if model?.key == 1 {
-                        vc.isEventAdmin = true
-                    }else {
-                        vc.isEventAdmin = false
-                    }
-                    vc.inMap = true
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
+        if collectionView == catsCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: catsCellId, for: indexPath) as? TagCollectionViewCell else {return UICollectionViewCell()}
+            let model = catsviewmodel.cats.value?[indexPath.row]
+            cell.tagNameLbl.text = model?.name ?? ""
+            cell.editBtn.isHidden = true
+            cell.editBtnWidth.constant = 0
+            
+            if catIDs.contains(model?.id ?? "") {
+                cell.containerView.backgroundColor = UIColor.FriendzrColors.primary
             }
             else {
-                Router().toOptionsSignUpVC()
+                cell.containerView.backgroundColor = .black
             }
+            cell.layoutSubviews()
+            return cell
         }
-        return cell
+        else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nearbyEventCellId, for: indexPath) as? NearbyEventsCollectionViewCell else {return UICollectionViewCell()}
+            let model = viewmodel.eventsOnlyMe.value?.data?[indexPath.row]
+            
+            cell.eventTitleLbl.text = model?.title
+            cell.eventDateLbl.text = model?.eventdate
+            cell.joinedLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
+            
+            cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            
+            if model?.eventtype == "External" {
+                cell.eventColorView.backgroundColor = UIColor.color("#00284c")
+            }else {
+                cell.eventColorView.backgroundColor = UIColor.FriendzrColors.primary!
+            }
+            
+            //        cell.detailsBtn.backgroundColor = UIColor.color((model?.color ?? ""))
+            cell.detailsBtn.tintColor = UIColor.color((model?.color ?? ""))
+            cell.expandLbl.textColor = UIColor.color((model?.color ?? ""))
+            cell.eventDateLbl.textColor = UIColor.color((model?.color ?? ""))
+            
+            cell.HandledetailsBtn = {
+                if Defaults.token != "" {
+                    if model?.eventtype == "External" {
+                        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+                        vc.eventId = model?.id ?? ""
+                        
+                        if model?.key == 1 {
+                            vc.isEventAdmin = true
+                        }else {
+                            vc.isEventAdmin = false
+                        }
+                        vc.inMap = true
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }else {
+                        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                        vc.eventId = model?.id ?? ""
+                        
+                        if model?.key == 1 {
+                            vc.isEventAdmin = true
+                        }else {
+                            vc.isEventAdmin = false
+                        }
+                        vc.inMap = true
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
+                else {
+                    Router().toOptionsSignUpVC(IsLogout: false)
+                }
+            }
+            return cell
+        }
     }
 }
 
 extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collectionView.bounds.width
-        let height = collectionView.bounds.height
-        return CGSize(width: width/2.1, height: height - 20)
+        if collectionView == catsCollectionView {
+            let model = catsviewmodel.cats.value?[indexPath.row]
+            let width = model?.name?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
+            return CGSize(width: width! + 50, height: 45)
+        }
+        else {
+            let width = collectionView.bounds.width
+            let height = collectionView.bounds.height
+            return CGSize(width: width/2.1, height: height - 20)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -1372,19 +1521,45 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let model = viewmodel.eventsOnlyMe.value?.data
-        
-        for (index,item) in model!.enumerated() {
-            let locitm = CLLocationCoordinate2DMake(item.lat?.toDouble() ?? 0.0, item.lang?.toDouble() ?? 0.0)
-            if index == indexPath.row {
-                if LocationZooming.locationLat != locitm.latitude && LocationZooming.locationLng != locitm.longitude {
-                    animationZoomingMap(zoomIN: 17, zoomOUT: 15, lat: locitm.latitude, lng: locitm.longitude)
-                }
-                else {
-                    self.mapView.clear()
-                    self.setupMarkers(model: self.locationsModel)
+        if collectionView != catsCollectionView {
+            let model = viewmodel.eventsOnlyMe.value?.data
+            for (index,item) in model!.enumerated() {
+                let locitm = CLLocationCoordinate2DMake(item.lat?.toDouble() ?? 0.0, item.lang?.toDouble() ?? 0.0)
+                if index == indexPath.row {
+                    if LocationZooming.locationLat != locitm.latitude && LocationZooming.locationLng != locitm.longitude {
+                        animationZoomingMap(zoomIN: 17, zoomOUT: 15, lat: locitm.latitude, lng: locitm.longitude)
+                    }
+                    else {
+                        self.mapView.clear()
+                        self.setupMarkers(model: self.locationsModel)
+                    }
                 }
             }
+        }
+        else {
+            if NetworkConected.internetConect {
+                print("You selected cell #\(indexPath.row)!")
+                let strData = catsviewmodel.cats.value?[indexPath.row]
+                
+                if catIDs.contains(strData?.id ?? "") {
+                    //                    arrSelectedIndex = arrSelectedIndex.filter { $0 != indexPath}
+                    catIDs = catIDs.filter { $0 != strData?.id}
+                    catSelectedNames = catSelectedNames.filter { $0 != strData?.name}
+                    Defaults.catIDs = Defaults.catIDs.filter { $0 != strData?.id}
+                    Defaults.catSelectedNames = Defaults.catSelectedNames.filter { $0 != strData?.name}
+                }
+                else {
+                    //                    arrSelectedIndex.append(indexPath)
+                    catIDs.append(strData?.id ?? "")
+                    catSelectedNames.append(strData?.name ?? "")
+                    Defaults.catIDs.append(strData?.id ?? "")
+                    Defaults.catSelectedNames.append(strData?.name ?? "")
+                }
+                
+                print(catIDs)
+                collectionView.reloadData()
+            }
+            
         }
     }
     
@@ -1571,20 +1746,35 @@ extension MapVC {
     }
     
     @objc func handleFilterSwitchBtn() {
-        handleFilterByCategorySwitchBtn()
+        if Defaults.token != "" {
+            if (catsviewmodel.cats.value?.count ?? 0) != 0 {
+                handleFilterByCategorySwitchBtn()
+            }
+            else {
+                initFilterBarButton()
+                return
+            }
+        }
+        else {
+            Router().toOptionsSignUpVC(IsLogout: false)
+        }
     }
 
     func handleFilterByCategorySwitchBtn() {
         if Defaults.token != "" {
             if NetworkConected.internetConect {
                 if Defaults.catIDs.count == 0 {
-                    if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "CategoriesNC") as? UINavigationController, let vc = controller.viewControllers.first as? CategoriesViewController {
-                        vc.selectedIDs = self.catIDs
-                        vc.selectedCats = self.catSelectedArr
-                        vc.selectedNames = self.catSelectedNames
-                        vc.onListCatsCallBackResponse = self.onFilterByCatsCallBack
-                        self.present(controller, animated: true)
-                    }
+//                    if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "CatsNC") as? UINavigationController, let vc = controller.viewControllers.first as? CatsVC {
+//                        vc.selectedIDs = self.catIDs
+//                        vc.selectedCats = self.catSelectedArr
+//                        vc.selectedNames = self.catSelectedNames
+//                        vc.onListCatsCallBackResponse = self.onFilterByCatsCallBack
+//                        vc.modalPresentationStyle = .overCurrentContext
+//                        vc.modalTransitionStyle = .crossDissolve
+//                        self.present(controller, animated: true)
+//                    }
+                    switchFilterButton.isUserInteractionEnabled = false
+                    self.catsSuperView.isHidden = false
                 }
                 else {
                     self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
@@ -1678,7 +1868,7 @@ extension MapVC {
             
         }
         else {
-            Router().toOptionsSignUpVC()
+            Router().toOptionsSignUpVC(IsLogout: false)
         }
     }
 

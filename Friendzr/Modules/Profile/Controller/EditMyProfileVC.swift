@@ -764,7 +764,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                     Defaults.deleteUserData()
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
-                        Router().toOptionsSignUpVC()
+                        Router().toOptionsSignUpVC(IsLogout: true)
                     })
                 }
             }
@@ -1213,7 +1213,7 @@ extension EditMyProfileVC {
                         Router().toFeed()
                     }
                     else {//to login
-                        Router().toOptionsSignUpVC()
+                        Router().toOptionsSignUpVC(IsLogout: true)
                     }
                 }
             }

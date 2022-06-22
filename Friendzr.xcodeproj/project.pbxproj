@@ -336,6 +336,7 @@
 		43DAFA2E27D6472B00D16462 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DAFA2D27D6472B00D16462 /* NotificationService.swift */; };
 		43DAFA3227D6472B00D16462 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 43DAFA2B27D6472B00D16462 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		43DC08082861E73E00B7A6DD /* MyCustomShimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DC08072861E73E00B7A6DD /* MyCustomShimmer.swift */; };
+		43DC080A2863076F00B7A6DD /* CatsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DC08092863076F00B7A6DD /* CatsVC.swift */; };
 		43DF596827B942FB000D9F69 /* ShareEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF596727B942FB000D9F69 /* ShareEventVC.swift */; };
 		43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E692BF2765FF9D0075671D /* Ex+Switch.swift */; };
 		43E7EC43279C341900631AA0 /* FaceRecognitionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */; };
@@ -745,6 +746,7 @@
 		43DAFA2D27D6472B00D16462 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		43DAFA2F27D6472B00D16462 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		43DC08072861E73E00B7A6DD /* MyCustomShimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCustomShimmer.swift; sourceTree = "<group>"; };
+		43DC08092863076F00B7A6DD /* CatsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatsVC.swift; sourceTree = "<group>"; };
 		43DF596727B942FB000D9F69 /* ShareEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareEventVC.swift; sourceTree = "<group>"; };
 		43E692BF2765FF9D0075671D /* Ex+Switch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Switch.swift"; sourceTree = "<group>"; };
 		43E7EC42279C341900631AA0 /* FaceRecognitionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionVC.swift; sourceTree = "<group>"; };
@@ -1198,6 +1200,7 @@
 			children = (
 				4362888026C8FEDE00B51E51 /* MapVC.swift */,
 				43526918276A1D6D00540726 /* Extensions + MapVC.swift */,
+				43DC08092863076F00B7A6DD /* CatsVC.swift */,
 				4392277A284CC20700F351C7 /* CategoriesViewController.swift */,
 				431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */,
 				43526908276A0EDC00540726 /* BottomSheetViewController.swift */,
@@ -2226,6 +2229,7 @@
 				4389A5CE283A7D6300BC6642 /* ShareEventMessageTableViewCell.swift in Sources */,
 				43CFB010271C56FC000CB41E /* GenderCollectionViewCell.swift in Sources */,
 				43AF352F284CCA0100B65773 /* FilterCatsTableViewCell.swift in Sources */,
+				43DC080A2863076F00B7A6DD /* CatsVC.swift in Sources */,
 				43C0E18227FB28CD00555023 /* Celebrity.swift in Sources */,
 				43B8287D27E9C53F005FF1D1 /* EventTypeViewModel.swift in Sources */,
 				436850982745008500A62287 /* InstagramWebVC.swift in Sources */,

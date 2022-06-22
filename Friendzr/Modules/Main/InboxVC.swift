@@ -12,6 +12,7 @@ import GoogleMobileAds
 import SDWebImage
 import Network
 import AdSupport
+import AMShimmer
 
 //MARK: - singletone Network Conected
 class NetworkConected {
@@ -102,7 +103,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.updateUserInterface()
             }
         }else {
-            Router().toOptionsSignUpVC()
+            Router().toOptionsSignUpVC(IsLogout: false)
         }
         
         setupHideView()
@@ -146,16 +147,10 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func getAllChatList(pageNumber:Int,search:String) {
-        hideView.hideLoader()
+        AMShimmer.stop(for: hideView)
         viewmodel.getChatList(pageNumber: pageNumber,search: search)
         viewmodel.listChat.bind { [unowned self] value in
             DispatchQueue.main.async {
-                
-                DispatchQueue.main.async {
-                    self.hideView.hideLoader()
-                    self.hideView.isHidden = true
-                }
-                
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
                 
                 DispatchQueue.main.async {
@@ -190,13 +185,13 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     func loadAllchatList(pageNumber:Int) {
         hideView.isHidden = false
-        hideView.showLoader()
+        AMShimmer.start(for: self.hideView)
         viewmodel.getChatList(pageNumber: pageNumber,search: "")
         viewmodel.listChat.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.hideView.hideLoader()
+                    AMShimmer.stop(for: self.hideView)
                     self.hideView.isHidden = true
                 }
                 

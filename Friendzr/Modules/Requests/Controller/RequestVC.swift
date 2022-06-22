@@ -99,7 +99,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.updateUserInterface()
             }
         }else {
-            Router().toOptionsSignUpVC()
+            Router().toOptionsSignUpVC(IsLogout: false)
         }
     }
     

@@ -107,7 +107,7 @@ class RequestManager: NSObject, URLSessionDelegate {
                         completion([:],"Unauthorized")
                         
                         DispatchQueue.main.async {
-                            Router().toOptionsSignUpVC()
+                            Router().toOptionsSignUpVC(IsLogout: false)
                         }
                     } catch {
                         print(error)
@@ -129,7 +129,7 @@ class RequestManager: NSObject, URLSessionDelegate {
                         completion([:],"Unable to parse empty data")
                         
                         DispatchQueue.main.async {
-                            Router().toOptionsSignUpVC()
+                            Router().toOptionsSignUpVC(IsLogout: false)
                         }
                     } catch {
                         print(error)

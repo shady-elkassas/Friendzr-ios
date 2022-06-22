@@ -210,7 +210,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
                 if Defaults.token != "" {
                     Router().toFeed()
                 }else {
-                    Router().toOptionsSignUpVC()
+                    Router().toOptionsSignUpVC(IsLogout: true)
                 }
             }
         }

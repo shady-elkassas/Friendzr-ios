@@ -854,7 +854,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cGp-2V-4NA">
-                                <rect key="frame" x="0.0" y="846" width="414" height="320"/>
+                                <rect key="frame" x="0.0" y="1072.5" width="414" height="93.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select your category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="067-g2-FUZ">
                                         <rect key="frame" x="133" y="10" width="148.5" height="17.5"/>
@@ -863,8 +863,11 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="u38-wW-7p7">
-                                        <rect key="frame" x="5" y="37.5" width="404" height="226.5"/>
+                                        <rect key="frame" x="5" y="37.5" width="404" height="0.0"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" id="JM6-y6-Utw"/>
+                                        </constraints>
                                         <collectionViewLayout key="collectionViewLayout" id="Oqn-b5-qMY" customClass="TagsLayout" customModule="Friendzr" customModuleProvider="target"/>
                                         <cells/>
                                         <connections>
@@ -873,7 +876,7 @@
                                         </connections>
                                     </collectionView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O2x-ku-fcZ">
-                                        <rect key="frame" x="138" y="274" width="138" height="36"/>
+                                        <rect key="frame" x="138" y="47.5" width="138" height="36"/>
                                         <color key="backgroundColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="22M-Mz-lmJ"/>
@@ -892,7 +895,6 @@
                                 <constraints>
                                     <constraint firstItem="067-g2-FUZ" firstAttribute="centerX" secondItem="cGp-2V-4NA" secondAttribute="centerX" id="1V2-2E-yVP"/>
                                     <constraint firstAttribute="bottom" secondItem="O2x-ku-fcZ" secondAttribute="bottom" constant="10" id="BTb-xj-SK4"/>
-                                    <constraint firstAttribute="height" constant="320" id="EYn-x7-1Xf"/>
                                     <constraint firstItem="u38-wW-7p7" firstAttribute="leading" secondItem="cGp-2V-4NA" secondAttribute="leading" constant="5" id="JQ7-KT-YI3"/>
                                     <constraint firstItem="O2x-ku-fcZ" firstAttribute="centerX" secondItem="cGp-2V-4NA" secondAttribute="centerX" id="JtC-1Q-pnv"/>
                                     <constraint firstAttribute="trailing" secondItem="u38-wW-7p7" secondAttribute="trailing" constant="5" id="Odq-R9-KlY"/>
@@ -963,6 +965,7 @@
                         <outlet property="categoryLbl" destination="Crx-iz-G4U" id="RfM-pQ-R32"/>
                         <outlet property="chooseCatBtn" destination="Alj-lf-wLF" id="2tv-PB-B3A"/>
                         <outlet property="collectionView" destination="u38-wW-7p7" id="JXL-X0-rwi"/>
+                        <outlet property="collectionViewHeight" destination="JM6-y6-Utw" id="x1g-LN-DLZ"/>
                         <outlet property="datesView" destination="V3l-9p-KMG" id="LlL-pI-n1t"/>
                         <outlet property="datesViewHeight" destination="zks-6X-dXd" id="hWk-aP-HbO"/>
                         <outlet property="descriptionTxtView" destination="USe-5K-ue8" id="38C-U3-VVf"/>

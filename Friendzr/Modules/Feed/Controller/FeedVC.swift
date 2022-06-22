@@ -525,16 +525,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
 
     func filterFeedsloadMore(isCompassOpen:Bool,degree:Double,sortByInterestMatch:Bool,pageNumber:Int) {
         self.hideView.isHidden = true
-        AMShimmer.start(for: hideView)
         viewmodel.filterFeeds(isCompassOpen: isCompassOpen, Bydegree: degree, sortByInterestMatch: sortByInterestMatch, pageNumber: pageNumber)
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                
-                DispatchQueue.main.async {
-                    self.hideView.isHidden = true
-                    self.hideView.hideLoader()
-                }
-                
                 self.tableView.delegate = self
                 self.tableView.dataSource = self
                 self.tableView.reloadData()
@@ -1173,7 +1166,7 @@ extension FeedVC:UITableViewDelegate {
                 return
             }
         }else {
-            Router().toOptionsSignUpVC()
+            Router().toOptionsSignUpVC(IsLogout: false)
         }
     }
     
@@ -1554,38 +1547,80 @@ extension FeedVC {
     
     @objc func handleCompassSwitchBtn() {
         print("\(switchCompassBarButton.isOn)")
-        btnsSelected = true
-        
-        if NetworkConected.internetConect {
-            // Azimuth
-            if Defaults.allowMyLocationSettings == true {
-                if switchCompassBarButton.isOn {
-                    self.isCompassOpen = true
-                    if !Defaults.hideAds {
-                        DispatchQueue.main.async {
-                            self.setupAds()
+        if Defaults.token != "" {
+            btnsSelected = true
+            if NetworkConected.internetConect {
+                // Azimuth
+                if Defaults.allowMyLocationSettings == true {
+                    if switchCompassBarButton.isOn {
+                        self.isCompassOpen = true
+                        if !Defaults.hideAds {
+                            DispatchQueue.main.async {
+                                self.setupAds()
+                            }
+                            bannerViewHeight.constant = 50
                         }
-                        bannerViewHeight.constant = 50
+                        else {
+                            bannerViewHeight.constant = 0
+                        }
+                        
+                        createLocationManager()
+                        filterDir = true
+                        filterBtn.isHidden = false
+                        compassContanierView.isHidden = false
+                        if Defaults.isIPhoneLessThan2500 {
+                            compassContainerViewHeight.constant = 200
+                        }else {
+                            compassContainerViewHeight.constant = 270
+                        }
+                        
+                        compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
+                        
                     }
                     else {
-                        bannerViewHeight.constant = 0
+                        self.isCompassOpen = false
+                        if !Defaults.hideAds {
+                            DispatchQueue.main.async {
+                                self.setupAds()
+                            }
+                            bannerViewHeight.constant = 50
+                        }else {
+                            bannerViewHeight.constant = 0
+                        }
+                        
+                        locationManager.stopUpdatingLocation()
+                        locationManager.stopUpdatingHeading()
+                        filterDir = false
+                        compassContanierView.isHidden = true
+                        
+                        
+                        filterBtn.isHidden = true
+                        compassContainerViewHeight.constant = 0
+                        
+                        if Defaults.allowMyLocationSettings == true {
+                            DispatchQueue.main.async {
+                                if self.isCompassOpen {
+                                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
+                                }else {
+                                    if self.sortByInterestMatch {
+                                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
+                                    }else {
+                                        self.LoadAllFeeds(pageNumber: 1)
+                                    }
+                                }
+                            }
+                            self.allowLocView.isHidden = true
+                        }else {
+                            self.emptyView.isHidden = true
+                            self.allowLocView.isHidden = false
+                        }
                     }
-                    
-                    createLocationManager()
-                    filterDir = true
-                    filterBtn.isHidden = false
-                    compassContanierView.isHidden = false
-                    if Defaults.isIPhoneLessThan2500 {
-                        compassContainerViewHeight.constant = 200
-                    }else {
-                        compassContainerViewHeight.constant = 270
-                    }
-                    
-                    compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
-                    
                 }
                 else {
                     self.isCompassOpen = false
+                    switchCompassBarButton.isOn = false
+                    createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
+                    
                     if !Defaults.hideAds {
                         DispatchQueue.main.async {
                             self.setupAds()
@@ -1595,50 +1630,12 @@ extension FeedVC {
                         bannerViewHeight.constant = 0
                     }
                     
-                    locationManager.stopUpdatingLocation()
-                    locationManager.stopUpdatingHeading()
-                    filterDir = false
-                    compassContanierView.isHidden = true
-                    
-                    
-                    filterBtn.isHidden = true
-                    compassContainerViewHeight.constant = 0
-                    
-                    if Defaults.allowMyLocationSettings == true {
-                        DispatchQueue.main.async {
-                            if self.isCompassOpen {
-                                self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
-                            }else {
-                                if self.sortByInterestMatch {
-                                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
-                                }else {
-                                    self.LoadAllFeeds(pageNumber: 1)
-                                }
-                            }
-                        }
-                        self.allowLocView.isHidden = true
-                    }else {
-                        self.emptyView.isHidden = true
-                        self.allowLocView.isHidden = false
-                    }
-                }
-            }
-            else {
-                self.isCompassOpen = false
-                switchCompassBarButton.isOn = false
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-                
-                if !Defaults.hideAds {
-                    DispatchQueue.main.async {
-                        self.setupAds()
-                    }
-                    bannerViewHeight.constant = 50
-                }else {
-                    bannerViewHeight.constant = 0
                 }
                 
             }
-            
+
+        }else {
+            Router().toOptionsSignUpVC(IsLogout: false)
         }
     }
     
@@ -1979,13 +1976,17 @@ extension FeedVC {
             
         }
         else {
-            Router().toOptionsSignUpVC()
+            Router().toOptionsSignUpVC(IsLogout: false)
         }
     }
     
     @objc func handleGhostModeSwitchBtn() {
         btnsSelected = true
-        handlePrivateModeSwitchBtn()
+        if Defaults.token != "" {
+            handlePrivateModeSwitchBtn()
+        }else {
+            Router().toOptionsSignUpVC(IsLogout: false)
+        }
     }
     
     func onHideGhostModeTypesCallBack(_ data: [String], _ value: [Int]) -> () {
@@ -2076,7 +2077,7 @@ extension FeedVC {
             }
         }
         else {
-            Router().toOptionsSignUpVC()
+            Router().toOptionsSignUpVC(IsLogout: false)
         }
     }
     
@@ -2111,7 +2112,7 @@ extension FeedVC {
                 }
             }
             else {
-                Router().toOptionsSignUpVC()
+                Router().toOptionsSignUpVC(IsLogout: false)
             }
             break
         case .right:
@@ -2129,7 +2130,7 @@ extension FeedVC {
                 }
             }
             else {
-                Router().toOptionsSignUpVC()
+                Router().toOptionsSignUpVC(IsLogout: false)
             }
             break
         default:

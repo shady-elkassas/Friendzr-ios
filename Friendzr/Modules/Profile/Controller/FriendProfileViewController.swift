@@ -9,6 +9,7 @@ import UIKit
 import ListPlaceholder
 import Network
 import SDWebImage
+import AMShimmer
 
 class FriendProfileViewController: UIViewController {
     
@@ -104,12 +105,12 @@ class FriendProfileViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         CancelRequest.currentTask = true
-        hideView.hideLoader()
+        AMShimmer.stop(for: self.hideView)
     }
     
     //MARK: - APIs
     func getFriendProfileInformation() {
-        self.hideView.hideLoader()
+        AMShimmer.stop(for: self.hideView)
         viewmodel.getFriendDetails(ById: userID)
         viewmodel.model.bind { [unowned self]value in
             
@@ -138,7 +139,7 @@ class FriendProfileViewController: UIViewController {
         }
     }
     func loadUserData() {
-        self.hideView.showLoader()
+        AMShimmer.start(for: self.hideView)
         viewmodel.getFriendDetails(ById: userID)
         viewmodel.model.bind { [unowned self]value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
@@ -151,7 +152,7 @@ class FriendProfileViewController: UIViewController {
                 }
                 
                 DispatchQueue.main.async {
-                    self.hideView.hideLoader()
+                    AMShimmer.stop(for: self.hideView)
                     self.hideView.isHidden = true
                 }
             }

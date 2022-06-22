@@ -58,7 +58,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
                 self.updateUserInterface()
             }
         }else {
-            Router().toOptionsSignUpVC()
+            Router().toOptionsSignUpVC(IsLogout: false)
         }
        
         
@@ -269,7 +269,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
                     // For the purpose of this demo app, delete the user identifier that was previously stored in the keychain.
                     KeychainItem.deleteUserIdentifierFromKeychain()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
-                        Router().toOptionsSignUpVC()
+                        Router().toOptionsSignUpVC(IsLogout: true)
                     })
                 }
             }
