@@ -120,7 +120,9 @@ class EventObj: NSObject,Mappable {
     var eventtypeid:String = ""
     var showAttendees:Bool = false
     var checkout_details:String = ""
-
+    
+    var isSendEvent:Bool = false
+    
     override init() {
         super.init()
     }

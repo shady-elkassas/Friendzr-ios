@@ -179,6 +179,7 @@ class AddGroupVC: UIViewController {
     func LaodAllFriends(pageNumber:Int,search:String) {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [unowned self] value in
+            
             DispatchQueue.main.async {
                 self.tableView.delegate = self
                 self.tableView.dataSource = self

@@ -388,8 +388,10 @@
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
+                                                        <constraint firstItem="efc-g0-NqG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="MQN-qP-ZVi" secondAttribute="trailing" constant="8" id="1dG-XG-TUF"/>
                                                         <constraint firstItem="VYq-xc-biR" firstAttribute="trailing" secondItem="zDP-YS-sgM" secondAttribute="trailing" id="2K1-OZ-ehr"/>
                                                         <constraint firstItem="VYq-xc-biR" firstAttribute="height" secondItem="zDP-YS-sgM" secondAttribute="height" multiplier="1:2.5" id="C7q-J6-Xow"/>
+                                                        <constraint firstItem="wjA-sp-5lI" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Chf-KW-TUK" secondAttribute="trailing" constant="8" id="Hlu-p7-3AH"/>
                                                         <constraint firstItem="zDP-YS-sgM" firstAttribute="leading" secondItem="h09-zY-el3" secondAttribute="leading" id="KqL-aa-qu4"/>
                                                         <constraint firstItem="VYq-xc-biR" firstAttribute="leading" secondItem="zDP-YS-sgM" secondAttribute="leading" id="Ohh-yH-uRT"/>
                                                         <constraint firstItem="VYq-xc-biR" firstAttribute="bottom" secondItem="zDP-YS-sgM" secondAttribute="bottom" id="Osx-GL-nh0"/>
@@ -505,8 +507,10 @@
                                                         <constraint firstItem="ovI-Lc-rXs" firstAttribute="leading" secondItem="ZXK-3p-4a7" secondAttribute="leading" id="Bwa-7l-Eay"/>
                                                         <constraint firstItem="ZXK-3p-4a7" firstAttribute="bottom" secondItem="PrV-e0-mml" secondAttribute="bottom" constant="-8" id="DBi-oQ-SDT"/>
                                                         <constraint firstItem="C9B-1u-Gru" firstAttribute="leading" secondItem="HjA-sN-25s" secondAttribute="leading" id="DP8-fq-dzq"/>
+                                                        <constraint firstItem="HjA-sN-25s" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ZXK-3p-4a7" secondAttribute="trailing" constant="8" id="FQi-nH-oE8"/>
                                                         <constraint firstItem="ZXK-3p-4a7" firstAttribute="top" secondItem="ovI-Lc-rXs" secondAttribute="bottom" constant="3" id="H4E-Mc-yH0"/>
                                                         <constraint firstItem="e67-I3-Hhl" firstAttribute="leading" secondItem="0Ta-hW-nki" secondAttribute="leading" id="NFm-14-zd2"/>
+                                                        <constraint firstItem="C9B-1u-Gru" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ovI-Lc-rXs" secondAttribute="trailing" constant="8" id="PIC-CS-x0X"/>
                                                         <constraint firstItem="e67-I3-Hhl" firstAttribute="top" secondItem="0Ta-hW-nki" secondAttribute="top" id="XNH-v6-cXf"/>
                                                         <constraint firstItem="HjA-sN-25s" firstAttribute="top" secondItem="C9B-1u-Gru" secondAttribute="bottom" constant="3" id="XSA-DD-Shl"/>
                                                         <constraint firstItem="HjA-sN-25s" firstAttribute="trailing" secondItem="PrV-e0-mml" secondAttribute="trailing" constant="-5" id="XSB-76-PnO"/>

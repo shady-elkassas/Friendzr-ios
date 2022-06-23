@@ -15,12 +15,15 @@ class ShareTableViewCell: UITableViewCell {
     @IBOutlet weak var bottomView: UIView!
     
     var HandleSendBtn: (() -> ())?
-
+    var isShareEvent:Bool = false
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         sendBtn.cornerRadiusView(radius: 8)
+        
     }
+    
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

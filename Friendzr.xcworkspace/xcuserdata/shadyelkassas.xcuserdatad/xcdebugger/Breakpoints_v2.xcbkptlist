@@ -606,8 +606,8 @@
             filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1325"
-            endingLineNumber = "1325"
+            startingLineNumber = "1328"
+            endingLineNumber = "1328"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -775,22 +775,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "9A18FB17-C42F-43CF-B5FA-6F3099A0E750"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Friendzr/Modules/Events/Controller/ShareEventVC.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
-            landmarkName = "getAllMyFriends(pageNumber:search:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "920BB5FE-3264-4B9B-84A7-EF8C1442454B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -798,9 +782,9 @@
             filePath = "Friendzr/Modules/Events/Controller/ShareEventVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "641"
-            endingLineNumber = "641"
-            landmarkName = "updateSearchFriendsResult()"
+            startingLineNumber = "789"
+            endingLineNumber = "789"
+            landmarkName = "updateSearchResult()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -814,9 +798,9 @@
             filePath = "Friendzr/Modules/Events/Controller/ShareEventVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "640"
-            endingLineNumber = "640"
-            landmarkName = "updateSearchFriendsResult()"
+            startingLineNumber = "788"
+            endingLineNumber = "788"
+            landmarkName = "updateSearchResult()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1354,8 +1338,8 @@
             filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1645"
-            endingLineNumber = "1645"
+            startingLineNumber = "1646"
+            endingLineNumber = "1646"
             landmarkName = "onFilterByCatsCallBack(_:_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1370,8 +1354,8 @@
             filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1643"
-            endingLineNumber = "1643"
+            startingLineNumber = "1644"
+            endingLineNumber = "1644"
             landmarkName = "onFilterByCatsCallBack(_:_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1459,22 +1443,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1F06AD60-E3B5-426D-8712-E129065EEF01"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "803"
-            endingLineNumber = "803"
-            landmarkName = "applyBtn(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "5641ABEF-745E-4732-9ED5-18EBAB907FA8"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -1485,6 +1453,214 @@
             startingLineNumber = "189"
             endingLineNumber = "189"
             landmarkName = "viewWillAppear(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "658F8A1A-7D04-458D-ADF6-7F8BEAD8AA89"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Friendzr/Modules/Main/InboxVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "588"
+            endingLineNumber = "588"
+            landmarkName = "lastMessageDateTime(date:time:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BC7AACAE-572A-42B4-B62F-292FC17C9808"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Friendzr/Modules/Main/InboxVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "585"
+            endingLineNumber = "585"
+            landmarkName = "lastMessageDateTime(date:time:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BCF752F6-65D5-41B8-919F-1A2C4E1C12F3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Friendzr/Modules/Main/InboxVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "598"
+            endingLineNumber = "598"
+            landmarkName = "buildFormatter(locale:hasRelativeDate:dateFormat:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F9D28FAD-0589-46D0-A942-BC40E187EC54"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Friendzr/Modules/Main/InboxVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "597"
+            endingLineNumber = "597"
+            landmarkName = "buildFormatter(locale:hasRelativeDate:dateFormat:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9F5485BB-D0B7-4986-967C-F42DEA5BCD49"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Friendzr/Modules/Main/InboxVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "594"
+            endingLineNumber = "594"
+            landmarkName = "buildFormatter(locale:hasRelativeDate:dateFormat:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9F5485BB-D0B7-4986-967C-F42DEA5BCD49 - d412d103db5dfd87"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Friendzr.InboxVC.buildFormatter(locale: Foundation.Locale, hasRelativeDate: Swift.Bool, dateFormat: Swift.Optional&lt;Swift.String&gt;) -&gt; __C.NSDateFormatter"
+                  moduleName = "Friendzr"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Modules/Main/InboxVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "594"
+                  endingLineNumber = "594"
+                  offsetFromSymbolStart = "260">
+               </Location>
+               <Location
+                  uuid = "9F5485BB-D0B7-4986-967C-F42DEA5BCD49 - d412d103db5dfd87"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Friendzr.InboxVC.buildFormatter(locale: Foundation.Locale, hasRelativeDate: Swift.Bool, dateFormat: Swift.Optional&lt;Swift.String&gt;) -&gt; __C.NSDateFormatter"
+                  moduleName = "Friendzr"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Modules/Main/InboxVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "594"
+                  endingLineNumber = "594"
+                  offsetFromSymbolStart = "296">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "826519E2-FC40-4AE1-A8F2-E784035F7989"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Friendzr/Modules/Main/InboxVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "590"
+            endingLineNumber = "590"
+            landmarkName = "buildFormatter(locale:hasRelativeDate:dateFormat:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "826519E2-FC40-4AE1-A8F2-E784035F7989 - d412d103db5dfd22"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Friendzr.InboxVC.buildFormatter(locale: Foundation.Locale, hasRelativeDate: Swift.Bool, dateFormat: Swift.Optional&lt;Swift.String&gt;) -&gt; __C.NSDateFormatter"
+                  moduleName = "Friendzr"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Modules/Main/InboxVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "591"
+                  endingLineNumber = "591"
+                  offsetFromSymbolStart = "192">
+               </Location>
+               <Location
+                  uuid = "826519E2-FC40-4AE1-A8F2-E784035F7989 - 1f6377761ab27e89"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "default argument 1 of Friendzr.InboxVC.buildFormatter(locale: Foundation.Locale, hasRelativeDate: Swift.Bool, dateFormat: Swift.Optional&lt;Swift.String&gt;) -&gt; __C.NSDateFormatter"
+                  moduleName = "Friendzr"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Modules/Main/InboxVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "590"
+                  endingLineNumber = "590"
+                  offsetFromSymbolStart = "4">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "40F8C604-79AA-43DF-8D3D-A1A2DBEBCDCF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Friendzr/Modules/Main/InboxVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "569"
+            endingLineNumber = "569"
+            landmarkName = "lastMessageDateTime(date:time:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "10523595-6659-45AB-BAF5-2A2B6DBC5C57"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Friendzr/Modules/Messages/Controller/MessagesVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1727"
+            endingLineNumber = "1727"
+            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "922065C0-5C2E-48EF-82A6-4C5FCEBCA28C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Friendzr/Modules/Messages/Controller/MessagesVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1914"
+            endingLineNumber = "1914"
+            landmarkName = "handleKeyboardDidChangeState(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

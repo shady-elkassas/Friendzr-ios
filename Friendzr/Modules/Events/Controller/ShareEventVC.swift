@@ -30,19 +30,19 @@ class ShareEventVC: UIViewController {
     @IBOutlet weak var eventsSearchView: UIView!
     @IBOutlet weak var groupsSearchView: UIView!
     @IBOutlet weak var friendsSearchView: UIView!
-        
+    
     @IBOutlet var namesFirendsViews: [UIImageView]!
     @IBOutlet var selectImgsView: [UIImageView]!
-
+    
     @IBOutlet weak var hideView1: UIView!
     @IBOutlet weak var hideView2: UIView!
     @IBOutlet weak var hideView3: UIView!
-
+    
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var emptyLbl: UILabel!
     @IBOutlet weak var emptyImg: UIImageView!
-
+    
     //MARK: - Properties
     var cellID = "ShareTableViewCell"
     var eventID:String = ""
@@ -50,6 +50,15 @@ class ShareEventVC: UIViewController {
     var myEventsVM:EventsViewModel = EventsViewModel()
     var myGroupsVM:GroupViewModel = GroupViewModel()
     var shareEventMessageVM:ChatViewModel = ChatViewModel()
+    
+    var isLoadingFriendsList:Bool = false
+    var isLoadingGroupsList:Bool = false
+    var isLoadingEventsList:Bool = false
+    
+    var currentFriendsPage:Int = 1
+    var currentGroupsPage:Int = 1
+    var currentEventsPage:Int = 1
+    
     
     let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -98,6 +107,12 @@ class ShareEventVC: UIViewController {
                     self.eventsTV.dataSource = self
                     self.eventsTV.reloadData()
                 }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.isLoadingEventsList = false
+                    self.eventsTV.tableFooterView = nil
+                }
+                
                 if value.data?.count == 0 {
                     self.eventsEmptyView.isHidden = false
                     if search != "" {
@@ -319,7 +334,23 @@ class ShareEventVC: UIViewController {
             }
         }
     }
-
+    
+    
+    func loadMoreFriendsList() {
+        currentFriendsPage += 1
+        getAllMyFriends(pageNumber: currentFriendsPage, search: friendsSearchBar.text ?? "")
+    }
+    
+    func loadMoreGroupsList() {
+        currentGroupsPage += 1
+        getAllMyGroups(pageNumber: currentGroupsPage, search: groupsSearchBar.text ?? "")
+    }
+    
+    func loadMoreEventsList() {
+        currentEventsPage += 1
+        getAllMyEvents(pageNumber: currentEventsPage, search: eventsSearchBar.text ?? "")
+    }
+    
     func shareEventToUser(_ cell:ShareTableViewCell,_ model:UserConversationModel?,_ messageDate:String,_ messageTime:String,_ url:URL?) {
         cell.sendBtn.setTitle("Sending...", for: .normal)
         cell.sendBtn.isUserInteractionEnabled = false
@@ -346,6 +377,7 @@ class ShareEventVC: UIViewController {
             }
             
             DispatchQueue.main.async {
+                model?.isSendEvent = true
                 NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
@@ -378,12 +410,14 @@ class ShareEventVC: UIViewController {
             }
             
             DispatchQueue.main.async {
+                model?.isSendEvent = true
+                
                 NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
         }
     }
-
+    
     func shareEventToGroup(_ cell:ShareTableViewCell,_ model:UserChatObj?,_ messageDate:String,_ messageTime:String,_ url:URL?) {
         cell.sendBtn.setTitle("Sending...", for: .normal)
         cell.sendBtn.isUserInteractionEnabled = false
@@ -410,12 +444,13 @@ class ShareEventVC: UIViewController {
             }
             
             DispatchQueue.main.async {
+                model?.isSendEvent = true
                 NotificationCenter.default.post(name: Notification.Name("listenToMessages"), object: nil, userInfo: nil)
                 NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
             }
         }
     }
-
+    
     
     //MARK: - Helpers
     func updateUserInterface() {
@@ -527,7 +562,7 @@ class ShareEventVC: UIViewController {
         friendsSearchBar.searchTextField.backgroundColor = .clear
         friendsSearchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 12)
         friendsSearchBar.searchTextField.attributedPlaceholder = placeHolder
-        friendsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchFriendsResult), for: .editingChanged)
+        friendsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchResult), for: .editingChanged)
         friendsSearchBar.searchTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
         
         groupsSearchBar.delegate = self
@@ -538,10 +573,10 @@ class ShareEventVC: UIViewController {
         groupsSearchBar.searchTextField.backgroundColor = .clear
         groupsSearchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 12)
         groupsSearchBar.searchTextField.attributedPlaceholder = placeHolder
-        groupsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchFriendsResult), for: .editingChanged)
+        groupsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchResult), for: .editingChanged)
         
         groupsSearchBar.searchTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
-
+        
         eventsSearchBar.delegate = self
         eventsSearchView.cornerRadiusView(radius: 6)
         eventsSearchView.setBorder()
@@ -550,9 +585,19 @@ class ShareEventVC: UIViewController {
         eventsSearchBar.searchTextField.backgroundColor = .clear
         eventsSearchBar.searchTextField.font = UIFont(name: "Montserrat-Medium", size: 12)
         eventsSearchBar.searchTextField.attributedPlaceholder = placeHolder
-        eventsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchFriendsResult), for: .editingChanged)
+        eventsSearchBar.searchTextField.addTarget(self, action: #selector(self.updateSearchResult), for: .editingChanged)
         eventsSearchBar.searchTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
-
+        
+    }
+    
+    
+    func createFooterView() -> UIView {
+        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: friendsTV.bounds.width, height: 50))
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.center = footerview.center
+        footerview.addSubview(indicatorView)
+        indicatorView.startAnimating()
+        return footerview
     }
     
     //MARK: - Actions
@@ -588,37 +633,85 @@ extension ShareEventVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
-        
         let messageDate = formatterDate.string(from: Date())
         let messageTime = formatterTime.string(from: Date())
         let url:URL? = URL(string: "https://www.apple.com/eg/")
         
         if tableView == friendsTV {
-            let model = myFriendsVM.friends.value?.data?[indexPath.row]
-            cell.titleLbl.text = model?.userName
-            cell.HandleSendBtn = {
-                self.shareEventToUser(cell, model, messageDate, messageTime, url)
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
+            let model1 = myFriendsVM.friends.value?.data?[indexPath.row]
+            cell.titleLbl.text = model1?.userName
+            
+            if model1?.isSendEvent == true {
+                cell.sendBtn.isUserInteractionEnabled = false
+                cell.sendBtn.setTitle("Sent", for: .normal)
+                cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+                cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
+                cell.sendBtn.backgroundColor = .white
             }
-        }
-        
-        else if tableView == groupsTV {
-            let model = myGroupsVM.listChat.value?.data?[indexPath.row]
-            cell.titleLbl.text = model?.chatName
-            cell.HandleSendBtn = {
-                self.shareEventToGroup(cell, model, messageDate, messageTime, url)
+            else {
+                cell.sendBtn.isUserInteractionEnabled = true
+                cell.sendBtn.setTitle("Send", for: .normal)
+                cell.sendBtn.setTitleColor(UIColor.white, for: .normal)
+                cell.sendBtn.backgroundColor = UIColor.FriendzrColors.primary
             }
             
+            cell.HandleSendBtn = {
+                self.shareEventToUser(cell, model1, messageDate, messageTime, url)
+            }
+            return cell
+        }
+        else if tableView == groupsTV {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
+            let model2 = myGroupsVM.listChat.value?.data?[indexPath.row]
+            cell.titleLbl.text = model2?.chatName
+            
+            if model2?.isSendEvent == true {
+                cell.sendBtn.isUserInteractionEnabled = false
+                cell.sendBtn.setTitle("Sent", for: .normal)
+                cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+                cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
+                cell.sendBtn.backgroundColor = .white
+            }
+            else {
+                cell.sendBtn.isUserInteractionEnabled = true
+                cell.sendBtn.setTitle("Send", for: .normal)
+                cell.sendBtn.setTitleColor(UIColor.white, for: .normal)
+                cell.sendBtn.backgroundColor = UIColor.FriendzrColors.primary
+            }
+            
+            cell.HandleSendBtn = {
+                self.shareEventToGroup(cell, model2, messageDate, messageTime, url)
+            }
+            
+            return cell
         }
         else {
-            let model = myEventsVM.events.value?.data?[indexPath.row]
-            cell.titleLbl.text = model?.title
-            cell.HandleSendBtn = {
-                self.shareEventToEvent(cell, model, messageDate, messageTime, url)
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? ShareTableViewCell else {return UITableViewCell()}
+            let model3 = myEventsVM.events.value?.data?[indexPath.row]
+            cell.titleLbl.text = model3?.title
+            
+            if model3?.isSendEvent == true {
+                cell.sendBtn.isUserInteractionEnabled = false
+                cell.sendBtn.setTitle("Sent", for: .normal)
+                cell.sendBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+                cell.sendBtn.setTitleColor(UIColor.FriendzrColors.primary!, for: .normal)
+                cell.sendBtn.backgroundColor = .white
             }
+            else {
+                cell.sendBtn.isUserInteractionEnabled = true
+                cell.sendBtn.setTitle("Send", for: .normal)
+                cell.sendBtn.setTitleColor(UIColor.white, for: .normal)
+                cell.sendBtn.backgroundColor = UIColor.FriendzrColors.primary
+            }
+            
+            cell.HandleSendBtn = {
+                self.shareEventToEvent(cell, model3, messageDate, messageTime, url)
+            }
+            
+            return cell
         }
         
-        return cell
     }
 }
 
@@ -627,11 +720,66 @@ extension ShareEventVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 45
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if scrollView == friendsTV,(scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height, !isLoadingFriendsList {
+            
+            self.isLoadingFriendsList = true
+            
+            if currentFriendsPage < myFriendsVM.friends.value?.totalPages ?? 0 {
+                self.friendsTV.tableFooterView = self.createFooterView()
+                
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                    print("self.currentPage >> \(self.currentFriendsPage)")
+                    self.loadMoreFriendsList()
+                }
+            }else {
+                self.friendsTV.tableFooterView = nil
+                return
+            }
+        }
+        else if scrollView == groupsTV,(scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height, !isLoadingGroupsList {
+            
+            self.isLoadingGroupsList = true
+            
+            if currentGroupsPage < myGroupsVM.listChat.value?.totalPages ?? 0 {
+                self.groupsTV.tableFooterView = self.createFooterView()
+                
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                    print("self.currentPage >> \(self.currentFriendsPage)")
+                    self.loadMoreGroupsList()
+                }
+            }else {
+                self.groupsTV.tableFooterView = nil
+                return
+            }
+        }
+        else if scrollView == eventsTV,(scrollView.contentOffset.y + scrollView.frame.size.height) >= scrollView.contentSize.height, !isLoadingEventsList {
+            
+            self.isLoadingEventsList = true
+            
+            if currentEventsPage < myEventsVM.events.value?.totalPages ?? 0 {
+                self.eventsTV.tableFooterView = self.createFooterView()
+                
+                DispatchQueue.main.asyncAfter(wallDeadline: .now() + 2) {
+                    print("self.currentPage >> \(self.currentFriendsPage)")
+                    self.loadMoreEventsList()
+                }
+            }else {
+                self.eventsTV.tableFooterView = nil
+                return
+            }
+        }
+    }
 }
 
 //MARK: - UISearchBarDelegate
 extension ShareEventVC: UISearchBarDelegate{
-    @objc func updateSearchFriendsResult() {
+    @objc func updateSearchResult() {
         guard let text1 = friendsSearchBar.text else {return}
         guard let text2 = groupsSearchBar.text else {return}
         guard let text3 = eventsSearchBar.text else {return}
@@ -639,24 +787,30 @@ extension ShareEventVC: UISearchBarDelegate{
         
         if NetworkConected.internetConect {
             if text1 != "" {
+                currentFriendsPage = 1
                 self.getAllMyFriends(pageNumber: 1, search: text1)
             }else {
+                currentFriendsPage = 1
                 self.getAllMyFriends(pageNumber: 1, search: "")
             }
         }
         
         if NetworkConected.internetConect {
             if text2 != "" {
+                currentGroupsPage = 1
                 self.getAllMyGroups(pageNumber: 1, search: text2)
             }else {
+                currentGroupsPage = 1
                 self.getAllMyGroups(pageNumber: 1, search: "")
             }
         }
         
         if NetworkConected.internetConect {
             if text3 != "" {
+                currentEventsPage = 1
                 self.getAllMyEvents(pageNumber: 1, search: text3)
             }else {
+                currentEventsPage = 1
                 self.getAllMyEvents(pageNumber: 1, search: "")
             }
         }

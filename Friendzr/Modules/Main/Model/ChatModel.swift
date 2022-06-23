@@ -76,6 +76,8 @@ class UserChatObj: NSObject,Mappable {
     var isSelected:Bool? = false
     var message_not_Read:Int = 0
     
+    var isSendEvent:Bool = false
+    
     override init() {
         super.init()
     }
@@ -115,7 +117,7 @@ class ConversationsResponse: Mappable {
     var message: String?
     var data: ConversationsDataModel? = nil
     var status:Int?
-
+    
     required init?(map: Map) {
     }
     // Mappable
@@ -161,11 +163,11 @@ class UserConversationModel: NSObject,Mappable {
     var image:String = ""
     var email:String = ""
     var displayedUserName:String = ""
-
+    
     var joinDate:String? = ""
     var myEventO:Bool? = false
     var stutus: Int? = 0
-
+    
     var chatGroupSubscriberType:Int = 0
     var clearChatDateTime:String = ""
     var isAdminGroup:Bool = false
@@ -173,9 +175,10 @@ class UserConversationModel: NSObject,Mappable {
     var leaveDateTime:String = ""
     var leaveGroup: Int? = 0
     var removedDateTime:String = ""
-
+    
     var isSelected:Bool = false
-
+    var isSendEvent:Bool = false
+    
     override init() {
         super.init()
     }
@@ -197,8 +200,6 @@ class UserConversationModel: NSObject,Mappable {
         stutus <- map["stutus"]
         joinDate <- map["joinDate"]
         myEventO <- map["myEvent"]
-        
-        
         chatGroupSubscriberType <- map["chatGroupSubscriberType"]
         clearChatDateTime <- map["clearChatDateTime"]
         isAdminGroup <- map["isAdminGroup"]
@@ -215,7 +216,7 @@ class SendMessageModel:Mappable {
     var message: String?
     var data: SendMessageObj? = nil
     var status:Int?
-
+    
     required init?(map: Map) {
     }
     // Mappable
@@ -234,7 +235,7 @@ class SendMessageObj:Mappable {
     var message: String?
     var messagetype: Int?
     var attach: String?
-
+    
     required init?(map: Map) {
     }
     // Mappable

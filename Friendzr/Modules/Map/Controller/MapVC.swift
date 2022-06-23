@@ -338,6 +338,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             }
         }
     }
+    
     func updateMyLocation() {
         updateLocationVM.updatelocation(ByLat: "\(Defaults.LocationLat)", AndLng: "\(Defaults.LocationLng)") { error, data in
             if let error = error {
@@ -802,10 +803,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBAction func applyBtn(_ sender: Any) {
         print("catIDs = \(catIDs) \\ \(Defaults.catIDs)")
         
+        Defaults.catIDs = catIDs
+        Defaults.catSelectedNames = catSelectedNames
+        
         NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
-
+        
         DispatchQueue.main.async {
-            
             DispatchQueue.main.async {
                 self.locationsModel.peoplocationDataMV?.removeAll()
                 self.locationsModel.eventlocationDataMV?.removeAll()
@@ -1542,18 +1545,16 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
                 let strData = catsviewmodel.cats.value?[indexPath.row]
                 
                 if catIDs.contains(strData?.id ?? "") {
-                    //                    arrSelectedIndex = arrSelectedIndex.filter { $0 != indexPath}
                     catIDs = catIDs.filter { $0 != strData?.id}
                     catSelectedNames = catSelectedNames.filter { $0 != strData?.name}
-                    Defaults.catIDs = Defaults.catIDs.filter { $0 != strData?.id}
-                    Defaults.catSelectedNames = Defaults.catSelectedNames.filter { $0 != strData?.name}
+//                    Defaults.catIDs = Defaults.catIDs.filter { $0 != strData?.id}
+//                    Defaults.catSelectedNames = Defaults.catSelectedNames.filter { $0 != strData?.name}
                 }
                 else {
-                    //                    arrSelectedIndex.append(indexPath)
                     catIDs.append(strData?.id ?? "")
                     catSelectedNames.append(strData?.name ?? "")
-                    Defaults.catIDs.append(strData?.id ?? "")
-                    Defaults.catSelectedNames.append(strData?.name ?? "")
+//                    Defaults.catIDs.append(strData?.id ?? "")
+//                    Defaults.catSelectedNames.append(strData?.name ?? "")
                 }
                 
                 print(catIDs)
@@ -1707,7 +1708,7 @@ extension MapVC {
         switchFilterButton.thumbCornerRadius = 0.5
         switchFilterButton.animationDuration = 0.25
 
-        if catIDs.count != 0 {
+        if Defaults.catIDs.count != 0 {
             switchFilterButton.isOn = true
             switchFilterButton.thumbImage = UIImage(named: "filterMap_on_ic")
         }else {

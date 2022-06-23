@@ -84,7 +84,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         initProfileBarButton(didTap: true)
         hideKeyboardWhenTappedAround()
         currentPage = 1
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -578,7 +578,12 @@ extension InboxVC {
             return  normalDateString
         } else {
             print("Use relative date \(relativeDateString)") // Today, Yesterday
-            return "\(relativeDateString) \(time)"
+            if relativeDateString == "Tomorrow" {
+                return "Today \(time)"
+            }
+            else {
+                return "\(relativeDateString) \(time)"
+            }
         }
     }
     
@@ -915,13 +920,13 @@ extension InboxVC {
                 vc.isEvent = true
                 vc.eventChatID = model?.id ?? ""
                 vc.chatuserID = ""
-
+                
                 if model?.leaveventchat == true {
                     vc.leavevent = 2
                 }else {
                     vc.leavevent = model?.leavevent ?? 0
                 }
-
+                
                 vc.leaveGroup = 1
                 vc.isFriend = false
                 vc.titleChatImage = model?.image ?? ""
@@ -962,11 +967,11 @@ extension InboxVC {
                     vc.isEventAdmin = false
                 }
             }
-
+            
             vc.titleChatImage = model?.image ?? ""
             vc.titleChatName = model?.chatName ?? ""
             CancelRequest.currentTask = false
-
+            
             Defaults.message_Count = Defaults.message_Count - (model?.message_not_Read ?? 0)
             NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
             self.navigationController?.pushViewController(vc, animated: true)
