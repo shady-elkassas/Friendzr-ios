@@ -1102,68 +1102,32 @@ extension MessagesVC {
         let dateStr = "\(date)T\(time):00+0000"
         let date = formatter.date(from: dateStr)
         
-        let relativeFormatter = buildFormatter(locale: Locale.current, hasRelativeDate: true)
+        let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
         let relativeDateString = dateFormatterToString(relativeFormatter, date ?? Date())
-        // "Jan 18, 2018"
         
-        let nonRelativeFormatter = buildFormatter(locale: Locale.current)
+        let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
         let normalDateString = dateFormatterToString(nonRelativeFormatter, date ?? Date())
-        // "Jan 18, 2018"
         
-        let customFormatter = buildFormatter(locale: Locale.current, dateFormat: "DD MMMM")
+        let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
         _ = dateFormatterToString(customFormatter, date ?? Date())
-        // "18 January"
         
         if relativeDateString == normalDateString {
             print("Use custom date \(normalDateString)") // Jan 18
             return  normalDateString
         } else {
-            print("Use relative date \(relativeDateString)") // Today, Yesterday
-            if relativeDateString == "Tomorrow" {
-                return "Today"
-            }
-            else {
-                return "\(relativeDateString)"
-            }
+            return "\(relativeDateString)"
         }
     }
-
-    //    func messageDateTimeNow(date:String,time:String) -> String {
-//        let formatter = DateFormatter()
-//        formatter.locale = Locale(identifier: "en_US_POSIX") // set locale to reliable US_POSIX
-//        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-//        formatter.dateStyle = .full
-//        let dateStr = "\(date)T\(time):00+0000"
-//        let date = formatter.date(from: dateStr)
-//
-//        let relativeFormatter = buildFormatter(locale: formatter.locale, hasRelativeDate: true)
-//        let relativeDateString = dateFormatterToString(relativeFormatter, date ?? Date())
-//        // "Jan 18, 2018"
-//
-//        let nonRelativeFormatter = buildFormatter(locale: formatter.locale)
-//        let normalDateString = dateFormatterToString(nonRelativeFormatter, date ?? Date())
-//        // "Jan 18, 2018"
-//
-//        let customFormatter = buildFormatter(locale: formatter.locale, dateFormat: "DD MMMM")
-//        let customDateString = dateFormatterToString(customFormatter, date ?? Date())
-//        // "18 January"
-//
-//        if relativeDateString == normalDateString {
-//            print("Use custom date \(customDateString)") // Jan 18
-//            return  customDateString
-//        } else {
-//            print("Use relative date \(relativeDateString)") // Today, Yesterday
-//            return "\(relativeDateString) \(time)"
-//        }
-//    }
         
-    func buildFormatter(locale: Locale, hasRelativeDate: Bool = false, dateFormat: String? = nil) -> DateFormatter {
+    func buildFormatter(locale: Locale,hasRelativeDate: Bool = false, dateFormat: String? = nil) -> DateFormatter {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         formatter.dateStyle = .medium
         if let dateFormat = dateFormat { formatter.dateFormat = dateFormat }
         formatter.doesRelativeDateFormatting = hasRelativeDate
-        formatter.locale = locale
+        formatter.locale = Locale.current
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.calendar = Calendar(identifier: .iso8601)
         return formatter
     }
     

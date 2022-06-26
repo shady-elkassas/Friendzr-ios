@@ -188,9 +188,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        Defaults.availableVC = "MapVC"
-        print("availableVC >> \(Defaults.availableVC)")
 
         catIDs = Defaults.catIDs
         for cat in Defaults.catIDs {
@@ -228,6 +225,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         checkLocationPermission()
+        
+        Defaults.availableVC = "MapVC"
+        print("availableVC >> \(Defaults.availableVC)")
+
         markerImg.isHidden = true
         
         if !Defaults.hideAds {
@@ -1064,7 +1065,6 @@ extension MapVC : GMSMapViewDelegate {
                                 guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
                                 vc.eventId = marker.title!
                                 vc.inMap = true
-                                
                                 self.navigationController?.pushViewController(vc, animated: true)
                             }
                         }

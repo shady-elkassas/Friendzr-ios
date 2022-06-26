@@ -412,6 +412,16 @@ class Defaults {
         }
     }
     
+    static var isUserStillOnMap: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "isUserStillOnMap")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "isUserStillOnMap")
+        }
+    }
+    
     static var ConversationID: String {
         set{
             UserDefaults.standard.set(newValue, forKey: "ConversationID")
@@ -583,7 +593,6 @@ class Defaults {
         defaults.removeObject(forKey: "pushnotification")
         defaults.removeObject(forKey: "notificationcount")
         defaults.removeObject(forKey: "message_Count")
-
         
         defaults.removeObject(forKey: "userName_MaxLength")
         defaults.removeObject(forKey: "userName_MinLength")
@@ -621,7 +630,8 @@ class Defaults {
         defaults.removeObject(forKey: "isFirstOpenFeed")
         defaults.removeObject(forKey: "catSelectedNames")
         defaults.removeObject(forKey: "catIDs")
-        
+        defaults.removeObject(forKey: "isUserStillOnMap")
+
         if let token = AccessToken.current,
            !token.isExpired {
             // User is logged in, do work such as go to next view controller.
