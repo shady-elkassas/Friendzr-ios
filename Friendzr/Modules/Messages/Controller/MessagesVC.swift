@@ -379,7 +379,6 @@ extension MessagesVC {
                 }
             }
         }
-        
     }
     
     @IBAction func expandItemsPressed(_ sender: UIButton) {
@@ -1130,9 +1129,48 @@ extension MessagesVC {
         formatter.calendar = Calendar(identifier: .iso8601)
         return formatter
     }
+
     
     func dateFormatterToString(_ formatter: DateFormatter, _ date: Date) -> String {
         return formatter.string(from: date)
+    }
+    
+    func messageDateTimeNow(date:String,time:String) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current // set locale to reliable US_POSIX
+        formatter.dateStyle = .full
+        formatter.dateFormat = "dd-MM-yyyy'T'HH:mm:ssZ"
+        let dateStr = "\(date)T\(time):00+0000"
+        let date = formatter.date(from: dateStr)
+        
+        let relativeFormatter = buildFormatter2(locale: formatter.locale, hasRelativeDate: true)
+        let relativeDateString = dateFormatterToString(relativeFormatter, date ?? Date())
+        
+        let nonRelativeFormatter = buildFormatter2(locale: formatter.locale)
+        let normalDateString = dateFormatterToString(nonRelativeFormatter, date ?? Date())
+        
+        let customFormatter = buildFormatter2(locale: formatter.locale, dateFormat: "DD MMMM")
+        _ = dateFormatterToString(customFormatter, date ?? Date())
+        
+        if relativeDateString == normalDateString {
+            print("Use custom date \(normalDateString)") // Jan 18
+            return  normalDateString
+        } else {
+            return "\(relativeDateString)"
+        }
+    }
+    
+    
+    func buildFormatter2(locale: Locale,hasRelativeDate: Bool = false, dateFormat: String? = nil) -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.dateStyle = .medium
+        if let dateFormat = dateFormat { formatter.dateFormat = dateFormat }
+        formatter.doesRelativeDateFormatting = hasRelativeDate
+        formatter.locale = Locale.current
+//        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.calendar = Calendar(identifier: .iso8601)
+        return formatter
     }
 }
 

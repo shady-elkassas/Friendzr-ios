@@ -162,7 +162,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         
-        mapView.clear()
+//        mapView.clear()
         CancelRequest.currentTask = true
         
         collectionViewHeight.constant = 0
@@ -179,7 +179,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         catsSuperView.isHidden = true
         NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
-
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -199,10 +198,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         catSelectedNames = Defaults.catSelectedNames
         initFilterBarButton()
 
-        locationsModel.peoplocationDataMV?.removeAll()
-        locationsModel.eventlocationDataMV?.removeAll()
-        locations.removeAll()
-        mapView.clear()
         
         appendNewLocation = false
         goAddEventBtn.isHidden = true
@@ -221,14 +216,19 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             if Defaults.token != "" {
                 self.updateLocation()
             }
-            self.setupGoogleMap(zoom1: 8, zoom2: 14)
+            
+            if Defaults.availableVC != "MapVC" {
+                self.locationsModel.peoplocationDataMV?.removeAll()
+                self.locationsModel.eventlocationDataMV?.removeAll()
+                self.locations.removeAll()
+                self.mapView.clear()
+                
+                self.setupGoogleMap(zoom1: 8, zoom2: 14)
+                self.checkLocationPermission()
+            }
         }
         
-        checkLocationPermission()
         
-        Defaults.availableVC = "MapVC"
-        print("availableVC >> \(Defaults.availableVC)")
-
         markerImg.isHidden = true
         
         if !Defaults.hideAds {
@@ -357,7 +357,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
     }
-    
+
     func getCats() {
         catsviewmodel.getAllCategories()
         catsviewmodel.cats.bind { [unowned self] value in
@@ -651,7 +651,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
             subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
             subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
-            
+
             upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
             upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
             upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
@@ -732,6 +732,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             
             LocationZooming.locationLat = lat
             LocationZooming.locationLng = lng
+            
+            Defaults.availableVC = "MapVC"
+            print("availableVC >> \(Defaults.availableVC)")
         }
     }
     
@@ -1139,7 +1142,11 @@ extension MapVC : CLLocationManagerDelegate {
         if NetworkConected.internetConect {
             self.location = manager.location?.coordinate
             locationManager.stopUpdatingLocation()
-            self.setupGoogleMap(zoom1: 8, zoom2: 14)
+            
+            if Defaults.availableVC != "MapVC" {
+                self.setupGoogleMap(zoom1: 8, zoom2: 14)
+            }
+            
             
         }else {
             print("NOT NETWORK AVILABLE")
@@ -1437,6 +1444,7 @@ extension MapVC:UICollectionViewDataSource {
             else {
                 cell.containerView.backgroundColor = .black
             }
+            
             cell.layoutSubviews()
             return cell
         }
@@ -1757,7 +1765,9 @@ extension MapVC {
             }
         }
         else {
-            Router().toOptionsSignUpVC(IsLogout: false)
+            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
+                Router().toOptionsSignUpVC(IsLogout: false)
+            }
         }
     }
 
@@ -1781,7 +1791,7 @@ extension MapVC {
                     self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                     
                     self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-                    self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off filter?".localizedString
+                    self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off filters or change the settings?".localizedString
                     
                     DispatchQueue.main.async {
                         self.switchFilterButton.isUserInteractionEnabled = false

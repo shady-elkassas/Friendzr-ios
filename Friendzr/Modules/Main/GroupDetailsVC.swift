@@ -86,6 +86,7 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
         }else {
             Defaults.availableVC = "GroupDetailsVC"
         }
+        
         print("availableVC >> \(Defaults.availableVC)")
         
         title = "Group Details"

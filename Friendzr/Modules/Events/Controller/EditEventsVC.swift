@@ -133,7 +133,7 @@ class EditEventsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Defaults.availableVC = "EditEventsVC"
+
         print("availableVC >> \(Defaults.availableVC)")
 
         CancelRequest.currentTask = false

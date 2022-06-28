@@ -31,9 +31,6 @@ class ExternalEventWebView: UIViewController,WKNavigationDelegate{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        Defaults.availableVC = "ExternalEventWebView"
-        print("availableVC >> \(Defaults.availableVC)")
-        
         hideNavigationBar(NavigationBar: false, BackButton: false)
         CancelRequest.currentTask = false
         setupNavBar()

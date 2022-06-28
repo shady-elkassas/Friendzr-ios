@@ -61,7 +61,7 @@ class SelectFriendsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Defaults.availableVC = "SelectFriendsVC"
+
         print("availableVC >> \(Defaults.availableVC)")
     }
         

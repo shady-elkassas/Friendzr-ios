@@ -71,7 +71,6 @@ class AddGroupVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        Defaults.availableVC = "AddGroupVC"
         print("availableVC >> \(Defaults.availableVC)")
 
         CancelRequest.currentTask = false

@@ -34,9 +34,6 @@ class CategoriesVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        Defaults.availableVC = "CategoriesVC"
-        print("availableVC >> \(Defaults.availableVC)")
-
         CancelRequest.currentTask = false
         setupNavBar()
     }

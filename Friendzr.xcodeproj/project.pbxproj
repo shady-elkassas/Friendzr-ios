@@ -126,8 +126,6 @@
 		434428E927171AE800269444 /* ExtensionDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434428E827171AE800269444 /* ExtensionDate.swift */; };
 		4345BA3A271C14ED0076101A /* GenderbylocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345BA39271C14ED0076101A /* GenderbylocationViewModel.swift */; };
 		4345BA3C271C15410076101A /* GenderbylocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345BA3B271C15410076101A /* GenderbylocationModel.swift */; };
-		434BCE4827BCE624002DC1DA /* PreferToTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434BCE4627BCE624002DC1DA /* PreferToTableViewCell.swift */; };
-		434BCE4927BCE624002DC1DA /* PreferToTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434BCE4727BCE624002DC1DA /* PreferToTableViewCell.xib */; };
 		434BCE4B27BCEB5E002DC1DA /* PreferToVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434BCE4A27BCEB5E002DC1DA /* PreferToVC.swift */; };
 		43526909276A0EDC00540726 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43526908276A0EDC00540726 /* BottomSheetViewController.swift */; };
 		43526916276A144A00540726 /* ScrollableBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43526914276A144A00540726 /* ScrollableBottomSheetViewController.swift */; };
@@ -363,6 +361,8 @@
 		43FC3CA727280BD500D94ABB /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FC3CA527280BD500D94ABB /* SettingsTableViewCell.swift */; };
 		43FC3CAB27280C9E00D94ABB /* DeleteAccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FC3CA927280C9E00D94ABB /* DeleteAccountTableViewCell.swift */; };
 		43FC3CAF2729686D00D94ABB /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FC3CAE2729686D00D94ABB /* Downloader.swift */; };
+		43FC58D5286B05B8001ADE2C /* PreferToTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43FC58D3286B05B8001ADE2C /* PreferToTableViewCell.xib */; };
+		43FC58D6286B05B8001ADE2C /* PreferToTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FC58D4286B05B8001ADE2C /* PreferToTableViewCell.swift */; };
 		43FDDD7A2701D9F400550876 /* SplachVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FDDD792701D9F400550876 /* SplachVC.swift */; };
 		43FED20A26DE3FCF00255B96 /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FED20926DE3FCF00255B96 /* EventModel.swift */; };
 		43FED20C26DE3FD900255B96 /* EventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FED20B26DE3FD900255B96 /* EventsViewModel.swift */; };
@@ -528,8 +528,6 @@
 		434428E827171AE800269444 /* ExtensionDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDate.swift; sourceTree = "<group>"; };
 		4345BA39271C14ED0076101A /* GenderbylocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderbylocationViewModel.swift; sourceTree = "<group>"; };
 		4345BA3B271C15410076101A /* GenderbylocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderbylocationModel.swift; sourceTree = "<group>"; };
-		434BCE4627BCE624002DC1DA /* PreferToTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferToTableViewCell.swift; sourceTree = "<group>"; };
-		434BCE4727BCE624002DC1DA /* PreferToTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreferToTableViewCell.xib; sourceTree = "<group>"; };
 		434BCE4A27BCEB5E002DC1DA /* PreferToVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferToVC.swift; sourceTree = "<group>"; };
 		43526908276A0EDC00540726 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		43526914276A144A00540726 /* ScrollableBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableBottomSheetViewController.swift; sourceTree = "<group>"; };
@@ -774,6 +772,8 @@
 		43FC3CA527280BD500D94ABB /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		43FC3CA927280C9E00D94ABB /* DeleteAccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountTableViewCell.swift; sourceTree = "<group>"; };
 		43FC3CAE2729686D00D94ABB /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
+		43FC58D3286B05B8001ADE2C /* PreferToTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferToTableViewCell.xib; sourceTree = "<group>"; };
+		43FC58D4286B05B8001ADE2C /* PreferToTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferToTableViewCell.swift; sourceTree = "<group>"; };
 		43FDDD792701D9F400550876 /* SplachVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachVC.swift; sourceTree = "<group>"; };
 		43FED20926DE3FCF00255B96 /* EventModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
 		43FED20B26DE3FD900255B96 /* EventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
@@ -1455,10 +1455,10 @@
 				4367E46727BA4ACE00FE1880 /* InterestsProfileTableViewCell.xib */,
 				4367E46A27BA4BC600FE1880 /* BestDescribesTableViewCell.swift */,
 				4367E46B27BA4BC600FE1880 /* BestDescribesTableViewCell.xib */,
+				43FC58D4286B05B8001ADE2C /* PreferToTableViewCell.swift */,
+				43FC58D3286B05B8001ADE2C /* PreferToTableViewCell.xib */,
 				4367E46E27BA4C4B00FE1880 /* AboutMeTableViewCell.swift */,
 				4367E46F27BA4C4B00FE1880 /* AboutMeTableViewCell.xib */,
-				434BCE4627BCE624002DC1DA /* PreferToTableViewCell.swift */,
-				434BCE4727BCE624002DC1DA /* PreferToTableViewCell.xib */,
 			);
 			path = "Profile Cell";
 			sourceTree = "<group>";
@@ -1995,6 +1995,7 @@
 				43D009192794412900370E2C /* BlockedTableViewCell.xib in Resources */,
 				43D009202794413E00370E2C /* SettingsTableViewCell.xib in Resources */,
 				43AF3532284E123800B65773 /* SortFeedView.xib in Resources */,
+				43FC58D5286B05B8001ADE2C /* PreferToTableViewCell.xib in Resources */,
 				43D008FD27943A6700370E2C /* Map.storyboard in Resources */,
 				4382AC9D26C27FF2005C1857 /* Montserrat-Regular.ttf in Resources */,
 				430D425A26D3854200188E42 /* InterestsTableViewCell.xib in Resources */,
@@ -2047,7 +2048,6 @@
 				43526917276A144A00540726 /* ScrollableBottomSheetViewController.xib in Resources */,
 				43967DC427944E92005B1F5D /* WriteProblemTableViewCell.xib in Resources */,
 				4382AC9626C27FF2005C1857 /* Montserrat-Medium.ttf in Resources */,
-				434BCE4927BCE624002DC1DA /* PreferToTableViewCell.xib in Resources */,
 				43E7EC45279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib in Resources */,
 				43F9743028327AF800F736F3 /* FacialRecognitionVideo.mp4 in Resources */,
 				43967DB627944E15005B1F5D /* StatisticsCollectionViewCell.xib in Resources */,
@@ -2205,6 +2205,7 @@
 				430A351E26CAB01A00477A94 /* EditEventsVC.swift in Sources */,
 				433CDE1D27CCBAF200A80A40 /* EventCalendarVC.swift in Sources */,
 				432940FB26EE0FB60066BE87 /* FriendModel.swift in Sources */,
+				43FC58D6286B05B8001ADE2C /* PreferToTableViewCell.swift in Sources */,
 				439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */,
 				43886862278344F1004D36B2 /* ConfirmReportButtonTableViewCell.swift in Sources */,
 				439CE76528107F85003C0AD3 /* SplachFiveVC.swift in Sources */,
@@ -2313,7 +2314,6 @@
 				43D545B926CBD8470064660A /* Node.swift in Sources */,
 				431D739527BB9EF800EC8F7B /* IamModel.swift in Sources */,
 				4388686D27845C4D004D36B2 /* ReportModel.swift in Sources */,
-				434BCE4827BCE624002DC1DA /* PreferToTableViewCell.swift in Sources */,
 				43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */,
 				43DC08082861E73E00B7A6DD /* MyCustomShimmer.swift in Sources */,
 				43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */,

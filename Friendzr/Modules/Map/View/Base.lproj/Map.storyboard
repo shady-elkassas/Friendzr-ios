@@ -318,7 +318,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="f7n-xx-gKz" firstAttribute="centerX" secondItem="b8F-Wr-fAL" secondAttribute="centerX" id="02A-ox-jj6"/>
                                     <constraint firstItem="KQp-2O-wPo" firstAttribute="top" secondItem="gtf-dh-BLL" secondAttribute="top" id="Cf4-zc-3eK"/>
@@ -358,7 +358,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="g7U-0H-2pV" firstAttribute="width" secondItem="vDN-YU-jFp" secondAttribute="width" multiplier="1:1.5" id="0Wj-BW-VV2"/>
                                     <constraint firstAttribute="trailing" secondItem="g7U-0H-2pV" secondAttribute="trailing" constant="10" id="Ffa-OV-SMW"/>
@@ -426,7 +426,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="cab-aE-geA" secondAttribute="trailing" id="6In-5j-mt6"/>
                                     <constraint firstItem="3oL-n4-8nH" firstAttribute="leading" secondItem="FHQ-Qv-Tt1" secondAttribute="leading" id="Qzi-oc-i5s"/>

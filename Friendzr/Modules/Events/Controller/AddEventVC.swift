@@ -55,7 +55,7 @@ class AddEventVC: UIViewController {
     @IBOutlet weak var showAttendeesTopView: UIView!
     @IBOutlet weak var eventTypesView: UIView!
     @IBOutlet weak var eventTypesTV: UITableView!
-//        @IBOutlet weak var saveEventTypeBtn: UIButton!
+    //        @IBOutlet weak var saveEventTypeBtn: UIButton!
     
     
     @IBOutlet weak var selectStartDateTxt: UITextField!
@@ -94,7 +94,7 @@ class AddEventVC: UIViewController {
     var catsVM:AllCategoriesViewModel = AllCategoriesViewModel()
     var typesVM:EventTypeViewModel = EventTypeViewModel()
     var allValidatConfigVM:AllValidatConfigViewModel = AllValidatConfigViewModel()
-
+    
     var catID = ""
     var catselectedID:String = ""
     var catSelectedName:String = ""
@@ -106,7 +106,7 @@ class AddEventVC: UIViewController {
     
     var selectFriends:[UserConversationModel] = [UserConversationModel]()
     var listNamesSelected:[String] = [String]()
-
+    
     let datePicker1 = UIDatePicker()
     let datePicker2 = UIDatePicker()
     let timePicker1 = UIDatePicker()
@@ -146,12 +146,6 @@ class AddEventVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if inMap {
-            Defaults.availableVC = "MapVC"
-        }else {
-            Defaults.availableVC = "AddEventVC"
-        }
         
         print("availableVC >> \(Defaults.availableVC)")
         
@@ -259,6 +253,7 @@ class AddEventVC: UIViewController {
             
             guard let _ = data else {return}
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
+                Defaults.availableVC = "AddEventVC"
                 Router().toMap()
             }
         }
@@ -541,7 +536,7 @@ class AddEventVC: UIViewController {
         
         let eventDate = self.formatterDate.string(from: Date())
         let eventTime = self.formatterTime.string(from: Date())
-
+        
         if NetworkConected.internetConect == true {
             if attachedImg == false {
                 DispatchQueue.main.async {
@@ -614,7 +609,7 @@ class AddEventVC: UIViewController {
     func HandleInternetConnection() {
         self.view.makeToast("Network is unavailable, please try again!".localizedString)
     }
-
+    
     func setupView() {
         eventImg.cornerRadiusView(radius: 6)
         saveBtn.cornerRadiusView(radius: 6)
@@ -633,7 +628,7 @@ class AddEventVC: UIViewController {
             self.setupDatePickerForStartTime()
             self.setupDatePickerForEndTime()
         }
-
+        
         collectionView.register(UINib(nibName: cellId, bundle: nil), forCellWithReuseIdentifier: cellId)
         eventTypesTV.register(UINib(nibName: eventTypeCellId, bundle: nil), forCellReuseIdentifier: eventTypeCellId)
         
@@ -644,7 +639,7 @@ class AddEventVC: UIViewController {
         selectStartTimeTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
         selectEndTimeTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
         selectEndDateTxt.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
-
+        
     }
     
     func onListFriendsCallBack(_ listIDs: [String],_ listNames: [String],_ selectFriends:[UserConversationModel]) -> () {
@@ -906,7 +901,7 @@ extension AddEventVC:UITableViewDelegate {
             bottomFriendsViewLayoutConstaint.constant = 0
             selectFriendsViewHeight.constant = 0
             selectFriendsTopView.isHidden = true
-         
+            
             showAttendeesTopView.isHidden = true
             showAttendeesViewHeight.constant = 0
             showAttendeesFriendsTopView.isHidden = true
@@ -945,7 +940,7 @@ extension AddEventVC {
         cancelButton.tintColor = UIColor.red
         
         toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
-
+        
         selectStartDateTxt.inputAccessoryView = toolbar
         selectStartDateTxt.inputView = datePicker1
         
@@ -994,7 +989,7 @@ extension AddEventVC {
         cancelButton.tintColor = UIColor.red
         
         toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
-
+        
         selectEndDateTxt.inputAccessoryView = toolbar
         selectEndDateTxt.inputView = datePicker2
         
@@ -1030,7 +1025,7 @@ extension AddEventVC {
         cancelButton.tintColor = UIColor.red
         
         toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
-
+        
         selectStartTimeTxt.inputAccessoryView = toolbar
         selectStartTimeTxt.inputView = timePicker1
         
@@ -1065,7 +1060,7 @@ extension AddEventVC {
         cancelButton.tintColor = UIColor.red
         
         toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
-
+        
         selectEndTimeTxt.inputAccessoryView = toolbar
         selectEndTimeTxt.inputView = timePicker2
         

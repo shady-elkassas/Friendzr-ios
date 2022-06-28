@@ -30,6 +30,7 @@ class FaceRecognitionVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         Defaults.availableVC = "FaceRecognitionVC"
         print("availableVC >> \(Defaults.availableVC)")
     }

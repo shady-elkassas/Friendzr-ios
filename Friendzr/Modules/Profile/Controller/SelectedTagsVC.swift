@@ -52,7 +52,6 @@ class SelectedTagsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        Defaults.availableVC = "SelectedTagsVC"
         print("availableVC >> \(Defaults.availableVC)")
         
         CancelRequest.currentTask = false

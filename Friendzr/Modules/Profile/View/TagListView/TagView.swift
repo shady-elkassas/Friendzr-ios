@@ -19,7 +19,7 @@ open class TagView: UIButton {
     }
     @IBInspectable open var borderWidth: CGFloat = 0 {
         didSet {
-            layer.borderWidth = borderWidth
+            layer.borderWidth = 0
         }
     }
     

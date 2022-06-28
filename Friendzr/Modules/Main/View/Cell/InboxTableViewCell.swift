@@ -28,9 +28,12 @@ class InboxTableViewCell: UITableViewCell {
         noMessagesUnreadLbl.cornerRadiusForHeight()
         profileImg.setBorder()
         attachImg.cornerRadiusView(radius: 4)
-        attachImg.setBorder()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

@@ -418,7 +418,6 @@ extension InboxVC:UITableViewDataSource {
                 cell.attachImg.isHidden = false
                 cell.attachTypeLbl.isHidden = false
                 cell.lastMessageLbl.isHidden = true
-                cell.attachImg.image = UIImage(named: "placeHolderApp")
                 cell.attachTypeLbl.text = "Photo".localizedString
                 cell.attachImg.sd_setImage(with: URL(string: model?.messagesattach ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             }
@@ -428,7 +427,6 @@ extension InboxVC:UITableViewDataSource {
                 cell.lastMessageLbl.isHidden = true
                 cell.attachImg.image = UIImage(named: "attachFile_ic")
                 cell.attachTypeLbl.text = "File".localizedString
-                cell.attachImg.sd_setImage(with: URL(string: model?.messagesattach ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             }
             else {
                 print("\(model?.messagestype ?? 0)")
@@ -438,6 +436,7 @@ extension InboxVC:UITableViewDataSource {
                 cell.attachImg.image = UIImage(named: "Events_ic")
                 cell.attachTypeLbl.text = "Event".localizedString
             }
+            
             return cell
         }
         else {

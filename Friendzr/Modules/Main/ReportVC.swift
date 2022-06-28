@@ -51,11 +51,6 @@ class ReportVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if selectedVC == "Present" {
-            Defaults.availableVC = "PresentReportVC"
-        }else {
-            Defaults.availableVC = "ReportVC"
-        }
         print("availableVC >> \(Defaults.availableVC)")
         
         if selectedVC == "Present" || selectedVC == "PresentC" {

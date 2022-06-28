@@ -54,7 +54,6 @@ class IamVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        Defaults.availableVC = "IamVC"
         print("availableVC >> \(Defaults.availableVC)")
         CancelRequest.currentTask = false
     }

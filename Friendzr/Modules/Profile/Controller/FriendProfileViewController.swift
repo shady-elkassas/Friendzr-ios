@@ -339,7 +339,11 @@ extension FriendProfileViewController:UITableViewDataSource {
             cell.tagsListView.removeAllTags()
             
             for item in model?.listoftagsmodel ?? [] {
-                cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter())
+                if Defaults.interestIds.contains(where: {$0 == item.tagID}) {
+                    cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter()).isSelected = true
+                } else {
+                    cell.tagsListView.addTag(tagId: item.tagID, title: "#" + (item.tagname).capitalizingFirstLetter()).isSelected = false
+                }
             }
 
             print("tagListView.rows \(cell.tagsListView.rows)")
@@ -440,6 +444,9 @@ extension FriendProfileViewController:UITableViewDelegate, UIPopoverPresentation
             return screenH/3
         }
         else {
+//            if indexPath.row == 2 || indexPath.row == 3 || indexPath.row == 4 {
+//                return 150
+//            }
             return UITableView.automaticDimension
         }
     }

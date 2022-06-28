@@ -26,7 +26,7 @@ class UserObj: Mappable {
         gender <- map["gender"]
         birthdate <- map["birthdate"]
         linkAccountmodel <- map["linkAccountmodel"]
-        listoftagsmodel <- map["listoftagsmodel"]
+//        listoftagsmodel <- map["listoftagsmodel"]
         facebook <- map["facebook"]
         instagram <- map["instagram"]
         snapchat <- map["snapchat"]
@@ -44,6 +44,9 @@ class UserObj: Mappable {
         frindRequestNumber <- map["frindRequestNumber"]
         notificationcount <- map["notificationcount"]
         message_Count <- map["message_Count"]
+        iam <- map["iam"]
+        preferToList <- map["preferToList"]
+        interests <- map["interests"]
     }
     
     var userid = ""
@@ -59,7 +62,7 @@ class UserObj: Mappable {
     var OtherGenderName = ""
     var birthdate = ""
     var linkAccountmodel:LinkAccountModel? = nil
-    var listoftagsmodel:TagsModel? = nil
+//    var listoftagsmodel:TagsModel? = nil
     var facebook = ""
     var instagram = ""
     var snapchat = ""
@@ -76,6 +79,9 @@ class UserObj: Mappable {
     var pushnotification:Bool = false
     var notificationcount:Int = 0
     var message_Count:Int = 0
+    var iam:[String] = []
+    var preferToList:[String] = []
+    var interests:[String] = []
 }
 
 

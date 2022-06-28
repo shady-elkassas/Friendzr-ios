@@ -68,7 +68,6 @@ class SharePrivateEventVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        Defaults.availableVC = "SharePrivateEventVC"
         print("availableVC >> \(Defaults.availableVC)")
         
         CancelRequest.currentTask = false
@@ -317,9 +316,10 @@ extension SharePrivateEventVC: UISearchBarDelegate{
     @objc func updateSearchResult() {
         guard let text = searchBar.text else {return}
         print(text)
-
+        
+        currentPage = 1
         if NetworkConected.internetConect {
-            self.getAllAttendees(pageNumber: 0, search: text)
+            self.getAllAttendees(pageNumber: currentPage, search: text)
         }
     }
 }

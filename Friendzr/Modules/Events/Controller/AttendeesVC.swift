@@ -68,9 +68,6 @@ class AttendeesVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        Defaults.availableVC = "AttendeesVC"
-        print("availableVC >> \(Defaults.availableVC)")
-        
         CancelRequest.currentTask = false
     }
     

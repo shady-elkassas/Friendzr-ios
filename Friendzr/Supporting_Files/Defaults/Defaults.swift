@@ -131,16 +131,6 @@ class Defaults {
         }
     }
     
-    static var interestIds: Array<String> {
-        set{
-            UserDefaults.standard.set(newValue, forKey: "interestIds")
-            UserDefaults.standard.synchronize()
-        }
-        get{
-            return UserDefaults.standard.object(forKey: "interestIds") as? Array ?? []
-        }
-    }
-    
     static var catIDs: Array<String> {
         set{
             UserDefaults.standard.set(newValue, forKey: "catIDs")
@@ -502,7 +492,6 @@ class Defaults {
         }
     }
     
-    
     static var iamid: String {
         set{
             UserDefaults.standard.set(newValue, forKey: "iamid")
@@ -520,6 +509,37 @@ class Defaults {
         }
         get{
             return UserDefaults.standard.string(forKey: "preferToid") ?? ""
+        }
+    }
+    
+    static var interestIds: Array<String> {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "interestIds")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.object(forKey: "interestIds") as? Array ?? []
+        }
+    }
+    
+    
+    static var iamIds: Array<String> {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "iamIds")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.object(forKey: "iamIds") as? Array ?? []
+        }
+    }
+    
+    static var preferToIds: Array<String> {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "preferToIds")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.object(forKey: "preferToIds") as? Array ?? []
         }
     }
     
@@ -558,6 +578,11 @@ class Defaults {
         Defaults.pushnotification = user.pushnotification
         Defaults.notificationcount = user.notificationcount
         Defaults.message_Count = user.message_Count
+        Defaults.interestIds = user.interests
+        Defaults.preferToIds = user.preferToList
+        Defaults.iamIds = user.iam
+
+        
     }
     
     static func deleteUserData(){
