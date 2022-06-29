@@ -1844,149 +1844,140 @@ extension FeedVC {
     }
     
     func handlePrivateModeSwitchBtn() {
-        if Defaults.token != "" {
-            if NetworkConected.internetConect {
-                if Defaults.ghostMode == false {
-                    self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                    
-                    DispatchQueue.main.async {
-                        self.switchGhostModeBarButton.isUserInteractionEnabled = false
-                        self.switchCompassBarButton.isUserInteractionEnabled = false
-                        self.switchSortedByInterestsButton.isUserInteractionEnabled = false
-                    }
-                    
-                    self.alertView?.parentVC = self
-                    
-                    self.alertView?.selectedHideType.removeAll()
-                    self.alertView?.typeIDs.removeAll()
-                    self.alertView?.typeStrings.removeAll()
-                    SelectedSingleTone.isSelected = false
-                    
-                    for item in self.alertView?.hideArray ?? [] {
-                        item.isSelected = false
-                        self.alertView?.tableView.reloadData()
-                    }
-                    
-                    self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
-                    
-                    //cancel view
-                    self.alertView?.HandlehideViewBtn = {
-                        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
-                            self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                            self.switchCompassBarButton.isUserInteractionEnabled = true
-                            self.switchSortedByInterestsButton.isUserInteractionEnabled = true
-                            self.initGhostModeAndSortSwitchButton()
-                        }
-                    }
-                    
-                    self.alertView?.HandleSaveBtn = {
-                        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
-                            self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                            self.switchCompassBarButton.isUserInteractionEnabled = true
-                            self.switchSortedByInterestsButton.isUserInteractionEnabled = true
-                            self.initGhostModeAndSortSwitchButton()
-                        }
-                    }
-                    
-                    self.view.addSubview((self.alertView)!)
+        if NetworkConected.internetConect {
+            if Defaults.ghostMode == false {
+                self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                
+                DispatchQueue.main.async {
+                    self.switchGhostModeBarButton.isUserInteractionEnabled = false
+                    self.switchCompassBarButton.isUserInteractionEnabled = false
+                    self.switchSortedByInterestsButton.isUserInteractionEnabled = false
                 }
-                else {
-                    self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                    
-                    self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-                    self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
-                    
-                    DispatchQueue.main.async {
-                        self.switchGhostModeBarButton.isUserInteractionEnabled = false
-                        self.switchCompassBarButton.isUserInteractionEnabled = false
-                        self.switchSortedByInterestsButton.isUserInteractionEnabled = false
-                    }
-                    
-                    self.showAlertView?.HandleConfirmBtn = {
-                        self.btnsSelected = true
-                        if NetworkConected.internetConect {
-                            self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
-                                    }
-                                    return
-                                }
-                                
-                                guard data != nil else {return}
-                                DispatchQueue.main.async {
-                                    Defaults.ghostMode = false
-                                    Defaults.ghostModeEveryOne = false
-                                    Defaults.myAppearanceTypes = [0]
-                                    self.switchGhostModeBarButton.isOn = false
-                                    self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-off-ic")
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    if self.isCompassOpen {
-                                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
-                                    }else {
-                                        if self.sortByInterestMatch {
-                                            self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
-                                        }else {
-                                            self.LoadAllFeeds(pageNumber: 1)
-                                        }
-                                    }
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    NotificationCenter.default.post(name: Notification.Name("updateSettings"), object: nil, userInfo: nil)
-                                }
-                            })
-                        }
-                        // handling code
-                        UIView.animate(withDuration: 0.3, animations: {
-                            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
-                                self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                                self.switchCompassBarButton.isUserInteractionEnabled = true
-                                self.switchSortedByInterestsButton.isUserInteractionEnabled = true
-                                self.initGhostModeAndSortSwitchButton()
-                            }
-                            
-                            self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                            self.showAlertView?.alpha = 0
-                        }) { (success: Bool) in
-                            self.showAlertView?.removeFromSuperview()
-                            self.showAlertView?.alpha = 1
-                            self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                        }
-                    }
-                    
-                    self.showAlertView?.HandleCancelBtn = {
-                        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
-                            self.initGhostModeAndSortSwitchButton()
-                            self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                            self.switchCompassBarButton.isUserInteractionEnabled = true
-                            self.switchSortedByInterestsButton.isUserInteractionEnabled = true
-                        }
-                    }
-                    
-                    self.view.addSubview((self.showAlertView)!)
+                
+                self.alertView?.parentVC = self
+                
+                self.alertView?.selectedHideType.removeAll()
+                self.alertView?.typeIDs.removeAll()
+                self.alertView?.typeStrings.removeAll()
+                SelectedSingleTone.isSelected = false
+                
+                for item in self.alertView?.hideArray ?? [] {
+                    item.isSelected = false
+                    self.alertView?.tableView.reloadData()
                 }
+                
+                self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
+                
+                //cancel view
+                self.alertView?.HandlehideViewBtn = {
+                    DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
+                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                        self.switchCompassBarButton.isUserInteractionEnabled = true
+                        self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+                        self.initGhostModeAndSortSwitchButton()
+                    }
+                }
+                
+                self.alertView?.HandleSaveBtn = {
+                    DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
+                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                        self.switchCompassBarButton.isUserInteractionEnabled = true
+                        self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+                        self.initGhostModeAndSortSwitchButton()
+                    }
+                }
+                
+                self.view.addSubview((self.alertView)!)
             }
             else {
-                HandleInternetConnection()
-                self.switchGhostModeBarButton.isOn = Defaults.ghostMode
+                self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                
+                self.showAlertView?.titleLbl.text = "Confirm?".localizedString
+                self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
+                
+                DispatchQueue.main.async {
+                    self.switchGhostModeBarButton.isUserInteractionEnabled = false
+                    self.switchCompassBarButton.isUserInteractionEnabled = false
+                    self.switchSortedByInterestsButton.isUserInteractionEnabled = false
+                }
+                
+                self.showAlertView?.HandleConfirmBtn = {
+                    self.btnsSelected = true
+                    if NetworkConected.internetConect {
+                        self.settingVM.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
+                            if let error = error {
+                                DispatchQueue.main.async {
+                                    self.view.makeToast(error)
+                                }
+                                return
+                            }
+                            
+                            guard data != nil else {return}
+                            DispatchQueue.main.async {
+                                Defaults.ghostMode = false
+                                Defaults.ghostModeEveryOne = false
+                                Defaults.myAppearanceTypes = [0]
+                                self.switchGhostModeBarButton.isOn = false
+                                self.switchGhostModeBarButton.thumbImage = UIImage(named: "privatemode-off-ic")
+                            }
+                            
+                            DispatchQueue.main.async {
+                                if self.isCompassOpen {
+                                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
+                                }else {
+                                    if self.sortByInterestMatch {
+                                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
+                                    }else {
+                                        self.LoadAllFeeds(pageNumber: 1)
+                                    }
+                                }
+                            }
+                            
+                            DispatchQueue.main.async {
+                                NotificationCenter.default.post(name: Notification.Name("updateSettings"), object: nil, userInfo: nil)
+                            }
+                        })
+                    }
+                    // handling code
+                    UIView.animate(withDuration: 0.3, animations: {
+                        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
+                            self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                            self.switchCompassBarButton.isUserInteractionEnabled = true
+                            self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+                            self.initGhostModeAndSortSwitchButton()
+                        }
+                        
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                        self.showAlertView?.alpha = 0
+                    }) { (success: Bool) in
+                        self.showAlertView?.removeFromSuperview()
+                        self.showAlertView?.alpha = 1
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                    }
+                }
+                
+                self.showAlertView?.HandleCancelBtn = {
+                    DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
+                        self.initGhostModeAndSortSwitchButton()
+                        self.switchGhostModeBarButton.isUserInteractionEnabled = true
+                        self.switchCompassBarButton.isUserInteractionEnabled = true
+                        self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+                    }
+                }
+                
+                self.view.addSubview((self.showAlertView)!)
             }
-            
         }
         else {
-            Router().toOptionsSignUpVC(IsLogout: false)
+            HandleInternetConnection()
+            self.switchGhostModeBarButton.isOn = Defaults.ghostMode
         }
+        
     }
     
     @objc func handleGhostModeSwitchBtn() {
         btnsSelected = true
-//        if Defaults.token != "" {
-            handlePrivateModeSwitchBtn()
-//        }else {
-//            Router().toOptionsSignUpVC(IsLogout: false)
-//        }
+        handlePrivateModeSwitchBtn()
     }
     
     func onHideGhostModeTypesCallBack(_ data: [String], _ value: [Int]) -> () {

@@ -1338,8 +1338,8 @@
             filePath = "Friendzr/Modules/Feed/Controller/FeedVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2054"
-            endingLineNumber = "2054"
+            startingLineNumber = "2045"
+            endingLineNumber = "2045"
             landmarkName = "handleSortedByInterestsSwitchBtn()"
             landmarkType = "7">
          </BreakpointContent>
