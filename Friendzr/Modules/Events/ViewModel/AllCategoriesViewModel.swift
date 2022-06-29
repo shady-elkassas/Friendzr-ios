@@ -20,9 +20,15 @@ class AllCategoriesViewModel {
     
     func getAllCategories() {
         CancelRequest.currentTask = false
-        let url = URLs.baseURLFirst + "Events/GetAllcategory"
+        
+        var url = URLs.baseURLFirst + "Public/GetCategories"
+        
+        if Defaults.token != "" {
+            url = URLs.baseURLFirst + "Events/GetAllcategory"
+        }
+        
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: nil, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<CategoriesModel>().map(JSON: data!) else {

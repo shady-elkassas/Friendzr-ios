@@ -331,7 +331,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         // Set View Model Event Listener
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                 }
@@ -410,10 +409,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 
                     if Defaults.token != "" {
                         self.updateMyLocation()
-
-                        DispatchQueue.main.async {
-                            self.getCats()
-                        }
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.getCats()
                     }
                 }
             }
@@ -805,52 +804,55 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Actions
     @IBAction func applyBtn(_ sender: Any) {
-        print("catIDs = \(catIDs) \\ \(Defaults.catIDs)")
-        
-        Defaults.catIDs = catIDs
-        Defaults.catSelectedNames = catSelectedNames
-        
-        NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
-        
-        DispatchQueue.main.async {
-            DispatchQueue.main.async {
-                self.locationsModel.peoplocationDataMV?.removeAll()
-                self.locationsModel.eventlocationDataMV?.removeAll()
-                self.locations.removeAll()
-                self.mapView.clear()
-            }
+        if Defaults.token != "" {
+            print("catIDs = \(catIDs) \\ \(Defaults.catIDs)")
+            
+            Defaults.catIDs = catIDs
+            Defaults.catSelectedNames = catSelectedNames
+            
+            NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
             
             DispatchQueue.main.async {
-                if Defaults.token != "" {
-                    self.updateLocation()
+                DispatchQueue.main.async {
+                    self.locationsModel.peoplocationDataMV?.removeAll()
+                    self.locationsModel.eventlocationDataMV?.removeAll()
+                    self.locations.removeAll()
+                    self.mapView.clear()
                 }
-                self.setupGoogleMap(zoom1: 8, zoom2: 14)
+                
+                DispatchQueue.main.async {
+                    if Defaults.token != "" {
+                        self.updateLocation()
+                    }
+                    self.setupGoogleMap(zoom1: 8, zoom2: 14)
+                }
+                
+                DispatchQueue.main.async {
+                    self.collectionViewHeight.constant = 0
+                    self.noeventNearbyLbl.isHidden = true
+                    self.subViewHeight.constant = 50
+                    self.subView.isHidden = false
+                    self.isViewUp = false
+                    self.hideCollectionView.isHidden = true
+                    self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+                }
+                
+                DispatchQueue.main.async {
+                    self.checkLocationPermission()
+                }
+                
+                DispatchQueue.main.async {
+                    self.getEventsOnlyAroundMe()
+                }
             }
             
-            DispatchQueue.main.async {
-                self.collectionViewHeight.constant = 0
-                self.noeventNearbyLbl.isHidden = true
-                self.subViewHeight.constant = 50
-                self.subView.isHidden = false
-                self.isViewUp = false
-                self.hideCollectionView.isHidden = true
-                self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-            }
-            
-            DispatchQueue.main.async {
-                self.checkLocationPermission()
-            }
-            
-            DispatchQueue.main.async {
-                self.getEventsOnlyAroundMe()
-            }
-        }
-        
-        NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
 
-        catsSuperView.isHidden = true
-        
-        self.onDismiss()
+            catsSuperView.isHidden = true
+        }
+        else {
+            Router().toOptionsSignUpVC(IsLogout: false)
+        }
     }
     
     @IBAction func hideCatsSuperView(_ sender: Any) {
@@ -1755,131 +1757,108 @@ extension MapVC {
     }
     
     @objc func handleFilterSwitchBtn() {
-        if Defaults.token != "" {
-            if (catsviewmodel.cats.value?.count ?? 0) != 0 {
-                handleFilterByCategorySwitchBtn()
-            }
-            else {
-                initFilterBarButton()
-                return
-            }
+        if (catsviewmodel.cats.value?.count ?? 0) != 0 {
+            handleFilterByCategorySwitchBtn()
         }
         else {
-            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
-                Router().toOptionsSignUpVC(IsLogout: false)
-            }
+            initFilterBarButton()
+            return
         }
     }
 
     func handleFilterByCategorySwitchBtn() {
-        if Defaults.token != "" {
-            if NetworkConected.internetConect {
-                if Defaults.catIDs.count == 0 {
-//                    if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "CatsNC") as? UINavigationController, let vc = controller.viewControllers.first as? CatsVC {
-//                        vc.selectedIDs = self.catIDs
-//                        vc.selectedCats = self.catSelectedArr
-//                        vc.selectedNames = self.catSelectedNames
-//                        vc.onListCatsCallBackResponse = self.onFilterByCatsCallBack
-//                        vc.modalPresentationStyle = .overCurrentContext
-//                        vc.modalTransitionStyle = .crossDissolve
-//                        self.present(controller, animated: true)
-//                    }
-                    switchFilterButton.isUserInteractionEnabled = false
-                    self.catsSuperView.isHidden = false
-                }
-                else {
-                    self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                    
-                    self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-                    self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off filters or change the settings?".localizedString
-                    
-                    DispatchQueue.main.async {
-                        self.switchFilterButton.isUserInteractionEnabled = false
-                    }
-                    
-                    self.showAlertView?.HandleConfirmBtn = {
-                        if NetworkConected.internetConect {
-                            
-                            self.catIDs.removeAll()
-                            self.catSelectedNames.removeAll()
-                            self.catSelectedArr.removeAll()
-                            Defaults.catIDs.removeAll()
-                            Defaults.catSelectedNames.removeAll()
-                            
-                            DispatchQueue.main.async {
-                                DispatchQueue.main.async {
-                                    self.locationsModel.peoplocationDataMV?.removeAll()
-                                    self.locationsModel.eventlocationDataMV?.removeAll()
-                                    self.locations.removeAll()
-                                    self.mapView.clear()
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    if Defaults.token != "" {
-                                        self.updateLocation()
-                                    }
-                                    
-                                    self.setupGoogleMap(zoom1: 8, zoom2: 14)
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    self.collectionViewHeight.constant = 0
-                                    self.noeventNearbyLbl.isHidden = true
-                                    self.subViewHeight.constant = 50
-                                    self.subView.isHidden = false
-                                    self.isViewUp = false
-                                    self.hideCollectionView.isHidden = true
-                                    self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    self.checkLocationPermission()
-                                }
-                                
-                                DispatchQueue.main.async {
-                                    self.getEventsOnlyAroundMe()
-                                }
-                            }
-                        }
-                        // handling code
-                        UIView.animate(withDuration: 0.3, animations: {
-                            DispatchQueue.main.async {
-                                NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
-                                self.switchFilterButton.isUserInteractionEnabled = true
-                            }
-                            
-                            self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                            self.showAlertView?.alpha = 0
-                        }) { (success: Bool) in
-                            self.showAlertView?.removeFromSuperview()
-                            self.showAlertView?.alpha = 1
-                            self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                        }
-                    }
-                    
-                    self.showAlertView?.HandleCancelBtn = {
-                        DispatchQueue.main.async {
-                            self.initFilterBarButton()
-                            self.switchFilterButton.isUserInteractionEnabled = true
-                        }
-                    }
-                    
-                    self.view.addSubview((self.showAlertView)!)
-                }
+        if NetworkConected.internetConect {
+            if Defaults.catIDs.count == 0 {
+                switchFilterButton.isUserInteractionEnabled = false
+                self.catsSuperView.isHidden = false
             }
             else {
-                HandleInternetConnection()
+                self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 
-                if Defaults.catIDs.count != 0 {
-                    switchFilterButton.isOn = true
-                }else {
-                    switchFilterButton.isOn = false
+                self.showAlertView?.titleLbl.text = "Confirm?".localizedString
+                self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off filters or change the settings?".localizedString
+                
+                DispatchQueue.main.async {
+                    self.switchFilterButton.isUserInteractionEnabled = false
                 }
+                
+                self.showAlertView?.HandleConfirmBtn = {
+                    if NetworkConected.internetConect {
+                        
+                        self.catIDs.removeAll()
+                        self.catSelectedNames.removeAll()
+                        self.catSelectedArr.removeAll()
+                        Defaults.catIDs.removeAll()
+                        Defaults.catSelectedNames.removeAll()
+                        
+                        DispatchQueue.main.async {
+                            DispatchQueue.main.async {
+                                self.locationsModel.peoplocationDataMV?.removeAll()
+                                self.locationsModel.eventlocationDataMV?.removeAll()
+                                self.locations.removeAll()
+                                self.mapView.clear()
+                            }
+                            
+                            DispatchQueue.main.async {
+                                if Defaults.token != "" {
+                                    self.updateLocation()
+                                }
+                                
+                                self.setupGoogleMap(zoom1: 8, zoom2: 14)
+                            }
+                            
+                            DispatchQueue.main.async {
+                                self.collectionViewHeight.constant = 0
+                                self.noeventNearbyLbl.isHidden = true
+                                self.subViewHeight.constant = 50
+                                self.subView.isHidden = false
+                                self.isViewUp = false
+                                self.hideCollectionView.isHidden = true
+                                self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+                            }
+                            
+                            DispatchQueue.main.async {
+                                self.checkLocationPermission()
+                            }
+                            
+                            DispatchQueue.main.async {
+                                self.getEventsOnlyAroundMe()
+                            }
+                        }
+                    }
+                    // handling code
+                    UIView.animate(withDuration: 0.3, animations: {
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
+                            self.switchFilterButton.isUserInteractionEnabled = true
+                        }
+                        
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                        self.showAlertView?.alpha = 0
+                    }) { (success: Bool) in
+                        self.showAlertView?.removeFromSuperview()
+                        self.showAlertView?.alpha = 1
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                    }
+                }
+                
+                self.showAlertView?.HandleCancelBtn = {
+                    DispatchQueue.main.async {
+                        self.initFilterBarButton()
+                        self.switchFilterButton.isUserInteractionEnabled = true
+                    }
+                }
+                
+                self.view.addSubview((self.showAlertView)!)
             }
-            
         }
         else {
-            Router().toOptionsSignUpVC(IsLogout: false)
+            HandleInternetConnection()
+            if Defaults.catIDs.count != 0 {
+                switchFilterButton.isOn = true
+            }else {
+                switchFilterButton.isOn = false
+            }
         }
     }
 

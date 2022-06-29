@@ -86,15 +86,13 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
                     }
                 }
                 else {
-                    if Defaults.allowMyLocationSettings {
+                    if Defaults.token != "" {
                         Router().toFeed()
                     }else {
-                        print("please allowMyLocationSettings")
-                        Router().toFeed()
+                        Router().toWelcomeVC()
                     }
                 }
             }
-            
         }
         
         
@@ -114,7 +112,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         print("availableVC >> \(Defaults.availableVC)")
         Defaults.isFirstLaunch = true
         CancelRequest.currentTask = false
-   
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

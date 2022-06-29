@@ -888,8 +888,12 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func filterBtn(_ sender: Any) {
         self.btnsSelected = true
-        if NetworkConected.internetConect {
-            filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: compassDegree, sortByInterestMatch: sortByInterestMatch, pageNumber: 1)
+        if Defaults.token != "" {
+            if NetworkConected.internetConect {
+                filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: compassDegree, sortByInterestMatch: sortByInterestMatch, pageNumber: 1)
+            }
+        }else {
+            Router().toOptionsSignUpVC(IsLogout: false)
         }
     }
     
@@ -1547,7 +1551,6 @@ extension FeedVC {
     
     @objc func handleCompassSwitchBtn() {
         print("\(switchCompassBarButton.isOn)")
-        if Defaults.token != "" {
             btnsSelected = true
             if NetworkConected.internetConect {
                 // Azimuth
@@ -1610,7 +1613,8 @@ extension FeedVC {
                                 }
                             }
                             self.allowLocView.isHidden = true
-                        }else {
+                        }
+                        else {
                             self.emptyView.isHidden = true
                             self.allowLocView.isHidden = false
                         }
@@ -1633,10 +1637,6 @@ extension FeedVC {
                 }
                 
             }
-
-        }else {
-            Router().toOptionsSignUpVC(IsLogout: false)
-        }
     }
     
     private func createCompassSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
@@ -1982,17 +1982,22 @@ extension FeedVC {
     
     @objc func handleGhostModeSwitchBtn() {
         btnsSelected = true
-        if Defaults.token != "" {
+//        if Defaults.token != "" {
             handlePrivateModeSwitchBtn()
-        }else {
-            Router().toOptionsSignUpVC(IsLogout: false)
-        }
+//        }else {
+//            Router().toOptionsSignUpVC(IsLogout: false)
+//        }
     }
     
     func onHideGhostModeTypesCallBack(_ data: [String], _ value: [Int]) -> () {
         print(data)
         print(value)
-        ghostModeToggle(ghostMode: true, myAppearanceTypes:value)
+        if Defaults.token != "" {
+            ghostModeToggle(ghostMode: true, myAppearanceTypes:value)
+        }
+        else {
+            Router().toOptionsSignUpVC(IsLogout: false)
+        }
     }
     
     //ghostmode toggle

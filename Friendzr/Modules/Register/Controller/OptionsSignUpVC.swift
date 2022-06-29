@@ -51,6 +51,8 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
     var myString:String = "By clicking ‘Sign up’, you agree to our terms of usage see more".localizedString
     var myMutableString = NSMutableAttributedString()
 
+    var isOpenVC:Bool = false
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +62,11 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        initBackToFeedButton()
+        if isOpenVC {
+            initBackButton()
+        }else {
+            initBackToFeedButton()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

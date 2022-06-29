@@ -36,6 +36,12 @@ class Router {
         go(withVC: nextVC)
     }
     
+    func toWelcomeVC() {
+        let id = "WelcomeNC"
+        let nextVC = Initializer.createViewController(storyBoard: .Splach, andId: id)
+        go(withVC: nextVC)
+    }
+    
     func toRegister() {
         let id = "RegisterNC"
         let nextVC = Initializer.createViewController(storyBoard: .Register, andId: id)

@@ -363,6 +363,7 @@
 		43FC3CAF2729686D00D94ABB /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FC3CAE2729686D00D94ABB /* Downloader.swift */; };
 		43FC58D5286B05B8001ADE2C /* PreferToTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43FC58D3286B05B8001ADE2C /* PreferToTableViewCell.xib */; };
 		43FC58D6286B05B8001ADE2C /* PreferToTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FC58D4286B05B8001ADE2C /* PreferToTableViewCell.swift */; };
+		43FC58D8286C490F001ADE2C /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FC58D7286C490F001ADE2C /* WelcomeVC.swift */; };
 		43FDDD7A2701D9F400550876 /* SplachVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FDDD792701D9F400550876 /* SplachVC.swift */; };
 		43FED20A26DE3FCF00255B96 /* EventModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FED20926DE3FCF00255B96 /* EventModel.swift */; };
 		43FED20C26DE3FD900255B96 /* EventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FED20B26DE3FD900255B96 /* EventsViewModel.swift */; };
@@ -774,6 +775,7 @@
 		43FC3CAE2729686D00D94ABB /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
 		43FC58D3286B05B8001ADE2C /* PreferToTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferToTableViewCell.xib; sourceTree = "<group>"; };
 		43FC58D4286B05B8001ADE2C /* PreferToTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferToTableViewCell.swift; sourceTree = "<group>"; };
+		43FC58D7286C490F001ADE2C /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		43FDDD792701D9F400550876 /* SplachVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachVC.swift; sourceTree = "<group>"; };
 		43FED20926DE3FCF00255B96 /* EventModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventModel.swift; sourceTree = "<group>"; };
 		43FED20B26DE3FD900255B96 /* EventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
@@ -1635,6 +1637,7 @@
 				4382ACBB26C2AFE9005C1857 /* SplachThreeVC.swift */,
 				439CE76428107F85003C0AD3 /* SplachFiveVC.swift */,
 				4382ACBD26C2AFF7005C1857 /* SplachFourVC.swift */,
+				43FC58D7286C490F001ADE2C /* WelcomeVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2196,6 +2199,7 @@
 				4314853B278C42930048EC01 /* AddGroupVC.swift in Sources */,
 				4382ACBE26C2AFF7005C1857 /* SplachFourVC.swift in Sources */,
 				4382AC6726C27D33005C1857 /* UIFontExtension.swift in Sources */,
+				43FC58D8286C490F001ADE2C /* WelcomeVC.swift in Sources */,
 				43148540278D86570048EC01 /* StatisticsCollectionViewCell.swift in Sources */,
 				4344107C26CD54D600F8233E /* CategoriesView.swift in Sources */,
 				43526916276A144A00540726 /* ScrollableBottomSheetViewController.swift in Sources */,
@@ -2878,7 +2882,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7.0;
+				CURRENT_PROJECT_VERSION = 8.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2914,7 +2918,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7.0;
+				CURRENT_PROJECT_VERSION = 8.0;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;
