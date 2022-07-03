@@ -17,6 +17,8 @@ import MSImagePickerSheetController
 import Photos
 import ListPlaceholder
 import Kingfisher
+import MapKit
+
 
 class MessagesVC: UIViewController {
     

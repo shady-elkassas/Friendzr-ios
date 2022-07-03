@@ -574,8 +574,8 @@
             filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1337"
-            endingLineNumber = "1337"
+            startingLineNumber = "1336"
+            endingLineNumber = "1336"
             landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -737,130 +737,6 @@
             startingLineNumber = "788"
             endingLineNumber = "788"
             landmarkName = "updateSearchResult()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "921513CC-299F-4144-B41B-7505C736334E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Friendzr/Modules/Profile/Controller/FacialRecognitionPopUpView2.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "29"
-            endingLineNumber = "29"
-            landmarkName = "FacialRecognitionPopUpView2"
-            landmarkType = "3">
-            <Locations>
-               <Location
-                  uuid = "921513CC-299F-4144-B41B-7505C736334E - d6c597c116eab1c5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Friendzr.FacialRecognitionPopUpView2.onVerifyCallBackResponse.getter : Swift.Optional&lt;(Swift.Bool) -&gt; ()&gt;"
-                  moduleName = "Friendzr"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Modules/Profile/Controller/FacialRecognitionPopUpView2.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23"
-                  offsetFromSymbolStart = "100">
-               </Location>
-               <Location
-                  uuid = "921513CC-299F-4144-B41B-7505C736334E - 11c4e44c68196dc9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Friendzr.FacialRecognitionPopUpView2.onVerifyCallBackResponse.setter : Swift.Optional&lt;(Swift.Bool) -&gt; ()&gt;"
-                  moduleName = "Friendzr"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Modules/Profile/Controller/FacialRecognitionPopUpView2.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23"
-                  offsetFromSymbolStart = "136">
-               </Location>
-               <Location
-                  uuid = "921513CC-299F-4144-B41B-7505C736334E - ac7d692a7f2454f8"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Friendzr.FacialRecognitionPopUpView2.onVerifyCallBackResponse.modify : Swift.Optional&lt;(Swift.Bool) -&gt; ()&gt;"
-                  moduleName = "Friendzr"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Modules/Profile/Controller/FacialRecognitionPopUpView2.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23"
-                  offsetFromSymbolStart = "0">
-               </Location>
-               <Location
-                  uuid = "921513CC-299F-4144-B41B-7505C736334E - 3371882b363bf53b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Friendzr.FacialRecognitionPopUpView2.onVerifyCallBackResponse.modify : Swift.Optional&lt;(Swift.Bool) -&gt; ()&gt; with unmangled suffix &quot;.resume.0&quot;"
-                  moduleName = "Friendzr"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Modules/Profile/Controller/FacialRecognitionPopUpView2.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23"
-                  offsetFromSymbolStart = "16">
-               </Location>
-               <Location
-                  uuid = "921513CC-299F-4144-B41B-7505C736334E - 9aee0789c51391b8"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Friendzr.FacialRecognitionPopUpView2.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; Friendzr.FacialRecognitionPopUpView2"
-                  moduleName = "Friendzr"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Modules/Profile/Controller/FacialRecognitionPopUpView2.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23"
-                  offsetFromSymbolStart = "436">
-               </Location>
-               <Location
-                  uuid = "921513CC-299F-4144-B41B-7505C736334E - b98627e936b21cf3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Friendzr.FacialRecognitionPopUpView2.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;Friendzr.FacialRecognitionPopUpView2&gt;"
-                  moduleName = "Friendzr"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/shadyelkassas/Desktop/Friendzr-ios/Friendzr/Modules/Profile/Controller/FacialRecognitionPopUpView2.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23"
-                  offsetFromSymbolStart = "412">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4AA5EBCA-F09F-48F2-AD7C-A9AA28150A65"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Friendzr/Modules/Profile/Controller/FacialRecognitionPopUpView2.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1274,8 +1150,8 @@
             filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1656"
-            endingLineNumber = "1656"
+            startingLineNumber = "1655"
+            endingLineNumber = "1655"
             landmarkName = "onFilterByCatsCallBack(_:_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1290,8 +1166,8 @@
             filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1654"
-            endingLineNumber = "1654"
+            startingLineNumber = "1653"
+            endingLineNumber = "1653"
             landmarkName = "onFilterByCatsCallBack(_:_:_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1354,8 +1230,8 @@
             filePath = "Friendzr/Modules/Messages/Controller/MessagesVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1729"
-            endingLineNumber = "1729"
+            startingLineNumber = "1731"
+            endingLineNumber = "1731"
             landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1370,8 +1246,8 @@
             filePath = "Friendzr/Modules/Messages/Controller/MessagesVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1916"
-            endingLineNumber = "1916"
+            startingLineNumber = "1918"
+            endingLineNumber = "1918"
             landmarkName = "handleKeyboardDidChangeState(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1386,8 +1262,8 @@
             filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1148"
-            endingLineNumber = "1148"
+            startingLineNumber = "1147"
+            endingLineNumber = "1147"
             landmarkName = "locationManager(_:didUpdateLocations:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1402,8 +1278,8 @@
             filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1425"
-            endingLineNumber = "1425"
+            startingLineNumber = "1424"
+            endingLineNumber = "1424"
             landmarkName = "MapVC"
             landmarkType = "21">
          </BreakpointContent>
@@ -1418,8 +1294,8 @@
             filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
             landmarkName = "viewWillAppear(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1434,8 +1310,8 @@
             filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1771"
-            endingLineNumber = "1771"
+            startingLineNumber = "1770"
+            endingLineNumber = "1770"
             landmarkName = "handleFilterByCategorySwitchBtn()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1450,8 +1326,8 @@
             filePath = "Friendzr/Modules/Map/Controller/MapVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1760"
-            endingLineNumber = "1760"
+            startingLineNumber = "1759"
+            endingLineNumber = "1759"
             landmarkName = "handleFilterSwitchBtn()"
             landmarkType = "7">
          </BreakpointContent>

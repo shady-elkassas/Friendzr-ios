@@ -196,11 +196,11 @@ open class TagListView: UIView {
         }
     }
     
-    @objc open dynamic var textFont: UIFont = .systemFont(ofSize: 12) {
+    @objc open dynamic var textFont: UIFont = .boldSystemFont(ofSize: 12) {
         didSet {
             defer { rearrangeViews() }
             tagViews.forEach {
-                $0.textFont = textFont
+                $0.textFont = .boldSystemFont(ofSize: 12)
             }
         }
     }

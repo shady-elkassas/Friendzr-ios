@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -82,13 +82,31 @@
                                 </button>
                             </subviews>
                         </stackView>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1GD-Du-Ro2">
+                            <rect key="frame" x="120" y="98" width="80" height="50"/>
+                            <color key="backgroundColor" name="primaryColor"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="6s6-d9-l7e"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="EDIT">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="editBtn:" destination="yUn-f0-7Ud" eventType="touchUpInside" id="MBR-if-Yzg"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" name="Color0"/>
                     <constraints>
                         <constraint firstItem="hXa-MN-bjR" firstAttribute="leading" secondItem="0dt-AZ-K7D" secondAttribute="leading" id="HwI-CQ-aCd"/>
+                        <constraint firstItem="1GD-Du-Ro2" firstAttribute="centerY" secondItem="Njk-dD-vav" secondAttribute="centerY" id="II8-rx-Gvl"/>
                         <constraint firstAttribute="trailing" secondItem="Njk-dD-vav" secondAttribute="trailing" constant="25" id="NQu-FF-S0Z"/>
+                        <constraint firstItem="Njk-dD-vav" firstAttribute="leading" secondItem="1GD-Du-Ro2" secondAttribute="trailing" constant="10" id="PYC-MS-rOP"/>
                         <constraint firstAttribute="bottom" secondItem="Njk-dD-vav" secondAttribute="bottom" constant="25" id="RpL-62-idd"/>
                         <constraint firstItem="hXa-MN-bjR" firstAttribute="top" secondItem="0dt-AZ-K7D" secondAttribute="bottom" id="WaJ-VW-bjo"/>
+                        <constraint firstItem="1GD-Du-Ro2" firstAttribute="height" secondItem="Njk-dD-vav" secondAttribute="height" id="Whl-0o-o6H"/>
                         <constraint firstItem="0dt-AZ-K7D" firstAttribute="top" secondItem="eep-zp-mpo" secondAttribute="top" constant="20" id="aSa-Cf-y6z"/>
                         <constraint firstItem="0dt-AZ-K7D" firstAttribute="leading" secondItem="eep-zp-mpo" secondAttribute="leading" constant="25" id="ksT-ez-7Pc"/>
                         <constraint firstItem="Njk-dD-vav" firstAttribute="top" secondItem="hXa-MN-bjR" secondAttribute="bottom" constant="25" id="rv8-el-6bQ"/>
@@ -116,6 +134,7 @@
                 <outlet property="confirmBtn" destination="Phc-kM-DMt" id="GK1-Nx-hD5"/>
                 <outlet property="containerView" destination="eep-zp-mpo" id="kbd-yW-rTN"/>
                 <outlet property="detailsLbl" destination="hXa-MN-bjR" id="dlZ-FU-d68"/>
+                <outlet property="editBtn" destination="1GD-Du-Ro2" id="Yc3-hs-nfB"/>
                 <outlet property="titleLbl" destination="0dt-AZ-K7D" id="Ij1-Zo-74Z"/>
                 <outlet property="unConfirmBtn" destination="YFy-BJ-63z" id="5Ak-b0-nYr"/>
             </connections>
@@ -130,6 +149,9 @@
         </namedColor>
         <namedColor name="ColorLbl3">
             <color red="0.14100000262260437" green="0.075000002980232239" blue="0.19599999487400055" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="primaryColor">
+            <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="thirdryColor">
             <color red="0.41200000047683716" green="0.41200000047683716" blue="0.41200000047683716" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

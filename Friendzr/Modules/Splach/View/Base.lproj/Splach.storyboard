@@ -912,7 +912,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u9b-Bv-V0f">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="726"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image001" translatesAutoresizingMaskIntoConstraints="NO" id="Bfu-ct-bDe">
+                                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image001" translatesAutoresizingMaskIntoConstraints="NO" id="Bfu-ct-bDe">
                                                 <rect key="frame" x="124" y="50" width="166" height="165.5"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Bfu-ct-bDe" secondAttribute="height" multiplier="1:1" id="CnT-Qt-CW7"/>
@@ -974,20 +974,28 @@
                                                     </button>
                                                 </subviews>
                                             </stackView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SRs-ol-OzC">
+                                                <rect key="frame" x="124" y="50" width="166" height="165.5"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="ndS-EV-eWr" firstAttribute="centerX" secondItem="Bfu-ct-bDe" secondAttribute="centerX" id="1gP-9Q-gaz"/>
                                             <constraint firstItem="VCp-PO-bc9" firstAttribute="top" secondItem="tGG-3w-tYz" secondAttribute="bottom" constant="20" id="CG4-SI-lg1"/>
                                             <constraint firstItem="5k2-Fq-mWk" firstAttribute="top" secondItem="Bfu-ct-bDe" secondAttribute="bottom" constant="30" id="FYt-SO-Xjt"/>
+                                            <constraint firstItem="SRs-ol-OzC" firstAttribute="centerY" secondItem="Bfu-ct-bDe" secondAttribute="centerY" id="FgO-Lm-4yA"/>
                                             <constraint firstItem="5k2-Fq-mWk" firstAttribute="centerX" secondItem="Bfu-ct-bDe" secondAttribute="centerX" id="KTZ-zw-HNy"/>
                                             <constraint firstItem="Bfu-ct-bDe" firstAttribute="width" secondItem="u9b-Bv-V0f" secondAttribute="width" multiplier="1:2.5" id="QIc-Ak-YFS"/>
                                             <constraint firstAttribute="bottom" secondItem="VCp-PO-bc9" secondAttribute="bottom" constant="10" id="QqL-vI-uyu"/>
+                                            <constraint firstItem="SRs-ol-OzC" firstAttribute="width" secondItem="Bfu-ct-bDe" secondAttribute="width" id="Wd8-iX-TkC"/>
                                             <constraint firstItem="qTt-A9-ruW" firstAttribute="top" secondItem="5k2-Fq-mWk" secondAttribute="bottom" constant="20" id="X4D-FG-PbE"/>
                                             <constraint firstItem="Bfu-ct-bDe" firstAttribute="centerX" secondItem="u9b-Bv-V0f" secondAttribute="centerX" id="XgA-Po-F9D"/>
                                             <constraint firstItem="VCp-PO-bc9" firstAttribute="centerX" secondItem="u9b-Bv-V0f" secondAttribute="centerX" id="dFJ-Du-XVe"/>
+                                            <constraint firstItem="SRs-ol-OzC" firstAttribute="height" secondItem="Bfu-ct-bDe" secondAttribute="height" id="ewA-vy-HRx"/>
                                             <constraint firstItem="VCp-PO-bc9" firstAttribute="width" secondItem="u9b-Bv-V0f" secondAttribute="width" multiplier="1:3" id="hlG-Hw-bJE"/>
                                             <constraint firstItem="ndS-EV-eWr" firstAttribute="top" secondItem="qTt-A9-ruW" secondAttribute="bottom" constant="8" id="j1v-1v-gUC"/>
+                                            <constraint firstItem="SRs-ol-OzC" firstAttribute="centerX" secondItem="Bfu-ct-bDe" secondAttribute="centerX" id="j2X-dH-yNG"/>
                                             <constraint firstItem="Bfu-ct-bDe" firstAttribute="top" secondItem="u9b-Bv-V0f" secondAttribute="top" constant="50" id="pD7-uz-Hqt"/>
                                             <constraint firstItem="qTt-A9-ruW" firstAttribute="centerX" secondItem="Bfu-ct-bDe" secondAttribute="centerX" id="qFi-SC-z8P"/>
                                             <constraint firstItem="tGG-3w-tYz" firstAttribute="centerX" secondItem="u9b-Bv-V0f" secondAttribute="centerX" id="qWO-dD-EID"/>
@@ -1045,6 +1053,7 @@
                         <outlet property="loginBtn" destination="ZJX-g6-aqa" id="wPS-Fz-isv"/>
                         <outlet property="signupBtn" destination="XKb-qj-8hF" id="IcP-Bb-Dd9"/>
                         <outlet property="takeTourBtn" destination="3Iw-yz-OTF" id="h9E-rt-7Xl"/>
+                        <outlet property="videoView" destination="SRs-ol-OzC" id="l1L-PS-IyM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6qV-rz-6Qr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

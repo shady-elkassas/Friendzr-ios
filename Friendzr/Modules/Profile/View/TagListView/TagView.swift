@@ -50,7 +50,7 @@ open class TagView: UIButton {
             titleEdgeInsets.bottom = paddingY
         }
     }
-    @IBInspectable open var paddingX: CGFloat = 5 {
+    @IBInspectable open var paddingX: CGFloat = 0 {
         didSet {
             titleEdgeInsets.left = paddingX
             updateRightInsets()
@@ -81,9 +81,9 @@ open class TagView: UIButton {
         }
     }
     
-    @IBInspectable open var textFont: UIFont = .systemFont(ofSize: 12) {
+    @IBInspectable open var textFont: UIFont = .boldSystemFont(ofSize: 12) {
         didSet {
-            titleLabel?.font = textFont
+            titleLabel?.font = .boldSystemFont(ofSize: 12)
         }
     }
     
@@ -189,7 +189,7 @@ open class TagView: UIButton {
     override open var intrinsicContentSize: CGSize {
         var size = titleLabel?.text?.size(withAttributes: [NSAttributedString.Key.font: textFont]) ?? CGSize.zero
         size.height = textFont.pointSize + paddingY * 3
-        size.width += paddingX * 2
+        size.width += paddingX * 4
         if size.width < size.height {
             size.width = size.height
         }

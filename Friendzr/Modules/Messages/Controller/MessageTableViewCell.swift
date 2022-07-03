@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 
 protocol MessageTableViewCellDelegate: class {
     func messageTableViewCellUpdate()
@@ -79,4 +80,31 @@ class MessageAttachmentTableViewCell: MessageTableViewCell {
         HandleProfileBtn?()
     }
     
+}
+
+class ShareLocationTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var profilePic: UIImageView?
+    @IBOutlet weak var messageDateLbl: UILabel!
+    @IBOutlet weak var profileBtn: UIButton!
+    @IBOutlet weak var mapView: MKMapView!
+    
+    var HandleUserProfileBtn: (() -> ())?
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+        
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        
+        // Configure the view for the selected state
+    }
+    
+    @IBAction func profileBtn(_ sender: Any) {
+        HandleUserProfileBtn?()
+    }
 }

@@ -286,6 +286,7 @@
 		43C0E18227FB28CD00555023 /* Celebrity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C0E18127FB28CD00555023 /* Celebrity.swift */; };
 		43C0E18F27FDAB1A00555023 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C0E18E27FDAB1A00555023 /* NetworkMonitor.swift */; };
 		43C0E19127FDB97500555023 /* ExternalEventWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C0E19027FDB97500555023 /* ExternalEventWebView.swift */; };
+		43C342F32871BDC500577F19 /* Friendzrlogomark.gif in Resources */ = {isa = PBXBuildFile; fileRef = 43C342F22871BDC500577F19 /* Friendzrlogomark.gif */; };
 		43C64A0227957DFE00C35FA8 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A0127957DFE00C35FA8 /* GroupViewModel.swift */; };
 		43C64A042795806400C35FA8 /* TitleGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A032795806400C35FA8 /* TitleGroupViewModel.swift */; };
 		43C64A0C2796C40800C35FA8 /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A0B2796C40800C35FA8 /* GroupModel.swift */; };
@@ -348,7 +349,6 @@
 		43F473B926E61EAA001E4FAE /* InterestsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473B826E61EAA001E4FAE /* InterestsModel.swift */; };
 		43F473BB26E63FAE001E4FAE /* EditEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F473BA26E63FAE001E4FAE /* EditEventViewModel.swift */; };
 		43F974292832652200F736F3 /* Messages.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43F974282832652200F736F3 /* Messages.storyboard */; };
-		43F9743028327AF800F736F3 /* FacialRecognitionVideo.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 43F9742F28327AF800F736F3 /* FacialRecognitionVideo.mp4 */; };
 		43F974322832977C00F736F3 /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F974312832977C00F736F3 /* MessagesVC.swift */; };
 		43F974342832993C00F736F3 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43F974332832993C00F736F3 /* MessageTableViewCell.swift */; };
 		43FBA1D726D4ED40005F4FBF /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43FBA1D626D4ED40005F4FBF /* AuthenticationServices.framework */; };
@@ -693,6 +693,7 @@
 		43C0E18127FB28CD00555023 /* Celebrity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Celebrity.swift; sourceTree = "<group>"; };
 		43C0E18E27FDAB1A00555023 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		43C0E19027FDB97500555023 /* ExternalEventWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalEventWebView.swift; sourceTree = "<group>"; };
+		43C342F22871BDC500577F19 /* Friendzrlogomark.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Friendzrlogomark.gif; sourceTree = "<group>"; };
 		43C64A0127957DFE00C35FA8 /* GroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewModel.swift; sourceTree = "<group>"; };
 		43C64A032795806400C35FA8 /* TitleGroupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleGroupViewModel.swift; sourceTree = "<group>"; };
 		43C64A0B2796C40800C35FA8 /* GroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupModel.swift; sourceTree = "<group>"; };
@@ -759,7 +760,6 @@
 		43F473B826E61EAA001E4FAE /* InterestsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsModel.swift; sourceTree = "<group>"; };
 		43F473BA26E63FAE001E4FAE /* EditEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEventViewModel.swift; sourceTree = "<group>"; };
 		43F974282832652200F736F3 /* Messages.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Messages.storyboard; sourceTree = "<group>"; };
-		43F9742F28327AF800F736F3 /* FacialRecognitionVideo.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = FacialRecognitionVideo.mp4; sourceTree = "<group>"; };
 		43F974312832977C00F736F3 /* MessagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
 		43F974332832993C00F736F3 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		43FBA1D626D4ED40005F4FBF /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
@@ -1514,7 +1514,7 @@
 				4382AC4926C27297005C1857 /* Supporting_Files */,
 				4382AC2226C27195005C1857 /* Assets.xcassets */,
 				4382AC2426C27195005C1857 /* LaunchScreen.storyboard */,
-				43F9742F28327AF800F736F3 /* FacialRecognitionVideo.mp4 */,
+				43C342F22871BDC500577F19 /* Friendzrlogomark.gif */,
 				439381422816B009002FFED1 /* GoogleService-Info.plist */,
 				4371D40D273127F3003B8AFD /* Info.plist */,
 				4388686927844445004D36B2 /* Friendzr-Bridging-Header.h */,
@@ -1985,6 +1985,7 @@
 				43B8288327EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.xib in Resources */,
 				43ACFEC027B3B0EB001CD340 /* EventImageTableViewCell.xib in Resources */,
 				4319612C27A811530057FDC2 /* TabsCollectionViewCell.xib in Resources */,
+				43C342F32871BDC500577F19 /* Friendzrlogomark.gif in Resources */,
 				436288A626C9334900B51E51 /* ChatListTableViewCell.xib in Resources */,
 				43ACFED827B3B7F0001CD340 /* EventDetailsAttendeesTableViewCell.xib in Resources */,
 				43AF3530284CCA0100B65773 /* FilterCatsTableViewCell.xib in Resources */,
@@ -2052,7 +2053,6 @@
 				43967DC427944E92005B1F5D /* WriteProblemTableViewCell.xib in Resources */,
 				4382AC9626C27FF2005C1857 /* Montserrat-Medium.ttf in Resources */,
 				43E7EC45279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib in Resources */,
-				43F9743028327AF800F736F3 /* FacialRecognitionVideo.mp4 in Resources */,
 				43967DB627944E15005B1F5D /* StatisticsCollectionViewCell.xib in Resources */,
 				4367E46D27BA4BC600FE1880 /* BestDescribesTableViewCell.xib in Resources */,
 				43D008DA2794386A00370E2C /* EmptyViewTableViewCell.xib in Resources */,

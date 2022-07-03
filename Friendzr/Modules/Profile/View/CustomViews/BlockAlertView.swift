@@ -16,14 +16,17 @@ class BlockAlertView: UIView {
     @IBOutlet weak var detailsLbl: UILabel!
     @IBOutlet weak var unConfirmBtn: UIButton!
     @IBOutlet weak var confirmBtn: UIButton!
+    @IBOutlet weak var editBtn: UIButton!
     
     
     var HandleConfirmBtn: (()->())?
     var HandleCancelBtn: (()->())?
-    
+    var HandleEditBtn: (()->())?
+
     override func awakeFromNib() {
         containerView.shadow()
         containerView.cornerRadiusView(radius: 8)
+        editBtn.cornerRadiusForHeight()
     }
     
     
@@ -43,4 +46,9 @@ class BlockAlertView: UIView {
     @IBAction func confirmBtn (_ sender: UIButton) {
         HandleConfirmBtn?()
     }
+    
+    @IBAction func editBtn(_ sender: Any) {
+        HandleEditBtn?()
+    }
+    
 }

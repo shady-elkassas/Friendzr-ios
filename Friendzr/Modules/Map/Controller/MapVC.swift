@@ -95,7 +95,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet var hideImgs: [UIImageView]!
     @IBOutlet weak var dualogImg: UIImageView!
     @IBOutlet weak var nextToShowMapBtn: UIButton!
-    
     @IBOutlet weak var catsSuperView: UIView!
     @IBOutlet weak var catsSubView: UIView!
     @IBOutlet weak var catsCollectionView: UICollectionView!
@@ -105,7 +104,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Properties
     lazy var showAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
-
+    
     var locations:[EventsLocation] = [EventsLocation]()
     var location: CLLocationCoordinate2D? = nil
     let locationManager = CLLocationManager()
@@ -122,7 +121,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var locationsModel:EventsAroundMeDataModel = EventsAroundMeDataModel()
     var catsviewmodel:AllCategoriesViewModel = AllCategoriesViewModel()
     let catsCellId = "TagCollectionViewCell"
-
+    
     var transparentView = UIView()
     var eventsTableView = UITableView()
     var eventCellID = "EventsInLocationTableViewCell"
@@ -142,9 +141,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var catSelectedArr:[CategoryObj] = [CategoryObj]()
     
     var switchFilterButton: CustomSwitch = CustomSwitch()
-
+    
     private var layout: UICollectionViewFlowLayout!
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -156,13 +155,13 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateFilterBtn), name: Notification.Name("updateFilterBtn"), object: nil)
-
+        
         isViewUp = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         
-//        mapView.clear()
+        //        mapView.clear()
         CancelRequest.currentTask = true
         
         collectionViewHeight.constant = 0
@@ -187,7 +186,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         catIDs = Defaults.catIDs
         for cat in Defaults.catIDs {
             for item in Defaults.catSelectedNames {
@@ -197,7 +196,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         catSelectedNames = Defaults.catSelectedNames
         initFilterBarButton()
-
+        
         
         appendNewLocation = false
         goAddEventBtn.isHidden = true
@@ -356,7 +355,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
     }
-
+    
     func getCats() {
         catsviewmodel.getAllCategories()
         catsviewmodel.cats.bind { [unowned self] value in
@@ -406,7 +405,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 if Defaults.allowMyLocationSettings == true {
                     
                     self.bindToModel()
-                
+                    
                     if Defaults.token != "" {
                         self.updateMyLocation()
                     }
@@ -632,7 +631,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         zoomingStatisticsView.cornerRadiusView(radius: 6)
         catsSubView.setCornerforTop( withShadow: false, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 21)
         applyBtn.cornerRadiusView(radius: 8)
-
+        
         for itm in hideImgs {
             itm.cornerRadiusView(radius: 8)
         }
@@ -650,7 +649,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
             subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
             subView.addGestureRecognizer(createSwipeGestureRecognizer(for: .right))
-
+            
             upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .up))
             upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .down))
             upDownViewBtn.addGestureRecognizer(createSwipeGestureRecognizer(for: .left))
@@ -847,7 +846,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             }
             
             NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
-
+            
             catsSuperView.isHidden = true
         }
         else {
@@ -861,21 +860,21 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func nextBtn(_ sender: Any) {
-        showAddEventExplainedView.isHidden = true
-        showFilterExplainedView.isHidden = false
-    }
-    
-
-    
-    @IBAction func nextToShowMapBtn(_ sender: Any) {
         Defaults.isFirstOpenMap = true
+        
         showAddEventExplainedView.isHidden = true
         showFilterExplainedView.isHidden = true
+        
         switchFilterButton.isUserInteractionEnabled = true
         
         if Defaults.token != "" {
             initProfileBarButton(didTap: true)
         }
+    }
+    
+    @IBAction func nextToShowMapBtn(_ sender: Any) {
+        showAddEventExplainedView.isHidden = false
+        showFilterExplainedView.isHidden = true
     }
     
     @IBAction func addEventBtn(_ sender: Any) {
@@ -1165,14 +1164,14 @@ extension MapVC : CLLocationManagerDelegate {
     func checkLocationPermission() {
         
         if !Defaults.isFirstOpenMap {
-            showAddEventExplainedView.isHidden = false
+            showFilterExplainedView.isHidden = false
             switchFilterButton.isUserInteractionEnabled = false
             addEventBtn.isUserInteractionEnabled = false
             sataliteBtn.isUserInteractionEnabled = false
             currentLocationBtn.isUserInteractionEnabled = false
             goAddEventBtn.isUserInteractionEnabled = false
         }else {
-            showAddEventExplainedView.isHidden = true
+            showFilterExplainedView.isHidden = true
             switchFilterButton.isUserInteractionEnabled = true
             addEventBtn.isUserInteractionEnabled = true
             sataliteBtn.isUserInteractionEnabled = true
@@ -1557,14 +1556,14 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
                 if catIDs.contains(strData?.id ?? "") {
                     catIDs = catIDs.filter { $0 != strData?.id}
                     catSelectedNames = catSelectedNames.filter { $0 != strData?.name}
-//                    Defaults.catIDs = Defaults.catIDs.filter { $0 != strData?.id}
-//                    Defaults.catSelectedNames = Defaults.catSelectedNames.filter { $0 != strData?.name}
+                    //                    Defaults.catIDs = Defaults.catIDs.filter { $0 != strData?.id}
+                    //                    Defaults.catSelectedNames = Defaults.catSelectedNames.filter { $0 != strData?.name}
                 }
                 else {
                     catIDs.append(strData?.id ?? "")
                     catSelectedNames.append(strData?.name ?? "")
-//                    Defaults.catIDs.append(strData?.id ?? "")
-//                    Defaults.catSelectedNames.append(strData?.name ?? "")
+                    //                    Defaults.catIDs.append(strData?.id ?? "")
+                    //                    Defaults.catSelectedNames.append(strData?.name ?? "")
                 }
                 
                 print(catIDs)
@@ -1660,7 +1659,7 @@ extension MapVC {
         
         
         NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
-
+        
         DispatchQueue.main.async {
             
             DispatchQueue.main.async {
@@ -1697,17 +1696,17 @@ extension MapVC {
         }
     }
     
-//    func initFilterBarButton(withImage image: String) {
-//        let button = UIButton.init(type: .custom)
-//        button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-//        let image = UIImage(named: image)?.withRenderingMode(.alwaysOriginal)
-//        button.frame = CGRect(x: 0, y: 0, width: 36, height: 36)
-//        button.setImage(image, for: .normal)
-//        button.tintColor = .white
-//        button.addTarget(self, action: #selector(presentFilterByCats), for: .touchUpInside)
-//        let barButton = UIBarButtonItem(customView: button)
-//        self.navigationItem.rightBarButtonItem = barButton
-//    }
+    //    func initFilterBarButton(withImage image: String) {
+    //        let button = UIButton.init(type: .custom)
+    //        button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+    //        let image = UIImage(named: image)?.withRenderingMode(.alwaysOriginal)
+    //        button.frame = CGRect(x: 0, y: 0, width: 36, height: 36)
+    //        button.setImage(image, for: .normal)
+    //        button.tintColor = .white
+    //        button.addTarget(self, action: #selector(presentFilterByCats), for: .touchUpInside)
+    //        let barButton = UIBarButtonItem(customView: button)
+    //        self.navigationItem.rightBarButtonItem = barButton
+    //    }
     
     func initFilterBarButton() {
         switchFilterButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
@@ -1717,13 +1716,13 @@ extension MapVC {
         switchFilterButton.cornerRadius = 0.5
         switchFilterButton.thumbCornerRadius = 0.5
         switchFilterButton.animationDuration = 0.25
-
+        
         if Defaults.catIDs.count != 0 {
             switchFilterButton.isOn = true
             switchFilterButton.thumbImage = UIImage(named: "filterMap_on_ic")
         }else {
             switchFilterButton.isOn = false
-            switchFilterButton.thumbImage = UIImage(named: "filterMap_off_ic")
+            switchFilterButton.thumbImage = UIImage(named: "filterMap_on_ic")
         }
         
         
@@ -1765,7 +1764,7 @@ extension MapVC {
             return
         }
     }
-
+    
     func handleFilterByCategorySwitchBtn() {
         if NetworkConected.internetConect {
             if Defaults.catIDs.count == 0 {
@@ -1774,6 +1773,7 @@ extension MapVC {
             }
             else {
                 self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                self.showAlertView?.editBtn.isHidden = false
                 
                 self.showAlertView?.titleLbl.text = "Confirm?".localizedString
                 self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off filters or change the settings?".localizedString
@@ -1849,6 +1849,23 @@ extension MapVC {
                     }
                 }
                 
+                self.showAlertView?.HandleEditBtn = {
+                    // handling code
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                        self.showAlertView?.alpha = 0
+                    }) { (success: Bool) in
+                        self.showAlertView?.removeFromSuperview()
+                        self.showAlertView?.alpha = 1
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                    }
+                    
+                    self.initFilterBarButton()
+                    self.switchFilterButton.isUserInteractionEnabled = false
+                    self.catsSuperView.isHidden = false
+
+                }
+                
                 self.view.addSubview((self.showAlertView)!)
             }
         }
@@ -1872,21 +1889,21 @@ extension MapVC {
         return swipeGestureRecognizer
     }
     
-//    @objc func presentFilterByCats() {
-//        if Defaults.token != "" {
-//            if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "CategoriesNC") as? UINavigationController, let vc = controller.viewControllers.first as? CategoriesViewController {
-//                vc.selectedIDs = self.catIDs
-//                vc.selectedCats = self.catSelectedArr
-//                vc.selectedNames = self.catSelectedNames
-//                vc.onListCatsCallBackResponse = self.onFilterByCatsCallBack
-//                self.present(controller, animated: true)
-//            }
-//        }
-//        else {
-//            Router().toOptionsSignUpVC()
-//        }
-//
-//    }
+    //    @objc func presentFilterByCats() {
+    //        if Defaults.token != "" {
+    //            if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "CategoriesNC") as? UINavigationController, let vc = controller.viewControllers.first as? CategoriesViewController {
+    //                vc.selectedIDs = self.catIDs
+    //                vc.selectedCats = self.catSelectedArr
+    //                vc.selectedNames = self.catSelectedNames
+    //                vc.onListCatsCallBackResponse = self.onFilterByCatsCallBack
+    //                self.present(controller, animated: true)
+    //            }
+    //        }
+    //        else {
+    //            Router().toOptionsSignUpVC()
+    //        }
+    //
+    //    }
     
     func addBottomSheetView(scrollable: Bool? = true) {
         let bottomSheetVC = scrollable! ? ScrollableBottomSheetViewController() : BottomSheetViewController()
