@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "dots.png",
+      "filename" : "happy.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "dots (1).png",
+      "filename" : "happy (1).png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "dots (2).png",
+      "filename" : "happy (2).png",
       "idiom" : "universal",
       "scale" : "3x"
     }

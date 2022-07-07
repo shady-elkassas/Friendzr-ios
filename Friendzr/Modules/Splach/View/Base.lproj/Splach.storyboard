@@ -10,11 +10,14 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="DIN2014-Bold.ttf">
+            <string>DIN2014-Bold</string>
+        </array>
+        <array key="DIN2014-Regular.ttf">
+            <string>DIN2014-Regular</string>
+        </array>
         <array key="Lato-Semibold.ttf">
             <string>Lato-Semibold</string>
-        </array>
-        <array key="Montserrat-Bold.ttf">
-            <string>Montserrat-Bold</string>
         </array>
         <array key="Montserrat-Medium.ttf">
             <string>Montserrat-Medium</string>
@@ -910,48 +913,48 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u9b-Bv-V0f">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="726"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="735"/>
                                         <subviews>
                                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image001" translatesAutoresizingMaskIntoConstraints="NO" id="Bfu-ct-bDe">
-                                                <rect key="frame" x="124" y="50" width="166" height="165.5"/>
+                                                <rect key="frame" x="108.5" y="40" width="197" height="197"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Bfu-ct-bDe" secondAttribute="height" multiplier="1:1" id="CnT-Qt-CW7"/>
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5k2-Fq-mWk">
-                                                <rect key="frame" x="132.5" y="245.5" width="149" height="37"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="30"/>
+                                                <rect key="frame" x="110.5" y="257" width="193" height="50"/>
+                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="50"/>
                                                 <color key="textColor" red="0.40000003579999999" green="0.69019609689999994" blue="0.61176472900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="your new friends are" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qTt-A9-ruW">
-                                                <rect key="frame" x="100.5" y="302.5" width="213.5" height="24.5"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="20"/>
-                                                <color key="textColor" name="ColorLbl2"/>
+                                                <rect key="frame" x="76.5" y="322" width="261.5" height="30"/>
+                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="30"/>
+                                                <color key="textColor" red="0.0039215686269999999" green="0.16078431369999999" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="just two clicks away" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ndS-EV-eWr">
-                                                <rect key="frame" x="104.5" y="335" width="205" height="24.5"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="20"/>
-                                                <color key="textColor" name="ColorLbl2"/>
+                                                <rect key="frame" x="81" y="360" width="252.5" height="30"/>
+                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="30"/>
+                                                <color key="textColor" red="0.0039215686274509803" green="0.16078431372549018" blue="0.29803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="find your way to friendship" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGG-3w-tYz">
-                                                <rect key="frame" x="81" y="580" width="252" height="22"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="18"/>
-                                                <color key="textColor" name="ColorLbl2"/>
+                                                <rect key="frame" x="61.5" y="590" width="291.5" height="26"/>
+                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="26"/>
+                                                <color key="textColor" red="0.0039215686274509803" green="0.16078431372549018" blue="0.29803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VCp-PO-bc9">
-                                                <rect key="frame" x="138" y="622" width="138" height="94"/>
+                                                <rect key="frame" x="138" y="631" width="138" height="94"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Iw-yz-OTF">
                                                         <rect key="frame" x="0.0" y="0.0" width="138" height="42"/>
-                                                        <color key="backgroundColor" red="0.40000003579999999" green="0.69019609689999994" blue="0.61176472900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <color key="backgroundColor" red="0.40000000000000002" green="0.69019607843137254" blue="0.61176470588235299" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="42" id="gvg-9e-Fx6"/>
                                                         </constraints>
-                                                        <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                                        <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="12"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="Take a tour">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -962,8 +965,8 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKb-qj-8hF">
                                                         <rect key="frame" x="0.0" y="52" width="138" height="42"/>
-                                                        <color key="backgroundColor" red="0.49019610879999997" green="0.75686275960000005" blue="0.54901963470000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                                        <color key="backgroundColor" red="0.49019607843137253" green="0.75686274509803919" blue="0.5490196078431373" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="12"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="Sign up">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -975,44 +978,44 @@
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SRs-ol-OzC">
-                                                <rect key="frame" x="124" y="50" width="166" height="165.5"/>
+                                                <rect key="frame" x="108.5" y="40" width="197" height="197"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="ndS-EV-eWr" firstAttribute="centerX" secondItem="Bfu-ct-bDe" secondAttribute="centerX" id="1gP-9Q-gaz"/>
-                                            <constraint firstItem="VCp-PO-bc9" firstAttribute="top" secondItem="tGG-3w-tYz" secondAttribute="bottom" constant="20" id="CG4-SI-lg1"/>
-                                            <constraint firstItem="5k2-Fq-mWk" firstAttribute="top" secondItem="Bfu-ct-bDe" secondAttribute="bottom" constant="30" id="FYt-SO-Xjt"/>
+                                            <constraint firstItem="VCp-PO-bc9" firstAttribute="top" secondItem="tGG-3w-tYz" secondAttribute="bottom" constant="15" id="CG4-SI-lg1"/>
+                                            <constraint firstItem="5k2-Fq-mWk" firstAttribute="top" secondItem="Bfu-ct-bDe" secondAttribute="bottom" constant="20" id="FYt-SO-Xjt"/>
                                             <constraint firstItem="SRs-ol-OzC" firstAttribute="centerY" secondItem="Bfu-ct-bDe" secondAttribute="centerY" id="FgO-Lm-4yA"/>
                                             <constraint firstItem="5k2-Fq-mWk" firstAttribute="centerX" secondItem="Bfu-ct-bDe" secondAttribute="centerX" id="KTZ-zw-HNy"/>
-                                            <constraint firstItem="Bfu-ct-bDe" firstAttribute="width" secondItem="u9b-Bv-V0f" secondAttribute="width" multiplier="1:2.5" id="QIc-Ak-YFS"/>
+                                            <constraint firstItem="Bfu-ct-bDe" firstAttribute="width" secondItem="u9b-Bv-V0f" secondAttribute="width" multiplier="1:2.1" id="QIc-Ak-YFS"/>
                                             <constraint firstAttribute="bottom" secondItem="VCp-PO-bc9" secondAttribute="bottom" constant="10" id="QqL-vI-uyu"/>
                                             <constraint firstItem="SRs-ol-OzC" firstAttribute="width" secondItem="Bfu-ct-bDe" secondAttribute="width" id="Wd8-iX-TkC"/>
-                                            <constraint firstItem="qTt-A9-ruW" firstAttribute="top" secondItem="5k2-Fq-mWk" secondAttribute="bottom" constant="20" id="X4D-FG-PbE"/>
+                                            <constraint firstItem="qTt-A9-ruW" firstAttribute="top" secondItem="5k2-Fq-mWk" secondAttribute="bottom" constant="15" id="X4D-FG-PbE"/>
                                             <constraint firstItem="Bfu-ct-bDe" firstAttribute="centerX" secondItem="u9b-Bv-V0f" secondAttribute="centerX" id="XgA-Po-F9D"/>
                                             <constraint firstItem="VCp-PO-bc9" firstAttribute="centerX" secondItem="u9b-Bv-V0f" secondAttribute="centerX" id="dFJ-Du-XVe"/>
                                             <constraint firstItem="SRs-ol-OzC" firstAttribute="height" secondItem="Bfu-ct-bDe" secondAttribute="height" id="ewA-vy-HRx"/>
                                             <constraint firstItem="VCp-PO-bc9" firstAttribute="width" secondItem="u9b-Bv-V0f" secondAttribute="width" multiplier="1:3" id="hlG-Hw-bJE"/>
                                             <constraint firstItem="ndS-EV-eWr" firstAttribute="top" secondItem="qTt-A9-ruW" secondAttribute="bottom" constant="8" id="j1v-1v-gUC"/>
-                                            <constraint firstItem="SRs-ol-OzC" firstAttribute="centerX" secondItem="Bfu-ct-bDe" secondAttribute="centerX" id="j2X-dH-yNG"/>
-                                            <constraint firstItem="Bfu-ct-bDe" firstAttribute="top" secondItem="u9b-Bv-V0f" secondAttribute="top" constant="50" id="pD7-uz-Hqt"/>
+                                            <constraint firstItem="SRs-ol-OzC" firstAttribute="centerX" secondItem="u9b-Bv-V0f" secondAttribute="centerX" id="kRw-3A-G5K"/>
+                                            <constraint firstItem="Bfu-ct-bDe" firstAttribute="top" secondItem="u9b-Bv-V0f" secondAttribute="top" constant="40" id="pD7-uz-Hqt"/>
                                             <constraint firstItem="qTt-A9-ruW" firstAttribute="centerX" secondItem="Bfu-ct-bDe" secondAttribute="centerX" id="qFi-SC-z8P"/>
                                             <constraint firstItem="tGG-3w-tYz" firstAttribute="centerX" secondItem="u9b-Bv-V0f" secondAttribute="centerX" id="qWO-dD-EID"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="L4g-y6-R4M">
-                                        <rect key="frame" x="102" y="746" width="210.5" height="32"/>
+                                        <rect key="frame" x="120" y="750" width="174" height="28"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OhL-bB-T73">
-                                                <rect key="frame" x="0.0" y="0.0" width="154.5" height="32"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="12"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="129" height="28"/>
+                                                <fontDescription key="fontDescription" name="DIN2014-Regular" family="DIN 2014" pointSize="12"/>
                                                 <color key="textColor" name="ColorLbl1"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZJX-g6-aqa">
-                                                <rect key="frame" x="157.5" y="0.0" width="53" height="32"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
+                                                <rect key="frame" x="132" y="0.0" width="42" height="28"/>
+                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="16"/>
                                                 <state key="normal" title="Log In">
                                                     <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
@@ -1027,7 +1030,7 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="u9b-Bv-V0f" secondAttribute="bottom" id="0lx-AS-nox"/>
                                     <constraint firstItem="u9b-Bv-V0f" firstAttribute="width" secondItem="gcG-pd-ViC" secondAttribute="width" id="6P6-86-W0B"/>
-                                    <constraint firstItem="L4g-y6-R4M" firstAttribute="top" secondItem="u9b-Bv-V0f" secondAttribute="bottom" constant="20" id="9FE-rS-c2l"/>
+                                    <constraint firstItem="L4g-y6-R4M" firstAttribute="top" secondItem="u9b-Bv-V0f" secondAttribute="bottom" constant="15" id="9FE-rS-c2l"/>
                                     <constraint firstItem="L4g-y6-R4M" firstAttribute="centerX" secondItem="gcG-pd-ViC" secondAttribute="centerX" id="MyM-OO-ITx"/>
                                     <constraint firstItem="Y9Y-9z-fgO" firstAttribute="bottom" secondItem="L4g-y6-R4M" secondAttribute="bottom" constant="30" id="cSI-Ji-bMf"/>
                                     <constraint firstItem="u9b-Bv-V0f" firstAttribute="top" secondItem="gcG-pd-ViC" secondAttribute="top" id="qWH-HI-FRF"/>

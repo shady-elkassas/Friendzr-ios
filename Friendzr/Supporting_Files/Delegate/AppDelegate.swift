@@ -162,9 +162,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-    
-    
+
     func setupAppsFlyer() {
+        
+//        guard let propertiesPath = Bundle.main.path(forResource: "afdevkey_donotpush", ofType: "plist"),
+//            let properties = NSDictionary(contentsOfFile: propertiesPath) as? [String:String] else {
+//                fatalError("Cannot find `afdevkey_donotpush`")
+//        }
+//        
+//        guard let appsFlyerDevKey = properties["appsFlyerDevKey"],
+//                   let appleAppID = properties["appleAppID"] else {
+//            fatalError("Cannot find `appsFlyerDevKey` or `appleAppID` key")
+//        }
+
         AppsFlyerLib.shared().appsFlyerDevKey = "vsg4WBcUHeJBLTpcHDpuJ"
         AppsFlyerLib.shared().appleAppID = "id1585963463"
         AppsFlyerLib.shared().delegate = self
@@ -187,6 +197,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NotificationCenter.default.addObserver(self, selector: NSSelectorFromString("sendLaunch"), name: UIApplication.didBecomeActiveNotification, object: nil)
         
+        AppsFlyerLib.shared().deepLinkDelegate = self
+
+        NotificationCenter.default.addObserver(self,selector: #selector(didBecomeActiveNotification),name: UIApplication.didBecomeActiveNotification,object: nil)
     }
     
     @objc func sendLaunch() {
@@ -250,23 +263,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-    }
-    
-    // Open Univerasal Links
-    
-    // For Swift version < 4.2 replace function signature with the commented out code
-    // func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool { // this line for Swift < 4.2
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        AppsFlyerLib.shared().continue(userActivity, restorationHandler: nil)
-        return true
-    }
-    
-    // Open Deeplinks
-    
-    // Open URI-scheme for iOS 8 and below
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        AppsFlyerLib.shared().handleOpen(url, sourceApplication: sourceApplication, withAnnotation: annotation)
-        return true
     }
     
     // MARK: UISceneSession Lifecycle
@@ -401,6 +397,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Print full message.
         print(userInfo)
+        
+        AppsFlyerLib.shared().handlePushNotification(userInfo)
         
         NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
@@ -1216,4 +1214,83 @@ extension AppDelegate: AppsFlyerLibDelegate {
     func onAppOpenAttributionFailure(_ error: Error) {
         print("\(error)")
     }
+}
+
+
+extension AppDelegate: DeepLinkDelegate {
+//    func didResolveDeepLink(_ result: DeepLinkResult) {
+//        var fruitNameStr: String?
+//        switch result.status {
+//        case .notFound:
+//            NSLog("[AFSDK] Deep link not found")
+//            return
+//        case .failure:
+//            print("Error %@", result.error!)
+//            return
+//        case .found:
+//            NSLog("[AFSDK] Deep link found")
+//        }
+//
+//        guard let deepLinkObj:DeepLink = result.deepLink else {
+//            NSLog("[AFSDK] Could not extract deep link object")
+//            return
+//        }
+//
+//        if deepLinkObj.clickEvent.keys.contains("deep_link_sub2") {
+//            let ReferrerId:String = deepLinkObj.clickEvent["deep_link_sub2"] as! String
+//            NSLog("[AFSDK] AppsFlyer: Referrer ID: \(ReferrerId)")
+//        } else {
+//            NSLog("[AFSDK] Could not extract referrerId")
+//        }
+//
+//        let deepLinkStr:String = deepLinkObj.toString()
+//        NSLog("[AFSDK] DeepLink data is: \(deepLinkStr)")
+//
+//        if( deepLinkObj.isDeferred == true) {
+//            NSLog("[AFSDK] This is a deferred deep link")
+//        }
+//        else {
+//            NSLog("[AFSDK] This is a direct deep link")
+//        }
+//
+//        fruitNameStr = deepLinkObj.deeplinkValue
+//        walkToSceneWithParams(fruitName: fruitNameStr!, deepLinkData: deepLinkObj.clickEvent)
+//    }
+
+     // For Swift version < 4.2 replace function signature with the commented out code
+     // func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool { // this line for Swift < 4.2
+     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+         AppsFlyerLib.shared().continue(userActivity, restorationHandler: nil)
+         return true
+     }
+     
+     // Open Deeplinks
+     
+     // Open URI-scheme for iOS 8 and below
+     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+         AppsFlyerLib.shared().handleOpen(url, sourceApplication: sourceApplication, withAnnotation: annotation)
+         return true
+     }
+
+     // User logic
+     fileprivate func walkToSceneWithParams(deepLinkObj: DeepLink) {
+         let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+         UIApplication.shared.windows.first?.rootViewController?.dismiss(animated: true, completion: nil)
+         
+//        guard let fruitNameStr = deepLinkObj.clickEvent["deep_link_value"] as? String else {
+//             print("Could not extract query params from link")
+//             return
+//         }
+                
+//         let destVC = fruitNameStr + "_vc"
+//         if let newVC = storyBoard.instantiateVC(withIdentifier: destVC) {
+//
+//             print("AppsFlyer routing to section: \(destVC)")
+//             newVC.deepLinkData = deepLinkObj
+//
+//              UIApplication.shared.windows.first?.rootViewController?.present(newVC, animated: true, completion: nil)
+//         } else {
+//             print("AppsFlyer: could not find section: \(destVC)")
+//         }
+     }
 }

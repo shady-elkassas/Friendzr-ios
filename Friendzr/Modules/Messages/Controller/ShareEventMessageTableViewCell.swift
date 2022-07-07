@@ -36,6 +36,10 @@ class ShareEventMessageTableViewCell: UITableViewCell {
         attachmentImageViewWidthConstraint.constant = screenW / 1.4
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         

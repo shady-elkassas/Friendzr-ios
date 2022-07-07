@@ -515,6 +515,10 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             
+            
+//            let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureCellAction))
+//            cell.contentView.addGestureRecognizer(panGestureRecognizer)
+
             return cell
         }
         else if model.messageType == 2 { //image
@@ -646,6 +650,42 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
     //        })
     //    }
 }
+
+//extension MessagesVC {
+//    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+//        let velocity : CGPoint = gestureRecognizer.location(in: tableView)
+//        if velocity.x < 0 {
+//            return false
+//        }
+//        return abs(Float(velocity.x)) > abs(Float(velocity.y))
+//    }
+//
+//    @objc func panGestureCellAction(recognizer: UIPanGestureRecognizer)  {
+//        let translation = recognizer.translation(in: tableView)
+//        if recognizer.view?.frame.origin.x ?? 0 < 0 {
+//            return
+//        }
+//        recognizer.view?.center = CGPoint(
+//            x: (recognizer.view?.center.x ?? 0) + translation.x,
+//            y: (recognizer.view?.center.y ?? 0))
+//        recognizer.setTranslation(CGPoint(x: 0, y: 0), in: view)
+//        if (recognizer.view?.frame.origin.x ?? 0) > UIScreen.main.bounds.size.width * 0.9 {
+//            UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut, animations: {
+//                recognizer.view?.frame = CGRect(x: 0, y: recognizer.view?.frame.origin.y ?? 0, width: recognizer.view?.frame.size.width ?? 0, height: recognizer.view?.frame.size.height ?? 0)
+//            })
+//        }
+//        if recognizer.state == .ended {
+//            let x = recognizer.view?.frame.origin.x ?? 0
+//            UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseOut) {
+//                recognizer.view?.frame = CGRect(x: 0, y: recognizer.view?.frame.origin.y ?? 0, width: recognizer.view?.frame.size.width ?? 0, height: recognizer.view?.frame.size.height ?? 0)
+//            } completion: { (finished) in
+//                if x > ((recognizer.view?.frame.size.width ?? 0) / 2) {
+//                    self.inputTextField.becomeFirstResponder()
+//                }
+//            }
+//        }
+//    }
+//}
 
 //MARK: UItextField Delegate
 extension MessagesVC: UITextFieldDelegate ,UIPopoverPresentationControllerDelegate{

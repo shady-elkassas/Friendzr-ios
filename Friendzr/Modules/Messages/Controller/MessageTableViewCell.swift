@@ -29,6 +29,10 @@ class MessageTableViewCell: UITableViewCell {
         
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
@@ -72,6 +76,10 @@ class MessageAttachmentTableViewCell: MessageTableViewCell {
         attachmentImageViewWidthConstraint.constant = 250
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
     @IBAction func tapattachmentBtn(_ sender: Any) {
         HandleTapAttachmentBtn?()
     }
@@ -96,6 +104,10 @@ class ShareLocationTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

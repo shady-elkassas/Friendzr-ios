@@ -451,12 +451,13 @@ extension OptionsSignUpVC {
         button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         button.setImage(image, for: .normal)
         image?.withTintColor(UIColor.blue)
-        button.addTarget(self, action:  #selector(goToFeed), for: .touchUpInside)
+        button.addTarget(self, action:  #selector(goToWelcomeVC), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.leftBarButtonItem = barButton
     }
     
-    @objc func goToFeed() {
+    @objc func goToWelcomeVC() {
         Router().toFeed()
+//        Router().toWelcomeVC()
     }
 }

@@ -93,17 +93,17 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var noeventNearbyLbl: UILabel!
     @IBOutlet weak var hideCollectionView: UIView!
     @IBOutlet var hideImgs: [UIImageView]!
-    @IBOutlet weak var dualogImg: UIImageView!
+//    @IBOutlet weak var dualogImg: UIImageView!
     @IBOutlet weak var nextToShowMapBtn: UIButton!
     @IBOutlet weak var catsSuperView: UIView!
     @IBOutlet weak var catsSubView: UIView!
     @IBOutlet weak var catsCollectionView: UICollectionView!
     @IBOutlet weak var catsCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet weak var applyBtn: UIButton!
-    
+    @IBOutlet weak var fakeAddEventBtn: UIButton!
     
     //MARK: - Properties
-    lazy var showAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
+    lazy var showAlertView = Bundle.main.loadNibNamed("MapAlertView", owner: self, options: nil)?.first as? MapAlertView
     
     var locations:[EventsLocation] = [EventsLocation]()
     var location: CLLocationCoordinate2D? = nil
@@ -273,6 +273,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                         
                         if value.data?.count == 0 {
                             self.noeventNearbyLbl.isHidden = false
+                            if self.switchFilterButton.isOn == true {
+                                self.noeventNearbyLbl.text = "No events as yet in your chosen categories. Adjust your settings or check back later."
+                            }else {
+                                self.noeventNearbyLbl.text = "No events as yet."
+                            }
                         }else {
                             self.noeventNearbyLbl.isHidden = true
                         }
@@ -397,25 +402,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - Helpers
     func updateUserInterface() {
-        if NetworkMonitor.shared.isConnected {
-            DispatchQueue.main.async {
-                NetworkConected.internetConect = true
-                self.zoomingStatisticsView.isHidden = false
-                
-                if Defaults.allowMyLocationSettings == true {
-                    
-                    self.bindToModel()
-                    
-                    if Defaults.token != "" {
-                        self.updateMyLocation()
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.getCats()
-                    }
-                }
-            }
-        }else {
+        appDelegate.networkReachability()
+        
+        switch Network.reachability.status {
+        case .unreachable:
             DispatchQueue.main.async {
                 self.mapView.clear()
                 NetworkConected.internetConect = false
@@ -427,7 +417,53 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.noeventNearbyLbl.isHidden = true
                 self.hideCollectionView.isHidden = true
             }
+        case .wwan:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.zoomingStatisticsView.isHidden = false
+                
+                if Defaults.allowMyLocationSettings == true {
+                    
+                    DispatchQueue.main.async {
+                        self.bindToModel()
+                    }
+                    if Defaults.token != "" {
+                        self.updateMyLocation()
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.getCats()
+                    }
+                }
+            }
+        case .wifi:
+            DispatchQueue.main.async {
+                NetworkConected.internetConect = true
+                self.zoomingStatisticsView.isHidden = false
+                
+                if Defaults.allowMyLocationSettings == true {
+                    
+                    DispatchQueue.main.async {
+                        self.bindToModel()
+                    }
+                    
+                    if Defaults.token != "" {
+                        self.updateMyLocation()
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.getCats()
+                    }
+                }
+            }
+            
         }
+        
+        print("Reachability Summary")
+        print("Status:", Network.reachability.status)
+        print("HostName:", Network.reachability.hostname ?? "nil")
+        print("Reachable:", Network.reachability.isReachable)
+        print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
     func setupAds() {
@@ -588,6 +624,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     func setupViews() {
         //setup search bar
         addEventBtn.cornerRadiusView(radius: 10)
+        fakeAddEventBtn.cornerRadiusView(radius: 10)
         goAddEventBtn.cornerRadiusView(radius: 10)
         sataliteBtn.cornerRadiusView(radius: 10)
         currentLocationBtn.cornerRadiusView(radius: 10)
@@ -878,18 +915,22 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func addEventBtn(_ sender: Any) {
-        checkLocationPermissionBtns()
-        if NetworkConected.internetConect {
-            if Defaults.allowMyLocationSettings == true {
-                self.appendNewLocation = true
-                self.view.makeToast("Please pick event's location".localizedString)
-                self.goAddEventBtn.isHidden = false
-                self.addEventBtn.isHidden = true
-                markerImg.isHidden = false
-            }else {
-                markerImg.isHidden = true
-                self.checkLocationPermission()
+        if Defaults.token != "" {
+            checkLocationPermissionBtns()
+            if NetworkConected.internetConect {
+                if Defaults.allowMyLocationSettings == true {
+                    self.appendNewLocation = true
+                    self.view.makeToast("Please pick event's location".localizedString)
+                    self.goAddEventBtn.isHidden = false
+                    self.addEventBtn.isHidden = true
+                    markerImg.isHidden = false
+                }else {
+                    markerImg.isHidden = true
+                    self.checkLocationPermission()
+                }
             }
+        }else {
+            Router().toOptionsSignUpVC(IsLogout: true)
         }
     }
     
@@ -1696,18 +1737,6 @@ extension MapVC {
         }
     }
     
-    //    func initFilterBarButton(withImage image: String) {
-    //        let button = UIButton.init(type: .custom)
-    //        button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-    //        let image = UIImage(named: image)?.withRenderingMode(.alwaysOriginal)
-    //        button.frame = CGRect(x: 0, y: 0, width: 36, height: 36)
-    //        button.setImage(image, for: .normal)
-    //        button.tintColor = .white
-    //        button.addTarget(self, action: #selector(presentFilterByCats), for: .touchUpInside)
-    //        let barButton = UIBarButtonItem(customView: button)
-    //        self.navigationItem.rightBarButtonItem = barButton
-    //    }
-    
     func initFilterBarButton() {
         switchFilterButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
         switchFilterButton.onTintColor = UIColor.FriendzrColors.primary!
@@ -1782,7 +1811,7 @@ extension MapVC {
                     self.switchFilterButton.isUserInteractionEnabled = false
                 }
                 
-                self.showAlertView?.HandleConfirmBtn = {
+                self.showAlertView?.HandleOffBtn = {
                     if NetworkConected.internetConect {
                         
                         self.catIDs.removeAll()
@@ -1842,10 +1871,19 @@ extension MapVC {
                     }
                 }
                 
-                self.showAlertView?.HandleCancelBtn = {
+                self.showAlertView?.HandleHideViewBtn = {
                     DispatchQueue.main.async {
                         self.initFilterBarButton()
                         self.switchFilterButton.isUserInteractionEnabled = true
+                    }
+                    
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                        self.showAlertView?.alpha = 0
+                    }) { (success: Bool) in
+                        self.showAlertView?.removeFromSuperview()
+                        self.showAlertView?.alpha = 1
+                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
                     }
                 }
                 
@@ -1863,7 +1901,7 @@ extension MapVC {
                     self.initFilterBarButton()
                     self.switchFilterButton.isUserInteractionEnabled = false
                     self.catsSuperView.isHidden = false
-
+                    
                 }
                 
                 self.view.addSubview((self.showAlertView)!)
@@ -1878,7 +1916,7 @@ extension MapVC {
             }
         }
     }
-
+    
     private func createFilterSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
         // Initialize Swipe Gesture Recognizer
         let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didFilterSwipe(_:)))

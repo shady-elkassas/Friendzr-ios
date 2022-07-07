@@ -251,6 +251,12 @@
 		43A332682781C9B2001ADB84 /* GhostModeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A332662781C9B2001ADB84 /* GhostModeTableViewCell.swift */; };
 		43A332692781C9B2001ADB84 /* GhostModeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A332672781C9B2001ADB84 /* GhostModeTableViewCell.xib */; };
 		43A3326F2782FBF9001ADB84 /* ReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A3326E2782FBF9001ADB84 /* ReportVC.swift */; };
+		43ABA61028758A20004716E4 /* DIN2014-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43ABA60D28758A20004716E4 /* DIN2014-Regular.ttf */; };
+		43ABA61128758A20004716E4 /* DIN2014-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43ABA60E28758A20004716E4 /* DIN2014-Bold.ttf */; };
+		43ABA61228758A20004716E4 /* DIN2014-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43ABA60F28758A20004716E4 /* DIN2014-BoldItalic.ttf */; };
+		43ABA6142876C373004716E4 /* FriendzrlogomarkwhiteBG.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 43ABA6132876C373004716E4 /* FriendzrlogomarkwhiteBG.mp4 */; };
+		43ABA6162876C598004716E4 /* MapAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ABA6152876C598004716E4 /* MapAlertView.swift */; };
+		43ABA6182876C610004716E4 /* MapAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43ABA6172876C610004716E4 /* MapAlertView.xib */; };
 		43ACFEBB27B3B065001CD340 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ACFEBA27B3B065001CD340 /* EventDetailsViewController.swift */; };
 		43ACFEBF27B3B0EB001CD340 /* EventImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43ACFEBD27B3B0EB001CD340 /* EventImageTableViewCell.swift */; };
 		43ACFEC027B3B0EB001CD340 /* EventImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43ACFEBE27B3B0EB001CD340 /* EventImageTableViewCell.xib */; };
@@ -658,6 +664,12 @@
 		43A332662781C9B2001ADB84 /* GhostModeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostModeTableViewCell.swift; sourceTree = "<group>"; };
 		43A332672781C9B2001ADB84 /* GhostModeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GhostModeTableViewCell.xib; sourceTree = "<group>"; };
 		43A3326E2782FBF9001ADB84 /* ReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportVC.swift; sourceTree = "<group>"; wrapsLines = 1; };
+		43ABA60D28758A20004716E4 /* DIN2014-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN2014-Regular.ttf"; sourceTree = "<group>"; };
+		43ABA60E28758A20004716E4 /* DIN2014-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN2014-Bold.ttf"; sourceTree = "<group>"; };
+		43ABA60F28758A20004716E4 /* DIN2014-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN2014-BoldItalic.ttf"; sourceTree = "<group>"; };
+		43ABA6132876C373004716E4 /* FriendzrlogomarkwhiteBG.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = FriendzrlogomarkwhiteBG.mp4; sourceTree = "<group>"; };
+		43ABA6152876C598004716E4 /* MapAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAlertView.swift; sourceTree = "<group>"; };
+		43ABA6172876C610004716E4 /* MapAlertView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapAlertView.xib; sourceTree = "<group>"; };
 		43ACFEBA27B3B065001CD340 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		43ACFEBD27B3B0EB001CD340 /* EventImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventImageTableViewCell.swift; sourceTree = "<group>"; };
 		43ACFEBE27B3B0EB001CD340 /* EventImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventImageTableViewCell.xib; sourceTree = "<group>"; };
@@ -1217,6 +1229,8 @@
 			children = (
 				43D008FF27943A6700370E2C /* Map.storyboard */,
 				439DDE9526F74E2500E09FC1 /* Cell */,
+				43ABA6152876C598004716E4 /* MapAlertView.swift */,
+				43ABA6172876C610004716E4 /* MapAlertView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1515,6 +1529,7 @@
 				4382AC2226C27195005C1857 /* Assets.xcassets */,
 				4382AC2426C27195005C1857 /* LaunchScreen.storyboard */,
 				43C342F22871BDC500577F19 /* Friendzrlogomark.gif */,
+				43ABA6132876C373004716E4 /* FriendzrlogomarkwhiteBG.mp4 */,
 				439381422816B009002FFED1 /* GoogleService-Info.plist */,
 				4371D40D273127F3003B8AFD /* Info.plist */,
 				4388686927844445004D36B2 /* Friendzr-Bridging-Header.h */,
@@ -1576,6 +1591,9 @@
 				4382AC8426C27FF2005C1857 /* Montserrat-Medium.ttf */,
 				4382AC8B26C27FF2005C1857 /* Montserrat-Regular.ttf */,
 				4382AC8D26C27FF2005C1857 /* Montserrat-SemiBold.ttf */,
+				43ABA60E28758A20004716E4 /* DIN2014-Bold.ttf */,
+				43ABA60F28758A20004716E4 /* DIN2014-BoldItalic.ttf */,
+				43ABA60D28758A20004716E4 /* DIN2014-Regular.ttf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -1983,6 +2001,7 @@
 				43CBA9C927DA2D13006020FC /* StatisticsDetailsTableViewCell.xib in Resources */,
 				43FC3C9E2726F7BA00D94ABB /* LoadingView.xib in Resources */,
 				43B8288327EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.xib in Resources */,
+				43ABA61228758A20004716E4 /* DIN2014-BoldItalic.ttf in Resources */,
 				43ACFEC027B3B0EB001CD340 /* EventImageTableViewCell.xib in Resources */,
 				4319612C27A811530057FDC2 /* TabsCollectionViewCell.xib in Resources */,
 				43C342F32871BDC500577F19 /* Friendzrlogomark.gif in Resources */,
@@ -2002,6 +2021,7 @@
 				43FC58D5286B05B8001ADE2C /* PreferToTableViewCell.xib in Resources */,
 				43D008FD27943A6700370E2C /* Map.storyboard in Resources */,
 				4382AC9D26C27FF2005C1857 /* Montserrat-Regular.ttf in Resources */,
+				43ABA61128758A20004716E4 /* DIN2014-Bold.ttf in Resources */,
 				430D425A26D3854200188E42 /* InterestsTableViewCell.xib in Resources */,
 				43967DAF27944DFA005B1F5D /* GenderCollectionViewCell.xib in Resources */,
 				43967D76279443F7005B1F5D /* CalendarView.xib in Resources */,
@@ -2013,6 +2033,7 @@
 				43ACFEDC27B3BBA1001CD340 /* AdsTableViewCell.xib in Resources */,
 				4367E46127BA478900FE1880 /* FriendImageProfileTableViewCell.xib in Resources */,
 				4382ACC426C2C37A005C1857 /* Lato-Semibold.ttf in Resources */,
+				43ABA6182876C610004716E4 /* MapAlertView.xib in Resources */,
 				43ACFEC427B3B2DE001CD340 /* EventButtonsTableViewCell.xib in Resources */,
 				4382AC2326C27195005C1857 /* Assets.xcassets in Resources */,
 				4382AC9F26C27FF2005C1857 /* Montserrat-SemiBold.ttf in Resources */,
@@ -2031,6 +2052,7 @@
 				4315DB42278DBB12005AB950 /* GenderDistributionTableViewCell.xib in Resources */,
 				43D008D32794383900370E2C /* FeedsTableViewCell.xib in Resources */,
 				43967D9227944D33005B1F5D /* EventTimeCalenderView.xib in Resources */,
+				43ABA6142876C373004716E4 /* FriendzrlogomarkwhiteBG.mp4 in Resources */,
 				43D545CF26CD49F40064660A /* CategoryTableViewCell.xib in Resources */,
 				4360CD0927F07CDE009A51C7 /* ExternalImageTableViewCell.xib in Resources */,
 				4367E46927BA4ACE00FE1880 /* InterestsProfileTableViewCell.xib in Resources */,
@@ -2049,6 +2071,7 @@
 				43375F60271313C4009EBED6 /* NotificationTableViewCell.xib in Resources */,
 				430D425E26D38D9B00188E42 /* AttendeesTableViewCell.xib in Resources */,
 				4344110826CE885F00F8233E /* ContactsTableViewCell.xib in Resources */,
+				43ABA61028758A20004716E4 /* DIN2014-Regular.ttf in Resources */,
 				43526917276A144A00540726 /* ScrollableBottomSheetViewController.xib in Resources */,
 				43967DC427944E92005B1F5D /* WriteProblemTableViewCell.xib in Resources */,
 				4382AC9626C27FF2005C1857 /* Montserrat-Medium.ttf in Resources */,
@@ -2263,6 +2286,7 @@
 				4345BA3A271C14ED0076101A /* GenderbylocationViewModel.swift in Sources */,
 				4362889426C8FF9300B51E51 /* MoreVC.swift in Sources */,
 				43119D6A26E4C1A000AD2260 /* BioViewModel.swift in Sources */,
+				43ABA6162876C598004716E4 /* MapAlertView.swift in Sources */,
 				43A332632781AE37001ADB84 /* AddNewTagView.swift in Sources */,
 				43375F5827130D94009EBED6 /* NotificationsModel.swift in Sources */,
 				43119D6626E4BFDB00AD2260 /* EditProfileViewModel.swift in Sources */,
@@ -2882,7 +2906,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9.0;
+				CURRENT_PROJECT_VERSION = 11.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2918,7 +2942,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9.0;
+				CURRENT_PROJECT_VERSION = 11.0;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;
