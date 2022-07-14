@@ -107,6 +107,7 @@ class RequestManager: NSObject, URLSessionDelegate {
                         completion([:],"Unauthorized")
                         
                         DispatchQueue.main.async {
+                            Defaults.deleteUserData()
                             Router().toOptionsSignUpVC(IsLogout: false)
                         }
                     } catch {
@@ -129,6 +130,7 @@ class RequestManager: NSObject, URLSessionDelegate {
                         completion([:],"Unable to parse empty data")
                         
                         DispatchQueue.main.async {
+                            Defaults.deleteUserData()
                             Router().toOptionsSignUpVC(IsLogout: false)
                         }
                     } catch {

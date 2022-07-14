@@ -210,8 +210,39 @@ class Router {
             vc.isEventAdmin = isEventAdmin
             go(withVC: controller)
         }
-        
     }
+    
+    func toSTutorialScreensOneVC()  {
+        let id = "TutorialScreensOneNC"
+        let nextVC = Initializer.createViewController(storyBoard: .TutorialScreens, andId: id)
+        go(withVC: nextVC)
+    }
+    func toSTutorialScreensTwoVC()  {
+        let id = "TutorialScreensTwoNC"
+        let nextVC = Initializer.createViewController(storyBoard: .TutorialScreens, andId: id)
+        go(withVC: nextVC)
+    }
+    func toSTutorialScreensThreeVC()  {
+        let id = "TutorialScreensThreeNC"
+        let nextVC = Initializer.createViewController(storyBoard: .TutorialScreens, andId: id)
+        go(withVC: nextVC)
+    }
+    func toSTutorialScreensFourVC()  {
+        let id = "TutorialScreensFourNC"
+        let nextVC = Initializer.createViewController(storyBoard: .TutorialScreens, andId: id)
+        go(withVC: nextVC)
+    }
+    func toSTutorialScreensFiveVC()  {
+        let id = "TutorialScreensFiveNC"
+        let nextVC = Initializer.createViewController(storyBoard: .TutorialScreens, andId: id)
+        go(withVC: nextVC)
+    }
+    func toSTutorialScreensSixVC()  {
+        let id = "TutorialScreensSixNC"
+        let nextVC = Initializer.createViewController(storyBoard: .TutorialScreens, andId: id)
+        go(withVC: nextVC)
+    }
+    
 }
 
 class HomeNC: UINavigationController {

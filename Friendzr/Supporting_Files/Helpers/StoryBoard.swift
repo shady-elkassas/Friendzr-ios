@@ -19,6 +19,7 @@ enum StoryBoard: String {
     case Events
     case FaceRecognition
     case Messages
+    case TutorialScreens
 }
 
 extension StoryBoard: Name {

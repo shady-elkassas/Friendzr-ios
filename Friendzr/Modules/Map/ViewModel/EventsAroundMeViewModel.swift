@@ -15,6 +15,7 @@ class EventsAroundMeViewModel {
     var locations : DynamicType<EventsAroundList> = DynamicType<EventsAroundList>()
     //    var events : DynamicType<EventsInLocations> = DynamicType<EventsInLocations>()
     var eventsOnlyMe : DynamicType<EventsOnlyAroundList> = DynamicType<EventsOnlyAroundList>()
+    var eventsOnlyMeTemp : EventsOnlyAroundList = EventsOnlyAroundMeModel()
     
     // Fields that bind to our view's
     var isSuccess : Bool = false
@@ -59,7 +60,7 @@ class EventsAroundMeViewModel {
         }
         
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-        let params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"categories": catIDs,"PageSize":100,"PageNumber":pageNumber]
+        let params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"categories": catIDs,"PageSize":3000,"PageNumber":pageNumber]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: params, andHeaders: headers) { (data,error) in
             
@@ -74,8 +75,19 @@ class EventsAroundMeViewModel {
             else {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
-                    self.eventsOnlyMe.value = toAdd
+                    if pageNumber > 1 {
+                        for itm in toAdd.data ?? [] {
+                            if !(self.eventsOnlyMeTemp.data?.contains(where: { $0.id == itm.id }) ?? false) {
+                                self.eventsOnlyMeTemp.data?.append(itm)
+                            }
+                        }
+                        self.eventsOnlyMe.value = self.eventsOnlyMeTemp
+                    } else {
+                        self.eventsOnlyMe.value = toAdd
+                        self.eventsOnlyMeTemp = toAdd
+                    }
                 }
+                
             }
         }
     }

@@ -322,6 +322,13 @@
 		43D0092E2794418C00370E2C /* HideGhostModeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D009302794418C00370E2C /* HideGhostModeView.xib */; };
 		43D00935279441BD00370E2C /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43D00937279441BD00370E2C /* Profile.storyboard */; };
 		43D10EAB271EB6440099A995 /* SearchUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D10EAA271EB6440099A995 /* SearchUserViewModel.swift */; };
+		43D1A4A228802B6500830D8D /* TutorialScreens.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43D1A4A128802B6500830D8D /* TutorialScreens.storyboard */; };
+		43D1A4A5288036F700830D8D /* TutorialScreensOneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D1A4A4288036F700830D8D /* TutorialScreensOneVC.swift */; };
+		43D1A4A728803A2500830D8D /* TutorialScreensTwoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D1A4A628803A2500830D8D /* TutorialScreensTwoVC.swift */; };
+		43D1A4A928803A9200830D8D /* TutorialScreensThreeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D1A4A828803A9200830D8D /* TutorialScreensThreeVC.swift */; };
+		43D1A4AB28803B6D00830D8D /* TutorialScreensFourVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D1A4AA28803B6D00830D8D /* TutorialScreensFourVC.swift */; };
+		43D1A4AD28803B8800830D8D /* TutorialScreensFiveVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D1A4AC28803B8800830D8D /* TutorialScreensFiveVC.swift */; };
+		43D1A4AF28803B9500830D8D /* TutorialScreensSixVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D1A4AE28803B9500830D8D /* TutorialScreensSixVC.swift */; };
 		43D527EC2834FF260002FC64 /* MessagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D527EB2834FF260002FC64 /* MessagesManager.swift */; };
 		43D545A426CB9DDD0064660A /* AddEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545A326CB9DDD0064660A /* AddEventVC.swift */; };
 		43D545A926CBB0450064660A /* EventCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545A826CBB0450064660A /* EventCalendarView.swift */; };
@@ -735,6 +742,13 @@
 		43D0092F2794418C00370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/HideGhostModeView.xib; sourceTree = "<group>"; };
 		43D00936279441BD00370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Profile.storyboard; sourceTree = "<group>"; };
 		43D10EAA271EB6440099A995 /* SearchUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserViewModel.swift; sourceTree = "<group>"; };
+		43D1A4A128802B6500830D8D /* TutorialScreens.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TutorialScreens.storyboard; sourceTree = "<group>"; };
+		43D1A4A4288036F700830D8D /* TutorialScreensOneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScreensOneVC.swift; sourceTree = "<group>"; };
+		43D1A4A628803A2500830D8D /* TutorialScreensTwoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScreensTwoVC.swift; sourceTree = "<group>"; };
+		43D1A4A828803A9200830D8D /* TutorialScreensThreeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScreensThreeVC.swift; sourceTree = "<group>"; };
+		43D1A4AA28803B6D00830D8D /* TutorialScreensFourVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScreensFourVC.swift; sourceTree = "<group>"; };
+		43D1A4AC28803B8800830D8D /* TutorialScreensFiveVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScreensFiveVC.swift; sourceTree = "<group>"; };
+		43D1A4AE28803B9500830D8D /* TutorialScreensSixVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScreensSixVC.swift; sourceTree = "<group>"; };
 		43D527EB2834FF260002FC64 /* MessagesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesManager.swift; sourceTree = "<group>"; };
 		43D545A326CB9DDD0064660A /* AddEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventVC.swift; sourceTree = "<group>"; };
 		43D545A826CBB0450064660A /* EventCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCalendarView.swift; sourceTree = "<group>"; };
@@ -1642,6 +1656,7 @@
 			isa = PBXGroup;
 			children = (
 				43CCD4A7279424FE00C2E46D /* Splach.storyboard */,
+				43D1A4A128802B6500830D8D /* TutorialScreens.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1649,6 +1664,7 @@
 		4382ACAF26C28FF1005C1857 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				43D1A4A3288036DB00830D8D /* TutorialScreens */,
 				43FDDD792701D9F400550876 /* SplachVC.swift */,
 				4382ACB226C29019005C1857 /* SplachOneVC.swift */,
 				4382ACB926C2AFC2005C1857 /* SplachTwoVC.swift */,
@@ -1735,6 +1751,19 @@
 				43B22435274E82B6004C6912 /* TagsLayout.swift */,
 			);
 			path = TagsSource;
+			sourceTree = "<group>";
+		};
+		43D1A4A3288036DB00830D8D /* TutorialScreens */ = {
+			isa = PBXGroup;
+			children = (
+				43D1A4A4288036F700830D8D /* TutorialScreensOneVC.swift */,
+				43D1A4A628803A2500830D8D /* TutorialScreensTwoVC.swift */,
+				43D1A4A828803A9200830D8D /* TutorialScreensThreeVC.swift */,
+				43D1A4AA28803B6D00830D8D /* TutorialScreensFourVC.swift */,
+				43D1A4AC28803B8800830D8D /* TutorialScreensFiveVC.swift */,
+				43D1A4AE28803B9500830D8D /* TutorialScreensSixVC.swift */,
+			);
+			path = TutorialScreens;
 			sourceTree = "<group>";
 		};
 		43D545A526CBB01B0064660A /* CustomViews */ = {
@@ -1998,6 +2027,7 @@
 				43886864278344F1004D36B2 /* ProblemTableViewCell.xib in Resources */,
 				432098D427956E5F005B83A8 /* More.storyboard in Resources */,
 				4382AC9A26C27FF2005C1857 /* Montserrat-Light.ttf in Resources */,
+				43D1A4A228802B6500830D8D /* TutorialScreens.storyboard in Resources */,
 				43CBA9C927DA2D13006020FC /* StatisticsDetailsTableViewCell.xib in Resources */,
 				43FC3C9E2726F7BA00D94ABB /* LoadingView.xib in Resources */,
 				43B8288327EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.xib in Resources */,
@@ -2206,6 +2236,7 @@
 				4333DA7726C3BC350029F2B0 /* OptionsSignUpVC.swift in Sources */,
 				43375F5F271313C4009EBED6 /* NotificationTableViewCell.swift in Sources */,
 				430A351926CAA97F00477A94 /* HideGhostModeView.swift in Sources */,
+				43D1A4A5288036F700830D8D /* TutorialScreensOneVC.swift in Sources */,
 				430DCA3D283CCB1B00A2ED11 /* KeyboardHandler.swift in Sources */,
 				43148538278C3E110048EC01 /* SelectedFriendTableViewCell.swift in Sources */,
 				4336D12F26DB8AF80093C7A6 /* CheckUserNameViewModel.swift in Sources */,
@@ -2222,6 +2253,7 @@
 				4314853B278C42930048EC01 /* AddGroupVC.swift in Sources */,
 				4382ACBE26C2AFF7005C1857 /* SplachFourVC.swift in Sources */,
 				4382AC6726C27D33005C1857 /* UIFontExtension.swift in Sources */,
+				43D1A4A728803A2500830D8D /* TutorialScreensTwoVC.swift in Sources */,
 				43FC58D8286C490F001ADE2C /* WelcomeVC.swift in Sources */,
 				43148540278D86570048EC01 /* StatisticsCollectionViewCell.swift in Sources */,
 				4344107C26CD54D600F8233E /* CategoriesView.swift in Sources */,
@@ -2261,11 +2293,13 @@
 				43C0E18227FB28CD00555023 /* Celebrity.swift in Sources */,
 				43B8287D27E9C53F005FF1D1 /* EventTypeViewModel.swift in Sources */,
 				436850982745008500A62287 /* InstagramWebVC.swift in Sources */,
+				43D1A4AD28803B8800830D8D /* TutorialScreensFiveVC.swift in Sources */,
 				4369F4532797278000D5E064 /* AddNewUsersForMyGroupVC.swift in Sources */,
 				4320A65226F234BF003604EE /* UpdateLocationViewModel.swift in Sources */,
 				43F473BB26E63FAE001E4FAE /* EditEventViewModel.swift in Sources */,
 				4345BA3C271C15410076101A /* GenderbylocationModel.swift in Sources */,
 				43A3326F2782FBF9001ADB84 /* ReportVC.swift in Sources */,
+				43D1A4AF28803B9500830D8D /* TutorialScreensSixVC.swift in Sources */,
 				43D545B726CBD8340064660A /* MagneticView.swift in Sources */,
 				43C64A0227957DFE00C35FA8 /* GroupViewModel.swift in Sources */,
 				432C6AD926F33BDF0029FB89 /* TagListView.swift in Sources */,
@@ -2375,6 +2409,7 @@
 				4360CD0427F07A39009A51C7 /* ExternalEventDetailsVC.swift in Sources */,
 				433CDE2527CE0E0900A80A40 /* FacialRecognitionPopUpView.swift in Sources */,
 				43ACFEC727B3B464001CD340 /* EventDateAndTimeTableViewCell.swift in Sources */,
+				43D1A4A928803A9200830D8D /* TutorialScreensThreeVC.swift in Sources */,
 				43119D7226E4EFEB00AD2260 /* TitleEventViewModel.swift in Sources */,
 				43AF3534284E124200B65773 /* SortFeedView.swift in Sources */,
 				43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */,
@@ -2433,6 +2468,7 @@
 				43FC3CAF2729686D00D94ABB /* Downloader.swift in Sources */,
 				43FDDD7A2701D9F400550876 /* SplachVC.swift in Sources */,
 				4382AC6226C27BC7005C1857 /* LoadingView.swift in Sources */,
+				43D1A4AB28803B6D00830D8D /* TutorialScreensFourVC.swift in Sources */,
 				430D426126D3A10F00188E42 /* EventTableViewCell.swift in Sources */,
 				43ACFECF27B3B6A5001CD340 /* EventStatisticsTableViewCell.swift in Sources */,
 				43526909276A0EDC00540726 /* BottomSheetViewController.swift in Sources */,
@@ -2906,7 +2942,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11.0;
+				CURRENT_PROJECT_VERSION = 12.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2942,7 +2978,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11.0;
+				CURRENT_PROJECT_VERSION = 12.0;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;

@@ -67,8 +67,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK:- Outlets
     @IBOutlet weak var nextBtn: UIButton!
+    @IBOutlet weak var lastNextBtn: UIButton!
     @IBOutlet weak var showAddEventExplainedView: UIView!
     @IBOutlet weak var showFilterExplainedView: UIView!
+    @IBOutlet weak var showNearByEventsExplainedView: UIView!
+    @IBOutlet weak var nearByEventsExplainedSubView: UIView!
+    @IBOutlet weak var nearByEventsDialogueView: UIView!
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var addEventBtn: UIButton!
     @IBOutlet weak var goAddEventBtn: UIButton!
@@ -93,7 +97,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var noeventNearbyLbl: UILabel!
     @IBOutlet weak var hideCollectionView: UIView!
     @IBOutlet var hideImgs: [UIImageView]!
-//    @IBOutlet weak var dualogImg: UIImageView!
+    //    @IBOutlet weak var dualogImg: UIImageView!
     @IBOutlet weak var nextToShowMapBtn: UIButton!
     @IBOutlet weak var catsSuperView: UIView!
     @IBOutlet weak var catsSubView: UIView!
@@ -101,6 +105,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBOutlet weak var catsCollectionViewHeight: NSLayoutConstraint!
     @IBOutlet weak var applyBtn: UIButton!
     @IBOutlet weak var fakeAddEventBtn: UIButton!
+    
+    @IBOutlet weak var addEventDialogueLbl: UILabel!
+    @IBOutlet weak var filterDialogueLbl: UILabel!
+    @IBOutlet weak var nearByEventsDialogueLbl: UILabel!
+    
+    
     
     //MARK: - Properties
     lazy var showAlertView = Bundle.main.loadNibNamed("MapAlertView", owner: self, options: nil)?.first as? MapAlertView
@@ -143,6 +153,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var switchFilterButton: CustomSwitch = CustomSwitch()
     
     private var layout: UICollectionViewFlowLayout!
+    
+    var currentPage : Int = 1
+    var isLoadingList : Bool = false
+    var activityIndiator : UIActivityIndicatorView? = UIActivityIndicatorView()
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -242,8 +256,39 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     
+    
+    //createFooterView
+    func createFooterView() -> UIView {
+        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: collectionView.frame.height))
+        let indicatorView = UIActivityIndicatorView()
+        indicatorView.center = footerview.center
+        footerview.addSubview(indicatorView)
+        indicatorView.startAnimating()
+        return footerview
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if(((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList) {
+            self.isLoadingList = true
+            if currentPage < viewmodel.eventsOnlyMe.value?.totalPages ?? 0 {
+                print("self.currentPage >> \(self.currentPage)")
+                self.collectionView.bringSubviewToFront(createFooterView())
+                self.loadMoreItemsForList()
+            }
+            else {
+                return
+            }
+        }
+    }
+    
+    
+    func loadMoreItemsForList(){
+        currentPage += 1
+        getEventsOnlyAroundMe(pageNumber: currentPage)
+    }
+    
     //MARK: - APIs
-    func getEventsOnlyAroundMe() {
+    func getEventsOnlyAroundMe(pageNumber:Int) {
         
         self.subView.isHidden = false
         self.upDownViewBtn.isHidden = false
@@ -257,41 +302,46 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         self.hideCollectionView.showLoader()
-        viewmodel.getAllEventsOnlyAroundMe(ByCatIds: catIDs, pageNumber: 1)
+        viewmodel.getAllEventsOnlyAroundMe(ByCatIds: catIDs, pageNumber: pageNumber)
         viewmodel.eventsOnlyMe.bind { [unowned self] value in
+            
             DispatchQueue.main.asyncAfter(deadline: .now()) {
-                DispatchQueue.main.async {
-                    self.collectionView.dataSource = self
-                    self.collectionView.delegate = self
-                    self.collectionView.reloadData()
-                }
-                
-                DispatchQueue.main.async {
-                    if self.isViewUp == true {
-                        self.collectionViewHeight.constant = 140
-                        self.subViewHeight.constant = 190
-                        
-                        if value.data?.count == 0 {
-                            self.noeventNearbyLbl.isHidden = false
-                            if self.switchFilterButton.isOn == true {
-                                self.noeventNearbyLbl.text = "No events as yet in your chosen categories. Adjust your settings or check back later."
+                if Defaults.availableVC == "MapVC" {
+                    DispatchQueue.main.async {
+                        self.collectionView.dataSource = self
+                        self.collectionView.delegate = self
+                        self.collectionView.reloadData()
+                    }
+                    
+                    DispatchQueue.main.async {
+                        if self.isViewUp == true {
+                            self.collectionViewHeight.constant = 140
+                            self.subViewHeight.constant = 190
+                            
+                            if value.data?.count == 0 {
+                                self.noeventNearbyLbl.isHidden = false
+                                if self.switchFilterButton.isOn == true {
+                                    self.noeventNearbyLbl.text = "No events as yet in your chosen categories. Adjust your settings or check back later."
+                                }else {
+                                    self.noeventNearbyLbl.text = "No events as yet."
+                                }
                             }else {
-                                self.noeventNearbyLbl.text = "No events as yet."
+                                self.noeventNearbyLbl.isHidden = true
                             }
                         }else {
+                            self.collectionViewHeight.constant = 0
+                            self.subViewHeight.constant = 50
                             self.noeventNearbyLbl.isHidden = true
+                            self.hideCollectionView.isHidden = true
                         }
-                    }else {
-                        self.collectionViewHeight.constant = 0
-                        self.subViewHeight.constant = 50
-                        self.noeventNearbyLbl.isHidden = true
-                        self.hideCollectionView.isHidden = true
                     }
-                }
-                
-                DispatchQueue.main.async {
-                    self.hideCollectionView.hideLoader()
-                    self.hideCollectionView.isHidden = true
+                    
+                    DispatchQueue.main.async {
+                        self.hideCollectionView.hideLoader()
+                        self.hideCollectionView.isHidden = true
+//                        self.collectionView.willRemoveSubview(createFooterView())
+                        self.isLoadingList = false
+                    }
                 }
             }
         }
@@ -313,22 +363,26 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.getAllEventsAroundMe(ByCatIds: catIDs)
         viewmodel.locations.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
-                let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
-                print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
-                
-                print("peoplocationDataCount>> \(value.peoplocationDataMV?.count ?? 0)")
-                print("eventlocationDataCount>> \(value.eventlocationDataMV?.count ?? 0)")
+//                let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
+//                print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
+//
+//                print("peoplocationDataCount>> \(value.peoplocationDataMV?.count ?? 0)")
+//                print("eventlocationDataCount>> \(value.eventlocationDataMV?.count ?? 0)")
                 
                 DispatchQueue.main.async {
-                    self.locationsModel = value
+                    if Defaults.availableVC == "MapVC" {
+                        self.locationsModel = value
+                    }
                 }
                 
                 DispatchQueue.main.async {
-                    self.setupMarkers(model: value)
+                    if Defaults.availableVC == "MapVC" {
+                        self.setupMarkers(model: value)
+                    }
                 }
                 
-                let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
-                print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
+//                let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
+//                print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
             }
         }
         
@@ -630,10 +684,14 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         currentLocationBtn.cornerRadiusView(radius: 10)
         topContainerView.cornerRadiusView(radius: 10)
         nextBtn.setBorder(color: UIColor.white.cgColor, width: 2)
+        lastNextBtn.setBorder(color: UIColor.white.cgColor, width: 2)
         nextToShowMapBtn.setBorder(color: UIColor.white.cgColor, width: 2)
         nextBtn.cornerRadiusForHeight()
+        lastNextBtn.cornerRadiusForHeight()
         nextToShowMapBtn.cornerRadiusForHeight()
         bannerView.cornerRadiusView(radius: 8)
+        nearByEventsDialogueView.cornerRadiusView(radius: 8)
+        nearByEventsExplainedSubView.setCornerforTop()
         
         profileImg.isHidden = true
         searchBar.delegate = self
@@ -878,7 +936,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 }
                 
                 DispatchQueue.main.async {
-                    self.getEventsOnlyAroundMe()
+                    self.currentPage = 1
+                    self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
                 }
             }
             
@@ -899,10 +958,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     @IBAction func nextBtn(_ sender: Any) {
         Defaults.isFirstOpenMap = true
         
+        switchFilterButton.isUserInteractionEnabled = true
+        
         showAddEventExplainedView.isHidden = true
         showFilterExplainedView.isHidden = true
-        
-        switchFilterButton.isUserInteractionEnabled = true
+        showNearByEventsExplainedView.isHidden = true
         
         if Defaults.token != "" {
             initProfileBarButton(didTap: true)
@@ -910,9 +970,17 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     @IBAction func nextToShowMapBtn(_ sender: Any) {
+        showAddEventExplainedView.isHidden = true
+        showFilterExplainedView.isHidden = true
+        showNearByEventsExplainedView.isHidden = false
+    }
+    
+    @IBAction func lastNextBtn(_ sender: Any) {
         showAddEventExplainedView.isHidden = false
         showFilterExplainedView.isHidden = true
+        showNearByEventsExplainedView.isHidden = true
     }
+    
     
     @IBAction func addEventBtn(_ sender: Any) {
         if Defaults.token != "" {
@@ -1019,9 +1087,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
                     
                     DispatchQueue.main.async {
-                        self.getEventsOnlyAroundMe()
+                        self.currentPage = 1
+                        self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
                     }
-                    
                 }else {
                     print("Down")
                     collectionViewHeight.constant = 0
@@ -1205,6 +1273,16 @@ extension MapVC : CLLocationManagerDelegate {
     func checkLocationPermission() {
         
         if !Defaults.isFirstOpenMap {
+            if Defaults.token != "" {
+                nearByEventsDialogueLbl.text = "You can browse a list of events nearest to you here."
+                filterDialogueLbl.text = "Click to set and display events from your preferred interest categories."
+                addEventDialogueLbl.text = "To create an event, click on “+” to select a location on the map for your event then click “+” again to confirm location."
+            }else {
+                nearByEventsDialogueLbl.text = "You can browse a list of events nearest to you here."
+                filterDialogueLbl.text = "You can sort filter events by your interests here."
+                addEventDialogueLbl.text = "You can add your own event to the map here – inviting your connections or opening to all Friendzrs."
+            }
+            
             showFilterExplainedView.isHidden = false
             switchFilterButton.isUserInteractionEnabled = false
             addEventBtn.isUserInteractionEnabled = false
@@ -1732,7 +1810,8 @@ extension MapVC {
             }
             
             DispatchQueue.main.async {
-                self.getEventsOnlyAroundMe()
+                self.currentPage = 1
+                self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
             }
         }
     }
@@ -1851,7 +1930,8 @@ extension MapVC {
                             }
                             
                             DispatchQueue.main.async {
-                                self.getEventsOnlyAroundMe()
+                                self.currentPage = 1
+                                self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
                             }
                         }
                     }
@@ -1972,7 +2052,8 @@ extension MapVC {
                     arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
                     
                     DispatchQueue.main.async {
-                        self.getEventsOnlyAroundMe()
+                        self.currentPage = 1
+                        self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
                     }
                 }
                 else {

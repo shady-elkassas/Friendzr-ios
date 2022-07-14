@@ -398,7 +398,7 @@
                                             <action selector="next1Btn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="ty3-Gg-qOW"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Point your phone in any direction; Friendzrs are listed nearest first in that direction" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tev-W4-QGL">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Point your phone in any direction; Friendzrs are listed nearest first in that direction." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tev-W4-QGL">
                                         <rect key="frame" x="140" y="108" width="252" height="100"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -440,7 +440,7 @@
                                             <action selector="next2Btn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="aZu-7o-c9i"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose who you want to see and be seen by with Private Mode" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rpB-09-hOO">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose who you want to see and be seen by with Private Mode." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rpB-09-hOO">
                                         <rect key="frame" x="22" y="108" width="252" height="100"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -481,7 +481,7 @@
                                             <action selector="next3Btn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="jaw-OH-mXF"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toggle to sort your Friendzr feed by shared interests" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CcC-Y5-cu6">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toggle to sort your Friendzr feed by shared interests." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CcC-Y5-cu6">
                                         <rect key="frame" x="77" y="108" width="252" height="100"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -536,7 +536,6 @@
                             <constraint firstItem="o4n-R1-jfN" firstAttribute="top" secondItem="7Fr-Gq-kyy" secondAttribute="bottom" id="V90-gc-4oM"/>
                             <constraint firstItem="hZq-B0-pTT" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="VJD-JU-830"/>
                             <constraint firstItem="7Fr-Gq-kyy" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="ZXe-nr-Kcy"/>
-                            <constraint firstItem="70B-xc-2Xj" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="b0t-aJ-soU"/>
                             <constraint firstItem="UtC-Tq-WiR" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="bzr-Hr-yJC"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="UtC-Tq-WiR" secondAttribute="trailing" id="eGJ-AB-Wal"/>
                             <constraint firstItem="nP1-or-ir0" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="gmJ-bI-kXd"/>
@@ -549,7 +548,7 @@
                             <constraint firstItem="kUS-Fs-1FK" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="pvv-g9-VnA"/>
                             <constraint firstItem="AmQ-Mf-f01" firstAttribute="centerY" secondItem="o4n-R1-jfN" secondAttribute="centerY" id="qin-mn-d8N"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="kUS-Fs-1FK" secondAttribute="bottom" id="rYi-Pk-O44"/>
-                            <constraint firstItem="70B-xc-2Xj" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="raU-hq-sCB"/>
+                            <constraint firstItem="70B-xc-2Xj" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="raU-hq-sCB"/>
                             <constraint firstItem="o4n-R1-jfN" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="sgT-dj-jB4"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="nP1-or-ir0" secondAttribute="trailing" id="uqB-Gu-23j"/>
                             <constraint firstItem="U4C-4L-NwC" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="wp1-Ct-5YS"/>
@@ -567,6 +566,7 @@
                         <outlet property="bannerViewHeight" destination="WKZ-6S-D4F" id="m4J-4Q-OjB"/>
                         <outlet property="compassContainerViewHeight" destination="4Bv-0N-4fk" id="uPU-E8-jy4"/>
                         <outlet property="compassContanierView" destination="o4n-R1-jfN" id="4Nq-wA-Uk6"/>
+                        <outlet property="compasslDialogueLbl" destination="tev-W4-QGL" id="NG5-nw-1LA"/>
                         <outlet property="dialogimg" destination="QsD-Ea-3kU" id="h16-a2-wMW"/>
                         <outlet property="emptyImg" destination="m1f-iK-ouZ" id="gax-e9-jVc"/>
                         <outlet property="emptyLbl" destination="pPN-NP-zJa" id="QfM-hY-1Jv"/>
@@ -576,9 +576,11 @@
                         <outlet property="next1Btn" destination="elc-iH-3pR" id="42g-Kz-61T"/>
                         <outlet property="next2Btn" destination="qdJ-by-yHS" id="I9k-aF-fEz"/>
                         <outlet property="next3Btn" destination="AaF-th-pBf" id="22f-ys-gkA"/>
+                        <outlet property="privateModelDialogueLbl" destination="rpB-09-hOO" id="PdS-EP-1cw"/>
                         <outlet property="showCompassExplainedView" destination="UtC-Tq-WiR" id="h5w-bT-YtJ"/>
                         <outlet property="showPrivateModeExplainedView" destination="7Fr-Gq-kyy" id="L26-mU-crV"/>
                         <outlet property="showSortByInterestsExplainedView" destination="70B-xc-2Xj" id="nuA-iU-A89"/>
+                        <outlet property="sortDialogueLbl" destination="CcC-Y5-cu6" id="nmt-9H-SHY"/>
                         <outlet property="tableView" destination="U4C-4L-NwC" id="hdN-aa-eUb"/>
                         <outlet property="tryAgainBtn" destination="My6-XU-aBM" id="Pvf-K7-dwe"/>
                         <outletCollection property="proImgs" destination="N7R-jI-QxR" collectionClass="NSMutableArray" id="VNB-EI-El3"/>

@@ -44,7 +44,7 @@ class LoginViewModel {
         var parameters:[String : Any] = ["email": email,"Password":password,"logintype":0,"FcmToken":Defaults.fcmToken,"platform":2]
         
         if Defaults.fcmToken == "" {
-        parameters = ["email": email,"Password":password,"logintype":0,"platform":2]
+            parameters = ["email": email,"Password":password,"logintype":0,"platform":2]
         }
         
         let headers = RequestComponent.headerComponent([.type,.lang])
@@ -65,6 +65,8 @@ class LoginViewModel {
                 if let toAdd = userResponse.data {
                     print("toAdd ::: \(toAdd)")
                     Defaults.initUser(user: toAdd)
+                    Defaults.isFirstOpenMap = false
+                    Defaults.isFirstOpenFeed = false
                     completion(nil,toAdd)
                 }
             }

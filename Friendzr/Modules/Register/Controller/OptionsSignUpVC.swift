@@ -19,7 +19,6 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
     @IBOutlet weak var facebookView: UIView!
     @IBOutlet weak var appleView: UIView!
     @IBOutlet weak var googleView: UIView!
-    
     @IBOutlet weak var termsLbl: UILabel!
     
     //MARK: - Properties

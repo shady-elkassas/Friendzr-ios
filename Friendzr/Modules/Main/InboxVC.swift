@@ -84,7 +84,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         initProfileBarButton(didTap: true)
         hideKeyboardWhenTappedAround()
         currentPage = 1
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -501,9 +500,6 @@ extension InboxVC:UITableViewDelegate {
                 }
             }else {
                 self.tableView.tableFooterView = nil
-                DispatchQueue.main.async {
-                    //                    self.view.makeToast("No more data".localizedString)
-                }
                 return
             }
         }

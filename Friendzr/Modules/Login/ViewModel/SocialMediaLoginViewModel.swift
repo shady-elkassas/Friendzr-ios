@@ -38,6 +38,8 @@ class SocialMediaLoginViewModel {
                 if let toAdd = userResponse.data {
                     print("toAdd ::: \(toAdd)")
                     Defaults.initUser(user: toAdd)
+                    Defaults.isFirstOpenMap = false
+                    Defaults.isFirstOpenFeed = false
                     completion(nil,toAdd)
                 }
             }

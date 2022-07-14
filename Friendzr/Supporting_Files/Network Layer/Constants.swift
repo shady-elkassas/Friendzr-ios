@@ -9,7 +9,7 @@ import Foundation
 
 class URLs {
     static let baseURLFirst = "https://localtest.friendzsocialmedia.com/api/" //local
-//    static let baseURLFirst = "https://www.friendzsocialmedia.com/api/" //product
+    //    static let baseURLFirst = "https://www.friendzsocialmedia.com/api/" //product
     static let adUnitBanner = "ca-app-pub-6206027456764756/2868537426"
     static let adUnitVedio = "ca-app-pub-7917057038053337/7021771981"
 }

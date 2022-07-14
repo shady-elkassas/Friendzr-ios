@@ -33,9 +33,10 @@ class WelcomeVC: UIViewController {
 
         player = AVPlayer(url: URL(fileURLWithPath: path))
         playerLayer = AVPlayerLayer(player: player)
-        playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        playerLayer.videoGravity = AVLayerVideoGravity.resize
         playerLayer.backgroundColor = UIColor.white.cgColor
         videoView.layer.addSublayer(playerLayer)
+        
 //        NotificationCenter.default.addObserver(self, selector:  #selector(playerItemDidReachEnd), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: self.player.currentItem)
         player.play()
         

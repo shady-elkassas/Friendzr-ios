@@ -162,6 +162,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet var proImgs: [UIImageView]!
     
     
+    @IBOutlet weak var sortDialogueLbl: UILabel!
+    @IBOutlet weak var privateModelDialogueLbl: UILabel!
+    @IBOutlet weak var compasslDialogueLbl: UILabel!
+    
     var bannerView2: GADBannerView!
     
     //MARK: - Properties
@@ -366,6 +370,18 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             
             self.allowLocView.isHidden = true
             if !Defaults.isFirstOpenFeed {
+                
+                if Defaults.token != "" {
+                    privateModelDialogueLbl.text = "Choose who you want to see and be seen by with Private Mode."
+                    compasslDialogueLbl.text = "Point your phone in any direction; Friendzrs are listed nearest first in that direction."
+                    sortDialogueLbl.text = "Toggle to sort your Friendzr feed by shared interests."
+                }else {
+                    privateModelDialogueLbl.text = "You can sort the Feed by those who share your interests here."
+                    compasslDialogueLbl.text = "You can sort the Feed by those nearest to you by pointing the phone in any direction."
+                    sortDialogueLbl.text = "You can filter the Feed by the groups you want to see (and be seen by)"
+                }
+                
+                
                 showCompassExplainedView.isHidden = false
                 showPrivateModeExplainedView.isHidden = true
                 showSortByInterestsExplainedView.isHidden = true
@@ -377,7 +393,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 showCompassExplainedView.isHidden = true
                 showPrivateModeExplainedView.isHidden = true
                 showSortByInterestsExplainedView.isHidden = true
-                
                 switchSortedByInterestsButton.isUserInteractionEnabled = true
                 switchCompassBarButton.isUserInteractionEnabled = true
                 switchGhostModeBarButton.isUserInteractionEnabled = true
@@ -615,6 +630,16 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 self.hideView.isHidden = false
                 
                 if !Defaults.isFirstOpenFeed {
+                    if Defaults.token != "" {
+                        self.privateModelDialogueLbl.text = "Choose who you want to see and be seen by with Private Mode."
+                        self.compasslDialogueLbl.text = "Point your phone in any direction; Friendzrs are listed nearest first in that direction."
+                        self.sortDialogueLbl.text = "Toggle to sort your Friendzr feed by shared interests."
+                    }else {
+                        self.privateModelDialogueLbl.text = "You can filter the Feed by the groups you want to see (and be seen by)."
+                        self.compasslDialogueLbl.text = "You can sort the Feed by those nearest to you by pointing the phone in any direction."
+                        self.sortDialogueLbl.text = "You can sort the Feed by those who share your interests here."
+                    }
+                    
                     self.showCompassExplainedView.isHidden = false
                     self.showPrivateModeExplainedView.isHidden = true
                     self.showSortByInterestsExplainedView.isHidden = true
@@ -662,6 +687,16 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 self.hideView.isHidden = false
                 
                 if !Defaults.isFirstOpenFeed {
+                    if Defaults.token != "" {
+                        self.privateModelDialogueLbl.text = "Choose who you want to see and be seen by with Private Mode."
+                        self.compasslDialogueLbl.text = "Point your phone in any direction; Friendzrs are listed nearest first in that direction."
+                        self.sortDialogueLbl.text = "Toggle to sort your Friendzr feed by shared interests."
+                    }else {
+                        self.privateModelDialogueLbl.text = "You can filter the Feed by the groups you want to see (and be seen by)."
+                        self.compasslDialogueLbl.text = "You can sort the Feed by those nearest to you by pointing the phone in any direction."
+                        self.sortDialogueLbl.text = "You can sort the Feed by those who share your interests here."
+                    }
+                    
                     self.showCompassExplainedView.isHidden = false
                     self.showPrivateModeExplainedView.isHidden = true
                     self.showSortByInterestsExplainedView.isHidden = true
@@ -917,10 +952,20 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 hideView.isHidden = true
                 
                 if !Defaults.isFirstOpenFeed {
+                    
+                    if Defaults.token != "" {
+                        privateModelDialogueLbl.text = "Choose who you want to see and be seen by with Private Mode."
+                        compasslDialogueLbl.text = "Point your phone in any direction; Friendzrs are listed nearest first in that direction."
+                        sortDialogueLbl.text = "Toggle to sort your Friendzr feed by shared interests."
+                    }else {
+                        privateModelDialogueLbl.text = "You can sort the Feed by those who share your interests here."
+                        compasslDialogueLbl.text = "You can sort the Feed by those nearest to you by pointing the phone in any direction."
+                        sortDialogueLbl.text = "You can filter the Feed by the groups you want to see (and be seen by)"
+                    }
+                    
                     showCompassExplainedView.isHidden = false
                     showPrivateModeExplainedView.isHidden = true
                     showSortByInterestsExplainedView.isHidden = true
-                    
                     switchSortedByInterestsButton.isUserInteractionEnabled = false
                     switchCompassBarButton.isUserInteractionEnabled = false
                     switchGhostModeBarButton.isUserInteractionEnabled = false
@@ -928,7 +973,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                     showCompassExplainedView.isHidden = true
                     showPrivateModeExplainedView.isHidden = true
                     showSortByInterestsExplainedView.isHidden = true
-                    
                     switchSortedByInterestsButton.isUserInteractionEnabled = true
                     switchCompassBarButton.isUserInteractionEnabled = true
                     switchGhostModeBarButton.isUserInteractionEnabled = true
