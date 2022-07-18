@@ -2,7 +2,7 @@
 //  CategoriesViewController.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 05/06/2022.
+//  Created by Muhammad Sabri Saad on 05/06/2022.
 //
 
 import UIKit

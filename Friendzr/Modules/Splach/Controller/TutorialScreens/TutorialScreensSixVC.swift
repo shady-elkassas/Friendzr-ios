@@ -2,10 +2,12 @@
 //  TutorialScreensSixVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 14/07/2022.
+//  Created by Muhammad Sabri Saad on 14/07/2022.
 //
 
 import UIKit
+import MediaPlayer
+import AVFoundation
 
 class TutorialScreensSixVC: UIViewController {
     
@@ -13,9 +15,12 @@ class TutorialScreensSixVC: UIViewController {
     @IBOutlet weak var skipBtn: UIButton!
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var exitBTn: UIButton!
+    @IBOutlet weak var animationsView: UIView!
 
     var selectVC:String = ""
-    
+    var player:AVPlayer = AVPlayer()
+    var playerLayer = AVPlayerLayer()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,26 +35,40 @@ class TutorialScreensSixVC: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
         
         if selectVC == "MoreVC" {
-            
             initBackButton()
             hideNavigationBar(NavigationBar: false, BackButton: false)
-            nextBtn.isHidden = false
             skipBtn.isHidden = true
-            exitBTn.isHidden = true
-            
-            nextBtn.setTitle("EXIT", for: .normal)
-            nextBtn.backgroundColor = .white
-            nextBtn.setTitleColor(.black, for: .normal)
+            exitBTn.isHidden = false
         }
         else {
-            hideNavigationBar(NavigationBar: true, BackButton: true)
-            nextBtn.isHidden = false
-            skipBtn.isHidden = true
+            hideNavigationBar(NavigationBar: false, BackButton: true)
+            skipBtn.isHidden = false
             exitBTn.isHidden = true
-            
-            nextBtn.setTitle("Create Your Profile", for: .normal)
         }
+        
+        
+        setupAnimations()
     }
+    
+    func setupAnimations() {
+        guard let path = Bundle.main.path(forResource: "Tutorial6", ofType:"mov") else {
+            debugPrint("Tutorial6.mp4 not found")
+            return
+        }
+        
+        player = AVPlayer(url: URL(fileURLWithPath: path))
+        playerLayer = AVPlayerLayer(player: player)
+        playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        playerLayer.backgroundColor = UIColor.clear.cgColor
+        animationsView.layer.addSublayer(playerLayer)
+        player.play()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        playerLayer.frame = animationsView.layer.bounds
+    }
+    
     
     func setupViews() {
         nextBtn.cornerRadiusView(radius: 8)
@@ -60,9 +79,12 @@ class TutorialScreensSixVC: UIViewController {
     //MARK: - Actions
     @IBAction func nextBtn(_ sender: Any) {
         if selectVC == "MoreVC" {
-            Router().toMore()
-        }else {
-            Router().toEditProfileVC(needUpdate: true)
+            guard let vc = UIViewController.viewController(withStoryboard: .TutorialScreens, AndContollerID: "TutorialScreensSevenVC") as? TutorialScreensSevenVC else {return}
+            vc.selectVC = "MoreVC"
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
+            Router().toSTutorialScreensSevenVC()
         }
     }
     
@@ -70,7 +92,7 @@ class TutorialScreensSixVC: UIViewController {
         Router().toEditProfileVC(needUpdate: true)
     }
     
-    
     @IBAction func exitBtn(_ sender: Any) {
+        Router().toMore()
     }
 }

@@ -2,20 +2,26 @@
 //  TutorialScreensOneVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 14/07/2022.
+//  Created by Muhammad Sabri Saad on 14/07/2022.
 //
 
 import UIKit
+import MediaPlayer
+import AVFoundation
 
 class TutorialScreensOneVC: UIViewController {
     
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var skipBtn: UIButton!
     @IBOutlet weak var nextBtn: UIButton!
-    
+    @IBOutlet weak var animationsView: UIView!
     @IBOutlet weak var exitBTn: UIButton!
-    var selectVC:String = ""
     
+    
+    var selectVC:String = ""
+    var player:AVPlayer = AVPlayer()
+    var playerLayer = AVPlayerLayer()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,19 +42,40 @@ class TutorialScreensOneVC: UIViewController {
             exitBTn.isHidden = false
         }
         else {
-            hideNavigationBar(NavigationBar: true, BackButton: true)
+            hideNavigationBar(NavigationBar: false, BackButton: true)
             skipBtn.isHidden = false
             exitBTn.isHidden = true
         }
+        
+        
+        setupAnimations()
+    }
+    
+    func setupAnimations() {
+        guard let path = Bundle.main.path(forResource: "Tutorial1", ofType:"mov") else {
+            debugPrint("Tutorial1.mp4 not found")
+            return
+        }
+        
+        player = AVPlayer(url: URL(fileURLWithPath: path))
+        playerLayer = AVPlayerLayer(player: player)
+        playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        playerLayer.backgroundColor = UIColor.clear.cgColor
+        playerLayer.contentsFormat = .RGBA16Float
+        animationsView.layer.addSublayer(playerLayer)
+        player.play()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        playerLayer.frame = animationsView.layer.bounds
     }
     
     func setupViews() {
         nextBtn.cornerRadiusView(radius: 8)
         skipBtn.cornerRadiusView(radius: 8)
         exitBTn.cornerRadiusView(radius: 8)
-
     }
-    
     
     @IBAction func nextBtn(_ sender: Any) {        
         if selectVC == "MoreVC" {

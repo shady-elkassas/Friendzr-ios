@@ -1,15 +1,15 @@
 //
-//  WelcomeVC.swift
+//  LandingPageVC.swift
 //  Friendzr
 //
-//  Created by Muhammad Sabri Saad on 29/06/2022.
+//  Created by Muhammad Sabri Saad on 17/07/2022.
 //
 
 import UIKit
 import MediaPlayer
 import AVFoundation
 
-class WelcomeVC: UIViewController {
+class LandingPageVC: UIViewController {
     
     @IBOutlet weak var takeTourBtn: UIButton!
     @IBOutlet weak var loginBtn: UIButton!
@@ -38,7 +38,7 @@ class WelcomeVC: UIViewController {
         
         player = AVPlayer(url: URL(fileURLWithPath: path))
         playerLayer = AVPlayerLayer(player: player)
-        playerLayer.videoGravity = AVLayerVideoGravity.resize
+        playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         playerLayer.backgroundColor = UIColor.white.cgColor
         videoView.layer.addSublayer(playerLayer)
         

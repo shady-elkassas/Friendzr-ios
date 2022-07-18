@@ -82,7 +82,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
             DispatchQueue.main.asyncAfter(wallDeadline: .now()) {
                 if Defaults.needUpdate == 1 {
                     DispatchQueue.main.async {
-                        Router().toSplachOne()
+                        Router().toSTutorialScreensOneVC()
                     }
                 }
                 else {
@@ -202,7 +202,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.5) {
             if Defaults.needUpdate == 1 {
                 DispatchQueue.main.async {
-                    Router().toSplachOne()
+                    Router().toSTutorialScreensOneVC()
                 }
             }else {
                 if Defaults.token != "" {

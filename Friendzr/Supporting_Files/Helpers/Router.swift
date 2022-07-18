@@ -37,7 +37,7 @@ class Router {
     }
     
     func toWelcomeVC() {
-        let id = "WelcomeNC"
+        let id = "LandingPageNC"
         let nextVC = Initializer.createViewController(storyBoard: .Splach, andId: id)
         go(withVC: nextVC)
     }
@@ -243,6 +243,11 @@ class Router {
         go(withVC: nextVC)
     }
     
+    func toSTutorialScreensSevenVC()  {
+        let id = "TutorialScreensSevenNC"
+        let nextVC = Initializer.createViewController(storyBoard: .TutorialScreens, andId: id)
+        go(withVC: nextVC)
+    }
 }
 
 class HomeNC: UINavigationController {

@@ -2,7 +2,7 @@
 //  Typealiases.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 24/05/2022.
+//  Created by Muhammad Sabri Saad on 24/05/2022.
 //
 
 import Foundation

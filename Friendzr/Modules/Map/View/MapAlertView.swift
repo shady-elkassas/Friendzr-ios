@@ -2,7 +2,7 @@
 //  MapAlertView.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 07/07/2022.
+//  Created by Muhammad Sabri Saad on 07/07/2022.
 //
 
 import Foundation

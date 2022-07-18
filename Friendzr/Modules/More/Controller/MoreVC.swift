@@ -365,7 +365,7 @@ extension MoreVC : UITableViewDelegate {
             }
             break
         case 5://help
-            guard let vc = UIViewController.viewController(withStoryboard: .Splach, AndContollerID: "SplachOneVC") as? SplachOneVC else {return}
+            guard let vc = UIViewController.viewController(withStoryboard: .TutorialScreens, AndContollerID: "TutorialScreensOneVC") as? TutorialScreensOneVC else {return}
             vc.selectVC = "MoreVC"
             self.navigationController?.pushViewController(vc, animated: true)
             break

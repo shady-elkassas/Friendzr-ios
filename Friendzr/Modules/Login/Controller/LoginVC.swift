@@ -119,7 +119,7 @@ class LoginVC: UIViewController {
             DispatchQueue.main.async {
                 if Defaults.needUpdate == 1 {
                     Defaults.isFirstLogin = true
-                    Router().toSplachOne()
+                    Router().toSTutorialScreensOneVC()
                 }else {
                     Defaults.isFirstLogin = false
                     Router().toFeed()
@@ -146,7 +146,7 @@ class LoginVC: UIViewController {
             DispatchQueue.main.async {
                 if Defaults.needUpdate == 1 {
                     Defaults.isFirstLogin = true
-                    Router().toSplachOne()
+                    Router().toSTutorialScreensOneVC()
                 }else {
                     Defaults.isFirstLogin = false
                     Router().toFeed()

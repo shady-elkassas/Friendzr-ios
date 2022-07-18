@@ -2,10 +2,12 @@
 //  TutorialScreensTwoVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 14/07/2022.
+//  Created by Muhammad Sabri Saad on 14/07/2022.
 //
 
 import UIKit
+import MediaPlayer
+import AVFoundation
 
 class TutorialScreensTwoVC: UIViewController {
     
@@ -13,8 +15,11 @@ class TutorialScreensTwoVC: UIViewController {
     @IBOutlet weak var skipBtn: UIButton!
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var exitBTn: UIButton!
-
+    @IBOutlet weak var animationsView: UIView!
+    
     var selectVC:String = ""
+    var player:AVPlayer = AVPlayer()
+    var playerLayer = AVPlayerLayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,11 +41,34 @@ class TutorialScreensTwoVC: UIViewController {
             exitBTn.isHidden = false
         }
         else {
-            hideNavigationBar(NavigationBar: true, BackButton: true)
+            hideNavigationBar(NavigationBar: false, BackButton: true)
             skipBtn.isHidden = false
             exitBTn.isHidden = true
         }
+        
+        setupAnimations()
     }
+    
+    func setupAnimations() {
+        guard let path = Bundle.main.path(forResource: "Tutorial2", ofType:"mov") else {
+            debugPrint("Tutorial2.mp4 not found")
+            return
+        }
+        
+        player = AVPlayer(url: URL(fileURLWithPath: path))
+        playerLayer = AVPlayerLayer(player: player)
+        playerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        playerLayer.backgroundColor = UIColor.clear.cgColor
+        playerLayer.contentsFormat = .RGBA16Float
+        animationsView.layer.addSublayer(playerLayer)
+        player.play()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        playerLayer.frame = animationsView.layer.bounds
+    }
+    
     
     func setupViews() {
         nextBtn.cornerRadiusView(radius: 8)

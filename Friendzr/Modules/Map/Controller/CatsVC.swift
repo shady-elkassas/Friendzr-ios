@@ -2,7 +2,7 @@
 //  CatsVC.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 22/06/2022.
+//  Created by Muhammad Sabri Saad on 22/06/2022.
 //
 
 import UIKit

@@ -485,7 +485,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hwj-MH-Vad" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7358" y="890"/>
+            <point key="canvasLocation" x="8268.115942028986" y="889.95535714285711"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="W0c-11-YxH">
@@ -705,7 +705,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UE9-tv-1tE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10268" y="911"/>
+            <point key="canvasLocation" x="11176.8115942029" y="910.71428571428567"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="iHK-bQ-2AJ">
@@ -723,7 +723,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MnU-jy-vpY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9551" y="914"/>
+            <point key="canvasLocation" x="10460.869565217392" y="913.39285714285711"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Nts-Ja-n7e">
@@ -881,7 +881,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S6K-KT-V0u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8764" y="890"/>
+            <point key="canvasLocation" x="9673.9130434782619" y="889.95535714285711"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="f32-zj-ajc">
@@ -922,26 +922,26 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5k2-Fq-mWk">
-                                                <rect key="frame" x="110.5" y="217" width="193" height="50"/>
-                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="50"/>
+                                                <rect key="frame" x="133.5" y="217" width="147" height="38"/>
+                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="38"/>
                                                 <color key="textColor" red="0.40000003579999999" green="0.69019609689999994" blue="0.61176472900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="your new friends are" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qTt-A9-ruW">
-                                                <rect key="frame" x="76.5" y="281" width="261.5" height="30"/>
-                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="30"/>
+                                                <rect key="frame" x="94" y="269" width="226.5" height="26"/>
+                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="26"/>
                                                 <color key="textColor" red="0.0039215686269999999" green="0.16078431369999999" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="just two clicks away" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ndS-EV-eWr">
-                                                <rect key="frame" x="81" y="319" width="252.5" height="30"/>
-                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="30"/>
+                                                <rect key="frame" x="97.5" y="303" width="219" height="26"/>
+                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="26"/>
                                                 <color key="textColor" red="0.0039215686274509803" green="0.16078431372549018" blue="0.29803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="find your way to friendship" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tGG-3w-tYz">
-                                                <rect key="frame" x="61.5" y="590" width="291.5" height="26"/>
-                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="26"/>
+                                                <rect key="frame" x="100.5" y="597" width="213" height="19"/>
+                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="19"/>
                                                 <color key="textColor" red="0.0039215686274509803" green="0.16078431372549018" blue="0.29803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -1062,7 +1062,136 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6qV-rz-6Qr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4562.3188405797109" y="1564.9553571428571"/>
+            <point key="canvasLocation" x="5472.463768115942" y="1564.9553571428571"/>
+        </scene>
+        <!--Landing PageVC-->
+        <scene sceneID="NtW-PS-saf">
+            <objects>
+                <viewController storyboardIdentifier="LandingPageVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Oz8-Th-xbR" customClass="LandingPageVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mf0-0W-4Pm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RX9-AQ-ZOD">
+                                <rect key="frame" x="93" y="88" width="228" height="227.5"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="RX9-AQ-ZOD" secondAttribute="height" id="57S-ya-yB8"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Dus-N1-F0h">
+                                <rect key="frame" x="91" y="315.5" width="232" height="60"/>
+                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="60"/>
+                                <color key="textColor" red="0.40000003579999999" green="0.69019609689999994" blue="0.61176472900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="your new friends are" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DxG-Hg-M98">
+                                <rect key="frame" x="59" y="391.5" width="296.5" height="34"/>
+                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="34"/>
+                                <color key="textColor" red="0.0039215686269999999" green="0.16078431369999999" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="just two clicks away" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="U1N-xq-mOu">
+                                <rect key="frame" x="64" y="437.5" width="286" height="34"/>
+                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="34"/>
+                                <color key="textColor" red="0.0039215686269999999" green="0.16078431369999999" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="find your way to friendship" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qUh-jN-KMU">
+                                <rect key="frame" x="67" y="644.5" width="280.5" height="25"/>
+                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="25"/>
+                                <color key="textColor" red="0.0039215686269999999" green="0.16078431369999999" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="1oS-5F-Kay">
+                                <rect key="frame" x="108.5" y="689.5" width="197" height="108.5"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hb0-WY-Afx">
+                                        <rect key="frame" x="0.0" y="0.0" width="197" height="49"/>
+                                        <color key="backgroundColor" red="0.40000000000000002" green="0.69019607839999997" blue="0.61176470589999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="hb0-WY-Afx" secondAttribute="height" multiplier="4:1" id="65c-2c-cva"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="16"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Take a tour">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="takeTourBtn:" destination="4rx-eY-t2R" eventType="touchUpInside" id="M0o-Qk-tZ8"/>
+                                            <action selector="takeTourBtn:" destination="Oz8-Th-xbR" eventType="touchUpInside" id="bcG-Bj-OdI"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MM9-2U-Vqs">
+                                        <rect key="frame" x="0.0" y="59" width="197" height="49.5"/>
+                                        <color key="backgroundColor" red="0.49019607840000001" green="0.75686274509999996" blue="0.54901960780000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="16"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Sign up">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="signupBtn:" destination="4rx-eY-t2R" eventType="touchUpInside" id="a2G-bh-nP5"/>
+                                            <action selector="signupBtn:" destination="Oz8-Th-xbR" eventType="touchUpInside" id="zuL-fj-aR3"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="JH3-8m-o9M">
+                                <rect key="frame" x="120" y="818" width="174" height="28"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cNC-hM-DXh">
+                                        <rect key="frame" x="0.0" y="0.0" width="129" height="28"/>
+                                        <fontDescription key="fontDescription" name="DIN2014-Regular" family="DIN 2014" pointSize="12"/>
+                                        <color key="textColor" name="ColorLbl1"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ts6-Qo-hvy">
+                                        <rect key="frame" x="132" y="0.0" width="42" height="28"/>
+                                        <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="16"/>
+                                        <state key="normal" title="Log In">
+                                            <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="loginBtn:" destination="Oz8-Th-xbR" eventType="touchUpInside" id="oR4-bW-S1l"/>
+                                            <action selector="loginBtn:" destination="4rx-eY-t2R" eventType="touchUpInside" id="p86-mW-Pgp"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ghZ-7K-vGZ"/>
+                        <color key="backgroundColor" name="Color0"/>
+                        <constraints>
+                            <constraint firstItem="1oS-5F-Kay" firstAttribute="width" secondItem="mf0-0W-4Pm" secondAttribute="width" multiplier="1:2.1" id="1cs-yX-GFK"/>
+                            <constraint firstItem="DxG-Hg-M98" firstAttribute="centerX" secondItem="Dus-N1-F0h" secondAttribute="centerX" id="7W8-cj-CjZ"/>
+                            <constraint firstItem="1oS-5F-Kay" firstAttribute="top" secondItem="qUh-jN-KMU" secondAttribute="bottom" constant="20" id="Ah6-Te-QTp"/>
+                            <constraint firstItem="1oS-5F-Kay" firstAttribute="centerX" secondItem="mf0-0W-4Pm" secondAttribute="centerX" id="CZy-U7-e3M"/>
+                            <constraint firstItem="Dus-N1-F0h" firstAttribute="centerX" secondItem="RX9-AQ-ZOD" secondAttribute="centerX" id="Crh-mO-9dU"/>
+                            <constraint firstItem="Dus-N1-F0h" firstAttribute="top" secondItem="RX9-AQ-ZOD" secondAttribute="bottom" id="JAP-f8-no2"/>
+                            <constraint firstItem="RX9-AQ-ZOD" firstAttribute="width" secondItem="mf0-0W-4Pm" secondAttribute="width" multiplier="0.55" id="KJc-vP-EaK"/>
+                            <constraint firstItem="JH3-8m-o9M" firstAttribute="centerX" secondItem="mf0-0W-4Pm" secondAttribute="centerX" id="KzW-so-DNF"/>
+                            <constraint firstItem="DxG-Hg-M98" firstAttribute="top" secondItem="Dus-N1-F0h" secondAttribute="bottom" constant="16" id="OtR-yg-Stx"/>
+                            <constraint firstItem="U1N-xq-mOu" firstAttribute="top" secondItem="DxG-Hg-M98" secondAttribute="bottom" constant="12" id="Oyf-tt-DWq"/>
+                            <constraint firstItem="RX9-AQ-ZOD" firstAttribute="top" secondItem="ghZ-7K-vGZ" secondAttribute="top" id="P7x-Ih-ffB"/>
+                            <constraint firstItem="ghZ-7K-vGZ" firstAttribute="bottom" secondItem="JH3-8m-o9M" secondAttribute="bottom" constant="16" id="Tmz-Hg-zV1"/>
+                            <constraint firstItem="JH3-8m-o9M" firstAttribute="top" secondItem="1oS-5F-Kay" secondAttribute="bottom" constant="20" id="nlY-Hk-ihs"/>
+                            <constraint firstItem="RX9-AQ-ZOD" firstAttribute="centerX" secondItem="mf0-0W-4Pm" secondAttribute="centerX" id="xVn-jB-ykO"/>
+                            <constraint firstItem="U1N-xq-mOu" firstAttribute="centerX" secondItem="Dus-N1-F0h" secondAttribute="centerX" id="ygw-VS-SbM"/>
+                            <constraint firstItem="qUh-jN-KMU" firstAttribute="centerX" secondItem="Dus-N1-F0h" secondAttribute="centerX" id="za9-s1-iJw"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="DIa-9p-7Mt"/>
+                    <connections>
+                        <outlet property="loginBtn" destination="Ts6-Qo-hvy" id="XMQ-Uy-C8S"/>
+                        <outlet property="signupBtn" destination="MM9-2U-Vqs" id="GqJ-jO-rfB"/>
+                        <outlet property="takeTourBtn" destination="hb0-WY-Afx" id="RlM-Bc-Bmh"/>
+                        <outlet property="videoView" destination="RX9-AQ-ZOD" id="log-4v-M2a"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xFg-oM-ETn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3272.4637681159425" y="1553.5714285714284"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Vru-MR-9go">
@@ -1080,7 +1209,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xkq-fv-he9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3655" y="1565"/>
+            <point key="canvasLocation" x="4563.768115942029" y="1564.9553571428571"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="0d3-lU-ZZw">
+            <objects>
+                <navigationController storyboardIdentifier="LandingPageNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tRq-JH-wi7" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="YwM-Rk-1ar">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Oz8-Th-xbR" kind="relationship" relationship="rootViewController" id="ZfO-vJ-bOd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="72t-sB-XyW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2362.3188405797105" y="1553.5714285714284"/>
         </scene>
     </scenes>
     <resources>
