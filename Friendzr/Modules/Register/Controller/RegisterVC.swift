@@ -132,7 +132,6 @@ class RegisterVC: UIViewController {
             DispatchQueue.main.async {
                 //                self.view.makeToast("Please check your email".localizedString)
                 self.showVerificationEmailAlert()
-                
             }
         }
     }
@@ -145,8 +144,18 @@ class RegisterVC: UIViewController {
         alertView?.unConfirmBtn.isHidden = true
         
         alertView?.HandleConfirmBtn = {
+            
             DispatchQueue.main.async {
-                Router().toLogin()
+                
+                DispatchQueue.main.async {
+                    self.userNameTxt.text = ""
+                    self.emailTxt.text = ""
+                    self.passwordTxt.text = ""
+                    self.confirmPasswordTxt.text = ""
+                }
+                
+                guard let vc = UIViewController.viewController(withStoryboard: .Login, AndContollerID: "LoginVC") as? LoginVC else {return}
+                self.navigationController?.pushViewController(vc, animated: true)
             }
             
             // handling code

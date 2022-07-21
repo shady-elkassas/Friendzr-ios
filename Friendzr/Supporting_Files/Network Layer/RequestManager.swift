@@ -94,8 +94,8 @@ class RequestManager: NSObject, URLSessionDelegate {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
                         print(json)
-                        let valJsonBlock = json as! [String : Any]
-                        completion([:],valJsonBlock["message"] as? String)
+//                        let valJsonBlock = json as! [String : Any]
+                        completion([:],"Network interrupted, please try again")
                     } catch {
                         print(error)
                     }

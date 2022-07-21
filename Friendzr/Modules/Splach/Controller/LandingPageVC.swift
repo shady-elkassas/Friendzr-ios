@@ -16,6 +16,7 @@ class LandingPageVC: UIViewController {
     @IBOutlet weak var signupBtn: UIButton!
     @IBOutlet weak var videoView: UIView!
     
+    @IBOutlet weak var videoTopConstraint: NSLayoutConstraint!
     
     var player:AVPlayer = AVPlayer()
     var playerLayer = AVPlayerLayer()
@@ -23,16 +24,14 @@ class LandingPageVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        takeTourBtn.cornerRadiusForHeight()
-        signupBtn.cornerRadiusForHeight()
-        
+        setupView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         guard let path = Bundle.main.path(forResource: "FriendzrlogomarkwhiteBG", ofType:"mp4") else {
-            debugPrint("ezgif.com-gif-maker.gif not found")
+            debugPrint("FriendzrlogomarkwhiteBG.mp4 not found")
             return
         }
         
@@ -51,7 +50,6 @@ class LandingPageVC: UIViewController {
         //        imageView2.frame = CGRect(x: 0, y: 0, width:
         //                                    self.videoView.frame.size.width, height: self.videoView.frame.size.height)
         //        videoView.addSubview(imageView2)
-        
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -61,6 +59,17 @@ class LandingPageVC: UIViewController {
     @objc func playerItemDidReachEnd(notification: NSNotification) {
         //        self.player.seek(to: CMTime.zero)
         //        self.player.play()
+    }
+    
+    func setupView() {
+        takeTourBtn.cornerRadiusForHeight()
+        signupBtn.cornerRadiusForHeight()
+        
+        if Defaults.isIPhoneLessThan2500 {
+            videoTopConstraint.constant = 0
+        }else {
+            videoTopConstraint.constant = 40
+        }
     }
     
     @IBAction func signupBtn(_ sender: Any) {

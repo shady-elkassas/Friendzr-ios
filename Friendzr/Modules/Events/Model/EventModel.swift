@@ -112,11 +112,11 @@ class EventObj: NSObject,Mappable {
     var eventdateto:String? = ""
     var categorieimage:String? = ""
     var categorieid:Int? = 0
-    var color:String? = ""
+    var eventtypecolor:String? = ""
+    var eventColor:String? = ""
     var leveevent:Int? = 0
     var encryptedID:String = ""
     var eventtype:String = ""
-    var eventtypecolor:String = ""
     var eventtypeid:String = ""
     var showAttendees:Bool = false
     var checkout_details:String = ""
@@ -134,6 +134,7 @@ class EventObj: NSObject,Mappable {
         eventdate    <- map["eventdate"]
         eventtypeid    <- map["eventtypeid"]
         eventtypecolor    <- map["eventtypecolor"]
+        eventColor    <- map["eventColor"]
         category    <- map["category"]
         datetext    <- map["datetext"]
         categorieimage    <- map["categorieimage"]
@@ -156,7 +157,6 @@ class EventObj: NSObject,Mappable {
         genderStatistic  <- map["genderStatistic"]
         eventdateto  <- map["eventdateto"]
         timetext <- map["timetext"]
-        color <- map["color"]
         leveevent <- map["leveevent"]
         encryptedID <- map["encryptedID"]
         eventtype <- map["eventtype"]

@@ -44,36 +44,6 @@ class SettingsViewModel {
         }
     }
     
-    
-    func updatUserSetting(withPushNotification pushNotification:Bool, AndAllowMyLocation allowMyLocation: Bool,AndGhostMode ghostMode :Bool,allowmylocationtype:Int ,completion: @escaping (_ error: String?, _ data: SettingsObj?) -> ()) {
-        CancelRequest.currentTask = false
-        let url = URLs.baseURLFirst + "Account/updatSetting"
-        let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-        let parameters:[String : Any] = ["pushnotification": pushNotification,"allowmylocation":allowMyLocation,"ghostmode":ghostMode,"allowmylocationtype":allowmylocationtype]
-        
-        RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
-            
-            guard let settingsResponse = Mapper<SettingsModel>().map(JSON: data!) else {
-                self.errorMsg.value = error ?? ""
-                completion(self.errorMsg.value, nil)
-                return
-            }
-            
-            if let error = error {
-                print ("Error while fetching data \(error)")
-                self.errorMsg.value = error
-                completion(self.errorMsg.value, nil)
-            }
-            else {
-                // When set the listener (if any) will be notified
-                if let toAdd = settingsResponse.data {
-                    completion(nil,toAdd)
-                }
-            }
-        }
-    }
-    
-    
     func deleteAccount(_ completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "Account/DeleteAccount"

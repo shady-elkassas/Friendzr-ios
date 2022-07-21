@@ -38,6 +38,48 @@ class LocationZooming {
     //    static var didSelected: Double = 0.0
 }
 
+public func delay(_ delay: Double, closure: @escaping () -> Void) {
+    let deadline = DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+    DispatchQueue.main.asyncAfter(
+        deadline: deadline,
+        execute: closure
+    )
+}
+
+extension MapVC: HorizontalPaginationManagerDelegate {
+    
+    private func setupPagination() {
+        self.paginationManager.refreshViewColor = .clear
+        self.paginationManager.loaderColor = .white
+    }
+    
+    private func fetchItems() {
+        self.paginationManager.initialLoad()
+    }
+    
+    func refreshAll(completion: @escaping (Bool) -> Void) {
+        delay(seconds: 1.0) {
+            self.currentPage = 1
+            self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
+            self.collectionView.reloadData()
+            completion(true)
+        }
+    }
+    
+    func loadMore(completion: @escaping (Bool) -> Void) {
+        delay(seconds: 1.0) {
+            self.isLoadingList = true
+            if self.currentPage < self.viewmodel.eventsOnlyMe.value?.totalPages ?? 0 {
+                print("self.currentPage >> \(self.currentPage)")
+                self.loadMoreItemsForList()
+            }
+            
+            completion(true)
+        }
+    }
+}
+
+
 //create location
 class EventsLocation {
     var location:CLLocationCoordinate2D = CLLocationCoordinate2D()
@@ -169,7 +211,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateFilterBtn), name: Notification.Name("updateFilterBtn"), object: nil)
-        
+        self.setupPagination()
+        self.fetchItems()
+
         isViewUp = false
     }
     
@@ -186,6 +230,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
         
         if Defaults.availableVC != "MapVC" {
+            currentPage = 1
             let contentOffset = CGPoint(x: 0, y: 0)
             self.collectionView.setContentOffset(contentOffset, animated: false)
         }
@@ -258,28 +303,41 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     
     //createFooterView
-    func createFooterView() -> UIView {
-        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: collectionView.frame.height))
-        let indicatorView = UIActivityIndicatorView()
-        indicatorView.center = footerview.center
-        footerview.addSubview(indicatorView)
-        indicatorView.startAnimating()
-        return footerview
-    }
+//    func createFooterView() -> UIView {
+//        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: collectionView.frame.height))
+//        let indicatorView = UIActivityIndicatorView()
+//        indicatorView.center = footerview.center
+//        footerview.addSubview(indicatorView)
+//        indicatorView.startAnimating()
+//        return footerview
+//    }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if(((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isLoadingList) {
-            self.isLoadingList = true
-            if currentPage < viewmodel.eventsOnlyMe.value?.totalPages ?? 0 {
-                print("self.currentPage >> \(self.currentPage)")
-                self.collectionView.bringSubviewToFront(createFooterView())
-                self.loadMoreItemsForList()
-            }
-            else {
-                return
-            }
-        }
+    
+    private lazy var paginationManager: HorizontalPaginationManager = {
+        let manager = HorizontalPaginationManager(scrollView: self.collectionView)
+        manager.delegate = self
+        return manager
+    }()
+    
+    private var isDragging: Bool {
+        return self.collectionView.isDragging
     }
+
+    
+//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//        if(((scrollView.contentOffset.x + scrollView.frame.size.width) > scrollView.contentSize.width ) && !isLoadingList) {
+//            self.isLoadingList = true
+//            if currentPage < viewmodel.eventsOnlyMe.value?.totalPages ?? 0 {
+//                print("self.currentPage >> \(self.currentPage)")
+//                self.collectionView.bringSubviewToFront(createFooterView())
+//                self.loadMoreItemsForList()
+//            }
+//            else {
+//                return
+//            }
+//        }
+//    }
+    
     
     
     func loadMoreItemsForList(){
@@ -936,7 +994,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 }
                 
                 DispatchQueue.main.async {
-                    self.currentPage = 1
+//                    self.currentPage = 1
                     self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
                 }
             }
@@ -1087,7 +1145,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
                     
                     DispatchQueue.main.async {
-                        self.currentPage = 1
+//                        self.currentPage = 1
                         self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
                     }
                 }else {
@@ -1579,17 +1637,19 @@ extension MapVC:UICollectionViewDataSource {
             cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
-            if model?.eventtype == "External" {
-                cell.eventColorView.backgroundColor = UIColor.color("#00284c")
-            }else {
-                cell.eventColorView.backgroundColor = UIColor.FriendzrColors.primary!
-            }
+//            if model?.eventtype == "External" {
+//                cell.eventColorView.backgroundColor = UIColor.color("#00284c")
+//            }else {
+//                cell.eventColorView.backgroundColor = UIColor.FriendzrColors.primary!
+//            }
             
             //        cell.detailsBtn.backgroundColor = UIColor.color((model?.color ?? ""))
-            cell.detailsBtn.tintColor = UIColor.color((model?.color ?? ""))
-            cell.expandLbl.textColor = UIColor.color((model?.color ?? ""))
-            cell.eventDateLbl.textColor = UIColor.color((model?.color ?? ""))
             
+            cell.detailsBtn.tintColor = UIColor.color((model?.eventtypecolor ?? ""))
+            cell.expandLbl.textColor = UIColor.color((model?.eventtypecolor ?? ""))
+            cell.eventDateLbl.textColor = UIColor.color((model?.eventtypecolor ?? ""))
+            cell.eventColorView.backgroundColor = UIColor.color((model?.eventtypecolor ?? ""))
+
             cell.HandledetailsBtn = {
                 if Defaults.token != "" {
                     if model?.eventtype == "External" {
@@ -1698,21 +1758,21 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
 }
 
 extension MapVC {
-    //    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-    //
-    //        // Find the coordinates
-    //        let visibleRegion = mapView.projection.visibleRegion()
-    //        let farLeftLocation = CLLocation(latitude: visibleRegion.farLeft.latitude, longitude: visibleRegion.farLeft.longitude)
-    //        let centerLocation = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
-    //
-    //        // Calculate the distance as radius.
-    //        // The distance result from CLLocation is in meters, so we divide it by 1000 to get the value in kilometers
-    //        let radiusKM = (centerLocation.distance(from: farLeftLocation) / 1000.0).rounded(toPlaces: 1)
-    //        // Do something with the radius...
-    //        print("radiusKM \(radiusKM)")
-    //        radiusMLbl.text = "\(radiusKM * 1000) m"
-    //        radiusKMLbl.text = "\(radiusKM) km"
-    //    }
+        func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+    
+            // Find the coordinates
+            let visibleRegion = mapView.projection.visibleRegion()
+            let farLeftLocation = CLLocation(latitude: visibleRegion.farLeft.latitude, longitude: visibleRegion.farLeft.longitude)
+            let centerLocation = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
+    
+            // Calculate the distance as radius.
+            // The distance result from CLLocation is in meters, so we divide it by 1000 to get the value in kilometers
+            let radiusKM = (centerLocation.distance(from: farLeftLocation) / 1000.0).rounded(toPlaces: 1)
+            // Do something with the radius...
+            print("radiusKM \(radiusKM)")
+            radiusMLbl.text = "\(radiusKM * 1000) m"
+            radiusKMLbl.text = "\(radiusKM) km"
+        }
     
     func delay(seconds: Double, closure: @escaping () -> ()) {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
@@ -1810,7 +1870,7 @@ extension MapVC {
             }
             
             DispatchQueue.main.async {
-                self.currentPage = 1
+//                self.currentPage = 1
                 self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
             }
         }
@@ -1930,7 +1990,7 @@ extension MapVC {
                             }
                             
                             DispatchQueue.main.async {
-                                self.currentPage = 1
+//                                self.currentPage = 1
                                 self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
                             }
                         }
@@ -2052,7 +2112,7 @@ extension MapVC {
                     arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
                     
                     DispatchQueue.main.async {
-                        self.currentPage = 1
+//                        self.currentPage = 1
                         self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
                     }
                 }

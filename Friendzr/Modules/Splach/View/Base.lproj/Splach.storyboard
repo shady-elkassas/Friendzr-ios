@@ -1073,33 +1073,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RX9-AQ-ZOD">
-                                <rect key="frame" x="93" y="88" width="228" height="227.5"/>
+                                <rect key="frame" x="124" y="88" width="166" height="165.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="RX9-AQ-ZOD" secondAttribute="height" id="57S-ya-yB8"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Dus-N1-F0h">
-                                <rect key="frame" x="91" y="315.5" width="232" height="60"/>
-                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="60"/>
+                                <rect key="frame" x="97" y="253.5" width="220" height="57"/>
+                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="57"/>
                                 <color key="textColor" red="0.40000003579999999" green="0.69019609689999994" blue="0.61176472900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="your new friends are" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DxG-Hg-M98">
-                                <rect key="frame" x="59" y="391.5" width="296.5" height="34"/>
-                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="34"/>
+                                <rect key="frame" x="67.5" y="322.5" width="279" height="32"/>
+                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="32"/>
                                 <color key="textColor" red="0.0039215686269999999" green="0.16078431369999999" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="just two clicks away" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="U1N-xq-mOu">
-                                <rect key="frame" x="64" y="437.5" width="286" height="34"/>
-                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="34"/>
+                                <rect key="frame" x="72.5" y="366.5" width="269.5" height="32"/>
+                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="32"/>
                                 <color key="textColor" red="0.0039215686269999999" green="0.16078431369999999" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="find your way to friendship" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qUh-jN-KMU">
-                                <rect key="frame" x="67" y="644.5" width="280.5" height="25"/>
-                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="25"/>
+                                <rect key="frame" x="72.5" y="645.5" width="269" height="24"/>
+                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="24"/>
                                 <color key="textColor" red="0.0039215686269999999" green="0.16078431369999999" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -1169,9 +1169,9 @@
                             <constraint firstItem="1oS-5F-Kay" firstAttribute="centerX" secondItem="mf0-0W-4Pm" secondAttribute="centerX" id="CZy-U7-e3M"/>
                             <constraint firstItem="Dus-N1-F0h" firstAttribute="centerX" secondItem="RX9-AQ-ZOD" secondAttribute="centerX" id="Crh-mO-9dU"/>
                             <constraint firstItem="Dus-N1-F0h" firstAttribute="top" secondItem="RX9-AQ-ZOD" secondAttribute="bottom" id="JAP-f8-no2"/>
-                            <constraint firstItem="RX9-AQ-ZOD" firstAttribute="width" secondItem="mf0-0W-4Pm" secondAttribute="width" multiplier="0.55" id="KJc-vP-EaK"/>
+                            <constraint firstItem="RX9-AQ-ZOD" firstAttribute="width" secondItem="mf0-0W-4Pm" secondAttribute="width" multiplier="0.4" id="KJc-vP-EaK"/>
                             <constraint firstItem="JH3-8m-o9M" firstAttribute="centerX" secondItem="mf0-0W-4Pm" secondAttribute="centerX" id="KzW-so-DNF"/>
-                            <constraint firstItem="DxG-Hg-M98" firstAttribute="top" secondItem="Dus-N1-F0h" secondAttribute="bottom" constant="16" id="OtR-yg-Stx"/>
+                            <constraint firstItem="DxG-Hg-M98" firstAttribute="top" secondItem="Dus-N1-F0h" secondAttribute="bottom" constant="12" id="OtR-yg-Stx"/>
                             <constraint firstItem="U1N-xq-mOu" firstAttribute="top" secondItem="DxG-Hg-M98" secondAttribute="bottom" constant="12" id="Oyf-tt-DWq"/>
                             <constraint firstItem="RX9-AQ-ZOD" firstAttribute="top" secondItem="ghZ-7K-vGZ" secondAttribute="top" id="P7x-Ih-ffB"/>
                             <constraint firstItem="ghZ-7K-vGZ" firstAttribute="bottom" secondItem="JH3-8m-o9M" secondAttribute="bottom" constant="16" id="Tmz-Hg-zV1"/>
@@ -1186,6 +1186,7 @@
                         <outlet property="loginBtn" destination="Ts6-Qo-hvy" id="XMQ-Uy-C8S"/>
                         <outlet property="signupBtn" destination="MM9-2U-Vqs" id="GqJ-jO-rfB"/>
                         <outlet property="takeTourBtn" destination="hb0-WY-Afx" id="RlM-Bc-Bmh"/>
+                        <outlet property="videoTopConstraint" destination="P7x-Ih-ffB" id="ZBv-G7-1iP"/>
                         <outlet property="videoView" destination="RX9-AQ-ZOD" id="log-4v-M2a"/>
                     </connections>
                 </viewController>

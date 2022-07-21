@@ -60,7 +60,7 @@ class EventsAroundMeViewModel {
         }
         
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-        let params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"categories": catIDs,"PageSize":3000,"PageNumber":pageNumber]
+        let params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"categories": catIDs,"PageSize":20,"PageNumber":pageNumber]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: params, andHeaders: headers) { (data,error) in
             

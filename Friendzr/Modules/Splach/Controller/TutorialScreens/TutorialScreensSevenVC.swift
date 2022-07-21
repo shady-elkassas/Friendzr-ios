@@ -60,7 +60,7 @@ class TutorialScreensSevenVC: UIViewController {
             exitBTn.isHidden = true
             
             nextBtn.setTitle("EXIT", for: .normal)
-            nextBtn.backgroundColor = UIColor.color("#EFEFEF")
+            nextBtn.backgroundColor = .clear
             nextBtn.setTitleColor(.black, for: .normal)
         }
         else {
@@ -93,24 +93,24 @@ class TutorialScreensSevenVC: UIViewController {
             Lbl5Top.constant = 20
         }
         
-        myMutableString1 = NSMutableAttributedString(string: myString1, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-SemiBold", size: 16.0)!])
+        myMutableString1 = NSMutableAttributedString(string: myString1, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Medium", size: 16.0)!])
         myMutableString1.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Montserrat-Bold", size: 18)!, range: NSRange(location:0,length:7))
 
-        myMutableString1.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.FriendzrColors.primary!, range: NSRange(location:0,length:7))
+        myMutableString1.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.color("#71D992")!, range: NSRange(location:0,length:7))
         
         
-        myMutableString2 = NSMutableAttributedString(string: myString2, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-SemiBold", size: 16.0)!])
-        myMutableString2.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.FriendzrColors.primary!, range: NSRange(location:0,length:8))
+        myMutableString2 = NSMutableAttributedString(string: myString2, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Medium", size: 16.0)!])
+        myMutableString2.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.color("#71D992")!, range: NSRange(location:0,length:8))
         myMutableString2.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Montserrat-Bold", size: 18)!, range: NSRange(location:0,length:8))
 
         
-        myMutableString3 = NSMutableAttributedString(string: myString3, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-SemiBold", size: 16.0)!])
-        myMutableString3.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.FriendzrColors.primary!, range: NSRange(location:0,length:10))
+        myMutableString3 = NSMutableAttributedString(string: myString3, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Medium", size: 16.0)!])
+        myMutableString3.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.color("#71D992")!, range: NSRange(location:0,length:10))
         myMutableString3.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Montserrat-Bold", size: 18)!, range: NSRange(location:0,length:10))
 
         
-        myMutableString4 = NSMutableAttributedString(string: myString4, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-SemiBold", size: 16.0)!])
-        myMutableString4.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.FriendzrColors.primary!, range: NSRange(location:0,length:23))
+        myMutableString4 = NSMutableAttributedString(string: myString4, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Medium", size: 16.0)!])
+        myMutableString4.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.color("#71D992")!, range: NSRange(location:0,length:23))
         myMutableString4.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Montserrat-Bold", size: 18)!, range: NSRange(location:0,length:23))
         
         // set label Attribute
