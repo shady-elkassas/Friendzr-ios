@@ -746,20 +746,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Just one last thing…" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YqJ-ds-H1Z">
-                                <rect key="frame" x="35" y="98" width="263.33333333333331" height="30.666666666666657"/>
-                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="25"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Just one last thing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YqJ-ds-H1Z">
+                                <rect key="frame" x="35.000000000000014" y="98" width="253.33333333333337" height="32"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="26"/>
                                 <color key="textColor" red="0.4431372549" green="0.85098039219999999" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To help everyone enjoy their experience with Friendzr, we have a few house rules:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YG7-u7-0sQ">
-                                <rect key="frame" x="35" y="154.66666666666666" width="305" height="58.666666666666657"/>
-                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="16"/>
+                                <rect key="frame" x="35" y="144" width="305" height="34.333333333333343"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2QD-ax-J3e">
-                                <rect key="frame" x="35" y="221.33333333333334" width="305" height="58.666666666666657"/>
+                                <rect key="frame" x="35" y="228.33333333333334" width="305" height="58.666666666666657"/>
                                 <string key="text">Be kind, respectful and considerate.
 People are more likely to want to connect!</string>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="16"/>
@@ -767,19 +767,19 @@ People are more likely to want to connect!</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be real! Friendzr is an authentic community where we connect as friends." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xJv-sd-Bad">
-                                <rect key="frame" x="35" y="288" width="305" height="58.666666666666686"/>
+                                <rect key="frame" x="35" y="295" width="305" height="58.666666666666686"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be genuine in your approaches, and actively participate in events and meetups." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ak0-hs-adP">
-                                <rect key="frame" x="35" y="354.66666666666669" width="305" height="58.666666666666686"/>
+                                <rect key="frame" x="35" y="361.66666666666669" width="305" height="58.666666666666686"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4SE-77-itb">
-                                <rect key="frame" x="35" y="421.33333333333331" width="305" height="58.666666666666686"/>
+                                <rect key="frame" x="35" y="428.33333333333331" width="305" height="58.666666666666686"/>
                                 <string key="text">No definitely means no!
 Respect others’ privacy and personal space as they request.</string>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="16"/>
@@ -851,7 +851,7 @@ Respect others’ privacy and personal space as they request.</string>
                             <constraint firstItem="ak0-hs-adP" firstAttribute="leading" secondItem="xJv-sd-Bad" secondAttribute="leading" id="7Bc-hW-6a2"/>
                             <constraint firstItem="YqJ-ds-H1Z" firstAttribute="leading" secondItem="i9N-dC-WbT" secondAttribute="leading" constant="35" id="FLy-TM-CSn"/>
                             <constraint firstItem="4SE-77-itb" firstAttribute="leading" secondItem="ak0-hs-adP" secondAttribute="leading" id="Geu-BG-x7N"/>
-                            <constraint firstItem="2QD-ax-J3e" firstAttribute="top" secondItem="YG7-u7-0sQ" secondAttribute="bottom" constant="8" id="Hmq-u5-rQ6"/>
+                            <constraint firstItem="2QD-ax-J3e" firstAttribute="top" secondItem="YG7-u7-0sQ" secondAttribute="bottom" constant="50" id="Hmq-u5-rQ6"/>
                             <constraint firstItem="i9N-dC-WbT" firstAttribute="trailing" secondItem="YG7-u7-0sQ" secondAttribute="trailing" constant="35" id="Hxq-t0-yqU"/>
                             <constraint firstItem="2QD-ax-J3e" firstAttribute="trailing" secondItem="YG7-u7-0sQ" secondAttribute="trailing" id="IgE-Wv-oDL"/>
                             <constraint firstItem="4SE-77-itb" firstAttribute="trailing" secondItem="ak0-hs-adP" secondAttribute="trailing" id="N0a-mO-ADa"/>
@@ -868,7 +868,7 @@ Respect others’ privacy and personal space as they request.</string>
                             <constraint firstItem="Tuy-Ql-0Th" firstAttribute="top" secondItem="JMd-A2-n0Y" secondAttribute="bottom" constant="8" id="lBy-an-679"/>
                             <constraint firstItem="YG7-u7-0sQ" firstAttribute="leading" secondItem="i9N-dC-WbT" secondAttribute="leading" constant="35" id="mhs-l0-CC0"/>
                             <constraint firstItem="Tuy-Ql-0Th" firstAttribute="centerX" secondItem="hba-RU-1j6" secondAttribute="centerX" id="nYD-hG-7MQ"/>
-                            <constraint firstItem="YG7-u7-0sQ" firstAttribute="top" secondItem="YqJ-ds-H1Z" secondAttribute="bottom" constant="26" id="oWQ-sB-y0p"/>
+                            <constraint firstItem="YG7-u7-0sQ" firstAttribute="top" secondItem="YqJ-ds-H1Z" secondAttribute="bottom" constant="14" id="oWQ-sB-y0p"/>
                             <constraint firstItem="xJv-sd-Bad" firstAttribute="trailing" secondItem="2QD-ax-J3e" secondAttribute="trailing" id="qJ9-aE-KyQ"/>
                             <constraint firstItem="JMd-A2-n0Y" firstAttribute="top" secondItem="z5c-B6-CB0" secondAttribute="bottom" constant="8" id="taB-jd-Lpw"/>
                             <constraint firstItem="JMd-A2-n0Y" firstAttribute="width" secondItem="hba-RU-1j6" secondAttribute="width" multiplier="1:2.1" id="yZd-00-ZvI"/>

@@ -100,7 +100,7 @@ class RequestManager: NSObject, URLSessionDelegate {
                         print(error)
                     }
                 }
-                else if code == 401 {
+                else if code == 401 || code == 301 {
                     do {
                         let json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
                         print(json)

@@ -10,6 +10,7 @@ import UIKit
 class TutorialScreensSevenVC: UIViewController {
     
     @IBOutlet weak var pageControl: UIPageControl!
+    
     @IBOutlet weak var skipBtn: UIButton!
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var exitBTn: UIButton!
@@ -80,38 +81,37 @@ class TutorialScreensSevenVC: UIViewController {
         
         
         if Defaults.isIPhoneLessThan2500 {
-            Lbl1Top.constant = 26
-            Lbl2Top.constant = 8
-            Lbl3Top.constant = 8
-            Lbl4Top.constant = 8
-            Lbl5Top.constant = 8
+            Lbl1Top.constant = 20
+            Lbl2Top.constant = 50
+            Lbl3Top.constant = 12
+            Lbl4Top.constant = 12
+            Lbl5Top.constant = 12
         }else {
-            Lbl1Top.constant = 40
-            Lbl2Top.constant = 20
+            Lbl1Top.constant = 20
+            Lbl2Top.constant = 70
             Lbl3Top.constant = 20
             Lbl4Top.constant = 20
             Lbl5Top.constant = 20
         }
         
-        myMutableString1 = NSMutableAttributedString(string: myString1, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Medium", size: 16.0)!])
-        myMutableString1.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Montserrat-Bold", size: 18)!, range: NSRange(location:0,length:7))
-
+        myMutableString1 = NSMutableAttributedString(string: myString1, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Medium", size: 14.0)!])
+        myMutableString1.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Montserrat-Bold", size: 16)!, range: NSRange(location:0,length:7))
         myMutableString1.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.color("#71D992")!, range: NSRange(location:0,length:7))
         
         
-        myMutableString2 = NSMutableAttributedString(string: myString2, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Medium", size: 16.0)!])
+        myMutableString2 = NSMutableAttributedString(string: myString2, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Medium", size: 14.0)!])
         myMutableString2.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.color("#71D992")!, range: NSRange(location:0,length:8))
-        myMutableString2.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Montserrat-Bold", size: 18)!, range: NSRange(location:0,length:8))
+        myMutableString2.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Montserrat-Bold", size: 16)!, range: NSRange(location:0,length:8))
 
         
-        myMutableString3 = NSMutableAttributedString(string: myString3, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Medium", size: 16.0)!])
+        myMutableString3 = NSMutableAttributedString(string: myString3, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Medium", size: 14.0)!])
         myMutableString3.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.color("#71D992")!, range: NSRange(location:0,length:10))
-        myMutableString3.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Montserrat-Bold", size: 18)!, range: NSRange(location:0,length:10))
+        myMutableString3.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Montserrat-Bold", size: 16)!, range: NSRange(location:0,length:10))
 
         
-        myMutableString4 = NSMutableAttributedString(string: myString4, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Medium", size: 16.0)!])
+        myMutableString4 = NSMutableAttributedString(string: myString4, attributes: [NSAttributedString.Key.font:UIFont(name: "Montserrat-Medium", size: 14.0)!])
         myMutableString4.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.color("#71D992")!, range: NSRange(location:0,length:23))
-        myMutableString4.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Montserrat-Bold", size: 18)!, range: NSRange(location:0,length:23))
+        myMutableString4.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Montserrat-Bold", size: 16)!, range: NSRange(location:0,length:23))
         
         // set label Attribute
         lbl2.attributedText = myMutableString1
