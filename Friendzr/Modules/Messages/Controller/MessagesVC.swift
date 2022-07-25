@@ -219,6 +219,8 @@ class MessagesVC: UIViewController {
                 self.getUserChatMessages(pageNumber: 1)
             }
         }
+        
+//        self.isRefreshNewMessages = true
     }
     
     //MARK: - Load More Messages
@@ -788,8 +790,11 @@ extension MessagesVC {
                     let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
                     print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
                     
-                    self.hideView.isHidden = true
-                    self.hideView.hideLoader()
+                    DispatchQueue.main.async {
+                        self.hideView.isHidden = true
+                        self.hideView.hideLoader()
+                        self.isRefreshNewMessages = true
+                    }
                     
                     DispatchQueue.main.async {
                         if self.currentPage != 1 {
@@ -910,8 +915,11 @@ extension MessagesVC {
                     let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
                     print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
                     
-                    self.hideView.isHidden = true
-                    self.hideView.hideLoader()
+                    DispatchQueue.main.async {
+                        self.hideView.isHidden = true
+                        self.hideView.hideLoader()
+                        self.isRefreshNewMessages = true
+                    }
                     
                     DispatchQueue.main.async {
                         if self.currentPage != 1 {
@@ -1034,8 +1042,11 @@ extension MessagesVC {
                     let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
                     print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
                     
-                    self.hideView.isHidden = true
-                    self.hideView.hideLoader()
+                    DispatchQueue.main.async {
+                        self.hideView.isHidden = true
+                        self.hideView.hideLoader()
+                        self.isRefreshNewMessages = true
+                    }
                     
                     DispatchQueue.main.async {
                         if self.currentPage != 1 {

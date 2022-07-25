@@ -58,7 +58,7 @@ extension MapVC: HorizontalPaginationManagerDelegate {
     }
     
     func refreshAll(completion: @escaping (Bool) -> Void) {
-        delay(seconds: 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.currentPage = 1
             self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
             self.collectionView.reloadData()
@@ -67,13 +67,12 @@ extension MapVC: HorizontalPaginationManagerDelegate {
     }
     
     func loadMore(completion: @escaping (Bool) -> Void) {
-        delay(seconds: 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.isLoadingList = true
             if self.currentPage < self.viewmodel.eventsOnlyMe.value?.totalPages ?? 0 {
                 print("self.currentPage >> \(self.currentPage)")
                 self.loadMoreItemsForList()
             }
-            
             completion(true)
         }
     }
@@ -213,7 +212,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateFilterBtn), name: Notification.Name("updateFilterBtn"), object: nil)
         self.setupPagination()
         self.fetchItems()
-
+        
         isViewUp = false
     }
     
@@ -300,19 +299,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         super.viewDidAppear(animated)
     }
     
-    
-    
-    //createFooterView
-//    func createFooterView() -> UIView {
-//        let footerview = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: collectionView.frame.height))
-//        let indicatorView = UIActivityIndicatorView()
-//        indicatorView.center = footerview.center
-//        footerview.addSubview(indicatorView)
-//        indicatorView.startAnimating()
-//        return footerview
-//    }
-    
-    
     private lazy var paginationManager: HorizontalPaginationManager = {
         let manager = HorizontalPaginationManager(scrollView: self.collectionView)
         manager.delegate = self
@@ -322,23 +308,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     private var isDragging: Bool {
         return self.collectionView.isDragging
     }
-
-    
-//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        if(((scrollView.contentOffset.x + scrollView.frame.size.width) > scrollView.contentSize.width ) && !isLoadingList) {
-//            self.isLoadingList = true
-//            if currentPage < viewmodel.eventsOnlyMe.value?.totalPages ?? 0 {
-//                print("self.currentPage >> \(self.currentPage)")
-//                self.collectionView.bringSubviewToFront(createFooterView())
-//                self.loadMoreItemsForList()
-//            }
-//            else {
-//                return
-//            }
-//        }
-//    }
-    
-    
     
     func loadMoreItemsForList(){
         currentPage += 1
@@ -397,7 +366,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     DispatchQueue.main.async {
                         self.hideCollectionView.hideLoader()
                         self.hideCollectionView.isHidden = true
-//                        self.collectionView.willRemoveSubview(createFooterView())
+                        //                        self.collectionView.willRemoveSubview(createFooterView())
                         self.isLoadingList = false
                     }
                 }
@@ -416,16 +385,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     func bindToModel() {
         self.mapView.clear()
-        let startDate = Date()
         
         viewmodel.getAllEventsAroundMe(ByCatIds: catIDs)
         viewmodel.locations.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
-//                let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
-//                print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1 * 1000) second")
-//
-//                print("peoplocationDataCount>> \(value.peoplocationDataMV?.count ?? 0)")
-//                print("eventlocationDataCount>> \(value.eventlocationDataMV?.count ?? 0)")
                 
                 DispatchQueue.main.async {
                     if Defaults.availableVC == "MapVC" {
@@ -438,9 +401,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                         self.setupMarkers(model: value)
                     }
                 }
-                
-//                let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
-//                print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2 * 1000) second")
             }
         }
         
@@ -994,7 +954,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 }
                 
                 DispatchQueue.main.async {
-//                    self.currentPage = 1
+                    self.currentPage = 1
                     self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
                 }
             }
@@ -1064,14 +1024,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         checkLocationPermissionBtns()
         if Defaults.allowMyLocationSettings {
             if self.appendNewLocation {
-                
-                //                    DispatchQueue.main.async {
-                //                        self.setupMarkerz(for: self.location!, markerIcon: "eventMarker_ic", typelocation: "event", markerID: "", eventsCount: 0,isEvent: true,peopleCount: 0)
-                //                    }
-                
-                //                    DispatchQueue.main.async {
-                //                        self.locations.append(EventsLocation(location: self.location!, markerIcon: "eventMarker_ic", typelocation: "event",eventsCount: 0,markerId: "",isEvent: true,peopleCount: 0))
-                //                    }
                 
                 DispatchQueue.main.async {
                     LocationZooming.locationLat = self.location?.latitude ?? 0.0
@@ -1145,7 +1097,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
                     
                     DispatchQueue.main.async {
-//                        self.currentPage = 1
+                        //                        self.currentPage = 1
                         self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
                     }
                 }else {
@@ -1637,11 +1589,11 @@ extension MapVC:UICollectionViewDataSource {
             cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
-//            if model?.eventtype == "External" {
-//                cell.eventColorView.backgroundColor = UIColor.color("#00284c")
-//            }else {
-//                cell.eventColorView.backgroundColor = UIColor.FriendzrColors.primary!
-//            }
+            //            if model?.eventtype == "External" {
+            //                cell.eventColorView.backgroundColor = UIColor.color("#00284c")
+            //            }else {
+            //                cell.eventColorView.backgroundColor = UIColor.FriendzrColors.primary!
+            //            }
             
             //        cell.detailsBtn.backgroundColor = UIColor.color((model?.color ?? ""))
             
@@ -1649,7 +1601,7 @@ extension MapVC:UICollectionViewDataSource {
             cell.expandLbl.textColor = UIColor.color((model?.eventtypecolor ?? ""))
             cell.eventDateLbl.textColor = UIColor.color((model?.eventtypecolor ?? ""))
             cell.eventColorView.backgroundColor = UIColor.color((model?.eventtypecolor ?? ""))
-
+            
             cell.HandledetailsBtn = {
                 if Defaults.token != "" {
                     if model?.eventtype == "External" {
@@ -1735,14 +1687,10 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
                 if catIDs.contains(strData?.id ?? "") {
                     catIDs = catIDs.filter { $0 != strData?.id}
                     catSelectedNames = catSelectedNames.filter { $0 != strData?.name}
-                    //                    Defaults.catIDs = Defaults.catIDs.filter { $0 != strData?.id}
-                    //                    Defaults.catSelectedNames = Defaults.catSelectedNames.filter { $0 != strData?.name}
                 }
                 else {
                     catIDs.append(strData?.id ?? "")
                     catSelectedNames.append(strData?.name ?? "")
-                    //                    Defaults.catIDs.append(strData?.id ?? "")
-                    //                    Defaults.catSelectedNames.append(strData?.name ?? "")
                 }
                 
                 print(catIDs)
@@ -1758,21 +1706,21 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
 }
 
 extension MapVC {
-        func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-    
-            // Find the coordinates
-            let visibleRegion = mapView.projection.visibleRegion()
-            let farLeftLocation = CLLocation(latitude: visibleRegion.farLeft.latitude, longitude: visibleRegion.farLeft.longitude)
-            let centerLocation = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
-    
-            // Calculate the distance as radius.
-            // The distance result from CLLocation is in meters, so we divide it by 1000 to get the value in kilometers
-            let radiusKM = (centerLocation.distance(from: farLeftLocation) / 1000.0).rounded(toPlaces: 1)
-            // Do something with the radius...
-            print("radiusKM \(radiusKM)")
-            radiusMLbl.text = "\(radiusKM * 1000) m"
-            radiusKMLbl.text = "\(radiusKM) km"
-        }
+    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+        
+        // Find the coordinates
+        let visibleRegion = mapView.projection.visibleRegion()
+        let farLeftLocation = CLLocation(latitude: visibleRegion.farLeft.latitude, longitude: visibleRegion.farLeft.longitude)
+        let centerLocation = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
+        
+        // Calculate the distance as radius.
+        // The distance result from CLLocation is in meters, so we divide it by 1000 to get the value in kilometers
+        let radiusKM = (centerLocation.distance(from: farLeftLocation) / 1000.0).rounded(toPlaces: 1)
+        // Do something with the radius...
+        print("radiusKM \(radiusKM)")
+        radiusMLbl.text = "\(radiusKM * 1000) m"
+        radiusKMLbl.text = "\(radiusKM) km"
+    }
     
     func delay(seconds: Double, closure: @escaping () -> ()) {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
@@ -1870,7 +1818,7 @@ extension MapVC {
             }
             
             DispatchQueue.main.async {
-//                self.currentPage = 1
+                //                self.currentPage = 1
                 self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
             }
         }
@@ -1990,7 +1938,7 @@ extension MapVC {
                             }
                             
                             DispatchQueue.main.async {
-//                                self.currentPage = 1
+                                //                                self.currentPage = 1
                                 self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
                             }
                         }
@@ -2067,33 +2015,17 @@ extension MapVC {
         return swipeGestureRecognizer
     }
     
-    //    @objc func presentFilterByCats() {
-    //        if Defaults.token != "" {
-    //            if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "CategoriesNC") as? UINavigationController, let vc = controller.viewControllers.first as? CategoriesViewController {
-    //                vc.selectedIDs = self.catIDs
-    //                vc.selectedCats = self.catSelectedArr
-    //                vc.selectedNames = self.catSelectedNames
-    //                vc.onListCatsCallBackResponse = self.onFilterByCatsCallBack
-    //                self.present(controller, animated: true)
-    //            }
-    //        }
-    //        else {
-    //            Router().toOptionsSignUpVC()
-    //        }
-    //
-    //    }
-    
-    func addBottomSheetView(scrollable: Bool? = true) {
-        let bottomSheetVC = scrollable! ? ScrollableBottomSheetViewController() : BottomSheetViewController()
-        
-        self.addChild(bottomSheetVC)
-        self.view.addSubview(bottomSheetVC.view)
-        bottomSheetVC.didMove(toParent: self)
-        
-        let height = view.frame.height
-        let width  = view.frame.width
-        bottomSheetVC.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
-    }
+//    func addBottomSheetView(scrollable: Bool? = true) {
+//        let bottomSheetVC = scrollable! ? ScrollableBottomSheetViewController() : BottomSheetViewController()
+//
+//        self.addChild(bottomSheetVC)
+//        self.view.addSubview(bottomSheetVC.view)
+//        bottomSheetVC.didMove(toParent: self)
+//
+//        let height = view.frame.height
+//        let width  = view.frame.width
+//        bottomSheetVC.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
+//    }
     
     // MARK: - Actions
     @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
@@ -2112,7 +2044,7 @@ extension MapVC {
                     arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
                     
                     DispatchQueue.main.async {
-//                        self.currentPage = 1
+                        //                        self.currentPage = 1
                         self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
                     }
                 }
