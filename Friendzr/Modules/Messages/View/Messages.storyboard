@@ -10,6 +10,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Montserrat-Bold.ttf">
+            <string>Montserrat-Bold</string>
+        </array>
         <array key="Montserrat-Medium.ttf">
             <string>Montserrat-Medium</string>
         </array>
@@ -1123,6 +1126,158 @@
             </objects>
             <point key="canvasLocation" x="3402.898550724638" y="428.57142857142856"/>
         </scene>
+        <!--Share LocationVC-->
+        <scene sceneID="Yr4-SY-b18">
+            <objects>
+                <viewController storyboardIdentifier="ShareLocationVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NAz-w9-JMl" customClass="ShareLocationVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="t5n-9k-rbV">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hRb-FE-Z83">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <color key="backgroundColor" name="BGColor"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fY0-yL-7aN">
+                                <rect key="frame" x="0.0" y="88" width="414" height="0.0"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="02w-2W-Aeu">
+                                        <rect key="frame" x="19" y="0.0" width="376" height="0.0"/>
+                                        <subviews>
+                                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="ogA-WF-xCJ">
+                                                <rect key="frame" x="5" y="5" width="366" height="51"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </searchBar>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="ogA-WF-xCJ" secondAttribute="trailing" constant="5" id="3yw-fq-jwF"/>
+                                            <constraint firstAttribute="bottom" secondItem="ogA-WF-xCJ" secondAttribute="bottom" constant="5" id="Cpc-ll-gsx"/>
+                                            <constraint firstAttribute="height" id="F2C-fg-NY5"/>
+                                            <constraint firstItem="ogA-WF-xCJ" firstAttribute="top" secondItem="02w-2W-Aeu" secondAttribute="top" constant="5" id="Joy-hy-FI6"/>
+                                            <constraint firstItem="ogA-WF-xCJ" firstAttribute="leading" secondItem="02w-2W-Aeu" secondAttribute="leading" constant="5" id="eIx-yK-rxT"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="3P8-Xv-59F"/>
+                                    <constraint firstItem="02w-2W-Aeu" firstAttribute="width" secondItem="fY0-yL-7aN" secondAttribute="width" multiplier="1:1.1" id="88a-0v-Qo9"/>
+                                    <constraint firstItem="02w-2W-Aeu" firstAttribute="height" secondItem="fY0-yL-7aN" secondAttribute="height" multiplier="1:1.1" id="Czo-YW-HJg"/>
+                                    <constraint firstItem="02w-2W-Aeu" firstAttribute="centerY" secondItem="fY0-yL-7aN" secondAttribute="centerY" id="Szd-gO-oR4"/>
+                                    <constraint firstItem="02w-2W-Aeu" firstAttribute="centerX" secondItem="fY0-yL-7aN" secondAttribute="centerX" id="jcC-Tg-Gqq"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="av5-mv-CRv" customClass="GMSMapView">
+                                <rect key="frame" x="0.0" y="90" width="414" height="674"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mLY-Uj-LtS">
+                                <rect key="frame" x="354" y="706" width="40" height="40"/>
+                                <color key="backgroundColor" name="Color0"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="Hyt-o3-BO7"/>
+                                    <constraint firstAttribute="height" constant="40" id="adL-dy-iPH"/>
+                                </constraints>
+                                <state key="normal" image="current_location_ic"/>
+                                <connections>
+                                    <action selector="currentLocationBtn:" destination="NAz-w9-JMl" eventType="touchUpInside" id="rQU-RO-uRw"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZK9-xB-aYu">
+                                <rect key="frame" x="0.0" y="766" width="414" height="130"/>
+                                <subviews>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location Name : " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nfT-be-kMH">
+                                        <rect key="frame" x="20" y="20" width="374" height="0.0"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="HwV-3B-onB">
+                                        <rect key="frame" x="20" y="30" width="374" height="40"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jNn-jK-Eb6">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="kvE-bC-EK1"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Share">
+                                                    <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="shareLocationBtn:" destination="NAz-w9-JMl" eventType="touchUpInside" id="8tx-HK-2Gj"/>
+                                                </connections>
+                                            </button>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w87-hq-aGg">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="0.0"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Share My Current Location">
+                                                    <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="shareMyCurrentLocationBtn:" destination="NAz-w9-JMl" eventType="touchUpInside" id="hge-4t-2U3"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" name="primaryColor"/>
+                                <constraints>
+                                    <constraint firstItem="HwV-3B-onB" firstAttribute="leading" secondItem="ZK9-xB-aYu" secondAttribute="leading" constant="20" id="2xR-qf-SQM"/>
+                                    <constraint firstItem="HwV-3B-onB" firstAttribute="top" secondItem="ZK9-xB-aYu" secondAttribute="top" constant="30" id="5Hk-h8-qQ9"/>
+                                    <constraint firstItem="HwV-3B-onB" firstAttribute="top" secondItem="nfT-be-kMH" secondAttribute="bottom" constant="10" id="6fh-fJ-JQd"/>
+                                    <constraint firstAttribute="trailing" secondItem="HwV-3B-onB" secondAttribute="trailing" constant="20" id="Bjm-5T-TKU"/>
+                                    <constraint firstItem="nfT-be-kMH" firstAttribute="top" secondItem="ZK9-xB-aYu" secondAttribute="top" constant="20" id="DGh-jP-0G9"/>
+                                    <constraint firstAttribute="bottom" secondItem="HwV-3B-onB" secondAttribute="bottom" constant="60" id="DN0-nB-DRk"/>
+                                    <constraint firstAttribute="trailing" secondItem="nfT-be-kMH" secondAttribute="trailing" constant="20" id="SsD-QF-XN4"/>
+                                    <constraint firstItem="nfT-be-kMH" firstAttribute="leading" secondItem="ZK9-xB-aYu" secondAttribute="leading" constant="20" id="nII-yq-kIf"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="oaI-eJ-X47"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ZK9-xB-aYu" firstAttribute="leading" secondItem="oaI-eJ-X47" secondAttribute="leading" id="1vb-DE-WXA"/>
+                            <constraint firstAttribute="bottom" secondItem="ZK9-xB-aYu" secondAttribute="bottom" id="5X7-xT-6UI"/>
+                            <constraint firstAttribute="bottom" secondItem="hRb-FE-Z83" secondAttribute="bottom" id="LB8-oy-Gxl"/>
+                            <constraint firstItem="fY0-yL-7aN" firstAttribute="leading" secondItem="oaI-eJ-X47" secondAttribute="leading" id="Mwz-B6-h1r"/>
+                            <constraint firstItem="oaI-eJ-X47" firstAttribute="trailing" secondItem="ZK9-xB-aYu" secondAttribute="trailing" id="PNg-SZ-DsJ"/>
+                            <constraint firstItem="fY0-yL-7aN" firstAttribute="top" secondItem="oaI-eJ-X47" secondAttribute="top" id="PgL-44-3Vn"/>
+                            <constraint firstItem="av5-mv-CRv" firstAttribute="leading" secondItem="oaI-eJ-X47" secondAttribute="leading" id="Q1v-ow-hOM"/>
+                            <constraint firstItem="oaI-eJ-X47" firstAttribute="trailing" secondItem="mLY-Uj-LtS" secondAttribute="trailing" constant="20" id="Qqu-F3-bCO"/>
+                            <constraint firstItem="hRb-FE-Z83" firstAttribute="leading" secondItem="t5n-9k-rbV" secondAttribute="leading" id="Wu2-3l-vTR"/>
+                            <constraint firstItem="ZK9-xB-aYu" firstAttribute="top" secondItem="mLY-Uj-LtS" secondAttribute="bottom" constant="20" id="cGF-Bg-OGN"/>
+                            <constraint firstItem="fY0-yL-7aN" firstAttribute="trailing" secondItem="oaI-eJ-X47" secondAttribute="trailing" id="fXQ-Cb-YpF"/>
+                            <constraint firstItem="ZK9-xB-aYu" firstAttribute="top" secondItem="av5-mv-CRv" secondAttribute="bottom" constant="2" id="hUr-tH-RvI"/>
+                            <constraint firstAttribute="trailing" secondItem="hRb-FE-Z83" secondAttribute="trailing" id="ne7-UW-vjo"/>
+                            <constraint firstItem="av5-mv-CRv" firstAttribute="top" secondItem="fY0-yL-7aN" secondAttribute="bottom" constant="2" id="s1j-nO-Boc"/>
+                            <constraint firstItem="hRb-FE-Z83" firstAttribute="top" secondItem="oaI-eJ-X47" secondAttribute="top" id="t99-an-2Zm"/>
+                            <constraint firstItem="av5-mv-CRv" firstAttribute="trailing" secondItem="oaI-eJ-X47" secondAttribute="trailing" id="yQP-hm-Wc9"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="2oA-a1-IuH"/>
+                    <connections>
+                        <outlet property="locationNameLbl" destination="nfT-be-kMH" id="m9r-ea-IgG"/>
+                        <outlet property="mapView" destination="av5-mv-CRv" id="G09-9a-19l"/>
+                        <outlet property="myCurrentLocationBtn" destination="mLY-Uj-LtS" id="Mjs-LG-NhT"/>
+                        <outlet property="searchView" destination="02w-2W-Aeu" id="Y5g-fF-Mei"/>
+                        <outlet property="searchbar" destination="ogA-WF-xCJ" id="tcO-yL-5cQ"/>
+                        <outlet property="shareLocationBtn" destination="jNn-jK-Eb6" id="JGx-WM-sMf"/>
+                        <outlet property="shareMyCurrentLocationBtn" destination="w87-hq-aGg" id="LdA-yY-2iC"/>
+                        <outlet property="subView" destination="ZK9-xB-aYu" id="td9-Tc-CiQ"/>
+                        <outlet property="topView" destination="fY0-yL-7aN" id="hDX-WC-Bnj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CQX-Pm-Ygn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5485.507246376812" y="403.79464285714283"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="fuK-ha-SgL">
             <objects>
@@ -1141,15 +1296,37 @@
             </objects>
             <point key="canvasLocation" x="2492.753623188406" y="428.57142857142856"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="0W0-cD-x8l">
+            <objects>
+                <navigationController storyboardIdentifier="ShareLocationNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Xik-hV-ZYO" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ONW-R6-tob">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="NAz-w9-JMl" kind="relationship" relationship="rootViewController" id="BN8-ZT-5Gt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="doc-8Y-On6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4575.36231884058" y="403.79464285714283"/>
+        </scene>
     </scenes>
     <resources>
         <image name="attach_ic" width="16" height="16"/>
+        <image name="current_location_ic" width="256" height="256"/>
         <image name="emoji_ic" width="32" height="32"/>
         <image name="menuBlack_ic" width="32" height="32"/>
         <image name="placeHolderApp" width="2583" height="2479"/>
         <image name="send_ic" width="64" height="64"/>
         <namedColor name="BGColor">
             <color red="0.9570000171661377" green="0.97299998998641968" blue="0.95300000905990601" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Color0">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="primaryColor">
             <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

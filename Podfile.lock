@@ -855,7 +855,6 @@ PODS:
   - GTMSessionFetcher/Core (1.7.1)
   - InMobiSDK/Core (10.0.5)
   - IQKeyboardManager (6.5.9)
-  - Kingfisher (7.2.1)
   - leveldb-library (1.22.1)
   - Libuv-gRPC (0.0.10):
     - Libuv-gRPC/Implementation (= 0.0.10)
@@ -905,7 +904,6 @@ DEPENDENCIES:
   - GooglePlaces
   - GoogleSignIn
   - IQKeyboardManager
-  - Kingfisher
   - ListPlaceholder
   - MSImagePickerSheetController
   - MultiSlider
@@ -961,7 +959,6 @@ SPEC REPOS:
     - GTMSessionFetcher
     - InMobiSDK
     - IQKeyboardManager
-    - Kingfisher
     - leveldb-library
     - Libuv-gRPC
     - ListPlaceholder
@@ -1021,7 +1018,6 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 4577a4cc914a5a07c40a8a0ad0acc22080418c2d
   InMobiSDK: eea7bd698847e9ca88e4721ca9e9c7039f0e671d
   IQKeyboardManager: 241cc94ccabc9deb8f8bd7d12f00d73288d13ecc
-  Kingfisher: 7c084bebf7d548c623ad41bcf765fb200efed369
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   ListPlaceholder: 2d7950014852ee5613d636cf14fd1bb93419e330
@@ -1035,6 +1031,6 @@ SPEC CHECKSUMS:
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
   SweeterSwift: 61baeda1c0c27d1dc57c8112c3d6a82e5aff3139
 
-PODFILE CHECKSUM: 4c9faca2e04250c52a70843808ba1a207b40c724
+PODFILE CHECKSUM: f5a28fd6386a34374fc9f95d380ae4aad038b436
 
 COCOAPODS: 1.10.2

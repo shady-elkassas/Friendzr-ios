@@ -16,7 +16,6 @@ import SDWebImage
 import MSImagePickerSheetController
 import Photos
 import ListPlaceholder
-import Kingfisher
 import MapKit
 
 
@@ -197,8 +196,8 @@ class MessagesVC: UIViewController {
         tableView.refreshControl = refreshControl
         inputTextField.delegate = self
         
-//        hideKeyboardWhenTappedAround()
-//        inputTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
+        //        hideKeyboardWhenTappedAround()
+        //        inputTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
         
         for item in imgsView {
             item.cornerRadiusView(radius: 10)
@@ -220,7 +219,7 @@ class MessagesVC: UIViewController {
             }
         }
         
-//        self.isRefreshNewMessages = true
+        //        self.isRefreshNewMessages = true
     }
     
     //MARK: - Load More Messages
@@ -278,9 +277,9 @@ class MessagesVC: UIViewController {
             self.tableView.scroll(to: .bottom, animated: true)
         }
         
-//        DispatchQueue.main.async {
-//            self.tableView.reloadDataAndKeepOffset()
-//        }
+        //        DispatchQueue.main.async {
+        //            self.tableView.reloadDataAndKeepOffset()
+        //        }
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
@@ -402,17 +401,22 @@ extension MessagesVC {
         let fileBtn = UIAlertAction(title: "File", style: .default) {_ in
             self.openFileLibrary()
         }
+        let locationBtn = UIAlertAction(title: "Location", style: .default) {_ in
+            self.openShareLocationVC()
+        }
         
         let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
         libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
         fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        locationBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
         cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
         
         actionSheet.addAction(cameraBtn)
         actionSheet.addAction(libraryBtn)
         actionSheet.addAction(fileBtn)
+        //        actionSheet.addAction(locationBtn)
         actionSheet.addAction(cancelBtn)
         
         present(actionSheet, animated: true, completion: nil)
@@ -461,6 +465,13 @@ extension MessagesVC {
         dismiss(animated: true, completion: nil)
     }
     
+    
+    func openShareLocationVC() {
+        
+        if let controller = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "ShareLocationNC") as? UINavigationController, let _ = controller.viewControllers.first as? ShareLocationVC {
+            self.present(controller, animated: true)
+        }
+    }
 }
 
 // MARK: - ImagePickerSheetControllerDelegate
@@ -518,9 +529,9 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             }
             
             
-//            let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureCellAction))
-//            cell.contentView.addGestureRecognizer(panGestureRecognizer)
-
+            //            let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureCellAction))
+            //            cell.contentView.addGestureRecognizer(panGestureRecognizer)
+            
             return cell
         }
         else if model.messageType == 2 { //image
@@ -815,7 +826,7 @@ extension MessagesVC {
                     self.showDownView()
                     self.updateTitleView(image: self.titleChatImage, subtitle: self.titleChatName, titleId: self.eventChatID, isEvent: true)
                 }
-
+                
             }
         }
         
@@ -940,7 +951,7 @@ extension MessagesVC {
                     self.showDownView()
                     self.updateTitleView(image: self.titleChatImage, subtitle: self.titleChatName, titleId: self.groupId, isEvent: false)
                 }
-
+                
             }
         }
         
@@ -1175,7 +1186,7 @@ extension MessagesVC {
             return "\(relativeDateString)"
         }
     }
-        
+    
     func buildFormatter(locale: Locale,hasRelativeDate: Bool = false, dateFormat: String? = nil) -> DateFormatter {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
@@ -1187,7 +1198,7 @@ extension MessagesVC {
         formatter.calendar = Calendar(identifier: .iso8601)
         return formatter
     }
-
+    
     
     func dateFormatterToString(_ formatter: DateFormatter, _ date: Date) -> String {
         return formatter.string(from: date)
@@ -1226,7 +1237,7 @@ extension MessagesVC {
         if let dateFormat = dateFormat { formatter.dateFormat = dateFormat }
         formatter.doesRelativeDateFormatting = hasRelativeDate
         formatter.locale = Locale.current
-//        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        //        formatter.timeZone = TimeZone(secondsFromGMT: 0)
         formatter.calendar = Calendar(identifier: .iso8601)
         return formatter
     }
@@ -1925,7 +1936,7 @@ extension MessagesVC: UIDocumentPickerDelegate {
 //MARK: - scroll table view
 extension UITableView {
     func reloadDataAndKeepOffset() {
-//        keyboardDismissMode = .onDrag
+        //        keyboardDismissMode = .onDrag
         
         // stop scrolling
         setContentOffset(contentOffset, animated: false)

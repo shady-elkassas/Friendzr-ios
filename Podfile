@@ -24,7 +24,6 @@ target 'Friendzr' do
 
   pod 'IQKeyboardManager'
   pod 'SDWebImage'
-  pod 'Kingfisher'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'MultiSlider'
