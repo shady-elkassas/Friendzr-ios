@@ -54,8 +54,6 @@
 		4315DB41278DBB12005AB950 /* GenderDistributionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4315DB3F278DBB12005AB950 /* GenderDistributionTableViewCell.swift */; };
 		4315DB42278DBB12005AB950 /* GenderDistributionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4315DB40278DBB12005AB950 /* GenderDistributionTableViewCell.xib */; };
 		4319612827A7E1940057FDC2 /* ExtensionMapKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4319612727A7E1940057FDC2 /* ExtensionMapKit.swift */; };
-		4319612B27A811530057FDC2 /* TabsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4319612927A811530057FDC2 /* TabsCollectionViewCell.swift */; };
-		4319612C27A811530057FDC2 /* TabsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4319612A27A811530057FDC2 /* TabsCollectionViewCell.xib */; };
 		431D739327BB9EEC00EC8F7B /* IamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D739227BB9EEC00EC8F7B /* IamViewModel.swift */; };
 		431D739527BB9EF800EC8F7B /* IamModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D739427BB9EF800EC8F7B /* IamModel.swift */; };
 		431D739727BBA08900EC8F7B /* IamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D739627BBA08900EC8F7B /* IamVC.swift */; };
@@ -140,7 +138,6 @@
 		4362888626C8FF3A00B51E51 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362888526C8FF3A00B51E51 /* FeedVC.swift */; };
 		4362888D26C8FF6500B51E51 /* RequestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362888C26C8FF6500B51E51 /* RequestVC.swift */; };
 		4362889426C8FF9300B51E51 /* MoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362889326C8FF9300B51E51 /* MoreVC.swift */; };
-		4362889C26C9140E00B51E51 /* RequestTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362889A26C9140E00B51E51 /* RequestTableViewCell.swift */; };
 		436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4362889F26C9186C00B51E51 /* FeedsTableViewCell.swift */; };
 		436288A526C9334900B51E51 /* ChatListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 436288A326C9334900B51E51 /* ChatListTableViewCell.swift */; };
 		436288A626C9334900B51E51 /* ChatListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 436288A426C9334900B51E51 /* ChatListTableViewCell.xib */; };
@@ -313,7 +310,6 @@
 		43D008DA2794386A00370E2C /* EmptyViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D008DC2794386A00370E2C /* EmptyViewTableViewCell.xib */; };
 		43D008E12794388300370E2C /* UsersFeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D008E32794388300370E2C /* UsersFeedTableViewCell.xib */; };
 		43D008E8279438B300370E2C /* Request.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43D008EA279438B300370E2C /* Request.storyboard */; };
-		43D008EF27943A1500370E2C /* RequestTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D008F127943A1500370E2C /* RequestTableViewCell.xib */; };
 		43D008F627943A4200370E2C /* RequestsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D008F827943A4200370E2C /* RequestsTableViewCell.xib */; };
 		43D008FD27943A6700370E2C /* Map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43D008FF27943A6700370E2C /* Map.storyboard */; };
 		43D0090427943F0D00370E2C /* EventsInLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D0090627943F0D00370E2C /* EventsInLocationTableViewCell.xib */; };
@@ -357,7 +353,6 @@
 		43DAF9DE27D62A9A00D16462 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DAF9DD27D62A9A00D16462 /* ImageDownloader.swift */; };
 		43DAFA2E27D6472B00D16462 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DAFA2D27D6472B00D16462 /* NotificationService.swift */; };
 		43DAFA3227D6472B00D16462 /* NotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 43DAFA2B27D6472B00D16462 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		43DC08082861E73E00B7A6DD /* MyCustomShimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DC08072861E73E00B7A6DD /* MyCustomShimmer.swift */; };
 		43DC080A2863076F00B7A6DD /* CatsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DC08092863076F00B7A6DD /* CatsVC.swift */; };
 		43DF596827B942FB000D9F69 /* ShareEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DF596727B942FB000D9F69 /* ShareEventVC.swift */; };
 		43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E692BF2765FF9D0075671D /* Ex+Switch.swift */; };
@@ -480,8 +475,6 @@
 		4315DB3F278DBB12005AB950 /* GenderDistributionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderDistributionTableViewCell.swift; sourceTree = "<group>"; };
 		4315DB40278DBB12005AB950 /* GenderDistributionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenderDistributionTableViewCell.xib; sourceTree = "<group>"; };
 		4319612727A7E1940057FDC2 /* ExtensionMapKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionMapKit.swift; sourceTree = "<group>"; };
-		4319612927A811530057FDC2 /* TabsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsCollectionViewCell.swift; sourceTree = "<group>"; };
-		4319612A27A811530057FDC2 /* TabsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TabsCollectionViewCell.xib; sourceTree = "<group>"; };
 		431D739227BB9EEC00EC8F7B /* IamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IamViewModel.swift; sourceTree = "<group>"; };
 		431D739427BB9EF800EC8F7B /* IamModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IamModel.swift; sourceTree = "<group>"; };
 		431D739627BBA08900EC8F7B /* IamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IamVC.swift; sourceTree = "<group>"; };
@@ -566,7 +559,6 @@
 		4362888526C8FF3A00B51E51 /* FeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
 		4362888C26C8FF6500B51E51 /* RequestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestVC.swift; sourceTree = "<group>"; };
 		4362889326C8FF9300B51E51 /* MoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreVC.swift; sourceTree = "<group>"; };
-		4362889A26C9140E00B51E51 /* RequestTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestTableViewCell.swift; sourceTree = "<group>"; };
 		4362889F26C9186C00B51E51 /* FeedsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedsTableViewCell.swift; sourceTree = "<group>"; };
 		436288A326C9334900B51E51 /* ChatListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListTableViewCell.swift; sourceTree = "<group>"; };
 		436288A426C9334900B51E51 /* ChatListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatListTableViewCell.xib; sourceTree = "<group>"; };
@@ -743,7 +735,6 @@
 		43D008DB2794386A00370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EmptyViewTableViewCell.xib; sourceTree = "<group>"; };
 		43D008E22794388300370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/UsersFeedTableViewCell.xib; sourceTree = "<group>"; };
 		43D008E9279438B300370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Request.storyboard; sourceTree = "<group>"; };
-		43D008F027943A1500370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/RequestTableViewCell.xib; sourceTree = "<group>"; };
 		43D008F727943A4200370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/RequestsTableViewCell.xib; sourceTree = "<group>"; };
 		43D008FE27943A6700370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Map.storyboard; sourceTree = "<group>"; };
 		43D0090527943F0D00370E2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/EventsInLocationTableViewCell.xib; sourceTree = "<group>"; };
@@ -791,7 +782,6 @@
 		43DAFA2B27D6472B00D16462 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		43DAFA2D27D6472B00D16462 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		43DAFA2F27D6472B00D16462 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		43DC08072861E73E00B7A6DD /* MyCustomShimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCustomShimmer.swift; sourceTree = "<group>"; };
 		43DC08092863076F00B7A6DD /* CatsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatsVC.swift; sourceTree = "<group>"; };
 		43DF596727B942FB000D9F69 /* ShareEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareEventVC.swift; sourceTree = "<group>"; };
 		43E692BF2765FF9D0075671D /* Ex+Switch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Switch.swift"; sourceTree = "<group>"; };
@@ -1300,7 +1290,6 @@
 				437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */,
 				431505772705F90E002387A1 /* DegreeScaleView.swift */,
 				43E692BF2765FF9D0075671D /* Ex+Switch.swift */,
-				43DC08072861E73E00B7A6DD /* MyCustomShimmer.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1392,12 +1381,8 @@
 		4362889926C90CD700B51E51 /* cell */ = {
 			isa = PBXGroup;
 			children = (
-				4362889A26C9140E00B51E51 /* RequestTableViewCell.swift */,
-				43D008F127943A1500370E2C /* RequestTableViewCell.xib */,
 				4337B47427870F000077B794 /* RequestsTableViewCell.swift */,
 				43D008F827943A4200370E2C /* RequestsTableViewCell.xib */,
-				4319612927A811530057FDC2 /* TabsCollectionViewCell.swift */,
-				4319612A27A811530057FDC2 /* TabsCollectionViewCell.xib */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -2071,7 +2056,6 @@
 				43B8288327EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.xib in Resources */,
 				43ABA61228758A20004716E4 /* DIN2014-BoldItalic.ttf in Resources */,
 				43ACFEC027B3B0EB001CD340 /* EventImageTableViewCell.xib in Resources */,
-				4319612C27A811530057FDC2 /* TabsCollectionViewCell.xib in Resources */,
 				43C342F32871BDC500577F19 /* Friendzrlogomark.gif in Resources */,
 				436288A626C9334900B51E51 /* ChatListTableViewCell.xib in Resources */,
 				43ACFED827B3B7F0001CD340 /* EventDetailsAttendeesTableViewCell.xib in Resources */,
@@ -2154,7 +2138,6 @@
 				43D1A4CC2884252900830D8D /* Tutorial4.mov in Resources */,
 				439381432816B009002FFED1 /* GoogleService-Info.plist in Resources */,
 				43D1A4DA28842A4200830D8D /* tutorial3.mov in Resources */,
-				43D008EF27943A1500370E2C /* RequestTableViewCell.xib in Resources */,
 				436850A027453E3800A62287 /* TagCollectionViewCell.xib in Resources */,
 				43967D8B27944D18005B1F5D /* EventCalendarView.xib in Resources */,
 				43148539278C3E110048EC01 /* SelectedFriendTableViewCell.xib in Resources */,
@@ -2373,7 +2356,6 @@
 				43119D6626E4BFDB00AD2260 /* EditProfileViewModel.swift in Sources */,
 				4369F46127994FE000D5E064 /* DeepLinks.swift in Sources */,
 				430D425926D3854200188E42 /* InterestsTableViewCell.swift in Sources */,
-				4362889C26C9140E00B51E51 /* RequestTableViewCell.swift in Sources */,
 				43886861278344F1004D36B2 /* ProblemTableViewCell.swift in Sources */,
 				43FED20A26DE3FCF00255B96 /* EventModel.swift in Sources */,
 				43119D7026E4C1E800AD2260 /* GeneratedUserNameViewModel.swift in Sources */,
@@ -2424,7 +2406,6 @@
 				431D739527BB9EF800EC8F7B /* IamModel.swift in Sources */,
 				4388686D27845C4D004D36B2 /* ReportModel.swift in Sources */,
 				43E692C02765FF9D0075671D /* Ex+Switch.swift in Sources */,
-				43DC08082861E73E00B7A6DD /* MyCustomShimmer.swift in Sources */,
 				43119D7C26E4F0A500AD2260 /* TotlalNumberEventViewModel.swift in Sources */,
 				432C6AD726F33BD60029FB89 /* TagView.swift in Sources */,
 				439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */,
@@ -2468,7 +2449,6 @@
 				433CDE1F27CCC46600A80A40 /* EventTimeVC.swift in Sources */,
 				4388685E278344F1004D36B2 /* ReportTitleTableViewCell.swift in Sources */,
 				4320A64F26F21180003604EE /* BlockedTableViewCell.swift in Sources */,
-				4319612B27A811530057FDC2 /* TabsCollectionViewCell.swift in Sources */,
 				4367E46027BA478900FE1880 /* FriendImageProfileTableViewCell.swift in Sources */,
 				43D545B526CBD81E0064660A /* Magnetic.swift in Sources */,
 				43375F5A27130D9E009EBED6 /* NotificationsViewModel.swift in Sources */,
@@ -2774,14 +2754,6 @@
 				43D008E9279438B300370E2C /* Base */,
 			);
 			name = Request.storyboard;
-			sourceTree = "<group>";
-		};
-		43D008F127943A1500370E2C /* RequestTableViewCell.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				43D008F027943A1500370E2C /* Base */,
-			);
-			name = RequestTableViewCell.xib;
 			sourceTree = "<group>";
 		};
 		43D008F827943A4200370E2C /* RequestsTableViewCell.xib */ = {
