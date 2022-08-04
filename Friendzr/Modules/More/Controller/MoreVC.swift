@@ -27,10 +27,12 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     @IBOutlet var bannerView: UIView!
     @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
 
+    
     //MARK: - Properties
     let cellID = "MoreTableViewCell"
     var moreList : [(String,UIImage)] = []
     var logoutVM:LogoutViewModel = LogoutViewModel()
+    var linkClickedVM:LinkClickViewModel = LinkClickViewModel()
     
     lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
     
@@ -204,12 +206,12 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         self.dismiss(animated: true, completion: nil)
     }
     
-    func shareApp() {
+    func shareApp(urlStr:String) {
         // Setting description
         let firstActivityItem = ""
         
         // Setting url
-        let secondActivityItem : NSURL = NSURL(string: "http://onelink.to/friendzr")!
+        let secondActivityItem : NSURL = NSURL(string: urlStr)!
         
         // If you want to use an image
         let image : UIImage = UIImage(named: "Share_ic")!
@@ -355,7 +357,24 @@ extension MoreVC : UITableViewDelegate {
             break
         case 3: //share
             if NetworkConected.internetConect {
-                shareApp()
+                DispatchQueue.main.async {
+                    self.linkClickedVM.linkClickRequest(Key: "Share") { error, data in
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let data = data else {
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.shareApp(urlStr: data)
+                        }
+                    }
+                }
             }
             break
         case 4: //settings
@@ -367,13 +386,27 @@ extension MoreVC : UITableViewDelegate {
         case 5://help
             guard let vc = UIViewController.viewController(withStoryboard: .TutorialScreens, AndContollerID: "TutorialScreensOneVC") as? TutorialScreensOneVC else {return}
             vc.selectVC = "MoreVC"
+            DispatchQueue.main.async {
+                self.linkClickedVM.linkClickRequest(Key: "Help") { error, data in
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard let _ = data else {
+                        return
+                    }
+                }
+            }
             self.navigationController?.pushViewController(vc, animated: true)
             break
         case 6://Tips& Guides
             if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "Tips and Guidance".localizedString
-                vc.urlString = "https://friendzr.com/tips-and-guidance/"
+                vc.keyClicked = "TipsAndGuidance"
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
@@ -381,7 +414,7 @@ extension MoreVC : UITableViewDelegate {
             if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "About Us".localizedString
-                vc.urlString = "https://friendzr.com/about-us/"
+                vc.keyClicked = "AboutUs"
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
@@ -389,7 +422,7 @@ extension MoreVC : UITableViewDelegate {
             if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "Terms & Conditions".localizedString
-                vc.urlString = "https://friendzr.com/terms-conditions/"
+                vc.keyClicked = "TermsAndConditions"
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
@@ -397,21 +430,39 @@ extension MoreVC : UITableViewDelegate {
             if NetworkConected.internetConect {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
                 vc.titleVC = "Privacy Policy".localizedString
-                vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/Friendzr-Privacy-Policy.pdf"
+                vc.keyClicked = "PrivacyPolicy"
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             break
         case 10: //contactus
             if NetworkConected.internetConect {
-                let subjectTitle = "Suggestions"
-                let messageBody = ""
-                let toRecipents = ["support@friendzr.com"]
-                let mc: MFMailComposeViewController = MFMailComposeViewController()
-                mc.mailComposeDelegate = self
-                mc.setSubject(subjectTitle)
-                mc.setMessageBody(messageBody, isHTML: false)
-                mc.setToRecipients(toRecipents)
-                self.present(mc, animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    self.linkClickedVM.linkClickRequest(Key: "SupportRequest") { error, data in
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard let data = data else {
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            let subjectTitle = "Suggestions"
+                            let messageBody = ""
+                            let toRecipents = ["support@friendzr.com"]
+                            let mc: MFMailComposeViewController = MFMailComposeViewController()
+                            mc.mailComposeDelegate = self
+                            mc.setSubject(subjectTitle)
+                            mc.setMessageBody(messageBody, isHTML: false)
+                            mc.setToRecipients(toRecipents)
+                            self.present(mc, animated: true, completion: nil)
+                        }
+                    }
+                }
+                
             }
             break
         case 11://logout

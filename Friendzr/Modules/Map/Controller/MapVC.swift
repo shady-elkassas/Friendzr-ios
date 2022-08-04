@@ -16,6 +16,8 @@ import ListPlaceholder
 import Network
 import SDWebImage
 
+https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&types=food&name=cruise&key=AddYourOwnKeyHere
+
 let googleApiKey = "AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY"
 
 //select location protocol
@@ -366,7 +368,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     DispatchQueue.main.async {
                         self.hideCollectionView.hideLoader()
                         self.hideCollectionView.isHidden = true
-                        //                        self.collectionView.willRemoveSubview(createFooterView())
                         self.isLoadingList = false
                     }
                 }
@@ -2015,17 +2016,17 @@ extension MapVC {
         return swipeGestureRecognizer
     }
     
-//    func addBottomSheetView(scrollable: Bool? = true) {
-//        let bottomSheetVC = scrollable! ? ScrollableBottomSheetViewController() : BottomSheetViewController()
-//
-//        self.addChild(bottomSheetVC)
-//        self.view.addSubview(bottomSheetVC.view)
-//        bottomSheetVC.didMove(toParent: self)
-//
-//        let height = view.frame.height
-//        let width  = view.frame.width
-//        bottomSheetVC.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
-//    }
+    //    func addBottomSheetView(scrollable: Bool? = true) {
+    //        let bottomSheetVC = scrollable! ? ScrollableBottomSheetViewController() : BottomSheetViewController()
+    //
+    //        self.addChild(bottomSheetVC)
+    //        self.view.addSubview(bottomSheetVC.view)
+    //        bottomSheetVC.didMove(toParent: self)
+    //
+    //        let height = view.frame.height
+    //        let width  = view.frame.width
+    //        bottomSheetVC.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
+    //    }
     
     // MARK: - Actions
     @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {

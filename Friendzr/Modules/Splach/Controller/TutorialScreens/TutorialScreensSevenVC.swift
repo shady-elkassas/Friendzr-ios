@@ -39,6 +39,8 @@ class TutorialScreensSevenVC: UIViewController {
     var myMutableString3 = NSMutableAttributedString()
     var myMutableString4 = NSMutableAttributedString()
     
+    var linkClickedVM:LinkClickViewModel = LinkClickViewModel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -130,6 +132,21 @@ class TutorialScreensSevenVC: UIViewController {
     
     
     @IBAction func skipBtn(_ sender: Any) {
+        DispatchQueue.main.async {
+            self.linkClickedVM.linkClickRequest(Key: "SkipTutorial") { error, data in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    return
+                }
+                
+                guard let _ = data else {
+                    return
+                }
+            }
+        }
+        
         Router().toEditProfileVC(needUpdate: true)
     }
     

@@ -83,6 +83,8 @@
 		4330757826E78AA1002940DF /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4330757726E78AA1002940DF /* UIImageExtension.swift */; };
 		4330757A26E7918B002940DF /* AttendeesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4330757926E7918B002940DF /* AttendeesViewModel.swift */; };
 		4330757C26E79299002940DF /* JoinEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4330757B26E79299002940DF /* JoinEventViewModel.swift */; };
+		43316D1D289BC56F0031BDC9 /* LinkClickViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43316D1C289BC56F0031BDC9 /* LinkClickViewModel.swift */; };
+		43316D1F289BC57A0031BDC9 /* LinkClickModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43316D1E289BC57A0031BDC9 /* LinkClickModel.swift */; };
 		4333DA7726C3BC350029F2B0 /* OptionsSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333DA7626C3BC350029F2B0 /* OptionsSignUpVC.swift */; };
 		4333DA8226C3CFEC0029F2B0 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333DA8126C3CFEC0029F2B0 /* RegisterVC.swift */; };
 		4333DA8626C405CC0029F2B0 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4333DA8526C405CC0029F2B0 /* LoginVC.swift */; };
@@ -504,6 +506,8 @@
 		4330757726E78AA1002940DF /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		4330757926E7918B002940DF /* AttendeesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendeesViewModel.swift; sourceTree = "<group>"; };
 		4330757B26E79299002940DF /* JoinEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinEventViewModel.swift; sourceTree = "<group>"; };
+		43316D1C289BC56F0031BDC9 /* LinkClickViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkClickViewModel.swift; sourceTree = "<group>"; };
+		43316D1E289BC57A0031BDC9 /* LinkClickModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkClickModel.swift; sourceTree = "<group>"; };
 		4333DA7626C3BC350029F2B0 /* OptionsSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsSignUpVC.swift; sourceTree = "<group>"; };
 		4333DA8126C3CFEC0029F2B0 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		4333DA8526C405CC0029F2B0 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
@@ -911,6 +915,7 @@
 			isa = PBXGroup;
 			children = (
 				4308EB7D26EA34FC00D71379 /* LogoutModel.swift */,
+				43316D1E289BC57A0031BDC9 /* LinkClickModel.swift */,
 				4326A8F426F87AD400D471E0 /* SettingsModel.swift */,
 				43375F5727130D94009EBED6 /* NotificationsModel.swift */,
 				436DD05F27E1287000A4A7F7 /* AllValidatConfigModel.swift */,
@@ -927,6 +932,7 @@
 				4326A8F626F87AE000D471E0 /* SettingsViewModel.swift */,
 				43375F5927130D9E009EBED6 /* NotificationsViewModel.swift */,
 				436DD05D27E1285F00A4A7F7 /* AllValidatConfigViewModel.swift */,
+				43316D1C289BC56F0031BDC9 /* LinkClickViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -2340,6 +2346,7 @@
 				4336D12726DB89210093C7A6 /* UserNameViewModel.swift in Sources */,
 				43D545C926CCFBA10064660A /* CircleView.swift in Sources */,
 				43C0E18F27FDAB1A00555023 /* NetworkMonitor.swift in Sources */,
+				43316D1D289BC56F0031BDC9 /* LinkClickViewModel.swift in Sources */,
 				43375F5627130D85009EBED6 /* NotificationsVC.swift in Sources */,
 				4303F1F127F1E60D00221E01 /* ExpandDescriptionVC.swift in Sources */,
 				433CDE2727CE132F00A80A40 /* FacialRecognitionPopUpView2.swift in Sources */,
@@ -2522,6 +2529,7 @@
 				43EA53B027DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift in Sources */,
 				4360CD0827F07CDE009A51C7 /* ExternalImageTableViewCell.swift in Sources */,
 				43C64A042795806400C35FA8 /* TitleGroupViewModel.swift in Sources */,
+				43316D1F289BC57A0031BDC9 /* LinkClickModel.swift in Sources */,
 				43A332682781C9B2001ADB84 /* GhostModeTableViewCell.swift in Sources */,
 				43B8288227EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.swift in Sources */,
 				4309E73726EF422F001B227D /* RequestFriendStatusViewModel.swift in Sources */,

@@ -20,7 +20,8 @@ class TutorialScreensTwoVC: UIViewController {
     var selectVC:String = ""
     var player:AVPlayer = AVPlayer()
     var playerLayer = AVPlayerLayer()
-    
+    var linkClickedVM:LinkClickViewModel = LinkClickViewModel()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -90,6 +91,20 @@ class TutorialScreensTwoVC: UIViewController {
     
     
     @IBAction func skipBtn(_ sender: Any) {
+        DispatchQueue.main.async {
+            self.linkClickedVM.linkClickRequest(Key: "SkipTutorial") { error, data in
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    return
+                }
+                
+                guard let _ = data else {
+                    return
+                }
+            }
+        }
         Router().toEditProfileVC(needUpdate: true)
     }
     

@@ -185,7 +185,7 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
     @IBAction func termsBtn(_ sender: Any) {
         guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "TermsAndConditionsVC") as? TermsAndConditionsVC else {return}
         vc.titleVC = "Terms & Conditions".localizedString
-        vc.urlString = "https://friendzr.com/wp-content/uploads/2021/10/EULAOct2021.pdf"
+        vc.keyClicked = "TermsAndConditions"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

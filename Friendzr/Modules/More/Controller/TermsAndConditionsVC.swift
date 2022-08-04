@@ -16,7 +16,10 @@ class TermsAndConditionsVC: UIViewController,WKNavigationDelegate {
     //MARK: - Properties
     var webView: WKWebView!
     var titleVC = ""
-    var urlString = ""
+    var keyClicked = ""
+    
+    
+    var viewmodel:LinkClickViewModel = LinkClickViewModel()
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -24,7 +27,7 @@ class TermsAndConditionsVC: UIViewController,WKNavigationDelegate {
         
         setupNavBar()
         initBackButton()
-        setupWebView()
+        getlinkClick()
         self.title = titleVC
     }
     
@@ -43,8 +46,30 @@ class TermsAndConditionsVC: UIViewController,WKNavigationDelegate {
         CancelRequest.currentTask = true
     }
     
+    //MARK: - APIs
+    
+    func getlinkClick() {
+        viewmodel.linkClickRequest(Key: keyClicked) { error, data in
+            
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.setupWebView(urlStr: data)
+            }
+        }
+    }
+    
     //MARK: - Helper
-    func setupWebView() {
+    func setupWebView(urlStr:String) {
         webView = WKWebView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height), configuration: WKWebViewConfiguration() )
         self.view.addSubview(webView)
         webView.backgroundColor = .clear
@@ -54,7 +79,7 @@ class TermsAndConditionsVC: UIViewController,WKNavigationDelegate {
         webView.scrollView.showsHorizontalScrollIndicator = false
         webView.scrollView.showsVerticalScrollIndicator = false
 
-        let myURL = URL(string: urlString)
+        let myURL = URL(string: urlStr)
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
         
