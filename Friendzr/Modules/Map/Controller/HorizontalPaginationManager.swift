@@ -123,9 +123,9 @@ extension HorizontalPaginationManager {
                                       change: [NSKeyValueChangeKey : Any]?,
                                       context: UnsafeMutableRawPointer?) {
         guard let object = object as? UIScrollView,
-            let keyPath = keyPath,
-            let newValue = change?[.newKey] as? CGPoint,
-            object == self.scrollView, keyPath == "contentOffset" else { return }
+              let keyPath = keyPath,
+              let newValue = change?[.newKey] as? CGPoint,
+              object == self.scrollView, keyPath == "contentOffset" else { return }
         self.setContentOffSet(newValue)
     }
     
@@ -147,16 +147,17 @@ extension HorizontalPaginationManager {
         let frameWidth = self.scrollView.bounds.size.width
         let diffX = contentWidth - frameWidth
         if contentWidth > frameWidth,
-        offsetX > (diffX) && !self.isLoading {
+           offsetX > (diffX) && !self.isLoading {
             self.isLoading = true
             self.addRightMostControl()
             self.delegate?.loadMore { success in
                 self.isLoading = false
                 delay(1.0) {
-                    self.removeRightLoader()
+                    if IsLoadingMore.more == true {
+                        self.removeRightLoader()
+                    }
                 }
             }
         }
     }
-    
 }

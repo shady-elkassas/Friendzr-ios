@@ -16,7 +16,6 @@ import ListPlaceholder
 import Network
 import SDWebImage
 
-https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&types=food&name=cruise&key=AddYourOwnKeyHere
 
 let googleApiKey = "AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY"
 
@@ -28,10 +27,6 @@ protocol PickingLocationFromTheMap {
 //Singleton
 class MapAppType {
     static var type: Bool = false
-}
-
-class IsMoreEventAtMarker {
-    static var more: Bool = false
 }
 
 class LocationZooming {
@@ -81,7 +76,7 @@ extension MapVC: HorizontalPaginationManagerDelegate {
 }
 
 
-//create location
+//MARK: - Create location
 class EventsLocation {
     var location:CLLocationCoordinate2D = CLLocationCoordinate2D()
     var typelocation:String = ""
@@ -108,7 +103,7 @@ class EventsLocation {
 
 class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
-    //MARK:- Outlets
+    //MARK: - Outlets
     @IBOutlet weak var nextBtn: UIButton!
     @IBOutlet weak var lastNextBtn: UIButton!
     @IBOutlet weak var showAddEventExplainedView: UIView!
@@ -240,10 +235,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -297,27 +288,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
-    private lazy var paginationManager: HorizontalPaginationManager = {
-        let manager = HorizontalPaginationManager(scrollView: self.collectionView)
-        manager.delegate = self
-        return manager
-    }()
-    
-    private var isDragging: Bool {
-        return self.collectionView.isDragging
-    }
-    
-    func loadMoreItemsForList(){
-        currentPage += 1
-        getEventsOnlyAroundMe(pageNumber: currentPage)
-    }
-    
+
     //MARK: - APIs
     func getEventsOnlyAroundMe(pageNumber:Int) {
+        var startDate = Date()
         
         self.subView.isHidden = false
         self.upDownViewBtn.isHidden = false
@@ -370,6 +344,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                         self.hideCollectionView.isHidden = true
                         self.isLoadingList = false
                     }
+                    
+                    let executionTimeWithSuccess44 = Date().timeIntervalSince(startDate)
+                    print("executionTimeWithSuccess44 \(executionTimeWithSuccess44) second")
                 }
             }
         }
@@ -409,7 +386,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.error.bind { [unowned self]error in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
-                    self.view.makeToast(error)
+                    if Defaults.availableVC == "MapVC" {
+                        self.view.makeToast(error)
+                    }
                 }
                 
             }
@@ -471,6 +450,21 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 }
             }
         }
+    }
+    
+    private lazy var paginationManager: HorizontalPaginationManager = {
+        let manager = HorizontalPaginationManager(scrollView: self.collectionView)
+        manager.delegate = self
+        return manager
+    }()
+    
+    private var isDragging: Bool {
+        return self.collectionView.isDragging
+    }
+    
+    func loadMoreItemsForList(){
+        currentPage += 1
+        getEventsOnlyAroundMe(pageNumber: currentPage)
     }
     
     //MARK: - Helpers
@@ -1378,7 +1372,7 @@ extension MapVC : CLLocationManagerDelegate {
     }
 }
 
-//MARK: - search in google map tableView dataSource and delegate
+//MARK: - UISearchBarDelegate
 extension MapVC: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         // Update the GMSAutocompleteTableDataSource with the search text.
@@ -1391,6 +1385,7 @@ extension MapVC: UISearchBarDelegate {
     }
 }
 
+//MARK: - GMSAutocompleteTableDataSourceDelegate
 extension MapVC: GMSAutocompleteTableDataSourceDelegate {
     func didUpdateAutocompletePredictions(for tableDataSource: GMSAutocompleteTableDataSource) {
         // Turn the network activity indicator off.
@@ -1460,7 +1455,7 @@ extension MapVC: GMSAutocompleteTableDataSourceDelegate {
     }
 }
 
-//MARK: - events tableView dataSource and delegate
+//MARK: - UITableViewDataSource
 extension MapVC:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sliderEventList?.count ?? 0
@@ -1506,6 +1501,7 @@ extension MapVC:UITableViewDataSource {
     }
 }
 
+//MARK: - UITableViewDelegate
 extension MapVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
@@ -1550,7 +1546,7 @@ extension MapVC:UITableViewDelegate {
     }
 }
 
-//MARK: - events nearby collection view data source and delegate
+//MARK: - UICollectionViewDataSource
 extension MapVC:UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -1638,6 +1634,7 @@ extension MapVC:UICollectionViewDataSource {
     }
 }
 
+//MARK: - UICollectionViewDelegate
 extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == catsCollectionView {
@@ -1706,6 +1703,7 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     }
 }
 
+//MARK: - animation map
 extension MapVC {
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
         
@@ -1764,67 +1762,8 @@ extension MapVC {
     }
 }
 
+//MARK: - initFilterBarButton
 extension MapVC {
-    func json(from object:Any) -> String? {
-        guard let data = try? JSONSerialization.data(withJSONObject: object, options: []) else {
-            return nil
-        }
-        return String(data: data, encoding: String.Encoding.utf8)
-    }
-    
-    func onFilterByCatsCallBack(_ listIDs: [String],_ listNames: [String],_ selectCats:[CategoryObj]) -> () {
-        
-        catIDs = listIDs
-        catSelectedNames = listNames
-        catSelectedArr = selectCats
-        
-        DispatchQueue.main.async {
-            Defaults.catSelectedNames = listNames
-            Defaults.catIDs = listIDs
-        }
-        
-        print("catIDs = \(catIDs)")
-        
-        
-        NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
-        
-        DispatchQueue.main.async {
-            
-            DispatchQueue.main.async {
-                self.locationsModel.peoplocationDataMV?.removeAll()
-                self.locationsModel.eventlocationDataMV?.removeAll()
-                self.locations.removeAll()
-                self.mapView.clear()
-            }
-            
-            DispatchQueue.main.async {
-                if Defaults.token != "" {
-                    self.updateLocation()
-                }
-                self.setupGoogleMap(zoom1: 8, zoom2: 14)
-            }
-            
-            DispatchQueue.main.async {
-                self.collectionViewHeight.constant = 0
-                self.noeventNearbyLbl.isHidden = true
-                self.subViewHeight.constant = 50
-                self.subView.isHidden = false
-                self.isViewUp = false
-                self.hideCollectionView.isHidden = true
-                self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-            }
-            
-            DispatchQueue.main.async {
-                self.checkLocationPermission()
-            }
-            
-            DispatchQueue.main.async {
-                //                self.currentPage = 1
-                self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
-            }
-        }
-    }
-    
     func initFilterBarButton() {
         switchFilterButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
         switchFilterButton.onTintColor = UIColor.FriendzrColors.primary!
@@ -1852,7 +1791,6 @@ extension MapVC {
         let barButton = UIBarButtonItem(customView: switchFilterButton)
         self.navigationItem.rightBarButtonItem = barButton
     }
-    
     
     @objc private func didFilterSwipe(_ sender: UISwipeGestureRecognizer) {
         // Current Frame
@@ -2016,19 +1954,7 @@ extension MapVC {
         return swipeGestureRecognizer
     }
     
-    //    func addBottomSheetView(scrollable: Bool? = true) {
-    //        let bottomSheetVC = scrollable! ? ScrollableBottomSheetViewController() : BottomSheetViewController()
-    //
-    //        self.addChild(bottomSheetVC)
-    //        self.view.addSubview(bottomSheetVC.view)
-    //        bottomSheetVC.didMove(toParent: self)
-    //
-    //        let height = view.frame.height
-    //        let width  = view.frame.width
-    //        bottomSheetVC.view.frame = CGRect(x: 0, y: self.view.frame.maxY, width: width, height: height)
-    //    }
-    
-    // MARK: - Actions
+    //MARK: - Actions
     @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
         // Current Frame
         let frame = subView.frame
@@ -2089,8 +2015,7 @@ extension MapVC {
         print("x:\(frame.origin.x),y:\(frame.origin.y)")
     }
     
-    // MARK: - Helper Methods
-    
+    //MARK: - Helper Methods
     private func createSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
         // Initialize Swipe Gesture Recognizer
         let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
@@ -2100,8 +2025,63 @@ extension MapVC {
         
         return swipeGestureRecognizer
     }
+    
+    func onFilterByCatsCallBack(_ listIDs: [String],_ listNames: [String],_ selectCats:[CategoryObj]) -> () {
+        
+        catIDs = listIDs
+        catSelectedNames = listNames
+        catSelectedArr = selectCats
+        
+        DispatchQueue.main.async {
+            Defaults.catSelectedNames = listNames
+            Defaults.catIDs = listIDs
+        }
+        
+        print("catIDs = \(catIDs)")
+        
+        
+        NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
+        
+        DispatchQueue.main.async {
+            
+            DispatchQueue.main.async {
+                self.locationsModel.peoplocationDataMV?.removeAll()
+                self.locationsModel.eventlocationDataMV?.removeAll()
+                self.locations.removeAll()
+                self.mapView.clear()
+            }
+            
+            DispatchQueue.main.async {
+                if Defaults.token != "" {
+                    self.updateLocation()
+                }
+                self.setupGoogleMap(zoom1: 8, zoom2: 14)
+            }
+            
+            DispatchQueue.main.async {
+                self.collectionViewHeight.constant = 0
+                self.noeventNearbyLbl.isHidden = true
+                self.subViewHeight.constant = 50
+                self.subView.isHidden = false
+                self.isViewUp = false
+                self.hideCollectionView.isHidden = true
+                self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+            }
+            
+            DispatchQueue.main.async {
+                self.checkLocationPermission()
+            }
+            
+            DispatchQueue.main.async {
+                //                self.currentPage = 1
+                self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
+            }
+        }
+    }
+
 }
 
+//MARK: - GADBannerViewDelegate
 extension MapVC:GADBannerViewDelegate {
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
         print("bannerViewDidReceiveAd")
