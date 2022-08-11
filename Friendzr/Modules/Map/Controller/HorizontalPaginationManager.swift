@@ -153,9 +153,7 @@ extension HorizontalPaginationManager {
             self.delegate?.loadMore { success in
                 self.isLoading = false
                 delay(1.0) {
-                    if IsLoadingMore.more == true {
-                        self.removeRightLoader()
-                    }
+                    self.removeRightLoader()
                 }
             }
         }

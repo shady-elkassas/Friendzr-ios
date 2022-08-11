@@ -86,8 +86,6 @@ class EventsAroundMeViewModel {
                         self.eventsOnlyMe.value = toAdd
                         self.eventsOnlyMeTemp = toAdd
                     }
-                    
-                    IsLoadingMore.more = true
                 }
             }
         }

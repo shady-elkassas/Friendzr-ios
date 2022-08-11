@@ -52,7 +52,7 @@ class TutorialScreensFiveVC: UIViewController {
     
     func setupAnimations() {
         guard let path = Bundle.main.path(forResource: "Tutorial5", ofType:"mov") else {
-            debugPrint("Tutorial5.mp4 not found")
+            debugPrint("Tutorial5.mov not found")
             return
         }
         

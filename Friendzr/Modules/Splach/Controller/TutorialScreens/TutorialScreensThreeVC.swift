@@ -52,7 +52,7 @@ class TutorialScreensThreeVC: UIViewController {
     
     func setupAnimations() {
         guard let path = Bundle.main.path(forResource: "tutorial3", ofType:"mov") else {
-            debugPrint("tutorial3.mp4 not found")
+            debugPrint("tutorial3.mov not found")
             return
         }
         

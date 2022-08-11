@@ -53,7 +53,7 @@ class TutorialScreensSixVC: UIViewController {
     
     func setupAnimations() {
         guard let path = Bundle.main.path(forResource: "Tutorial6", ofType:"mov") else {
-            debugPrint("Tutorial6.mp4 not found")
+            debugPrint("Tutorial6.mov not found")
             return
         }
         

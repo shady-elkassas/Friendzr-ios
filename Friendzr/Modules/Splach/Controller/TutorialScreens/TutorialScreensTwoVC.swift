@@ -52,7 +52,7 @@ class TutorialScreensTwoVC: UIViewController {
     
     func setupAnimations() {
         guard let path = Bundle.main.path(forResource: "Tutorial2", ofType:"mov") else {
-            debugPrint("Tutorial2.mp4 not found")
+            debugPrint("Tutorial2.mov not found")
             return
         }
         
