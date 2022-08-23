@@ -731,7 +731,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     func setupHideView() {
         for itm in hidesImgs {
-            itm.cornerRadiusView(radius: 6)
+            itm.cornerRadiusView(radius: 12)
         }
         
         for item in proImgs {
@@ -756,6 +756,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         self.hideView.isHidden = true
         
         if btnsSelected {
+            hideView.isHidden = true
             emptyView.isHidden = true
             if Defaults.allowMyLocationSettings == true {
                 self.allowLocView.isHidden = true
@@ -765,6 +766,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             self.view.makeToast("Network is unavailable, please try again!".localizedString)
         }else {
             emptyView.isHidden = false
+            hideView.isHidden = true
             if Defaults.allowMyLocationSettings == true {
                 self.allowLocView.isHidden = true
             }else {

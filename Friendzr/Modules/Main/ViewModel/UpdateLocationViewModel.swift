@@ -65,5 +65,10 @@ class UpdateLocationViewModel {
         Defaults.notificationcount = user.notificationcount
         Defaults.message_Count = user.message_Count
         Defaults.frindRequestNumber = user.frindRequestNumber
+        
+        Defaults.interestIds.removeAll()
+        for itm in user.listoftagsmodel ?? [] {
+            Defaults.interestIds.append(itm.tagID)
+        }
     }
 }

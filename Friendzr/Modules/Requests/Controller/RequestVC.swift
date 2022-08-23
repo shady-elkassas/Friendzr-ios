@@ -373,6 +373,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         else {
             emptyView.isHidden = false
+            hideView.isHidden = true
             emptyImg.image = UIImage.init(named: "feednodata_img")
             emptyLbl.text = "Network is unavailable, please try again!".localizedString
             tryAgainBtn.alpha = 1.0
