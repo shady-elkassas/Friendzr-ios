@@ -16,6 +16,7 @@ enum StoryBoard: String {
     case More
     case Feed
     case Map
+    case Request
     case Events
     case FaceRecognition
     case Messages

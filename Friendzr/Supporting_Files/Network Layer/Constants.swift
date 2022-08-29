@@ -23,5 +23,5 @@ extension String {
         } else {
             return false
         }
-    } 
+    }
 }

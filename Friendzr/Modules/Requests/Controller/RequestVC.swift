@@ -80,7 +80,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         
         segmentControl.selectedSegmentIndex = 0
         RequestesType.type = 2
-        initProfileBarButton(didTap: true)
+        initBackButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
