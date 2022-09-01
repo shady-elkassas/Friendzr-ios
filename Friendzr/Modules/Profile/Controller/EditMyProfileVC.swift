@@ -306,7 +306,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                 print("tagsViewHeight.constant >> \(tagsViewHeight.constant)")
             }
             
-            tagsListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
+            tagsListView.textFont = UIFont(name: "Montserrat-Bold", size: 10)!
             if tagsListView.rows == 0 {
                 tagsTopSpaceLayout.constant = 5
                 tagsBottomSpaceLayout.constant = 5
@@ -349,7 +349,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                 print("bestViewHeight.constant >> \(bestDescribesViewHeight.constant)")
             }
             
-            bestDescribesListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
+            bestDescribesListView.textFont = UIFont(name: "Montserrat-SemiBold", size: 10)!
             
             if bestDescribesListView.rows == 0 {
                 bestDescribessTopSpaceLayout.constant = 5
@@ -394,7 +394,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                 print("bestViewHeight.constant >> \(preferToViewHeight.constant)")
             }
             
-            preferToListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
+            preferToListView.textFont = UIFont(name: "Montserrat-Bold", size: 10)!
             
             if preferToListView.rows == 0 {
                 preferToTopSpaceLayout.constant = 5

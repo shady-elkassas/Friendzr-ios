@@ -18,7 +18,7 @@ class PreferToTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         tagsListView.delegate = self
-        tagsListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
+        tagsListView.textFont = UIFont(name: "Montserrat-Bold", size: 10)!
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

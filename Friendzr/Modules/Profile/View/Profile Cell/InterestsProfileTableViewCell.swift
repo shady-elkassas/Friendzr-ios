@@ -20,7 +20,7 @@ class InterestsProfileTableViewCell: UITableViewCell {
         // Initialization code
         
         tagsListView.delegate = self
-        tagsListView.textFont = UIFont(name: "Montserrat-Regular", size: 10)!
+        tagsListView.textFont = UIFont(name: "Montserrat-Bold", size: 10)!
 
     }
 

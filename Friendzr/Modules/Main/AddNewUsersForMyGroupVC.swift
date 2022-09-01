@@ -68,7 +68,6 @@ class AddNewUsersForMyGroupVC: UIViewController {
     //MARK: - Helpers
     func updateUserInterface() {
         appDelegate.networkReachability()
-        
         switch Network.reachability.status {
         case .unreachable:
             DispatchQueue.main.async {

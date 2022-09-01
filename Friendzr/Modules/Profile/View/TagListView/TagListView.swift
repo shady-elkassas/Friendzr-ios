@@ -200,7 +200,8 @@ open class TagListView: UIView {
         didSet {
             defer { rearrangeViews() }
             tagViews.forEach {
-                $0.textFont = .boldSystemFont(ofSize: 12)
+                $0.textFont = textFont
+//                    .boldSystemFont(ofSize: 12)
             }
         }
     }

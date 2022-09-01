@@ -83,7 +83,8 @@ open class TagView: UIButton {
     
     @IBInspectable open var textFont: UIFont = .boldSystemFont(ofSize: 12) {
         didSet {
-            titleLabel?.font = .boldSystemFont(ofSize: 12)
+            titleLabel?.font = textFont
+//                .boldSystemFont(ofSize: 12)
         }
     }
     

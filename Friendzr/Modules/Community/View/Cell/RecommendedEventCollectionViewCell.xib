@@ -28,11 +28,11 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fcX-8i-sQe">
-                        <rect key="frame" x="25" y="5" width="456" height="192"/>
+                        <rect key="frame" x="25" y="5" width="456" height="187"/>
                         <color key="backgroundColor" red="0.3411764705882353" green="0.4196078479" blue="0.50588238240000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NYF-cH-Uxk">
-                        <rect key="frame" x="20" y="12" width="466" height="185"/>
+                        <rect key="frame" x="20" y="12" width="466" height="180"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5-a-side match on Clapham common" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7AV-QV-fsU">
                                 <rect key="frame" x="148.5" y="30" width="307.5" height="15"/>
@@ -102,15 +102,15 @@
                         </constraints>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1XJ-Ht-uYZ">
-                        <rect key="frame" x="233" y="207" width="253" height="22"/>
+                        <rect key="frame" x="241.5" y="202" width="244.5" height="22"/>
                         <color key="backgroundColor" name="primaryColor"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="PVB-1W-wuE"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="9"/>
                         <inset key="titleEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <inset key="imageEdgeInsets" minX="165" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                        <state key="normal" title="Skip to next recommendation" image="arrow_white_left">
+                        <inset key="imageEdgeInsets" minX="160" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal" title="Skip to next recommendation" image="next_skip_ic">
                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
                         <connections>
@@ -121,9 +121,9 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="1XJ-Ht-uYZ" secondAttribute="bottom" constant="5" id="4kB-OO-eq7"/>
-                <constraint firstItem="1XJ-Ht-uYZ" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" multiplier="0.5" id="7pS-G3-hKo"/>
+                <constraint firstItem="1XJ-Ht-uYZ" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" multiplier="0.483" id="7pS-G3-hKo"/>
                 <constraint firstItem="1XJ-Ht-uYZ" firstAttribute="top" secondItem="NYF-cH-Uxk" secondAttribute="bottom" constant="10" id="Af5-0w-erF"/>
+                <constraint firstAttribute="bottom" secondItem="1XJ-Ht-uYZ" secondAttribute="bottom" constant="10" id="GdS-yE-myj"/>
                 <constraint firstItem="fcX-8i-sQe" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="25" id="IjR-eL-Iu3"/>
                 <constraint firstItem="1XJ-Ht-uYZ" firstAttribute="top" secondItem="fcX-8i-sQe" secondAttribute="bottom" constant="10" id="QTW-Pt-2y5"/>
                 <constraint firstItem="fcX-8i-sQe" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="WnU-wU-WsP"/>
@@ -150,7 +150,7 @@
     </objects>
     <resources>
         <image name="arrow_left" width="6.5" height="11"/>
-        <image name="arrow_white_left" width="20" height="20"/>
+        <image name="next_skip_ic" width="512" height="512"/>
         <image name="placeholder" width="1000" height="1000"/>
         <namedColor name="primaryColor">
             <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

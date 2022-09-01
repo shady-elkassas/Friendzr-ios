@@ -261,6 +261,8 @@
 		43A3326F2782FBF9001ADB84 /* ReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A3326E2782FBF9001ADB84 /* ReportVC.swift */; };
 		43A350E028BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A350DE28BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.swift */; };
 		43A350E128BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43A350DF28BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.xib */; };
+		43A350E328BDF710002ED5BB /* CommunityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A350E228BDF710002ED5BB /* CommunityViewModel.swift */; };
+		43A350E528BDF718002ED5BB /* CommunityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A350E428BDF718002ED5BB /* CommunityModel.swift */; };
 		43ABA61028758A20004716E4 /* DIN2014-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43ABA60D28758A20004716E4 /* DIN2014-Regular.ttf */; };
 		43ABA61128758A20004716E4 /* DIN2014-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43ABA60E28758A20004716E4 /* DIN2014-Bold.ttf */; };
 		43ABA61228758A20004716E4 /* DIN2014-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43ABA60F28758A20004716E4 /* DIN2014-BoldItalic.ttf */; };
@@ -696,6 +698,8 @@
 		43A3326E2782FBF9001ADB84 /* ReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportVC.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		43A350DE28BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentlyConnectedCollectionViewCell.swift; sourceTree = "<group>"; };
 		43A350DF28BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecentlyConnectedCollectionViewCell.xib; sourceTree = "<group>"; };
+		43A350E228BDF710002ED5BB /* CommunityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewModel.swift; sourceTree = "<group>"; };
+		43A350E428BDF718002ED5BB /* CommunityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityModel.swift; sourceTree = "<group>"; };
 		43ABA60D28758A20004716E4 /* DIN2014-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN2014-Regular.ttf"; sourceTree = "<group>"; };
 		43ABA60E28758A20004716E4 /* DIN2014-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN2014-Bold.ttf"; sourceTree = "<group>"; };
 		43ABA60F28758A20004716E4 /* DIN2014-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN2014-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -1249,6 +1253,7 @@
 		434600D828B61DAD00FC932D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				43A350E428BDF718002ED5BB /* CommunityModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1256,6 +1261,7 @@
 		434600D928B61DB400FC932D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				43A350E228BDF710002ED5BB /* CommunityViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -2548,6 +2554,7 @@
 				43E7EC43279C341900631AA0 /* FaceRecognitionVC.swift in Sources */,
 				4367E46427BA4A0E00FE1880 /* ProfileUserNameTableViewCell.swift in Sources */,
 				436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */,
+				43A350E528BDF718002ED5BB /* CommunityModel.swift in Sources */,
 				436DD06C27E489A500A4A7F7 /* CustomOverlay.swift in Sources */,
 				4382ACBC26C2AFE9005C1857 /* SplachThreeVC.swift in Sources */,
 				4368509A274500DD00A62287 /* structAPI.swift in Sources */,
@@ -2563,6 +2570,7 @@
 				4336D11926DB7F780093C7A6 /* Defaults.swift in Sources */,
 				430A350326CA4A3600477A94 /* BlockAlertView.swift in Sources */,
 				4330757826E78AA1002940DF /* UIImageExtension.swift in Sources */,
+				43A350E328BDF710002ED5BB /* CommunityViewModel.swift in Sources */,
 				4320A64A26F20E5D003604EE /* AllBlockedViewModel.swift in Sources */,
 				43ACFEBF27B3B0EB001CD340 /* EventImageTableViewCell.swift in Sources */,
 				4308EB7826EA0FCD00D71379 /* FeedViewModel.swift in Sources */,

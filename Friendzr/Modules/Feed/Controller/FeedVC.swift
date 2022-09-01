@@ -16,6 +16,7 @@ import Network
 import AppTrackingTransparency
 import AdSupport
 import AMShimmer
+import FirebaseAnalytics
 
 let screenH: CGFloat = UIScreen.main.bounds.height
 let screenW: CGFloat = UIScreen.main.bounds.width
@@ -295,6 +296,12 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     func updateUserInterface() {
         appDelegate.networkReachability()
         
+//        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+//          AnalyticsParameterItemID: "id-\(title!)",
+//          AnalyticsParameterItemName: title!,
+//          AnalyticsParameterContentType: "cont",
+//        ])
+
         switch Network.reachability.status {
         case .unreachable:
             DispatchQueue.main.async {
@@ -572,7 +579,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         // Set View Model Event Listener
         viewmodel.error.bind { error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 print(error)
             }
         }
@@ -2183,6 +2189,7 @@ extension FeedVC {
             }
         }
     }
+    
     func accseptRequest(_ model: UserFeedObj?, _ requestdate:String) {
         self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2, requestdate: requestdate) { error, message in
             if let error = error {

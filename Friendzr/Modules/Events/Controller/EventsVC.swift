@@ -187,7 +187,6 @@ class EventsVC: UIViewController {
     //internet cpnnection for APIs
     func updateUserInterface() {
         appDelegate.networkReachability()
-        
         switch Network.reachability.status {
         case .unreachable:
             DispatchQueue.main.async {

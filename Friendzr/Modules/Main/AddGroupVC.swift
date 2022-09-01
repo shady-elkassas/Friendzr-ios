@@ -84,7 +84,7 @@ class AddGroupVC: UIViewController {
     //MARK: - Helper
     func updateUserInterface() {
         appDelegate.networkReachability()
-        
+
         switch Network.reachability.status {
         case .unreachable:
             DispatchQueue.main.async {

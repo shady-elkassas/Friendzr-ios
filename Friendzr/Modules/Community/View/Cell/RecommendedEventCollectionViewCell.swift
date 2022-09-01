@@ -2,7 +2,7 @@
 //  RecommendedEventCollectionViewCell.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 24/08/2022.
+//  Created by Muhammad Sabri Saad on 24/08/2022.
 //
 
 import UIKit

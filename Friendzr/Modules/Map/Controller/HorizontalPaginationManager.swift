@@ -2,7 +2,7 @@
 //  HorizontalPaginationManager.swift
 //  Friendzr
 //
-//  Created by Shady Elkassas on 21/07/2022.
+//  Created by Muhammad Sabri Saad on 21/07/2022.
 //
 
 import Foundation

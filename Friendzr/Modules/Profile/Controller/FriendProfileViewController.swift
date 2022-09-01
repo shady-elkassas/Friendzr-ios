@@ -591,6 +591,10 @@ extension FriendProfileViewController {
             }
             
             DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("reloadRecommendedPeople"), object: nil, userInfo: nil)
+            }
+            
+            DispatchQueue.main.async {
                 self.getFriendProfileInformation()
             }
         }

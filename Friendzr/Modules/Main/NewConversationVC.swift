@@ -72,7 +72,7 @@ class NewConversationVC: UIViewController {
     func updateUserInterface() {
         
         appDelegate.networkReachability()
-        
+
         switch Network.reachability.status {
         case .unreachable:
             self.emptyView.isHidden = false
