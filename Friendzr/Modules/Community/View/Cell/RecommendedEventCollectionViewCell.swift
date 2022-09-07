@@ -19,6 +19,7 @@ class RecommendedEventCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var attendeesLbl: UILabel!
     @IBOutlet weak var skipBtn: UIButton!
     
+    @IBOutlet weak var skipBtnView: UIView!
     var HandleExpandBtn: (()->())?
     var HandleSkipBtn: (()->())?
 
@@ -35,6 +36,7 @@ class RecommendedEventCollectionViewCell: UICollectionViewCell {
         bgView.cornerRadiusView(radius: 10)
         containerView.cornerRadiusView(radius: 8)
         skipBtn.cornerRadiusView(radius: 6)
+        skipBtnView.cornerRadiusView(radius: 6)
         
 //        skipBtn.imageEdgeInsets.left = skipBtn.frame.width
 //        skipBtn.titleEdgeInsets.left = -10

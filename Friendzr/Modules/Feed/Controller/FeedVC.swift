@@ -552,26 +552,31 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         hideView.isHidden = false
         AMShimmer.start(for: hideView)
         viewmodel.getAllUsers(pageNumber: pageNumber)
+        
         viewmodel.feeds.bind { [unowned self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 
-                DispatchQueue.main.async {
-                    AMShimmer.stop(for: self.hideView)
-                    self.hideView.isHidden = true
-                }
-                
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
-                }
-                
-                
-                DispatchQueue.main.async {
-                    self.initGhostModeAndSortSwitchButton()
+                if Defaults.availableVC == "FeedVC" {
+                    DispatchQueue.main.async {
+                        AMShimmer.stop(for: self.hideView)
+                        self.hideView.isHidden = true
+                        
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.delegate = self
+                        self.tableView.dataSource = self
+                        self.tableView.reloadData()
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.isLoadingList = false
+                        self.tableView.tableFooterView = nil
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self.initGhostModeAndSortSwitchButton()
+                    }
                 }
             })
         }

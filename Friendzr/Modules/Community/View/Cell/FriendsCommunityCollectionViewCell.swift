@@ -18,13 +18,15 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var sendRequestBtn: UIButton!
     @IBOutlet weak var milesLbl: UILabel!
     
+    @IBOutlet weak var skipBtnView: UIView!
+    @IBOutlet weak var tagsViewHeight: NSLayoutConstraint!
+    
     @IBOutlet weak var cancelRequestBtn: UIButton!
     @IBOutlet weak var tagsView: TagListView!
     @IBOutlet weak var tagsListViewHeight: NSLayoutConstraint!
     @IBOutlet weak var tagsBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var tagsTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var noAvailableInterestLbl: UILabel!
-    @IBOutlet weak var emptyView: UIView!
     
     var HandleViewProfileBtn: (()->())?
     var HandleSendRequestBtn: (()->())?
@@ -45,6 +47,7 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
         viewProfileBtn.cornerRadiusView(radius: 6)
         skipBtn.cornerRadiusView(radius: 6)
         cancelRequestBtn.cornerRadiusView(radius: 6)
+        skipBtnView.cornerRadiusView(radius: 6)
         cancelRequestBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
         
         tagsView.delegate = self

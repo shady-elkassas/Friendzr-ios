@@ -41,7 +41,6 @@ class RequestsViewModel {
                 // When set the listener (if any) will be notified
                 if let toAdd = userResponse.data {
                     self.requestsTemp.data?.removeAll()
-                    self.requestsTemp.data?.removeAll()
                     if pageNumber > 0 {
                         for itm in toAdd.data ?? [] {
                             if !(self.requestsTemp.data?.contains(where: { $0.userId == itm.userId }) ?? false) {

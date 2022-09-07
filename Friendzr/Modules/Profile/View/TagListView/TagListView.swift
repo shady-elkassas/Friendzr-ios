@@ -95,7 +95,7 @@ open class TagListView: UIView {
         }
     }
     
-    @IBInspectable open dynamic var paddingY: CGFloat = 2 {
+    @IBInspectable open dynamic var paddingY: CGFloat = 1 {
         didSet {
             defer { rearrangeViews() }
             tagViews.forEach {
@@ -103,7 +103,7 @@ open class TagListView: UIView {
             }
         }
     }
-    @IBInspectable open dynamic var paddingX: CGFloat = 5 {
+    @IBInspectable open dynamic var paddingX: CGFloat = 2 {
         didSet {
             defer { rearrangeViews() }
             tagViews.forEach {
@@ -111,12 +111,12 @@ open class TagListView: UIView {
             }
         }
     }
-    @IBInspectable open dynamic var marginY: CGFloat = 2 {
+    @IBInspectable open dynamic var marginY: CGFloat = 1 {
         didSet {
             rearrangeViews()
         }
     }
-    @IBInspectable open dynamic var marginX: CGFloat = 5 {
+    @IBInspectable open dynamic var marginX: CGFloat = 2 {
         didSet {
             rearrangeViews()
         }
@@ -344,12 +344,12 @@ open class TagListView: UIView {
         tagView.highlightedBackgroundColor = tagHighlightedBackgroundColor
         tagView.selectedBackgroundColor = tagSelectedBackgroundColor
         tagView.titleLineBreakMode = tagLineBreakMode
-        tagView.cornerRadius = cornerRadius
+        tagView.cornerRadius = Defaults.isCommunityVC == true ? cornerRadius / 2.2 : cornerRadius
         tagView.borderWidth = borderWidth
         tagView.borderColor = borderColor
         tagView.selectedBorderColor = selectedBorderColor
         tagView.paddingX = paddingX
-        tagView.paddingY = paddingY
+        tagView.paddingY = Defaults.isCommunityVC == true ? paddingY / 1.4 : paddingY
         tagView.textFont = textFont
         tagView.removeIconLineWidth = removeIconLineWidth
         tagView.removeButtonIconSize = removeButtonIconSize

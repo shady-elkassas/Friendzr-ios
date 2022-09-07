@@ -50,17 +50,23 @@ class CommunityVC: UIViewController {
     @IBOutlet weak var tryAgainBtn: UIButton!
     @IBOutlet weak var superEmptyViewLbl: UILabel!
     
+    @IBOutlet weak var emptyView3: UIView!
+    @IBOutlet weak var emptyLbl3: UILabel!
     
-    let cellID1 = "FriendsCommunityCollectionViewCell"
+    
+//    let cellID1 = "FriendsCommunityCollectionViewCell"
+    let cellID1 = "NewFriendsCommunityCollectionViewCell"
     let cellID2 = "RecommendedEventCollectionViewCell"
     let cellID3 = "RecentlyConnectedCollectionViewCell"
-    
-    var isLoadingList:Bool = false
-    var currentPage:Int = 1
     
     var viewmodel:CommunityViewModel = CommunityViewModel()
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     
+    private var layout: UICollectionViewFlowLayout!
+    
+    var currentPage : Int = 1
+    var isLoadingList : Bool = false
+    var activityIndiator : UIActivityIndicatorView? = UIActivityIndicatorView()
     
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -93,15 +99,39 @@ class CommunityVC: UIViewController {
         title = "Community"
         setupViews()
         initRequestsBarButton()
-        updateUserInterface()
         
+
         NotificationCenter.default.addObserver(self, selector: #selector(reloadRecommendedPeople), name: Notification.Name("reloadRecommendedPeople"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadRecommendedEvent), name: Notification.Name("reloadRecommendedEvent"), object: nil)
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        shimmerViews()
+        super.viewWillAppear(animated)
+        
+        CancelRequest.currentTask = false
+        Defaults.isCommunityVC = true
+        
+        if Defaults.token != "" {
+            DispatchQueue.main.async {
+                self.setupPagination()
+                self.fetchItems()
+                self.updateUserInterface()
+            }
+        }else {
+            Router().toOptionsSignUpVC(IsLogout: false)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        CancelRequest.currentTask = true
+
+        currentPage = 1
+        let contentOffset = CGPoint(x: 0, y: 0)
+        self.recentlyConnectedCollectionView.setContentOffset(contentOffset, animated: false)
+        Defaults.isCommunityVC = false
     }
     
     func setupViews() {
@@ -128,17 +158,9 @@ class CommunityVC: UIViewController {
         }
     }
     
-    func shimmerViews() {
-        self.hideView3.isHidden = false
-        AMShimmer.start(for: hideView3)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            AMShimmer.stop(for: self.hideView3)
-            self.hideView3.isHidden = true
-        }
-    }
-    
     func loadMoreItemsForList() {
+        currentPage += 1
+        getRecentlyConnectedBy(pageNumber: currentPage)
     }
     
     @objc func reloadRecommendedPeople() {
@@ -221,13 +243,41 @@ class CommunityVC: UIViewController {
         }
     }
     
+    func getRecentlyConnectedBy(pageNumber:Int) {
+        self.hideView3.isHidden = false
+        AMShimmer.start(for: hideView3)
+        viewmodel.getRecentlyConnected(pageNumber: pageNumber)
+        viewmodel.recentlyConnected.bind { [unowned self] value in
+            DispatchQueue.main.async {
+                self.recentlyConnectedCollectionView.delegate = self
+                self.recentlyConnectedCollectionView.dataSource = self
+                self.recentlyConnectedCollectionView.reloadData()
+                
+                DispatchQueue.main.async {
+                    self.hideView3.isHidden = true
+                    AMShimmer.stop(for: self.hideView3)
+                }
+            }
+        }
+        
+        // Set View Model Event Listener
+        viewmodel.error.bind { [unowned self]error in
+            DispatchQueue.main.async {
+                if error == "Internal Server Error" {
+                    self.HandleInternetConnection()
+                }else {
+                    DispatchQueue.main.async {
+                        self.view.makeToast(error)
+                    }
+                    
+                }
+            }
+        }
+    }
+
+    
     func updateUserInterface() {
         appDelegate.networkReachability()
-        //        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-        //          AnalyticsParameterItemID: "id-\(title!)",
-        //          AnalyticsParameterItemName: title!,
-        //          AnalyticsParameterContentType: "cont",
-        //        ])
         
         switch Network.reachability.status {
         case .unreachable:
@@ -241,6 +291,7 @@ class CommunityVC: UIViewController {
                 NetworkConected.internetConect = true
                 self.showRecommendedPeople()
                 self.showRecommendedEvent()
+                self.showRecentlyConnected()
             }
         case .wifi:
             self.superEmptyView.isHidden = true
@@ -248,6 +299,7 @@ class CommunityVC: UIViewController {
                 NetworkConected.internetConect = true
                 self.showRecommendedPeople()
                 self.showRecommendedEvent()
+                self.showRecentlyConnected()
             }
         }
         
@@ -269,6 +321,13 @@ class CommunityVC: UIViewController {
         self.getRecommendedEventBy(eventID: "")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.showEmptyView2()
+        }
+    }
+    
+    func showRecentlyConnected() {
+        self.getRecentlyConnectedBy(pageNumber: 1)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.showEmptyView3()
         }
     }
     
@@ -308,6 +367,17 @@ class CommunityVC: UIViewController {
         }
     }
     
+    func showEmptyView3() {
+        DispatchQueue.main.async {
+            if self.viewmodel.recentlyConnected.value?.data?.count != 0 {
+                self.emptyView2.isHidden = true
+            }else {
+                self.emptyView2.isHidden = false
+                self.emptyLbl2.text = "No more users, please try again later."
+            }
+        }
+    }
+    
     @IBAction func tryAgainBtn(_ sender: Any) {
         updateUserInterface()
     }
@@ -318,34 +388,44 @@ extension CommunityVC:UICollectionViewDataSource {
         if collectionView != recentlyConnectedCollectionView {
             return 1
         }else {
-            return 10
+            return viewmodel.recentlyConnected.value?.data?.count ?? 0
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == friendsCommunityCollectionView {
-            guard let cell = friendsCommunityCollectionView.dequeueReusableCell(withReuseIdentifier: cellID1, for: indexPath) as? FriendsCommunityCollectionViewCell else {return UICollectionViewCell()}
+            guard let cell = friendsCommunityCollectionView.dequeueReusableCell(withReuseIdentifier: cellID1, for: indexPath) as? NewFriendsCommunityCollectionViewCell else {return UICollectionViewCell()}
             
             let actionDate = formatterDate.string(from: Date())
-            let actionTime = formatterTime.string(from: Date())
+//            let actionTime = formatterTime.string(from: Date())
             
             let model = viewmodel.recommendedPeople.value
             cell.nameTitleLbl.text = model?.name
             cell.milesLbl.text = "\(model?.distanceFromYou?.rounded(toPlaces: 1) ?? 0.0) miles from you"
             cell.interestMatchLbl.text = "\(model?.interestMatchPercent?.rounded(toPlaces: 1) ?? 0.0) % interest match"
             cell.userImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            cell.tagsList = model?.matchedInterests ?? []
             
             if model?.matchedInterests?.count == 0 {
                 cell.noAvailableInterestLbl.isHidden = false
+                cell.collectionView.isHidden = true
             }else {
                 cell.noAvailableInterestLbl.isHidden = true
+                cell.collectionView.isHidden = false
             }
             
-            cell.tagsView.removeAllTags()
-            for item in model?.matchedInterests ?? [] {
-                cell.tagsView.addTag(tagId: item, title: "#" + (item).capitalizingFirstLetter()).isSelected = true
-            }
-            
+            cell.collectionView.reloadData()
+//            cell.tagsView.removeAllTags()
+//            for item in model?.matchedInterests ?? [] {
+//                cell.tagsView.addTag(tagId: item, title: "#" + (item).capitalizingFirstLetter()).isSelected = true
+//            }
+//
+//            if cell.tagsView.rows > 4 {
+//                print("cell.tagsView.rows > 4")
+//            }else {
+//                print("cell.tagsView.rows < 4")
+//            }
+//
             cell.HandleViewProfileBtn = {
                 guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                 vc.userID = model?.userId ?? ""
@@ -354,6 +434,8 @@ extension CommunityVC:UICollectionViewDataSource {
             }
             
             cell.HandleSkipBtn = {
+                self.hideView1.isHidden = false
+                AMShimmer.start(for: self.hideView1)
                 self.getRecommendedPeopleBy(userID: model?.userId ?? "")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     self.showEmptyView1()
@@ -362,7 +444,6 @@ extension CommunityVC:UICollectionViewDataSource {
             
             cell.HandleSendRequestBtn = {
                 self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
-                cell.sendRequestBtn.isUserInteractionEnabled = false
                 self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1, requestdate: actionDate) { error, message in
                     if let error = error {
                         DispatchQueue.main.async {
@@ -373,15 +454,14 @@ extension CommunityVC:UICollectionViewDataSource {
                     
                     guard let _ = message else {return}
                     DispatchQueue.main.async {
-                        cell.sendRequestBtn.isHidden = true
-                        cell.sendRequestBtn.setTitle("Send Request", for: .normal)
-                        cell.sendRequestBtn.isUserInteractionEnabled = true
-                        cell.cancelRequestBtn.isHidden = false
+                        self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Send Request".localizedString)
                     }
                     
                     DispatchQueue.main.async {
+                        self.hideView1.isHidden = false
+                        AMShimmer.start(for: self.hideView1)
                         self.getRecommendedPeopleBy(userID: model?.userId ?? "")
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             self.showEmptyView1()
                         }
                     }
@@ -396,46 +476,40 @@ extension CommunityVC:UICollectionViewDataSource {
             cell.enventNameLbl.text = model?.title
             cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.infoLbl.text = model?.descriptionEvent
-            cell.attendeesLbl.text = "\(model?.attendees ?? 0) / \(model?.from ?? 0)"
+            cell.attendeesLbl.text = "Attendees: \(model?.attendees ?? 0) / \(model?.from ?? 0)"
             cell.startDateLbl.text = model?.eventDate
+            cell.bgView.backgroundColor =  UIColor.color((model?.eventtypecolor ?? ""))
             
             cell.HandleSkipBtn = {
+                self.hideView2.isHidden = false
+                AMShimmer.start(for: self.hideView2)
                 self.getRecommendedEventBy(eventID: model?.eventId ?? "")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.showEmptyView2()
                 }
+                
             }
-            
-            //            cell.HandleExpandBtn = {
-            //                if model?.eventtype == "External" {
-            //                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
-            //                    vc.eventId = model?.id ?? ""
-            //
-            ////                    if model?.key == 1 {
-            ////                        vc.isEventAdmin = true
-            ////                    }else {
-            ////                        vc.isEventAdmin = false
-            ////                    }
-            //
-            //                    self.navigationController?.pushViewController(vc, animated: true)
-            //                }else {
-            //                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-            //                    vc.eventId = model?.id ?? ""
-            //
-            ////                    if model?.key == 1 {
-            ////                        vc.isEventAdmin = true
-            ////                    }else {
-            ////                        vc.isEventAdmin = false
-            ////                    }
-            //
-            //                    self.navigationController?.pushViewController(vc, animated: true)
-            //                }
-            //            }
+                        
+            cell.HandleExpandBtn = {
+                if model?.eventtype == "External" {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+                    vc.eventId = model?.eventId ?? ""
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }else {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                    vc.eventId = model?.eventId ?? ""
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
             
             return cell
         }
         else {
             guard let cell = recentlyConnectedCollectionView.dequeueReusableCell(withReuseIdentifier: cellID3, for: indexPath) as? RecentlyConnectedCollectionViewCell else {return UICollectionViewCell()}
+            let model = viewmodel.recentlyConnected.value?.data?[indexPath.row]
+            cell.userImage.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            cell.userNameLbl.text = model?.name
+            cell.connectedDateLbl.text = "Connected: \(model?.date ?? "")"
             return cell
         }
     }
@@ -468,13 +542,45 @@ extension CommunityVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayou
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == friendsCommunityCollectionView {
+            
+        }
+        else if collectionView == eventCollectionView {
+            let model = viewmodel.recommendedEvent.value
+            
+            if model?.eventtype == "External" {
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+                vc.eventId = model?.eventId ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else {
+                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+                vc.eventId = model?.eventId ?? ""
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+        else {
+            if Defaults.token != "" {
+                if NetworkConected.internetConect {
+                    if viewmodel.recentlyConnected.value?.data?.count != 0 {
+                        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+                        vc.userID = viewmodel.recentlyConnected.value?.data?[indexPath.row].userId ?? ""
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
+            }else {
+                Router().toOptionsSignUpVC(IsLogout: false)
+            }
+        }
+    }
 }
 
 extension CommunityVC: HorizontalPaginationManagerDelegate {
     
     private func setupPagination() {
         self.paginationManager.refreshViewColor = .clear
-        self.paginationManager.loaderColor = .white
+        self.paginationManager.loaderColor = .gray
     }
     
     private func fetchItems() {
@@ -482,21 +588,27 @@ extension CommunityVC: HorizontalPaginationManagerDelegate {
     }
     
     func refreshAll(completion: @escaping (Bool) -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.setupPagination()
             self.currentPage = 1
-            //            self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
+            self.getRecentlyConnectedBy(pageNumber: self.currentPage)
             self.recentlyConnectedCollectionView.reloadData()
             completion(true)
         }
     }
     
     func loadMore(completion: @escaping (Bool) -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.setupPagination()
             self.isLoadingList = true
-            //            if self.currentPage < self.viewmodel.eventsOnlyMe.value?.totalPages ?? 0 {
-            //                print("self.currentPage >> \(self.currentPage)")
-            //                self.loadMoreItemsForList()
-            //            }
+            if self.currentPage < self.viewmodel.recentlyConnected.value?.totalPages ?? 0 {
+                print("self.currentPage >> \(self.currentPage)")
+                self.loadMoreItemsForList()
+            }else {
+//                self.paginationManager.removeLeftLoader()
+                self.paginationManager.removeRightLoader()
+            }
+            
             completion(true)
         }
     }

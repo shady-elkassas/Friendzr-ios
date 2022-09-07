@@ -187,6 +187,8 @@
 		4371D42627391B13003B8AFD /* EmptyViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */; };
 		4372CCAF281C653F002F9B00 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4372CCAE281C653F002F9B00 /* AdSupport.framework */; };
 		4372CCB1281C6555002F9B00 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4372CCB0281C6555002F9B00 /* AppTrackingTransparency.framework */; };
+		437703BC28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437703BA28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.swift */; };
+		437703BD28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 437703BB28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.xib */; };
 		437A4E9326FB7315007AAEF9 /* CompassHeading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9226FB7315007AAEF9 /* CompassHeading.swift */; };
 		437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */; };
 		437EE47226E8B39700765089 /* LeaveEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437EE47126E8B39700765089 /* LeaveEventViewModel.swift */; };
@@ -621,6 +623,8 @@
 		4371D42427391B12003B8AFD /* EmptyViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewTableViewCell.swift; sourceTree = "<group>"; };
 		4372CCAE281C653F002F9B00 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		4372CCB0281C6555002F9B00 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
+		437703BA28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewFriendsCommunityCollectionViewCell.swift; sourceTree = "<group>"; };
+		437703BB28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewFriendsCommunityCollectionViewCell.xib; sourceTree = "<group>"; };
 		437A4E9226FB7315007AAEF9 /* CompassHeading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassHeading.swift; sourceTree = "<group>"; };
 		437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassViewSwiftUI.swift; sourceTree = "<group>"; };
 		437EE47126E8B39700765089 /* LeaveEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaveEventViewModel.swift; sourceTree = "<group>"; };
@@ -1292,6 +1296,8 @@
 				434DAC8228B635D500A25DB0 /* RecommendedEventCollectionViewCell.xib */,
 				43A350DE28BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.swift */,
 				43A350DF28BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.xib */,
+				437703BA28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.swift */,
+				437703BB28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -2214,6 +2220,7 @@
 				43D0092E2794418C00370E2C /* HideGhostModeView.xib in Resources */,
 				43375F60271313C4009EBED6 /* NotificationTableViewCell.xib in Resources */,
 				430D425E26D38D9B00188E42 /* AttendeesTableViewCell.xib in Resources */,
+				437703BD28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.xib in Resources */,
 				4344110826CE885F00F8233E /* ContactsTableViewCell.xib in Resources */,
 				43ABA61028758A20004716E4 /* DIN2014-Regular.ttf in Resources */,
 				43526917276A144A00540726 /* ScrollableBottomSheetViewController.xib in Resources */,
@@ -2342,6 +2349,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43ACFEBB27B3B065001CD340 /* EventDetailsViewController.swift in Sources */,
+				437703BC28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.swift in Sources */,
 				4362888D26C8FF6500B51E51 /* RequestVC.swift in Sources */,
 				43C64A0C2796C40800C35FA8 /* GroupModel.swift in Sources */,
 				43BA37992700A121003F28FA /* Reachability.swift in Sources */,
@@ -3058,11 +3066,13 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 2.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Friendzr;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3073,7 +3083,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.11;
+				MARKETING_VERSION = 1.2.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Friendzr/Friendzr-Bridging-Header.h";
@@ -3094,10 +3104,12 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 2.0;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Friendzr;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3108,7 +3120,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.11;
+				MARKETING_VERSION = 1.2.12;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

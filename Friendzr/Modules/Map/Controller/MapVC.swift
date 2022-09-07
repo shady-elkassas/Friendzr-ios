@@ -55,7 +55,8 @@ extension MapVC: HorizontalPaginationManagerDelegate {
     }
     
     func refreshAll(completion: @escaping (Bool) -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.setupPagination()
             self.currentPage = 1
             self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
             self.collectionView.reloadData()
@@ -64,12 +65,17 @@ extension MapVC: HorizontalPaginationManagerDelegate {
     }
     
     func loadMore(completion: @escaping (Bool) -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.setupPagination()
             self.isLoadingList = true
             if self.currentPage < self.viewmodel.eventsOnlyMe.value?.totalPages ?? 0 {
                 print("self.currentPage >> \(self.currentPage)")
                 self.loadMoreItemsForList()
+            }else {
+//                self.paginationManager.removeLeftLoader()
+                self.paginationManager.removeRightLoader()
             }
+            
             completion(true)
         }
     }
@@ -209,15 +215,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(updateFilterBtn), name: Notification.Name("updateFilterBtn"), object: nil)
         self.setupPagination()
         self.fetchItems()
-        
         isViewUp = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         
-        //        mapView.clear()
-        CancelRequest.currentTask = true
-        
+        //        mapView.clear()        
         collectionViewHeight.constant = 0
         self.hideCollectionView.isHidden = true
         self.noeventNearbyLbl.isHidden = true
@@ -291,7 +294,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
 
     //MARK: - APIs
     func getEventsOnlyAroundMe(pageNumber:Int) {
-        var startDate = Date()
+        let startDate = Date()
         
         self.subView.isHidden = false
         self.upDownViewBtn.isHidden = false

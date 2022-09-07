@@ -10,6 +10,8 @@ import ObjectMapper
 
 typealias RecommendedPeople = RecommendedPeopleObj
 typealias RecommendedEvent = RecommendedEventObj
+typealias RecentlyConnected = RecentlyConnectedModel
+
 
 class RecommendedPeopleModel: Mappable {
     
@@ -53,7 +55,6 @@ class RecommendedPeopleObj: Mappable {
     }
 }
 
-
 class RecommendedEventModel: Mappable {
     
     var isSuccessful: Bool?
@@ -79,6 +80,9 @@ class RecommendedEventObj: Mappable {
     var attendees: Int? = 0
     var from: Int? = 0
     var eventDate: String? = ""
+    var eventtypecolor:String? = ""
+    var eventtype:String? = ""
+    var eventColor:String? = ""
 
     required init?(map: Map) {
     }
@@ -95,5 +99,76 @@ class RecommendedEventObj: Mappable {
         attendees  <- map["attendees"]
         from  <- map["from"]
         eventDate  <- map["eventDate"]
+        eventtypecolor  <- map["eventtypecolor"]
+        eventtype  <- map["eventtype"]
+        eventColor  <- map["eventColor"]
+    }
+}
+
+class RecentlyConnectedResponse:Mappable {
+    
+    var isSuccessful: Bool?
+    var message: String?
+    var data: RecentlyConnectedModel? = nil
+    
+    required init?(map: Map) {
+    }
+    
+    init() {
+    }
+    
+    // Mappable
+    func mapping(map: Map) {
+        data    <- map["model"]
+        isSuccessful   <- map["isSuccessful"]
+        message  <- map["message"]
+    }
+}
+
+class RecentlyConnectedModel:Mappable {
+    
+    var pageNumber: Int?
+    var pageSize: Int?
+    var totalPages:Int? = 0
+    var totalRecords:Int? = 0
+    var data: [RecentlyConnectedObj]? = []
+
+    
+    required init?(map: Map) {
+    }
+    
+    init() {
+    }
+    
+    // Mappable
+    func mapping(map: Map) {
+        pageNumber    <- map["pageNumber"]
+        pageSize   <- map["pageSize"]
+        totalPages  <- map["totalPages"]
+        totalRecords  <- map["totalRecords"]
+        data  <- map["data"]
+    }
+}
+
+class RecentlyConnectedObj: NSObject,Mappable {
+    
+    var userId: String? = ""
+    var name: String? = ""
+    var image: String? = ""
+    var date: String? = ""
+    
+    required init?(map: Map) {
+    }
+    
+    override init() {
+        super.init()
+    }
+    
+    // Mappable
+    func mapping(map: Map) {
+        userId    <- map["userId"]
+        name   <- map["name"]
+        image  <- map["image"]
+        date  <- map["date"]
     }
 }
