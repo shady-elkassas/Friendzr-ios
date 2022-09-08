@@ -56,7 +56,7 @@ class ProfileObj: Mappable {
         age <- map["age"]
         needUpdate <- map["needUpdate"]
         otherGenderName <- map["otherGenderName"]
-//        frindRequestNumber <- map["frindRequestNumber"]
+        frindRequestNumber <- map["frindRequestNumber"]
         allowmylocation <- map["allowmylocation"]
         myAppearanceTypes <- map["myAppearanceTypes"]
         ghostmode <- map["ghostmode"]

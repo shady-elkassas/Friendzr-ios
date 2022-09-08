@@ -147,15 +147,16 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                     }
                 }
                 
-//                if RequestesType.type == 2 {
-//                    Defaults.frindRequestNumber = self.xrecieved.count
-//                }else {
-//                    Defaults.frindRequestNumber = Defaults.frindRequestNumber
-//                }
+                if RequestesType.type == 2 {
+                    Defaults.frindRequestNumber = self.xrecieved.count
+                }else {
+                    Defaults.frindRequestNumber = Defaults.frindRequestNumber
+                }
                 
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//                    NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
-//                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                    NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
+                }
             }
         }
         
@@ -194,11 +195,11 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                     }
                 }
                 
-//                if RequestesType.type == 2 {
-//                    Defaults.frindRequestNumber = self.xrecieved.count
-//                }else {
-//                    Defaults.frindRequestNumber = Defaults.frindRequestNumber
-//                }
+                if RequestesType.type == 2 {
+                    Defaults.frindRequestNumber = self.xrecieved.count
+                }else {
+                    Defaults.frindRequestNumber = Defaults.frindRequestNumber
+                }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
                     self.hideView.hideLoader()
@@ -210,9 +211,10 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
                     self.tableView.tableFooterView = nil
                 }
                 
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//                    NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
-//                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                    NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
+                }
             }
         }
         

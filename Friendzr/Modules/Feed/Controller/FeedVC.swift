@@ -679,10 +679,13 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             Defaults.LocationLat = data.lat
             Defaults.LocationLng = data.lang
             Defaults.Image = data.userImage
+            Defaults.frindRequestNumber = data.frindRequestNumber
             
             NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
             NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
             NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
         }
     }
     

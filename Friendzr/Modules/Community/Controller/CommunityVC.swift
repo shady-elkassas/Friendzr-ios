@@ -98,12 +98,12 @@ class CommunityVC: UIViewController {
         setupNavBar()
         title = "Community"
         setupViews()
-        initRequestsBarButton()
         
 
         NotificationCenter.default.addObserver(self, selector: #selector(reloadRecommendedPeople), name: Notification.Name("reloadRecommendedPeople"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadRecommendedEvent), name: Notification.Name("reloadRecommendedEvent"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(updateInitRequestsBarButton), name: Notification.Name("updateInitRequestsBarButton"), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,6 +121,8 @@ class CommunityVC: UIViewController {
         }else {
             Router().toOptionsSignUpVC(IsLogout: false)
         }
+        
+        initRequestsBarButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -174,6 +176,10 @@ class CommunityVC: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.showEmptyView2()
         }
+    }
+    
+    @objc func updateInitRequestsBarButton() {
+        initRequestsBarButton()
     }
     
     //MARK: - APIs
@@ -356,11 +362,13 @@ class CommunityVC: UIViewController {
             }
         }
     }
+    
     func showEmptyView2() {
         DispatchQueue.main.async {
             if self.viewmodel.recommendedEvent.value != nil {
                 self.emptyView2.isHidden = true
-            }else {
+            }
+            else {
                 self.emptyView2.isHidden = false
                 self.emptyLbl2.text = "No more events, please try again later."
             }
@@ -370,10 +378,10 @@ class CommunityVC: UIViewController {
     func showEmptyView3() {
         DispatchQueue.main.async {
             if self.viewmodel.recentlyConnected.value?.data?.count != 0 {
-                self.emptyView2.isHidden = true
+                self.emptyView3.isHidden = true
             }else {
-                self.emptyView2.isHidden = false
-                self.emptyLbl2.text = "No more users, please try again later."
+                self.emptyView3.isHidden = false
+                self.emptyLbl3.text = "No more users, please try again later."
             }
         }
     }
@@ -434,10 +442,9 @@ extension CommunityVC:UICollectionViewDataSource {
             }
             
             cell.HandleSkipBtn = {
-                self.hideView1.isHidden = false
-                AMShimmer.start(for: self.hideView1)
+                self.animationFor(collectionView: self.friendsCommunityCollectionView)
                 self.getRecommendedPeopleBy(userID: model?.userId ?? "")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.showEmptyView1()
                 }
             }
@@ -458,8 +465,7 @@ extension CommunityVC:UICollectionViewDataSource {
                     }
                     
                     DispatchQueue.main.async {
-                        self.hideView1.isHidden = false
-                        AMShimmer.start(for: self.hideView1)
+                        self.animationFor(collectionView: self.friendsCommunityCollectionView)
                         self.getRecommendedPeopleBy(userID: model?.userId ?? "")
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                             self.showEmptyView1()
@@ -481,13 +487,11 @@ extension CommunityVC:UICollectionViewDataSource {
             cell.bgView.backgroundColor =  UIColor.color((model?.eventtypecolor ?? ""))
             
             cell.HandleSkipBtn = {
-                self.hideView2.isHidden = false
-                AMShimmer.start(for: self.hideView2)
+                self.animationFor(collectionView: self.eventCollectionView)
                 self.getRecommendedEventBy(eventID: model?.eventId ?? "")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.showEmptyView2()
                 }
-                
             }
                         
             cell.HandleExpandBtn = {
@@ -615,8 +619,20 @@ extension CommunityVC: HorizontalPaginationManagerDelegate {
 }
 
 extension CommunityVC {
+    
     //init requests page
     func initRequestsBarButton() {
+        let badgeCount = UILabel(frame: CGRect(x: 87, y: -03, width: 16, height: 16))
+        badgeCount.layer.borderColor = UIColor.clear.cgColor
+        badgeCount.layer.borderWidth = 2
+        badgeCount.layer.cornerRadius = badgeCount.bounds.size.height / 2
+        badgeCount.textAlignment = .center
+        badgeCount.layer.masksToBounds = true
+        badgeCount.textColor = .white
+        badgeCount.font = badgeCount.font.withSize(12)
+        badgeCount.backgroundColor = .red
+        badgeCount.text = "\(Defaults.frindRequestNumber)"
+
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
         button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         button.setTitle("Requests", for: .normal)
@@ -627,6 +643,13 @@ extension CommunityVC {
         button.imageEdgeInsets.left = 80
         button.titleEdgeInsets.left = -20
         button.addTarget(self, action: #selector(goToRequestsPage), for: .touchUpInside)
+        
+        if Defaults.frindRequestNumber != 0 {
+            button.addSubview(badgeCount)
+        }else {
+            button.willRemoveSubview(badgeCount)
+        }
+        
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.rightBarButtonItem = barButton
     }
@@ -634,5 +657,17 @@ extension CommunityVC {
     @objc func goToRequestsPage() {
         guard let vc = UIViewController.viewController(withStoryboard: .Request, AndContollerID: "RequestVC") as? RequestVC else {return}
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func animationFor(collectionView:UICollectionView) {
+        let transition = CATransition()
+        transition.type = CATransitionType.push
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        transition.fillMode = CAMediaTimingFillMode.removed
+        transition.duration = 1.2
+        transition.subtype = CATransitionSubtype.fromRight
+        collectionView.layer.add(transition, forKey: "UICollectionViewReloadDataAnimationKey")
+        // Update your data source here
+        collectionView.reloadData()
     }
 }

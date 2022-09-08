@@ -64,7 +64,7 @@ class UpdateLocationViewModel {
         Defaults.needUpdate = user.needUpdate
         Defaults.notificationcount = user.notificationcount
         Defaults.message_Count = user.message_Count
-//        Defaults.frindRequestNumber = user.frindRequestNumber
+        Defaults.frindRequestNumber = user.frindRequestNumber
         
         Defaults.interestIds.removeAll()
         for itm in user.listoftagsmodel ?? [] {

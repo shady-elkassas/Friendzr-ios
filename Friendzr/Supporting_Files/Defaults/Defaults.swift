@@ -291,15 +291,15 @@ class Defaults {
         }
     }
     
-//    static var frindRequestNumber: Int {
-//        set{
-//            UserDefaults.standard.set(newValue, forKey: "frindRequestNumber")
-//            UserDefaults.standard.synchronize()
-//        }
-//        get{
-//            return UserDefaults.standard.integer(forKey: "frindRequestNumber")
-//        }
-//    }
+    static var frindRequestNumber: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "frindRequestNumber")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "frindRequestNumber")
+        }
+    }
     
     static var messagesInboxCountBadge: Int {
         set{
@@ -584,7 +584,7 @@ class Defaults {
         Defaults.allowMyLocation = user.allowmylocation
         Defaults.ghostMode = user.ghostmode
         Defaults.myAppearanceTypes = user.myAppearanceTypes
-//        Defaults.frindRequestNumber = user.frindRequestNumber
+        Defaults.frindRequestNumber = user.frindRequestNumber
         Defaults.pushnotification = user.pushnotification
         Defaults.notificationcount = user.notificationcount
         Defaults.message_Count = user.message_Count
@@ -623,7 +623,7 @@ class Defaults {
         defaults.removeObject(forKey: "myAppearanceTypes")
         defaults.removeObject(forKey: "ghostModeEveryOne")
         defaults.removeObject(forKey: "ghostMode")
-//        defaults.removeObject(forKey: "frindRequestNumber")
+        defaults.removeObject(forKey: "frindRequestNumber")
         defaults.removeObject(forKey: "fcmToken")
         defaults.removeObject(forKey: "pushnotification")
         defaults.removeObject(forKey: "notificationcount")

@@ -979,25 +979,26 @@ extension AppDelegate {
     }
     
     func updateAppWhenPresentNotification(_ action: String?, _ actionId: String?) {
-//        if action == "Friend_Request" {
-//            Defaults.frindRequestNumber += 1
-//            NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
-//        }
-//        else if action == "Accept_Friend_Request" {
-//            if Defaults.frindRequestNumber != 0 {
-//                Defaults.frindRequestNumber -= 1
-//                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
-//            }
-//        }
-//        else if action == "Friend_request_cancelled" {
-//            if Defaults.frindRequestNumber != 0 {
-//                Defaults.frindRequestNumber -= 1
-//                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
-//            }
-//        }
-//        else
-       
-        if action == "event_attend" {
+        if action == "Friend_Request" {
+            Defaults.frindRequestNumber += 1
+            NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
+        }
+        else if action == "Accept_Friend_Request" {
+            if Defaults.frindRequestNumber != 0 {
+                Defaults.frindRequestNumber -= 1
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
+            }
+        }
+        else if action == "Friend_request_cancelled" {
+            if Defaults.frindRequestNumber != 0 {
+                Defaults.frindRequestNumber -= 1
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
+            }
+        }
+        else if action == "event_attend" {
             if Defaults.availableVC == "EventDetailsViewController" {
                 NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
             }
