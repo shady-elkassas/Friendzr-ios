@@ -11,14 +11,15 @@ import SDWebImage
 import FirebaseAnalytics
 import GoogleMobileAds
 
+//MARK: - singletone
 class CommunitySingletone {
     static var userID:String = ""
     static var eventID:String = ""
 }
 
-class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate {
+class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGestureRecognizerDelegate {
     
-    
+    //MARK: - Outlets
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var superView: UIView!
     @IBOutlet weak var friendsCommunityCollectionView: UICollectionView!
@@ -65,9 +66,10 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var showMoreTagsView: UIView!
     @IBOutlet weak var tagsMoreView: UIView!
     @IBOutlet weak var moreTagsCollectionView: UICollectionView!
-    
-    
     @IBOutlet weak var closeBtn: UIButton!
+    
+    
+    //MARK: - Properties
     let cellID1 = "FriendsCommunityCollectionViewCell"
 //    let cellID1 = "NewFriendsCommunityCollectionViewCell"
     let cellID2 = "RecommendedEventCollectionViewCell"
@@ -88,7 +90,6 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate {
     var activityIndiator : UIActivityIndicatorView? = UIActivityIndicatorView()
     
     var isAdConnected:Bool = false
-//    var tagsList:[String] = [String]()
 
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -114,6 +115,8 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate {
         return self.recentlyConnectedCollectionView.isDragging
     }
     
+    
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -125,6 +128,9 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadRecommendedEvent), name: Notification.Name("reloadRecommendedEvent"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateInitRequestsBarButton), name: Notification.Name("updateInitRequestsBarButton"), object: nil)
+        
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         showMoreTagsView?.addGestureRecognizer(tap)
@@ -160,13 +166,17 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate {
         super.viewWillDisappear(animated)
         
         CancelRequest.currentTask = true
-
+        
         currentPage = 1
         let contentOffset = CGPoint(x: 0, y: 0)
         self.recentlyConnectedCollectionView.setContentOffset(contentOffset, animated: false)
         Defaults.isCommunityVC = false
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
     }
     
+    
+    //MARK: - Helper
     func setupViews() {
         moreTagsCollectionView.register(UINib(nibName: catsCellId, bundle: nil), forCellWithReuseIdentifier: catsCellId)
         friendsCommunityCollectionView.register(UINib(nibName: cellID1, bundle: nil), forCellWithReuseIdentifier: cellID1)
@@ -210,33 +220,6 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate {
         bannerView1.addSubview(bannerAdsView1)
     }
     
-    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
-        self.showMoreTagsView.isHidden = true
-        self.tagsMoreView.isHidden = true
-    }
-    
-//    var nativeAdView: GADNativeAdView!
-
-//    func setAdView() {
-//        // Remove the previous ad view.
-//        bannerView2.addSubview(nativeAdView)
-//        nativeAdView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        // Layout constraints for positioning the native ad view to stretch the entire width and height
-//        // of the nativeAdPlaceholder.
-//        let viewDictionary = ["_nativeAdView": nativeAdView!]
-//        self.view.addConstraints(
-//            NSLayoutConstraint.constraints(
-//                withVisualFormat: "H:|[_nativeAdView]|",
-//                options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: viewDictionary)
-//        )
-//        self.view.addConstraints(
-//            NSLayoutConstraint.constraints(
-//                withVisualFormat: "V:|[_nativeAdView]|",
-//                options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: viewDictionary)
-//        )
-//    }
-
     func setupAds2() {
         bannerAdsView2 = GADBannerView(adSize: GADAdSizeMediumRectangle)
         bannerAdsView2.adUnitID = URLs.adUnitBanner
@@ -246,9 +229,16 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate {
         bannerAdsView2.translatesAutoresizingMaskIntoConstraints = false
         bannerView2.addSubview(bannerAdsView2)
     }
+
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        self.showMoreTagsView.isHidden = true
+        self.tagsMoreView.isHidden = true
+    }
     
-    
-    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+
     func loadMoreItemsForList() {
         currentPage += 1
         getRecentlyConnectedBy(pageNumber: currentPage)
@@ -459,6 +449,9 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate {
         btn.setTitle(title, for: .normal)
     }
     
+    
+    //MARK: - Actions
+    
     @IBAction func tryAgainBtn(_ sender: Any) {
         updateUserInterface()
     }
@@ -480,6 +473,9 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate {
     
 }
 
+
+
+//MARK: - UICollectionViewDataSource
 extension CommunityVC:UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == moreTagsCollectionView {
@@ -633,6 +629,7 @@ extension CommunityVC:UICollectionViewDataSource {
     }
 }
 
+//MARK: - UICollectionViewDelegate
 extension CommunityVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let wid = collectionView.frame.width
@@ -703,6 +700,7 @@ extension CommunityVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayou
     }
 }
 
+//MARK: - HorizontalPaginationManagerDelegate
 extension CommunityVC: HorizontalPaginationManagerDelegate {
     
     private func setupPagination() {
@@ -741,6 +739,8 @@ extension CommunityVC: HorizontalPaginationManagerDelegate {
     }
 }
 
+
+//MARK: - initRequestsBarButton
 extension CommunityVC {
     
     //init requests page
@@ -794,7 +794,7 @@ extension CommunityVC {
     }
 }
 
-
+//MARK: - GADBannerViewDelegate
 extension CommunityVC:GADBannerViewDelegate {
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
         print("bannerViewDidReceiveAd")
