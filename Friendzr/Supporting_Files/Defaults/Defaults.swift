@@ -563,6 +563,27 @@ class Defaults {
         }
     }
     
+    
+    static var bannerAdsCount1: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "bannerAdsCount1")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "bannerAdsCount1")
+        }
+    }
+    
+    static var bannerAdsCount2: Int {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "bannerAdsCount2")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.integer(forKey: "bannerAdsCount2")
+        }
+    }
+    
     static func initUser(user:UserObj)  {
         Defaults.userName = user.userName
         Defaults.Email = user.email

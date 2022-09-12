@@ -2214,10 +2214,11 @@ extension FeedVC {
             }
             
             DispatchQueue.main.async {
+                Defaults.frindRequestNumber -= 1
                 NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
-            
-            
         }
     }
     func refusedRequest(_ model: UserFeedObj?, _ requestdate:String) {
@@ -2236,7 +2237,10 @@ extension FeedVC {
             }
             
             DispatchQueue.main.async {
+                Defaults.frindRequestNumber -= 1
                 NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
         }
     }
@@ -2262,7 +2266,10 @@ extension FeedVC {
                     cell.cancelRequestBtn.isUserInteractionEnabled = true
                 }
                 
+                Defaults.frindRequestNumber -= 1
                 NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
         }
     }

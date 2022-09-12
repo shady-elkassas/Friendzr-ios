@@ -105,9 +105,9 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IST-l7-Rhd">
                         <rect key="frame" x="243" y="205" width="243" height="24"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Skip to next recommendation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cmL-Bj-3Vn">
-                                <rect key="frame" x="5" y="6.5" width="137" height="11"/>
-                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="9"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="See Next" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cmL-Bj-3Vn">
+                                <rect key="frame" x="97" y="5.5" width="49.5" height="13.5"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="11"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -124,7 +124,7 @@
                             <constraint firstAttribute="trailing" secondItem="yqT-Jn-RcO" secondAttribute="trailing" constant="5" id="617-n4-rke"/>
                             <constraint firstAttribute="height" constant="24" id="8u2-Yo-cdX"/>
                             <constraint firstItem="cmL-Bj-3Vn" firstAttribute="centerY" secondItem="IST-l7-Rhd" secondAttribute="centerY" id="DO6-YB-EZk"/>
-                            <constraint firstItem="cmL-Bj-3Vn" firstAttribute="leading" secondItem="IST-l7-Rhd" secondAttribute="leading" constant="5" id="X9u-RV-siC"/>
+                            <constraint firstItem="cmL-Bj-3Vn" firstAttribute="centerX" secondItem="IST-l7-Rhd" secondAttribute="centerX" id="aC3-ft-aAG"/>
                             <constraint firstItem="yqT-Jn-RcO" firstAttribute="centerY" secondItem="IST-l7-Rhd" secondAttribute="centerY" id="exY-lL-F90"/>
                         </constraints>
                     </view>

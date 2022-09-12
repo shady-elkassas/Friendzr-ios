@@ -281,7 +281,11 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
             }
             
             DispatchQueue.main.async {
+                Defaults.frindRequestNumber -= 1
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
+
             }
         }
     }
@@ -303,7 +307,10 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
             }
             
             DispatchQueue.main.async {
+                Defaults.frindRequestNumber -= 1
                 NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
         }
     }

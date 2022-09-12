@@ -10,12 +10,9 @@ import ObjectMapper
 import MobileCoreServices
 import Alamofire
 
-class CommunityViewModel {
+class RecommendedPeopleViewModel {
     
     var recommendedPeople : DynamicType<RecommendedPeople> = DynamicType<RecommendedPeople>()
-    var recommendedEvent : DynamicType<RecommendedEvent> = DynamicType<RecommendedEvent>()
-    var recentlyConnected : DynamicType<RecentlyConnected> = DynamicType<RecentlyConnected>()
-    var recentlyConnectedTemp :RecentlyConnected = RecentlyConnectedModel()
 
     // Fields that bind to our view's
     var isSuccess : Bool = false
@@ -38,12 +35,28 @@ class CommunityViewModel {
             }
             else {
                 // When set the listener (if any) will be notified
-                if let toAdd = userResponse.data {
-                    self.recommendedPeople.value = toAdd
+                if userResponse.data == nil {
+                    self.error.value = userResponse.message
+                }else {
+                    if let toAdd = userResponse.data {
+                        self.recommendedPeople.value = toAdd
+                    }
+                    
                 }
+               
             }
         }
     }
+}
+
+class RecommendedEventViewModel {
+    
+    var recommendedEvent : DynamicType<RecommendedEvent> = DynamicType<RecommendedEvent>()
+
+    // Fields that bind to our view's
+    var isSuccess : Bool = false
+    var error:DynamicType<String> = DynamicType()
+    
     
     func getRecommendedEvent(eventId:String) {
         CancelRequest.currentTask = false
@@ -62,13 +75,28 @@ class CommunityViewModel {
             }
             else {
                 // When set the listener (if any) will be notified
-                if let toAdd = userResponse.data {
-                    self.recommendedEvent.value = toAdd
+                if userResponse.data == nil {
+                    self.error.value = userResponse.message
+                }else {
+                    if let toAdd = userResponse.data {
+                        self.recommendedEvent.value = toAdd
+                    }
                 }
+             
             }
         }
     }
+}
+
+class RecentlyConnectedViewModel {
     
+    var recentlyConnected : DynamicType<RecentlyConnected> = DynamicType<RecentlyConnected>()
+    var recentlyConnectedTemp :RecentlyConnected = RecentlyConnectedModel()
+
+    // Fields that bind to our view's
+    var isSuccess : Bool = false
+    var error:DynamicType<String> = DynamicType()
+        
     func getRecentlyConnected(pageNumber:Int) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/RecentlyConnected?PageNumber=\(pageNumber)&PageSize=20"
@@ -85,17 +113,21 @@ class CommunityViewModel {
             }
             else {
                 // When set the listener (if any) will be notified
-                if let toAdd = userResponse.data {
-                    if pageNumber > 1 {
-                        for itm in toAdd.data ?? [] {
-                            if !(self.recentlyConnectedTemp.data?.contains(where: { $0.userId == itm.userId }) ?? false) {
-                                self.recentlyConnectedTemp.data?.append(itm)
+                if userResponse.data?.data?.count == 0 {
+                    self.error.value = userResponse.message
+                }else {
+                    if let toAdd = userResponse.data {
+                        if pageNumber > 1 {
+                            for itm in toAdd.data ?? [] {
+                                if !(self.recentlyConnectedTemp.data?.contains(where: { $0.userId == itm.userId }) ?? false) {
+                                    self.recentlyConnectedTemp.data?.append(itm)
+                                }
                             }
+                            self.recentlyConnected.value = self.recentlyConnectedTemp
+                        } else {
+                            self.recentlyConnected.value = toAdd
+                            self.recentlyConnectedTemp = toAdd
                         }
-                        self.recentlyConnected.value = self.recentlyConnectedTemp
-                    } else {
-                        self.recentlyConnected.value = toAdd
-                        self.recentlyConnectedTemp = toAdd
                     }
                 }
             }

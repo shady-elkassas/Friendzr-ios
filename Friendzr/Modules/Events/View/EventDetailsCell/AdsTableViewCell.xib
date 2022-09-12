@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21223" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21204"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AdsTableViewCell" rowHeight="64" id="KGk-i7-Jjw" customClass="AdsTableViewCell" customModule="Friendzr" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="431" height="64"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="AdsTableViewCell" rowHeight="269" id="KGk-i7-Jjw" customClass="AdsTableViewCell" customModule="Friendzr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="431" height="269"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="431" height="64"/>
+                <rect key="frame" x="0.0" y="0.0" width="431" height="269"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7PB-QM-eLx">
-                        <rect key="frame" x="55.5" y="5" width="320" height="50"/>
+                        <rect key="frame" x="55.5" y="5" width="320" height="250"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="320" id="fCH-D7-ThL"/>
-                            <constraint firstAttribute="height" constant="50" id="sZ8-Bd-5mq"/>
+                            <constraint firstAttribute="height" constant="250" id="sZ8-Bd-5mq"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -41,7 +41,7 @@
                 <outlet property="bottomLayoutConstraint" destination="fR1-Jz-c48" id="mSI-95-ghe"/>
                 <outlet property="topLayoutConstraint" destination="k1S-LS-HRd" id="E4L-3e-V4H"/>
             </connections>
-            <point key="canvasLocation" x="-82" y="98"/>
+            <point key="canvasLocation" x="323.91304347826087" y="-7.7008928571428568"/>
         </tableViewCell>
     </objects>
 </document>

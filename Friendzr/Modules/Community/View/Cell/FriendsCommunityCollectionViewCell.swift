@@ -28,10 +28,15 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var tagsTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var noAvailableInterestLbl: UILabel!
     
+    @IBOutlet weak var seemoreLbl: UILabel!
+    @IBOutlet weak var seemoreBtn: UIButton!
+    
+    
     var HandleViewProfileBtn: (()->())?
     var HandleSendRequestBtn: (()->())?
     var HandleCancelRequestBtn: (()->())?
     var HandleSkipBtn: (()->())?
+    var HandleSeeMoreBtn: (()->())?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -70,6 +75,11 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     @IBAction func skipBtn(_ sender: Any) {
         HandleSkipBtn?()
     }
+    
+    @IBAction func seemoreBtn(_ sender: Any) {
+        HandleSeeMoreBtn?()
+    }
+    
 }
 
 extension FriendsCommunityCollectionViewCell : TagListViewDelegate {

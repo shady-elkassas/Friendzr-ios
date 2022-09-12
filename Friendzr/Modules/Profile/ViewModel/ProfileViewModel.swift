@@ -64,7 +64,7 @@ class ProfileViewModel {
         Defaults.allowMyLocation = user.allowmylocation
         Defaults.ghostMode = user.ghostmode
         Defaults.myAppearanceTypes = user.myAppearanceTypes
-//        Defaults.frindRequestNumber = user.frindRequestNumber
+        Defaults.frindRequestNumber = user.frindRequestNumber
         Defaults.pushnotification = user.pushnotification
         Defaults.notificationcount = user.notificationcount
         Defaults.message_Count = user.message_Count

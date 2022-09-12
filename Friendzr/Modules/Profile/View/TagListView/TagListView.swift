@@ -344,12 +344,12 @@ open class TagListView: UIView {
         tagView.highlightedBackgroundColor = tagHighlightedBackgroundColor
         tagView.selectedBackgroundColor = tagSelectedBackgroundColor
         tagView.titleLineBreakMode = tagLineBreakMode
-        tagView.cornerRadius = Defaults.isCommunityVC == true ? cornerRadius / 2.2 : cornerRadius
+        tagView.cornerRadius = Defaults.isCommunityVC == true ? cornerRadius / 1.2 : cornerRadius
         tagView.borderWidth = borderWidth
         tagView.borderColor = borderColor
         tagView.selectedBorderColor = selectedBorderColor
         tagView.paddingX = paddingX
-        tagView.paddingY = Defaults.isCommunityVC == true ? paddingY / 1.4 : paddingY
+        tagView.paddingY = Defaults.isCommunityVC == true ? paddingY / 1.1 : paddingY
         tagView.textFont = textFont
         tagView.removeIconLineWidth = removeIconLineWidth
         tagView.removeButtonIconSize = removeButtonIconSize

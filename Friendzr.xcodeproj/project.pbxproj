@@ -131,6 +131,7 @@
 		4345BA3C271C15410076101A /* GenderbylocationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4345BA3B271C15410076101A /* GenderbylocationModel.swift */; };
 		434600DD28B61DD400FC932D /* Community.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 434600DC28B61DD400FC932D /* Community.storyboard */; };
 		434600DF28B61DE000FC932D /* CommunityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434600DE28B61DE000FC932D /* CommunityVC.swift */; };
+		434B23BB28CDE3A000789A81 /* ShowMoreTagsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434B23BA28CDE3A000789A81 /* ShowMoreTagsVC.swift */; };
 		434BCE4B27BCEB5E002DC1DA /* PreferToVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434BCE4A27BCEB5E002DC1DA /* PreferToVC.swift */; };
 		434DAC7F28B629C800A25DB0 /* FriendsCommunityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434DAC7D28B629C800A25DB0 /* FriendsCommunityCollectionViewCell.swift */; };
 		434DAC8028B629C800A25DB0 /* FriendsCommunityCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434DAC7E28B629C800A25DB0 /* FriendsCommunityCollectionViewCell.xib */; };
@@ -566,6 +567,7 @@
 		4345BA3B271C15410076101A /* GenderbylocationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderbylocationModel.swift; sourceTree = "<group>"; };
 		434600DC28B61DD400FC932D /* Community.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Community.storyboard; sourceTree = "<group>"; };
 		434600DE28B61DE000FC932D /* CommunityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityVC.swift; sourceTree = "<group>"; };
+		434B23BA28CDE3A000789A81 /* ShowMoreTagsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreTagsVC.swift; sourceTree = "<group>"; };
 		434BCE4A27BCEB5E002DC1DA /* PreferToVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferToVC.swift; sourceTree = "<group>"; };
 		434DAC7D28B629C800A25DB0 /* FriendsCommunityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCommunityCollectionViewCell.swift; sourceTree = "<group>"; };
 		434DAC7E28B629C800A25DB0 /* FriendsCommunityCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsCommunityCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -1283,6 +1285,7 @@
 			isa = PBXGroup;
 			children = (
 				434600DE28B61DE000FC932D /* CommunityVC.swift */,
+				434B23BA28CDE3A000789A81 /* ShowMoreTagsVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2547,6 +2550,7 @@
 				43FBA22C26D5330F005F4FBF /* SendLocationChatVC.swift in Sources */,
 				433CDE1F27CCC46600A80A40 /* EventTimeVC.swift in Sources */,
 				4388685E278344F1004D36B2 /* ReportTitleTableViewCell.swift in Sources */,
+				434B23BB28CDE3A000789A81 /* ShowMoreTagsVC.swift in Sources */,
 				4320A64F26F21180003604EE /* BlockedTableViewCell.swift in Sources */,
 				4367E46027BA478900FE1880 /* FriendImageProfileTableViewCell.swift in Sources */,
 				43D545B526CBD81E0064660A /* Magnetic.swift in Sources */,
@@ -3066,7 +3070,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.0;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -3083,9 +3087,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.12;
+				MARKETING_VERSION = 1.2.13;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "Friendzr/Friendzr-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -3104,7 +3111,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3.0;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;
@@ -3120,11 +3127,14 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.12;
+				MARKETING_VERSION = 1.2.13;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "Friendzr/Friendzr-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

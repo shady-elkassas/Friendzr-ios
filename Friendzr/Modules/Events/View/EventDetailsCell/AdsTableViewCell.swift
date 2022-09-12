@@ -21,13 +21,13 @@ class AdsTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        bannerView.cornerRadiusView(radius: 6)
+        bannerView.cornerRadiusView(radius: 12)
 //        setupAds()
     }
     
     func setupAds() {
 //        let adSize = GADInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(bannerView.bounds.width, bannerView.bounds.height)
-        bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
+        bannerView2 = GADBannerView(adSize: GADAdSizeMediumRectangle)
         bannerView2.adUnitID = URLs.adUnitBanner
         bannerView2.rootViewController = parentVC
         bannerView2.load(GADRequest())

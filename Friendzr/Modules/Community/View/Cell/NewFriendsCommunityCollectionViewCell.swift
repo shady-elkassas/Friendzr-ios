@@ -30,6 +30,8 @@ class NewFriendsCommunityCollectionViewCell: UICollectionViewCell {
     var tagsList:[String] = [String]()
     let cellID = "TagCollectionViewCell"
     
+    var tags:[String] = ["",""]
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -81,7 +83,18 @@ extension NewFriendsCommunityCollectionViewCell:UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? TagCollectionViewCell else {return UICollectionViewCell()}
         let model = tagsList[indexPath.row]
-        cell.tagNameLbl.text = model
+        
+        if tagsList.count > 2 {
+            tags.removeAll()
+            tags.append(model)
+            let tagsmodel = tags[indexPath.row]
+            cell.tagNameLbl.text = tagsmodel
+            
+            print("Tags > 2")
+        }else {
+            cell.tagNameLbl.text = model
+        }
+        
         cell.editBtn.isHidden = true
         cell.editBtnWidth.constant = 0
         cell.containerView.backgroundColor = UIColor.FriendzrColors.primary
@@ -93,8 +106,8 @@ extension NewFriendsCommunityCollectionViewCell:UICollectionViewDataSource {
 extension NewFriendsCommunityCollectionViewCell:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let model = tagsList[indexPath.row]
-        let width = model.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
-        return CGSize(width: width + 50, height: 45)
+        let width = model.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 9)!)
+        return CGSize(width: width + 50, height: 30)
         
     }
     

@@ -612,7 +612,10 @@ extension FriendProfileViewController {
            
            guard let _ = message else {return}
            DispatchQueue.main.async {
+               Defaults.frindRequestNumber -= 1
                NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+               NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+               NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
            }
            
            DispatchQueue.main.async {
@@ -692,7 +695,10 @@ extension FriendProfileViewController {
             guard let _ = message else {return}
             
             DispatchQueue.main.async {
+                Defaults.frindRequestNumber -= 1
                 NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
             
             DispatchQueue.main.async {
@@ -742,8 +748,12 @@ extension FriendProfileViewController {
             
             guard let _ = message else {return}
             
+            Defaults.frindRequestNumber -= 1
+            
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("updateResquests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
+                NotificationCenter.default.post(name: Notification.Name("updateInitRequestsBarButton"), object: nil, userInfo: nil)
             }
             
             DispatchQueue.main.async {
