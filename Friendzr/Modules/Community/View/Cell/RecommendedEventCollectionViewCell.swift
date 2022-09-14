@@ -18,6 +18,7 @@ class RecommendedEventCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var startDateLbl: UILabel!
     @IBOutlet weak var attendeesLbl: UILabel!
     @IBOutlet weak var skipBtn: UIButton!
+    @IBOutlet weak var openEventBtn: UIButton!
     
     @IBOutlet weak var skipBtnView: UIView!
     var HandleExpandBtn: (()->())?
@@ -49,5 +50,8 @@ class RecommendedEventCollectionViewCell: UICollectionViewCell {
         HandleSkipBtn?()
     }
     
+    @IBAction func openEventBtn(_ sender: Any) {
+        HandleExpandBtn?()
+    }
     
 }

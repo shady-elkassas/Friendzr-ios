@@ -47,6 +47,8 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     @IBOutlet weak var hideImg9: UIImageView!
     @IBOutlet var hideImg10: [UIImageView]!
     @IBOutlet var hideImgs: [UIImageView]!
+    @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var bannerView: UIView!
     
     @IBOutlet weak var superEmptyView: UIView!
     @IBOutlet weak var tryAgainBtn: UIButton!
@@ -82,14 +84,16 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     
     private var layout: UICollectionViewFlowLayout!
-    var bannerAdsView1: GADBannerView!
-    var bannerAdsView2: GADBannerView!
+//    var bannerAdsView1: GADBannerView!
+//    var bannerAdsView2: GADBannerView!
+    var bannerADSView: GADBannerView!
 
     var currentPage : Int = 1
     var isLoadingList : Bool = false
     var activityIndiator : UIActivityIndicatorView? = UIActivityIndicatorView()
     
     var isAdConnected:Bool = false
+    var isBtnSelected:Bool = false
 
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -142,11 +146,17 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
         CancelRequest.currentTask = false
         Defaults.isCommunityVC = true
         
-        Defaults.bannerAdsCount1 = 0
-        Defaults.bannerAdsCount2 = 0
+//        Defaults.bannerAdsCount1 = 0
+//        Defaults.bannerAdsCount2 = 0
         
-        setupAds1()
-        setupAds2()
+//        setupAds1()
+//        setupAds2()
+        
+        if !Defaults.hideAds {
+            setupAds()
+        }else {
+            bannerViewHeight.constant = 0
+        }
         
         if Defaults.token != "" {
             DispatchQueue.main.async {
@@ -195,6 +205,7 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
         tagsMoreView.setCornerforTop()
         closeBtn.cornerRadiusView(radius: 8)
         
+        bannerView.cornerRadiusView(radius: 8)
         adsView1.setBorder()
         adsView2.setBorder()
 
@@ -210,26 +221,37 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
         }
     }
     
-    func setupAds1() {
-        bannerAdsView1 = GADBannerView(adSize: GADAdSizeMediumRectangle)
-        bannerAdsView1.adUnitID = URLs.adUnitBanner
-        bannerAdsView1.rootViewController = self
-        bannerAdsView1.load(GADRequest())
-        bannerAdsView1.delegate = self
-        bannerAdsView1.translatesAutoresizingMaskIntoConstraints = false
-        bannerView1.addSubview(bannerAdsView1)
+//    func setupAds1() {
+//        bannerAdsView1 = GADBannerView(adSize: GADAdSizeMediumRectangle)
+//        bannerAdsView1.adUnitID = URLs.adUnitBanner
+//        bannerAdsView1.rootViewController = self
+//        bannerAdsView1.load(GADRequest())
+//        bannerAdsView1.delegate = self
+//        bannerAdsView1.translatesAutoresizingMaskIntoConstraints = false
+//        bannerView1.addSubview(bannerAdsView1)
+//    }
+    
+//    func setupAds2() {
+//        bannerAdsView2 = GADBannerView(adSize: GADAdSizeMediumRectangle)
+//        bannerAdsView2.adUnitID = URLs.adUnitBanner
+//        bannerAdsView2.rootViewController = self
+//        bannerAdsView2.load(GADRequest())
+//        bannerAdsView2.delegate = self
+//        bannerAdsView2.translatesAutoresizingMaskIntoConstraints = false
+//        bannerView2.addSubview(bannerAdsView2)
+//    }
+
+    
+    func setupAds() {
+        bannerADSView = GADBannerView(adSize: GADAdSizeBanner)
+        bannerADSView.adUnitID = URLs.adUnitBanner
+        bannerADSView.rootViewController = self
+        bannerADSView.load(GADRequest())
+        bannerADSView.delegate = self
+        bannerADSView.translatesAutoresizingMaskIntoConstraints = false
+        bannerView.addSubview(bannerADSView)
     }
     
-    func setupAds2() {
-        bannerAdsView2 = GADBannerView(adSize: GADAdSizeMediumRectangle)
-        bannerAdsView2.adUnitID = URLs.adUnitBanner
-        bannerAdsView2.rootViewController = self
-        bannerAdsView2.load(GADRequest())
-        bannerAdsView2.delegate = self
-        bannerAdsView2.translatesAutoresizingMaskIntoConstraints = false
-        bannerView2.addSubview(bannerAdsView2)
-    }
-
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         self.showMoreTagsView.isHidden = true
         self.tagsMoreView.isHidden = true
@@ -257,8 +279,15 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     
     //MARK: - APIs
     func getRecommendedPeopleBy(userID:String) {
-        self.hideView1.isHidden = false
-        AMShimmer.start(for: hideView1)
+        
+        if !isBtnSelected {
+            self.hideView1.isHidden = false
+            AMShimmer.start(for: hideView1)
+        }else {
+            self.hideView1.isHidden = true
+            AMShimmer.start(for: hideView1)
+        }
+        
         recommendedPeopleViewModel.getRecommendedPeople(userId: userID)
         recommendedPeopleViewModel.recommendedPeople.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -267,25 +296,27 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
                 self.friendsCommunityCollectionView.reloadData()
                 
                 
-                self.moreTagsCollectionView.dataSource = self
-                self.moreTagsCollectionView.delegate = self
-                self.moreTagsCollectionView.reloadData()
-                self.layout = TagsLayout()
+//                self.moreTagsCollectionView.dataSource = self
+//                self.moreTagsCollectionView.delegate = self
+//                self.moreTagsCollectionView.reloadData()
+//                self.layout = TagsLayout()
+                
                 
                 DispatchQueue.main.async {
                     self.hideView1.isHidden = true
                     AMShimmer.stop(for: self.hideView1)
+                    self.emptyView1.isHidden = true
                 }
                 
-                if Defaults.bannerAdsCount1 == 3 {
-                    self.isAdConnected = true
-                    self.setupAds1()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.showAdsBanner1.isHidden = false
-                    }
-                }else {
-                    self.showAdsBanner1.isHidden = true
-                }
+//                if Defaults.bannerAdsCount1 >= 3 {
+//                    self.isAdConnected = true
+//                    self.setupAds1()
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                        self.showAdsBanner1.isHidden = false
+//                    }
+//                }else {
+//                    self.showAdsBanner1.isHidden = true
+//                }
             }
         }
         
@@ -312,6 +343,14 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     func getRecommendedEventBy(eventID:String) {
         self.hideView2.isHidden = false
         AMShimmer.start(for: hideView2)
+        
+        if !isBtnSelected {
+            self.hideView2.isHidden = false
+            AMShimmer.start(for: hideView2)
+        }else {
+            self.hideView2.isHidden = true
+        }
+        
         recommendedEventViewModel.getRecommendedEvent(eventId: eventID)
         recommendedEventViewModel.recommendedEvent.bind { [unowned self] value in
             DispatchQueue.main.async {
@@ -322,17 +361,18 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
                 DispatchQueue.main.async {
                     self.hideView2.isHidden = true
                     AMShimmer.stop(for: self.hideView2)
+                    self.emptyView2.isHidden = true
                 }
                 
-                if Defaults.bannerAdsCount2 == 3 {
-                    self.isAdConnected = false
-                    self.setupAds2()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.showAdsBanner2.isHidden = false
-                    }
-                }else {
-                    self.showAdsBanner2.isHidden = true
-                }
+//                if Defaults.bannerAdsCount2 >= 3 {
+//                    self.isAdConnected = false
+//                    self.setupAds2()
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                        self.showAdsBanner2.isHidden = false
+//                    }
+//                }else {
+//                    self.showAdsBanner2.isHidden = true
+//                }
             }
         }
         
@@ -366,6 +406,7 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
                 DispatchQueue.main.async {
                     self.hideView3.isHidden = true
                     AMShimmer.stop(for: self.hideView3)
+                    self.emptyView3.isHidden = true
                 }
             }
         }
@@ -498,35 +539,37 @@ extension CommunityVC:UICollectionViewDataSource {
             cell.nameTitleLbl.text = model?.name
             cell.milesLbl.text = "\(model?.distanceFromYou?.rounded(toPlaces: 1) ?? 0.0) miles from you"
             cell.interestMatchLbl.text = "\(model?.interestMatchPercent?.rounded(toPlaces: 1) ?? 0.0) % interest match"
+            
+            cell.userImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.userImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
             
+            cell.seemoreBtn.isHidden = true
+            cell.seemoreLbl.isHidden = true
+
             cell.tagsView.removeAllTags()
             if (model?.matchedInterests?.count ?? 0) == 0 {
                 cell.noAvailableInterestLbl.isHidden = false
-                cell.seemoreBtn.isHidden = true
-                cell.seemoreLbl.isHidden = true
-            }else if (model?.matchedInterests?.count ?? 0) > 2 {
+            }
+//            else if (model?.matchedInterests?.count ?? 0) > 2 {
+//                cell.noAvailableInterestLbl.isHidden = true
+//                cell.seemoreBtn.isHidden = false
+//                cell.seemoreLbl.isHidden = false
+//                cell.tagsView.addTag(tagId: (model?.matchedInterests?[0])!, title: "#" + (model?.matchedInterests?[0] ?? "").capitalizingFirstLetter())
+//                cell.tagsView.addTag(tagId: (model?.matchedInterests?[1])!, title: "#" + (model?.matchedInterests?[1] ?? "").capitalizingFirstLetter())
+////                cell.tagsView.addTag(tagId: "See More", title: ("See More...")).isSelected = true
+//            }
+            else {
                 cell.noAvailableInterestLbl.isHidden = true
-                cell.seemoreBtn.isHidden = false
-                cell.seemoreLbl.isHidden = false
-                cell.tagsView.addTag(tagId: (model?.matchedInterests?[0])!, title: "#" + (model?.matchedInterests?[0] ?? "").capitalizingFirstLetter())
-                cell.tagsView.addTag(tagId: (model?.matchedInterests?[1])!, title: "#" + (model?.matchedInterests?[1] ?? "").capitalizingFirstLetter())
-//                cell.tagsView.addTag(tagId: "See More", title: ("See More...")).isSelected = true
-            }else {
-                cell.noAvailableInterestLbl.isHidden = true
-                cell.seemoreBtn.isHidden = true
-                cell.seemoreLbl.isHidden = true
                 for item in model?.matchedInterests ?? [] {
                     cell.tagsView.addTag(tagId: item, title: "#" + (item).capitalizingFirstLetter())
                 }
             }
-                        
-            cell.HandleSeeMoreBtn = {
-                print("See More \(model?.matchedInterests?.count ?? 0)")
-                self.showMoreTagsView.isHidden = false
-                self.tagsMoreView.isHidden = false
-            }
+//            cell.HandleSeeMoreBtn = {
+//                print("See More \(model?.matchedInterests?.count ?? 0)")
+//                self.showMoreTagsView.isHidden = false
+//                self.tagsMoreView.isHidden = false
+//            }
             
 //            cell.tagsList = model?.matchedInterests ?? []
 //
@@ -547,12 +590,14 @@ extension CommunityVC:UICollectionViewDataSource {
             }
             
             cell.HandleSkipBtn = {
+                self.isBtnSelected = true
                 Defaults.bannerAdsCount1 += 1
                 self.getRecommendedPeopleBy(userID: model?.userId ?? "")
-                self.animationFor(collectionView: self.friendsCommunityCollectionView)
+//                self.animationFor(collectionView: self.friendsCommunityCollectionView)
             }
             
             cell.HandleSendRequestBtn = {
+                self.isBtnSelected = true
                 Defaults.bannerAdsCount1 += 1
                 self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
                 self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1, requestdate: actionDate) { error, message in
@@ -570,7 +615,7 @@ extension CommunityVC:UICollectionViewDataSource {
                     
                     DispatchQueue.main.async {
                         self.getRecommendedPeopleBy(userID: model?.userId ?? "")
-                        self.animationFor(collectionView: self.friendsCommunityCollectionView)
+//                        self.animationFor(collectionView: self.friendsCommunityCollectionView)
                     }
                 }
             }
@@ -581,6 +626,7 @@ extension CommunityVC:UICollectionViewDataSource {
             
             let model = recommendedEventViewModel.recommendedEvent.value
             cell.enventNameLbl.text = model?.title
+            cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.infoLbl.text = model?.descriptionEvent
             cell.attendeesLbl.text = "Attendees: \(model?.attendees ?? 0) / \(model?.from ?? 0)"
@@ -588,8 +634,9 @@ extension CommunityVC:UICollectionViewDataSource {
             cell.bgView.backgroundColor =  UIColor.color((model?.eventtypecolor ?? ""))
             
             cell.HandleSkipBtn = {
-                Defaults.bannerAdsCount2 += 1
-                self.animationFor(collectionView: self.eventCollectionView)
+//                Defaults.bannerAdsCount2 += 1
+//                self.animationFor(collectionView: self.eventCollectionView)
+                self.isBtnSelected = true
                 self.getRecommendedEventBy(eventID: model?.eventId ?? "")
             }
                         
@@ -610,6 +657,7 @@ extension CommunityVC:UICollectionViewDataSource {
         else if collectionView == recentlyConnectedCollectionView {
             guard let cell = recentlyConnectedCollectionView.dequeueReusableCell(withReuseIdentifier: cellID3, for: indexPath) as? RecentlyConnectedCollectionViewCell else {return UICollectionViewCell()}
             let model = recentlyConnectedViewModel.recentlyConnected.value?.data?[indexPath.row]
+            cell.userImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.userImage.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.userNameLbl.text = model?.name
             cell.connectedDateLbl.text = "Connected: \(model?.date ?? "")"
@@ -640,7 +688,7 @@ extension CommunityVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayou
             let width = model?.widthOfString(usingFont: UIFont(name: "Montserrat-Medium", size: 12)!)
             return CGSize(width: width! + 50, height: 45)
         }else  if collectionView == recentlyConnectedCollectionView {
-            return CGSize(width: wid/3.3, height: hig)
+            return CGSize(width: wid/3.4, height: hig)
         }else {
             return CGSize(width: wid, height: hig)
         }
@@ -668,17 +716,17 @@ extension CommunityVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayou
             
         }
         else if collectionView == eventCollectionView {
-            let model = recommendedEventViewModel.recommendedEvent.value
-            
-            if model?.eventtype == "External" {
-                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
-                vc.eventId = model?.eventId ?? ""
-                self.navigationController?.pushViewController(vc, animated: true)
-            }else {
-                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-                vc.eventId = model?.eventId ?? ""
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
+//            let model = recommendedEventViewModel.recommendedEvent.value
+//
+//            if model?.eventtype == "External" {
+//                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
+//                vc.eventId = model?.eventId ?? ""
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }else {
+//                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
+//                vc.eventId = model?.eventId ?? ""
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }
         }
         
         else if collectionView == recentlyConnectedCollectionView {
@@ -745,7 +793,7 @@ extension CommunityVC {
     
     //init requests page
     func initRequestsBarButton() {
-        let badgeCount = UILabel(frame: CGRect(x: 87, y: -03, width: 16, height: 16))
+        let badgeCount = UILabel(frame: CGRect(x: 22, y: 2, width: 16, height: 16))
         badgeCount.layer.borderColor = UIColor.clear.cgColor
         badgeCount.layer.borderWidth = 2
         badgeCount.layer.cornerRadius = badgeCount.bounds.size.height / 2
@@ -756,15 +804,15 @@ extension CommunityVC {
         badgeCount.backgroundColor = .red
         badgeCount.text = "\(Defaults.frindRequestNumber)"
 
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 40))
-        button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-        button.setTitle("Requests", for: .normal)
-        let image = UIImage(named: "request_unselected_ic")?.withRenderingMode(.automatic)
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+//        button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//        button.setTitle("Requests", for: .normal)
+        let image = UIImage(named: "request_unselected_ic")?.withRenderingMode(.alwaysOriginal)
         button.setImage(image, for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont(name: "Montserrat-Medium", size: 10)!
-        button.imageEdgeInsets.left = 80
-        button.titleEdgeInsets.left = -20
+//        button.setTitleColor(.black, for: .normal)
+//        button.titleLabel?.font = UIFont(name: "Montserrat-Medium", size: 10)!
+//        button.imageEdgeInsets.left = 80
+//        button.titleEdgeInsets.left = -20
         button.addTarget(self, action: #selector(goToRequestsPage), for: .touchUpInside)
         
         if Defaults.frindRequestNumber > 0 {
@@ -803,14 +851,15 @@ extension CommunityVC:GADBannerViewDelegate {
     
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
-        if isAdConnected {
-            self.showAdsBanner1.isHidden = true
-            Defaults.bannerAdsCount1 = 0
-        }
-        else {
-            Defaults.bannerAdsCount2 = 0
-            self.showAdsBanner2.isHidden = true
-        }
+//        if isAdConnected {
+//            self.showAdsBanner1.isHidden = true
+//            Defaults.bannerAdsCount1 = 0
+//        }
+//        else {
+//            Defaults.bannerAdsCount2 = 0
+//            self.showAdsBanner2.isHidden = true
+//        }
+        bannerViewHeight.constant = 0
     }
     
     func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {

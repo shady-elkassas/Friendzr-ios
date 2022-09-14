@@ -17,30 +17,30 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="RecentlyConnectedCollectionViewCell" customModule="Friendzr" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="137" height="168"/>
+            <rect key="frame" x="0.0" y="0.0" width="137" height="155"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="137" height="168"/>
+                <rect key="frame" x="0.0" y="0.0" width="137" height="155"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q9B-Xy-24t">
-                        <rect key="frame" x="5" y="5" width="127" height="158"/>
+                        <rect key="frame" x="5" y="5" width="127" height="145"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="4EO-57-41W">
-                                <rect key="frame" x="21" y="10" width="85" height="85"/>
+                                <rect key="frame" x="26" y="5" width="75" height="75"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="85" id="KAj-aT-VqS"/>
-                                    <constraint firstAttribute="width" constant="85" id="qOx-9w-PgR"/>
+                                    <constraint firstAttribute="height" constant="75" id="RA1-LR-fHM"/>
+                                    <constraint firstAttribute="width" constant="75" id="qOx-9w-PgR"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kL-vF-GKX">
-                                <rect key="frame" x="8" y="100" width="111" height="12.5"/>
+                                <rect key="frame" x="8" y="85" width="111" height="12.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CYY-uY-EYg">
-                                <rect key="frame" x="8" y="117.5" width="111" height="9"/>
+                                <rect key="frame" x="8" y="102.5" width="111" height="9"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="7"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -52,7 +52,7 @@
                             <constraint firstAttribute="trailing" secondItem="6kL-vF-GKX" secondAttribute="trailing" constant="8" id="KWX-q2-uUg"/>
                             <constraint firstItem="6kL-vF-GKX" firstAttribute="leading" secondItem="q9B-Xy-24t" secondAttribute="leading" constant="8" id="URd-9f-jOP"/>
                             <constraint firstItem="4EO-57-41W" firstAttribute="centerX" secondItem="q9B-Xy-24t" secondAttribute="centerX" id="Vwg-c2-071"/>
-                            <constraint firstItem="4EO-57-41W" firstAttribute="top" secondItem="q9B-Xy-24t" secondAttribute="top" constant="10" id="WZG-Ps-FBL"/>
+                            <constraint firstItem="4EO-57-41W" firstAttribute="top" secondItem="q9B-Xy-24t" secondAttribute="top" constant="5" id="WZG-Ps-FBL"/>
                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="CYY-uY-EYg" secondAttribute="bottom" constant="3" id="Wrn-LR-qGY"/>
                             <constraint firstItem="CYY-uY-EYg" firstAttribute="top" secondItem="6kL-vF-GKX" secondAttribute="bottom" constant="5" id="foS-2I-Fvo"/>
                             <constraint firstItem="CYY-uY-EYg" firstAttribute="trailing" secondItem="6kL-vF-GKX" secondAttribute="trailing" id="ksx-hd-qLy"/>
@@ -68,14 +68,14 @@
                 <constraint firstAttribute="trailing" secondItem="q9B-Xy-24t" secondAttribute="trailing" constant="5" id="VBY-EH-hJE"/>
                 <constraint firstAttribute="bottom" secondItem="q9B-Xy-24t" secondAttribute="bottom" constant="5" id="sp2-ra-Ozy"/>
             </constraints>
-            <size key="customSize" width="137" height="168"/>
+            <size key="customSize" width="137" height="155"/>
             <connections>
                 <outlet property="connectedDateLbl" destination="CYY-uY-EYg" id="dhn-N0-cT6"/>
                 <outlet property="containerView" destination="q9B-Xy-24t" id="6z5-pe-Vmn"/>
                 <outlet property="userImage" destination="4EO-57-41W" id="MY3-FQ-n1M"/>
                 <outlet property="userNameLbl" destination="6kL-vF-GKX" id="xEg-M4-IYe"/>
             </connections>
-            <point key="canvasLocation" x="200.72463768115944" y="165.40178571428569"/>
+            <point key="canvasLocation" x="200.72463768115944" y="160.37946428571428"/>
         </collectionViewCell>
     </objects>
     <resources>

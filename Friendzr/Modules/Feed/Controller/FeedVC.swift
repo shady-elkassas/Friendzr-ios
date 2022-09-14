@@ -24,6 +24,7 @@ let screenW: CGFloat = UIScreen.main.bounds.width
 extension FeedVC {
     
     func checkLocationPermission() {
+        
         self.refreshControl.endRefreshing()
         if CLLocationManager.locationServicesEnabled() {
             switch(CLLocationManager.authorizationStatus()) {
@@ -68,7 +69,7 @@ extension FeedVC {
                 switchCompassBarButton.isUserInteractionEnabled = true
                 switchGhostModeBarButton.isUserInteractionEnabled = true
                 switchSortedByInterestsButton.isUserInteractionEnabled = true
-                locationManager.showsBackgroundLocationIndicator = false
+//                locationManager.showsBackgroundLocationIndicator = false
             default:
                 break
             }
@@ -280,7 +281,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         }
         
         DispatchQueue.main.async {
-            self.checkLocationPermission()
+            if CLLocationManager.locationServicesEnabled() {
+                self.checkLocationPermission()
+            }
         }
         
         initGhostModeAndSortSwitchButton()

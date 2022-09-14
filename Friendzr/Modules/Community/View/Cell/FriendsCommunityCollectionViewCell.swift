@@ -17,17 +17,12 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var viewProfileBtn: UIButton!
     @IBOutlet weak var sendRequestBtn: UIButton!
     @IBOutlet weak var milesLbl: UILabel!
-    
+    @IBOutlet weak var imageBtn: UIButton!
     @IBOutlet weak var skipBtnView: UIView!
     @IBOutlet weak var tagsViewHeight: NSLayoutConstraint!
-    
     @IBOutlet weak var cancelRequestBtn: UIButton!
     @IBOutlet weak var tagsView: TagListView!
-    @IBOutlet weak var tagsListViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var tagsBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var tagsTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var noAvailableInterestLbl: UILabel!
-    
     @IBOutlet weak var seemoreLbl: UILabel!
     @IBOutlet weak var seemoreBtn: UIButton!
     
@@ -76,6 +71,9 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
         HandleSkipBtn?()
     }
     
+    @IBAction func userImgBtn(_ sender: Any) {
+        HandleViewProfileBtn?()
+    }
     @IBAction func seemoreBtn(_ sender: Any) {
         HandleSeeMoreBtn?()
     }
