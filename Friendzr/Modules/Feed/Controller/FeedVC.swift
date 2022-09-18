@@ -1072,53 +1072,18 @@ extension FeedVC:UITableViewDataSource {
             }
             
             cell.HandleAccseptBtn = { //respond request
-                self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-                self.showAlertView?.detailsLbl.text = "Are you sure you want to accept this request?".localizedString
-                
-                self.showAlertView?.HandleConfirmBtn = {
-                    self.btnsSelected = true
-                    if NetworkConected.internetConect {
-                        self.accseptRequest(model, "\(actionDate) \(actionTime)")
-                    }
-                    
-                    // handling code
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.showAlertView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.showAlertView?.removeFromSuperview()
-                        self.showAlertView?.alpha = 1
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                    }
+                self.btnsSelected = true
+                if NetworkConected.internetConect {
+                    self.accseptRequest(model, "\(actionDate) \(actionTime)")
                 }
-                
-                self.view.addSubview((self.showAlertView)!)
+
             }
             
             cell.HandleRefusedBtn = { // refused request
-                self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-                self.showAlertView?.detailsLbl.text = "Are you sure you want to refuse this request?"
-                
-                self.showAlertView?.HandleConfirmBtn = {
-                    self.btnsSelected = true
-                    if NetworkConected.internetConect {
-                        
-                        self.refusedRequest(model,"\(actionDate) \(actionTime)")
-                    }
-                    // handling code
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.showAlertView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.showAlertView?.removeFromSuperview()
-                        self.showAlertView?.alpha = 1
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                    }
+                self.btnsSelected = true
+                if NetworkConected.internetConect {
+                    self.refusedRequest(model,"\(actionDate) \(actionTime)")
                 }
-                
-                self.view.addSubview((self.showAlertView)!)
             }
             
             cell.HandleMessageBtn = { //messages chat

@@ -25,7 +25,7 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var noAvailableInterestLbl: UILabel!
     @IBOutlet weak var seemoreLbl: UILabel!
     @IBOutlet weak var seemoreBtn: UIButton!
-    
+    @IBOutlet weak var viewProfileFromTagsBtn: UIButton!
     
     var HandleViewProfileBtn: (()->())?
     var HandleSendRequestBtn: (()->())?
@@ -76,6 +76,10 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     }
     @IBAction func seemoreBtn(_ sender: Any) {
         HandleSeeMoreBtn?()
+    }
+    
+    @IBAction func viewProfileFromTagsBtn(_ sender: Any) {
+        HandleViewProfileBtn?()
     }
     
 }

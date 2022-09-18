@@ -114,16 +114,16 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IST-l7-Rhd">
-                        <rect key="frame" x="243" y="212" width="243" height="22"/>
+                        <rect key="frame" x="233" y="212" width="253" height="22"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="See Next" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cmL-Bj-3Vn">
-                                <rect key="frame" x="97" y="4.5" width="49.5" height="13.5"/>
+                                <rect key="frame" x="102" y="4.5" width="49.5" height="13"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="11"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="next_skip_ic" translatesAutoresizingMaskIntoConstraints="NO" id="yqT-Jn-RcO">
-                                <rect key="frame" x="218" y="1" width="20" height="20"/>
+                                <rect key="frame" x="228" y="1" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="3hq-oS-8ZH"/>
                                     <constraint firstAttribute="height" constant="20" id="k7q-Wr-XHx"/>
@@ -140,7 +140,7 @@
                         </constraints>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1XJ-Ht-uYZ">
-                        <rect key="frame" x="243" y="212" width="243" height="22"/>
+                        <rect key="frame" x="233" y="212" width="253" height="22"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="9"/>
                         <inset key="titleEdgeInsets" minX="-12" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -161,7 +161,7 @@
                 <constraint firstItem="IST-l7-Rhd" firstAttribute="top" secondItem="NYF-cH-Uxk" secondAttribute="bottom" constant="10" id="D5F-xR-WK7"/>
                 <constraint firstItem="1XJ-Ht-uYZ" firstAttribute="centerY" secondItem="IST-l7-Rhd" secondAttribute="centerY" id="Dc8-IH-pSC"/>
                 <constraint firstItem="fcX-8i-sQe" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="25" id="IjR-eL-Iu3"/>
-                <constraint firstItem="IST-l7-Rhd" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" multiplier="0.48" id="N5s-d2-dFo"/>
+                <constraint firstItem="IST-l7-Rhd" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" multiplier="0.5" id="N5s-d2-dFo"/>
                 <constraint firstItem="fcX-8i-sQe" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="WnU-wU-WsP"/>
                 <constraint firstItem="IST-l7-Rhd" firstAttribute="trailing" secondItem="NYF-cH-Uxk" secondAttribute="trailing" id="ZXw-ip-Fbe"/>
                 <constraint firstAttribute="trailing" secondItem="NYF-cH-Uxk" secondAttribute="trailing" constant="20" id="byP-K3-IIP"/>

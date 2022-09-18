@@ -241,7 +241,6 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
 //        bannerView2.addSubview(bannerAdsView2)
 //    }
 
-    
     func setupAds() {
         bannerADSView = GADBannerView(adSize: GADAdSizeBanner)
         bannerADSView.adUnitID = URLs.adUnitBanner
@@ -537,8 +536,10 @@ extension CommunityVC:UICollectionViewDataSource {
 
             let model = recommendedPeopleViewModel.recommendedPeople.value
             cell.nameTitleLbl.text = model?.name
-            cell.milesLbl.text = "\(model?.distanceFromYou?.rounded(toPlaces: 1) ?? 0.0) miles from you"
-            cell.interestMatchLbl.text = "\(model?.interestMatchPercent?.rounded(toPlaces: 1) ?? 0.0) % interest match"
+            
+            let kmNum:Double = (model?.distanceFromYou ?? 0) * 1.60934 //convert miles to kms
+            cell.milesLbl.text = "\(kmNum.rounded(toPlaces: 1)) km from you"
+            cell.interestMatchLbl.text = "\(Int(model?.interestMatchPercent ?? 0.0)) % interest match"
             
             cell.userImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.userImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
@@ -551,37 +552,12 @@ extension CommunityVC:UICollectionViewDataSource {
             if (model?.matchedInterests?.count ?? 0) == 0 {
                 cell.noAvailableInterestLbl.isHidden = false
             }
-//            else if (model?.matchedInterests?.count ?? 0) > 2 {
-//                cell.noAvailableInterestLbl.isHidden = true
-//                cell.seemoreBtn.isHidden = false
-//                cell.seemoreLbl.isHidden = false
-//                cell.tagsView.addTag(tagId: (model?.matchedInterests?[0])!, title: "#" + (model?.matchedInterests?[0] ?? "").capitalizingFirstLetter())
-//                cell.tagsView.addTag(tagId: (model?.matchedInterests?[1])!, title: "#" + (model?.matchedInterests?[1] ?? "").capitalizingFirstLetter())
-////                cell.tagsView.addTag(tagId: "See More", title: ("See More...")).isSelected = true
-//            }
             else {
                 cell.noAvailableInterestLbl.isHidden = true
                 for item in model?.matchedInterests ?? [] {
                     cell.tagsView.addTag(tagId: item, title: "#" + (item).capitalizingFirstLetter())
                 }
             }
-//            cell.HandleSeeMoreBtn = {
-//                print("See More \(model?.matchedInterests?.count ?? 0)")
-//                self.showMoreTagsView.isHidden = false
-//                self.tagsMoreView.isHidden = false
-//            }
-            
-//            cell.tagsList = model?.matchedInterests ?? []
-//
-//            if model?.matchedInterests?.count == 0 {
-//                cell.noAvailableInterestLbl.isHidden = false
-//                cell.collectionView.isHidden = true
-//            }else {
-//                cell.noAvailableInterestLbl.isHidden = true
-//                cell.collectionView.isHidden = false
-//            }
-            
-//            cell.collectionView.reloadData()
             cell.HandleViewProfileBtn = {
                 guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                 vc.userID = model?.userId ?? ""
@@ -717,7 +693,7 @@ extension CommunityVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayou
         }
         else if collectionView == eventCollectionView {
 //            let model = recommendedEventViewModel.recommendedEvent.value
-//
+            
 //            if model?.eventtype == "External" {
 //                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
 //                vc.eventId = model?.eventId ?? ""
@@ -851,14 +827,6 @@ extension CommunityVC:GADBannerViewDelegate {
     
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
-//        if isAdConnected {
-//            self.showAdsBanner1.isHidden = true
-//            Defaults.bannerAdsCount1 = 0
-//        }
-//        else {
-//            Defaults.bannerAdsCount2 = 0
-//            self.showAdsBanner2.isHidden = true
-//        }
         bannerViewHeight.constant = 0
     }
     
