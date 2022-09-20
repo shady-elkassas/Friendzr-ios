@@ -518,6 +518,8 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
         if model.messageType == 1 { //text
             let cell = tableView.dequeueReusableCell(withIdentifier: model.sender.senderId == Defaults.token ? "MessageTableViewCell" : "UserMessageTableViewCell") as! MessageTableViewCell
             cell.messageTextView?.text = model.messageText.text
+            
+            cell.profilePic?.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.messageDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
             
@@ -588,6 +590,8 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             }else {
                 cell.attachmentImageView.sd_setImage(with: URL(string: model.messageFile.file), placeholderImage: UIImage(named: "placeHolderApp"))
             }
+            
+            cell.profilePic?.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.attachmentDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
             cell.attachmentContainerView.backgroundColor = .clear
