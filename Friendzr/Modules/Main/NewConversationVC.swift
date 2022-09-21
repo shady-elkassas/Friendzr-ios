@@ -45,6 +45,10 @@ class NewConversationVC: UIViewController {
         setupSearchBar()
         setupViews()
         initAddGroupBarButton()
+        
+        DispatchQueue.main.async {
+            self.updateUserInterface()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,11 +60,7 @@ class NewConversationVC: UIViewController {
         setupHideView()
         
         hideNavigationBar(NavigationBar: false, BackButton: false)
-        
-        DispatchQueue.main.async {
-            self.updateUserInterface()
-        }
-        
+
         setupNavBar()
     }
     

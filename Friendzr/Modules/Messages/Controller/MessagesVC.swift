@@ -548,6 +548,7 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
                 cell.attachmentImageView.sd_setImage(with: URL(string: model.messageImage.image), placeholderImage: UIImage(named: "placeHolderApp"))
             }
             
+            cell.profilePic?.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
             
             cell.attachmentDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
@@ -622,6 +623,8 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: model.sender.senderId == Defaults.token ? "ShareEventMessageTableViewCell" : "UserShareEventMessageTableViewCell") as! ShareEventMessageTableViewCell
             cell.eventImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.eventImage.sd_setImage(with: URL(string: model.messageLink.messsageLinkImageURL), placeholderImage: UIImage(named: "placeHolderApp"))
+            
+            cell.profilePic?.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.eventNameLbl.text = model.messageLink.messsageLinkTitle
             cell.categoryNameLbl.text = model.messageLink.messsageLinkCategory

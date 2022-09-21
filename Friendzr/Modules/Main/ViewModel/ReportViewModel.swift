@@ -14,9 +14,22 @@ class ReportViewModel {
     
     var model : DynamicType<Problems> = DynamicType<Problems>()
     
+    // Initialise ViewModel's
+    let sendReportViewModel = SendReportViewModel()
+
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
+    
+    
+    func validateSendReportCredentials() -> Bool{
+        
+        isSuccess =  sendReportViewModel.validateCredentials()
+        
+        error.value = "\(sendReportViewModel.errorValue ?? "")"
+        
+        return isSuccess
+    }
     
     func getAllProblems() {
         CancelRequest.currentTask = false
@@ -45,6 +58,13 @@ class ReportViewModel {
     //1 group 2 event 3 user
     func sendReport(withID id:String,reportType:Int,message:String,reportReasonID:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
+        sendReportViewModel.data = reportReasonID
+        
+        guard validateSendReportCredentials() else {
+            completion(error.value.value, nil)
+            return
+        }
+        
         let url = URLs.baseURLFirst + "Report/sendReport"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["ID": id,"ReportType":reportType,"Message":message,"ReportReasonID":reportReasonID]
@@ -68,5 +88,27 @@ class ReportViewModel {
                 }
             }
         }
+    }
+}
+
+
+class SendReportViewModel : ValidationViewModel{
+    var errorValue: String?
+    var errorMessage: String = "Please enter a reason for reporting".localizedString
+    var data: String = ""
+    
+    func validateCredentials() -> Bool {
+        
+        guard validateLength(text: data, size: (1,40)) else {
+            errorValue = errorMessage
+            return false
+        }
+        
+        errorValue = ""
+        return true
+    }
+    
+    func validateLength(text : String, size : (min : Int, max : Int)) -> Bool{
+        return (size.min...size.max).contains(text.count)
     }
 }
