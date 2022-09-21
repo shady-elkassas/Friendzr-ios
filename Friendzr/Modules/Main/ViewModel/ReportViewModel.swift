@@ -10,9 +10,22 @@ import ObjectMapper
 import MobileCoreServices
 import Alamofire
 
+
 class ReportViewModel {
     
     var model : DynamicType<Problems> = DynamicType<Problems>()
+    
+    let reportReasonIDViewModel = ReportReasonIDViewModel()
+
+    
+    func validateSendReportCredentials() -> Bool{
+        
+        isSuccess =  reportReasonIDViewModel.validateCredentials()
+        
+        error.value = "\(reportReasonIDViewModel.errorValue ?? "")"
+        
+        return isSuccess
+    }
     
     // Fields that bind to our view's
     var isSuccess : Bool = false
@@ -45,6 +58,14 @@ class ReportViewModel {
     //1 group 2 event 3 user
     func sendReport(withID id:String,reportType:Int,message:String,reportReasonID:String,completion: @escaping (_ error: String?, _ data: String?) -> ()) {
         CancelRequest.currentTask = false
+        
+        reportReasonIDViewModel.data = reportReasonID
+        guard validateSendReportCredentials() else {
+            completion(error.value, nil)
+            return
+        }
+        
+        
         let url = URLs.baseURLFirst + "Report/sendReport"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["ID": id,"ReportType":reportType,"Message":message,"ReportReasonID":reportReasonID]
@@ -68,5 +89,28 @@ class ReportViewModel {
                 }
             }
         }
+    }
+}
+
+
+
+class ReportReasonIDViewModel : ValidationViewModel{
+    var errorValue: String?
+    var errorMessage: String = "Please select a reason for reporting".localizedString
+    var data: String = ""
+    
+    func validateCredentials() -> Bool {
+        
+        guard validateLength(text: data, size: (Defaults.eventTitle_MinLength,Defaults.eventTitle_MaxLength)) else {
+            errorValue = errorMessage
+            return false
+        }
+        
+        errorValue = ""
+        return true
+    }
+    
+    func validateLength(text : String, size : (min : Int, max : Int)) -> Bool{
+        return (size.min...size.max).contains(text.count)
     }
 }
