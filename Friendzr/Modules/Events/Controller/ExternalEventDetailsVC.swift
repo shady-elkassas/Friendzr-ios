@@ -57,7 +57,8 @@ class ExternalEventDetailsVC: UIViewController {
     var isEventAdmin: Bool = false
     var selectedVC:Bool = false
     var isprivateEvent:Bool = false
-    
+    var eventHasExpired:Bool = false
+
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -243,7 +244,13 @@ class ExternalEventDetailsVC: UIViewController {
                         self.isEventAdmin = false
                     }
                     
-                    self.initOptionsEventButton()
+                    if value.eventHasExpired {
+                        self.eventHasExpired = true
+                    }else {
+                        self.eventHasExpired = false
+                        self.initOptionsEventButton()
+                    }
+                    
                 }
                 
             }
@@ -283,7 +290,12 @@ class ExternalEventDetailsVC: UIViewController {
                         self.isEventAdmin = false
                     }
                     
-                    self.initOptionsEventButton()
+                    if value.eventHasExpired {
+                        self.eventHasExpired = true
+                    }else {
+                        self.eventHasExpired = false
+                        self.initOptionsEventButton()
+                    }
                 }
             }
         }

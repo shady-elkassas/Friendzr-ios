@@ -185,6 +185,8 @@ extension ReportVC: UITableViewDataSource {
                             if let error = error {
                                 DispatchQueue.main.async {
                                     self.view.makeToast(error)
+                                    cell.confirmBtn.setTitle("Submit", for: .normal)
+                                    cell.confirmBtn.isUserInteractionEnabled = true
                                 }
                                 return
                             }

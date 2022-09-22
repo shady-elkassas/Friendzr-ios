@@ -120,7 +120,7 @@ class EventObj: NSObject,Mappable {
     var eventtypeid:String = ""
     var showAttendees:Bool = false
     var checkout_details:String = ""
-    
+    var eventHasExpired:Bool = false
     var isSendEvent:Bool = false
     
     override init() {
@@ -162,6 +162,7 @@ class EventObj: NSObject,Mappable {
         eventtype <- map["eventtype"]
         showAttendees <- map["showAttendees"]
         checkout_details <- map["checkout_details"]
+        eventHasExpired <- map["eventHasExpired"]
     }
 }
 
