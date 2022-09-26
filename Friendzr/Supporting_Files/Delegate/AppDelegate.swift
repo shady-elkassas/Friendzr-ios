@@ -186,33 +186,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func setupAppsFlyer() {
-        
-//        guard let propertiesPath = Bundle.main.path(forResource: "afdevkey_donotpush", ofType: "plist"),
-//            let properties = NSDictionary(contentsOfFile: propertiesPath) as? [String:String] else {
-//                fatalError("Cannot find `afdevkey_donotpush`")
-//        }
-//        
-//        guard let appsFlyerDevKey = properties["appsFlyerDevKey"],
-//                   let appleAppID = properties["appleAppID"] else {
-//            fatalError("Cannot find `appsFlyerDevKey` or `appleAppID` key")
-//        }
-
         AppsFlyerLib.shared().appsFlyerDevKey = "vsg4WBcUHeJBLTpcHDpuJ"
         AppsFlyerLib.shared().appleAppID = "id1585963463"
         AppsFlyerLib.shared().delegate = self
         //  Set isDebug to true to see AppsFlyer debug logs
         AppsFlyerLib.shared().isDebug = true
         
-        // The following block is optional for applications wishing to give users the option to collect IDFA.
-        // for iOS 14 and above - The user may be prompted to collect IDFA.
-        //                        If user opts-in, the IDFA will be collected by the SDK.
-        // for iOS 13 and below - The IDFA will be collected by the SDK. The user will NOT be prompted to consent.
         if #available(iOS 14, *) {
-            // Set a timeout for the SDK to wait for the IDFA collection before handling app launch
-            // If timeout expires before the user allows to collect IDFA , the IDFA will NOT be collected.
             AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
-            // Show the user the Apple IDFA consent dialog (AppTrackingTransparency)
-            // MUST be called here before start() in order to allow IDFA collection by the SDK
             ATTrackingManager.requestTrackingAuthorization { (status) in
             }
         }
