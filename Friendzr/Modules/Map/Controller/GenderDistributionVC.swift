@@ -70,29 +70,25 @@ class GenderDistributionVC: UIViewController {
     
     func getGenderbylocation(lat:Double,lng:Double) {
         genderbylocationVM.getGenderbylocation(ByLat: lat, AndLng: lng)
-        genderbylocationVM.gender.bind { [unowned self] value in
+        genderbylocationVM.gender.bind { [weak self] value in
             DispatchQueue.main.async {
-                self.hideView.isHidden = true
+                self?.hideView.isHidden = true
                 let child = UIHostingController(rootView: CircleView(fill1: 0, fill2: 0, fill3: 0, animations: true, male: Int(value.malePercentage ?? 0.0), female: Int(value.femalepercentage ?? 0.0), other: Int(value.otherpercentage ?? 0.0)))
                 child.view.translatesAutoresizingMaskIntoConstraints = true
-                child.view.frame = CGRect(x: 0, y: 0, width: self.genderDistributionChart.bounds.width, height: self.genderDistributionChart.bounds.height)
+                child.view.frame = CGRect(x: 0, y: 0, width: self?.genderDistributionChart.bounds.width ?? 0, height: self?.genderDistributionChart.bounds.height ?? 0)
                 child.loadView()
-                self.genderDistributionChart.addSubview(child.view)
+                self?.genderDistributionChart.addSubview(child.view)
                 
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
             }
         }
         
         // Set View Model Event Listener
-        genderbylocationVM.error.bind { [unowned self]error in
+        genderbylocationVM.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
+                self?.view.makeToast(error)
             }
         }
     }

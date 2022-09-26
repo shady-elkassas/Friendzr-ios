@@ -74,36 +74,36 @@ class SelectFriendsVC: UIViewController {
     func getAllFriends(pageNumber:Int,search:String) {
         hideViews.isHidden = true
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
-        viewmodel.friends.bind { [unowned self] value in
+        viewmodel.friends.bind { [weak self] value in
             DispatchQueue.main.async {
-                self.tableView.hideLoader()
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.hideLoader()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
 
                 DispatchQueue.main.async {
-                    if self.selectedIDs.count == value.data?.count {
-                        self.selectAllBtn.isSelected = true
+                    if self?.selectedIDs.count == value.data?.count {
+                        self?.selectAllBtn.isSelected = true
                     }else {
-                        self.selectAllBtn.isSelected = false
+                        self?.selectAllBtn.isSelected = false
                     }
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }
@@ -115,33 +115,33 @@ class SelectFriendsVC: UIViewController {
         hideViews.isHidden = false
         hideViews.showLoader()
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
-        viewmodel.friends.bind { [unowned self] value in
+        viewmodel.friends.bind { [weak self] value in
             DispatchQueue.main.async {
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.async {
-                    self.hideViews.isHidden = true
-                    self.hideViews.hideLoader()
+                    self?.hideViews.isHidden = true
+                    self?.hideViews.hideLoader()
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
-                self.showEmptyView()
+                self?.showEmptyView()
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }

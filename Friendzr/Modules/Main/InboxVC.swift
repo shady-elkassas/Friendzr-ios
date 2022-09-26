@@ -148,33 +148,33 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     func getAllChatList(pageNumber:Int,search:String) {
         AMShimmer.stop(for: hideView)
         viewmodel.getChatList(pageNumber: pageNumber,search: search)
-        viewmodel.listChat.bind { [unowned self] value in
+        viewmodel.listChat.bind { [weak self] value in
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
                 
                 DispatchQueue.main.async {
-                    self.tableView.delegate = self
-                    self.tableView.dataSource = self
-                    self.tableView.reloadData()
+                    self?.tableView.delegate = self
+                    self?.tableView.dataSource = self
+                    self?.tableView.reloadData()
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self.isLoadingList = false
-                        self.tableView.tableFooterView = nil
+                        self?.isLoadingList = false
+                        self?.tableView.tableFooterView = nil
                     }
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    self.HandleinvalidUrl()
+                    self?.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }
@@ -186,37 +186,36 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         hideView.isHidden = false
         AMShimmer.start(for: self.hideView)
         viewmodel.getChatList(pageNumber: pageNumber,search: "")
-        viewmodel.listChat.bind { [unowned self] value in
+        viewmodel.listChat.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    AMShimmer.stop(for: self.hideView)
-                    self.hideView.isHidden = true
+                    self?.hideView.isHidden = true
                 }
                 
                 DispatchQueue.main.async {
-                    self.tableView.delegate = self
-                    self.tableView.dataSource = self
-                    self.tableView.reloadData()
+                    self?.tableView.delegate = self
+                    self?.tableView.dataSource = self
+                    self?.tableView.reloadData()
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    self.HandleinvalidUrl()
+                    self?.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                 }
             }

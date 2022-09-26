@@ -46,21 +46,18 @@ class CategoriesVC: UIViewController {
     //MARK: - APIs
     func getCats() {
         catsVM.getAllCategories()
-        catsVM.cats.bind { [unowned self] value in
+        catsVM.cats.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
-                self.collecetionView.dataSource = self
-                self.collecetionView.delegate = self
-                self.collecetionView.reloadData()
+                self?.collecetionView.dataSource = self
+                self?.collecetionView.delegate = self
+                self?.collecetionView.reloadData()
             }
         }
         
         // Set View Model Event Listener
-        catsVM.error.bind { [unowned self]error in
+        catsVM.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
+                self?.view.makeToast(error)
             }
         }
     }

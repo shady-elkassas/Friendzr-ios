@@ -309,43 +309,43 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         self.hideCollectionView.showLoader()
         viewmodel.getAllEventsOnlyAroundMe(ByCatIds: catIDs, pageNumber: pageNumber)
-        viewmodel.eventsOnlyMe.bind { [unowned self] value in
+        viewmodel.eventsOnlyMe.bind { [weak self] value in
             
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 if Defaults.availableVC == "MapVC" {
                     DispatchQueue.main.async {
-                        self.collectionView.dataSource = self
-                        self.collectionView.delegate = self
-                        self.collectionView.reloadData()
+                        self?.collectionView.dataSource = self
+                        self?.collectionView.delegate = self
+                        self?.collectionView.reloadData()
                     }
                     
                     DispatchQueue.main.async {
-                        if self.isViewUp == true {
-                            self.collectionViewHeight.constant = 140
-                            self.subViewHeight.constant = 190
+                        if self?.isViewUp == true {
+                            self?.collectionViewHeight.constant = 140
+                            self?.subViewHeight.constant = 190
                             
                             if value.data?.count == 0 {
-                                self.noeventNearbyLbl.isHidden = false
-                                if self.switchFilterButton.isOn == true {
-                                    self.noeventNearbyLbl.text = "No events as yet in your chosen categories. Adjust your settings or check back later."
+                                self?.noeventNearbyLbl.isHidden = false
+                                if self?.switchFilterButton.isOn == true {
+                                    self?.noeventNearbyLbl.text = "No events as yet in your chosen categories. Adjust your settings or check back later."
                                 }else {
-                                    self.noeventNearbyLbl.text = "No events as yet."
+                                    self?.noeventNearbyLbl.text = "No events as yet."
                                 }
                             }else {
-                                self.noeventNearbyLbl.isHidden = true
+                                self?.noeventNearbyLbl.isHidden = true
                             }
                         }else {
-                            self.collectionViewHeight.constant = 0
-                            self.subViewHeight.constant = 50
-                            self.noeventNearbyLbl.isHidden = true
-                            self.hideCollectionView.isHidden = true
+                            self?.collectionViewHeight.constant = 0
+                            self?.subViewHeight.constant = 50
+                            self?.noeventNearbyLbl.isHidden = true
+                            self?.hideCollectionView.isHidden = true
                         }
                     }
                     
                     DispatchQueue.main.async {
-                        self.hideCollectionView.hideLoader()
-                        self.hideCollectionView.isHidden = true
-                        self.isLoadingList = false
+                        self?.hideCollectionView.hideLoader()
+                        self?.hideCollectionView.isHidden = true
+                        self?.isLoadingList = false
                     }
                     
                     let executionTimeWithSuccess44 = Date().timeIntervalSince(startDate)
@@ -355,11 +355,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
+                self?.view.makeToast(error)
             }
         }
     }
@@ -368,32 +366,29 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         self.mapView.clear()
         
         viewmodel.getAllEventsAroundMe(ByCatIds: catIDs)
-        viewmodel.locations.bind { [unowned self] value in
+        viewmodel.locations.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 
                 DispatchQueue.main.async {
                     if Defaults.availableVC == "MapVC" {
-                        self.locationsModel = value
+                        self?.locationsModel = value
                     }
                 }
                 
                 DispatchQueue.main.async {
                     if Defaults.availableVC == "MapVC" {
-                        self.setupMarkers(model: value)
+                        self?.setupMarkers(model: value)
                     }
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    if Defaults.availableVC == "MapVC" {
-                        self.view.makeToast(error)
-                    }
+                if Defaults.availableVC == "MapVC" {
+                    self?.view.makeToast(error)
                 }
-                
             }
         }
     }
@@ -418,27 +413,27 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     func getCats() {
         catsviewmodel.getAllCategories()
-        catsviewmodel.cats.bind { [unowned self] value in
+        catsviewmodel.cats.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.5) {
-                self.catsCollectionView.dataSource = self
-                self.catsCollectionView.delegate = self
-                self.catsCollectionView.reloadData()
-                self.layout = TagsLayout()
+                self?.catsCollectionView.dataSource = self
+                self?.catsCollectionView.delegate = self
+                self?.catsCollectionView.reloadData()
+                self?.layout = TagsLayout()
                 
                 DispatchQueue.main.async {
                     if Defaults.isIPhoneLessThan2500 {
                         if value.count < 15 {
-                            self.catsCollectionViewHeight.constant = CGFloat(((((value.count) / 3)) * 50) + 50)
+                            self?.catsCollectionViewHeight.constant = CGFloat(((((value.count) / 3)) * 50) + 50)
                         }
                         else {
-                            self.catsCollectionViewHeight.constant = 280
+                            self?.catsCollectionViewHeight.constant = 280
                         }
                     }else {
                         if value.count < 22 {
-                            self.catsCollectionViewHeight.constant = CGFloat(((((value.count) / 3)) * 50) + 50)
+                            self?.catsCollectionViewHeight.constant = CGFloat(((((value.count) / 3)) * 50) + 50)
                         }
                         else {
-                            self.catsCollectionViewHeight.constant = 420
+                            self?.catsCollectionViewHeight.constant = 420
                         }
                     }
                 }
@@ -446,11 +441,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         // Set View Model Event Listener
-        catsviewmodel.error.bind { [unowned self]error in
+        catsviewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
+                self?.view.makeToast(error)
             }
         }
     }

@@ -54,7 +54,7 @@ class EventsVC: UIViewController {
         
         initBackButton()
         pullToRefresh()
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadAllEvents), name: Notification.Name("reloadAllEvents"), object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(reloadAllEvents), name: Notification.Name("reloadAllEvents"), object: nil)
 
     }
     
@@ -67,6 +67,7 @@ class EventsVC: UIViewController {
         CancelRequest.currentTask = false
         
         setupHideView()
+        self.currentPage = 1
         
         DispatchQueue.main.async {
             self.updateUserInterface()
@@ -91,35 +92,34 @@ class EventsVC: UIViewController {
         self.hideView.isHidden = false
         hideView.hideLoader()
         viewmodel.getMyEvents(pageNumber: pageNumber, search: "")
-        viewmodel.events.bind { [unowned self] value in
+        viewmodel.events.bind { [weak self] value in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
-                    self.hideView.hideLoader()
-                    self.hideView.isHidden = true
+                    self?.hideView.hideLoader()
+                    self?.hideView.isHidden = true
                 }
                 
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
-                self.initTotalEventsBarButton(total: value.totalRecords ?? 0)
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
+                self?.initTotalEventsBarButton(total: value.totalRecords ?? 0)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    self.HandleinvalidUrl()
+                    self?.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }
@@ -128,43 +128,45 @@ class EventsVC: UIViewController {
     }
     
     func LoadAllEvents(pageNumber:Int) {
+        self.hideView.isHidden = false
         hideView.showLoader()
         viewmodel.getMyEvents(pageNumber: pageNumber, search: "")
-        viewmodel.events.bind { [unowned self] value in
+        viewmodel.events.bind { [weak self] value in
             DispatchQueue.main.async {
-                
-                DispatchQueue.main.async {
-                    self.hideView.hideLoader()
-                    self.hideView.isHidden = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self?.hideView.hideLoader()
+                    self?.hideView.isHidden = true
                 }
                 
-                DispatchQueue.main.async {
-                    self.tableView.delegate = self
-                    self.tableView.dataSource = self
-                    self.tableView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self?.tableView.delegate = self
+                    self?.tableView.dataSource = self
+                    self?.tableView.reloadData()
                 }
                 
-                DispatchQueue.main.async {
-                    self.initTotalEventsBarButton(total: value.totalRecords ?? 0)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self?.initTotalEventsBarButton(total: value.totalRecords ?? 0)
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self.isLoadingList = false
-                        self.tableView.tableFooterView = nil
+                        self?.isLoadingList = false
+                        self?.tableView.tableFooterView = nil
                     }
                 }
+                
+
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    self.HandleinvalidUrl()
+                    self?.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }
@@ -281,9 +283,9 @@ class EventsVC: UIViewController {
     }
     
     //reload All Events
-    @objc func reloadAllEvents() {
-        updateUserInterface()
-    }
+//    @objc func reloadAllEvents() {
+//        updateUserInterface()
+//    }
     
     //MARK:- Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
@@ -313,8 +315,14 @@ extension EventsVC: UITableViewDataSource {
             cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
+            
+            
             if model?.key == 1 {
-                cell.editBtn.isHidden = false
+                if model?.eventHasExpired == true {
+                    cell.editBtn.isHidden = true
+                }else {
+                    cell.editBtn.isHidden = false
+                }
             }else {
                 cell.editBtn.isHidden = true
             }

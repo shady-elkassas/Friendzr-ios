@@ -86,34 +86,33 @@ class NotificationsVC: UIViewController {
     func getNotificationsList(pageNumber:Int) {
         hideView.hideLoader()
         viewmodel.getNotifications(pageNumber: pageNumber)
-        viewmodel.notifications.bind { [unowned self] value in
+        viewmodel.notifications.bind { [weak self] value in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
-                    self.hideView.hideLoader()
-                    self.hideView.isHidden = true
+                    self?.hideView.hideLoader()
+                    self?.hideView.isHidden = true
                 }
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    self.HandleinvalidUrl()
+                    self?.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }
@@ -125,35 +124,34 @@ class NotificationsVC: UIViewController {
         hideView.isHidden = false
         hideView.showLoader()
         viewmodel.getNotifications(pageNumber: pageNumber)
-        viewmodel.notifications.bind { [unowned self] value in
+        viewmodel.notifications.bind { [weak self] value in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
-                    self.hideView.hideLoader()
-                    self.hideView.isHidden = true
+                    self?.hideView.hideLoader()
+                    self?.hideView.isHidden = true
                 }
                 
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    self.HandleinvalidUrl()
+                    self?.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }

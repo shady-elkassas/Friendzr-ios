@@ -178,38 +178,38 @@ class EventDetailsViewController: UIViewController {
     
     func getEventDetails() {
         viewmodel.getEventByID(id: eventId)
-        viewmodel.event.bind { [unowned self] value in
+        viewmodel.event.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now()) {
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.async {
                     if value.key == 1 {
-                        self.isEventAdmin = true
+                        self?.isEventAdmin = true
                     }else {
-                        self.isEventAdmin = false
+                        self?.isEventAdmin = false
                     }
                     
                     DispatchQueue.main.async {
                         if value.eventtype == "adminExternal" {
-                            self.title = "External Event"
+                            self?.title = "External Event"
                         }else {
-                            self.title = value.eventtype + " Event"
+                            self?.title = value.eventtype + " Event"
                         }
                     }
                     
                     if value.eventtype == "Private" {
-                        self.isprivateEvent = true
+                        self?.isprivateEvent = true
                     }else {
-                        self.isprivateEvent = false
+                        self?.isprivateEvent = false
                     }
                     
                     if value.eventHasExpired == true {
-                        self.eventHasExpired = true
+                        self?.eventHasExpired = true
                     }else {
-                        self.eventHasExpired = false
-                        self.initOptionsEventButton()
+                        self?.eventHasExpired = false
+                        self?.initOptionsEventButton()
                     }
                     
                 }
@@ -218,12 +218,9 @@ class EventDetailsViewController: UIViewController {
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
+                self?.view.makeToast(error)
             }
         }
     }
@@ -231,58 +228,58 @@ class EventDetailsViewController: UIViewController {
         self.hideView.isHidden = false
         self.hideView.showLoader()
         viewmodel.getEventByID(id: eventId)
-        viewmodel.event.bind { [unowned self] value in
+        viewmodel.event.bind { [weak self] value in
             
             DispatchQueue.main.async {
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.async {
                     if value.eventtype == "adminExternal" {
-                        self.title = "External Event"
+                        self?.title = "External Event"
                     }else {
-                        self.title = value.eventtype + " Event"
+                        self?.title = value.eventtype + " Event"
                     }
                 }
                 
                 DispatchQueue.main.async {
-                    self.hideView.hideLoader()
-                    self.hideView.isHidden = true
+                    self?.hideView.hideLoader()
+                    self?.hideView.isHidden = true
                 }
                 
                 DispatchQueue.main.async {
                     if value.key == 1 {
-                        self.isEventAdmin = true
+                        self?.isEventAdmin = true
                     }else {
-                        self.isEventAdmin = false
+                        self?.isEventAdmin = false
                     }
                     
                     if value.eventtype == "Private" {
-                        self.isprivateEvent = true
+                        self?.isprivateEvent = true
                     }else {
-                        self.isprivateEvent = false
+                        self?.isprivateEvent = false
                     }
                     
                     if value.eventHasExpired == true {
-                        self.eventHasExpired = true
+                        self?.eventHasExpired = true
                     }else {
-                        self.eventHasExpired = false
-                        self.initOptionsEventButton()
+                        self?.eventHasExpired = false
+                        self?.initOptionsEventButton()
                     }
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.view.makeToast(error)
+                self?.view.makeToast(error)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
-                    if self.selectedVC {
-                        self.onDismiss()
+                    if self?.selectedVC == true {
+                        self?.onDismiss()
                     }else {
-                        self.onPopup()
+                        self?.onPopup()
                     }
                 }
             }
@@ -633,11 +630,16 @@ extension EventDetailsViewController {
 extension EventDetailsViewController {
     func eventStatus(_ model: Event?, _ cell: EventButtonsTableViewCell) {
         if model?.key == 1 { //my event
-            cell.editBtn.isHidden = false
             cell.chatBtn.isHidden = false
             cell.joinBtn.isHidden = true
             cell.leaveBtn.isHidden = true
             self.isEventAdmin = true
+            
+            if model?.eventHasExpired == true {
+                cell.editBtn.isHidden = true
+            }else {
+                cell.editBtn.isHidden = false
+            }
         }
         else if model?.key == 2 { // not join
             cell.editBtn.isHidden = true

@@ -97,34 +97,33 @@ class BlockedListVC: UIViewController {
     func getAllBlockedList(pageNumber:Int,search:String) {
         hideView.hideLoader()
         viewmodel.getAllBlockedList(pageNumber: pageNumber,search: search)
-        viewmodel.blocklist.bind { [unowned self] value in
+        viewmodel.blocklist.bind { [weak self] value in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
-                    self.hideView.hideLoader()
-                    self.hideView.isHidden = true
+                    self?.hideView.hideLoader()
+                    self?.hideView.isHidden = true
                 }
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    self.HandleinvalidUrl()
+                    self?.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }
@@ -135,36 +134,35 @@ class BlockedListVC: UIViewController {
     func LoadBlockedList(pageNumber:Int,search:String) {
         self.hideView.showLoader()
         viewmodel.getAllBlockedList(pageNumber: pageNumber,search:search)
-        viewmodel.blocklist.bind { [unowned self] value in
+        viewmodel.blocklist.bind { [weak self] value in
             DispatchQueue.main.async {
                 
                 DispatchQueue.main.async {
-                    self.hideView.hideLoader()
-                    self.hideView.isHidden = true
+                    self?.hideView.hideLoader()
+                    self?.hideView.isHidden = true
                 }
 
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
              
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    self.HandleinvalidUrl()
+                    self?.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }

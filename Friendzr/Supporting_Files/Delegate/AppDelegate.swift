@@ -160,6 +160,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setupAppsFlyer()
         
+//        if let launchOptions = launchOptions, let userInfo =  launchOptions[.remoteNotification] as? [AnyHashable: Any] {
+//            print(userInfo)
+//
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                guard let rootViewController = Initializer.getWindow().rootViewController else {
+//                    return
+//                }
+//
+//                Messaging.messaging().appDidReceiveMessage(userInfo)
+//                let action = userInfo["Action"] as? String //action transaction
+//                let actionId = userInfo["Action_code"] as? String //userid
+//                let chatTitle = userInfo["name"] as? String
+//                let imageNotifications = userInfo["ImageUrl"] as? String
+//                let isEventAdmin = userInfo["isAdmin"] as? String
+//                //            let messageType = userInfo["Messagetype"] as? Int
+//                _ = userInfo["messsageLinkEvenMyEvent"] as? String ?? ""
+//
+//                self.content.badge = 0
+//                self.redirectNotification(action, rootViewController, actionId, isEventAdmin, imageNotifications, chatTitle)
+//            }
+//        }
+        
         return true
     }
 
@@ -475,6 +497,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                 return
             }
             
+                
             let userInfo = response.notification.request.content.userInfo
             Messaging.messaging().appDidReceiveMessage(userInfo)
             let action = userInfo["Action"] as? String //action transaction

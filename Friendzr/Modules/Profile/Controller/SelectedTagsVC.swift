@@ -67,19 +67,18 @@ class SelectedTagsVC: UIViewController {
     func getAllTags() {
         self.collectionView.hideLoader()
         viewmodel.getAllInterests()
-        viewmodel.interests.bind { [unowned self] value in
+        viewmodel.interests.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                self.collectionView.delegate = self
-                self.collectionView.dataSource = self
-                self.collectionView.reloadData()
-                self.layout = TagsLayout()
+                self?.collectionView.delegate = self
+                self?.collectionView.dataSource = self
+                self?.collectionView.reloadData()
+                self?.layout = TagsLayout()
             })
         }
         
         // Set View Model Event Listener
         viewmodel.error.bind { error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                 }

@@ -112,26 +112,24 @@ class FriendProfileViewController: UIViewController {
     func getFriendProfileInformation() {
         AMShimmer.stop(for: self.hideView)
         viewmodel.getFriendDetails(ById: userID)
-        viewmodel.model.bind { [unowned self]value in
+        viewmodel.model.bind { [weak self]value in
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.title = value.userName ?? ""
-                self.tableView.dataSource = self
-                self.tableView.delegate = self
-                self.tableView.reloadData()
+                self?.title = value.userName ?? ""
+                self?.tableView.dataSource = self
+                self?.tableView.delegate = self
+                self?.tableView.reloadData()
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
-            self.hideLoading()
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }
@@ -141,32 +139,30 @@ class FriendProfileViewController: UIViewController {
     func loadUserData() {
         AMShimmer.start(for: self.hideView)
         viewmodel.getFriendDetails(ById: userID)
-        viewmodel.model.bind { [unowned self]value in
+        viewmodel.model.bind { [weak self]value in
             DispatchQueue.main.asyncAfter(deadline: .now()) {
                 
                 DispatchQueue.main.async {
-                    self.title = value.userName ?? ""
-                    self.tableView.dataSource = self
-                    self.tableView.delegate = self
-                    self.tableView.reloadData()
+                    self?.title = value.userName ?? ""
+                    self?.tableView.dataSource = self
+                    self?.tableView.delegate = self
+                    self?.tableView.reloadData()
                 }
                 
                 DispatchQueue.main.async {
-                    AMShimmer.stop(for: self.hideView)
-                    self.hideView.isHidden = true
+                    self?.hideView.isHidden = true
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }

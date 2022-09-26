@@ -113,26 +113,25 @@ class SharePrivateEventVC: UIViewController {
     func getAllAttendees(pageNumber:Int,search:String) {
         hideViews.isHidden = true
         viewmodel.getEventAttendees(ByEventID: eventID, pageNumber: pageNumber, search: search)
-        viewmodel.attendees.bind { [unowned self] value in
+        viewmodel.attendees.bind { [weak self] value in
             DispatchQueue.main.async {
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
 
-                self.showEmptyView()
+                self?.showEmptyView()
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
-                self.view.makeToast(error)
+                self?.view.makeToast(error)
             }
         }
     }
@@ -141,31 +140,30 @@ class SharePrivateEventVC: UIViewController {
         hideViews.showLoader()
         
         viewmodel.getEventAttendees(ByEventID: eventID, pageNumber: pageNumber, search: search)
-        viewmodel.attendees.bind { [unowned self] value in
+        viewmodel.attendees.bind { [weak self] value in
             DispatchQueue.main.async {
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.async {
-                    self.hideViews.hideLoader()
-                    self.hideViews.isHidden = true
+                    self?.hideViews.hideLoader()
+                    self?.hideViews.isHidden = true
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
 
-                self.showEmptyView()
+                self?.showEmptyView()
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
-                self.view.makeToast(error)
+                self?.view.makeToast(error)
             }
         }
     }

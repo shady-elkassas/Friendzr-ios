@@ -100,44 +100,43 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
     func getGroupDetails(search:String) {
         self.superView.showLoader()
         viewmodel.getGroupDetails(id: groupId, search: search)
-        viewmodel.groupMembers.bind { [unowned self] value in
+        viewmodel.groupMembers.bind { [weak self] value in
             DispatchQueue.main.async {
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
-                self.tableViewHeight.constant = CGFloat((value.chatGroupSubscribers?.count ?? 0) * 75)
+                self?.tableViewHeight.constant = CGFloat((value.chatGroupSubscribers?.count ?? 0) * 75)
                 
                 DispatchQueue.main.async {
-                    self.groupImg.sd_setImage(with: URL(string: value.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-                    self.groupImgStr = value.image ?? ""
+                    self?.groupImg.sd_setImage(with: URL(string: value.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+                    self?.groupImgStr = value.image ?? ""
                     
-                    self.nameTxt.text = value.name
+                    self?.nameTxt.text = value.name
                 }
                 
                 DispatchQueue.main.async {
-                    self.selectedIDs.removeAll()
-                    self.selectedNames.removeAll()
-                    self.selectedFrineds.removeAll()
+                    self?.selectedIDs.removeAll()
+                    self?.selectedNames.removeAll()
+                    self?.selectedFrineds.removeAll()
                     for item in value.chatGroupSubscribers  ?? [] {
-                        self.selectedIDs.append(item.userId)
-                        self.selectedNames.append(item.userName )
-                        self.selectedFrineds.append(item)
+                        self?.selectedIDs.append(item.userId)
+                        self?.selectedNames.append(item.userName )
+                        self?.selectedFrineds.append(item)
                     }
                     
-                    self.selectedNames.remove(at: 0)
-                    self.selectedIDs.remove(at: 0)
-                    self.selectedFrineds.remove(at: 0)
+                    self?.selectedNames.remove(at: 0)
+                    self?.selectedIDs.remove(at: 0)
+                    self?.selectedFrineds.remove(at: 0)
                 }
                 
-                self.superView.hideLoader()
+                self?.superView.hideLoader()
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.errorMsg.bind { [unowned self]error in
+        viewmodel.errorMsg.bind { [weak self]error in
             DispatchQueue.main.async {
-                //                self.view.makeToast(error)
             }
         }
     }

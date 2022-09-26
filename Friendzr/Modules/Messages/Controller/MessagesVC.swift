@@ -398,9 +398,9 @@ extension MessagesVC {
         let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
             self.openLibrary()
         }
-        let fileBtn = UIAlertAction(title: "File", style: .default) {_ in
-            self.openFileLibrary()
-        }
+//        let fileBtn = UIAlertAction(title: "File", style: .default) {_ in
+//            self.openFileLibrary()
+//        }
         let locationBtn = UIAlertAction(title: "Location", style: .default) {_ in
             self.openShareLocationVC()
         }
@@ -409,13 +409,13 @@ extension MessagesVC {
         
         cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
         libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-        fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+//        fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
         locationBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
         cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
         
         actionSheet.addAction(cameraBtn)
         actionSheet.addAction(libraryBtn)
-        actionSheet.addAction(fileBtn)
+//        actionSheet.addAction(fileBtn)
         //        actionSheet.addAction(locationBtn)
         actionSheet.addAction(cancelBtn)
         

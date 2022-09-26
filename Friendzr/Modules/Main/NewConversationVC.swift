@@ -154,29 +154,29 @@ class NewConversationVC: UIViewController {
      func getAllFriends(pageNumber:Int,search:String) {
         hideView.isHidden = true
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
-        viewmodel.friends.bind { [unowned self] value in
+        viewmodel.friends.bind { [weak self] value in
             DispatchQueue.main.async {
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
                 
-                self.showEmptyView()
+                self?.showEmptyView()
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }
@@ -187,35 +187,34 @@ class NewConversationVC: UIViewController {
         hideView.isHidden = false
         AMShimmer.start(for: self.hideView)
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
-        viewmodel.friends.bind { [unowned self] value in
+        viewmodel.friends.bind { [weak self] value in
             DispatchQueue.main.async {
                 
                 DispatchQueue.main.async {
-                    AMShimmer.stop(for: self.hideView)
-                    self.hideView.isHidden = true
+                    self?.hideView.isHidden = true
                 }
                 
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
 
-                self.showEmptyView()
+                self?.showEmptyView()
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }

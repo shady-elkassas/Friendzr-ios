@@ -525,20 +525,20 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     func getAllFeeds(pageNumber:Int) {
         hideView.isHidden = true
         viewmodel.getAllUsers(pageNumber: pageNumber)
-        viewmodel.feeds.bind { [unowned self] value in
+        viewmodel.feeds.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
                 
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
                 
                 DispatchQueue.main.async {
-                    self.initGhostModeAndSortSwitchButton()
+                    self?.initGhostModeAndSortSwitchButton()
                 }
             })
         }
@@ -556,29 +556,28 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         AMShimmer.start(for: hideView)
         viewmodel.getAllUsers(pageNumber: pageNumber)
         
-        viewmodel.feeds.bind { [unowned self] value in
+        viewmodel.feeds.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 
                 if Defaults.availableVC == "FeedVC" {
                     DispatchQueue.main.async {
-                        AMShimmer.stop(for: self.hideView)
-                        self.hideView.isHidden = true
+                        self?.hideView.isHidden = true
                         
                     }
                     
                     DispatchQueue.main.async {
-                        self.tableView.delegate = self
-                        self.tableView.dataSource = self
-                        self.tableView.reloadData()
+                        self?.tableView.delegate = self
+                        self?.tableView.dataSource = self
+                        self?.tableView.reloadData()
                     }
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self.isLoadingList = false
-                        self.tableView.tableFooterView = nil
+                        self?.isLoadingList = false
+                        self?.tableView.tableFooterView = nil
                     }
                     
                     DispatchQueue.main.async {
-                        self.initGhostModeAndSortSwitchButton()
+                        self?.initGhostModeAndSortSwitchButton()
                     }
                 }
             })
@@ -596,38 +595,37 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         self.hideView.isHidden = false
         AMShimmer.start(for: hideView)
         viewmodel.filterFeeds(isCompassOpen: isCompassOpen, Bydegree: degree, sortByInterestMatch: sortByInterestMatch, pageNumber: pageNumber)
-        viewmodel.feeds.bind { [unowned self] value in
+        viewmodel.feeds.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 
                 DispatchQueue.main.async {
-                    self.hideView.isHidden = true
-                    AMShimmer.stop(for: self.hideView)
+                    self?.hideView.isHidden = true
                 }
                 
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
                 
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                    self.switchCompassBarButton.isUserInteractionEnabled = true
-                    self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+                    self?.switchGhostModeBarButton.isUserInteractionEnabled = true
+                    self?.switchCompassBarButton.isUserInteractionEnabled = true
+                    self?.switchSortedByInterestsButton.isUserInteractionEnabled = true
                 }
                 
-                self.isSendRequest = false
+                self?.isSendRequest = false
                 DispatchQueue.main.async {
-                    self.initGhostModeAndSortSwitchButton()
+                    self?.initGhostModeAndSortSwitchButton()
                 }
             })
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 print(error)
             }
@@ -637,32 +635,32 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     func filterFeedsloadMore(isCompassOpen:Bool,degree:Double,sortByInterestMatch:Bool,pageNumber:Int) {
         self.hideView.isHidden = true
         viewmodel.filterFeeds(isCompassOpen: isCompassOpen, Bydegree: degree, sortByInterestMatch: sortByInterestMatch, pageNumber: pageNumber)
-        viewmodel.feeds.bind { [unowned self] value in
+        viewmodel.feeds.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
                 
                 DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                    self.switchCompassBarButton.isUserInteractionEnabled = true
-                    self.switchSortedByInterestsButton.isUserInteractionEnabled = true
+                    self?.switchGhostModeBarButton.isUserInteractionEnabled = true
+                    self?.switchCompassBarButton.isUserInteractionEnabled = true
+                    self?.switchSortedByInterestsButton.isUserInteractionEnabled = true
                 }
                 
-                self.isSendRequest = false
+                self?.isSendRequest = false
                 DispatchQueue.main.async {
-                    self.initGhostModeAndSortSwitchButton()
+                    self?.initGhostModeAndSortSwitchButton()
                 }
             })
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 print(error)
             }

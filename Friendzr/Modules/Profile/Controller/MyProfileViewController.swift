@@ -107,31 +107,29 @@ class MyProfileViewController: UIViewController {
         self.hideView.isHidden = false
         AMShimmer.start(for: self.hideView)
         viewmodel.getProfileInfo()
-        viewmodel.userModel.bind { [unowned self]value in
+        viewmodel.userModel.bind { [weak self]value in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
-                    self.tableView.dataSource = self
-                    self.tableView.delegate = self
-                    self.tableView.reloadData()
+                    self?.tableView.dataSource = self
+                    self?.tableView.delegate = self
+                    self?.tableView.reloadData()
                 }
                 
                 DispatchQueue.main.async {
-                    AMShimmer.stop(for: self.hideView)
-                    self.hideView.isHidden = true
+                    self?.hideView.isHidden = true
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
-            self.hideLoading()
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
+                self?.hideLoading()
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }

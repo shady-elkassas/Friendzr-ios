@@ -142,14 +142,14 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     }
     func getAllValidatConfig() {
         allValidatConfigVM.getAllValidatConfig()
-        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+        allValidatConfigVM.userValidationConfig.bind { [weak self]value in
             DispatchQueue.main.async {
                 Router().toFeed()
             }
         }
         
         // Set View Model Event Listener
-        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+        allValidatConfigVM.errorMsg.bind { [weak self]error in
             DispatchQueue.main.async {
                 print(error)
             }

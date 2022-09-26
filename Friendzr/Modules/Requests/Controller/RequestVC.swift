@@ -124,31 +124,31 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     func getAllUserRequests(pageNumber:Int) {
         hideView.hideLoader()
         viewmodel.getAllRequests(requestesType: RequestesType.type, pageNumber: pageNumber)
-        viewmodel.requests.bind { [unowned self] value in
+        viewmodel.requests.bind { [weak self] value in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
-                    self.hideView.hideLoader()
-                    self.hideView.isHidden = true
+                    self?.hideView.hideLoader()
+                    self?.hideView.isHidden = true
                 }
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
                 
                 
-                self.xrecieved.removeAll()
+                self?.xrecieved.removeAll()
                 for itm in value.data ?? [] {
                     if itm.key == 2 {
-                        self.xrecieved.append(itm)
+                        self?.xrecieved.append(itm)
                     }
                 }
                 
                 if RequestesType.type == 2 {
-                    Defaults.frindRequestNumber = self.xrecieved.count
+                    Defaults.frindRequestNumber = self?.xrecieved.count ?? 0
                 }else {
                     Defaults.frindRequestNumber = Defaults.frindRequestNumber
                 }
@@ -161,14 +161,13 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }
@@ -180,35 +179,35 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         hideView.isHidden = false
         hideView.showLoader()
         viewmodel.getAllRequests(requestesType: RequestesType.type, pageNumber: pageNumber)
-        viewmodel.requests.bind { [unowned self] value in
+        viewmodel.requests.bind { [weak self] value in
             DispatchQueue.main.async {
                 
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 
-                self.xrecieved.removeAll()
+                self?.xrecieved.removeAll()
                 for itm in value.data ?? [] {
                     if itm.key == 2 {
-                        self.xrecieved.append(itm)
+                        self?.xrecieved.append(itm)
                     }
                 }
                 
                 if RequestesType.type == 2 {
-                    Defaults.frindRequestNumber = self.xrecieved.count
+                    Defaults.frindRequestNumber = self?.xrecieved.count ?? 0
                 }else {
                     Defaults.frindRequestNumber = Defaults.frindRequestNumber
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                    self.hideView.hideLoader()
-                    self.hideView.isHidden = true
+                    self?.hideView.hideLoader()
+                    self?.hideView.isHidden = true
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -219,14 +218,13 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }

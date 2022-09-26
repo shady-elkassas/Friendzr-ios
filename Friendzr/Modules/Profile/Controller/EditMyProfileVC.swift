@@ -170,11 +170,11 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     //MARK: - APIs
     func getAllValidatConfig() {
         allValidatConfigVM.getAllValidatConfig()
-        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+        allValidatConfigVM.userValidationConfig.bind { [weak self]value in
         }
         
         // Set View Model Event Listener
-        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+        allValidatConfigVM.errorMsg.bind { [weak self]error in
             DispatchQueue.main.async {
                 print(error)
             }
@@ -1224,7 +1224,7 @@ extension EditMyProfileVC {
 extension EditMyProfileVC {
     func getAllBestDescrips() {
         iamViewModel.getAllIam()
-        iamViewModel.IAM.bind { [unowned self] value in
+        iamViewModel.IAM.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                 var arr:[IamObj]? = [IamObj]()
                 for item in value {
@@ -1235,7 +1235,7 @@ extension EditMyProfileVC {
                     if itm.name?.contains("#") == true {
                         Defaults.iamid = itm.id ?? ""
                     }else {
-                        self.IamArr?.append(itm)
+                        self?.IamArr?.append(itm)
                     }
                 }
             })
@@ -1252,7 +1252,7 @@ extension EditMyProfileVC {
     //MARK: - APIs
     func getAllPreferTo() {
         preferToViewModel.getAllPreferTo()
-        preferToViewModel.PreferTo.bind { [unowned self] value in
+        preferToViewModel.PreferTo.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                 var arr:[PreferToObj]? = [PreferToObj]()
                 for item in value {
@@ -1263,17 +1263,17 @@ extension EditMyProfileVC {
                     if itm.name?.contains("#") == true {
                         Defaults.preferToid = itm.id ?? ""
                     }else {
-                        self.preferToArr?.append(itm)
+                        self?.preferToArr?.append(itm)
                     }
                 }
             })
         }
         
         // Set View Model Event Listener
-        preferToViewModel.error.bind { error in
+        preferToViewModel.error.bind { [weak self] error in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
-                    self.view.makeToast(error)
+                    self?.view.makeToast(error)
                 }
                 
             }

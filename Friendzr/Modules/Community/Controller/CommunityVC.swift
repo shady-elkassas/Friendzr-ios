@@ -288,51 +288,30 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
         }
         
         recommendedPeopleViewModel.getRecommendedPeople(userId: userID)
-        recommendedPeopleViewModel.recommendedPeople.bind { [unowned self] value in
+        recommendedPeopleViewModel.recommendedPeople.bind { [weak self] value in
             DispatchQueue.main.async {
-                self.friendsCommunityCollectionView.delegate = self
-                self.friendsCommunityCollectionView.dataSource = self
-                self.friendsCommunityCollectionView.reloadData()
-                
-                
-//                self.moreTagsCollectionView.dataSource = self
-//                self.moreTagsCollectionView.delegate = self
-//                self.moreTagsCollectionView.reloadData()
-//                self.layout = TagsLayout()
-                
+                self?.friendsCommunityCollectionView.delegate = self
+                self?.friendsCommunityCollectionView.dataSource = self
+                self?.friendsCommunityCollectionView.reloadData()
                 
                 DispatchQueue.main.async {
-                    self.hideView1.isHidden = true
-                    AMShimmer.stop(for: self.hideView1)
-                    self.emptyView1.isHidden = true
+                    self?.hideView1.isHidden = true
+                    self?.emptyView1.isHidden = true
                 }
-                
-//                if Defaults.bannerAdsCount1 >= 3 {
-//                    self.isAdConnected = true
-//                    self.setupAds1()
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                        self.showAdsBanner1.isHidden = false
-//                    }
-//                }else {
-//                    self.showAdsBanner1.isHidden = true
-//                }
             }
         }
         
         // Set View Model Event Listener
-        recommendedPeopleViewModel.error.bind { [unowned self]error in
+        recommendedPeopleViewModel.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    self.HandleinvalidUrl()
+                    self?.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
-//                        self.showEmptyView2()
-                        self.emptyView1.isHidden = false
-                        self.emptyLbl1.text = error
-//
-//                        self.view.makeToast(error)
+                        self?.emptyView1.isHidden = false
+                        self?.emptyLbl1.text = error
                     }
                 }
             }
@@ -351,16 +330,15 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
         }
         
         recommendedEventViewModel.getRecommendedEvent(eventId: eventID)
-        recommendedEventViewModel.recommendedEvent.bind { [unowned self] value in
+        recommendedEventViewModel.recommendedEvent.bind { [weak self] value in
             DispatchQueue.main.async {
-                self.eventCollectionView.delegate = self
-                self.eventCollectionView.dataSource = self
-                self.eventCollectionView.reloadData()
+                self?.eventCollectionView.delegate = self
+                self?.eventCollectionView.dataSource = self
+                self?.eventCollectionView.reloadData()
                 
                 DispatchQueue.main.async {
-                    self.hideView2.isHidden = true
-                    AMShimmer.stop(for: self.hideView2)
-                    self.emptyView2.isHidden = true
+                    self?.hideView2.isHidden = true
+                    self?.emptyView2.isHidden = true
                 }
                 
 //                if Defaults.bannerAdsCount2 >= 3 {
@@ -376,16 +354,16 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
         }
         
         // Set View Model Event Listener
-        recommendedEventViewModel.error.bind { [unowned self]error in
+        recommendedEventViewModel.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    self.HandleinvalidUrl()
+                    self?.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
-                        self.emptyView2.isHidden = false
-                        self.emptyLbl2.text = error
+                        self?.emptyView2.isHidden = false
+                        self?.emptyLbl2.text = error
                     }
                 }
             }
@@ -396,29 +374,28 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
         self.hideView3.isHidden = false
         AMShimmer.start(for: hideView3)
         recentlyConnectedViewModel.getRecentlyConnected(pageNumber: pageNumber)
-        recentlyConnectedViewModel.recentlyConnected.bind { [unowned self] value in
+        recentlyConnectedViewModel.recentlyConnected.bind { [weak self] value in
             DispatchQueue.main.async {
-                self.recentlyConnectedCollectionView.delegate = self
-                self.recentlyConnectedCollectionView.dataSource = self
-                self.recentlyConnectedCollectionView.reloadData()
+                self?.recentlyConnectedCollectionView.delegate = self
+                self?.recentlyConnectedCollectionView.dataSource = self
+                self?.recentlyConnectedCollectionView.reloadData()
                 
                 DispatchQueue.main.async {
-                    self.hideView3.isHidden = true
-                    AMShimmer.stop(for: self.hideView3)
-                    self.emptyView3.isHidden = true
+                    self?.hideView3.isHidden = true
+                    self?.emptyView3.isHidden = true
                 }
             }
         }
         
         // Set View Model Event Listener
-        recentlyConnectedViewModel.error.bind { [unowned self]error in
+        recentlyConnectedViewModel.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else {
                     DispatchQueue.main.async {
-                        self.emptyView3.isHidden = false
-                        self.emptyLbl3.text = error
+                        self?.emptyView3.isHidden = false
+                        self?.emptyLbl3.text = error
                     }
                     
                 }

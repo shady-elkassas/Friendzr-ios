@@ -90,14 +90,14 @@ class LoginVC: UIViewController {
     //MARK: - APIs
     func getAllValidatConfig() {
         allValidatConfigVM.getAllValidatConfig()
-        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+        allValidatConfigVM.userValidationConfig.bind { [weak self]value in
             DispatchQueue.main.async {
                 Defaults.initValidationConfig(validate: value)
             }
         }
         
         // Set View Model Event Listener
-        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+        allValidatConfigVM.errorMsg.bind { [weak self]error in
             DispatchQueue.main.async {
                 print(error)
             }

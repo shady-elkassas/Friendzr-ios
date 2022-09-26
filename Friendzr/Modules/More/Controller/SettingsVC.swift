@@ -155,29 +155,28 @@ class SettingsVC: UIViewController {
     }
     func getUserSettings() {
         viewmodel.getUserSetting()
-        viewmodel.userSettings.bind { [unowned self]value in
+        viewmodel.userSettings.bind { [weak self]value in
             DispatchQueue.main.async {
-                self.hideView.isHidden = true
-                self.model = value
-                self.setupData()
+                self?.hideView.isHidden = true
+                self?.model = value
+                self?.setupData()
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.errorMsg.bind { [unowned self]error in
+        viewmodel.errorMsg.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 print(error)
             }
         }
     }
     func getAllValidatConfig() {
         allValidatConfigVM.getAllValidatConfig()
-        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+        allValidatConfigVM.userValidationConfig.bind { [weak self]value in
         }
         
         // Set View Model Event Listener
-        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+        allValidatConfigVM.errorMsg.bind { [weak self]error in
             DispatchQueue.main.async {
                 print(error)
             }

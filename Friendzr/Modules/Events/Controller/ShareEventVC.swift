@@ -99,39 +99,38 @@ class ShareEventVC: UIViewController {
     func getAllMyEvents(pageNumber:Int,search:String) {
         hideView3.isHidden = true
         myEventsVM.getMyEvents(pageNumber: pageNumber, search: search)
-        myEventsVM.events.bind { [unowned self] value in
+        myEventsVM.events.bind { [weak self] value in
             DispatchQueue.main.async {
                 
                 DispatchQueue.main.async {
-                    self.eventsTV.delegate = self
-                    self.eventsTV.dataSource = self
-                    self.eventsTV.reloadData()
+                    self?.eventsTV.delegate = self
+                    self?.eventsTV.dataSource = self
+                    self?.eventsTV.reloadData()
                 }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingEventsList = false
-                    self.eventsTV.tableFooterView = nil
+                    self?.isLoadingEventsList = false
+                    self?.eventsTV.tableFooterView = nil
                 }
                 
                 if value.data?.count == 0 {
-                    self.eventsEmptyView.isHidden = false
+                    self?.eventsEmptyView.isHidden = false
                     if search != "" {
-                        self.emptyFriendslbl.text = "No events match your search"
+                        self?.emptyFriendslbl.text = "No events match your search"
                     }else {
-                        self.emptyFriendslbl.text = "You have no events yet"
+                        self?.emptyFriendslbl.text = "You have no events yet"
                     }
                 }else {
-                    self.eventsEmptyView.isHidden = true
+                    self?.eventsEmptyView.isHidden = true
                 }
             }
         }
         
         // Set View Model Event Listener
-        myEventsVM.error.bind { [unowned self]error in
+        myEventsVM.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 DispatchQueue.main.async {
-                    self.view.makeToast(error)
+                    self?.view.makeToast(error)
                 }
                 
             }
@@ -140,33 +139,32 @@ class ShareEventVC: UIViewController {
     func getAllMyGroups(pageNumber:Int,search:String) {
         hideView2.isHidden = true
         myGroupsVM.getAllGroupChat(pageNumber: pageNumber, search: search)
-        myGroupsVM.listChat.bind { [unowned self] value in
+        myGroupsVM.listChat.bind { [weak self] value in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
-                    self.groupsTV.delegate = self
-                    self.groupsTV.dataSource = self
-                    self.groupsTV.reloadData()
+                    self?.groupsTV.delegate = self
+                    self?.groupsTV.dataSource = self
+                    self?.groupsTV.reloadData()
                 }
                 
                 if value.data?.count == 0 {
-                    self.groupsEmptyView.isHidden = false
+                    self?.groupsEmptyView.isHidden = false
                     if search != "" {
-                        self.emptyFriendslbl.text = "No groups match your search"
+                        self?.emptyFriendslbl.text = "No groups match your search"
                     }else {
-                        self.emptyFriendslbl.text = "You have no groups yet"
+                        self?.emptyFriendslbl.text = "You have no groups yet"
                     }
                 }else {
-                    self.groupsEmptyView.isHidden = true
+                    self?.groupsEmptyView.isHidden = true
                 }
             }
         }
         
         // Set View Model Event Listener
-        myGroupsVM.errorMsg.bind { [unowned self]error in
+        myGroupsVM.errorMsg.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 DispatchQueue.main.async {
-                    self.view.makeToast(error)
+                    self?.view.makeToast(error)
                 }
                 
             }
@@ -175,36 +173,32 @@ class ShareEventVC: UIViewController {
     func getAllMyFriends(pageNumber:Int,search:String) {
         hideView1.isHidden = true
         myFriendsVM.getAllFriendes(pageNumber: pageNumber, search: search)
-        myFriendsVM.friends.bind { [unowned self] value in
+        myFriendsVM.friends.bind { [weak self] value in
             DispatchQueue.main.async {
                 
                 DispatchQueue.main.async {
-                    self.friendsTV.delegate = self
-                    self.friendsTV.dataSource = self
-                    self.friendsTV.reloadData()
+                    self?.friendsTV.delegate = self
+                    self?.friendsTV.dataSource = self
+                    self?.friendsTV.reloadData()
                 }
                 
                 if value.data?.count == 0 {
-                    self.friendsEmptyView.isHidden = false
+                    self?.friendsEmptyView.isHidden = false
                     if search != "" {
-                        self.emptyFriendslbl.text = "No friends match your search"
+                        self?.emptyFriendslbl.text = "No friends match your search"
                     }else {
-                        self.emptyFriendslbl.text = "you have no friends yet"
+                        self?.emptyFriendslbl.text = "you have no friends yet"
                     }
                 }else {
-                    self.friendsEmptyView.isHidden = true
+                    self?.friendsEmptyView.isHidden = true
                 }
             }
         }
         
         // Set View Model Event Listener
-        myFriendsVM.error.bind { [unowned self]error in
+        myFriendsVM.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
+                self?.view.makeToast(error)
             }
         }
     }
@@ -213,41 +207,37 @@ class ShareEventVC: UIViewController {
         hideView3.isHidden = false
         hideView3.showLoader()
         myEventsVM.getMyEvents(pageNumber: pageNumber, search: search)
-        myEventsVM.events.bind { [unowned self] value in
+        myEventsVM.events.bind { [weak self] value in
             DispatchQueue.main.async {
                 
                 DispatchQueue.main.async {
-                    self.eventsTV.delegate = self
-                    self.eventsTV.dataSource = self
-                    self.eventsTV.reloadData()
+                    self?.eventsTV.delegate = self
+                    self?.eventsTV.dataSource = self
+                    self?.eventsTV.reloadData()
                 }
                 
                 DispatchQueue.main.async {
-                    self.hideView3.isHidden = true
-                    self.hideView3.hideLoader()
+                    self?.hideView3.isHidden = true
+                    self?.hideView3.hideLoader()
                 }
                 
                 if value.data?.count == 0 {
-                    self.eventsEmptyView.isHidden = false
+                    self?.eventsEmptyView.isHidden = false
                     if search != "" {
-                        self.emptyFriendslbl.text = "No events match your search"
+                        self?.emptyFriendslbl.text = "No events match your search"
                     }else {
-                        self.emptyFriendslbl.text = "You have no events yet"
+                        self?.emptyFriendslbl.text = "You have no events yet"
                     }
                 }else {
-                    self.eventsEmptyView.isHidden = true
+                    self?.eventsEmptyView.isHidden = true
                 }
             }
         }
         
         // Set View Model Event Listener
-        myEventsVM.error.bind { [unowned self]error in
+        myEventsVM.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
+                self?.view.makeToast(error)
             }
         }
     }
@@ -255,40 +245,36 @@ class ShareEventVC: UIViewController {
         hideView2.isHidden = false
         hideView2.showLoader()
         myGroupsVM.getAllGroupChat(pageNumber: pageNumber, search: search)
-        myGroupsVM.listChat.bind { [unowned self] value in
+        myGroupsVM.listChat.bind { [weak self] value in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
-                    self.groupsTV.delegate = self
-                    self.groupsTV.dataSource = self
-                    self.groupsTV.reloadData()
+                    self?.groupsTV.delegate = self
+                    self?.groupsTV.dataSource = self
+                    self?.groupsTV.reloadData()
                 }
                 
                 DispatchQueue.main.async {
-                    self.hideView2.isHidden = true
-                    self.hideView2.hideLoader()
+                    self?.hideView2.isHidden = true
+                    self?.hideView2.hideLoader()
                 }
                 
                 if value.data?.count == 0 {
-                    self.groupsEmptyView.isHidden = false
+                    self?.groupsEmptyView.isHidden = false
                     if search != "" {
-                        self.emptyFriendslbl.text = "No groups match your search"
+                        self?.emptyFriendslbl.text = "No groups match your search"
                     }else {
-                        self.emptyFriendslbl.text = "You have no groups yet"
+                        self?.emptyFriendslbl.text = "You have no groups yet"
                     }
                 }else {
-                    self.groupsEmptyView.isHidden = true
+                    self?.groupsEmptyView.isHidden = true
                 }
             }
         }
         
         // Set View Model Event Listener
-        myGroupsVM.errorMsg.bind { [unowned self]error in
+        myGroupsVM.errorMsg.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
+                self?.view.makeToast(error)
             }
         }
     }
@@ -296,41 +282,37 @@ class ShareEventVC: UIViewController {
         hideView1.isHidden = false
         hideView1.showLoader()
         myFriendsVM.getAllFriendes(pageNumber: pageNumber, search: search)
-        myFriendsVM.friends.bind { [unowned self] value in
+        myFriendsVM.friends.bind { [weak self] value in
             DispatchQueue.main.async {
                 
                 DispatchQueue.main.async {
-                    self.friendsTV.delegate = self
-                    self.friendsTV.dataSource = self
-                    self.friendsTV.reloadData()
+                    self?.friendsTV.delegate = self
+                    self?.friendsTV.dataSource = self
+                    self?.friendsTV.reloadData()
                 }
                 
                 DispatchQueue.main.async {
-                    self.hideView1.isHidden = true
-                    self.hideView1.hideLoader()
+                    self?.hideView1.isHidden = true
+                    self?.hideView1.hideLoader()
                 }
                 
                 if value.data?.count == 0 {
-                    self.friendsEmptyView.isHidden = false
+                    self?.friendsEmptyView.isHidden = false
                     if search != "" {
-                        self.emptyFriendslbl.text = "No friends match your search"
+                        self?.emptyFriendslbl.text = "No friends match your search"
                     }else {
-                        self.emptyFriendslbl.text = "you have no friends yet"
+                        self?.emptyFriendslbl.text = "you have no friends yet"
                     }
                 }else {
-                    self.friendsEmptyView.isHidden = true
+                    self?.friendsEmptyView.isHidden = true
                 }
             }
         }
         
         // Set View Model Event Listener
-        myFriendsVM.error.bind { [unowned self]error in
+        myFriendsVM.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
+                self?.view.makeToast(error)
             }
         }
     }

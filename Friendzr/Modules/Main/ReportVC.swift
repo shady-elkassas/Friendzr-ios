@@ -106,22 +106,21 @@ class ReportVC: UIViewController {
     //MARK: - APIs
     func getAllProblems() {
         viewmodel.getAllProblems()
-        viewmodel.model.bind { [unowned self] value in
+        viewmodel.model.bind { [weak self] value in
             DispatchQueue.main.async {
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.async {
-                    self.hideView.isHidden = true
+                    self?.hideView.isHidden = true
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 print(error)
             }
         }

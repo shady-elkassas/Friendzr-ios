@@ -169,31 +169,31 @@ class AddEventVC: UIViewController {
     func getCats() {
         hideView.isHidden = false
         catsVM.getAllCategories()
-        catsVM.cats.bind { [unowned self] value in
+        catsVM.cats.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.5) {
                 
-                self.hideView.isHidden = true
+                self?.hideView.isHidden = true
                 
-                self.collectionView.dataSource = self
-                self.collectionView.delegate = self
-                self.collectionView.reloadData()
+                self?.collectionView.dataSource = self
+                self?.collectionView.delegate = self
+                self?.collectionView.reloadData()
                 
-                self.layout = TagsLayout()
+                self?.layout = TagsLayout()
                 
                 DispatchQueue.main.async {
                     if Defaults.isIPhoneLessThan2500 {
                         if value.count < 15 {
-                            self.collectionViewHeight.constant = CGFloat(((((value.count) / 3)) * 50) + 50)
+                            self?.collectionViewHeight.constant = CGFloat(((((value.count) / 3)) * 50) + 50)
                         }
                         else {
-                            self.collectionViewHeight.constant = 280
+                            self?.collectionViewHeight.constant = 280
                         }
                     }else {
                         if value.count < 22 {
-                            self.collectionViewHeight.constant = CGFloat(((((value.count) / 3)) * 50) + 50)
+                            self?.collectionViewHeight.constant = CGFloat(((((value.count) / 3)) * 50) + 50)
                         }
                         else {
-                            self.collectionViewHeight.constant = 420
+                            self?.collectionViewHeight.constant = 420
                         }
                     }
                 }
@@ -201,10 +201,10 @@ class AddEventVC: UIViewController {
         }
         
         // Set View Model Event Listener
-        catsVM.error.bind { [unowned self]error in
+        catsVM.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
-                    self.view.makeToast(error)
+                    self?.view.makeToast(error)
                 }
                 
             }
@@ -214,22 +214,19 @@ class AddEventVC: UIViewController {
     func getEventTypes() {
         hideView.isHidden = false
         typesVM.getAllEventType()
-        typesVM.types.bind { [unowned self] value in
+        typesVM.types.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
-                self.hideView.isHidden = true
-                self.eventTypesTV.dataSource = self
-                self.eventTypesTV.delegate = self
-                self.eventTypesTV.reloadData()
+                self?.hideView.isHidden = true
+                self?.eventTypesTV.dataSource = self
+                self?.eventTypesTV.delegate = self
+                self?.eventTypesTV.reloadData()
             }
         }
         
         // Set View Model Event Listener
-        typesVM.error.bind { [unowned self]error in
+        typesVM.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
+                self?.view.makeToast(error)
             }
         }
     }
@@ -261,12 +258,12 @@ class AddEventVC: UIViewController {
     
     func getAllValidatConfig() {
         allValidatConfigVM.getAllValidatConfig()
-        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+        allValidatConfigVM.userValidationConfig.bind { [weak self]value in
             Defaults.initValidationConfig(validate: value)
         }
         
         // Set View Model Event Listener
-        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+        allValidatConfigVM.errorMsg.bind { [weak self]error in
             DispatchQueue.main.async {
                 print(error)
             }

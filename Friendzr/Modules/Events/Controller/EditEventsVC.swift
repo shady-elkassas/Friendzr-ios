@@ -178,31 +178,29 @@ class EditEventsVC: UIViewController {
     }
     func getEventTypes() {
         typesVM.getAllEventType()
-        typesVM.types.bind { [unowned self] value in
+        typesVM.types.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.2) {
-                self.eventTypesTV.dataSource = self
-                self.eventTypesTV.delegate = self
-                self.eventTypesTV.reloadData()
+                self?.eventTypesTV.dataSource = self
+                self?.eventTypesTV.delegate = self
+                self?.eventTypesTV.reloadData()
             }
         }
         
         // Set View Model Event Listener
-        typesVM.error.bind { [unowned self]error in
+        typesVM.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
+                self?.view.makeToast(error)
             }
         }
     }
+    
     func getAllValidatConfig() {
         allValidatConfigVM.getAllValidatConfig()
-        allValidatConfigVM.userValidationConfig.bind { [unowned self]value in
+        allValidatConfigVM.userValidationConfig.bind { [weak self]value in
         }
         
         // Set View Model Event Listener
-        allValidatConfigVM.errorMsg.bind { [unowned self]error in
+        allValidatConfigVM.errorMsg.bind { [weak self]error in
             DispatchQueue.main.async {
                 print(error)
             }

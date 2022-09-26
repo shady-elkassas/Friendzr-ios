@@ -231,24 +231,24 @@ class ExternalEventDetailsVC: UIViewController {
     
     func getEventDetails() {
         viewmodel.getEventByID(id: eventId)
-        viewmodel.event.bind { [unowned self] value in
+        viewmodel.event.bind { [weak self] value in
             DispatchQueue.main.asyncAfter(wallDeadline: .now()) {
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.async {
                     if value.key == 1 {
-                        self.isEventAdmin = true
+                        self?.isEventAdmin = true
                     }else {
-                        self.isEventAdmin = false
+                        self?.isEventAdmin = false
                     }
                     
                     if value.eventHasExpired {
-                        self.eventHasExpired = true
+                        self?.eventHasExpired = true
                     }else {
-                        self.eventHasExpired = false
-                        self.initOptionsEventButton()
+                        self?.eventHasExpired = false
+                        self?.initOptionsEventButton()
                     }
                     
                 }
@@ -257,12 +257,9 @@ class ExternalEventDetailsVC: UIViewController {
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                
+                self?.view.makeToast(error)
             }
         }
     }
@@ -271,40 +268,40 @@ class ExternalEventDetailsVC: UIViewController {
         self.hideView.isHidden = false
         self.hideView.showLoader()
         viewmodel.getEventByID(id: eventId)
-        viewmodel.event.bind { [unowned self] value in
+        viewmodel.event.bind { [weak self] value in
             
             DispatchQueue.main.async {
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.async {
-                    self.hideView.hideLoader()
-                    self.hideView.isHidden = true
+                    self?.hideView.hideLoader()
+                    self?.hideView.isHidden = true
                 }
                 
                 DispatchQueue.main.async {
                     if value.key == 1 {
-                        self.isEventAdmin = true
+                        self?.isEventAdmin = true
                     }else {
-                        self.isEventAdmin = false
+                        self?.isEventAdmin = false
                     }
                     
                     if value.eventHasExpired {
-                        self.eventHasExpired = true
+                        self?.eventHasExpired = true
                     }else {
-                        self.eventHasExpired = false
-                        self.initOptionsEventButton()
+                        self?.eventHasExpired = false
+                        self?.initOptionsEventButton()
                     }
                 }
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 DispatchQueue.main.async {
-                    self.view.makeToast(error)
+                    self?.view.makeToast(error)
                 }
             }
         }

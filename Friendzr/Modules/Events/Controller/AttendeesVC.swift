@@ -114,32 +114,31 @@ class AttendeesVC: UIViewController {
     func getAllAttendees(pageNumber:Int,search:String) {
         self.tableView.hideLoader()
         viewmodel.getEventAttendees(ByEventID: eventID, pageNumber: pageNumber, search: search)
-        viewmodel.attendees.bind { [unowned self] value in
+        viewmodel.attendees.bind { [weak self] value in
             DispatchQueue.main.async {
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.isLoadingList = false
-                    self.tableView.tableFooterView = nil
+                    self?.isLoadingList = false
+                    self?.tableView.tableFooterView = nil
                 }
 
-                self.showEmptyView()
+                self?.showEmptyView()
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
-                self.hideLoading()
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    self.HandleinvalidUrl()
+                    self?.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }
@@ -149,29 +148,29 @@ class AttendeesVC: UIViewController {
     func loadAllAttendees(pageNumber:Int,search:String) {
         
         viewmodel.getEventAttendees(ByEventID: eventID, pageNumber: pageNumber, search: search)
-        viewmodel.attendees.bind { [unowned self] value in
+        viewmodel.attendees.bind { [weak self] value in
             DispatchQueue.main.async {
-                self.tableView.delegate = self
-                self.tableView.dataSource = self
-                self.tableView.reloadData()
+                self?.tableView.delegate = self
+                self?.tableView.dataSource = self
+                self?.tableView.reloadData()
                 
-                self.isLoadingList = false
-                self.tableView.tableFooterView = nil
+                self?.isLoadingList = false
+                self?.tableView.tableFooterView = nil
                 
-                self.showEmptyView()
+                self?.showEmptyView()
             }
         }
         
         // Set View Model Event Listener
-        viewmodel.error.bind { [unowned self]error in
+        viewmodel.error.bind { [weak self]error in
             DispatchQueue.main.async {
                 if error == "Internal Server Error" {
-                    self.HandleInternetConnection()
+                    self?.HandleInternetConnection()
                 }else if error == "Bad Request" {
-                    self.HandleinvalidUrl()
+                    self?.HandleinvalidUrl()
                 }else {
                     DispatchQueue.main.async {
-                        self.view.makeToast(error)
+                        self?.view.makeToast(error)
                     }
                     
                 }
