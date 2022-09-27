@@ -11,6 +11,8 @@ import FBSDKLoginKit
 import GoogleSignIn
 import AuthenticationServices
 import Network
+import Firebase
+import FirebaseAnalytics
 
 class RegisterVC: UIViewController {
     
@@ -93,6 +95,9 @@ class RegisterVC: UIViewController {
         }
         
         NotificationCenter.default.post(name: Notification.Name("registrationFCM"), object: nil, userInfo: nil)
+        
+        recordScreenView()
+        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [AnalyticsParameterItemID : "id-\(Defaults.availableVC)",AnalyticsParameterItemName: Defaults.availableVC, AnalyticsParameterContentType: "cont"])
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -116,6 +121,21 @@ class RegisterVC: UIViewController {
         }
     }
     
+    func recordScreenView() {
+        // These strings must be <= 36 characters long in order for setScreenName:screenClass: to succeed.
+        
+        let screenName = Defaults.availableVC
+        let screenClass = classForCoder.description()
+        
+        // [START set_current_screen]
+        Analytics.logEvent(AnalyticsEventScreenView,
+                           parameters: [AnalyticsParameterScreenName: screenName,
+                                       AnalyticsParameterScreenClass: screenClass])
+        // [END set_current_screen]
+        
+        print("screenName = \(screenName)")
+        print("screenClass = \(screenClass)")
+    }
     func registerUser() {
         self.showLoading()
         registerVM.RegisterNewUser(withUserName: userNameTxt.text!, AndEmail: emailTxt.text!, password: passwordTxt.text!,confirmPassword:confirmPasswordTxt.text!) { error, data in

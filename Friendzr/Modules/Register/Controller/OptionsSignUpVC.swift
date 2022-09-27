@@ -11,6 +11,8 @@ import FBSDKLoginKit
 import GoogleSignIn
 import AuthenticationServices
 import Network
+import Firebase
+import FirebaseAnalytics
 
 class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
 
@@ -82,6 +84,9 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
         }
         
         NotificationCenter.default.post(name: Notification.Name("registrationFCM"), object: nil, userInfo: nil)
+        
+        recordScreenView()
+        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [AnalyticsParameterItemID : "id-\(Defaults.availableVC)",AnalyticsParameterItemName: Defaults.availableVC, AnalyticsParameterContentType: "cont"])
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -92,6 +97,22 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+    
+    func recordScreenView() {
+        // These strings must be <= 36 characters long in order for setScreenName:screenClass: to succeed.
+        
+        let screenName = Defaults.availableVC
+        let screenClass = classForCoder.description()
+        
+        // [START set_current_screen]
+        Analytics.logEvent(AnalyticsEventScreenView,
+                           parameters: [AnalyticsParameterScreenName: screenName,
+                                       AnalyticsParameterScreenClass: screenClass])
+        // [END set_current_screen]
+        
+        print("screenName = \(screenName)")
+        print("screenClass = \(screenClass)")
     }
     
     func getAllValidatConfig() {

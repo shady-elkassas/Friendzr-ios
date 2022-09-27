@@ -10,6 +10,9 @@ import CoreLocation
 import SwiftUI
 import RevealingSplashView
 import Network
+import Firebase
+import FirebaseAnalytics
+
 
 public typealias AnimationCompletion = () -> Void
 public typealias AnimationExecution = () -> Void
@@ -101,6 +104,7 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         }
         
         initProfileBarButton(didTap: true)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,9 +114,31 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         
         Defaults.availableVC = "SplachVC"
         print("availableVC >> \(Defaults.availableVC)")
+        
         Defaults.isFirstLaunch = true
         CancelRequest.currentTask = false
         
+//        recordScreenView()
+//
+//        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [AnalyticsParameterItemID : "id-\(Defaults.availableVC)",AnalyticsParameterItemName: Defaults.availableVC, AnalyticsParameterContentType: "cont"])
+
+    }
+    
+    
+    func recordScreenView() {
+        // These strings must be <= 36 characters long in order for setScreenName:screenClass: to succeed.
+        
+        let screenName = Defaults.availableVC
+        let screenClass = classForCoder.description()
+        
+        // [START set_current_screen]
+        Analytics.logEvent(AnalyticsEventScreenView,
+                           parameters: [AnalyticsParameterScreenName: screenName,
+                                       AnalyticsParameterScreenClass: screenClass])
+        // [END set_current_screen]
+        
+        print("screenName = \(screenName)")
+        print("screenClass = \(screenClass)")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
