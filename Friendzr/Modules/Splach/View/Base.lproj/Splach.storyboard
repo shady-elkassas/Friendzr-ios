@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="g1W-9u-D4q">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21223" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="g1W-9u-D4q">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21204"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -39,7 +39,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ux4-Ci-WLI">
-                                <rect key="frame" x="0.0" y="88" width="414" height="912"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="908"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JDe-h6-F20">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="436"/>
@@ -72,7 +72,7 @@
                                                 </constraints>
                                             </imageView>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="9bm-BJ-IDP">
-                                                <rect key="frame" x="132" y="400" width="150.5" height="16"/>
+                                                <rect key="frame" x="131" y="400" width="152" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="D8T-u8-RhD"/>
                                                 </constraints>
@@ -100,7 +100,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j7N-pp-EBy">
-                                        <rect key="frame" x="124" y="770" width="166" height="42"/>
+                                        <rect key="frame" x="124" y="718" width="166" height="42"/>
                                         <color key="backgroundColor" name="ColorBts"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="42" id="alV-vM-rjP"/>
@@ -181,7 +181,7 @@
                 <navigationController storyboardIdentifier="SplachOneNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="JIl-wD-G8z" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Pud-df-C5p">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -202,7 +202,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ocl-8H-jZM">
-                                <rect key="frame" x="0.0" y="88" width="414" height="912"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="908"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qId-vy-ruS">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="436"/>
@@ -235,7 +235,7 @@
                                                 </constraints>
                                             </imageView>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="7dQ-Og-eAD">
-                                                <rect key="frame" x="132" y="400" width="150.5" height="16"/>
+                                                <rect key="frame" x="131" y="400" width="152.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="goN-9V-fgG"/>
                                                 </constraints>
@@ -264,7 +264,7 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="mF6-Xf-ZRe">
-                                        <rect key="frame" x="124" y="723" width="166" height="89"/>
+                                        <rect key="frame" x="124" y="671" width="166" height="89"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fLe-vK-Qgw">
                                                 <rect key="frame" x="0.0" y="0.0" width="166" height="42"/>
@@ -337,7 +337,7 @@
                 <navigationController storyboardIdentifier="SplachTwoNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hTZ-Ug-1HC" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0NL-Ds-JpU">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -358,7 +358,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="inE-2F-TQf">
-                                <rect key="frame" x="0.0" y="88" width="414" height="912"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="908"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qla-ez-NbJ">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="436"/>
@@ -391,7 +391,7 @@
                                                 </constraints>
                                             </imageView>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="zeZ-UA-ciq">
-                                                <rect key="frame" x="132" y="400" width="150.5" height="16"/>
+                                                <rect key="frame" x="131" y="400" width="152.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="1GJ-h0-94m"/>
                                                 </constraints>
@@ -420,7 +420,7 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="3cA-Ad-yKp">
-                                        <rect key="frame" x="124" y="723" width="166" height="89"/>
+                                        <rect key="frame" x="124" y="671" width="166" height="89"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mXZ-AG-faP">
                                                 <rect key="frame" x="0.0" y="0.0" width="166" height="42"/>
@@ -493,7 +493,7 @@
                 <navigationController storyboardIdentifier="SplachThreeNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="uUK-Td-z0f" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="HWk-x9-kjP">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -514,7 +514,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7GB-J1-MSR">
-                                <rect key="frame" x="0.0" y="88" width="414" height="912"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="908"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dQD-bH-0JT">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="386.5"/>
@@ -620,7 +620,7 @@
                                                 </constraints>
                                             </view>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="BGB-Ce-TMi">
-                                                <rect key="frame" x="132" y="350.5" width="150.5" height="16"/>
+                                                <rect key="frame" x="131" y="350.5" width="152.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="TWQ-zM-3G3"/>
                                                 </constraints>
@@ -639,7 +639,7 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="39c-15-jaZ">
-                                        <rect key="frame" x="124" y="723" width="166" height="89"/>
+                                        <rect key="frame" x="124" y="671" width="166" height="89"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9fM-8S-fMa">
                                                 <rect key="frame" x="0.0" y="0.0" width="166" height="42"/>
@@ -713,7 +713,7 @@
                 <navigationController storyboardIdentifier="SplachFourNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1Bi-uS-SUg" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="gXy-BM-rv2">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -731,7 +731,7 @@
                 <navigationController storyboardIdentifier="SplachNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="g1W-9u-D4q" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="EV5-gE-TyJ">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -752,7 +752,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xRX-ff-8Wo">
-                                <rect key="frame" x="0.0" y="88" width="414" height="912"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="908"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g7o-8H-b7y">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="487"/>
@@ -787,7 +787,7 @@
                                                 </constraints>
                                             </imageView>
                                             <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" translatesAutoresizingMaskIntoConstraints="NO" id="BzN-RI-foI">
-                                                <rect key="frame" x="132" y="451" width="150.5" height="16"/>
+                                                <rect key="frame" x="131" y="451" width="152.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="Too-gn-Tu0"/>
                                                 </constraints>
@@ -816,7 +816,7 @@
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="YCh-Ya-zT7">
-                                        <rect key="frame" x="124" y="723" width="166" height="89"/>
+                                        <rect key="frame" x="124" y="671" width="166" height="89"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="52r-Uk-Gan">
                                                 <rect key="frame" x="0.0" y="0.0" width="166" height="42"/>
@@ -889,7 +889,7 @@
                 <navigationController storyboardIdentifier="SplachFiveNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="63i-fg-itV" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="YSb-ic-pNS">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -901,169 +901,6 @@
             </objects>
             <point key="canvasLocation" x="8032" y="890"/>
         </scene>
-        <!--WelcomeVC-->
-        <scene sceneID="Urz-bf-kxl">
-            <objects>
-                <viewController storyboardIdentifier="WelcomeVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="4rx-eY-t2R" customClass="WelcomeVC" customModule="Friendzr" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="g2L-uD-Fiv">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gcG-pd-ViC">
-                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u9b-Bv-V0f">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="745"/>
-                                        <subviews>
-                                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image001" translatesAutoresizingMaskIntoConstraints="NO" id="Bfu-ct-bDe">
-                                                <rect key="frame" x="108.5" y="20" width="197" height="197"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="Bfu-ct-bDe" secondAttribute="height" multiplier="1:1" id="CnT-Qt-CW7"/>
-                                                </constraints>
-                                            </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="5k2-Fq-mWk">
-                                                <rect key="frame" x="133.5" y="217" width="147" height="38"/>
-                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="38"/>
-                                                <color key="textColor" red="0.40000003579999999" green="0.69019609689999994" blue="0.61176472900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="your new friends are" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qTt-A9-ruW">
-                                                <rect key="frame" x="94" y="269" width="226.5" height="26"/>
-                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="26"/>
-                                                <color key="textColor" red="0.0039215686269999999" green="0.16078431369999999" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="just two clicks away" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ndS-EV-eWr">
-                                                <rect key="frame" x="97.5" y="303" width="219" height="26"/>
-                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="26"/>
-                                                <color key="textColor" red="0.0039215686274509803" green="0.16078431372549018" blue="0.29803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="find your way to friendship" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tGG-3w-tYz">
-                                                <rect key="frame" x="100.5" y="597" width="213" height="19"/>
-                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="19"/>
-                                                <color key="textColor" red="0.0039215686274509803" green="0.16078431372549018" blue="0.29803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="VCp-PO-bc9">
-                                                <rect key="frame" x="138" y="641" width="138" height="94"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Iw-yz-OTF">
-                                                        <rect key="frame" x="0.0" y="0.0" width="138" height="42"/>
-                                                        <color key="backgroundColor" red="0.40000000000000002" green="0.69019607843137254" blue="0.61176470588235299" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="42" id="gvg-9e-Fx6"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="12"/>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Take a tour">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="takeTourBtn:" destination="4rx-eY-t2R" eventType="touchUpInside" id="BTj-Id-qOd"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XKb-qj-8hF">
-                                                        <rect key="frame" x="0.0" y="52" width="138" height="42"/>
-                                                        <color key="backgroundColor" red="0.49019607843137253" green="0.75686274509803919" blue="0.5490196078431373" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                        <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="12"/>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Sign up">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="signupBtn:" destination="4rx-eY-t2R" eventType="touchUpInside" id="Lxr-gt-1tm"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SRs-ol-OzC">
-                                                <rect key="frame" x="108.5" y="20" width="197" height="197"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </view>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstItem="ndS-EV-eWr" firstAttribute="centerX" secondItem="Bfu-ct-bDe" secondAttribute="centerX" id="1gP-9Q-gaz"/>
-                                            <constraint firstItem="VCp-PO-bc9" firstAttribute="top" secondItem="tGG-3w-tYz" secondAttribute="bottom" constant="25" id="CG4-SI-lg1"/>
-                                            <constraint firstItem="5k2-Fq-mWk" firstAttribute="top" secondItem="Bfu-ct-bDe" secondAttribute="bottom" id="FYt-SO-Xjt"/>
-                                            <constraint firstItem="SRs-ol-OzC" firstAttribute="centerY" secondItem="Bfu-ct-bDe" secondAttribute="centerY" id="FgO-Lm-4yA"/>
-                                            <constraint firstItem="Bfu-ct-bDe" firstAttribute="top" secondItem="u9b-Bv-V0f" secondAttribute="top" constant="20" id="G4O-7T-Atl"/>
-                                            <constraint firstItem="5k2-Fq-mWk" firstAttribute="centerX" secondItem="Bfu-ct-bDe" secondAttribute="centerX" id="KTZ-zw-HNy"/>
-                                            <constraint firstItem="Bfu-ct-bDe" firstAttribute="width" secondItem="u9b-Bv-V0f" secondAttribute="width" multiplier="1:2.1" id="QIc-Ak-YFS"/>
-                                            <constraint firstAttribute="bottom" secondItem="VCp-PO-bc9" secondAttribute="bottom" constant="10" id="QqL-vI-uyu"/>
-                                            <constraint firstItem="SRs-ol-OzC" firstAttribute="width" secondItem="Bfu-ct-bDe" secondAttribute="width" id="Wd8-iX-TkC"/>
-                                            <constraint firstItem="qTt-A9-ruW" firstAttribute="top" secondItem="5k2-Fq-mWk" secondAttribute="bottom" constant="14" id="X4D-FG-PbE"/>
-                                            <constraint firstItem="Bfu-ct-bDe" firstAttribute="centerX" secondItem="u9b-Bv-V0f" secondAttribute="centerX" id="XgA-Po-F9D"/>
-                                            <constraint firstItem="tGG-3w-tYz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ndS-EV-eWr" secondAttribute="bottom" constant="50" id="boO-Oo-X2I"/>
-                                            <constraint firstItem="VCp-PO-bc9" firstAttribute="centerX" secondItem="u9b-Bv-V0f" secondAttribute="centerX" id="dFJ-Du-XVe"/>
-                                            <constraint firstItem="SRs-ol-OzC" firstAttribute="height" secondItem="Bfu-ct-bDe" secondAttribute="height" id="ewA-vy-HRx"/>
-                                            <constraint firstItem="VCp-PO-bc9" firstAttribute="width" secondItem="u9b-Bv-V0f" secondAttribute="width" multiplier="1:3" id="hlG-Hw-bJE"/>
-                                            <constraint firstItem="ndS-EV-eWr" firstAttribute="top" secondItem="qTt-A9-ruW" secondAttribute="bottom" constant="8" id="j1v-1v-gUC"/>
-                                            <constraint firstItem="SRs-ol-OzC" firstAttribute="centerX" secondItem="u9b-Bv-V0f" secondAttribute="centerX" id="kRw-3A-G5K"/>
-                                            <constraint firstItem="qTt-A9-ruW" firstAttribute="centerX" secondItem="Bfu-ct-bDe" secondAttribute="centerX" id="qFi-SC-z8P"/>
-                                            <constraint firstItem="tGG-3w-tYz" firstAttribute="centerX" secondItem="u9b-Bv-V0f" secondAttribute="centerX" id="qWO-dD-EID"/>
-                                        </constraints>
-                                    </view>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="L4g-y6-R4M">
-                                        <rect key="frame" x="120" y="760" width="174" height="28"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OhL-bB-T73">
-                                                <rect key="frame" x="0.0" y="0.0" width="129" height="28"/>
-                                                <fontDescription key="fontDescription" name="DIN2014-Regular" family="DIN 2014" pointSize="12"/>
-                                                <color key="textColor" name="ColorLbl1"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZJX-g6-aqa">
-                                                <rect key="frame" x="132" y="0.0" width="42" height="28"/>
-                                                <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="16"/>
-                                                <state key="normal" title="Log In">
-                                                    <color key="titleColor" red="0.043137254899999998" green="0.74509803919999995" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="loginBtn:" destination="4rx-eY-t2R" eventType="touchUpInside" id="sEA-KV-d3V"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="u9b-Bv-V0f" secondAttribute="bottom" id="0lx-AS-nox"/>
-                                    <constraint firstItem="u9b-Bv-V0f" firstAttribute="width" secondItem="gcG-pd-ViC" secondAttribute="width" id="6P6-86-W0B"/>
-                                    <constraint firstItem="L4g-y6-R4M" firstAttribute="top" secondItem="u9b-Bv-V0f" secondAttribute="bottom" constant="15" id="9FE-rS-c2l"/>
-                                    <constraint firstItem="L4g-y6-R4M" firstAttribute="centerX" secondItem="gcG-pd-ViC" secondAttribute="centerX" id="MyM-OO-ITx"/>
-                                    <constraint firstItem="Y9Y-9z-fgO" firstAttribute="bottom" secondItem="L4g-y6-R4M" secondAttribute="bottom" constant="20" id="cSI-Ji-bMf"/>
-                                    <constraint firstItem="u9b-Bv-V0f" firstAttribute="top" secondItem="gcG-pd-ViC" secondAttribute="top" id="qWH-HI-FRF"/>
-                                    <constraint firstAttribute="trailing" secondItem="u9b-Bv-V0f" secondAttribute="trailing" id="qjj-Ag-VvB"/>
-                                    <constraint firstItem="u9b-Bv-V0f" firstAttribute="leading" secondItem="gcG-pd-ViC" secondAttribute="leading" id="xDm-Jw-NDq"/>
-                                </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="22x-Xo-hiT"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="Y9Y-9z-fgO"/>
-                            </scrollView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="qs1-yq-0Xg"/>
-                        <color key="backgroundColor" name="Color0"/>
-                        <constraints>
-                            <constraint firstItem="gcG-pd-ViC" firstAttribute="trailing" secondItem="qs1-yq-0Xg" secondAttribute="trailing" id="Dz0-2F-KK0"/>
-                            <constraint firstItem="gcG-pd-ViC" firstAttribute="leading" secondItem="qs1-yq-0Xg" secondAttribute="leading" id="Vo9-oW-rPX"/>
-                            <constraint firstAttribute="bottom" secondItem="gcG-pd-ViC" secondAttribute="bottom" id="rNr-iS-bDT"/>
-                            <constraint firstItem="gcG-pd-ViC" firstAttribute="top" secondItem="qs1-yq-0Xg" secondAttribute="top" id="uXq-lH-keG"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="YWG-ca-dX3"/>
-                    <size key="freeformSize" width="414" height="896"/>
-                    <connections>
-                        <outlet property="loginBtn" destination="ZJX-g6-aqa" id="wPS-Fz-isv"/>
-                        <outlet property="signupBtn" destination="XKb-qj-8hF" id="IcP-Bb-Dd9"/>
-                        <outlet property="takeTourBtn" destination="3Iw-yz-OTF" id="h9E-rt-7Xl"/>
-                        <outlet property="videoView" destination="SRs-ol-OzC" id="l1L-PS-IyM"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6qV-rz-6Qr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5472.463768115942" y="1564.9553571428571"/>
-        </scene>
         <!--Landing PageVC-->
         <scene sceneID="NtW-PS-saf">
             <objects>
@@ -1073,26 +910,26 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RX9-AQ-ZOD">
-                                <rect key="frame" x="124" y="88" width="166" height="165.5"/>
+                                <rect key="frame" x="124" y="92" width="166" height="165.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="RX9-AQ-ZOD" secondAttribute="height" id="57S-ya-yB8"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Dus-N1-F0h">
-                                <rect key="frame" x="97" y="253.5" width="220" height="57"/>
+                                <rect key="frame" x="97" y="257.5" width="220" height="57"/>
                                 <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="57"/>
                                 <color key="textColor" red="0.40000003579999999" green="0.69019609689999994" blue="0.61176472900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="your new friends are" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DxG-Hg-M98">
-                                <rect key="frame" x="67.5" y="322.5" width="279" height="32"/>
+                                <rect key="frame" x="67.5" y="326.5" width="279" height="32"/>
                                 <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="32"/>
                                 <color key="textColor" red="0.0039215686269999999" green="0.16078431369999999" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="just two clicks away" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="U1N-xq-mOu">
-                                <rect key="frame" x="72.5" y="366.5" width="269.5" height="32"/>
+                                <rect key="frame" x="72.5" y="370.5" width="269.5" height="32"/>
                                 <fontDescription key="fontDescription" name="DIN2014-Bold" family="DIN 2014" pointSize="32"/>
                                 <color key="textColor" red="0.0039215686269999999" green="0.16078431369999999" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1118,7 +955,6 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="takeTourBtn:" destination="4rx-eY-t2R" eventType="touchUpInside" id="M0o-Qk-tZ8"/>
                                             <action selector="takeTourBtn:" destination="Oz8-Th-xbR" eventType="touchUpInside" id="bcG-Bj-OdI"/>
                                         </connections>
                                     </button>
@@ -1131,7 +967,6 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="signupBtn:" destination="4rx-eY-t2R" eventType="touchUpInside" id="a2G-bh-nP5"/>
                                             <action selector="signupBtn:" destination="Oz8-Th-xbR" eventType="touchUpInside" id="zuL-fj-aR3"/>
                                         </connections>
                                     </button>
@@ -1154,7 +989,6 @@
                                         </state>
                                         <connections>
                                             <action selector="loginBtn:" destination="Oz8-Th-xbR" eventType="touchUpInside" id="oR4-bW-S1l"/>
-                                            <action selector="loginBtn:" destination="4rx-eY-t2R" eventType="touchUpInside" id="p86-mW-Pgp"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1200,13 +1034,10 @@
                 <navigationController storyboardIdentifier="WelcomeNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="VKy-s2-TZ5" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Jst-rf-ZvP">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="4rx-eY-t2R" kind="relationship" relationship="rootViewController" id="GdB-Wv-Dso"/>
-                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xkq-fv-he9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1218,7 +1049,7 @@
                 <navigationController storyboardIdentifier="LandingPageNC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="tRq-JH-wi7" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="YwM-Rk-1ar">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1233,7 +1064,6 @@
     </scenes>
     <resources>
         <image name="ellipse_ic" width="11" height="11"/>
-        <image name="image001" width="213.33332824707031" height="212.66667175292969"/>
         <image name="splash1" width="356" height="252"/>
         <image name="splash2" width="336" height="230.5"/>
         <image name="splash3" width="335" height="296"/>
