@@ -482,13 +482,13 @@ class Defaults {
         }
     }
     
-    static var hideAds: Bool {
+    static var isSubscribe: Bool {
         set{
-            UserDefaults.standard.set(newValue, forKey: "hideAds")
+            UserDefaults.standard.set(newValue, forKey: "isSubscribe")
             UserDefaults.standard.synchronize()
         }
         get{
-            return UserDefaults.standard.bool(forKey: "hideAds")
+            return UserDefaults.standard.bool(forKey: "isSubscribe")
         }
     }
     

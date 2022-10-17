@@ -123,7 +123,6 @@ class ShareLocationVC: UIViewController {
         }
     }
     
-    
     func createSettingsAlertController(title: String, message: String) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
@@ -159,7 +158,6 @@ class ShareLocationVC: UIViewController {
         tableView.isHidden = true
         view.addSubview(tableView)
     }
-    
     
     @IBAction func shareMyCurrentLocationBtn(_ sender: Any) {
         

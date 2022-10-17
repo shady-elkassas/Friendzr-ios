@@ -41,7 +41,7 @@ class FriendProfileViewController: UIViewController {
     var viewmodel:FriendViewModel = FriendViewModel()
     var userID:String = ""
     var userName:String = ""
-    
+    var isFriendNow:Bool = false
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var btnSelect:Bool = false
     
@@ -120,6 +120,15 @@ class FriendProfileViewController: UIViewController {
                 self?.tableView.delegate = self
                 self?.tableView.reloadData()
             }
+            
+            DispatchQueue.main.async {
+                if value.key == 3 {
+                    self?.isFriendNow = true
+                }else {
+                    self?.isFriendNow = false
+                }
+            }
+            
         }
         
         // Set View Model Event Listener
@@ -136,6 +145,7 @@ class FriendProfileViewController: UIViewController {
             }
         }
     }
+    
     func loadUserData() {
         AMShimmer.start(for: self.hideView)
         viewmodel.getFriendDetails(ById: userID)
@@ -150,6 +160,12 @@ class FriendProfileViewController: UIViewController {
                 }
                 
                 DispatchQueue.main.async {
+                    if value.key == 3 {
+                        self?.isFriendNow = true
+                    }else {
+                        self?.isFriendNow = false
+                    }
+
                     self?.hideView.isHidden = true
                 }
             }
@@ -210,6 +226,7 @@ class FriendProfileViewController: UIViewController {
         updateUserInterface()
         self.refreshControl.endRefreshing()
     }
+    
     func setupView() {
         tableView.register(UINib(nibName: imageCellId, bundle: nil), forCellReuseIdentifier: imageCellId)
         tableView.register(UINib(nibName: userNameCellId, bundle: nil), forCellReuseIdentifier: userNameCellId)
@@ -223,11 +240,13 @@ class FriendProfileViewController: UIViewController {
             itm.cornerRadiusView(radius: 10)
         }
     }
+    
     @objc func updateFriendVC() {
         DispatchQueue.main.async {
             self.getFriendProfileInformation()
         }
     }
+    
     func HandleInternetConnection() {
         if btnSelect {
             emptyView.isHidden = true
@@ -240,6 +259,7 @@ class FriendProfileViewController: UIViewController {
             triAgainBtn.alpha = 1.0
         }
     }
+    
     func changeTitleBtns(btn:UIButton,title:String) {
         btn.setTitle(title, for: .normal)
     }
@@ -307,13 +327,27 @@ extension FriendProfileViewController:UITableViewDataSource {
             cell.HandleUnFriendBtn = {
                 self.showAlertForUnFriend(cell, "\(actionDate) \(actionTime)")
             }
-            
-            cell.HandleBlockBtn = {
-                self.showAlertForBlock(cell, "\(actionDate) \(actionTime)")
-            }
-            
-            cell.HandleUnblockBtn = {
-                self.showAlertForUnBlockFriend(cell, "\(actionDate) \(actionTime)")
+            cell.HandleMessageBtn = { //messages chat
+                self.btnSelect = true
+                if NetworkConected.internetConect {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Messages, AndContollerID: "MessagesVC") as? MessagesVC else {return}
+                    vc.isEvent = false
+                    vc.eventChatID = ""
+                    vc.chatuserID = model?.userid ?? ""
+                    vc.leaveGroup = 1
+                    vc.isFriend = true
+                    vc.leavevent = 0
+                    vc.titleChatImage = model?.userImage ?? ""
+                    vc.titleChatName = model?.userName ?? ""
+                    vc.isChatGroupAdmin = false
+                    vc.isChatGroup = false
+                    vc.groupId = ""
+                    vc.isEventAdmin = false
+                    CancelRequest.currentTask = false
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }else {
+                    return
+                }
             }
             
             setupTitleBtns(cell)
@@ -482,6 +516,17 @@ extension FriendProfileViewController {
     
     func reportActionSheet() {
         let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        if isFriendNow {
+//            actionSheet.addAction(UIAlertAction(title: "Unfriend".localizedString, style: .default, handler: { action in
+//                self.showAlertForUnFriend()
+//            }))
+            
+            actionSheet.addAction(UIAlertAction(title: "Block".localizedString, style: .default, handler: { action in
+                self.showAlertForBlock()
+            }))
+        }
+  
         actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
             if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
                 vc.selectedVC = "PresentC"
@@ -511,7 +556,8 @@ extension FriendProfileViewController {
             cell.cancelBtn.isHidden = true
             cell.sendRequestBtn.isHidden = false
             cell.friendStackView.isHidden = true
-            cell.unblockBtn.isHidden = true
+            cell.unfriendBtn.isHidden = true
+            cell.messageBtn.isHidden = true
             break
         case 1:
             //Status = I have added a friend request
@@ -519,8 +565,8 @@ extension FriendProfileViewController {
             cell.refuseBtn.isHidden = true
             cell.cancelBtn.isHidden = false
             cell.sendRequestBtn.isHidden = true
-            cell.friendStackView.isHidden = true
-            cell.unblockBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unfriendBtn.isHidden = true
             break
         case 2:
             //Status = Send me a request to add a friend
@@ -528,8 +574,8 @@ extension FriendProfileViewController {
             cell.refuseBtn.isHidden = false
             cell.cancelBtn.isHidden = true
             cell.sendRequestBtn.isHidden = true
-            cell.friendStackView.isHidden = true
-            cell.unblockBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unfriendBtn.isHidden = true
             break
         case 3:
             //Status = We are friends
@@ -537,8 +583,9 @@ extension FriendProfileViewController {
             cell.refuseBtn.isHidden = true
             cell.cancelBtn.isHidden = true
             cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = false
+            cell.unfriendBtn.isHidden = false
             cell.friendStackView.isHidden = false
-            cell.unblockBtn.isHidden = true
             break
         case 4:
             //Status = I block user
@@ -546,8 +593,9 @@ extension FriendProfileViewController {
             cell.refuseBtn.isHidden = true
             cell.cancelBtn.isHidden = true
             cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unfriendBtn.isHidden = true
             cell.friendStackView.isHidden = true
-            cell.unblockBtn.isHidden = false
             break
         case 5:
             //Status = user block me
@@ -555,8 +603,9 @@ extension FriendProfileViewController {
             cell.refuseBtn.isHidden = true
             cell.cancelBtn.isHidden = true
             cell.sendRequestBtn.isHidden = true
+            cell.messageBtn.isHidden = true
+            cell.unfriendBtn.isHidden = true
             cell.friendStackView.isHidden = true
-            cell.unblockBtn.isHidden = true
             break
         case 6:
             break
@@ -732,6 +781,7 @@ extension FriendProfileViewController {
         
         self.view.addSubview((self.alertView)!)
     }
+    
     func refuseFriendRequest( _ requestdate:String) {
         self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 6,requestdate: requestdate) { error, message in
             self.hideLoading()
@@ -762,7 +812,7 @@ extension FriendProfileViewController {
         }
     }
 
-    func showAlertForBlock( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
+    func showAlertForBlock() {
         self.btnSelect = true
         self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         self.alertView?.titleLbl.text = "Confirm?".localizedString
@@ -771,7 +821,7 @@ extension FriendProfileViewController {
         self.alertView?.HandleConfirmBtn = {
             // handling code
             if NetworkConected.internetConect == true {
-                self.blockFriendRequest(cell, requestdate)
+                self.blockFriendRequest()
             }
             
             UIView.animate(withDuration: 0.3, animations: {
@@ -786,9 +836,12 @@ extension FriendProfileViewController {
         
         self.view.addSubview((self.alertView)!)
     }
-    func blockFriendRequest( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
-        self.changeTitleBtns(btn: cell.blockBtn, title: "Sending...".localizedString)
-        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 3,requestdate: requestdate) { error, message in
+    func blockFriendRequest() {
+        
+        let actionDate = formatterDate.string(from: Date())
+        let actionTime = formatterTime.string(from: Date())
+        
+        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 3,requestdate: "\(actionDate) \(actionTime)") { error, message in
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
@@ -799,63 +852,19 @@ extension FriendProfileViewController {
             guard let _ = message else {return}
             
             if self.selectedVC {
-                Router().toHome()
+                Router().toFeed()
             }else {
                 self.onPopup()
             }
         }
     }
-    
-    func showAlertForUnBlockFriend( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
-        self.btnSelect = true
-        self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        
-        self.alertView?.titleLbl.text = "Confirm?".localizedString
-        self.alertView?.detailsLbl.text = "Are you sure you want to unblock this account?".localizedString
-        
-        self.alertView?.HandleConfirmBtn = { [self] in
-            // handling code
-            if NetworkConected.internetConect == true {
-                self.unblockFriendRequest(cell, requestdate)
-            }
-            
-            UIView.animate(withDuration: 0.3, animations: {
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                self.alertView?.alpha = 0
-            }) { (success: Bool) in
-                self.alertView?.removeFromSuperview()
-                self.alertView?.alpha = 1
-                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-            }
-        }
-        
-        self.view.addSubview((self.alertView)!)
-    }
-    func unblockFriendRequest( _ cell: FriendImageProfileTableViewCell, _ requestdate:String) {
-        self.changeTitleBtns(btn: cell.unblockBtn, title: "Sending...")
-        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 4,requestdate: requestdate) { error, message in
-            
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                return
-            }
-            
-            guard let _ = message else {return}
-            DispatchQueue.main.async {
-                self.getFriendProfileInformation()
-            }
-        }
-    }
-    
+
     func setupTitleBtns(_ cell: FriendImageProfileTableViewCell) {
        cell.sendRequestBtn.setTitle("Send Request".localizedString, for: .normal)
        cell.cancelBtn.setTitle("Cancel Request".localizedString, for: .normal)
        cell.acceptBtn.setTitle("Accept".localizedString, for: .normal)
        cell.refuseBtn.setTitle("Cancel".localizedString, for: .normal)
-       cell.unblockBtn.setTitle("Unblock".localizedString, for: .normal)
-       cell.unFriendBtn.setTitle("Unfriend".localizedString, for: .normal)
-       cell.blockBtn.setTitle("Block".localizedString, for: .normal)
+       cell.unfriendBtn.setTitle("Unfriend".localizedString, for: .normal)
+       cell.messageBtn.setTitle("Message".localizedString, for: .normal)
    }
 }

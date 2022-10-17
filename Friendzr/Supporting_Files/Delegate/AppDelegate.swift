@@ -140,7 +140,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIView.appearance().semanticContentAttribute = .forceLeftToRight
         self.window?.makeKeyAndVisible()
         
-        Defaults.hideAds = false
+//        Defaults.isSubscribe = false
         
         setupUpdateLocation()
         

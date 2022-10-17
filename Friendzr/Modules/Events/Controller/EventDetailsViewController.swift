@@ -486,7 +486,7 @@ extension EventDetailsViewController: UITableViewDelegate , UIPopoverPresentatio
         }else if indexPath.row == 3 {
             return 150
         }else if indexPath.row == 4 {//ads
-            if !Defaults.hideAds {
+            if Defaults.isSubscribe == false {
                 return UITableView.automaticDimension
             }else {
                 return 0

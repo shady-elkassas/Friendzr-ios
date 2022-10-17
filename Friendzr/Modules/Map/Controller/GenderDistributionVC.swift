@@ -52,7 +52,7 @@ class GenderDistributionVC: UIViewController {
         Defaults.availableVC = "GenderDistributionVC"
         print("availableVC >> \(Defaults.availableVC)")
         
-        if !Defaults.hideAds {
+        if Defaults.isSubscribe == false {
 //            seyupAds()
         }else {
             bannerViewHeight.constant = 0

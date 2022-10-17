@@ -1,6 +1,6 @@
 CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
 CONFIGURATION_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/Fyber_Marketplace_SDK
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Fyber_Marketplace_SDK/IASDKCore" "${PODS_XCFRAMEWORKS_BUILD_DIR}/IASDKCore"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Fyber_Marketplace_SDK/IASDKCore" "${PODS_XCFRAMEWORKS_BUILD_DIR}/Fyber_Marketplace_SDK/IASDKCore"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/Fyber_Marketplace_SDK" "${PODS_ROOT}/Headers/Public"
 OTHER_LDFLAGS = $(inherited) -ObjC -l"xml2.2" -framework "AVFoundation" -framework "AdSupport" -framework "CoreGraphics" -framework "CoreMedia" -framework "CoreTelephony" -framework "MediaPlayer" -framework "StoreKit" -framework "SystemConfiguration" -framework "WebKit"

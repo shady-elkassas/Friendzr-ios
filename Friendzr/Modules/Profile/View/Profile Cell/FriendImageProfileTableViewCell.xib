@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -58,11 +58,11 @@
                             </label>
                         </subviews>
                     </stackView>
-                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Xq5-ul-Ewy">
-                        <rect key="frame" x="172" y="203" width="128" height="30"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Xq5-ul-Ewy">
+                        <rect key="frame" x="181.5" y="203" width="118.5" height="30"/>
                         <subviews>
                             <button hidden="YES" opaque="NO" alpha="0.64999997615814209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ji-AE-pB2">
-                                <rect key="frame" x="-128" y="0.0" width="128" height="30"/>
+                                <rect key="frame" x="-118.5" y="0.0" width="118.5" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
                                 <state key="normal" title="Cancel Request">
@@ -84,7 +84,7 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fQX-6Q-Nwh">
-                                <rect key="frame" x="-128" y="0.0" width="128" height="30"/>
+                                <rect key="frame" x="-118.5" y="0.0" width="118.5" height="30"/>
                                 <color key="backgroundColor" name="primaryColor"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
                                 <state key="normal" title="Accept">
@@ -95,7 +95,7 @@
                                 </connections>
                             </button>
                             <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EIh-J7-FNH">
-                                <rect key="frame" x="0.0" y="0.0" width="128" height="30"/>
+                                <rect key="frame" x="0.0" y="0.0" width="118.5" height="30"/>
                                 <color key="backgroundColor" name="primaryColor"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
                                 <state key="normal" title="Send Request">
@@ -103,44 +103,6 @@
                                 </state>
                                 <connections>
                                     <action selector="sendRequestBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="mvc-3g-Jna"/>
-                                </connections>
-                            </button>
-                            <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="RIm-ps-Okv">
-                                <rect key="frame" x="128" y="0.0" width="8" height="30"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Zd-ig-bRZ">
-                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
-                                        <state key="normal" title="Block">
-                                            <color key="titleColor" name="Color0"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="blockBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0C9-cU-ewV"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eXb-6W-nJR">
-                                        <rect key="frame" x="8" y="0.0" width="0.0" height="30"/>
-                                        <color key="backgroundColor" name="primaryColor"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
-                                        <state key="normal" title="Unfriend">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="unFriendBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="NeM-5C-ia8"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qfQ-cV-gue">
-                                <rect key="frame" x="128" y="0.0" width="0.0" height="30"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
-                                <state key="normal" title="UnBlock">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="unblockBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="brg-KE-BBw"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -151,6 +113,33 @@
                             <constraint firstAttribute="height" constant="30" id="h9A-PA-A3A"/>
                             <constraint firstItem="4Ji-AE-pB2" firstAttribute="width" secondItem="EIh-J7-FNH" secondAttribute="width" id="wlG-xV-mvV"/>
                         </constraints>
+                    </stackView>
+                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="jQg-L6-SAb">
+                        <rect key="frame" x="181.5" y="203" width="118.5" height="30"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qfQ-cV-gue">
+                                <rect key="frame" x="0.0" y="0.0" width="118.5" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                <state key="normal" title="Message">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="messageBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="JP8-vk-SDu"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MlD-kx-rk4">
+                                <rect key="frame" x="118.5" y="0.0" width="0.0" height="30"/>
+                                <color key="backgroundColor" name="primaryColor"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                <state key="normal" title="Unfriend">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="unFriendBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="uKA-Pq-10c"/>
+                                </connections>
+                            </button>
+                        </subviews>
                     </stackView>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="owD-cA-47v">
                         <rect key="frame" x="64.5" y="201.5" width="45.5" height="33.5"/>
@@ -173,19 +162,23 @@
                 <constraints>
                     <constraint firstItem="4EA-8j-zLg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="1si-eJ-NJj"/>
                     <constraint firstAttribute="bottom" secondItem="URm-zQ-O8Y" secondAttribute="bottom" id="50V-ud-6k4"/>
+                    <constraint firstItem="jQg-L6-SAb" firstAttribute="centerX" secondItem="Xq5-ul-Ewy" secondAttribute="centerX" id="5Jv-aS-7A5"/>
                     <constraint firstItem="URm-zQ-O8Y" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BWf-vj-zS0"/>
+                    <constraint firstItem="jQg-L6-SAb" firstAttribute="width" secondItem="Xq5-ul-Ewy" secondAttribute="width" id="Cub-9B-s4R"/>
                     <constraint firstAttribute="trailing" secondItem="PH6-pw-v9d" secondAttribute="trailing" id="Gkq-L7-mOt"/>
+                    <constraint firstItem="jQg-L6-SAb" firstAttribute="centerY" secondItem="Xq5-ul-Ewy" secondAttribute="centerY" id="Rmj-V1-6Re"/>
                     <constraint firstItem="PH6-pw-v9d" firstAttribute="height" secondItem="URm-zQ-O8Y" secondAttribute="height" multiplier="1:2" id="Tgz-qp-MQX"/>
                     <constraint firstItem="4EA-8j-zLg" firstAttribute="centerY" secondItem="Xq5-ul-Ewy" secondAttribute="centerY" id="XYW-Al-Ysr"/>
                     <constraint firstAttribute="trailing" secondItem="Xq5-ul-Ewy" secondAttribute="trailing" constant="20" id="b0u-Ti-U3o"/>
                     <constraint firstItem="PH6-pw-v9d" firstAttribute="bottom" secondItem="URm-zQ-O8Y" secondAttribute="bottom" id="bkW-9i-yZ3"/>
+                    <constraint firstItem="jQg-L6-SAb" firstAttribute="height" secondItem="Xq5-ul-Ewy" secondAttribute="height" id="eep-Ty-Nom"/>
                     <constraint firstAttribute="trailing" secondItem="URm-zQ-O8Y" secondAttribute="trailing" id="erx-ll-gNg"/>
                     <constraint firstItem="owD-cA-47v" firstAttribute="leading" secondItem="4EA-8j-zLg" secondAttribute="trailing" constant="20" id="lH2-R2-CNx"/>
                     <constraint firstItem="owD-cA-47v" firstAttribute="centerY" secondItem="Xq5-ul-Ewy" secondAttribute="centerY" id="mDj-9y-Vhx"/>
-                    <constraint firstItem="Xq5-ul-Ewy" firstAttribute="width" secondItem="PH6-pw-v9d" secondAttribute="width" multiplier="1:2.5" id="oMp-dG-LIl"/>
                     <constraint firstItem="URm-zQ-O8Y" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="rh0-Cl-JRN"/>
                     <constraint firstItem="Xq5-ul-Ewy" firstAttribute="bottom" secondItem="PH6-pw-v9d" secondAttribute="bottom" constant="-10" id="u3O-y2-rcW"/>
                     <constraint firstItem="PH6-pw-v9d" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="x3E-2z-39S"/>
+                    <constraint firstItem="Xq5-ul-Ewy" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="1:2.7" id="zZw-NG-A2D"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -193,25 +186,21 @@
             <connections>
                 <outlet property="acceptBtn" destination="fQX-6Q-Nwh" id="VAh-Pl-gEI"/>
                 <outlet property="ageLbl" destination="18H-Hj-0YY" id="pOl-C9-vcM"/>
-                <outlet property="blockBtn" destination="2Zd-ig-bRZ" id="QzU-C2-YXO"/>
                 <outlet property="cancelBtn" destination="4Ji-AE-pB2" id="GaG-k3-nVC"/>
-                <outlet property="friendStackView" destination="RIm-ps-Okv" id="bbI-rg-A4H"/>
+                <outlet property="friendStackView" destination="jQg-L6-SAb" id="gwR-oe-a0Y"/>
                 <outlet property="genderLlb" destination="ZgM-Gi-geX" id="yPG-gV-llT"/>
                 <outlet property="gradientView" destination="PH6-pw-v9d" id="wax-ot-0Sy"/>
+                <outlet property="messageBtn" destination="qfQ-cV-gue" id="vyS-Ce-0Gb"/>
                 <outlet property="profileImg" destination="URm-zQ-O8Y" id="7Rw-lt-dZj"/>
                 <outlet property="refuseBtn" destination="fP1-js-OQV" id="qRo-aJ-VxT"/>
                 <outlet property="sendRequestBtn" destination="EIh-J7-FNH" id="eVk-nI-40b"/>
-                <outlet property="unFriendBtn" destination="eXb-6W-nJR" id="XfS-ks-qMH"/>
-                <outlet property="unblockBtn" destination="qfQ-cV-gue" id="NLS-v8-Rfc"/>
+                <outlet property="unfriendBtn" destination="MlD-kx-rk4" id="dK8-bV-tGE"/>
             </connections>
             <point key="canvasLocation" x="162" y="107"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="placeholder" width="1000" height="1000"/>
-        <namedColor name="Color0">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="primaryColor">
             <color red="0.043000001460313797" green="0.74500000476837158" blue="0.63099998235702515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

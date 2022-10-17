@@ -166,7 +166,6 @@ extension UIViewController {
         lbl1.textColor = color ?? .black
         lbl1.font = UIFont(name: "Montserrat-SemiBold", size: 14)
         lbl1.textAlignment = .center
-        
         self.parent?.navigationItem.title = title
     }
     

@@ -257,7 +257,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     
     func setupData() {
         if needUpdateVC {
-            nameTxt.text = Defaults.userName
+            nameTxt.text = ""
         }
         else {
             nameTxt.text = profileModel?.userName

@@ -261,11 +261,12 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         initCompassSwitchBarButton()
-        currentPage = 1
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        currentPage = 1
         setup()
         Defaults.availableVC = "FeedVC"
         print("availableVC >> \(Defaults.availableVC)")
@@ -273,7 +274,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         CancelRequest.currentTask = false
         setupHideView()
         
-        if !Defaults.hideAds {
+        if Defaults.isSubscribe == false {
             requestIDFA()
             bannerViewHeight.constant = 50
         }else {
@@ -363,7 +364,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                     if self.sortByInterestMatch {
                         self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
                     }else {
-                        self.LoadAllFeeds(pageNumber: 0)
+                        self.LoadAllFeeds(pageNumber: 1)
                     }
                 }
                 
@@ -420,7 +421,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                     if self.sortByInterestMatch {
                         self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
                     }else {
-                        self.LoadAllFeeds(pageNumber: 0)
+                        self.LoadAllFeeds(pageNumber: 1)
                     }
                 }
                 
@@ -717,6 +718,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    //request Ads Tracking authorization
     func requestIDFA() {
         if #available(iOS 14, *) {
             ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
@@ -839,7 +841,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     func setupCompassContainerView() {
         if isCompassOpen {
             switchCompassBarButton.isOn = true
-            if !Defaults.hideAds {
+            if Defaults.isSubscribe == false {
                 DispatchQueue.main.async {
                     self.setupAds()
                 }
@@ -865,7 +867,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         else {
             switchCompassBarButton.isOn = false
             
-            if !Defaults.hideAds {
+            if Defaults.isSubscribe == false {
                 DispatchQueue.main.async {
                     self.setupAds()
                 }
@@ -883,17 +885,19 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             compassContainerViewHeight.constant = 0
             
             if Defaults.allowMyLocationSettings == true {
+                currentPage = 1
                 DispatchQueue.main.async {
                     if self.isCompassOpen {
-                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: self.currentPage)
                     }else {
                         if self.sortByInterestMatch {
-                            self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 0)
+                            self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: self.currentPage)
                         }else {
-                            self.LoadAllFeeds(pageNumber: 0)
+                            self.LoadAllFeeds(pageNumber: self.currentPage)
                         }
                     }
                 }
+                
                 self.allowLocView.isHidden = true
             }
             else {
@@ -1497,7 +1501,7 @@ extension FeedVC {
             if Defaults.allowMyLocationSettings == true {
                 if switchCompassBarButton.isOn {
                     self.isCompassOpen = true
-                    if !Defaults.hideAds {
+                    if Defaults.isSubscribe == false {
                         DispatchQueue.main.async {
                             self.setupAds()
                         }
@@ -1522,7 +1526,7 @@ extension FeedVC {
                 }
                 else {
                     self.isCompassOpen = false
-                    if !Defaults.hideAds {
+                    if Defaults.isSubscribe == false {
                         DispatchQueue.main.async {
                             self.setupAds()
                         }
@@ -1565,7 +1569,7 @@ extension FeedVC {
                 switchCompassBarButton.isOn = false
                 createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                 
-                if !Defaults.hideAds {
+                if Defaults.isSubscribe == false {
                     DispatchQueue.main.async {
                         self.setupAds()
                     }
@@ -1603,7 +1607,7 @@ extension FeedVC {
                 if Defaults.allowMyLocationSettings == true {
                     switchCompassBarButton.isOn = false
                     self.isCompassOpen = false
-                    if !Defaults.hideAds {
+                    if Defaults.isSubscribe == false {
                         DispatchQueue.main.async {
                             self.setupAds()
                         }
@@ -1644,7 +1648,7 @@ extension FeedVC {
                     switchCompassBarButton.isOn = false
                     createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                     initCompassSwitchBarButton()
-                    if !Defaults.hideAds {
+                    if Defaults.isSubscribe == false {
                         DispatchQueue.main.async {
                             self.setupAds()
                         }
@@ -1661,7 +1665,7 @@ extension FeedVC {
                     switchCompassBarButton.isOn = true
                     
                     self.isCompassOpen = true
-                    if !Defaults.hideAds {
+                    if Defaults.isSubscribe == false {
                         DispatchQueue.main.async {
                             self.setupAds()
                         }
@@ -1686,7 +1690,7 @@ extension FeedVC {
                     switchCompassBarButton.isOn = false
                     createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
                     initCompassSwitchBarButton()
-                    if !Defaults.hideAds {
+                    if Defaults.isSubscribe == false {
                         DispatchQueue.main.async {
                             self.setupAds()
                         }

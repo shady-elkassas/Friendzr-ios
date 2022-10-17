@@ -284,7 +284,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         markerImg.isHidden = true
         
-        if !Defaults.hideAds {
+        if Defaults.isSubscribe == false {
             setupAds()
         }else {
             bannerViewHeight.constant = 0

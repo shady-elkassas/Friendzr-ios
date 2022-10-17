@@ -218,10 +218,6 @@
 		4382ACA426C28307005C1857 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382ACA326C28307005C1857 /* Router.swift */; };
 		4382ACA626C28327005C1857 /* Initializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382ACA526C28327005C1857 /* Initializer.swift */; };
 		4382ACA826C2843E005C1857 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382ACA726C2843E005C1857 /* KeychainItem.swift */; };
-		4382ACB326C29019005C1857 /* SplachOneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382ACB226C29019005C1857 /* SplachOneVC.swift */; };
-		4382ACBA26C2AFC2005C1857 /* SplachTwoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382ACB926C2AFC2005C1857 /* SplachTwoVC.swift */; };
-		4382ACBC26C2AFE9005C1857 /* SplachThreeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382ACBB26C2AFE9005C1857 /* SplachThreeVC.swift */; };
-		4382ACBE26C2AFF7005C1857 /* SplachFourVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382ACBD26C2AFF7005C1857 /* SplachFourVC.swift */; };
 		4382ACC426C2C37A005C1857 /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4382ACC326C2C37A005C1857 /* Lato-Semibold.ttf */; };
 		4382ACC526C2CE5C005C1857 /* Pods_Friendzr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C5FB046276499FF1CB3316 /* Pods_Friendzr.framework */; };
 		4388685E278344F1004D36B2 /* ReportTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43886856278344ED004D36B2 /* ReportTitleTableViewCell.swift */; };
@@ -254,7 +250,6 @@
 		4397236D2709CE9E0062D684 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236C2709CE9E0062D684 /* ChatViewModel.swift */; };
 		4397236F2709D8870062D684 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236E2709D8870062D684 /* ChatModel.swift */; };
 		439CE7602810107F003C0AD3 /* SelectFriendsEditEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE75F2810107F003C0AD3 /* SelectFriendsEditEventVC.swift */; };
-		439CE76528107F85003C0AD3 /* SplachFiveVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE76428107F85003C0AD3 /* SplachFiveVC.swift */; };
 		439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */; };
 		439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */; };
 		439DDE9326F749DC00E09FC1 /* EventsInLocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */; };
@@ -657,10 +652,6 @@
 		4382ACA326C28307005C1857 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		4382ACA526C28327005C1857 /* Initializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Initializer.swift; sourceTree = "<group>"; };
 		4382ACA726C2843E005C1857 /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
-		4382ACB226C29019005C1857 /* SplachOneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachOneVC.swift; sourceTree = "<group>"; };
-		4382ACB926C2AFC2005C1857 /* SplachTwoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachTwoVC.swift; sourceTree = "<group>"; };
-		4382ACBB26C2AFE9005C1857 /* SplachThreeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachThreeVC.swift; sourceTree = "<group>"; };
-		4382ACBD26C2AFF7005C1857 /* SplachFourVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachFourVC.swift; sourceTree = "<group>"; };
 		4382ACC326C2C37A005C1857 /* Lato-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Semibold.ttf"; sourceTree = "<group>"; };
 		43886856278344ED004D36B2 /* ReportTitleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTitleTableViewCell.swift; sourceTree = "<group>"; };
 		43886858278344EE004D36B2 /* ReportTitleTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportTitleTableViewCell.xib; sourceTree = "<group>"; };
@@ -693,7 +684,6 @@
 		4397236C2709CE9E0062D684 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		4397236E2709D8870062D684 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
 		439CE75F2810107F003C0AD3 /* SelectFriendsEditEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFriendsEditEventVC.swift; sourceTree = "<group>"; };
-		439CE76428107F85003C0AD3 /* SplachFiveVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplachFiveVC.swift; sourceTree = "<group>"; };
 		439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeViewModel.swift; sourceTree = "<group>"; };
 		439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeModel.swift; sourceTree = "<group>"; };
 		439DDE9126F749DC00E09FC1 /* EventsInLocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsInLocationTableViewCell.swift; sourceTree = "<group>"; };
@@ -1764,11 +1754,6 @@
 			children = (
 				43D1A4A3288036DB00830D8D /* TutorialScreens */,
 				43FDDD792701D9F400550876 /* SplachVC.swift */,
-				4382ACB226C29019005C1857 /* SplachOneVC.swift */,
-				4382ACB926C2AFC2005C1857 /* SplachTwoVC.swift */,
-				4382ACBB26C2AFE9005C1857 /* SplachThreeVC.swift */,
-				439CE76428107F85003C0AD3 /* SplachFiveVC.swift */,
-				4382ACBD26C2AFF7005C1857 /* SplachFourVC.swift */,
 				43D1A4B02883FD0B00830D8D /* LandingPageVC.swift */,
 			);
 			path = Controller;
@@ -1930,6 +1915,8 @@
 			isa = PBXGroup;
 			children = (
 				43F974282832652200F736F3 /* Messages.storyboard */,
+				43F974332832993C00F736F3 /* MessageTableViewCell.swift */,
+				4389A5CC283A7D6300BC6642 /* ShareEventMessageTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1938,8 +1925,6 @@
 			isa = PBXGroup;
 			children = (
 				43F974312832977C00F736F3 /* MessagesVC.swift */,
-				43F974332832993C00F736F3 /* MessageTableViewCell.swift */,
-				4389A5CC283A7D6300BC6642 /* ShareEventMessageTableViewCell.swift */,
 				43271A45288EB644003116A4 /* ShareLocationVC.swift */,
 			);
 			path = Controller;
@@ -2375,14 +2360,12 @@
 				43ACFED327B3B745001CD340 /* EventMapTableViewCell.swift in Sources */,
 				4325E20C26F0A048008F73C4 /* ChangePasswordVC.swift in Sources */,
 				4314853B278C42930048EC01 /* AddGroupVC.swift in Sources */,
-				4382ACBE26C2AFF7005C1857 /* SplachFourVC.swift in Sources */,
 				4382AC6726C27D33005C1857 /* UIFontExtension.swift in Sources */,
 				43D1A4A728803A2500830D8D /* TutorialScreensTwoVC.swift in Sources */,
 				43271A46288EB644003116A4 /* ShareLocationVC.swift in Sources */,
 				43148540278D86570048EC01 /* StatisticsCollectionViewCell.swift in Sources */,
 				4344107C26CD54D600F8233E /* CategoriesView.swift in Sources */,
 				43526916276A144A00540726 /* ScrollableBottomSheetViewController.swift in Sources */,
-				4382ACBA26C2AFC2005C1857 /* SplachTwoVC.swift in Sources */,
 				43FED20C26DE3FD900255B96 /* EventsViewModel.swift in Sources */,
 				432E4A9A270AFC5E00963448 /* MessagesModel.swift in Sources */,
 				430A351E26CAB01A00477A94 /* EditEventsVC.swift in Sources */,
@@ -2392,7 +2375,6 @@
 				439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */,
 				434600DF28B61DE000FC932D /* CommunityVC.swift in Sources */,
 				43886862278344F1004D36B2 /* ConfirmReportButtonTableViewCell.swift in Sources */,
-				439CE76528107F85003C0AD3 /* SplachFiveVC.swift in Sources */,
 				43119D7426E4F00000AD2260 /* DescriptionViewModel.swift in Sources */,
 				43B22416274D132C004C6912 /* CategoriesVC.swift in Sources */,
 				4382AC5026C2788D005C1857 /* StringExtension.swift in Sources */,
@@ -2441,7 +2423,6 @@
 				4303F1F127F1E60D00221E01 /* ExpandDescriptionVC.swift in Sources */,
 				433CDE2727CE132F00A80A40 /* FacialRecognitionPopUpView2.swift in Sources */,
 				4326A8F526F87AD400D471E0 /* SettingsModel.swift in Sources */,
-				4382ACB326C29019005C1857 /* SplachOneVC.swift in Sources */,
 				4330757C26E79299002940DF /* JoinEventViewModel.swift in Sources */,
 				4336D12B26DB897D0093C7A6 /* EmailViewModel.swift in Sources */,
 				4345BA3A271C14ED0076101A /* GenderbylocationViewModel.swift in Sources */,
@@ -2564,7 +2545,6 @@
 				436288A126C9186C00B51E51 /* FeedsTableViewCell.swift in Sources */,
 				43A350E528BDF718002ED5BB /* CommunityModel.swift in Sources */,
 				436DD06C27E489A500A4A7F7 /* CustomOverlay.swift in Sources */,
-				4382ACBC26C2AFE9005C1857 /* SplachThreeVC.swift in Sources */,
 				4368509A274500DD00A62287 /* structAPI.swift in Sources */,
 				43FC3CA727280BD500D94ABB /* SettingsTableViewCell.swift in Sources */,
 				43119D6C26E4C1BF00AD2260 /* BirthdateViewModel.swift in Sources */,

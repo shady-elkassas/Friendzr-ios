@@ -13,17 +13,14 @@ class FriendImageProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var refuseBtn: UIButton!
     @IBOutlet weak var cancelBtn: UIButton!
     @IBOutlet weak var acceptBtn: UIButton!
-    @IBOutlet weak var unFriendBtn: UIButton!
-    @IBOutlet weak var blockBtn: UIButton!
     @IBOutlet weak var sendRequestBtn: UIButton!
-    @IBOutlet weak var friendStackView: UIStackView!
-    @IBOutlet weak var unblockBtn: UIButton!
+    @IBOutlet weak var messageBtn: UIButton!
     @IBOutlet weak var ageLbl: UILabel!
     @IBOutlet weak var genderLlb: UILabel!
+    @IBOutlet weak var friendStackView: UIStackView!
+    @IBOutlet weak var unfriendBtn: UIButton!
     
-    
-    var HandleUnblockBtn: (()->())?
-    var HandleBlockBtn: (()->())?
+    var HandleMessageBtn: (()->())?
     var HandleRefuseBtn: (()->())?
     var HandleCancelBtn: (()->())?
     var HandleAcceptBtn: (()->())?
@@ -39,12 +36,10 @@ class FriendImageProfileTableViewCell: UITableViewCell {
         cancelBtn.cornerRadiusForHeight()
         acceptBtn.cornerRadiusForHeight()
         refuseBtn.cornerRadiusForHeight()
-        unblockBtn.cornerRadiusForHeight()
-        unFriendBtn.cornerRadiusForHeight()
-        blockBtn.cornerRadiusForHeight()
-        blockBtn.setBorder(color: UIColor.white.cgColor, width: 1)
+        messageBtn.cornerRadiusForHeight()
+        unfriendBtn.cornerRadiusForHeight()
         cancelBtn.setBorder(color: UIColor.white.cgColor, width: 1)
-        unblockBtn.setBorder(color: UIColor.white.cgColor, width: 1)
+        messageBtn.setBorder(color: UIColor.white.cgColor, width: 1)
         refuseBtn.setBorder(color: UIColor.white.cgColor, width: 1)
     }
 
@@ -55,16 +50,11 @@ class FriendImageProfileTableViewCell: UITableViewCell {
     }
     
     
-    
-    @IBAction func unblockBtn(_ sender: Any) {
-        HandleUnblockBtn?()
-    }
-    
-    @IBAction func blockBtn(_ sender: Any) {
-        HandleBlockBtn?()
-    }
     @IBAction func unFriendBtn(_ sender: Any) {
         HandleUnFriendBtn?()
+    }
+    @IBAction func messageBtn(_ sender: Any) {
+        HandleMessageBtn?()
     }
     
     @IBAction func sendRequestBtn(_ sender: Any) {

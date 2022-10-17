@@ -68,7 +68,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
         pullToRefresh()
         self.title = "Requests".localizedString
         
-        if !Defaults.hideAds {
+        if Defaults.isSubscribe == false {
             setupAds()
         }else {
             bannerViewHeight.constant = 0

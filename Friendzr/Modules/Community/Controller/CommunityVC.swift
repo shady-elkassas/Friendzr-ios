@@ -152,7 +152,7 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
 //        setupAds1()
 //        setupAds2()
         
-        if !Defaults.hideAds {
+        if Defaults.isSubscribe == false {
             setupAds()
         }else {
             bannerViewHeight.constant = 0

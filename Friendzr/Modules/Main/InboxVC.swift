@@ -107,7 +107,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         
         setupHideView()
         
-        if !Defaults.hideAds {
+        if Defaults.isSubscribe == false {
             setupAds()
         }else {
             bannerViewHeight.constant = 0

@@ -13,7 +13,7 @@ import AVKit
 import ListPlaceholder
 import SwiftUI
 import SDWebImage
-import MSImagePickerSheetController
+//import MSImagePickerSheetController
 import Photos
 import ListPlaceholder
 import MapKit
@@ -340,6 +340,10 @@ extension MessagesVC {
                     self.tableView.reloadData()
                     self.tableView.scroll(to: .bottom, animated: true)
                 }
+                
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+                }
             }
         }
         else {
@@ -360,6 +364,10 @@ extension MessagesVC {
                         self.tableView.reloadData()
                         self.tableView.scroll(to: .bottom, animated: true)
                     }
+                    
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+                    }
                 }
             }
             else {
@@ -378,6 +386,10 @@ extension MessagesVC {
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                         self.tableView.scroll(to: .bottom, animated: true)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
                     }
                 }
             }
@@ -398,9 +410,9 @@ extension MessagesVC {
         let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
             self.openLibrary()
         }
-//        let fileBtn = UIAlertAction(title: "File", style: .default) {_ in
-//            self.openFileLibrary()
-//        }
+        //        let fileBtn = UIAlertAction(title: "File", style: .default) {_ in
+        //            self.openFileLibrary()
+        //        }
         let locationBtn = UIAlertAction(title: "Location", style: .default) {_ in
             self.openShareLocationVC()
         }
@@ -409,57 +421,57 @@ extension MessagesVC {
         
         cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
         libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-//        fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+        //        fileBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
         locationBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
         cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
         
         actionSheet.addAction(cameraBtn)
         actionSheet.addAction(libraryBtn)
-//        actionSheet.addAction(fileBtn)
+        //        actionSheet.addAction(fileBtn)
         //        actionSheet.addAction(locationBtn)
         actionSheet.addAction(cancelBtn)
         
         present(actionSheet, animated: true, completion: nil)
     }
     
-    func presentImagePickerSheet() {
-        let presentImagePickerController: (UIImagePickerController.SourceType) -> () = { source in
-            let controller = UIImagePickerController()
-            controller.delegate = self
-            var sourceType = source
-            if (!UIImagePickerController.isSourceTypeAvailable(sourceType)) {
-                sourceType = .photoLibrary
-                print("Fallback to camera roll as a source since the simulator doesn't support taking pictures")
-            }
-            controller.sourceType = sourceType
-            self.present(controller, animated: true, completion: nil)
-        }
-        
-        let controller = MSImagePickerSheetController(mediaType: .Image)
-        controller.maximumSelection = 3
-        controller.delegate = self
-        
-        controller.addAction(action: ImagePickerAction(title: NSLocalizedString("Camera", comment: "Camera"), secondaryTitle: NSLocalizedString("Camera", comment: "Camera"), handler: { _ in
-            presentImagePickerController(.camera)
-        }, secondaryHandler: { _, numberOfPhotos in
-            print("Comment \(numberOfPhotos) photos")
-            presentImagePickerController(.camera)
-        }))
-        
-        controller.addAction(action: ImagePickerAction(title: "Photo Library", secondaryTitle: "Send \(controller.selectedImageAssets.count)", style: .Default, handler: { _ in
-            presentImagePickerController(.photoLibrary)
-        }, secondaryHandler: { _, numberOfPhotos in
-            print("Send \(numberOfPhotos)")
-        }))
-        
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            controller.modalPresentationStyle = .popover
-            controller.popoverPresentationController?.sourceView = view
-            controller.popoverPresentationController?.sourceRect = CGRect(origin: view.center, size: CGSize())
-        }
-        
-        present(controller, animated: true, completion: nil)
-    }
+    //    func presentImagePickerSheet() {
+    //        let presentImagePickerController: (UIImagePickerController.SourceType) -> () = { source in
+    //            let controller = UIImagePickerController()
+    //            controller.delegate = self
+    //            var sourceType = source
+    //            if (!UIImagePickerController.isSourceTypeAvailable(sourceType)) {
+    //                sourceType = .photoLibrary
+    //                print("Fallback to camera roll as a source since the simulator doesn't support taking pictures")
+    //            }
+    //            controller.sourceType = sourceType
+    //            self.present(controller, animated: true, completion: nil)
+    //        }
+    //
+    //        let controller = MSImagePickerSheetController(mediaType: .Image)
+    //        controller.maximumSelection = 3
+    //        controller.delegate = self
+    //
+    //        controller.addAction(action: ImagePickerAction(title: NSLocalizedString("Camera", comment: "Camera"), secondaryTitle: NSLocalizedString("Camera", comment: "Camera"), handler: { _ in
+    //            presentImagePickerController(.camera)
+    //        }, secondaryHandler: { _, numberOfPhotos in
+    //            print("Comment \(numberOfPhotos) photos")
+    //            presentImagePickerController(.camera)
+    //        }))
+    //
+    //        controller.addAction(action: ImagePickerAction(title: "Photo Library", secondaryTitle: "Send \(controller.selectedImageAssets.count)", style: .Default, handler: { _ in
+    //            presentImagePickerController(.photoLibrary)
+    //        }, secondaryHandler: { _, numberOfPhotos in
+    //            print("Send \(numberOfPhotos)")
+    //        }))
+    //
+    //        if UIDevice.current.userInterfaceIdiom == .pad {
+    //            controller.modalPresentationStyle = .popover
+    //            controller.popoverPresentationController?.sourceView = view
+    //            controller.popoverPresentationController?.sourceRect = CGRect(origin: view.center, size: CGSize())
+    //        }
+    //
+    //        present(controller, animated: true, completion: nil)
+    //    }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
@@ -475,32 +487,32 @@ extension MessagesVC {
 }
 
 // MARK: - ImagePickerSheetControllerDelegate
-extension MessagesVC :ImagePickerSheetControllerDelegate {
-    
-    func controllerWillEnlargePreview(_ controller: MSImagePickerSheetController) {
-        print("Will enlarge the preview")
-    }
-    
-    func controllerDidEnlargePreview(_ controller: MSImagePickerSheetController) {
-        print("Did enlarge the preview")
-    }
-    
-    func controller(_ controller: MSImagePickerSheetController, willSelectAsset asset: PHAsset) {
-        print("Will select an asset")
-    }
-    
-    func controller(_ controller: MSImagePickerSheetController, didSelectAsset asset: PHAsset) {
-        print("Did select an asset = \(controller.selectedImageAssets.count)")
-    }
-    
-    func controller(_ controller: MSImagePickerSheetController, willDeselectAsset asset: PHAsset) {
-        print("Will deselect an asset")
-    }
-    
-    func controller(_ controller: MSImagePickerSheetController, didDeselectAsset asset: PHAsset) {
-        print("Did deselect an asset")
-    }
-}
+//extension MessagesVC :ImagePickerSheetControllerDelegate {
+//
+//    func controllerWillEnlargePreview(_ controller: MSImagePickerSheetController) {
+//        print("Will enlarge the preview")
+//    }
+//
+//    func controllerDidEnlargePreview(_ controller: MSImagePickerSheetController) {
+//        print("Did enlarge the preview")
+//    }
+//
+//    func controller(_ controller: MSImagePickerSheetController, willSelectAsset asset: PHAsset) {
+//        print("Will select an asset")
+//    }
+//
+//    func controller(_ controller: MSImagePickerSheetController, didSelectAsset asset: PHAsset) {
+//        print("Did select an asset = \(controller.selectedImageAssets.count)")
+//    }
+//
+//    func controller(_ controller: MSImagePickerSheetController, willDeselectAsset asset: PHAsset) {
+//        print("Will deselect an asset")
+//    }
+//
+//    func controller(_ controller: MSImagePickerSheetController, didDeselectAsset asset: PHAsset) {
+//        print("Did deselect an asset")
+//    }
+//}
 
 //MARK: UITableView Delegate & DataSource
 extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
@@ -1780,6 +1792,10 @@ extension MessagesVC : UIImagePickerControllerDelegate,UINavigationControllerDel
                         self.tableView.reloadData()
                         self.tableView.scroll(to: .bottom, animated: true)
                     }
+                    
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+                    }
                 }
             }else {
                 if isChatGroup {
@@ -1798,6 +1814,10 @@ extension MessagesVC : UIImagePickerControllerDelegate,UINavigationControllerDel
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                             self.tableView.scroll(to: .bottom, animated: true)
+                        }
+                        
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
                         }
                     }
                 }
@@ -1818,6 +1838,10 @@ extension MessagesVC : UIImagePickerControllerDelegate,UINavigationControllerDel
                         DispatchQueue.main.async {
                             self.tableView.reloadData()
                             self.tableView.scroll(to: .bottom, animated: true)
+                        }
+                        
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
                         }
                     }
                 }
@@ -1880,6 +1904,9 @@ extension MessagesVC: UIDocumentPickerDelegate {
                         self.tableView.scroll(to: .bottom, animated: true)
                     }
                     
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+                    }
                 }
             }
             else {
@@ -1902,6 +1929,10 @@ extension MessagesVC: UIDocumentPickerDelegate {
                             self.tableView.scroll(to: .bottom, animated: true)
                         }
                         
+                        
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+                        }
                     }
                 }else {
                     viewmodel.SendMessage(withUserId: chatuserID, AndMessage: "", AndMessageType: 3, messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: UIImage(), fileUrl: selectedFileURL,eventShareid: "") { error, data in
@@ -1922,11 +1953,13 @@ extension MessagesVC: UIDocumentPickerDelegate {
                             self.tableView.scroll(to: .bottom, animated: true)
                         }
                         
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+                        }
                     }
                 }
                 
             }
-            
         }
         
         catch {
