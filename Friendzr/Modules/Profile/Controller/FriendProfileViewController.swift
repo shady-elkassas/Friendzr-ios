@@ -44,6 +44,7 @@ class FriendProfileViewController: UIViewController {
     var isFriendNow:Bool = false
     var requestFriendVM:RequestFriendStatusViewModel = RequestFriendStatusViewModel()
     var btnSelect:Bool = false
+    var isFeedVC:Bool = false
     
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -87,12 +88,12 @@ class FriendProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if selectedVC {
-            Defaults.availableVC = "PresentFriendProfileViewController"
+        if isFeedVC {
+            Defaults.availableVC = "FeedVC"
         }else {
             Defaults.availableVC = "FriendProfileViewController"
-            
         }
+        
         print("availableVC >> \(Defaults.availableVC)")
         
         CancelRequest.currentTask = false

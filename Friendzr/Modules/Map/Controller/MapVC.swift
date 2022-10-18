@@ -275,7 +275,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.locationsModel.eventlocationDataMV?.removeAll()
                 self.locations.removeAll()
                 self.mapView.clear()
-                
+
                 self.setupGoogleMap(zoom1: 8, zoom2: 14)
                 self.checkLocationPermission()
             }
@@ -394,7 +394,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func updateMyLocation() {
-        updateLocationVM.updatelocation(ByLat: "\(Defaults.LocationLat)", AndLng: "\(Defaults.LocationLng)") { error, data in
+        updateLocationVM.updatelocation(ByLat: "\(51.00920)", AndLng: "\(-2.26786)") { error, data in
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
@@ -403,8 +403,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             }
             
             guard let data = data else {return}
-            Defaults.LocationLat = data.lat
-            Defaults.LocationLng = data.lang
+            Defaults.LocationLat = "\(51.00920)"
+            Defaults.LocationLng = "\(-2.26786)"
             Defaults.Image = data.userImage
             
             NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
@@ -630,58 +630,90 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             }
         }
         
-        var xview:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
+//        var xview:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
+//
+//        if Defaults.isIPhoneLessThan2500 {
+//            xview = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+//        }
+//
+//        let labl = UILabel()
+//        labl.frame = xview.frame
+//        xview.backgroundColor = .clear
+//        labl.text = "\(eventsCount)"
+//        labl.textColor = .black
+//        labl.textAlignment = .center
+//        labl.font = UIFont(name: "Montserrat-Medium", size: 10)
+//        let imag:UIImageView = UIImageView()
+//        imag.frame = xview.frame
+//        imag.image = UIImage(named: markerIcon ?? "")
+//        imag.contentMode = .scaleToFill
+//
+//        xview.addSubview(imag)
+//        xview.addSubview(labl)
+//
+//
+//        labl.translatesAutoresizingMaskIntoConstraints = false
+//
+//        let horizontalConstraint = labl.centerXAnchor.constraint(equalTo: xview.centerXAnchor)
+//        let verticalConstraint = labl.centerYAnchor.constraint(equalTo: xview.centerYAnchor, constant: Defaults.isIPhoneLessThan2500 == true ? -2 : -5)
+//        let widthConstraint = labl.widthAnchor.constraint(equalToConstant: xview.bounds.width)
+//        let heightConstraint = labl.heightAnchor.constraint(equalToConstant: xview.bounds.height)
+//        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
+//
+//
+//
+//        var xview2:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
+//        if Defaults.isIPhoneLessThan2500 {
+//            xview2 = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
+//        }
+//
+//        let imag2:UIImageView = UIImageView()
+//        imag2.frame = xview2.frame
+//        imag2.image = UIImage(named: markerIcon ?? "")
+//        imag2.contentMode = .scaleToFill
+//
+//        xview2.addSubview(imag2)
+
         
-        if Defaults.isIPhoneLessThan2500 {
-            xview = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
-        }
+//        if isEvent && eventTypee != "Private" {
+////            marker.iconView = xview
+//        }else {
+//            marker.iconView = xview2
+//        }
         
-        let labl = UILabel()
-        labl.frame = xview.frame
-        xview.backgroundColor = .clear
-        labl.text = "\(eventsCount)"
-        labl.textColor = .black
-        labl.textAlignment = .center
-        labl.font = UIFont(name: "Montserrat-Medium", size: 10)
-        let imag:UIImageView = UIImageView()
-        imag.frame = xview.frame
-        imag.image = UIImage(named: markerIcon ?? "")
-        imag.contentMode = .scaleToFill
-        
-        xview.addSubview(imag)
-        xview.addSubview(labl)
-        
-        
-        labl.translatesAutoresizingMaskIntoConstraints = false
-        
-        let horizontalConstraint = labl.centerXAnchor.constraint(equalTo: xview.centerXAnchor)
-        let verticalConstraint = labl.centerYAnchor.constraint(equalTo: xview.centerYAnchor, constant: Defaults.isIPhoneLessThan2500 == true ? -2 : -5)
-        let widthConstraint = labl.widthAnchor.constraint(equalToConstant: xview.bounds.width)
-        let heightConstraint = labl.heightAnchor.constraint(equalToConstant: xview.bounds.height)
-        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        
-        
-        
-        var xview2:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
-        if Defaults.isIPhoneLessThan2500 {
-            xview2 = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
-        }
-        
-        let imag2:UIImageView = UIImageView()
-        imag2.frame = xview2.frame
-        imag2.image = UIImage(named: markerIcon ?? "")
-        imag2.contentMode = .scaleToFill
-        
-        xview2.addSubview(imag2)
-        
+        //            marker.icon = UIImage(systemName: "default_marker.png")?.withTintColor(.blue)
         
         if isEvent && eventTypee != "Private" {
-            marker.iconView = xview
+            marker.icon = createMarkerImage(iconMarker: markerIcon!, count: "\(eventsCount)")
         }else {
-            marker.iconView = xview2
+            marker.icon = createMarkerImage(iconMarker: markerIcon!, count: "")
         }
         
         marker.map = mapView
+    }
+    
+    func createMarkerImage(iconMarker:String,count: String) -> UIImage {
+
+        let color = UIColor.black
+        let string = count //"\(UInt(count))"
+        let attrs: [NSAttributedString.Key: Any] = [.foregroundColor: color,.font : UIFont(name: "Montserrat-Medium", size: 10)!]
+        let attrStr = NSAttributedString(string: string, attributes: attrs)
+        let image = UIImage(named: iconMarker)!
+        UIGraphicsBeginImageContext(image.size)
+        
+        image.draw(in: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(image.size.width), height: CGFloat(image.size.height)))
+        
+        var rect = CGRect(x: CGFloat(18), y: CGFloat(11), width: CGFloat(image.size.width), height: CGFloat(image.size.height))
+        
+        if Defaults.isIPhoneLessThan2500 {
+            rect = CGRect(x: CGFloat(13), y: CGFloat(7), width: CGFloat(image.size.width), height: CGFloat(image.size.height))
+        }
+        attrStr.draw(in: rect)
+
+        let markerImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return markerImage
     }
     
     func setupViews() {
@@ -1232,18 +1264,7 @@ extension MapVC : GMSMapViewDelegate {
             print("Center Location is === \(location!)")
         }
         
-        // Find the coordinates
-        let visibleRegion = mapView.projection.visibleRegion()
-        let farLeftLocation = CLLocation(latitude: visibleRegion.farLeft.latitude, longitude: visibleRegion.farLeft.longitude)
-        let centerLocation = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
-        
-        // Calculate the distance as radius.
-        // The distance result from CLLocation is in meters, so we divide it by 1000 to get the value in kilometers
-        let radiusKM = (centerLocation.distance(from: farLeftLocation) / 1000.0).rounded(toPlaces: 1)
-        // Do something with the radius...
-        print("radiusKM \(radiusKM)")
-        radiusMLbl.text = "\(radiusKM * 1000) m"
-        radiusKMLbl.text = "\(radiusKM) km"
+        calRadius(lat: position.target.latitude, lng: position.target.longitude)
     }
 }
 
@@ -1257,8 +1278,6 @@ extension MapVC : CLLocationManagerDelegate {
             if Defaults.availableVC != "MapVC" {
                 self.setupGoogleMap(zoom1: 8, zoom2: 14)
             }
-            
-            
         }else {
             print("NOT NETWORK AVILABLE")
         }
@@ -1702,11 +1721,13 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
 //MARK: - animation map
 extension MapVC {
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-        
-        // Find the coordinates
+        calRadius(lat: position.target.latitude, lng: position.target.longitude)
+    }
+    
+    func calRadius(lat:Double,lng:Double) {
         let visibleRegion = mapView.projection.visibleRegion()
         let farLeftLocation = CLLocation(latitude: visibleRegion.farLeft.latitude, longitude: visibleRegion.farLeft.longitude)
-        let centerLocation = CLLocation(latitude: position.target.latitude, longitude: position.target.longitude)
+        let centerLocation = CLLocation(latitude: lat, longitude: lng)
         
         // Calculate the distance as radius.
         // The distance result from CLLocation is in meters, so we divide it by 1000 to get the value in kilometers
@@ -1715,6 +1736,7 @@ extension MapVC {
         print("radiusKM \(radiusKM)")
         radiusMLbl.text = "\(radiusKM * 1000) m"
         radiusKMLbl.text = "\(radiusKM) km"
+
     }
     
     func delay(seconds: Double, closure: @escaping () -> ()) {

@@ -266,7 +266,17 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        currentPage = 1
+        
+        if Defaults.availableVC != "FeedVC" {
+            currentPage = 1
+
+            DispatchQueue.main.async {
+                if CLLocationManager.locationServicesEnabled() {
+                    self.checkLocationPermission()
+                }
+            }
+        }
+        
         setup()
         Defaults.availableVC = "FeedVC"
         print("availableVC >> \(Defaults.availableVC)")
@@ -281,11 +291,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             bannerViewHeight.constant = 0
         }
         
-        DispatchQueue.main.async {
-            if CLLocationManager.locationServicesEnabled() {
-                self.checkLocationPermission()
-            }
-        }
+
         
         initGhostModeAndSortSwitchButton()
     }
@@ -669,7 +675,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func updateMyLocation() {
-        updateLocationVM.updatelocation(ByLat: "\(Defaults.LocationLat)", AndLng: "\(Defaults.LocationLng)") { error, data in
+        updateLocationVM.updatelocation(ByLat: "\(51.00920)", AndLng: "\(-2.26786)") { error, data in
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
@@ -1184,7 +1190,7 @@ extension FeedVC:UITableViewDelegate {
                 if viewmodel.feeds.value?.data?.count != 0 {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                     vc.userID = viewmodel.feeds.value?.data?[indexPath.row].userId ?? ""
-                    //                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+                    vc.isFeedVC = true
                     self.navigationController?.pushViewController(vc, animated: true)
                 }else {
                     return

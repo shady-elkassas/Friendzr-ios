@@ -152,6 +152,8 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
 //        setupAds1()
 //        setupAds2()
         
+        Defaults.availableVC = "CommunityVC"
+        
         if Defaults.isSubscribe == false {
             setupAds()
         }else {

@@ -247,8 +247,8 @@ extension SplachVC {
             return
         }
         
-        Defaults.LocationLat = "\(location.coordinate.latitude)"
-        Defaults.LocationLng = "\(location.coordinate.longitude)"
+        Defaults.LocationLat = "\(51.00920)"
+        Defaults.LocationLng = "\(-2.26786)"
         
         print("Defaults.LocationLat\(Defaults.LocationLat),Defaults.LocationLng\(Defaults.LocationLng)")
     }
