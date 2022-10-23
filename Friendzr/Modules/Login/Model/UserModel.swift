@@ -47,20 +47,23 @@ class UserObj: Mappable {
         iam <- map["iam"]
         preferToList <- map["preferToList"]
         interests <- map["interests"]
+        isWhiteLable <- map["isWhiteLable"]
+        universityCode <- map["universityCode"]
+         
     }
     
-    var userid = ""
-    var userImage = ""
-    var phoneNumber = ""
-    var email = ""
-    var userName = ""
-    var code = ""
-    var token = ""
-    var displayedUserName = ""
-    var bio = ""
-    var gender = ""
-    var OtherGenderName = ""
-    var birthdate = ""
+    var userid:String = ""
+    var userImage:String = ""
+    var phoneNumber:String = ""
+    var email:String = ""
+    var userName:String = ""
+    var code:String = ""
+    var token:String = ""
+    var displayedUserName:String = ""
+    var bio:String = ""
+    var gender:String = ""
+    var OtherGenderName:String = ""
+    var birthdate:String = ""
     var linkAccountmodel:LinkAccountModel? = nil
 //    var listoftagsmodel:TagsModel? = nil
     var facebook = ""
@@ -82,6 +85,8 @@ class UserObj: Mappable {
     var iam:[String] = []
     var preferToList:[String] = []
     var interests:[String] = []
+    var isWhiteLable:Bool = false
+    var universityCode:String = ""
 }
 
 

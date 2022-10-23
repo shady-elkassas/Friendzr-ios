@@ -83,18 +83,23 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
             print("Completed")
             
             DispatchQueue.main.asyncAfter(wallDeadline: .now()) {
-                if Defaults.needUpdate == 1 {
-                    DispatchQueue.main.async {
-                        Router().toSTutorialScreensOneVC()
+                if Defaults.isWhiteLable {
+                    Router().toInbox()
+                }else {
+                    if Defaults.needUpdate == 1 {
+                        DispatchQueue.main.async {
+                            Router().toSTutorialScreensOneVC()
+                        }
+                    }
+                    else {
+                        if Defaults.token != "" {
+                            Router().toFeed()
+                        }else {
+                            Router().toWelcomeVC()
+                        }
                     }
                 }
-                else {
-                    if Defaults.token != "" {
-                        Router().toFeed()
-                    }else {
-                        Router().toWelcomeVC()
-                    }
-                }
+                
             }
         }
         
@@ -118,10 +123,10 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
         Defaults.isFirstLaunch = true
         CancelRequest.currentTask = false
         
-//        recordScreenView()
-//
-//        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [AnalyticsParameterItemID : "id-\(Defaults.availableVC)",AnalyticsParameterItemName: Defaults.availableVC, AnalyticsParameterContentType: "cont"])
-
+        //        recordScreenView()
+        //
+        //        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [AnalyticsParameterItemID : "id-\(Defaults.availableVC)",AnalyticsParameterItemName: Defaults.availableVC, AnalyticsParameterContentType: "cont"])
+        
     }
     
     
@@ -226,15 +231,19 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     
     func HandleInternetConnection() {
         DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.5) {
-            if Defaults.needUpdate == 1 {
-                DispatchQueue.main.async {
-                    Router().toSTutorialScreensOneVC()
-                }
+            if Defaults.isWhiteLable {
+                Router().toInbox()
             }else {
-                if Defaults.token != "" {
-                    Router().toFeed()
+                if Defaults.needUpdate == 1 {
+                    DispatchQueue.main.async {
+                        Router().toSTutorialScreensOneVC()
+                    }
                 }else {
-                    Router().toOptionsSignUpVC(IsLogout: true)
+                    if Defaults.token != "" {
+                        Router().toFeed()
+                    }else {
+                        Router().toOptionsSignUpVC(IsLogout: true)
+                    }
                 }
             }
         }
@@ -247,9 +256,9 @@ extension SplachVC {
             return
         }
         
-        Defaults.LocationLat = "\(51.00920)"
-        Defaults.LocationLng = "\(-2.26786)"
-        
+        Defaults.LocationLat = "\(location.coordinate.latitude)"
+        Defaults.LocationLng = "\(location.coordinate.longitude)"
+
         print("Defaults.LocationLat\(Defaults.LocationLat),Defaults.LocationLng\(Defaults.LocationLng)")
     }
     

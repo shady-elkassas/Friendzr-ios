@@ -58,6 +58,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var otherGenderView: UIView!
     @IBOutlet weak var otherGenderTxt: UITextField!
     @IBOutlet weak var ProcessingLbl: UILabel!
+    @IBOutlet weak var universalCodeView: UIView!
+    @IBOutlet weak var universalCodeTxt: UITextField!
     
     //MARK: - Properties
     lazy var logoutAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
@@ -234,6 +236,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         nameView.cornerRadiusView(radius: 8)
         dateView.cornerRadiusView(radius: 8)
         bioTxtView.cornerRadiusView(radius: 8)
+        universalCodeView.cornerRadiusView(radius: 8)
         tagsSubView.cornerRadiusView(radius: 8)
         preferToSubView.cornerRadiusView(radius: 8)
         bestDescribesSubView.cornerRadiusView(radius: 8)
@@ -261,6 +264,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }
         else {
             nameTxt.text = profileModel?.userName
+            universalCodeTxt.text = profileModel?.universityCode
             
             if profileModel?.bio != "" {
                 if profileModel?.bio.count == 1 && profileModel?.bio == "."{
@@ -1105,6 +1109,8 @@ extension EditMyProfileVC {
     }
     
     @objc func handleSaveEdits() {
+        hideKeyboard()
+        
         print(imgTake)
         if self.attachedImg == false {
             DispatchQueue.main.async {
@@ -1144,52 +1150,12 @@ extension EditMyProfileVC {
                 self.view.makeToast("Please wait a moment while the image comparison process is completed")
             }
         }
-
-//        if imgTake == 0 //There is already a picture
-//        {
-//            if self.attachedImg == false {
-//                DispatchQueue.main.async {
-//                    self.view.makeToast("Please add a profile image".localizedString)
-//                }
-//                initSaveBarButton(istap: false)
-//                return
-//            }
-//            else {
-//                if tagsid.isEmpty {
-//                    DispatchQueue.main.async {
-//                        self.view.makeToast("Please select what you enjoy doing".localizedString)
-//                    }
-//                    initSaveBarButton(istap: false)
-//                    return
-//                }
-//                else {
-//                    if iamid.isEmpty {
-//                        iamid.append(Defaults.iamid)
-//                    }
-//
-//                    if preferToid.isEmpty {
-//                        preferToid.append(Defaults.preferToid)
-//                    }
-//
-//                    if bioTxtView.text == "" {
-//                        bioTxtView.text = "."
-//                    }
-//
-//                    if NetworkConected.internetConect {
-//                        editSaving()
-//                    }
-//                }
-//            }
-//        }
-//        else {
-//            self.view.makeToast("Please wait a moment while the image comparison process is completed")
-//        }
     }
     
     func editSaving() {
         initSaveBarButton(istap: true)
         
-        viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthdayTxt.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),WhatBestDescrips:iamid, preferto: preferToid) { error, data in
+        viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthdayTxt.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),WhatBestDescrips:iamid, preferto: preferToid, universityCode: universalCodeTxt.text!) { error, data in
             
             if let error = error {
                 DispatchQueue.main.async {
@@ -1201,21 +1167,26 @@ extension EditMyProfileVC {
             
             guard let _ = data else {return}
             DispatchQueue.main.async {
-                if Defaults.needUpdate == 1 {
-                    return
+                if Defaults.isWhiteLable {
+                    Router().toInbox()
                 }else {
-                    if Defaults.isFirstLogin == false {//toprofile
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            self.onPopup()
+                    if Defaults.needUpdate == 1 {
+                        return
+                    } else {
+                        if Defaults.isFirstLogin == false {//toprofile
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                self.onPopup()
+                            }
+                        }
+                        else if Defaults.isFirstLogin == true {//tofeed if socail media login
+                            Router().toFeed()
+                        }
+                        else {//to login
+                            Router().toOptionsSignUpVC(IsLogout: true)
                         }
                     }
-                    else if Defaults.isFirstLogin == true {//tofeed if socail media login
-                        Router().toFeed()
-                    }
-                    else {//to login
-                        Router().toOptionsSignUpVC(IsLogout: true)
-                    }
                 }
+
             }
         }
     }

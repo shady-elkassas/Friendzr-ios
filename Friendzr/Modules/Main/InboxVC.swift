@@ -42,7 +42,10 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
     
     var viewmodel:ChatViewModel = ChatViewModel()
     var groupVM:GroupViewModel = GroupViewModel()
+    var logoutVM:LogoutViewModel = LogoutViewModel()
     
+    lazy var alertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
+
     var refreshControl = UIRefreshControl()
     var cellSelect:Bool = false
     var currentPage : Int = 1
@@ -71,7 +74,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         
         setupView()
         
-        initNewConversationBarButton()
         self.title = "Inbox".localizedString
         
         pullToRefresh()
@@ -81,7 +83,15 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        initProfileBarButton(didTap: true)
+        
+        if Defaults.isWhiteLable {
+            tabBarController?.tabBar.isHidden = true
+            initLogoutBarButton()
+        }else {
+            initNewConversationBarButton()
+            initProfileBarButton(didTap: true)
+        }
+        
         hideKeyboardWhenTappedAround()
         currentPage = 1
     }
@@ -93,7 +103,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         
         hideNavigationBar(NavigationBar: false, BackButton: true)
         CancelRequest.currentTask = false
-        
         
         setupNavBar()
         
@@ -543,6 +552,67 @@ extension InboxVC: UISearchBarDelegate{
             self.present(controller, animated: true)
         }
     }
+    
+    
+    func initLogoutBarButton() {
+        let button = UIButton.init(type: .custom)
+        button.setTitle("Logout", for: .normal)
+//        button.frame = CGRect(x: 0, y: 0, width: 70, height: 35)
+        button.setTitleColor(UIColor.red, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Montserrat-Bold", size: 12)
+        button.backgroundColor = .clear
+        button.cornerRadiusView(radius: 8)
+        button.tintColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
+        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
+    }
+    
+    @objc func handleLogout() {
+        alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        
+        alertView?.titleLbl.text = "Confirm?".localizedString
+        alertView?.detailsLbl.text = "Are you sure you want to logout?".localizedString
+        
+        alertView?.HandleConfirmBtn = {
+            if NetworkConected.internetConect {
+                self.logoutVM.logoutRequest { error, data in
+                    self.hideLoading()
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
+                        return
+                    }
+                    
+                    guard let _ = data else {return}
+                    Defaults.deleteUserData()
+                    
+                    // For the purpose of this demo app, delete the user identifier that was previously stored in the keychain.
+                    KeychainItem.deleteUserIdentifierFromKeychain()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
+                        Router().toOptionsSignUpVC(IsLogout: true)
+                    })
+                }
+            }
+            else {
+                self.HandleInternetConnection()
+            }
+            
+            // handling code
+            UIView.animate(withDuration: 0.3, animations: {
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alertView?.alpha = 0
+            }) { (success: Bool) in
+                self.alertView?.removeFromSuperview()
+                self.alertView?.alpha = 1
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((alertView)!)
+    }
+    
 }
 
 //MARK: - Custom last message date

@@ -146,13 +146,18 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
             Defaults.token = data.token
             Defaults.initUser(user: data)
             
+            
             DispatchQueue.main.async {
-                if Defaults.needUpdate == 1 {
-                    Defaults.isFirstLogin = true
-                    Router().toSTutorialScreensOneVC()
+                if Defaults.isWhiteLable {
+                    Router().toInbox()
                 }else {
-                    Defaults.isFirstLogin = false
-                    Router().toFeed()
+                    if Defaults.needUpdate == 1 {
+                        Defaults.isFirstLogin = true
+                        Router().toSTutorialScreensOneVC()
+                    }else {
+                        Defaults.isFirstLogin = false
+                        Router().toFeed()
+                    }
                 }
             }
         }

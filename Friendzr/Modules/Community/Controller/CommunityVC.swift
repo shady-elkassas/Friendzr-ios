@@ -280,7 +280,8 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     
     //MARK: - APIs
     func getRecommendedPeopleBy(userID:String) {
-        
+        let startDate = Date()
+
         if !isBtnSelected {
             self.hideView1.isHidden = false
             AMShimmer.start(for: hideView1)
@@ -291,6 +292,9 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
         
         recommendedPeopleViewModel.getRecommendedPeople(userId: userID)
         recommendedPeopleViewModel.recommendedPeople.bind { [weak self] value in
+            let executionTimeWithSuccessVC1 = Date().timeIntervalSince(startDate)
+            print("executionTimeWithSuccessVC1 \(executionTimeWithSuccessVC1) second")
+
             DispatchQueue.main.async {
                 self?.friendsCommunityCollectionView.delegate = self
                 self?.friendsCommunityCollectionView.dataSource = self
@@ -300,6 +304,9 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
                     self?.hideView1.isHidden = true
                     self?.emptyView1.isHidden = true
                 }
+                
+                let executionTimeWithSuccessVC2 = Date().timeIntervalSince(startDate)
+                print("executionTimeWithSuccessVC2 \(executionTimeWithSuccessVC2) second")
             }
         }
         

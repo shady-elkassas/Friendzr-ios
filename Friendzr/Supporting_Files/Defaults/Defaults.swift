@@ -584,6 +584,28 @@ class Defaults {
         }
     }
     
+    
+    
+    static var isWhiteLable: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "isWhiteLable")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "isWhiteLable")
+        }
+    }
+    
+    static var universityCode: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "universityCode")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "universityCode") ?? ""
+        }
+    }
+    
     static func initUser(user:UserObj)  {
         Defaults.userName = user.userName
         Defaults.Email = user.email
@@ -612,8 +634,8 @@ class Defaults {
         Defaults.interestIds = user.interests
         Defaults.preferToIds = user.preferToList
         Defaults.iamIds = user.iam
-
-        
+        Defaults.isWhiteLable = user.isWhiteLable
+        Defaults.universityCode = user.universityCode
     }
     
     static func deleteUserData(){
@@ -649,7 +671,9 @@ class Defaults {
         defaults.removeObject(forKey: "pushnotification")
         defaults.removeObject(forKey: "notificationcount")
         defaults.removeObject(forKey: "message_Count")
-        
+        defaults.removeObject(forKey: "isWhiteLable")
+        defaults.removeObject(forKey: "universityCode")
+
         defaults.removeObject(forKey: "userName_MaxLength")
         defaults.removeObject(forKey: "userName_MinLength")
         defaults.removeObject(forKey: "userIAM_MaxLength")

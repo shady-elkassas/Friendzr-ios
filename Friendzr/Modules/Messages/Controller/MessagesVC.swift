@@ -207,6 +207,18 @@ class MessagesVC: UIViewController {
     }
     
     //MARK: - Setup Messages
+    
+    
+    func substring(string: String, fromIndex: Int, toIndex: Int) -> String? {
+        if fromIndex < toIndex && toIndex < string.count /*use string.characters.count for swift3*/{
+            let startIndex = string.index(string.startIndex, offsetBy: fromIndex)
+            let endIndex = string.index(string.startIndex, offsetBy: toIndex)
+            return String(string[startIndex..<endIndex])
+        }else{
+            return nil
+        }
+    }
+    
     func setupMessages() {
         if isEvent {
             self.getEventChatMessages(pageNumber: 1)
@@ -1128,7 +1140,11 @@ extension MessagesVC {
         if isEvent {
             if leavevent == 0 {
                 messageInputBarView.isHidden = false
-                initOptionsInChatEventButton()
+                if Defaults.isWhiteLable {
+                    initOptionsInChatEventWhiteLableButton()
+                }else {
+                    initOptionsInChatEventButton()
+                }
             }
             else if leavevent == 1 {
                 setupDownView(textLbl: "You have left this event.".localizedString)
@@ -1141,7 +1157,11 @@ extension MessagesVC {
             if isChatGroup == true {
                 if leaveGroup == 0 {
                     messageInputBarView.isHidden = false
-                    initOptionsInChatEventButton()
+                    if Defaults.isWhiteLable {
+                        initOptionsInChatEventWhiteLableButton()
+                    }else {
+                        initOptionsInChatEventButton()
+                    }
                 }
                 else {
                     setupDownView(textLbl: "You are not subscribed to this group.".localizedString)
@@ -1276,14 +1296,23 @@ extension MessagesVC {
         let subtitleLabel = UILabel(frame: CGRect(x: 0, y: 34, width: 0, height: 0))
         subtitleLabel.textColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
         subtitleLabel.font = UIFont.init(name: "Montserrat-Medium", size: 8)
-        subtitleLabel.text = subtitle
+        
+        var str:String = ""
+        
+        if (subtitle?.count ?? 0) > 50 {
+            str = "\(self.substring(string: subtitle ?? "", fromIndex: 1, toIndex: 50) ?? "")..."
+        }else {
+            str = subtitle ?? ""
+        }
+        
+        subtitleLabel.text = str
         subtitleLabel.textAlignment = .center
         subtitleLabel.adjustsFontSizeToFitWidth = true
         subtitleLabel.sizeToFit()
         
         let titleView = UIView(frame: CGRect(x: 0, y: 0, width: max(imageUser.frame.size.width, subtitleLabel.frame.size.width), height: 45))
         titleView.addSubview(imageUser)
-        if subtitle != nil {
+        if str != nil {
             titleView.addSubview(subtitleLabel)
         } else {
             imageUser.frame = titleView.frame
@@ -1370,6 +1399,26 @@ extension MessagesVC {
         button.addTarget(self, action:  #selector(handleUserOptionsBtn), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
         self.navigationItem.rightBarButtonItem = barButton
+    }
+    
+    
+    func initOptionsInChatEventWhiteLableButton() {
+        let imageName = "attendeesList_ic"
+        let button = UIButton.init(type: .custom)
+        let image = UIImage.init(named: imageName)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.setImage(image, for: .normal)
+        image?.withTintColor(UIColor.blue)
+        button.addTarget(self, action:  #selector(handleAttendeesWhiteLable), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: button)
+        self.navigationItem.rightBarButtonItem = barButton
+    }
+    
+    @objc func handleAttendeesWhiteLable() {
+        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AttendeesVC") as? AttendeesVC else {return}
+        vc.eventID = self.eventChatID
+        vc.eventKey = 1
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func initOptionsInChatEventButton() {

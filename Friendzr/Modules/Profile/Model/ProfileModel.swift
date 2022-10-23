@@ -66,6 +66,8 @@ class ProfileObj: Mappable {
         personalSpace <- map["personalSpace"]
         notificationcount <- map["notificationcount"]
         message_Count <- map["message_Count"]
+        isWhiteLable <- map["isWhiteLable"]
+        universityCode <- map["universityCode"]
     }
     
     
@@ -101,4 +103,6 @@ class ProfileObj: Mappable {
     var personalSpace:Bool = false
     var notificationcount:Int = 0
     var message_Count:Int = 0
+    var isWhiteLable:Bool = false
+    var universityCode:String = ""
 }

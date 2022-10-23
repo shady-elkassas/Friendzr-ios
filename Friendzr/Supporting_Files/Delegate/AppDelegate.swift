@@ -659,19 +659,19 @@ extension AppDelegate: CLLocationManagerDelegate {
         
         //update location server
         if Defaults.token != "" {
-            self.updateLocationVM.updatelocation(ByLat: "\(51.00920)", AndLng: "\(-2.26786)") { error, data in
+            self.updateLocationVM.updatelocation(ByLat: "\(location.latitude)", AndLng: "\(location.longitude)") { error, data in
                 if let error = error {
                     print(error)
                     return
                 }
                 
                 guard let _ = data else {return}
-                Defaults.LocationLat = "\(51.00920)"
-                Defaults.LocationLng = "\(-2.26786)"
+                Defaults.LocationLat = "\(location.latitude)"
+                Defaults.LocationLng = "\(location.longitude)"
             }
         }else {
-            Defaults.LocationLat = "\(51.00920)"
-            Defaults.LocationLng = "\(-2.26786)"
+            Defaults.LocationLat = "\(location.latitude)"
+            Defaults.LocationLng = "\(location.longitude)"
         }
     }
     

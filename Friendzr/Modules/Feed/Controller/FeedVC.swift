@@ -69,7 +69,7 @@ extension FeedVC {
                 switchCompassBarButton.isUserInteractionEnabled = true
                 switchGhostModeBarButton.isUserInteractionEnabled = true
                 switchSortedByInterestsButton.isUserInteractionEnabled = true
-//                locationManager.showsBackgroundLocationIndicator = false
+                //                locationManager.showsBackgroundLocationIndicator = false
             default:
                 break
             }
@@ -269,7 +269,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         
         if Defaults.availableVC != "FeedVC" {
             currentPage = 1
-
+            
             DispatchQueue.main.async {
                 if CLLocationManager.locationServicesEnabled() {
                     self.checkLocationPermission()
@@ -291,7 +291,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             bannerViewHeight.constant = 0
         }
         
-
+        
         
         initGhostModeAndSortSwitchButton()
     }
@@ -306,12 +306,12 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     func updateUserInterface() {
         appDelegate.networkReachability()
         
-//        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-//          AnalyticsParameterItemID: "id-\(title!)",
-//          AnalyticsParameterItemName: title!,
-//          AnalyticsParameterContentType: "cont",
-//        ])
-
+        //        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
+        //          AnalyticsParameterItemID: "id-\(title!)",
+        //          AnalyticsParameterItemName: title!,
+        //          AnalyticsParameterContentType: "cont",
+        //        ])
+        
         switch Network.reachability.status {
         case .unreachable:
             DispatchQueue.main.async {
@@ -675,7 +675,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func updateMyLocation() {
-        updateLocationVM.updatelocation(ByLat: "\(51.00920)", AndLng: "\(-2.26786)") { error, data in
+        updateLocationVM.updatelocation(ByLat: "\(Defaults.LocationLat)", AndLng: "\(Defaults.LocationLng)") { error, data in
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
@@ -698,7 +698,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     //MARK: - Helper
-    
     func addCompassView() {
         if Defaults.isIPhoneLessThan2500 {
             let child = UIHostingController(rootView: CompassViewSwiftUIForIPhoneSmall())
@@ -1084,7 +1083,7 @@ extension FeedVC:UITableViewDataSource {
                 if NetworkConected.internetConect {
                     self.accseptRequest(model, "\(actionDate) \(actionTime)")
                 }
-
+                
             }
             
             cell.HandleRefusedBtn = { // refused request

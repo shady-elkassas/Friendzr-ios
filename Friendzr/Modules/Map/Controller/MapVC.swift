@@ -394,7 +394,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func updateMyLocation() {
-        updateLocationVM.updatelocation(ByLat: "\(51.00920)", AndLng: "\(-2.26786)") { error, data in
+        updateLocationVM.updatelocation(ByLat: "\(Defaults.LocationLat)", AndLng: "\(Defaults.LocationLng)") { error, data in
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
@@ -403,10 +403,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             }
             
             guard let data = data else {return}
-            Defaults.LocationLat = "\(51.00920)"
-            Defaults.LocationLng = "\(-2.26786)"
+            Defaults.LocationLat = data.lat
+            Defaults.LocationLng = data.lang
             Defaults.Image = data.userImage
-            
+
             NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
     }
@@ -586,11 +586,19 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 iconMarker = "external_event_ic"
             }else if item.event_Type == "adminExternal" {
                 iconMarker = "external_event_ic"
-            }else {
+            }else if item.event_Type == "WhiteLable" {
+                iconMarker = item.eventData?[0].image ?? ""
+            }
+            else {
                 iconMarker = "eventMarker_ic"
             }
             
+//            if item.event_Type == "WhiteLable" {
+//                locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: item.eventData?[0].image ?? "", typelocation: "event", eventsCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : "",isEvent: true,peopleCount: 0, eventType: "WhiteLable", eventList: item.eventData))
+//
+//            }else {
             locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: iconMarker, typelocation: "event", eventsCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : "",isEvent: true,peopleCount: 0, eventType: item.event_Type, eventList: item.eventData))
+//            }
         }
         
         DispatchQueue.main.async {
@@ -602,6 +610,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         DispatchQueue.main.async {
             for item in self.locations {
                 self.setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, eventsCount: item.eventsCount,isEvent: item.isEvent,peopleCount: item.peopleCount, eventTypee: item.eventType)
+                
                 print("item.eventType ?? \(item.eventType)")
             }
         }
@@ -630,84 +639,47 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             }
         }
         
-//        var xview:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
-//
-//        if Defaults.isIPhoneLessThan2500 {
-//            xview = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
-//        }
-//
-//        let labl = UILabel()
-//        labl.frame = xview.frame
-//        xview.backgroundColor = .clear
-//        labl.text = "\(eventsCount)"
-//        labl.textColor = .black
-//        labl.textAlignment = .center
-//        labl.font = UIFont(name: "Montserrat-Medium", size: 10)
-//        let imag:UIImageView = UIImageView()
-//        imag.frame = xview.frame
-//        imag.image = UIImage(named: markerIcon ?? "")
-//        imag.contentMode = .scaleToFill
-//
-//        xview.addSubview(imag)
-//        xview.addSubview(labl)
-//
-//
-//        labl.translatesAutoresizingMaskIntoConstraints = false
-//
-//        let horizontalConstraint = labl.centerXAnchor.constraint(equalTo: xview.centerXAnchor)
-//        let verticalConstraint = labl.centerYAnchor.constraint(equalTo: xview.centerYAnchor, constant: Defaults.isIPhoneLessThan2500 == true ? -2 : -5)
-//        let widthConstraint = labl.widthAnchor.constraint(equalToConstant: xview.bounds.width)
-//        let heightConstraint = labl.heightAnchor.constraint(equalToConstant: xview.bounds.height)
-//        NSLayoutConstraint.activate([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-//
-//
-//
-//        var xview2:UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
-//        if Defaults.isIPhoneLessThan2500 {
-//            xview2 = UIView(frame: CGRect(x: 0, y: 0, width: 35, height: 35))
-//        }
-//
-//        let imag2:UIImageView = UIImageView()
-//        imag2.frame = xview2.frame
-//        imag2.image = UIImage(named: markerIcon ?? "")
-//        imag2.contentMode = .scaleToFill
-//
-//        xview2.addSubview(imag2)
-
-        
-//        if isEvent && eventTypee != "Private" {
-////            marker.iconView = xview
-//        }else {
-//            marker.iconView = xview2
-//        }
-        
-        //            marker.icon = UIImage(systemName: "default_marker.png")?.withTintColor(.blue)
-        
-        if isEvent && eventTypee != "Private" {
-            marker.icon = createMarkerImage(iconMarker: markerIcon!, count: "\(eventsCount)")
+        if isEvent {
+            if eventTypee == "WhiteLable" {
+                marker.icon = createMarkerImage(isWhiteLabel: true, iconMarker: markerIcon!, count: "")
+            }else if eventTypee == "Private" {
+                marker.icon = createMarkerImage(isWhiteLabel: false, iconMarker: markerIcon!, count: "")
+            }else {
+                marker.icon = createMarkerImage(isWhiteLabel: false, iconMarker: markerIcon!, count: "\(eventsCount)")
+            }
         }else {
-            marker.icon = createMarkerImage(iconMarker: markerIcon!, count: "")
+            marker.icon = createMarkerImage(isWhiteLabel: false, iconMarker: markerIcon!, count: "")
         }
         
         marker.map = mapView
     }
     
-    func createMarkerImage(iconMarker:String,count: String) -> UIImage {
+    func createMarkerImage(isWhiteLabel:Bool,iconMarker:String,count: String) -> UIImage {
 
         let color = UIColor.black
         let string = count //"\(UInt(count))"
-        let attrs: [NSAttributedString.Key: Any] = [.foregroundColor: color,.font : UIFont(name: "Montserrat-Medium", size: 10)!]
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        let font = UIFont(name: "Montserrat-Medium", size: 8)
+        let attrs: [NSAttributedString.Key: Any] = [.foregroundColor: color,.font : font!,.paragraphStyle:paragraphStyle]
         let attrStr = NSAttributedString(string: string, attributes: attrs)
-        let image = UIImage(named: iconMarker)!
-        UIGraphicsBeginImageContext(image.size)
         
-        image.draw(in: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(image.size.width), height: CGFloat(image.size.height)))
+        let imageView:UIImageView = UIImageView()
         
-        var rect = CGRect(x: CGFloat(18), y: CGFloat(11), width: CGFloat(image.size.width), height: CGFloat(image.size.height))
-        
-        if Defaults.isIPhoneLessThan2500 {
-            rect = CGRect(x: CGFloat(13), y: CGFloat(7), width: CGFloat(image.size.width), height: CGFloat(image.size.height))
+        if isWhiteLabel == true {
+            imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            imageView.sd_setImage(with: URL(string: iconMarker ), placeholderImage: UIImage(named: "placeHolderApp"))
+        }else {
+            imageView.image = UIImage(named: iconMarker)
         }
+//        UIGraphicsBeginImageContext(CGSize(width: 32, height: 32))
+
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: 32, height: 32), false, 0.0)
+        
+        imageView.image?.draw(in: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(32), height: CGFloat(32)))
+        
+        let rect = CGRect(x: CGFloat(Defaults.isIPhoneLessThan2500 ? 4 : 0), y: CGFloat(8), width: CGFloat(Defaults.isIPhoneLessThan2500 ? 24 : 32), height: CGFloat(Defaults.isIPhoneLessThan2500 ? 24 : 32))
+        
         attrStr.draw(in: rect)
 
         let markerImage = UIGraphicsGetImageFromCurrentImageContext()!
@@ -716,6 +688,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         return markerImage
     }
     
+
     func setupViews() {
         //setup search bar
         addEventBtn.cornerRadiusView(radius: 10)
