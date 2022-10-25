@@ -84,14 +84,6 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         
-        if Defaults.isWhiteLable {
-            tabBarController?.tabBar.isHidden = true
-            initLogoutBarButton()
-        }else {
-            initNewConversationBarButton()
-            initProfileBarButton(didTap: true)
-        }
-        
         hideKeyboardWhenTappedAround()
         currentPage = 1
     }
@@ -105,6 +97,14 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         CancelRequest.currentTask = false
         
         setupNavBar()
+        
+        if Defaults.isWhiteLable {
+            tabBarController?.tabBar.isHidden = true
+            initLogoutBarButton()
+        }else {
+            initNewConversationBarButton()
+            initProfileBarButton(didTap: true)
+        }
         
         if Defaults.token != "" {
             DispatchQueue.main.async {

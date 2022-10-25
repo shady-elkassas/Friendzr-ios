@@ -519,7 +519,7 @@ extension ExternalEventDetailsVC {
     @objc func handleEventOptionsBtn() {
         let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-            if self.viewmodel.event.value?.eventtype == "Private" {
+            if self.viewmodel.event.value?.eventTypeName == "Private" {
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
                     vc.eventID = self.viewmodel.event.value?.id ?? ""
                     self.present(controller, animated: true)
@@ -567,7 +567,7 @@ extension ExternalEventDetailsVC {
     @objc func handleShareOptionsBtn() {
         let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-            if self.viewmodel.event.value?.eventtype == "Private" {
+            if self.viewmodel.event.value?.eventTypeName == "Private" {
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
                     vc.eventID = self.viewmodel.event.value?.id ?? ""
                     self.present(controller, animated: true)

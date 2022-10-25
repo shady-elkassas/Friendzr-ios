@@ -242,6 +242,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         super.viewWillAppear(animated)
         
         catIDs = Defaults.catIDs
+        
         for cat in Defaults.catIDs {
             for item in Defaults.catSelectedNames {
                 catSelectedArr.append(CategoryObj(id: cat, name: item, isSelected: true))
@@ -363,7 +364,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func bindToModel() {
-        self.mapView.clear()
+//        self.mapView.clear()
         
         viewmodel.getAllEventsAroundMe(ByCatIds: catIDs)
         viewmodel.locations.bind { [weak self] value in
@@ -570,35 +571,30 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         subViewHeight.constant = 50
     }
     
-    
+    var iconMarker = ""
+
     // locations markers
     func setupMarkers(model:EventsAroundList) {
         
         locations.removeAll()
         mapView.clear()
         
-        var iconMarker = ""
         for item in model.eventlocationDataMV ?? [] {
             
-            if item.event_Type == "Private" {
+            if item.eventTypeName == "Private" {
                 iconMarker = "markerPrivateEvent_ic"
-            }else if item.event_Type == "External" {
+            }else if item.eventTypeName == "External" {
                 iconMarker = "external_event_ic"
-            }else if item.event_Type == "adminExternal" {
+            }else if item.eventTypeName == "adminExternal" {
                 iconMarker = "external_event_ic"
-            }else if item.event_Type == "WhiteLable" {
-                iconMarker = item.eventData?[0].image ?? ""
+            }else if item.eventTypeName == "Whitelabel" {
+                iconMarker = item.eventMarkerImage ?? ""
             }
             else {
                 iconMarker = "eventMarker_ic"
             }
-            
-//            if item.event_Type == "WhiteLable" {
-//                locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: item.eventData?[0].image ?? "", typelocation: "event", eventsCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : "",isEvent: true,peopleCount: 0, eventType: "WhiteLable", eventList: item.eventData))
-//
-//            }else {
-            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: iconMarker, typelocation: "event", eventsCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : "",isEvent: true,peopleCount: 0, eventType: item.event_Type, eventList: item.eventData))
-//            }
+
+            locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: iconMarker, typelocation: "event", eventsCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : "",isEvent: true,peopleCount: 0, eventType: item.eventTypeName, eventList: item.eventData))
         }
         
         DispatchQueue.main.async {
@@ -611,7 +607,15 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             for item in self.locations {
                 self.setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, eventsCount: item.eventsCount,isEvent: item.isEvent,peopleCount: item.peopleCount, eventTypee: item.eventType)
                 
-                print("item.eventType ?? \(item.eventType)")
+                print("item.eventType ?? \(item.markerIcon)")
+            }
+        }
+        
+        DispatchQueue.main.async {
+            for item in self.locations {
+                self.setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, eventsCount: item.eventsCount,isEvent: item.isEvent,peopleCount: item.peopleCount, eventTypee: item.eventType)
+                
+                print("item.eventType ?? \(item.markerIcon)")
             }
         }
     }
@@ -640,7 +644,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         if isEvent {
-            if eventTypee == "WhiteLable" {
+            if eventTypee == "Whitelabel" {
                 marker.icon = createMarkerImage(isWhiteLabel: true, iconMarker: markerIcon!, count: "")
             }else if eventTypee == "Private" {
                 marker.icon = createMarkerImage(isWhiteLabel: false, iconMarker: markerIcon!, count: "")
@@ -668,7 +672,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         if isWhiteLabel == true {
             imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            imageView.sd_setImage(with: URL(string: iconMarker ), placeholderImage: UIImage(named: "placeHolderApp"))
+            imageView.sd_setImage(with: URL(string: iconMarker), placeholderImage: UIImage(named: "placeHolderApp"))
         }else {
             imageView.image = UIImage(named: iconMarker)
         }
@@ -1504,7 +1508,7 @@ extension MapVC:UITableViewDelegate {
             
             let model = sliderEventList?[indexPath.row]
             if Defaults.token != "" {
-                if model?.eventtype == "External" {
+                if model?.eventTypeName == "External" {
                     guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
                     vc.eventId = model?.id ?? ""
                     if model?.key == 1 {
@@ -1589,7 +1593,7 @@ extension MapVC:UICollectionViewDataSource {
             
             cell.HandledetailsBtn = {
                 if Defaults.token != "" {
-                    if model?.eventtype == "External" {
+                    if model?.eventTypeName == "External" {
                         guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
                         vc.eventId = model?.id ?? ""
                         

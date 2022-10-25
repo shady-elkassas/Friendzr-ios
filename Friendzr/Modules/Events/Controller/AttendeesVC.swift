@@ -69,6 +69,9 @@ class AttendeesVC: UIViewController {
         super.viewWillAppear(animated)
         
         CancelRequest.currentTask = false
+        if Defaults.isWhiteLable {
+            tabBarController?.tabBar.isHidden = true
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

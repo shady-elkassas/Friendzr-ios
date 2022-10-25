@@ -374,11 +374,11 @@ class EditEventsVC: UIViewController {
             attendeesViewHeight.constant = CGFloat(220)
         }
         
-        eventTypeLbl.text = (eventModel?.eventtype ?? "") + " Event"
-        eventTypeName = eventModel?.eventtype ?? ""
+        eventTypeLbl.text = (eventModel?.eventTypeName ?? "") + " Event"
+        eventTypeName = eventModel?.eventTypeName ?? ""
         eventTypeID = eventModel?.eventtypeid ?? ""
         
-        if eventModel?.eventtype == "Private" {
+        if eventModel?.eventTypeName == "Private" {
             selectFriendsView.isHidden = false
             topFriendsViewLayoutConstraint.constant = 10
             bottomFriendsViewLayoutConstaint.constant = 10

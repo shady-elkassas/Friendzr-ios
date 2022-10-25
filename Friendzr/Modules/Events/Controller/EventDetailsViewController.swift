@@ -192,14 +192,14 @@ class EventDetailsViewController: UIViewController {
                     }
                     
                     DispatchQueue.main.async {
-                        if value.eventtype == "adminExternal" {
+                        if value.eventTypeName == "adminExternal" {
                             self?.title = "External Event"
                         }else {
-                            self?.title = value.eventtype + " Event"
+                            self?.title = value.eventTypeName + " Event"
                         }
                     }
                     
-                    if value.eventtype == "Private" {
+                    if value.eventTypeName == "Private" {
                         self?.isprivateEvent = true
                     }else {
                         self?.isprivateEvent = false
@@ -236,10 +236,10 @@ class EventDetailsViewController: UIViewController {
                 self?.tableView.reloadData()
                 
                 DispatchQueue.main.async {
-                    if value.eventtype == "adminExternal" {
+                    if value.eventTypeName == "adminExternal" {
                         self?.title = "External Event"
                     }else {
-                        self?.title = value.eventtype + " Event"
+                        self?.title = value.eventTypeName + " Event"
                     }
                 }
                 
@@ -255,7 +255,7 @@ class EventDetailsViewController: UIViewController {
                         self?.isEventAdmin = false
                     }
                     
-                    if value.eventtype == "Private" {
+                    if value.eventTypeName == "Private" {
                         self?.isprivateEvent = true
                     }else {
                         self?.isprivateEvent = false
@@ -312,7 +312,7 @@ extension EventDetailsViewController: UITableViewDataSource {
         if viewmodel.event.value?.key == 1 {
             return 8
         }
-        else if  viewmodel.event.value?.eventtype == "Private" && viewmodel.event.value?.showAttendees == true {
+        else if  viewmodel.event.value?.eventTypeName == "Private" && viewmodel.event.value?.showAttendees == true {
             return 8
         }
         else {
@@ -358,7 +358,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             
             cell.HandleJoinBtn = {
                 if NetworkConected.internetConect == true {
-                    if model?.eventtype == "adminExternal" && model?.checkout_details != "" {
+                    if model?.eventTypeName == "adminExternal" && model?.checkout_details != "" {
                         if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventWebNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventWebView {
                             vc.urlString = (model?.checkout_details ?? "").replacingOccurrences(of: "\'", with: "", options: NSString.CompareOptions.literal, range: nil)
                             vc.onShowconfirmCallBackResponse = self.onShowconfirmCallBack
@@ -404,7 +404,7 @@ extension EventDetailsViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: detailsCellId, for: indexPath) as? EventDetailsTableViewCell else {return UITableViewCell()}
             cell.detailsLbl.text = model?.descriptionEvent
             
-            if model?.eventtype == "adminExternal" {
+            if model?.eventTypeName == "adminExternal" {
                 if model?.descriptionEvent != "" {
                     if (model?.descriptionEvent?.count ?? 0) > 180 {
                         DispatchQueue.main.async {
@@ -514,7 +514,7 @@ extension EventDetailsViewController: UITableViewDelegate , UIPopoverPresentatio
             present(popupVC, animated: true, completion: nil)
         }
         else if indexPath.row == 3 {
-            if model?.eventtype == "adminExternal" && (model?.descriptionEvent?.count ?? 0) > 180 {
+            if model?.eventTypeName == "adminExternal" && (model?.descriptionEvent?.count ?? 0) > 180 {
                 guard let popupVC = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExpandDescriptionVC") as? ExpandDescriptionVC else {return}
                 popupVC.modalPresentationStyle = .overCurrentContext
                 popupVC.modalTransitionStyle = .crossDissolve
@@ -558,7 +558,7 @@ extension EventDetailsViewController {
         
         let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-            if self.viewmodel.event.value?.eventtype == "Private" {
+            if self.viewmodel.event.value?.eventTypeName == "Private" {
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
                     vc.eventID = self.viewmodel.event.value?.id ?? ""
                     self.present(controller, animated: true)
@@ -607,7 +607,7 @@ extension EventDetailsViewController {
     @objc func handleShareOptionsBtn() {
         let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Share".localizedString, style: .default, handler: { action in
-            if self.viewmodel.event.value?.eventtype == "Private" {
+            if self.viewmodel.event.value?.eventTypeName == "Private" {
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
                     vc.eventID = self.viewmodel.event.value?.id ?? ""
                     self.present(controller, animated: true)
