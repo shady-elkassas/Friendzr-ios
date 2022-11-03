@@ -12,6 +12,9 @@ import Firebase
 import FirebaseMessaging
 import Network
 import GoogleMobileAds
+import FirebaseCore
+import FirebaseDynamicLinks
+import FirebaseAuth
 
 class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRecognizerDelegate,UIPopoverPresentationControllerDelegate {
     
@@ -365,11 +368,11 @@ extension MoreVC : UITableViewDelegate {
                             }
                             return
                         }
-                        
+
                         guard let data = data else {
                             return
                         }
-                        
+
                         DispatchQueue.main.async {
                             self.shareApp(urlStr: data)
                         }

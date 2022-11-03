@@ -11,6 +11,8 @@
 #import <CoreLocation/CoreLocation.h>
 #import <Foundation/Foundation.h>
 
+#import "GMSPlacesDeprecationUtils.h"
+
 @protocol GMSPlaceLocationBias;
 @protocol GMSPlaceLocationRestriction;
 
@@ -69,24 +71,39 @@ typedef NS_ENUM(NSInteger, GMSPlacesAutocompleteTypeFilter) {
 @interface GMSAutocompleteFilter : NSObject
 
 /**
- * The type filter applied to an autocomplete request to restrict results to different types.
- * Default value is kGMSPlacesAutocompleteTypeFilterNoFilter.
+ * DEPRECATED. The type filter applied to an autocomplete request to restrict results to different
+ * types. Default value is kGMSPlacesAutocompleteTypeFilterNoFilter.
+ *
+ * NOTE: Ignored if the "types" property is set.
  */
-@property(nonatomic, assign) GMSPlacesAutocompleteTypeFilter type;
+@property(nonatomic, assign)
+    GMSPlacesAutocompleteTypeFilter type __GMS_AVAILABLE_BUT_DEPRECATED_MSG(
+        "type property is deprecated in favor of types");
 
 /**
- * The country to restrict results to. This should be a ISO 3166-1 Alpha-2 country code (case
- * insensitive). If nil, no country filtering will take place.
+ * The filter applied to an autocomplete request to restrict results using up to 5 different place
+ * types.
  *
- * NOTE: Ignored if the countries property is set.
+ * NOTE: Legacy type collections need to be passed in as solo entries and cannot be combined with
+ * any other entries from table_1 or table_2. Default value is null, which means no filters
+ * specified. Overrides the deprecated "type" property if this is set.
  */
-@property(nonatomic, copy, nullable) NSString *country;
+@property(nonatomic, nullable) NSArray<NSString *> *types;
+
+/**
+ * DEPRECATED. The country to restrict results to. This should be a ISO 3166-1 Alpha-2 country code
+ * (case insensitive). If nil, no country filtering will take place.
+ *
+ * NOTE: Ignored if the "countries" property is set.
+ */
+@property(nonatomic, copy, nullable) NSString *country __GMS_AVAILABLE_BUT_DEPRECATED_MSG(
+    "country property is deprecated in favor of countries");
 
 /**
  * The countries to restrict results to. This should be a ISO 3166-1 Alpha-2 country code (case
  * insensitive). Supports up to 5 countries to filter. If nil, no country filtering will take place.
  *
- * NOTE: Overrides the country property if that is set.
+ * NOTE: Overrides the deprecated "country" property if that is set.
  */
 @property(nonatomic, copy, nullable) NSArray<NSString *> *countries;
 

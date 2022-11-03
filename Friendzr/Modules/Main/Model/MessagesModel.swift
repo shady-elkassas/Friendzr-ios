@@ -71,6 +71,7 @@ class MessageObj: NSObject,Mappable {
     var messagetype:Int? = 0
     var eventData:EventObj? = nil
     var linkable:Bool = false
+    var isWhitelabel:Bool = false
     
     override init() {
         super.init()
@@ -95,6 +96,7 @@ class MessageObj: NSObject,Mappable {
         messagetype   <- map["messagetype"]
         eventData   <- map["eventData"]
         linkable   <- map["linkable"]
+        isWhitelabel   <- map["isWhitelabel"]
     }
 }
 

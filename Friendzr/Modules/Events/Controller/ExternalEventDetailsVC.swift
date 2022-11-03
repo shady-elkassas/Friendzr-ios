@@ -361,8 +361,7 @@ extension ExternalEventDetailsVC: UITableViewDataSource {
                     }
                 }
                 else {
-                    self.view.makeToast("Please try again later!")
-                    return
+                    self.joinEvent(cell,JoinDate, Jointime)
                 }
             }
             
@@ -610,6 +609,29 @@ extension ExternalEventDetailsVC {
                 DispatchQueue.main.async {
                     NotificationCenter.default.post(name: Notification.Name("handleExternalEventDetails"), object: nil, userInfo: nil)
                 }
+            }
+        }
+    }
+    
+    func joinEvent(_ cell: EventButtonsTableViewCell, _ JoinDate: String, _ Jointime: String) {
+        self.changeTitleBtns(btn: cell.joinBtn, title: "Joining...".localizedString)
+        cell.joinBtn.isUserInteractionEnabled = false
+        
+        self.joinVM.joinEvent(ByEventid: self.eventId,JoinDate:JoinDate ,Jointime:Jointime) { error, data in
+            
+            
+            if let error = error {
+                self.hideLoading()
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = data else {return}
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("handleEventDetails"), object: nil, userInfo: nil)
             }
         }
     }

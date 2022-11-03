@@ -195,7 +195,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var catSelectedArr:[CategoryObj] = [CategoryObj]()
     
     var switchFilterButton: CustomSwitch = CustomSwitch()
-    
+    var iconMarker = ""
+
     private var layout: UICollectionViewFlowLayout!
     
     var currentPage : Int = 1
@@ -571,7 +572,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         subViewHeight.constant = 50
     }
     
-    var iconMarker = ""
 
     // locations markers
     func setupMarkers(model:EventsAroundList) {

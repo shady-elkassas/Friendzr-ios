@@ -72,11 +72,13 @@ class SenderMessage {
     var senderId:String = ""
     var photoURL:String = ""
     var displayName:String = ""
+    var isWhitelabel:Bool = false
     
-    init(senderId:String,photoURL:String,displayName:String) {
+    init(senderId:String,photoURL:String,displayName:String,isWhitelabel:Bool) {
         self.senderId = senderId
         self.photoURL = photoURL
         self.displayName = displayName
+        self.isWhitelabel = isWhitelabel
     }
 }
 
@@ -88,6 +90,7 @@ class ChatMessage {
     var messageImage:MessageImage
     var messageFile:MessageFile
     var messageLink:LinkPreviewEvent
+//    var senderType:String = ""
     var date:Date = Date()
     var messageDate:String = ""
     var messageTime:String = ""
@@ -133,4 +136,5 @@ class NotificationMessage {
     static var senderId:String = ""
     static var photoURL:String = ""
     static var displayName:String = ""
+    static var isWhitelabel:Bool = false
 }

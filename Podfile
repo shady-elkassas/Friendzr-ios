@@ -10,7 +10,7 @@ target 'Friendzr' do
   pod 'Alamofire', '~> 5.4'
   pod 'ObjectMapper'
 
-  pod 'FBSDKLoginKit'
+  pod 'FBSDKLoginKit', '~> 11.1.0'
   pod 'GoogleSignIn'
   
   pod 'Firebase'
@@ -21,7 +21,7 @@ target 'Friendzr' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Storage'
   pod 'Firebase/Firestore'
-
+  pod 'Firebase/DynamicLinks'
   pod 'IQKeyboardManager'
   pod 'SDWebImage'
   pod 'GoogleMaps'
@@ -47,5 +47,11 @@ target 'Friendzr' do
       config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
     end
   end
+  
+#  post_install do |installer|
+#    installer.pods_project.build_configuration_list.build_configurations.each do |configuration|
+#      configuration.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+#    end
+#  end
   
 end

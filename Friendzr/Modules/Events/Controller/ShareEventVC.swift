@@ -8,6 +8,10 @@
 import UIKit
 import ListPlaceholder
 import Network
+import FirebaseCore
+import FirebaseDynamicLinks
+import FirebaseAuth
+
 
 class ShareEventVC: UIViewController {
     
@@ -59,6 +63,7 @@ class ShareEventVC: UIViewController {
     var currentGroupsPage:Int = 1
     var currentEventsPage:Int = 1
     
+    var encryptedID:String = ""
     
     let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -510,6 +515,37 @@ class ShareEventVC: UIViewController {
         activityViewController.isModalInPresentation = true
         self.present(activityViewController, animated: true, completion: nil)
     }
+    
+    func shareEventOut() {
+        
+        
+//        guard let link = URL(string: "https://friendzsocialmedialimited.page.link") else { return }
+//        let dynamicLinksDomainURIPrefix = "https://friendzsocialmedialimited.page.link"
+//        let linkBuilder = DynamicLinkComponents(link: link, domainURIPrefix: dynamicLinksDomainURIPrefix)
+//
+//        linkBuilder?.iOSParameters = DynamicLinkIOSParameters(bundleID: "com.FriendzSocialMediaLimited.Friendzr-ios")
+//        linkBuilder?.iOSParameters?.appStoreID = "123456789"
+//        linkBuilder?.iOSParameters?.minimumAppVersion = "1.2.3"
+//
+//        linkBuilder?.androidParameters = DynamicLinkAndroidParameters(packageName: "com.FriendzSocialMediaLimited.Friendzr-android")
+//        linkBuilder?.androidParameters?.minimumVersion = 123
+//        linkBuilder?.analyticsParameters = DynamicLinkGoogleAnalyticsParameters(source: "orkut",
+//                                                                               medium: "social",
+//                                                                               campaign: "example-promo")
+//
+//        linkBuilder?.iTunesConnectParameters = DynamicLinkItunesConnectAnalyticsParameters()
+//        linkBuilder?.iTunesConnectParameters?.providerToken = "123456"
+//        linkBuilder?.iTunesConnectParameters?.campaignToken = "example-promo"
+//
+//        linkBuilder?.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
+//        linkBuilder?.socialMetaTagParameters?.title = "Example of a Dynamic Link"
+//        linkBuilder?.socialMetaTagParameters?.descriptionText = "This link works whether the app is installed or not!"
+//        linkBuilder?.socialMetaTagParameters?.imageURL = URL(string: "")
+//
+//        guard let longDynamicLink = linkBuilder?.url else { return }
+//        print("The long URL is: \(longDynamicLink)")
+    }
+    
     func setupViews() {
         friendsTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
         groupsTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
@@ -584,7 +620,8 @@ class ShareEventVC: UIViewController {
     
     //MARK: - Actions
     @IBAction func shareOutSideFriendzrBtn(_ sender: Any) {
-        shareEvent()
+//        shareEvent()
+        shareEventOut()
     }
 }
 

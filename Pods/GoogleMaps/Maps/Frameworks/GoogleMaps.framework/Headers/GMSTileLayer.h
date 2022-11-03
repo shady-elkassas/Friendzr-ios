@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Stub tile that is used to indicate that no tile exists for a specific tile coordinate. May be
- * returned by tileForX:y:zoom: on GMSTileProvider.
+ * returned by tileForX:y:zoom: on GMSTileOverlay.
  */
 FOUNDATION_EXTERN UIImage *const kGMSTileLayerNoTile;
 

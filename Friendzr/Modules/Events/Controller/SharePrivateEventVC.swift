@@ -28,6 +28,7 @@ class SharePrivateEventVC: UIViewController {
     var shareEventMessageVM:ChatViewModel = ChatViewModel()
     var viewmodel:AttendeesViewModel = AttendeesViewModel()
     var eventID:String = ""
+    var encryptedID:String = ""
     var currentPage : Int = 1
     var isLoadingList : Bool = false
     var cellSelected:Bool = false

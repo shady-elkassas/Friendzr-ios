@@ -527,7 +527,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let _: String = userInfo["sound"] as? String ?? ""
         let messageTime = userInfo["time"] as? String ?? ""
         let messagedate = userInfo["date"] as? String ?? ""
-        
+        let IsWhitelabel = userInfo["IsWhitelabel"] as? String ?? ""
         let messsageImageURL = userInfo["messsageImageURL"] as? String ?? ""
         let messsageLinkEvenImage = userInfo["messsageLinkEvenImage"] as? String ?? ""
         let messsageLinkEvenTitle = userInfo["messsageLinkEvenTitle"] as? String ?? ""
@@ -546,8 +546,15 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
         
+        var isWhiteLabel:Bool = false
+        if IsWhitelabel == "True" {
+            isWhiteLabel = true
+        }else {
+            isWhiteLabel = false
+        }
+        
         if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId{
-            notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId)
+            notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId,isWhiteLabel)
         }
         
         updateAppWhenPresentNotification(action, actionId)
@@ -593,7 +600,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let _: String = userInfo["sound"] as? String ?? ""
         let messageTime = userInfo["time"] as? String ?? ""
         let messagedate = userInfo["date"] as? String ?? ""
-        
+        let IsWhitelabel = userInfo["IsWhitelabel"] as? String ?? ""
+
         let messsageImageURL = userInfo["messsageImageURL"] as? String ?? ""
         let messsageLinkEvenImage = userInfo["messsageLinkEvenImage"] as? String ?? ""
         let messsageLinkEvenTitle = userInfo["messsageLinkEvenTitle"] as? String ?? ""
@@ -611,8 +619,15 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         let senderImage = userInfo["senderImage"] as? String ?? ""
         let senderDisplayName = userInfo["senderDisplayName"] as? String ?? ""
         
+        var isWhiteLabel:Bool = false
+        if IsWhitelabel == "True" {
+            isWhiteLabel = true
+        }else {
+            isWhiteLabel = false
+        }
+        
         if Defaults.availableVC == "MessagesVC" || Defaults.ConversationID == actionId {
-            notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId)
+            notificationMessageChat(messageType, action, actionId, body, messageId, messagedate, messageTime, senderId, senderImage, senderDisplayName, messsageImageURL, messsageLinkEvenkey, messsageLinkEvenTitle, messsageLinkEvencategorie, messsageLinkEvenImage, messsageLinkEvenjoined, messsageLinkEventotalnumbert, messsageLinkEveneventdateto, messsageLinkEvenId, isWhiteLabel)
         }
         
         updateAppWhenPresentNotification(action, actionId)
@@ -829,7 +844,7 @@ extension AppDelegate {
 
 extension AppDelegate {
     func redirectNotification(_ action: String?, _ rootViewController: UIViewController, _ actionId: String?, _ isEventAdmin: String?, _ imageNotifications: String?, _ chatTitle: String?) {
-        if action == "Friend_Request" {
+        if action == "Friend_Request" && !Defaults.isWhiteLable {
             if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -837,7 +852,7 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "Accept_Friend_Request" {
+        else if action == "Accept_Friend_Request" && !Defaults.isWhiteLable {
             if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -923,13 +938,13 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "Joined_ChatGroup" {
+        else if action == "Joined_ChatGroup" && !Defaults.isWhiteLable {
             Router().toHome()
         }
-        else if action == "Kickedout_ChatGroup" {
+        else if action == "Kickedout_ChatGroup" && !Defaults.isWhiteLable {
             Router().toHome()
         }
-        else if action == "event_Updated"{
+        else if action == "event_Updated" && !Defaults.isWhiteLable {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -937,7 +952,7 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "update_Event_Data"{
+        else if action == "update_Event_Data" && !Defaults.isWhiteLable {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -945,7 +960,7 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "event_attend"{
+        else if action == "event_attend" && !Defaults.isWhiteLable {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -953,7 +968,7 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "Event_reminder" {
+        else if action == "Event_reminder" && !Defaults.isWhiteLable {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -961,7 +976,7 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "Check_events_near_you" {
+        else if action == "Check_events_near_you" && !Defaults.isWhiteLable {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -969,7 +984,7 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "Check_private_events" {
+        else if action == "Check_private_events" && !Defaults.isWhiteLable {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -1080,9 +1095,14 @@ extension AppDelegate {
         
         //badge inbox
         if action == "user_chat" ||  action == "event_chat" || action == "user_chatGroup" {
-            if Defaults.availableVC != "MessagesVC" && Defaults.ConversationID != actionId {
+            if Defaults.availableVC != "MessagesVC" || Defaults.ConversationID != actionId {
+                
                 Defaults.message_Count += 1
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
+                
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
+                }
             }
         }
     }
@@ -1096,6 +1116,9 @@ extension AppDelegate {
             }
             else if Defaults.availableVC == "MessagesVC" && Defaults.ConversationID == actionId
             {
+                completionHandler([[]])
+            }
+            else if Defaults.isWhiteLable && action != "event_chat" {
                 completionHandler([[]])
             }
             else {
@@ -1114,7 +1137,7 @@ extension AppDelegate {
         }
     }
     
-    func notificationMessageChat(_ messageType: String?, _ action: String?, _ actionId: String?, _ body: String?, _ messageId: String, _ messagedate: String, _ messageTime: String, _ senderId: String, _ senderImage: String, _ senderDisplayName: String, _ messsageImageURL: String, _ messsageLinkEvenkey: String, _ messsageLinkEvenTitle: String, _ messsageLinkEvencategorie: String, _ messsageLinkEvenImage: String, _ messsageLinkEvenjoined: String, _ messsageLinkEventotalnumbert: String, _ messsageLinkEveneventdateto: String, _ messsageLinkEvenId: String) {
+    func notificationMessageChat(_ messageType: String?, _ action: String?, _ actionId: String?, _ body: String?, _ messageId: String, _ messagedate: String, _ messageTime: String, _ senderId: String, _ senderImage: String, _ senderDisplayName: String, _ messsageImageURL: String, _ messsageLinkEvenkey: String, _ messsageLinkEvenTitle: String, _ messsageLinkEvencategorie: String, _ messsageLinkEvenImage: String, _ messsageLinkEvenjoined: String, _ messsageLinkEventotalnumbert: String, _ messsageLinkEveneventdateto: String, _ messsageLinkEvenId: String, _ isWhitelabel:Bool ) {
         
         if messageType == "1" {//text
             NotificationMessage.action = action ?? ""
@@ -1127,6 +1150,7 @@ extension AppDelegate {
             NotificationMessage.senderId = senderId
             NotificationMessage.photoURL = senderImage
             NotificationMessage.displayName = senderDisplayName
+            NotificationMessage.isWhitelabel = isWhitelabel
         }
         else if messageType == "2" {//image
             NotificationMessage.action = action ?? ""
@@ -1139,6 +1163,7 @@ extension AppDelegate {
             NotificationMessage.senderId = senderId
             NotificationMessage.photoURL = senderImage
             NotificationMessage.displayName = senderDisplayName
+            NotificationMessage.isWhitelabel = isWhitelabel
         }
         else if messageType == "3" {//file
             NotificationMessage.action = action ?? ""
@@ -1151,6 +1176,7 @@ extension AppDelegate {
             NotificationMessage.photoURL = senderImage
             NotificationMessage.senderId = senderId
             NotificationMessage.displayName = senderDisplayName
+            NotificationMessage.isWhitelabel = isWhitelabel
         }
         else if messageType == "4" {//link preview
             NotificationMessage.action = action ?? ""
@@ -1163,7 +1189,6 @@ extension AppDelegate {
             NotificationMessage.photoURL = senderImage
             NotificationMessage.displayName = senderDisplayName
             NotificationMessage.isJoinEvent = Int(messsageLinkEvenkey) ?? 0
-            
             NotificationMessage.messsageLinkTitle = messsageLinkEvenTitle
             NotificationMessage.messsageLinkCategory = messsageLinkEvencategorie
             NotificationMessage.messsageLinkImageURL = messsageLinkEvenImage
@@ -1171,9 +1196,9 @@ extension AppDelegate {
             NotificationMessage.messsageLinkAttendeesTotalnumbert = messsageLinkEventotalnumbert
             NotificationMessage.messsageLinkEventDate = messsageLinkEveneventdateto
             NotificationMessage.linkPreviewID = messsageLinkEvenId
+            NotificationMessage.isWhitelabel = isWhitelabel
         }
     }
-    
 }
 
 extension AppDelegate: AppsFlyerLibDelegate {
@@ -1265,10 +1290,10 @@ extension AppDelegate: DeepLinkDelegate {
 //    }
 
      // For Swift version < 4.2 replace function signature with the commented out code
-     // func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool { // this line for Swift < 4.2
-     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-         AppsFlyerLib.shared().continue(userActivity, restorationHandler: nil)
-         return true
+
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+         let appsFlyerHandler = AppsFlyerLib.shared().continue(userActivity, restorationHandler: nil)
+         return appsFlyerHandler
      }
      
      // Open Deeplinks

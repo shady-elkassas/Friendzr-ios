@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface GMSCircle : GMSOverlay
 
-/** Position on Earth of circle center. Invalid positions are ignored. */
+/** Position on Earth of circle center. Ignores invalid positions. */
 @property(nonatomic) CLLocationCoordinate2D position;
 
 /** Radius of the circle in meters; must be positive. */

@@ -358,18 +358,34 @@ extension EventDetailsViewController: UITableViewDataSource {
             
             cell.HandleJoinBtn = {
                 if NetworkConected.internetConect == true {
-                    if model?.eventTypeName == "adminExternal" && model?.checkout_details != "" {
-                        if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventWebNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventWebView {
-                            vc.urlString = (model?.checkout_details ?? "").replacingOccurrences(of: "\'", with: "", options: NSString.CompareOptions.literal, range: nil)
-                            vc.onShowconfirmCallBackResponse = self.onShowconfirmCallBack
-                            self.present(controller, animated: true)
+                    if model?.eventTypeName == "Whitelabel" {
+                        if model?.checkout_details != "" {
+                            if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventWebNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventWebView {
+                                vc.urlString = (model?.checkout_details ?? "").replacingOccurrences(of: "\'", with: "", options: NSString.CompareOptions.literal, range: nil)
+                                vc.onShowconfirmCallBackResponse = self.onShowconfirmCallBack
+                                self.present(controller, animated: true)
+                            }
+                        }
+                        else {
+                            self.joinEvent(cell,JoinDate, Jointime)
                         }
                     }
                     else {
-                        self.joinEvent(cell,JoinDate, Jointime)
+                        if model?.eventTypeName == "adminExternal" && model?.checkout_details != "" {
+                            if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventWebNC") as? UINavigationController, let vc = controller.viewControllers.first as? ExternalEventWebView {
+                                vc.urlString = (model?.checkout_details ?? "").replacingOccurrences(of: "\'", with: "", options: NSString.CompareOptions.literal, range: nil)
+                                vc.onShowconfirmCallBackResponse = self.onShowconfirmCallBack
+                                self.present(controller, animated: true)
+                            }
+                        }
+                        else {
+                            self.joinEvent(cell,JoinDate, Jointime)
+                        }
                     }
+                    
                 }
                 else {
+                    self.view.makeToast("Please try again later!")
                     return
                 }
             }
@@ -561,11 +577,13 @@ extension EventDetailsViewController {
             if self.viewmodel.event.value?.eventTypeName == "Private" {
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
                     vc.eventID = self.viewmodel.event.value?.id ?? ""
+                    vc.encryptedID = self.viewmodel.event.value?.encryptedID ?? ""
                     self.present(controller, animated: true)
                 }
             }else {
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
                     vc.eventID = self.viewmodel.event.value?.id ?? ""
+                    vc.encryptedID = self.viewmodel.event.value?.encryptedID ?? ""
                     self.present(controller, animated: true)
                 }
             }
@@ -610,11 +628,13 @@ extension EventDetailsViewController {
             if self.viewmodel.event.value?.eventTypeName == "Private" {
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "SharePrivateEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? SharePrivateEventVC {
                     vc.eventID = self.viewmodel.event.value?.id ?? ""
+                    vc.encryptedID = self.viewmodel.event.value?.encryptedID ?? ""
                     self.present(controller, animated: true)
                 }
             }else {
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
                     vc.eventID = self.viewmodel.event.value?.id ?? ""
+                    vc.encryptedID = self.viewmodel.event.value?.encryptedID ?? ""
                     self.present(controller, animated: true)
                 }
             }
@@ -736,13 +756,13 @@ extension EventDetailsViewController {
         cell.joinBtn.isUserInteractionEnabled = false
         
         self.joinVM.joinEvent(ByEventid: self.eventId,JoinDate:JoinDate ,Jointime:Jointime) { error, data in
-            
-            
             if let error = error {
-                self.hideLoading()
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
                 }
+
+                self.changeTitleBtns(btn: cell.joinBtn, title: "Join".localizedString)
+                
                 return
             }
             

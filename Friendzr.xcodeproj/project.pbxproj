@@ -219,7 +219,6 @@
 		4382ACA626C28327005C1857 /* Initializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382ACA526C28327005C1857 /* Initializer.swift */; };
 		4382ACA826C2843E005C1857 /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382ACA726C2843E005C1857 /* KeychainItem.swift */; };
 		4382ACC426C2C37A005C1857 /* Lato-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4382ACC326C2C37A005C1857 /* Lato-Semibold.ttf */; };
-		4382ACC526C2CE5C005C1857 /* Pods_Friendzr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C5FB046276499FF1CB3316 /* Pods_Friendzr.framework */; };
 		4388685E278344F1004D36B2 /* ReportTitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43886856278344ED004D36B2 /* ReportTitleTableViewCell.swift */; };
 		43886860278344F1004D36B2 /* ReportTitleTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43886858278344EE004D36B2 /* ReportTitleTableViewCell.xib */; };
 		43886861278344F1004D36B2 /* ProblemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43886859278344EF004D36B2 /* ProblemTableViewCell.swift */; };
@@ -306,6 +305,7 @@
 		43C64A0227957DFE00C35FA8 /* GroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A0127957DFE00C35FA8 /* GroupViewModel.swift */; };
 		43C64A042795806400C35FA8 /* TitleGroupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A032795806400C35FA8 /* TitleGroupViewModel.swift */; };
 		43C64A0C2796C40800C35FA8 /* GroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C64A0B2796C40800C35FA8 /* GroupModel.swift */; };
+		43C682A7291381CB003ADFAC /* Pods_Friendzr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C5FB046276499FF1CB3316 /* Pods_Friendzr.framework */; };
 		43C97DE6279D76A900D87CBE /* FaceRecognitionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C97DE5279D76A900D87CBE /* FaceRecognitionViewModel.swift */; };
 		43C97DE8279D7DA100D87CBE /* FaceRecognitionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C97DE7279D7DA100D87CBE /* FaceRecognitionModel.swift */; };
 		43C97DEA27A04CF300D87CBE /* MainTBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43C97DE927A04CF300D87CBE /* MainTBC.swift */; };
@@ -841,12 +841,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43C682A7291381CB003ADFAC /* Pods_Friendzr.framework in Frameworks */,
 				43FBA1D726D4ED40005F4FBF /* AuthenticationServices.framework in Frameworks */,
 				4372CCAF281C653F002F9B00 /* AdSupport.framework in Frameworks */,
 				43896A7D27AC14BA00EE3547 /* NetworkExtension.framework in Frameworks */,
 				4372CCB1281C6555002F9B00 /* AppTrackingTransparency.framework in Frameworks */,
 				43FBA1D926D4ED7B005F4FBF /* MapKit.framework in Frameworks */,
-				4382ACC526C2CE5C005C1857 /* Pods_Friendzr.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3046,7 +3046,7 @@
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.0;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -3063,7 +3063,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.13;
+				MARKETING_VERSION = 1.2.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3087,7 +3087,7 @@
 				CODE_SIGN_ENTITLEMENTS = Friendzr/Friendzr.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.0;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = 8S62D745ZJ;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Friendzr/Info.plist;
@@ -3103,7 +3103,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.13;
+				MARKETING_VERSION = 1.2.15;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
