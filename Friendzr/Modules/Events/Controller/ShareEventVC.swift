@@ -64,6 +64,9 @@ class ShareEventVC: UIViewController {
     var currentEventsPage:Int = 1
     
     var encryptedID:String = ""
+    var eventname:String = ""
+    var eventimage:String = ""
+    var eventDesc:String = ""
     
     let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
@@ -474,6 +477,7 @@ class ShareEventVC: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
+    
     func shareEvent() {
         // Setting description
         let firstActivityItem = "https://friendzr.com/about-us/"
@@ -517,34 +521,65 @@ class ShareEventVC: UIViewController {
     }
     
     func shareEventOut() {
+
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "friendzsocialmedialimited.page.link"
+        components.path = "/events"
         
+        let eventQuaryItem = URLQueryItem(name: "eventID", value: self.encryptedID)
+        components.queryItems = [eventQuaryItem]
+        guard let linkParameter = components.url else {return}
+        print("I am sharing \(linkParameter)")
         
-//        guard let link = URL(string: "https://friendzsocialmedialimited.page.link") else { return }
-//        let dynamicLinksDomainURIPrefix = "https://friendzsocialmedialimited.page.link"
-//        let linkBuilder = DynamicLinkComponents(link: link, domainURIPrefix: dynamicLinksDomainURIPrefix)
-//
-//        linkBuilder?.iOSParameters = DynamicLinkIOSParameters(bundleID: "com.FriendzSocialMediaLimited.Friendzr-ios")
-//        linkBuilder?.iOSParameters?.appStoreID = "123456789"
-//        linkBuilder?.iOSParameters?.minimumAppVersion = "1.2.3"
-//
-//        linkBuilder?.androidParameters = DynamicLinkAndroidParameters(packageName: "com.FriendzSocialMediaLimited.Friendzr-android")
-//        linkBuilder?.androidParameters?.minimumVersion = 123
-//        linkBuilder?.analyticsParameters = DynamicLinkGoogleAnalyticsParameters(source: "orkut",
-//                                                                               medium: "social",
-//                                                                               campaign: "example-promo")
-//
-//        linkBuilder?.iTunesConnectParameters = DynamicLinkItunesConnectAnalyticsParameters()
-//        linkBuilder?.iTunesConnectParameters?.providerToken = "123456"
-//        linkBuilder?.iTunesConnectParameters?.campaignToken = "example-promo"
-//
-//        linkBuilder?.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
-//        linkBuilder?.socialMetaTagParameters?.title = "Example of a Dynamic Link"
-//        linkBuilder?.socialMetaTagParameters?.descriptionText = "This link works whether the app is installed or not!"
-//        linkBuilder?.socialMetaTagParameters?.imageURL = URL(string: "")
-//
-//        guard let longDynamicLink = linkBuilder?.url else { return }
-//        print("The long URL is: \(longDynamicLink)")
+        let dynamicLinksDomainURIPrefix = "https://friendzsocialmedialimited.page.link"
+        guard let shareLink = DynamicLinkComponents(link: linkParameter, domainURIPrefix: dynamicLinksDomainURIPrefix) else {
+            print("Couldn't create FDL components")
+            return
+        }
+
+        if let myBundleID = Bundle.main.bundleIdentifier {
+            shareLink.iOSParameters = DynamicLinkIOSParameters(bundleID: myBundleID)
+        }
+        
+        shareLink.iOSParameters?.appStoreID = "123456789"
+        shareLink.iOSParameters?.minimumAppVersion = "1.2.3"
+//        shareLink.androidParameters = DynamicLinkAndroidParameters(packageName: "com.FriendzSocialMediaLimited.Friendzr-android")
+        shareLink.socialMetaTagParameters = DynamicLinkSocialMetaTagParameters()
+        shareLink.socialMetaTagParameters?.title = "\(eventname) from Friendzr" //event name
+        shareLink.socialMetaTagParameters?.descriptionText = eventDesc
+        shareLink.socialMetaTagParameters?.imageURL = URL(string: eventimage)
+        
+        print("I am share long url \(shareLink.link)")
+        
+        shareLink.shorten {[weak self] url, warnings, error in
+            if let error = error {
+                print("Error \(error)")
+                return
+            }
+            
+            if let warnings = warnings {
+                for warning in warnings {
+                    print("FDL warning \(warning)")
+                }
+            }
+            
+            
+            guard let url = url else {return}
+            
+            print("Short Link is \(url.absoluteString)")
+            
+            self?.shareSheet(url: url)
+        }
     }
+    
+    
+    func shareSheet(url:URL) {
+        let promoText = "Check out this great event for \(eventname). I found on Friendzr."
+        let activityVC = UIActivityViewController(activityItems: [promoText,url], applicationActivities: nil)
+        present(activityVC, animated: true)
+    }
+    
     
     func setupViews() {
         friendsTV.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
@@ -560,6 +595,7 @@ class ShareEventVC: UIViewController {
             itmm.cornerRadiusView(radius: 6)
         }
     }
+    
     func HandleInternetConnection() {
         emptyView.isHidden = false
         emptyImg.image = UIImage.init(named: "feednodata_img")

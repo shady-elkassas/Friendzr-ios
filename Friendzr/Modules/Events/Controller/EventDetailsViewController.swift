@@ -583,7 +583,10 @@ extension EventDetailsViewController {
             }else {
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
                     vc.eventID = self.viewmodel.event.value?.id ?? ""
+                    vc.eventname = self.viewmodel.event.value?.title ?? ""
                     vc.encryptedID = self.viewmodel.event.value?.encryptedID ?? ""
+                    vc.eventimage = self.viewmodel.event.value?.image ?? ""
+                    vc.eventDesc = self.viewmodel.event.value?.descriptionEvent ?? ""
                     self.present(controller, animated: true)
                 }
             }
@@ -634,7 +637,10 @@ extension EventDetailsViewController {
             }else {
                 if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ShareEventNC") as? UINavigationController, let vc = controller.viewControllers.first as? ShareEventVC {
                     vc.eventID = self.viewmodel.event.value?.id ?? ""
+                    vc.eventname = self.viewmodel.event.value?.title ?? ""
                     vc.encryptedID = self.viewmodel.event.value?.encryptedID ?? ""
+                    vc.eventimage = self.viewmodel.event.value?.image ?? ""
+                    vc.eventDesc = self.viewmodel.event.value?.descriptionEvent ?? ""
                     self.present(controller, animated: true)
                 }
             }
