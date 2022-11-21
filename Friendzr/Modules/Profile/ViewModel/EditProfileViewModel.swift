@@ -51,7 +51,7 @@ class EditProfileViewModel {
         
         if gender == "other" {
             if OtherGenderName == "" {
-                errorMsg = "Please enter a valid other gender name".localizedString
+                errorMsg = "Please enter a valid other gender".localizedString
                 completion(errorMsg,nil)
                 return
             }

@@ -49,7 +49,7 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
 
 //    var internetConect:Bool = false
 
-    var myString:String = "By clicking ‘Sign up’, you agree to our terms of usage see more".localizedString
+    var myString:String = "By clicking ‘Sign up’, you agree to our terms of usage see more \n\n Your data is used by Friendzr only and not shared.".localizedString
     var myMutableString = NSMutableAttributedString()
 
     var isOpenVC:Bool = false

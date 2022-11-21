@@ -52,7 +52,7 @@ class PasswordViewModel : ValidationViewModel {
 class ConfirmPasswordViewModel : ValidationViewModel {
      
     var errorMessage: String = "Please enter a valid confirmation password should not be less than 8 characters or more than 100 characters and confirmation password should be a combination of letters and numbers, it should have at least one letter and at least one number".localizedString
-    var confirmErrorMessage: String = "Please check Passwords are not equal".localizedString
+    var confirmErrorMessage: String = "Passwords don't match".localizedString
     
     var data: String = ""
     var errorValue: String? = ""

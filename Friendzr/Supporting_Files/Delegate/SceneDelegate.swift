@@ -10,6 +10,7 @@ import FBSDKCoreKit
 import FBSDKLoginKit
 import GoogleSignIn
 import CoreLocation
+import AppsFlyerLib
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -46,7 +47,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        }
         
 //        self.content.sound = UNNotificationSound.default
-        
+        if let userActivity = connectionOptions.userActivities.first {
+            NSLog("[AFSDK] 4. Processing Universal Link from the killed state")
+            AppsFlyerLib.shared().continue(userActivity, restorationHandler: nil)
+        } else if let url = connectionOptions.urlContexts.first?.url {
+            NSLog("[AFSDK] 5. Processing URI scheme from the killed state")
+            AppsFlyerLib.shared().handleOpen(url, options: nil)
+        }
+
+
         guard let _ = (scene as? UIWindowScene) else { return }
         Router().toSplach()
     }
@@ -55,6 +64,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let url = URLContexts.first?.url else {
             return
         }
+        
+        AppsFlyerLib.shared().handleOpen(url, options: nil)
         
         ApplicationDelegate.shared.application(
             UIApplication.shared,
@@ -93,4 +104,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Save changes in the application's managed object context when the application transitions to the background.
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
+    
+    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        NSLog("[AFSDK] 1. %@", "scene with Universal Link")
+        // Universal Link - Background -> foreground
+        AppsFlyerLib.shared().continue(userActivity, restorationHandler: nil)
+    }
+
 }

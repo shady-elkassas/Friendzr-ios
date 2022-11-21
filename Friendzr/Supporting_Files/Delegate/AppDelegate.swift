@@ -27,7 +27,7 @@ import AWSCore
 import SwiftUI
 import FBAudienceNetwork
 import AppTrackingTransparency
-//import AppsFlyerLib
+import AppsFlyerLib
 import FirebaseDynamicLinks
 
 
@@ -44,7 +44,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let content = UNMutableNotificationContent()
     let fcmToken:String = ""
     var userInfoo: [AnyHashable: Any] = [AnyHashable: Any]()
-    
+    var ConversionData: [AnyHashable: Any]? = nil
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -161,8 +162,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        setupAppsFlyer()
+        
+//        if (deepLinkFromAppClip()) {
+//            NSLog("[AFSDK] Deep linking originated from app clip")
+//        }
         return true
     }
+    
+    func deepLinkFromAppClip() -> Bool {
+          //Use the app group name you defined in Project-> Target-> Signing & Capabilities (for more information, go to https://dev.appsflyer.com/hc/docs/app-clip-to-full-app-install)
+          guard let sharedUserDefaults = UserDefaults(suiteName: "group.basic_app.appClipToFullApp"),
+            let dlUrl = sharedUserDefaults.url(forKey: "dl_url")
+                  else {
+                      NSLog("Could not find the App Group or the deep link URL from the app clip")
+                      return false
+                  }
+          AppsFlyerLib.shared().performOnAppAttribution(with: dlUrl)
+          sharedUserDefaults.removeObject(forKey: "dl_url")
+          return true
+      }
+    
     
     func setupUpdateLocation() {
         locationManager.requestAlwaysAuthorization()
@@ -201,6 +221,91 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
+    func onAppOpenAttribution(_ attributionData: [AnyHashable: Any]) {
+        //Handle Deep Link Data
+        print("onAppOpenAttribution data:")
+        for (key, value) in attributionData {
+            print(key, ":",value)
+        }
+//        walkToSceneWithParams(params: attributionData)
+//        let eventID =
+    }
+    
+    //AppsFlyer setup
+    
+    func setupAppsFlyer() {
+        //  Set isDebug to true to see AppsFlyer debug logs
+        AppsFlyerLib.shared().isDebug = true
+        
+        // Replace 'appsFlyerDevKey', `appleAppID` with your DevKey, Apple App ID
+        // 1 - Get AppsFlyer preferences from .plist file
+        guard let propertiesPath = Bundle.main.path(forResource: "afdevkey", ofType: "plist"),
+            let properties = NSDictionary(contentsOfFile: propertiesPath) as? [String:String] else {
+                fatalError("Cannot find `afdevkey`")
+        }
+        guard let appsFlyerDevKey = properties["appsFlyerDevKey"],
+                   let appleAppID = properties["appleAppID"] else {
+            fatalError("Cannot find `appsFlyerDevKey` or `appleAppID` key")
+        }
+        
+        AppsFlyerLib.shared().appsFlyerDevKey = appsFlyerDevKey
+        AppsFlyerLib.shared().appleAppID = appleAppID
+        AppsFlyerLib.shared().delegate = self
+        AppsFlyerLib.shared().deepLinkDelegate = self
+        
+        //set the OneLink template id for share invite links
+        AppsFlyerLib.shared().appInviteOneLinkID = "59hw"
+        
+        if #available(iOS 14, *) {
+            AppsFlyerLib.shared().waitForATTUserAuthorization(timeoutInterval: 60)
+            ATTrackingManager.requestTrackingAuthorization { (status) in
+            }
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: NSSelectorFromString("sendLaunch"), name: UIApplication.didBecomeActiveNotification, object: nil)
+        // Subscribe to didBecomeActiveNotification if you use SceneDelegate or just call
+        // -[AppsFlyerLib start] from -[AppDelegate applicationDidBecomeActive:]
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActiveNotification),
+        // For Swift version < 4.2 replace name argument with the commented out code
+        name: UIApplication.didBecomeActiveNotification, //.UIApplicationDidBecomeActive for Swift < 4.2
+        object: nil)
+    }
+    
+    @objc func sendLaunch() {
+//        AppsFlyerLib.shared().start()
+        
+        AppsFlyerLib.shared().start(completionHandler: { (dictionary, error) in
+            if (error != nil){
+                print(error ?? "")
+                return
+            } else {
+                print(dictionary ?? "")
+                return
+            }
+        })
+    }
+    
+    @objc func didBecomeActiveNotification() {
+        AppsFlyerLib.shared().start()
+        
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { (status) in
+                switch status {
+                case .denied:
+                    print("AuthorizationSatus is denied")
+                case .notDetermined:
+                    print("AuthorizationSatus is notDetermined")
+                case .restricted:
+                    print("AuthorizationSatus is restricted")
+                case .authorized:
+                    print("AuthorizationSatus is authorized")
+                @unknown default:
+                    fatalError("Invalid authorization status")
+                }
+            }
+        }
+    }
+    
     // MARK: UISceneSession Lifecycle
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
@@ -219,13 +324,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let sourceApplication: String? = options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String
         let googleDidHandle = GIDSignIn.sharedInstance.handle(url as URL)
         let facebookDidHandle = ApplicationDelegate.shared.application(app, open: url, sourceApplication: sourceApplication, annotation: options[UIApplication.OpenURLOptionsKey.annotation])
-                
-        if let dynamiclink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
-            if !Defaults.isWhiteLable {
-                self.handleIncommingDynamiclink(dynamiclink)
-            }
-            return true
-        }
+        
+        //        if let dynamiclink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
+        //            if !Defaults.isWhiteLable {
+        //                self.handleIncommingDynamiclink(dynamiclink)
+        //            }
+        //            return true
+        //        }
+        AppsFlyerLib.shared().handleOpen(url, options: options)
         
         return googleDidHandle || facebookDidHandle
     }
@@ -345,7 +451,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         locationManager.startUpdatingLocation()
         Messaging.messaging().appDidReceiveMessage(userInfo)
+        
+        // Report Push Notification attribution data for re-engagements
+        AppsFlyerLib.shared().handlePushNotification(userInfo)
+
         completionHandler(UIBackgroundFetchResult.newData)
+        
     }
     
     func application(_ application: UIApplication,
@@ -733,6 +844,7 @@ extension AppDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         application.applicationIconBadgeNumber = 0
         registrationFCM()
+        AppsFlyerLib.shared().start()
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
@@ -1169,26 +1281,34 @@ extension AppDelegate {
         }
     }
     
-    @available(iOS 9.0, *)
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        
-        let handledDynamicLinks = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { dynamiclink, error in
-            guard error == nil else {
-                print("found an error = \(String(describing: error?.localizedDescription))")
-                return
-            }
-            
-            if let dynamiclink = dynamiclink {
-                if !Defaults.isWhiteLable {
-                    self.handleIncommingDynamiclink(dynamiclink)
-                }
-            }
-        }
-        
-        return handledDynamicLinks
-    }
     
-    // Open Deeplinks
+//    @available(iOS 9.0, *)
+//    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+//
+//        let handledDynamicLinks = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { dynamiclink, error in
+//            guard error == nil else {
+//                print("found an error = \(String(describing: error?.localizedDescription))")
+//                return
+//            }
+//
+//            if let dynamiclink = dynamiclink {
+//                if !Defaults.isWhiteLable {
+//                    self.handleIncommingDynamiclink(dynamiclink)
+//                }
+//            }
+//        }
+//
+//        return handledDynamicLinks
+//    }
+    
+
+    // Open Universal Links
+    // For Swift version < 4.2 replace function signature with the commented out code
+    // func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool { // this line for Swift < 4.2
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        AppsFlyerLib.shared().continue(userActivity, restorationHandler: nil)
+        return true
+    }
     
     // Open URI-scheme for iOS 8 and below
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
@@ -1198,7 +1318,133 @@ extension AppDelegate {
             }
             return true
         }else {
+            AppsFlyerLib.shared().start()
             return false
         }
     }
 }
+
+//MARK: - AppsFlyer Delegates
+extension AppDelegate: AppsFlyerLibDelegate {
+//    func onConversionDataSuccess(_ conversionInfo: [AnyHashable : Any]) {
+//        print("\(conversionInfo)")
+//    }
+    
+    // User logic
+    fileprivate func walkToSceneWithParams(eventID: String) {
+        guard let rootViewController = Initializer.getWindow().rootViewController else {
+            return
+        }
+        if !Defaults.isWhiteLable {
+            if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+                vc.eventId = eventID
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+    }
+    
+    // Handle Organic/Non-organic installation
+    func onConversionDataSuccess(_ data: [AnyHashable: Any]) {
+        ConversionData = data
+        print("onConversionDataSuccess data:")
+
+        for (key, value) in data {
+            print(key, ":", value)
+        }
+
+//        if let conversionData = data as NSDictionary? as! [String:Any]? {
+//
+//            if let status = conversionData["af_status"] as? String {
+//                if (status == "Non-organic") {
+//                    if let sourceID = conversionData["media_source"],
+//                        let campaign = conversionData["campaign"] {
+//                        NSLog("[AFSDK] This is a Non-Organic install. Media source: \(sourceID)  Campaign: \(campaign)")
+//                    }
+//                } else {
+//                    NSLog("[AFSDK] This is an organic install.")
+//                }
+//
+//                if let is_first_launch = conversionData["is_first_launch"] as? Bool,
+//                    is_first_launch {
+//                    NSLog("[AFSDK] First Launch")
+//                    if !conversionData.keys.contains("deep_link_value") && conversionData.keys.contains("deep_link_sub1"){
+//                        switch conversionData["deep_link_sub1"] {
+//                            case let eventID as String:
+//                            NSLog("This is a deferred deep link opened using conversion data")
+//                            walkToSceneWithParams(eventID: eventID)
+//                            default:
+//                                NSLog("Could not extract deep_link_value or fruit_name from deep link object using conversion data")
+//                                return
+//                        }
+//                    }
+//                } else {
+//                    NSLog("[AFSDK] Not First Launch")
+//                    if !conversionData.keys.contains("deep_link_value") && conversionData.keys.contains("deep_link_sub1"){
+//                        switch conversionData["deep_link_sub1"] {
+//                            case let eventID as String:
+//                            NSLog("This is a deferred deep link opened using conversion data")
+//                            walkToSceneWithParams(eventID: eventID)
+//                            default:
+//                                NSLog("Could not extract deep_link_value or fruit_name from deep link object using conversion data")
+//                                return
+//                        }
+//                    }
+//                }
+//            }
+//        }
+    }
+    
+    func onConversionDataFail(_ error: Error) {
+        NSLog("[AFSDK] \(error)")
+    }
+}
+
+extension AppDelegate: DeepLinkDelegate {
+     
+    func didResolveDeepLink(_ result: DeepLinkResult) {
+        switch result.status {
+        case .notFound:
+            NSLog("[AFSDK] Deep link not found")
+            return
+        case .failure:
+            print("Error %@", result.error!)
+            
+            return
+        case .found:
+            NSLog("[AFSDK] Deep link found")
+        }
+                
+        var deeplinkValue:String = ""
+        if ((result.deepLink?.clickEvent.keys.contains("deep_link_value")) != nil) {
+            deeplinkValue = result.deepLink?.clickEvent["deep_link_value"] as? String ?? ""
+        }else {
+            NSLog("[AFSDK] Could not extract deep_link_value")
+        }
+
+        if ((result.deepLink?.clickEvent.keys.contains("deep_link_sub1")) != nil) {
+            let eventID:String = result.deepLink?.clickEvent["deep_link_sub1"] as? String ?? ""
+            print("eventID : \(eventID)")
+            
+            if deeplinkValue == "Event" || deeplinkValue == "event" {
+                walkToSceneWithParams(eventID: eventID)
+            }
+            else if deeplinkValue == "Settings" {
+                guard let rootViewController = Initializer.getWindow().rootViewController else {
+                    return
+                }
+                if !Defaults.isWhiteLable {
+                    if let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC,
+                       let tabBarController = rootViewController as? UITabBarController,
+                       let navController = tabBarController.selectedViewController as? UINavigationController {
+                        navController.pushViewController(vc, animated: true)
+                    }
+                }
+            }
+        }
+        
+        print("deeplinkValue : \(deeplinkValue)")
+    }
+}
+

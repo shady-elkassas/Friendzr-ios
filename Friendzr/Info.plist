@@ -31,6 +31,14 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>com.FriendzSocialMediaLimited.Friendzr-ios</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
 				<string>com.googleusercontent.apps.43837105804-he5jci75mbf7jrhush4cps45plripdvp</string>
 			</array>
 		</dict>
@@ -40,16 +48,6 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb593741112300434</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>Bundle ID</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.FriendzSocialMediaLimited.Friendzr-ios</string>
 			</array>
 		</dict>
 	</array>
@@ -114,10 +112,6 @@
 	<true/>
 	<key>NSAdvertisingAttributionReportEndpoint</key>
 	<string>https://appsflyer-skadnetwork.com/</string>
-	<key>FirebaseDynamicLinksCustomDomains</key>
-	<array>
-		<string>https://friendzsocialmedialimited.page.link</string>
-	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

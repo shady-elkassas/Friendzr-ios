@@ -266,7 +266,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        
         if Defaults.availableVC != "FeedVC" {
             currentPage = 1
             

@@ -27,7 +27,14 @@ class TermsAndConditionsVC: UIViewController,WKNavigationDelegate {
         
         setupNavBar()
         initBackButton()
-        getlinkClick()
+        if Defaults.token != "" {
+            
+            getlinkClick()
+
+        }else{
+            setupWebView(urlStr: "https://friendzr.com/terms-conditions/")
+        }
+            
         self.title = titleVC
     }
     

@@ -194,7 +194,6 @@
 		437A4E9526FB7346007AAEF9 /* CompassViewSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */; };
 		437EE47226E8B39700765089 /* LeaveEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437EE47126E8B39700765089 /* LeaveEventViewModel.swift */; };
 		437EE47426E8BC1C00765089 /* AttendeesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437EE47326E8BC1C00765089 /* AttendeesModel.swift */; };
-		4382AC1726C27195005C1857 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1626C27195005C1857 /* AppDelegate.swift */; };
 		4382AC1926C27195005C1857 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1826C27195005C1857 /* SceneDelegate.swift */; };
 		4382AC1B26C27195005C1857 /* InboxVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1A26C27195005C1857 /* InboxVC.swift */; };
 		4382AC2126C27195005C1857 /* Friendzr.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1F26C27195005C1857 /* Friendzr.xcdatamodeld */; };
@@ -248,6 +247,8 @@
 		43967DC427944E92005B1F5D /* WriteProblemTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43967DC627944E92005B1F5D /* WriteProblemTableViewCell.xib */; };
 		4397236D2709CE9E0062D684 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236C2709CE9E0062D684 /* ChatViewModel.swift */; };
 		4397236F2709D8870062D684 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4397236E2709D8870062D684 /* ChatModel.swift */; };
+		4399147F2923A969004291DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4382AC1626C27195005C1857 /* AppDelegate.swift */; };
+		439914822923B68D004291DA /* afdevkey.plist in Resources */ = {isa = PBXBuildFile; fileRef = 439914812923B68D004291DA /* afdevkey.plist */; };
 		439CE7602810107F003C0AD3 /* SelectFriendsEditEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439CE75F2810107F003C0AD3 /* SelectFriendsEditEventVC.swift */; };
 		439DDE8C26F7346200E09FC1 /* EventsAroundMeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */; };
 		439DDE8E26F7346A00E09FC1 /* EventsAroundMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */; };
@@ -683,6 +684,7 @@
 		43967DC527944E92005B1F5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/WriteProblemTableViewCell.xib; sourceTree = "<group>"; };
 		4397236C2709CE9E0062D684 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		4397236E2709D8870062D684 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
+		439914812923B68D004291DA /* afdevkey.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = afdevkey.plist; sourceTree = "<group>"; };
 		439CE75F2810107F003C0AD3 /* SelectFriendsEditEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFriendsEditEventVC.swift; sourceTree = "<group>"; };
 		439DDE8B26F7346200E09FC1 /* EventsAroundMeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeViewModel.swift; sourceTree = "<group>"; };
 		439DDE8D26F7346A00E09FC1 /* EventsAroundMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsAroundMeModel.swift; sourceTree = "<group>"; };
@@ -1624,6 +1626,7 @@
 		4382AC1526C27195005C1857 /* Friendzr */ = {
 			isa = PBXGroup;
 			children = (
+				439914812923B68D004291DA /* afdevkey.plist */,
 				43FBA1DA26D4EDBA005F4FBF /* Friendzr.entitlements */,
 				4371D40F27329535003B8AFD /* Modules */,
 				4382AC4926C27297005C1857 /* Supporting_Files */,
@@ -2206,6 +2209,7 @@
 				43375F60271313C4009EBED6 /* NotificationTableViewCell.xib in Resources */,
 				430D425E26D38D9B00188E42 /* AttendeesTableViewCell.xib in Resources */,
 				437703BD28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.xib in Resources */,
+				439914822923B68D004291DA /* afdevkey.plist in Resources */,
 				4344110826CE885F00F8233E /* ContactsTableViewCell.xib in Resources */,
 				43ABA61028758A20004716E4 /* DIN2014-Regular.ttf in Resources */,
 				43526917276A144A00540726 /* ScrollableBottomSheetViewController.xib in Resources */,
@@ -2436,6 +2440,7 @@
 				430D425926D3854200188E42 /* InterestsTableViewCell.swift in Sources */,
 				43886861278344F1004D36B2 /* ProblemTableViewCell.swift in Sources */,
 				43FED20A26DE3FCF00255B96 /* EventModel.swift in Sources */,
+				4399147F2923A969004291DA /* AppDelegate.swift in Sources */,
 				43119D7026E4C1E800AD2260 /* GeneratedUserNameViewModel.swift in Sources */,
 				4325E21026F0AF34008F73C4 /* DeleteEventViewModel.swift in Sources */,
 				4320A64626F1FC7B003604EE /* AllFriendesViewModel.swift in Sources */,
@@ -2521,7 +2526,6 @@
 				43AF3534284E124200B65773 /* SortFeedView.swift in Sources */,
 				43D545CE26CD49F40064660A /* CategoryTableViewCell.swift in Sources */,
 				436E945C27BD153800CB2F1E /* CustomSwitch.swift in Sources */,
-				4382AC1726C27195005C1857 /* AppDelegate.swift in Sources */,
 				436DCFB627E0B13D00A4A7F7 /* NavController.swift in Sources */,
 				43A350E028BB61EB002ED5BB /* RecentlyConnectedCollectionViewCell.swift in Sources */,
 				43FBA22C26D5330F005F4FBF /* SendLocationChatVC.swift in Sources */,
@@ -3063,7 +3067,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.15;
+				MARKETING_VERSION = 1.2.19;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3103,7 +3107,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.15;
+				MARKETING_VERSION = 1.2.19;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

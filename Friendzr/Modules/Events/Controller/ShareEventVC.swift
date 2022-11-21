@@ -11,7 +11,7 @@ import Network
 import FirebaseCore
 import FirebaseDynamicLinks
 import FirebaseAuth
-
+import AppsFlyerLib
 
 class ShareEventVC: UIViewController {
     
@@ -478,18 +478,18 @@ class ShareEventVC: UIViewController {
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
     
-    func shareEvent() {
+    func shareEvent(withURL url:URL) {
         // Setting description
-        let firstActivityItem = "https://friendzr.com/about-us/"
+//        let firstActivityItem = "https://friendzr.com/about-us/"
         
         // Setting url
-        let secondActivityItem : NSURL = NSURL(string: firstActivityItem)!
+//        let secondActivityItem : URL = url
         
         // If you want to use an image
         let image : UIImage = UIImage(named: "Share_ic")!
         
         let activityViewController : UIActivityViewController = UIActivityViewController(
-            activityItems: [firstActivityItem, secondActivityItem, image], applicationActivities: nil)
+            activityItems: [url, image], applicationActivities: nil)
         
         // This lines is for the popover you need to show in iPad
         activityViewController.popoverPresentationController?.sourceView = activityViewController.view
@@ -520,6 +520,7 @@ class ShareEventVC: UIViewController {
         self.present(activityViewController, animated: true, completion: nil)
     }
     
+    //firebase deeplink share
     func shareEventOut() {
 
         var components = URLComponents()
@@ -573,6 +574,37 @@ class ShareEventVC: UIViewController {
         }
     }
     
+    var eventAmountStr: String = "000"
+
+    func copyShareInviteLink() {
+        AppsFlyerShareInviteHelper.generateInviteUrl(linkGenerator:
+         {(_ generator: AppsFlyerLinkGenerator) -> AppsFlyerLinkGenerator in
+            generator.addParameterValue(self.encryptedID, forKey: "deep_link_value")
+            generator.addParameterValue(self.eventname, forKey: "deep_link_sub1")
+//            generator.addParameterValue(self.encryptedID, forKey: "deep_link_sub2")
+            generator.setCampaign("share_invite")
+            generator.setChannel("mobile_share")
+          return generator },
+        completionHandler: {(_ url: URL?) -> Void in
+            if url != nil{
+                //Copy url to clipboard
+                UIPasteboard.general.string = (url!.absoluteString)
+                //Show toast to let the user know link has been copied to clipboard
+                DispatchQueue.main.async {
+                    self.view.makeToast("Link copied to clipboard")
+                }
+                
+                AppsFlyerShareInviteHelper.logInvite("mobile_share",
+                                                     parameters: ["referrerId": "THIS_USER_ID",
+                                                                  "campaign": "share_invite"])
+                print("url ==== \(url!)")
+            }
+            else{
+                print("url is nil")
+            }
+        })
+        
+    }
     
     func shareSheet(url:URL) {
         let promoText = "Check out this great event for \(eventname). I found on Friendzr."
@@ -657,7 +689,8 @@ class ShareEventVC: UIViewController {
     //MARK: - Actions
     @IBAction func shareOutSideFriendzrBtn(_ sender: Any) {
 //        shareEvent()
-        shareEventOut()
+//        shareEventOut()
+        copyShareInviteLink()
     }
 }
 

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-enum DeepLink: String {
+enum DeepLink: String { 
     case Main
     case Login
     case Register
@@ -19,6 +19,13 @@ enum DeepLink: String {
     case Map
     case Events
     case FaceRecognition
+}
+
+
+extension DeepLink: Name {
+    var name: String {
+        return self.rawValue
+    }
 }
 
 
