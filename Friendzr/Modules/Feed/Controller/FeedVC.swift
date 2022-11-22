@@ -266,6 +266,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+                
         if Defaults.availableVC != "FeedVC" {
             currentPage = 1
             
@@ -273,6 +274,13 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 if CLLocationManager.locationServicesEnabled() {
                     self.checkLocationPermission()
                 }
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            if Defaults.isDeeplinkClicked && NetworkConected.internetConect {
+                self.setupDirectionAppsFlyerDeepLink()
+                Defaults.isDeeplinkClicked = false
             }
         }
         
@@ -558,6 +566,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func LoadAllFeeds(pageNumber:Int) {
+        let startDate = Date()
         hideView.isHidden = false
         AMShimmer.start(for: hideView)
         viewmodel.getAllUsers(pageNumber: pageNumber)
@@ -577,6 +586,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                         self?.tableView.reloadData()
                     }
                     
+                    let executionTimeWithSuccessFeed = Date().timeIntervalSince(startDate)
+                    print("executionTimeWithSuccessFeed \(executionTimeWithSuccessFeed) second")
+
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         self?.isLoadingList = false
                         self?.tableView.tableFooterView = nil
@@ -697,6 +709,105 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     //MARK: - Helper
+    var deeplinkValue:String = ""
+    var deeplinksub1:String = ""
+    
+    func setupDirectionAppsFlyerDeepLink() {
+        let coData = appDelegate.deeplinkRes
+
+        guard let rootViewController = Initializer.getWindow().rootViewController else {
+            return
+        }
+        
+        deeplinkValue = coData?.deepLink?.clickEvent["deep_link_value"] as? String ?? ""
+        deeplinksub1 = coData?.deepLink?.clickEvent["deep_link_sub1"] as? String ?? ""
+
+        if deeplinkValue == "Event" || deeplinkValue == "event" {
+            walkToSceneWithParams(eventID: deeplinksub1)
+        }
+        
+        else if deeplinkValue == "checkOut" {
+            print("deeplinksub1 : \(deeplinksub1)")
+            if !Defaults.isWhiteLable {
+                if deeplinksub1 == "editProfile" || deeplinksub1 == "interests" {
+                    if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC,
+                       let tabBarController = rootViewController as? UITabBarController,
+                       let navController = tabBarController.selectedViewController as? UINavigationController {
+                        vc.checkoutName = deeplinksub1
+                        navController.pushViewController(vc, animated: true)
+                    }
+                }
+                else if deeplinksub1 == "personalSpace" || deeplinksub1 == "ageFilter" || deeplinksub1 == "privateMode" || deeplinksub1 == "distanceFilter" {
+                    if let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC,
+                       let tabBarController = rootViewController as? UITabBarController,
+                       let navController = tabBarController.selectedViewController as? UINavigationController {
+                        vc.checkoutName = deeplinksub1
+                        navController.pushViewController(vc, animated: true)
+                    }
+                }
+                else if deeplinksub1 == "eventFilter" {
+                    if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
+                       let tabBarController = rootViewController as? UITabBarController,
+                       let navController = tabBarController.selectedViewController as? UINavigationController {
+                        vc.checkoutName = deeplinksub1
+                        Defaults.availableVC = ""
+                        navController.pushViewController(vc, animated: true)
+                    }
+                }
+            }
+        }
+        else if deeplinkValue == "editProfile" || deeplinkValue == "interests" {
+            if !Defaults.isWhiteLable {
+                if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.checkoutName = deeplinkValue
+                    navController.pushViewController(vc, animated: true)
+                }
+            }
+        }
+        
+        else if deeplinkValue == "eventFilter" {
+            if !Defaults.isWhiteLable {
+                if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.checkoutName = deeplinkValue
+                    Defaults.availableVC = ""
+                    navController.pushViewController(vc, animated: true)
+                }
+            }
+        }
+        
+        else if deeplinkValue == "personalSpace" || deeplinkValue == "ageFilter" || deeplinkValue == "privateMode" || deeplinkValue == "distanceFilter" {
+            if !Defaults.isWhiteLable {
+                if let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.checkoutName = deeplinkValue
+                    navController.pushViewController(vc, animated: true)
+                }
+            }
+        }
+    }
+    
+    
+    
+    func walkToSceneWithParams(eventID: String) {
+        guard let rootViewController = Initializer.getWindow().rootViewController else {
+            return
+        }
+        if !Defaults.isWhiteLable {
+            if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
+               let tabBarController = rootViewController as? UITabBarController,
+               let navController = tabBarController.selectedViewController as? UINavigationController {
+                vc.eventId = eventID
+                navController.pushViewController(vc, animated: true)
+            }
+        }
+    }
+
+    
     func addCompassView() {
         if Defaults.isIPhoneLessThan2500 {
             let child = UIHostingController(rootView: CompassViewSwiftUIForIPhoneSmall())

@@ -341,6 +341,16 @@ class Defaults {
         }
     }
     
+    static var isDeeplinkClicked: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "isDeeplinkClicked")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "isDeeplinkClicked")
+        }
+    }
+    
     static var allowMyLocationSettings: Bool {
         set{
             UserDefaults.standard.set(newValue, forKey: "allowMyLocationSettings")
@@ -711,6 +721,8 @@ class Defaults {
         defaults.removeObject(forKey: "catSelectedNames")
         defaults.removeObject(forKey: "catIDs")
         defaults.removeObject(forKey: "isUserStillOnMap")
+        defaults.removeObject(forKey: "isDeeplinkClicked")
+        
 
         if let token = AccessToken.current,
            !token.isExpired {

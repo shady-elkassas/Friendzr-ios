@@ -70,6 +70,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var genderString = ""
     let imagePicker = UIImagePickerController()
     var viewmodel:EditProfileViewModel = EditProfileViewModel()
+    var profileVM: ProfileViewModel = ProfileViewModel()
     var profileModel:ProfileObj? = nil
     var logoutVM:LogoutViewModel = LogoutViewModel()
     var faceRecognitionVM:FaceRecognitionViewModel = FaceRecognitionViewModel()
@@ -119,6 +120,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     var infoLinksMap: [Int:String] = [1000:""]
     var rekognitionObject:AWSRekognition?
     
+    var checkoutName:String = ""
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,7 +136,12 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         showDatePicker()
         
         DispatchQueue.main.async {
-            self.setupData()
+            if self.checkoutName == "editProfile" ||  self.checkoutName == "interests" {
+                self.getProfileInformation()
+            }
+            else {
+                self.setupData()
+            }
         }
         
         initSaveBarButton(istap: false)
@@ -179,6 +187,48 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         allValidatConfigVM.errorMsg.bind { [weak self]error in
             DispatchQueue.main.async {
                 print(error)
+            }
+        }
+    }
+    
+    func getProfileInformation() {
+        profileVM.getProfileInfo()
+        profileVM.userModel.bind { [weak self]value in
+            DispatchQueue.main.async {
+                DispatchQueue.main.async {
+                    self?.profileModel = value
+                    self?.setupData()
+                    
+                    
+                    if self?.checkoutName == "interests" {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            if NetworkConected.internetConect {
+                                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "SelectedTagsVC") as? SelectedTagsVC else {return}
+                                vc.arrSelectedDataIds = self?.tagsid ?? []
+                                vc.arrSelectedDataNames = self?.tagsNames ?? []
+                                vc.onInterestsCallBackResponse = self?.OnInterestsCallBack
+                                self?.navigationController?.pushViewController(vc, animated: true)
+                            }
+                        }
+                    }
+                    
+                    self?.checkoutName = ""
+                }
+            }
+        }
+        
+        // Set View Model Event Listener
+        profileVM.error.bind { [weak self]error in
+            DispatchQueue.main.async {
+                self?.hideLoading()
+                if error == "Internal Server Error" {
+                    self?.HandleInternetConnection()
+                }else {
+                    DispatchQueue.main.async {
+                        self?.view.makeToast(error)
+                    }
+                    
+                }
             }
         }
     }

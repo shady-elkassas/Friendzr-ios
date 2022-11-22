@@ -269,4 +269,6 @@ extension SplachVC {
             //            self.checkLocationPermission()
         }
     }
+    
+    
 }

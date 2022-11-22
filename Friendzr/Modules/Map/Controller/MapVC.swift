@@ -203,6 +203,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     var isLoadingList : Bool = false
     var activityIndiator : UIActivityIndicatorView? = UIActivityIndicatorView()
     
+    var checkoutName:String = ""
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -252,7 +254,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         catSelectedNames = Defaults.catSelectedNames
         initFilterBarButton()
-        
         
         appendNewLocation = false
         goAddEventBtn.isHidden = true
@@ -499,6 +500,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     DispatchQueue.main.async {
                         self.getCats()
                     }
+                    
+                    
+                    if self.checkoutName == "eventFilter" {
+                        self.handleFilterByCategorySwitchBtn()
+                        self.checkoutName = ""
+                    }
                 }
             }
         case .wifi:
@@ -518,6 +525,12 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     
                     DispatchQueue.main.async {
                         self.getCats()
+                    }
+                    
+                    
+                    if self.checkoutName == "eventFilter" {
+                        self.handleFilterByCategorySwitchBtn()
+                        self.checkoutName = ""
                     }
                 }
             }
@@ -1937,6 +1950,8 @@ extension MapVC {
                 switchFilterButton.isOn = false
             }
         }
+        
+        initFilterBarButton()
     }
     
     private func createFilterSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {

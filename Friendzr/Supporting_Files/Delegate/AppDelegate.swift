@@ -46,6 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var userInfoo: [AnyHashable: Any] = [AnyHashable: Any]()
     var ConversionData: [AnyHashable: Any]? = nil
 
+    var deeplinkRes:DeepLinkResult? = nil
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -227,8 +229,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         for (key, value) in attributionData {
             print(key, ":",value)
         }
-//        walkToSceneWithParams(params: attributionData)
-//        let eventID =
+
+        if let conversionData = attributionData as NSDictionary? as! [String:Any]? {
+            
+            if let status = conversionData["af_status"] as? String {
+                if (status == "Non-organic") {
+                    if let sourceID = conversionData["media_source"],
+                       let campaign = conversionData["campaign"] {
+                        NSLog("[AFSDK] This is a Non-Organic install. Media source: \(sourceID)  Campaign: \(campaign)")
+                    }
+                } else {
+                    NSLog("[AFSDK] This is an organic install.")
+                }
+                
+                if let is_first_launch = conversionData["is_first_launch"] as? Bool,
+                   is_first_launch {
+                    NSLog("[AFSDK] First Launch")
+                    if !conversionData.keys.contains("deep_link_value") && conversionData.keys.contains("deep_link_sub1"){
+                        switch conversionData["deep_link_sub1"] {
+                        case let eventID as String:
+                            NSLog("This is a deferred deep link opened using conversion data")
+                            walkToSceneWithParams(eventID: eventID)
+                        default:
+                            NSLog("Could not extract deep_link_value or fruit_name from deep link object using conversion data")
+                            return
+                        }
+                    }
+                } else {
+                    NSLog("[AFSDK] Not First Launch")
+                    if !conversionData.keys.contains("deep_link_value") && conversionData.keys.contains("deep_link_sub1"){
+                        switch conversionData["deep_link_sub1"] {
+                        case let eventID as String:
+                            NSLog("This is a deferred deep link opened using conversion data")
+                            walkToSceneWithParams(eventID: eventID)
+                        default:
+                            NSLog("Could not extract deep_link_value or fruit_name from deep link object using conversion data")
+                            return
+                        }
+                    }
+                }
+            }
+        }
+//        Router().toMap()
     }
     
     //AppsFlyer setup
@@ -891,7 +933,7 @@ extension AppDelegate {
 
 extension AppDelegate {
     func redirectNotification(_ action: String?, _ rootViewController: UIViewController, _ actionId: String?, _ isEventAdmin: String?, _ imageNotifications: String?, _ chatTitle: String?) {
-        if action == "Friend_Request" && !Defaults.isWhiteLable {
+        if action == "Friend_Request" && !Defaults.isWhiteLable && NetworkConected.internetConect {
             if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -899,7 +941,7 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "Accept_Friend_Request" && !Defaults.isWhiteLable {
+        else if action == "Accept_Friend_Request" && !Defaults.isWhiteLable && NetworkConected.internetConect {
             if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -985,13 +1027,13 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "Joined_ChatGroup" && !Defaults.isWhiteLable {
+        else if action == "Joined_ChatGroup" && !Defaults.isWhiteLable && NetworkConected.internetConect {
             Router().toHome()
         }
-        else if action == "Kickedout_ChatGroup" && !Defaults.isWhiteLable {
+        else if action == "Kickedout_ChatGroup" && !Defaults.isWhiteLable && NetworkConected.internetConect  {
             Router().toHome()
         }
-        else if action == "event_Updated" && !Defaults.isWhiteLable {
+        else if action == "event_Updated" && !Defaults.isWhiteLable && NetworkConected.internetConect {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -999,7 +1041,7 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "update_Event_Data" && !Defaults.isWhiteLable {
+        else if action == "update_Event_Data" && !Defaults.isWhiteLable && NetworkConected.internetConect {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -1007,7 +1049,7 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "event_attend" && !Defaults.isWhiteLable {
+        else if action == "event_attend" && !Defaults.isWhiteLable && NetworkConected.internetConect {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -1015,7 +1057,7 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "Event_reminder" && !Defaults.isWhiteLable {
+        else if action == "Event_reminder" && !Defaults.isWhiteLable && NetworkConected.internetConect {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -1023,7 +1065,7 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "Check_events_near_you" && !Defaults.isWhiteLable {
+        else if action == "Check_events_near_you" && !Defaults.isWhiteLable && NetworkConected.internetConect {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -1031,7 +1073,7 @@ extension AppDelegate {
                 navController.pushViewController(vc, animated: true)
             }
         }
-        else if action == "Check_private_events" && !Defaults.isWhiteLable {
+        else if action == "Check_private_events" && !Defaults.isWhiteLable && NetworkConected.internetConect {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -1326,20 +1368,18 @@ extension AppDelegate {
 
 //MARK: - AppsFlyer Delegates
 extension AppDelegate: AppsFlyerLibDelegate {
-//    func onConversionDataSuccess(_ conversionInfo: [AnyHashable : Any]) {
-//        print("\(conversionInfo)")
-//    }
     
     // User logic
-    fileprivate func walkToSceneWithParams(eventID: String) {
+    func walkToSceneWithParams(eventID: String) {
         guard let rootViewController = Initializer.getWindow().rootViewController else {
             return
         }
-        if !Defaults.isWhiteLable {
+        if !Defaults.isWhiteLable && NetworkConected.internetConect {
             if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
                let tabBarController = rootViewController as? UITabBarController,
                let navController = tabBarController.selectedViewController as? UINavigationController {
                 vc.eventId = eventID
+                Defaults.isDeeplinkClicked = false
                 navController.pushViewController(vc, animated: true)
             }
         }
@@ -1354,46 +1394,46 @@ extension AppDelegate: AppsFlyerLibDelegate {
             print(key, ":", value)
         }
 
-//        if let conversionData = data as NSDictionary? as! [String:Any]? {
-//
-//            if let status = conversionData["af_status"] as? String {
-//                if (status == "Non-organic") {
-//                    if let sourceID = conversionData["media_source"],
-//                        let campaign = conversionData["campaign"] {
-//                        NSLog("[AFSDK] This is a Non-Organic install. Media source: \(sourceID)  Campaign: \(campaign)")
-//                    }
-//                } else {
-//                    NSLog("[AFSDK] This is an organic install.")
-//                }
-//
-//                if let is_first_launch = conversionData["is_first_launch"] as? Bool,
-//                    is_first_launch {
-//                    NSLog("[AFSDK] First Launch")
-//                    if !conversionData.keys.contains("deep_link_value") && conversionData.keys.contains("deep_link_sub1"){
-//                        switch conversionData["deep_link_sub1"] {
-//                            case let eventID as String:
-//                            NSLog("This is a deferred deep link opened using conversion data")
-//                            walkToSceneWithParams(eventID: eventID)
-//                            default:
-//                                NSLog("Could not extract deep_link_value or fruit_name from deep link object using conversion data")
-//                                return
-//                        }
-//                    }
-//                } else {
-//                    NSLog("[AFSDK] Not First Launch")
-//                    if !conversionData.keys.contains("deep_link_value") && conversionData.keys.contains("deep_link_sub1"){
-//                        switch conversionData["deep_link_sub1"] {
-//                            case let eventID as String:
-//                            NSLog("This is a deferred deep link opened using conversion data")
-//                            walkToSceneWithParams(eventID: eventID)
-//                            default:
-//                                NSLog("Could not extract deep_link_value or fruit_name from deep link object using conversion data")
-//                                return
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        if let conversionData = data as NSDictionary? as! [String:Any]? {
+
+            if let status = conversionData["af_status"] as? String {
+                if (status == "Non-organic") {
+                    if let sourceID = conversionData["media_source"],
+                        let campaign = conversionData["campaign"] {
+                        NSLog("[AFSDK] This is a Non-Organic install. Media source: \(sourceID)  Campaign: \(campaign)")
+                    }
+                } else {
+                    NSLog("[AFSDK] This is an organic install.")
+                }
+
+                if let is_first_launch = conversionData["is_first_launch"] as? Bool,
+                    is_first_launch {
+                    NSLog("[AFSDK] First Launch")
+                    if !conversionData.keys.contains("deep_link_value") && conversionData.keys.contains("deep_link_sub1"){
+                        switch conversionData["deep_link_sub1"] {
+                            case let eventID as String:
+                            NSLog("This is a deferred deep link opened using conversion data")
+                            walkToSceneWithParams(eventID: eventID)
+                            default:
+                                NSLog("Could not extract deep_link_value or fruit_name from deep link object using conversion data")
+                                return
+                        }
+                    }
+                } else {
+                    NSLog("[AFSDK] Not First Launch")
+                    if !conversionData.keys.contains("deep_link_value") && conversionData.keys.contains("deep_link_sub1"){
+                        switch conversionData["deep_link_sub1"] {
+                            case let eventID as String:
+                            NSLog("This is a deferred deep link opened using conversion data")
+                            walkToSceneWithParams(eventID: eventID)
+                            default:
+                                NSLog("Could not extract deep_link_value or fruit_name from deep link object using conversion data")
+                                return
+                        }
+                    }
+                }
+            }
+        }
     }
     
     func onConversionDataFail(_ error: Error) {
@@ -1404,25 +1444,32 @@ extension AppDelegate: AppsFlyerLibDelegate {
 extension AppDelegate: DeepLinkDelegate {
      
     func didResolveDeepLink(_ result: DeepLinkResult) {
+        guard let rootViewController = Initializer.getWindow().rootViewController else {
+            return
+        }
+        
         switch result.status {
         case .notFound:
             NSLog("[AFSDK] Deep link not found")
+            Defaults.isDeeplinkClicked = false
             return
         case .failure:
             print("Error %@", result.error!)
-            
+            Defaults.isDeeplinkClicked = false
             return
         case .found:
             NSLog("[AFSDK] Deep link found")
+            deeplinkRes = result
+            Defaults.isDeeplinkClicked = true
         }
-                
+        
         var deeplinkValue:String = ""
         if ((result.deepLink?.clickEvent.keys.contains("deep_link_value")) != nil) {
             deeplinkValue = result.deepLink?.clickEvent["deep_link_value"] as? String ?? ""
         }else {
             NSLog("[AFSDK] Could not extract deep_link_value")
         }
-
+        
         if ((result.deepLink?.clickEvent.keys.contains("deep_link_sub1")) != nil) {
             let eventID:String = result.deepLink?.clickEvent["deep_link_sub1"] as? String ?? ""
             print("eventID : \(eventID)")
@@ -1430,14 +1477,73 @@ extension AppDelegate: DeepLinkDelegate {
             if deeplinkValue == "Event" || deeplinkValue == "event" {
                 walkToSceneWithParams(eventID: eventID)
             }
-            else if deeplinkValue == "Settings" {
-                guard let rootViewController = Initializer.getWindow().rootViewController else {
-                    return
+            else if deeplinkValue == "checkOut" {
+                
+                let vcName:String = result.deepLink?.clickEvent["deep_link_sub1"] as? String ?? ""
+                print("vcName : \(vcName)")
+                if !Defaults.isWhiteLable && NetworkConected.internetConect {
+                    if vcName == "editProfile" || vcName == "interests" {
+                        if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC,
+                           let tabBarController = rootViewController as? UITabBarController,
+                           let navController = tabBarController.selectedViewController as? UINavigationController {
+                            vc.checkoutName = vcName
+                            Defaults.isDeeplinkClicked = false
+                            navController.pushViewController(vc, animated: true)
+                        }
+                    }
+                    else if vcName == "personalSpace" || vcName == "ageFilter" || vcName == "privateMode" || vcName == "distanceFilter" {
+                        if let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC,
+                           let tabBarController = rootViewController as? UITabBarController,
+                           let navController = tabBarController.selectedViewController as? UINavigationController {
+                            vc.checkoutName = vcName
+                            Defaults.isDeeplinkClicked = false
+                            navController.pushViewController(vc, animated: true)
+                        }
+                    }
+                    else if vcName == "eventFilter" {
+                        if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
+                           let tabBarController = rootViewController as? UITabBarController,
+                           let navController = tabBarController.selectedViewController as? UINavigationController {
+                            vc.checkoutName = vcName
+                            Defaults.availableVC = ""
+                            Defaults.isDeeplinkClicked = false
+                            navController.pushViewController(vc, animated: true)
+                        }
+                    }
                 }
-                if !Defaults.isWhiteLable {
+            }
+            else if deeplinkValue == "editProfile" || deeplinkValue == "interests" {
+                if !Defaults.isWhiteLable && NetworkConected.internetConect {
+                    if let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC,
+                       let tabBarController = rootViewController as? UITabBarController,
+                       let navController = tabBarController.selectedViewController as? UINavigationController {
+                        vc.checkoutName = deeplinkValue
+                        Defaults.isDeeplinkClicked = false
+                        navController.pushViewController(vc, animated: true)
+                    }
+                }
+            }
+            
+            else if deeplinkValue == "eventFilter" {
+                if !Defaults.isWhiteLable && NetworkConected.internetConect {
+                    if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
+                       let tabBarController = rootViewController as? UITabBarController,
+                       let navController = tabBarController.selectedViewController as? UINavigationController {
+                        vc.checkoutName = deeplinkValue
+                        Defaults.availableVC = ""
+                        Defaults.isDeeplinkClicked = false
+                        navController.pushViewController(vc, animated: true)
+                    }
+                }
+            }
+            
+            else if deeplinkValue == "personalSpace" || deeplinkValue == "ageFilter" || deeplinkValue == "privateMode" || deeplinkValue == "distanceFilter" {
+                if !Defaults.isWhiteLable && NetworkConected.internetConect {
                     if let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC,
                        let tabBarController = rootViewController as? UITabBarController,
                        let navController = tabBarController.selectedViewController as? UINavigationController {
+                        vc.checkoutName = deeplinkValue
+                        Defaults.isDeeplinkClicked = false
                         navController.pushViewController(vc, animated: true)
                     }
                 }

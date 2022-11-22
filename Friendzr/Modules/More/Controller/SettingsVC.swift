@@ -64,6 +64,7 @@ class SettingsVC: UIViewController {
     var isAgeFilterAvailable:Bool = false
     var isDistanceFilterAvailable:Bool = false
     
+    var checkoutName:String = ""
     
     var bannerView2: GADBannerView!
     
@@ -562,6 +563,7 @@ extension SettingsVC: UITableViewDataSource {
         return 8
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.row {
@@ -684,95 +686,12 @@ extension SettingsVC: UITableViewDataSource {
                 cell.ghostModeTypeLbl.isHidden = true
             }
             
+            if checkoutName == "privateMode" {
+                self.handlePrivateModeSwitchBtn(cell)
+                self.checkoutName = ""
+            }
             cell.HandleSwitchBtn = {
-                if self.model?.ghostmode == false {
-                    self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                    
-                    self.alertView?.parentVC = self
-                    self.alertView?.selectedHideType.removeAll()
-                    self.alertView?.typeIDs.removeAll()
-                    self.alertView?.typeStrings.removeAll()
-                    SelectedSingleTone.isSelected = false
-                    
-                    self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
-                    
-                    for item in self.alertView?.hideArray ?? [] {
-                        item.isSelected = false
-                        self.alertView?.tableView.reloadData()
-                    }
-                    for item in self.alertView?.hideArray ?? [] {
-                        item.isSelected = false
-                        self.alertView?.tableView.reloadData()
-                    }
-                    
-                    //cancel view
-                    self.alertView?.HandlehideViewBtn = {
-                        cell.switchBtn.isOn = false
-                        cell.ghostModeTypeLbl.isHidden = true
-                        Defaults.ghostMode = self.model?.ghostmode ?? false
-                        cell.settingIcon.image = UIImage(named: "privatemode-off-ic")
-                    }
-                    
-                    self.alertView?.HandleSaveBtn = {
-                        cell.switchBtn.isOn = true
-                        cell.ghostModeTypeLbl.isHidden = false
-                        Defaults.ghostMode = self.model?.ghostmode ?? false
-                        cell.settingIcon.image = UIImage(named: "privatemode-off-ic")
-                    }
-                    
-                    self.view.addSubview((self.alertView)!)
-                    
-                }
-                else {
-                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                    
-                    self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
-                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
-                    
-                    self.deleteAlertView?.HandleConfirmBtn = {
-                        if NetworkConected.internetConect {
-                            self.viewmodel.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
-                                if let error = error {
-                                    DispatchQueue.main.async {
-                                        self.view.makeToast(error)
-                                    }
-                                    return
-                                }
-                                
-                                guard data != nil else {return}
-                                self.model = data
-                                
-                                DispatchQueue.main.async {
-                                    cell.switchBtn.isOn = false
-                                    cell.ghostModeTypeLbl.isHidden = true
-                                    cell.ghostModeTypeLbl.text = ""
-                                    Defaults.ghostMode = self.model?.ghostmode ?? false
-                                    cell.settingIcon.image = UIImage(named: "privatemode-off-ic")
-                                }
-                                
-                            })
-                        }
-                        // handling code
-                        UIView.animate(withDuration: 0.3, animations: {
-                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                            self.deleteAlertView?.alpha = 0
-                        }) { (success: Bool) in
-                            self.deleteAlertView?.removeFromSuperview()
-                            self.deleteAlertView?.alpha = 1
-                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                        }
-                    }
-                    
-                    self.deleteAlertView?.HandleCancelBtn = {
-                        DispatchQueue.main.async {
-                            cell.switchBtn.isOn = true
-                            cell.ghostModeTypeLbl.isHidden = false
-                            Defaults.ghostMode = self.model?.ghostmode ?? false
-                        }
-                    }
-                    
-                    self.view.addSubview((self.deleteAlertView)!)
-                }
+                self.handlePrivateModeSwitchBtn(cell)
             }
             
             return cell
@@ -931,68 +850,13 @@ extension SettingsVC: UITableViewDataSource {
             cell.titleLbl.text = "Personal Space".localizedString
             cell.settingIcon.image = UIImage(named: "personal-space_ic")
             
+            if checkoutName == "personalSpace" {
+                self.handlePersonalSpaceSwitchBtn()
+                self.checkoutName = ""
+            }
+            
             cell.HandleSwitchBtn = {
-                if self.model?.personalSpace == true {
-                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                    
-                    self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
-                    self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off personal Space?".localizedString
-                    
-                    self.deleteAlertView?.HandleConfirmBtn = {
-                        if NetworkConected.internetConect {
-                            self.togglePersonalSpace(false)
-                        }
-                        // handling code
-                        UIView.animate(withDuration: 0.3, animations: {
-                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                            self.deleteAlertView?.alpha = 0
-                        }) { (success: Bool) in
-                            self.deleteAlertView?.removeFromSuperview()
-                            self.deleteAlertView?.alpha = 1
-                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                        }
-                    }
-                    
-                    self.deleteAlertView?.HandleCancelBtn = {
-                        //handle cancel
-                        DispatchQueue.main.async {
-                            self.tableView.reloadData()
-                        }
-                    }
-                    
-                    self.view.addSubview((self.deleteAlertView)!)
-                }
-                else {
-                    self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                    
-                    self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
-                    self.deleteAlertView?.detailsLbl.text = "Randomly offset your map pin to hide exact location.".localizedString
-                    
-                    self.deleteAlertView?.HandleConfirmBtn = {
-                        if NetworkConected.internetConect {
-                            self.togglePersonalSpace(true)
-                        }
-                        
-                        // handling code
-                        UIView.animate(withDuration: 0.3, animations: {
-                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                            self.deleteAlertView?.alpha = 0
-                        }) { (success: Bool) in
-                            self.deleteAlertView?.removeFromSuperview()
-                            self.deleteAlertView?.alpha = 1
-                            self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                        }
-                    }
-                    
-                    self.deleteAlertView?.HandleCancelBtn = {
-                        DispatchQueue.main.async {
-                            self.setupData()
-                        }
-                    }
-                    
-                    self.view.addSubview((self.deleteAlertView)!)
-                    
-                }
+                self.handlePersonalSpaceSwitchBtn()
             }
             
             cell.ghostModeTypeLbl.isHidden = true
@@ -1010,6 +874,11 @@ extension SettingsVC: UITableViewDataSource {
             }
             cell.ghostModeTypeLbl.isHidden = true
             
+            if checkoutName == "distanceFilter" {
+                self.createDistanceSlider()
+                self.checkoutName = ""
+            }
+            
             cell.HandleSwitchBtn = {
                 if self.model?.distanceFilter == true {
                     self.updateManualdistanceControl(false,Defaults.distanceFiltering_Max)
@@ -1017,6 +886,7 @@ extension SettingsVC: UITableViewDataSource {
                     self.createDistanceSlider()
                 }
             }
+            
             return cell
             
         case 4://filtring age
@@ -1030,6 +900,11 @@ extension SettingsVC: UITableViewDataSource {
             
             cell.titleLbl.text = "Age Filter".localizedString
             cell.settingIcon.image = UIImage(named: "filterAccourdingAge_ic")
+            
+            if checkoutName == "ageFilter" {
+                self.createAgeSlider()
+                self.checkoutName = ""
+            }
             
             cell.HandleSwitchBtn = {
                 if self.model?.filteringaccordingtoage == true {
@@ -1163,4 +1038,161 @@ extension SettingsVC: GADBannerViewDelegate {
     func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
         print("bannerViewDidDismissScreen")
     }
+}
+
+extension SettingsVC {
+    func handlePersonalSpaceSwitchBtn() {
+        if self.model?.personalSpace == true {
+            self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            
+            self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
+            self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off personal Space?".localizedString
+            
+            self.deleteAlertView?.HandleConfirmBtn = {
+                if NetworkConected.internetConect {
+                    self.togglePersonalSpace(false)
+                }
+                // handling code
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                    self.deleteAlertView?.alpha = 0
+                }) { (success: Bool) in
+                    self.deleteAlertView?.removeFromSuperview()
+                    self.deleteAlertView?.alpha = 1
+                    self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                }
+            }
+            
+            self.deleteAlertView?.HandleCancelBtn = {
+                //handle cancel
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+            
+            self.view.addSubview((self.deleteAlertView)!)
+        }
+        else {
+            self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            
+            self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
+            self.deleteAlertView?.detailsLbl.text = "Randomly offset your map pin to hide exact location.".localizedString
+            
+            self.deleteAlertView?.HandleConfirmBtn = {
+                if NetworkConected.internetConect {
+                    self.togglePersonalSpace(true)
+                }
+                
+                // handling code
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                    self.deleteAlertView?.alpha = 0
+                }) { (success: Bool) in
+                    self.deleteAlertView?.removeFromSuperview()
+                    self.deleteAlertView?.alpha = 1
+                    self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                }
+            }
+            
+            self.deleteAlertView?.HandleCancelBtn = {
+                DispatchQueue.main.async {
+                    self.setupData()
+                }
+            }
+            
+            self.view.addSubview((self.deleteAlertView)!)
+            
+        }
+    }
+    func handlePrivateModeSwitchBtn(_ cell: SettingsTableViewCell) {
+        if self.model?.ghostmode == false {
+            self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            
+            self.alertView?.parentVC = self
+            self.alertView?.selectedHideType.removeAll()
+            self.alertView?.typeIDs.removeAll()
+            self.alertView?.typeStrings.removeAll()
+            SelectedSingleTone.isSelected = false
+            
+            self.alertView?.onTypesCallBackResponse = self.onHideGhostModeTypesCallBack
+            
+            for item in self.alertView?.hideArray ?? [] {
+                item.isSelected = false
+                self.alertView?.tableView.reloadData()
+            }
+            for item in self.alertView?.hideArray ?? [] {
+                item.isSelected = false
+                self.alertView?.tableView.reloadData()
+            }
+            
+            //cancel view
+            self.alertView?.HandlehideViewBtn = {
+                cell.switchBtn.isOn = false
+                cell.ghostModeTypeLbl.isHidden = true
+                Defaults.ghostMode = self.model?.ghostmode ?? false
+                cell.settingIcon.image = UIImage(named: "privatemode-off-ic")
+            }
+            
+            self.alertView?.HandleSaveBtn = {
+                cell.switchBtn.isOn = true
+                cell.ghostModeTypeLbl.isHidden = false
+                Defaults.ghostMode = self.model?.ghostmode ?? false
+                cell.settingIcon.image = UIImage(named: "privatemode-off-ic")
+            }
+            
+            self.view.addSubview((self.alertView)!)
+            
+        }
+        else {
+            self.deleteAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            
+            self.deleteAlertView?.titleLbl.text = "Confirm?".localizedString
+            self.deleteAlertView?.detailsLbl.text = "Are you sure you want to turn off private mode?".localizedString
+            
+            self.deleteAlertView?.HandleConfirmBtn = {
+                if NetworkConected.internetConect {
+                    self.viewmodel.toggleGhostMode(ghostMode: false, myAppearanceTypes: [0], completion: { error, data in
+                        if let error = error {
+                            DispatchQueue.main.async {
+                                self.view.makeToast(error)
+                            }
+                            return
+                        }
+                        
+                        guard data != nil else {return}
+                        self.model = data
+                        
+                        DispatchQueue.main.async {
+                            cell.switchBtn.isOn = false
+                            cell.ghostModeTypeLbl.isHidden = true
+                            cell.ghostModeTypeLbl.text = ""
+                            Defaults.ghostMode = self.model?.ghostmode ?? false
+                            cell.settingIcon.image = UIImage(named: "privatemode-off-ic")
+                        }
+                        
+                    })
+                }
+                // handling code
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                    self.deleteAlertView?.alpha = 0
+                }) { (success: Bool) in
+                    self.deleteAlertView?.removeFromSuperview()
+                    self.deleteAlertView?.alpha = 1
+                    self.deleteAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+                }
+            }
+            
+            self.deleteAlertView?.HandleCancelBtn = {
+                DispatchQueue.main.async {
+                    cell.switchBtn.isOn = true
+                    cell.ghostModeTypeLbl.isHidden = false
+                    Defaults.ghostMode = self.model?.ghostmode ?? false
+                }
+            }
+            
+            self.view.addSubview((self.deleteAlertView)!)
+        }
+    }
+
 }
