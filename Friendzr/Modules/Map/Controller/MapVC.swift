@@ -255,9 +255,22 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         catSelectedNames = Defaults.catSelectedNames
         initFilterBarButton()
         
-        appendNewLocation = false
-        goAddEventBtn.isHidden = true
-        addEventBtn.isHidden = false
+        if self.checkoutName == "createEvent" {
+            self.checkLocationPermissionBtns()
+            self.appendNewLocation = true
+            self.view.makeToast("Please pick event's location".localizedString)
+            self.goAddEventBtn.isHidden = false
+            self.addEventBtn.isHidden = true
+            self.markerImg.isHidden = false
+            self.checkoutName = ""
+            Defaults.availableVC = ""
+        }else {
+            appendNewLocation = false
+            goAddEventBtn.isHidden = true
+            addEventBtn.isHidden = false
+            markerImg.isHidden = true
+        }
+        
         CancelRequest.currentTask = false
         isViewUp = false
         self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
@@ -283,9 +296,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                 self.checkLocationPermission()
             }
         }
-        
-        
-        markerImg.isHidden = true
         
         if Defaults.isSubscribe == false {
             setupAds()
@@ -506,6 +516,16 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                         self.handleFilterByCategorySwitchBtn()
                         self.checkoutName = ""
                     }
+                    else if self.checkoutName == "createEvent" {
+                        self.checkLocationPermissionBtns()
+                        self.appendNewLocation = true
+                        self.view.makeToast("Please pick event's location".localizedString)
+                        self.goAddEventBtn.isHidden = false
+                        self.addEventBtn.isHidden = true
+                        self.markerImg.isHidden = false
+                        self.checkoutName = ""
+                        Defaults.availableVC = ""
+                    }
                 }
             }
         case .wifi:
@@ -531,6 +551,15 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     if self.checkoutName == "eventFilter" {
                         self.handleFilterByCategorySwitchBtn()
                         self.checkoutName = ""
+                    }
+                    else if self.checkoutName == "createEvent" {
+                        self.appendNewLocation = true
+                        self.view.makeToast("Please pick event's location".localizedString)
+                        self.goAddEventBtn.isHidden = false
+                        self.addEventBtn.isHidden = true
+                        self.markerImg.isHidden = false
+                        self.checkoutName = ""
+                        Defaults.availableVC = ""
                     }
                 }
             }
@@ -998,6 +1027,13 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         if Defaults.token != "" {
             initProfileBarButton(didTap: true)
         }
+        
+        showFilterExplainedView.isHidden = true
+        switchFilterButton.isUserInteractionEnabled = true
+        addEventBtn.isUserInteractionEnabled = true
+        sataliteBtn.isUserInteractionEnabled = true
+        currentLocationBtn.isUserInteractionEnabled = true
+        goAddEventBtn.isUserInteractionEnabled = true
     }
     
     @IBAction func nextToShowMapBtn(_ sender: Any) {
@@ -1295,10 +1331,10 @@ extension MapVC : CLLocationManagerDelegate {
             
             showFilterExplainedView.isHidden = false
             switchFilterButton.isUserInteractionEnabled = false
-            addEventBtn.isUserInteractionEnabled = false
+//            addEventBtn.isUserInteractionEnabled = false
             sataliteBtn.isUserInteractionEnabled = false
             currentLocationBtn.isUserInteractionEnabled = false
-            goAddEventBtn.isUserInteractionEnabled = false
+//            goAddEventBtn.isUserInteractionEnabled = false
         }else {
             showFilterExplainedView.isHidden = true
             switchFilterButton.isUserInteractionEnabled = true

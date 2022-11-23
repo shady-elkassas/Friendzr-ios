@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -37,14 +37,14 @@
                         </constraints>
                     </view>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="j3q-OK-73z">
-                        <rect key="frame" x="20" y="35" width="50" height="50"/>
+                        <rect key="frame" x="20" y="30" width="60" height="60"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="50" id="P9S-ye-uXB"/>
+                            <constraint firstAttribute="width" constant="60" id="P9S-ye-uXB"/>
                             <constraint firstAttribute="width" secondItem="j3q-OK-73z" secondAttribute="height" multiplier="1:1" id="Xr9-xk-XjL"/>
                         </constraints>
                     </imageView>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="gU2-4c-CCD">
-                        <rect key="frame" x="78" y="45" width="39" height="17.5"/>
+                        <rect key="frame" x="88" y="40" width="39" height="17.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2mt-gd-63X">
                                 <rect key="frame" x="0.0" y="0.0" width="39" height="17.5"/>
@@ -182,17 +182,17 @@
                         </constraints>
                     </view>
                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="2un-cW-8Zy">
-                        <rect key="frame" x="35" y="50" width="20" height="20"/>
+                        <rect key="frame" x="40" y="50" width="20" height="20"/>
                     </activityIndicatorView>
                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.12" translatesAutoresizingMaskIntoConstraints="NO" id="NSH-MH-y80">
-                        <rect key="frame" x="78" y="72" width="45" height="4"/>
+                        <rect key="frame" x="88" y="67" width="45" height="4"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="45" id="aLI-9B-hyS"/>
                         </constraints>
                         <color key="progressTintColor" red="0.043137254899999998" green="0.74500000479999995" blue="0.63099998239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </progressView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50 % interests match" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="fux-tx-UhI">
-                        <rect key="frame" x="126" y="67.5" width="106" height="12.5"/>
+                        <rect key="frame" x="136" y="62.5" width="106" height="12.5"/>
                         <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="10"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>

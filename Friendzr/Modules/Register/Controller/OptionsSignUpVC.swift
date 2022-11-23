@@ -483,6 +483,5 @@ extension OptionsSignUpVC {
     
     @objc func goToWelcomeVC() {
         Router().toFeed()
-//        Router().toWelcomeVC()
     }
 }

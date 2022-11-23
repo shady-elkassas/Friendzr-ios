@@ -34,7 +34,9 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     var delay: Double = 2.0
     var minimumBeats: Int = 1
     var mask: CALayer? = CALayer()
-    
+    var deeplinkValue:String = ""
+    var deeplinksub1:String = ""
+
     private lazy var imageView: UIImageView = {
         let image = UIImageView()
         image.frame = CGRect(x: 0, y: 0, width: 70 , height: 70)
@@ -95,11 +97,21 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
                         if Defaults.token != "" {
                             Router().toFeed()
                         }else {
-                            Router().toWelcomeVC()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                let coData = appDelegate.deeplinkRes
+                                self.deeplinkValue = coData?.deepLink?.clickEvent["deep_link_value"] as? String ?? ""
+                                self.deeplinksub1 = coData?.deepLink?.clickEvent["deep_link_sub1"] as? String ?? ""
+                                
+                                if self.deeplinkValue == "login" {
+                                    Defaults.isDeeplinkDirectionalLogin = true
+                                    Router().toLogin()
+                                }else {
+                                    Router().toWelcomeVC()
+                                }
+                            }
                         }
                     }
                 }
-                
             }
         }
         

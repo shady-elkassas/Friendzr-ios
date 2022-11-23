@@ -275,9 +275,39 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                     self.checkLocationPermission()
                 }
             }
+            
+            if Defaults.isDeeplinkDirectionalFiltering {
+                self.switchCompassBarButton.isOn = true
+                
+                self.isCompassOpen = true
+                
+                if Defaults.isSubscribe == false {
+                    DispatchQueue.main.async {
+                        self.setupAds()
+                    }
+                    self.bannerViewHeight.constant = 50
+                }
+                else {
+                    self.bannerViewHeight.constant = 0
+                }
+
+                self.createLocationManager()
+                self.filterDir = true
+                self.filterBtn.isHidden = false
+                self.compassContanierView.isHidden = false
+                if Defaults.isIPhoneLessThan2500 {
+                    self.compassContainerViewHeight.constant = 200
+                }else {
+                    self.compassContainerViewHeight.constant = 270
+                }
+                
+                self.compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
+                
+                Defaults.isDeeplinkDirectionalFiltering = false
+            }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if Defaults.isDeeplinkClicked && NetworkConected.internetConect {
                 self.setupDirectionAppsFlyerDeepLink()
                 Defaults.isDeeplinkClicked = false
@@ -767,7 +797,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             }
         }
         
-        else if deeplinkValue == "eventFilter" {
+        else if deeplinkValue == "eventFilter" || deeplinkValue == "createEvent"{
             if !Defaults.isWhiteLable {
                 if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
                    let tabBarController = rootViewController as? UITabBarController,
@@ -789,6 +819,42 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
         }
+        else if deeplinkValue == "directionalFiltering" {
+            Defaults.isDeeplinkDirectionalFiltering = true
+            self.switchCompassBarButton.isOn = true
+            self.isCompassOpen = true
+            
+            if Defaults.isDeeplinkDirectionalFiltering {
+                
+                self.initCompassSwitchBarButton()
+
+                if Defaults.isSubscribe == false {
+                    DispatchQueue.main.async {
+                        self.setupAds()
+                    }
+                    self.bannerViewHeight.constant = 50
+                }
+                else {
+                    self.bannerViewHeight.constant = 0
+                }
+
+                self.createLocationManager()
+                self.filterDir = true
+                self.filterBtn.isHidden = false
+                self.compassContanierView.isHidden = false
+                if Defaults.isIPhoneLessThan2500 {
+                    self.compassContainerViewHeight.constant = 200
+                }else {
+                    self.compassContainerViewHeight.constant = 270
+                }
+                
+                self.compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
+                
+                Defaults.isDeeplinkDirectionalFiltering = false
+            }
+        }
+        
+        
     }
     
     
@@ -1591,7 +1657,12 @@ extension FeedVC {
         switchCompassBarButton.addGestureRecognizer(createCompassSwipeGestureRecognizer(for: .left))
         switchCompassBarButton.addGestureRecognizer(createCompassSwipeGestureRecognizer(for: .right))
         
-        isCompassOpen = false
+        if Defaults.isDeeplinkDirectionalFiltering {
+            isCompassOpen = true
+            Defaults.isDeeplinkDirectionalFiltering = false
+        }else {
+            isCompassOpen = false
+        }
         
         if Defaults.allowMyLocationSettings == true {
             if isCompassOpen {

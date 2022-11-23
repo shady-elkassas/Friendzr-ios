@@ -350,6 +350,24 @@ class Defaults {
             return UserDefaults.standard.bool(forKey: "isDeeplinkClicked")
         }
     }
+    static var isDeeplinkDirectionalFiltering: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "isDeeplinkDirectionalFiltering")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "isDeeplinkDirectionalFiltering")
+        }
+    }
+    static var isDeeplinkDirectionalLogin: Bool {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "isDeeplinkDirectionalLogin")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.bool(forKey: "isDeeplinkDirectionalLogin")
+        }
+    }
     
     static var allowMyLocationSettings: Bool {
         set{
@@ -722,6 +740,8 @@ class Defaults {
         defaults.removeObject(forKey: "catIDs")
         defaults.removeObject(forKey: "isUserStillOnMap")
         defaults.removeObject(forKey: "isDeeplinkClicked")
+        defaults.removeObject(forKey: "isDeeplinkDirectionalFiltering")
+        defaults.removeObject(forKey: "isDeeplinkDirectionalLogin")
         
 
         if let token = AccessToken.current,

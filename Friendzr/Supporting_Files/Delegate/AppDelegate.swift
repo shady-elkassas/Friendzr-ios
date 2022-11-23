@@ -1500,7 +1500,7 @@ extension AppDelegate: DeepLinkDelegate {
                             navController.pushViewController(vc, animated: true)
                         }
                     }
-                    else if vcName == "eventFilter" {
+                    else if vcName == "eventFilter" || vcName == "createEvent" {
                         if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
                            let tabBarController = rootViewController as? UITabBarController,
                            let navController = tabBarController.selectedViewController as? UINavigationController {
@@ -1524,7 +1524,7 @@ extension AppDelegate: DeepLinkDelegate {
                 }
             }
             
-            else if deeplinkValue == "eventFilter" {
+            else if deeplinkValue == "eventFilter" || deeplinkValue == "createEvent" {
                 if !Defaults.isWhiteLable && NetworkConected.internetConect {
                     if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
                        let tabBarController = rootViewController as? UITabBarController,
@@ -1546,6 +1546,22 @@ extension AppDelegate: DeepLinkDelegate {
                         Defaults.isDeeplinkClicked = false
                         navController.pushViewController(vc, animated: true)
                     }
+                }
+            }
+            
+            else if deeplinkValue == "directionalFiltering" {
+                if !Defaults.isWhiteLable && NetworkConected.internetConect {
+                    Defaults.isDeeplinkClicked = false
+                    Defaults.isDeeplinkDirectionalFiltering = true
+                    Defaults.availableVC = ""
+                    Router().toFeed()
+                }
+            }
+            else if deeplinkValue == "login" {
+                if !Defaults.isWhiteLable && Defaults.token == "" {
+                    Defaults.isDeeplinkClicked = false
+                    Defaults.isDeeplinkDirectionalLogin = true
+                    Router().toLogin()
                 }
             }
         }
