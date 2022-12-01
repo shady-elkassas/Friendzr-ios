@@ -1086,10 +1086,10 @@
             filePath = "Friendzr/Modules/Feed/Controller/FeedVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1362"
-            endingLineNumber = "1362"
-            landmarkName = "FeedVC"
-            landmarkType = "21">
+            startingLineNumber = "1376"
+            endingLineNumber = "1376"
+            landmarkName = "tableView(_:didSelectRowAt:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1102,8 +1102,8 @@
             filePath = "Friendzr/Modules/Feed/Controller/FeedVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1364"
-            endingLineNumber = "1364"
+            startingLineNumber = "1378"
+            endingLineNumber = "1378"
             landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1358,8 +1358,8 @@
             filePath = "Friendzr/Modules/Feed/Controller/FeedVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1761"
-            endingLineNumber = "1761"
+            startingLineNumber = "1775"
+            endingLineNumber = "1775"
             landmarkName = "handleCompassSwitchBtn()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1374,8 +1374,8 @@
             filePath = "Friendzr/Modules/Feed/Controller/FeedVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1840"
-            endingLineNumber = "1840"
+            startingLineNumber = "1854"
+            endingLineNumber = "1854"
             landmarkName = "didCompassSwipe(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1390,8 +1390,8 @@
             filePath = "Friendzr/Modules/Feed/Controller/FeedVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1857"
-            endingLineNumber = "1857"
+            startingLineNumber = "1871"
+            endingLineNumber = "1871"
             landmarkName = "didCompassSwipe(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1406,8 +1406,8 @@
             filePath = "Friendzr/Modules/Feed/Controller/FeedVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1855"
-            endingLineNumber = "1855"
+            startingLineNumber = "1869"
+            endingLineNumber = "1869"
             landmarkName = "didCompassSwipe(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1422,10 +1422,10 @@
             filePath = "Friendzr/Modules/Feed/Controller/FeedVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "921"
-            endingLineNumber = "921"
-            landmarkName = "FeedVC"
-            landmarkType = "3">
+            startingLineNumber = "935"
+            endingLineNumber = "935"
+            landmarkName = "setupAds()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1438,8 +1438,8 @@
             filePath = "Friendzr/Modules/Feed/Controller/FeedVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "922"
-            endingLineNumber = "922"
+            startingLineNumber = "936"
+            endingLineNumber = "936"
             landmarkName = "setupAds()"
             landmarkType = "7">
          </BreakpointContent>
@@ -1568,8 +1568,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1231"
             endingLineNumber = "1231"
-            landmarkName = "AppDelegate"
-            landmarkType = "21">
+            landmarkName = "notificationMessageChat(_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:_:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1830,8 +1830,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "366"
             endingLineNumber = "366"
-            landmarkName = "AppDelegate"
-            landmarkType = "3">
+            landmarkName = "application(_:open:options:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2084,8 +2084,8 @@
             filePath = "Friendzr/Supporting_Files/Delegate/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1562"
-            endingLineNumber = "1562"
+            startingLineNumber = "1577"
+            endingLineNumber = "1577"
             landmarkName = "didResolveDeepLink(_:)"
             landmarkType = "7">
          </BreakpointContent>

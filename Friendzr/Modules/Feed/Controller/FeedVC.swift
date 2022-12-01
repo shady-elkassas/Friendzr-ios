@@ -742,7 +742,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     //MARK: - Helper
     var deeplinkValue:String = ""
     var deeplinksub1:String = ""
-    
+    var deeplinksub2:String = ""
+
     // When the user clicks on the link, he listens here,
     // and then we return to the application to the location of opening the required link
     
@@ -755,9 +756,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         
         deeplinkValue = coData?.deepLink?.clickEvent["deep_link_value"] as? String ?? ""
         deeplinksub1 = coData?.deepLink?.clickEvent["deep_link_sub1"] as? String ?? ""
+        deeplinksub2 = coData?.deepLink?.clickEvent["deep_link_sub2"] as? String ?? ""
 
         if deeplinkValue == "Event" || deeplinkValue == "event" {
-            walkToSceneWithParams(eventID: deeplinksub1)
+            walkToSceneWithParams(eventID: deeplinksub1, eventType: deeplinksub2)
         }
         
         else if deeplinkValue == "checkOut" {
@@ -861,17 +863,29 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         
     }
 
-    func walkToSceneWithParams(eventID: String) {
+    func walkToSceneWithParams(eventID: String,eventType:String) {
         guard let rootViewController = Initializer.getWindow().rootViewController else {
             return
         }
-        if !Defaults.isWhiteLable {
-            if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
-               let tabBarController = rootViewController as? UITabBarController,
-               let navController = tabBarController.selectedViewController as? UINavigationController {
-                vc.eventId = eventID
-                navController.pushViewController(vc, animated: true)
+        if !Defaults.isWhiteLable && NetworkConected.internetConect {
+            if eventType == "External" {
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.eventId = eventID
+                    Defaults.isDeeplinkClicked = false
+                    navController.pushViewController(vc, animated: true)
+                }
+            }else {
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.eventId = eventID
+                    Defaults.isDeeplinkClicked = false
+                    navController.pushViewController(vc, animated: true)
+                }
             }
+
         }
     }
     

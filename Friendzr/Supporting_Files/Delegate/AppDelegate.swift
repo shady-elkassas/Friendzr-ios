@@ -249,7 +249,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         switch conversionData["deep_link_sub1"] {
                         case let eventID as String:
                             NSLog("This is a deferred deep link opened using conversion data")
-                            walkToSceneWithParams(eventID: eventID)
+//                            walkToSceneWithParams(eventID: eventID)
                         default:
                             NSLog("Could not extract deep_link_value or fruit_name from deep link object using conversion data")
                             return
@@ -261,7 +261,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         switch conversionData["deep_link_sub1"] {
                         case let eventID as String:
                             NSLog("This is a deferred deep link opened using conversion data")
-                            walkToSceneWithParams(eventID: eventID)
+//                            walkToSceneWithParams(eventID: eventID)
                         default:
                             NSLog("Could not extract deep_link_value or fruit_name from deep link object using conversion data")
                             return
@@ -1372,18 +1372,29 @@ extension AppDelegate {
 extension AppDelegate: AppsFlyerLibDelegate {
     
     // User logic
-    func walkToSceneWithParams(eventID: String) {
+    func walkToSceneWithParams(eventID: String,eventType:String) {
         guard let rootViewController = Initializer.getWindow().rootViewController else {
             return
         }
         if !Defaults.isWhiteLable && NetworkConected.internetConect {
-            if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
-               let tabBarController = rootViewController as? UITabBarController,
-               let navController = tabBarController.selectedViewController as? UINavigationController {
-                vc.eventId = eventID
-                Defaults.isDeeplinkClicked = false
-                navController.pushViewController(vc, animated: true)
+            if eventType == "External" {
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.eventId = eventID
+                    Defaults.isDeeplinkClicked = false
+                    navController.pushViewController(vc, animated: true)
+                }
+            }else {
+                if let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController,
+                   let tabBarController = rootViewController as? UITabBarController,
+                   let navController = tabBarController.selectedViewController as? UINavigationController {
+                    vc.eventId = eventID
+                    Defaults.isDeeplinkClicked = false
+                    navController.pushViewController(vc, animated: true)
+                }
             }
+
         }
     }
     
@@ -1415,7 +1426,7 @@ extension AppDelegate: AppsFlyerLibDelegate {
                         switch conversionData["deep_link_sub1"] {
                             case let eventID as String:
                             NSLog("This is a deferred deep link opened using conversion data")
-                            walkToSceneWithParams(eventID: eventID)
+//                            walkToSceneWithParams(eventID: eventID, eventType: <#String#>)
                             default:
                                 NSLog("Could not extract deep_link_value or fruit_name from deep link object using conversion data")
                                 return
@@ -1427,7 +1438,7 @@ extension AppDelegate: AppsFlyerLibDelegate {
                         switch conversionData["deep_link_sub1"] {
                             case let eventID as String:
                             NSLog("This is a deferred deep link opened using conversion data")
-                            walkToSceneWithParams(eventID: eventID)
+//                            walkToSceneWithParams(eventID: eventID)
                             default:
                                 NSLog("Could not extract deep_link_value or fruit_name from deep link object using conversion data")
                                 return
@@ -1479,8 +1490,12 @@ extension AppDelegate: DeepLinkDelegate {
             let eventID:String = result.deepLink?.clickEvent["deep_link_sub1"] as? String ?? ""
             print("eventID : \(eventID)")
             
+            let eventType:String = result.deepLink?.clickEvent["deep_link_sub2"] as? String ?? ""
+            print("eventType : \(eventType)")
+
+            
             if deeplinkValue == "Event" || deeplinkValue == "event" {
-                walkToSceneWithParams(eventID: eventID)
+                walkToSceneWithParams(eventID: eventID, eventType: eventType)
             }
             else if deeplinkValue == "checkOut" {
                 
