@@ -266,7 +266,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-                
+        
+        Defaults.availableVC = ""
         if Defaults.availableVC != "FeedVC" {
             currentPage = 1
             
@@ -742,6 +743,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     var deeplinkValue:String = ""
     var deeplinksub1:String = ""
     
+    // When the user clicks on the link, he listens here,
+    // and then we return to the application to the location of opening the required link
+    
     func setupDirectionAppsFlyerDeepLink() {
         let coData = appDelegate.deeplinkRes
 
@@ -856,9 +860,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         
         
     }
-    
-    
-    
+
     func walkToSceneWithParams(eventID: String) {
         guard let rootViewController = Initializer.getWindow().rootViewController else {
             return
@@ -872,7 +874,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
-
     
     func addCompassView() {
         if Defaults.isIPhoneLessThan2500 {

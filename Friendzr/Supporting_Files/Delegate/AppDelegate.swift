@@ -304,6 +304,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        // SceneDelegate support
         NotificationCenter.default.addObserver(self, selector: NSSelectorFromString("sendLaunch"), name: UIApplication.didBecomeActiveNotification, object: nil)
         // Subscribe to didBecomeActiveNotification if you use SceneDelegate or just call
         // -[AppsFlyerLib start] from -[AppDelegate applicationDidBecomeActive:]
@@ -328,6 +329,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @objc func didBecomeActiveNotification() {
+        // start is usually called here:
         AppsFlyerLib.shared().start()
         
         if #available(iOS 14, *) {
@@ -1441,6 +1443,9 @@ extension AppDelegate: AppsFlyerLibDelegate {
     }
 }
 
+// When the user clicks on the link, he listens here,
+// and then we return to the application to the location of opening the required link
+
 extension AppDelegate: DeepLinkDelegate {
      
     func didResolveDeepLink(_ result: DeepLinkResult) {
@@ -1523,7 +1528,6 @@ extension AppDelegate: DeepLinkDelegate {
                     }
                 }
             }
-            
             else if deeplinkValue == "eventFilter" || deeplinkValue == "createEvent" {
                 if !Defaults.isWhiteLable && NetworkConected.internetConect {
                     if let vc = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "MapVC") as? MapVC,
@@ -1536,7 +1540,6 @@ extension AppDelegate: DeepLinkDelegate {
                     }
                 }
             }
-            
             else if deeplinkValue == "personalSpace" || deeplinkValue == "ageFilter" || deeplinkValue == "privateMode" || deeplinkValue == "distanceFilter" {
                 if !Defaults.isWhiteLable && NetworkConected.internetConect {
                     if let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "SettingsVC") as? SettingsVC,
@@ -1548,7 +1551,6 @@ extension AppDelegate: DeepLinkDelegate {
                     }
                 }
             }
-            
             else if deeplinkValue == "directionalFiltering" {
                 if !Defaults.isWhiteLable && NetworkConected.internetConect {
                     Defaults.isDeeplinkClicked = false
@@ -1562,6 +1564,12 @@ extension AppDelegate: DeepLinkDelegate {
                     Defaults.isDeeplinkClicked = false
                     Defaults.isDeeplinkDirectionalLogin = true
                     Router().toLogin()
+                }
+            }
+            else if deeplinkValue == "feed" {
+                if !Defaults.isWhiteLable {
+                    Defaults.availableVC = ""
+                    Router().toFeed()
                 }
             }
         }
