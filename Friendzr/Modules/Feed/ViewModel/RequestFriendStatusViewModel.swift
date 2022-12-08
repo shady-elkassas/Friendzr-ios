@@ -17,11 +17,11 @@ class RequestFriendStatusViewModel {
     var error:DynamicType<String> = DynamicType()
     
     //add Request Friend Status
-    func requestFriendStatus(withID id:String,AndKey key:Int,requestdate:String,completion: @escaping (_ error: String?, _ data: Bool?) -> ()) {
+    func requestFriendStatus(withID id:String,AndKey key:Int,isNotFriend:Bool,requestdate:String,completion: @escaping (_ error: String?, _ data: Bool?) -> ()) {
         CancelRequest.currentTask = false
         let url = URLs.baseURLFirst + "FrindRequest/RequestFriendStatus"
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-        let parameters:[String : Any] = ["userid": id,"key":key,"Requestdate":requestdate]
+        var parameters:[String : Any] = ["userid": id,"key":key,"Requestdate":requestdate,"isNotFriend":isNotFriend]
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             

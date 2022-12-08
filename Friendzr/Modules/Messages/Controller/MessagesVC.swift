@@ -180,7 +180,7 @@ class MessagesVC: UIViewController {
         
         hideNavigationBar(NavigationBar: false, BackButton: false)
         self.tabBarController?.tabBar.isHidden = true
-        NotificationCenter.default.post(name: Notification.Name("updateNavBar"), object: nil, userInfo: nil)
+//        NotificationCenter.default.post(name: Notification.Name("updateNavBar"), object: nil, userInfo: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1626,7 +1626,7 @@ extension MessagesVC {
         let actionTime = formatterTime.string(from: Date())
         
         alertView?.HandleConfirmBtn = {
-            self.requestFriendVM.requestFriendStatus(withID: self.chatuserID, AndKey: 5,requestdate: "\(actionDate) \(actionTime)") { error, message in
+            self.requestFriendVM.requestFriendStatus(withID: self.chatuserID, AndKey: 5, isNotFriend: false,requestdate: "\(actionDate) \(actionTime)") { error, message in
                 self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {
@@ -1668,7 +1668,7 @@ extension MessagesVC {
         alertView?.detailsLbl.text = "Are you sure you want to block this account?".localizedString
         
         alertView?.HandleConfirmBtn = {
-            self.requestFriendVM.requestFriendStatus(withID: self.chatuserID, AndKey: 3,requestdate: "\(actionDate) \(actionTime)") { error, message in
+            self.requestFriendVM.requestFriendStatus(withID: self.chatuserID, AndKey: 3, isNotFriend: false,requestdate: "\(actionDate) \(actionTime)") { error, message in
                 self.hideLoading()
                 if let error = error {
                     DispatchQueue.main.async {

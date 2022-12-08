@@ -261,7 +261,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func acceptRequest(_ model: UserFeedObj?, _ requestdate:String, _ cell: RequestsTableViewCell) {
-        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2,requestdate: requestdate) { error, message in
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2, isNotFriend: true,requestdate: requestdate) { error, message in
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
@@ -289,7 +289,7 @@ class RequestVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func cancelRequest(_ model: UserFeedObj?, _ requestdate:String, _ cell: RequestsTableViewCell) {
-        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6,requestdate: requestdate ) { error, message in
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, isNotFriend: true,requestdate: requestdate ) { error, message in
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)

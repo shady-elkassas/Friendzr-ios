@@ -1204,7 +1204,7 @@ extension EditMyProfileVC {
     
     func editSaving() {
         initSaveBarButton(istap: true)
-        
+        let startDate = Date()
         viewmodel.editProfile(withUserName: nameTxt.text!, AndGender: genderString, AndGeneratedUserName: nameTxt.text!, AndBio: bioTxtView.text!, AndBirthdate: dateBirthdayTxt.text!, OtherGenderName: otherGenderTxt.text!, tagsId: tagsid, attachedImg: self.attachedImg, AndUserImage: self.profileImg.image ?? UIImage(),WhatBestDescrips:iamid, preferto: preferToid, universityCode: universalCodeTxt.text!) { error, data in
             
             if let error = error {
@@ -1215,6 +1215,9 @@ extension EditMyProfileVC {
                 return
             }
             
+            let executionTimeWithSuccessFeed2 = Date().timeIntervalSince(startDate)
+            print("executionTimeWithSuccess-edit \(executionTimeWithSuccessFeed2) second")
+
             guard let _ = data else {return}
             DispatchQueue.main.async {
                 if Defaults.isWhiteLable {

@@ -562,7 +562,7 @@ extension CommunityVC:UICollectionViewDataSource {
                 self.isBtnSelected = true
                 Defaults.bannerAdsCount1 += 1
                 self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
-                self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1, requestdate: actionDate) { error, message in
+                self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1, isNotFriend: true, requestdate: actionDate) { error, message in
                     if let error = error {
                         DispatchQueue.main.async {
                             self.view.makeToast(error)

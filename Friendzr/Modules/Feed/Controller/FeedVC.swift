@@ -1310,7 +1310,7 @@ extension FeedVC:UITableViewDataSource {
             cell.HandleUnblocktBtn = { //unblock account
                 self.btnsSelected = true
                 if NetworkConected.internetConect {
-                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4, requestdate: "\(actionDate) \(actionTime)") { error, message in
+                    self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 4, isNotFriend: true, requestdate: "\(actionDate) \(actionTime)") { error, message in
                         if let error = error {
                             DispatchQueue.main.async {
                                 self.view.makeToast(error)
@@ -2347,7 +2347,7 @@ extension FeedVC {
     func sendUserReuest(_ model: UserFeedObj?, _ requestdate:String, _ cell: UsersFeedTableViewCell) {
         self.changeTitleBtns(btn: cell.sendRequestBtn, title: "Sending...".localizedString)
         cell.sendRequestBtn.isUserInteractionEnabled = false
-        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1,requestdate: requestdate) { error, message in
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 1, isNotFriend: true,requestdate: requestdate) { error, message in
             
             if let error = error {
                 DispatchQueue.main.async {
@@ -2370,7 +2370,7 @@ extension FeedVC {
     }
     
     func accseptRequest(_ model: UserFeedObj?, _ requestdate:String) {
-        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2, requestdate: requestdate) { error, message in
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 2, isNotFriend: true, requestdate: requestdate) { error, message in
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
@@ -2393,7 +2393,7 @@ extension FeedVC {
         }
     }
     func refusedRequest(_ model: UserFeedObj?, _ requestdate:String) {
-        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, requestdate: requestdate) { error, message in
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, isNotFriend: true, requestdate: requestdate) { error, message in
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)
@@ -2419,7 +2419,7 @@ extension FeedVC {
     func cancelRequest(_ model: UserFeedObj?, _ requestdate:String, _ cell: UsersFeedTableViewCell) {
         self.changeTitleBtns(btn: cell.cancelRequestBtn, title: "Canceling...".localizedString)
         cell.cancelRequestBtn.isUserInteractionEnabled = false
-        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, requestdate: requestdate) { error, message in
+        self.requestFriendVM.requestFriendStatus(withID: model?.userId ?? "", AndKey: 6, isNotFriend: true, requestdate: requestdate) { error, message in
             if let error = error {
                 DispatchQueue.main.async {
                     self.view.makeToast(error)

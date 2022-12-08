@@ -68,7 +68,7 @@ class SelectedTagsVC: UIViewController {
         self.collectionView.hideLoader()
         viewmodel.getAllInterests()
         viewmodel.interests.bind { [weak self] value in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            DispatchQueue.main.asyncAfter(deadline: .now() , execute: {
                 self?.collectionView.delegate = self
                 self?.collectionView.dataSource = self
                 self?.collectionView.reloadData()
