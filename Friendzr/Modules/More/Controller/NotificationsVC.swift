@@ -277,13 +277,7 @@ extension NotificationsVC: UITableViewDataSource {
         if viewmodel.notifications.value?.data?.count != 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? NotificationTableViewCell else {return UITableViewCell()}
             let model = viewmodel.notifications.value?.data?[indexPath.row]
-            cell.notificationBodyLbl.text = model?.body
-            cell.notificationTitleLbl.text = model?.title
-            cell.notificationDateLbl.text = model?.createdAt
-            
-            cell.notificationImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.notificationImg.sd_setImage(with: URL(string: model?.imageUrl ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-            
+            cell.model = model
             return cell
         }else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: emptyCellID, for: indexPath) as? EmptyViewTableViewCell else {return UITableViewCell()}

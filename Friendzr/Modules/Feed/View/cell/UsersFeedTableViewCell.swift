@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class UsersFeedTableViewCell: UITableViewCell {
     
@@ -34,6 +35,30 @@ class UsersFeedTableViewCell: UITableViewCell {
     var HandleAccseptBtn: (() -> ())?
     var HandleRefusedBtn: (() -> ())?
 
+    var parenVC:UIViewController = UIViewController()
+    
+    var model: UserFeedObj! {
+        didSet {
+            
+            friendRequestNameLbl.text = model?.userName
+            friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
+            
+            loaderImg.isHidden = true
+            friendRequestImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            
+            if Defaults.token != "" {
+                interestMatchPercentLbl.isHidden = false
+                progressBarView.isHidden = false
+                interestMatchPercentLbl.text = "\(model?.interestMatchPercent ?? 0) % interests match"
+                progressBarView.progress = Float(model?.interestMatchPercent ?? 0) / 100
+            }else {
+                interestMatchPercentLbl.isHidden = true
+                progressBarView.isHidden = true
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

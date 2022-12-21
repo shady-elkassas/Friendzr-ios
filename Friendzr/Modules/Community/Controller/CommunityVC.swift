@@ -223,26 +223,6 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
         }
     }
     
-//    func setupAds1() {
-//        bannerAdsView1 = GADBannerView(adSize: GADAdSizeMediumRectangle)
-//        bannerAdsView1.adUnitID = URLs.adUnitBanner
-//        bannerAdsView1.rootViewController = self
-//        bannerAdsView1.load(GADRequest())
-//        bannerAdsView1.delegate = self
-//        bannerAdsView1.translatesAutoresizingMaskIntoConstraints = false
-//        bannerView1.addSubview(bannerAdsView1)
-//    }
-    
-//    func setupAds2() {
-//        bannerAdsView2 = GADBannerView(adSize: GADAdSizeMediumRectangle)
-//        bannerAdsView2.adUnitID = URLs.adUnitBanner
-//        bannerAdsView2.rootViewController = self
-//        bannerAdsView2.load(GADRequest())
-//        bannerAdsView2.delegate = self
-//        bannerAdsView2.translatesAutoresizingMaskIntoConstraints = false
-//        bannerView2.addSubview(bannerAdsView2)
-//    }
-
     func setupAds() {
         bannerADSView = GADBannerView(adSize: GADAdSizeBanner)
         bannerADSView.adUnitID = URLs.adUnitBanner
@@ -348,17 +328,7 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
                 DispatchQueue.main.async {
                     self?.hideView2.isHidden = true
                     self?.emptyView2.isHidden = true
-                }
-                
-//                if Defaults.bannerAdsCount2 >= 3 {
-//                    self.isAdConnected = false
-//                    self.setupAds2()
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                        self.showAdsBanner2.isHidden = false
-//                    }
-//                }else {
-//                    self.showAdsBanner2.isHidden = true
-//                }
+                }                
             }
         }
         

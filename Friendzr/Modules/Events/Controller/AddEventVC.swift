@@ -232,6 +232,7 @@ class AddEventVC: UIViewController {
     }
     
     func addNewEvent(_ eventDate: String, _ eventTime: String) {
+        let startDatee = Date()
         self.saveBtn.setTitle("Saving...", for: .normal)
         self.saveBtn.isUserInteractionEnabled = false
         viewmodel.addNewEvent(withTitle: addTitleTxt.text!, AndDescription: descriptionTxtView.text!, AndStatus: "creator", AndCategory: catID , lang: locationLng, lat: locationLat, totalnumbert: limitUsersTxt.text!, allday: switchAllDays.isOn, eventdateFrom: startDate, eventDateto: endDate , eventfrom: startTime, eventto: endTime,creatDate: eventDate,creattime: eventTime, eventTypeName: eventTypeName,eventtype:eventTypeID, showAttendees: showAttendeesForAll,listOfUserIDs:listFriendsIDs, attachedImg: attachedImg, AndImage: eventImg.image ?? UIImage()) { error, data in
@@ -253,6 +254,10 @@ class AddEventVC: UIViewController {
                 Defaults.availableVC = "AddEventVC"
                 Router().toMap()
             }
+            
+            let executionTimeWithSuccess = Date().timeIntervalSince(startDatee)
+            print("executionTimeWithSuccess \(executionTimeWithSuccess) second")
+
         }
     }
     

@@ -9,6 +9,12 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 
+
+//select location protocol
+protocol PickingLocationFromTheMap {
+    func selectLocation(With placeMark:CLPlacemark,location:CLLocationCoordinate2D)
+}
+
 class SendLocationChatVC: UIViewController {
     
     //MARK: - Outlets

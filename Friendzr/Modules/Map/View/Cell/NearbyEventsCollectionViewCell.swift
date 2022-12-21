@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class NearbyEventsCollectionViewCell: UICollectionViewCell {
 
@@ -21,6 +22,21 @@ class NearbyEventsCollectionViewCell: UICollectionViewCell {
     
     var HandledetailsBtn: (()->())?
 
+    var model:EventObj! {
+        didSet {
+            eventTitleLbl.text = model?.title
+            eventDateLbl.text = model?.eventdate
+            joinedLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
+            
+            eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            
+            detailsBtn.tintColor = UIColor.color((model?.eventtypecolor ?? ""))
+            expandLbl.textColor = UIColor.color((model?.eventtypecolor ?? ""))
+            eventDateLbl.textColor = UIColor.color((model?.eventtypecolor ?? ""))
+            eventColorView.backgroundColor = UIColor.color((model?.eventtypecolor ?? ""))
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -19,12 +19,7 @@ import SDWebImage
 
 let googleApiKey = "AIzaSyCF-EzIxAjm7tkolhph80-EAJmsCl0oemY"
 
-//select location protocol
-protocol PickingLocationFromTheMap {
-    func selectLocation(With placeMark:CLPlacemark,location:CLLocationCoordinate2D)
-}
-
-//Singleton
+//Singletonw
 class MapAppType {
     static var type: Bool = false
 }
@@ -32,7 +27,6 @@ class MapAppType {
 class LocationZooming {
     static var locationLat: Double = 0.0
     static var locationLng: Double = 0.0
-    //    static var didSelected: Double = 0.0
 }
 
 public func delay(_ delay: Double, closure: @escaping () -> Void) {
@@ -72,7 +66,6 @@ extension MapVC: HorizontalPaginationManagerDelegate {
                 print("self.currentPage >> \(self.currentPage)")
                 self.loadMoreItemsForList()
             }else {
-//                self.paginationManager.removeLeftLoader()
                 self.paginationManager.removeRightLoader()
             }
             
@@ -205,25 +198,82 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     var checkoutName:String = ""
     
+    var pepoleLocations = [CLLocationCoordinate2D]()
+    
+    
+    private lazy var paginationManager: HorizontalPaginationManager = {
+        let manager = HorizontalPaginationManager(scrollView: self.collectionView)
+        manager.delegate = self
+        return manager
+    }()
+    
+    private var isDragging: Bool {
+        return self.collectionView.isDragging
+    }
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupViews()
         title = "Map".localizedString
+        
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateMapVC), name: Notification.Name("updateMapVC"), object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(updateFilterBtn), name: Notification.Name("updateFilterBtn"), object: nil)
+        
         self.setupPagination()
         self.fetchItems()
         isViewUp = false
     }
     
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setCatIds()
+        
+        initFilterBarButton()
+        
+//        checkDeepLinkDirection()
+        
+        CancelRequest.currentTask = false
+        
+        isViewUp = false
+        
+        self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+        
+        if Defaults.token != "" {
+            initProfileBarButton(didTap: Defaults.isFirstOpenMap)
+        }
+        
+        clearNavigationBar()
+        
+        DispatchQueue.main.async {
+            self.updateLocation()
+            
+            if Defaults.availableVC != "MapVC" {
+                self.locationsModel.peoplocationDataMV?.removeAll()
+                self.locationsModel.eventlocationDataMV?.removeAll()
+                self.locations.removeAll()
+                self.mapView.clear()
+                
+                self.setupGoogleMap(zoom1: 8, zoom2: 14)
+                self.checkLocationPermission()
+            }
+        }
+        
+        if Defaults.isSubscribe == false {
+            setupAds()
+        }else {
+            bannerViewHeight.constant = 0
+        }
+    }
+    
+
     override func viewWillDisappear(_ animated: Bool) {
         
-        //        mapView.clear()        
         collectionViewHeight.constant = 0
         self.hideCollectionView.isHidden = true
         self.noeventNearbyLbl.isHidden = true
@@ -241,70 +291,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        catIDs = Defaults.catIDs
-        
-        for cat in Defaults.catIDs {
-            for item in Defaults.catSelectedNames {
-                catSelectedArr.append(CategoryObj(id: cat, name: item, isSelected: true))
-            }
-        }
-        
-        catSelectedNames = Defaults.catSelectedNames
-        initFilterBarButton()
-        
-        if self.checkoutName == "createEvent" {
-            self.checkLocationPermissionBtns()
-            self.appendNewLocation = true
-            self.view.makeToast("Please pick event's location".localizedString)
-            self.goAddEventBtn.isHidden = false
-            self.addEventBtn.isHidden = true
-            self.markerImg.isHidden = false
-            self.checkoutName = ""
-            Defaults.availableVC = ""
-        }else {
-            appendNewLocation = false
-            goAddEventBtn.isHidden = true
-            addEventBtn.isHidden = false
-            markerImg.isHidden = true
-        }
-        
-        CancelRequest.currentTask = false
-        isViewUp = false
-        self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-        
-        if Defaults.token != "" {
-            initProfileBarButton(didTap: Defaults.isFirstOpenMap)
-        }
-        
-        clearNavigationBar()
-        
-        DispatchQueue.main.async {
-            if Defaults.token != "" {
-                self.updateLocation()
-            }
-            
-            if Defaults.availableVC != "MapVC" {
-                self.locationsModel.peoplocationDataMV?.removeAll()
-                self.locationsModel.eventlocationDataMV?.removeAll()
-                self.locations.removeAll()
-                self.mapView.clear()
-
-                self.setupGoogleMap(zoom1: 8, zoom2: 14)
-                self.checkLocationPermission()
-            }
-        }
-        
-        if Defaults.isSubscribe == false {
-            setupAds()
-        }else {
-            bannerViewHeight.constant = 0
-        }
-    }
     
-
     //MARK: - APIs
     func getEventsOnlyAroundMe(pageNumber:Int) {
         let startDate = Date()
@@ -324,7 +311,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         viewmodel.getAllEventsOnlyAroundMe(ByCatIds: catIDs, pageNumber: pageNumber)
         viewmodel.eventsOnlyMe.bind { [weak self] value in
             
-            DispatchQueue.main.asyncAfter(deadline: .now()) {
+            DispatchQueue.main.async {
                 if Defaults.availableVC == "MapVC" {
                     DispatchQueue.main.async {
                         self?.collectionView.dataSource = self
@@ -333,26 +320,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     }
                     
                     DispatchQueue.main.async {
-                        if self?.isViewUp == true {
-                            self?.collectionViewHeight.constant = 140
-                            self?.subViewHeight.constant = 190
-                            
-                            if value.data?.count == 0 {
-                                self?.noeventNearbyLbl.isHidden = false
-                                if self?.switchFilterButton.isOn == true {
-                                    self?.noeventNearbyLbl.text = "No events as yet in your chosen categories. Adjust your settings or check back later."
-                                }else {
-                                    self?.noeventNearbyLbl.text = "No events as yet."
-                                }
-                            }else {
-                                self?.noeventNearbyLbl.isHidden = true
-                            }
-                        }else {
-                            self?.collectionViewHeight.constant = 0
-                            self?.subViewHeight.constant = 50
-                            self?.noeventNearbyLbl.isHidden = true
-                            self?.hideCollectionView.isHidden = true
-                        }
+                        self?.handleShowEventsSubView(value: value)
                     }
                     
                     DispatchQueue.main.async {
@@ -361,8 +329,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                         self?.isLoadingList = false
                     }
                     
-                    let executionTimeWithSuccess44 = Date().timeIntervalSince(startDate)
-                    print("executionTimeWithSuccess44 \(executionTimeWithSuccess44) second")
+                    let executionTimeWithSuccess41 = Date().timeIntervalSince(startDate)
+                    print("executionTimeWithSuccess41 \(executionTimeWithSuccess41) second")
                 }
             }
         }
@@ -376,11 +344,20 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func bindToModel() {
-//        self.mapView.clear()
+        let startDate = Date()
         
         viewmodel.getAllEventsAroundMe(ByCatIds: catIDs)
+        let executionTimeWithSuccess40 = Date().timeIntervalSince(startDate)
+        print("executionTimeWithSuccess40 \(executionTimeWithSuccess40) second")
+
         viewmodel.locations.bind { [weak self] value in
-            DispatchQueue.main.asyncAfter(deadline: .now()) {
+            let executionTimeWithSuccess43 = Date().timeIntervalSince(startDate)
+            print("executionTimeWithSuccess43 \(executionTimeWithSuccess43) second")
+
+            DispatchQueue.main.async {
+                
+                let executionTimeWithSuccess45 = Date().timeIntervalSince(startDate)
+                print("executionTimeWithSuccess45 \(executionTimeWithSuccess45) second")
                 
                 DispatchQueue.main.async {
                     if Defaults.availableVC == "MapVC" {
@@ -393,6 +370,9 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                         self?.setupMarkers(model: value)
                     }
                 }
+                
+                let executionTimeWithSuccess46 = Date().timeIntervalSince(startDate)
+                print("executionTimeWithSuccess46 \(executionTimeWithSuccess46) second")
             }
         }
         
@@ -403,24 +383,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     self?.view.makeToast(error)
                 }
             }
-        }
-    }
-    
-    func updateMyLocation() {
-        updateLocationVM.updatelocation(ByLat: "\(Defaults.LocationLat)", AndLng: "\(Defaults.LocationLng)") { error, data in
-            if let error = error {
-                DispatchQueue.main.async {
-                    self.view.makeToast(error)
-                }
-                return
-            }
-            
-            guard let data = data else {return}
-            Defaults.LocationLat = data.lat
-            Defaults.LocationLng = data.lang
-            Defaults.Image = data.userImage
-
-            NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
         }
     }
     
@@ -461,22 +423,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
-    private lazy var paginationManager: HorizontalPaginationManager = {
-        let manager = HorizontalPaginationManager(scrollView: self.collectionView)
-        manager.delegate = self
-        return manager
-    }()
-    
-    private var isDragging: Bool {
-        return self.collectionView.isDragging
-    }
-    
     func loadMoreItemsForList(){
         currentPage += 1
         getEventsOnlyAroundMe(pageNumber: currentPage)
     }
     
-    //MARK: - Helpers
     func updateUserInterface() {
         appDelegate.networkReachability()
         
@@ -503,29 +454,13 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     DispatchQueue.main.async {
                         self.bindToModel()
                     }
-                    if Defaults.token != "" {
-                        self.updateMyLocation()
-                    }
                     
                     DispatchQueue.main.async {
                         self.getCats()
                     }
                     
                     
-                    if self.checkoutName == "eventFilter" {
-                        self.handleFilterByCategorySwitchBtn()
-                        self.checkoutName = ""
-                    }
-                    else if self.checkoutName == "createEvent" {
-                        self.checkLocationPermissionBtns()
-                        self.appendNewLocation = true
-                        self.view.makeToast("Please pick event's location".localizedString)
-                        self.goAddEventBtn.isHidden = false
-                        self.addEventBtn.isHidden = true
-                        self.markerImg.isHidden = false
-                        self.checkoutName = ""
-                        Defaults.availableVC = ""
-                    }
+                    self.checkDeepLinkDirection()
                 }
             }
         case .wifi:
@@ -539,31 +474,14 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                         self.bindToModel()
                     }
                     
-                    if Defaults.token != "" {
-                        self.updateMyLocation()
-                    }
-                    
                     DispatchQueue.main.async {
                         self.getCats()
                     }
                     
                     
-                    if self.checkoutName == "eventFilter" {
-                        self.handleFilterByCategorySwitchBtn()
-                        self.checkoutName = ""
-                    }
-                    else if self.checkoutName == "createEvent" {
-                        self.appendNewLocation = true
-                        self.view.makeToast("Please pick event's location".localizedString)
-                        self.goAddEventBtn.isHidden = false
-                        self.addEventBtn.isHidden = true
-                        self.markerImg.isHidden = false
-                        self.checkoutName = ""
-                        Defaults.availableVC = ""
-                    }
+                    self.checkDeepLinkDirection()
                 }
             }
-            
         }
         
         print("Reachability Summary")
@@ -572,6 +490,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
+
+    //MARK: - Helpers
     
     func setupAds() {
         bannerView2 = GADBannerView(adSize: GADAdSizeBanner)
@@ -619,8 +539,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     func setupMarkers(model:EventsAroundList) {
         
         locations.removeAll()
-        mapView.clear()
         
+//        pepoleLocations.removeAll()
+//        self.generateLocs()
+
         for item in model.eventlocationDataMV ?? [] {
             
             if item.eventTypeName == "Private" {
@@ -645,25 +567,25 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             }
         }
         
-        DispatchQueue.main.async {
-            for item in self.locations {
-                self.setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, eventsCount: item.eventsCount,isEvent: item.isEvent,peopleCount: item.peopleCount, eventTypee: item.eventType)
+        
+//        for item in pepoleLocations {
+//            self.locations.append(EventsLocation(location:  item, markerIcon: "markerLocations_ic", typelocation: "people", eventsCount: 1, markerId: "1",isEvent: false,peopleCount: 1, eventType: "", eventList: []))
+//        }
                 
-                print("item.eventType ?? \(item.markerIcon)")
+        DispatchQueue.main.async {
+//            if model.eventlocationDataMV?.count != 0 || model.peoplocationDataMV?.count != 0 {
+            for item in self.locations {
+                self.createMarker(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, eventsCount: item.eventsCount,isEvent: item.isEvent,peopleCount: item.peopleCount, eventTypee: item.eventType)
+                
+                //                    print("item.eventType ?? \(item.markerIcon)")
             }
         }
         
-        DispatchQueue.main.async {
-            for item in self.locations {
-                self.setupMarkerz(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, eventsCount: item.eventsCount,isEvent: item.isEvent,peopleCount: item.peopleCount, eventTypee: item.eventType)
-                
-                print("item.eventType ?? \(item.markerIcon)")
-            }
-        }
+        print("locationCount = \(locations.count)")
     }
     
     //create markers for locations events
-    func setupMarkerz(for position:CLLocationCoordinate2D , markerIcon:String?,typelocation:String,markerID:String,eventsCount:Int,isEvent: Bool,peopleCount: Int,eventTypee:String)  {
+    func createMarker(for position:CLLocationCoordinate2D , markerIcon:String?,typelocation:String,markerID:String,eventsCount:Int,isEvent: Bool,peopleCount: Int,eventTypee:String)  {
         
         if appendNewLocation {
             mapView.clear()
@@ -718,9 +640,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }else {
             imageView.image = UIImage(named: iconMarker)
         }
-//        UIGraphicsBeginImageContext(CGSize(width: 32, height: 32))
+        
+        UIGraphicsBeginImageContext(CGSize(width: 32, height: 32))
 
-        UIGraphicsBeginImageContextWithOptions(CGSize(width: 32, height: 32), false, 0.0)
+//        UIGraphicsBeginImageContextWithOptions(CGSize(width: 32, height: 32), false, 0.0)
         
         imageView.image?.draw(in: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(32), height: CGFloat(32)))
         
@@ -734,7 +657,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         return markerImage
     }
     
-
     func setupViews() {
         //setup search bar
         addEventBtn.cornerRadiusView(radius: 10)
@@ -841,22 +763,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
-    //create marker for location selected
-    func setupMarker(for position:CLLocationCoordinate2D)  {
-        let camera = GMSCameraPosition.camera(withLatitude: position.latitude,longitude: position.longitude,zoom: 15)
-        
-        if appendNewLocation {
-            mapView.clear()
-        }
-        
-        self.mapView.camera = camera
-        let marker = GMSMarker(position: position)
-        marker.icon = UIImage(named: "markerLocations_ic")
-        marker.map = mapView
-    }
-    
     //update location manager
-    private func updateLocation() {
+    func updateLocation() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
@@ -866,7 +774,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     //setup google map
-    private func setupGoogleMap(zoom1:Float,zoom2:Float) {
+    func setupGoogleMap(zoom1:Float,zoom2:Float) {
         if Defaults.allowMyLocationSettings {
             self.mapView.delegate = self
             self.mapView.isMyLocationEnabled = true
@@ -891,7 +799,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
-    private func geocode(latitude: Double, longitude: Double, completion: @escaping (_ placemark: CLPlacemark?, _ error: Error?) -> Void)  {
+    func geocode(latitude: Double, longitude: Double, completion: @escaping (_ placemark: CLPlacemark?, _ error: Error?) -> Void)  {
         CLGeocoder().reverseGeocodeLocation(CLLocation(latitude: latitude, longitude: longitude)) { placemark, error in
             guard let fplacemark = placemark?.first, error == nil else {
                 completion(nil, error)
@@ -967,39 +875,40 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
             
             DispatchQueue.main.async {
-                DispatchQueue.main.async {
-                    self.locationsModel.peoplocationDataMV?.removeAll()
-                    self.locationsModel.eventlocationDataMV?.removeAll()
-                    self.locations.removeAll()
-                    self.mapView.clear()
-                }
-                
-                DispatchQueue.main.async {
-                    if Defaults.token != "" {
-                        self.updateLocation()
-                    }
-                    self.setupGoogleMap(zoom1: 8, zoom2: 14)
-                }
-                
-                DispatchQueue.main.async {
-                    self.collectionViewHeight.constant = 0
-                    self.noeventNearbyLbl.isHidden = true
-                    self.subViewHeight.constant = 50
-                    self.subView.isHidden = false
-                    self.isViewUp = false
-                    self.hideCollectionView.isHidden = true
-                    self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-                }
-                
-                DispatchQueue.main.async {
-                    self.checkLocationPermission()
-                }
-                
-                DispatchQueue.main.async {
-                    self.currentPage = 1
-                    self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
-                }
+                self.mapView.clear()
+                self.locationsModel.peoplocationDataMV?.removeAll()
+                self.locationsModel.eventlocationDataMV?.removeAll()
+                self.locations.removeAll()
+                self.pepoleLocations.removeAll()
             }
+            
+            DispatchQueue.main.async {
+                if Defaults.token != "" {
+                    self.updateLocation()
+                }
+                
+                self.setupGoogleMap(zoom1: 8, zoom2: 14)
+            }
+            
+            DispatchQueue.main.async {
+                self.collectionViewHeight.constant = 0
+                self.noeventNearbyLbl.isHidden = true
+                self.subViewHeight.constant = 50
+                self.subView.isHidden = false
+                self.isViewUp = false
+                self.hideCollectionView.isHidden = true
+                self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
+            }
+            
+            DispatchQueue.main.async {
+                self.checkLocationPermission()
+            }
+            
+            DispatchQueue.main.async {
+                self.currentPage = 1
+                self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
+            }
+            
             
             NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
             
@@ -1177,23 +1086,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             HandleInternetConnection()
         }
     }
-    
-    func angleFromCoordinate(firstCoordinate: CLLocationCoordinate2D,secondCoordinate: CLLocationCoordinate2D) -> Double {
-        
-        let deltaLongitude: Double = secondCoordinate.longitude - firstCoordinate.longitude
-        let deltaLatitude: Double = secondCoordinate.latitude - firstCoordinate.latitude
-        let angle = (Double.pi * 0.5) - atan(deltaLatitude / deltaLongitude)
-        
-        if (deltaLongitude > 0) {
-            return angle
-        } else if (deltaLongitude < 0) {
-            return angle + Double.pi
-        } else if (deltaLatitude < 0) {
-            return Double.pi
-        } else {
-            return 0.0
-        }
-    }
 }
 
 //MARK: - GMSMap View Delegate
@@ -1248,7 +1140,8 @@ extension MapVC : GMSMapViewDelegate {
                                 self.navigationController?.pushViewController(vc, animated: true)
                             }
                         }
-                    }else {
+                    }
+                    else {
                         for itm in self.locations {
                             if ((pos?.latitude ?? 0.0 ) == itm.location.latitude) && ((pos?.longitude ?? 0.0) == itm.location.longitude) {
                                 sliderEventList = itm.eventList
@@ -1267,14 +1160,9 @@ extension MapVC : GMSMapViewDelegate {
                 else {
                     Router().toOptionsSignUpVC(IsLogout: false)
                 }
-            }else if marker.snippet == "NewEvent" {
+            }
+            else if marker.snippet == "NewEvent" {
                 print("NEW EVENT")
-            }else {
-                //                if let controller = UIViewController.viewController(withStoryboard: .Map, AndContollerID: "GenderDistributionNC") as? UINavigationController, let vc = controller.viewControllers.first as? GenderDistributionVC {
-                //                    vc.lat = pos?.latitude ?? 0.0
-                //                    vc.lng = pos?.longitude ?? 0.0
-                //                    self.present(controller, animated: true)
-                //                }
             }
         }
         
@@ -1304,242 +1192,11 @@ extension MapVC : CLLocationManagerDelegate {
             if Defaults.availableVC != "MapVC" {
                 self.setupGoogleMap(zoom1: 8, zoom2: 14)
             }
-        }else {
-            print("NOT NETWORK AVILABLE")
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-            //check  location permissions
-            //            self.checkLocationPermission()
-        }
-    }
-    
-    func checkLocationPermission() {
-        
-        if !Defaults.isFirstOpenMap {
-            if Defaults.token != "" {
-                nearByEventsDialogueLbl.text = "You can browse a list of events nearest to you here."
-                filterDialogueLbl.text = "Click to set and display events from your preferred interest categories."
-                addEventDialogueLbl.text = "To create an event, click on “+” to select a location on the map for your event then click “+” again to confirm location."
-            }else {
-                nearByEventsDialogueLbl.text = "You can browse a list of events nearest to you here."
-                filterDialogueLbl.text = "You can sort filter events by your interests here."
-                addEventDialogueLbl.text = "You can add your own event to the map here – inviting your connections or opening to all Friendzrs."
-            }
-            
-            showFilterExplainedView.isHidden = false
-            switchFilterButton.isUserInteractionEnabled = false
-//            addEventBtn.isUserInteractionEnabled = false
-            sataliteBtn.isUserInteractionEnabled = false
-            currentLocationBtn.isUserInteractionEnabled = false
-//            goAddEventBtn.isUserInteractionEnabled = false
-        }else {
-            showFilterExplainedView.isHidden = true
-            switchFilterButton.isUserInteractionEnabled = true
-            addEventBtn.isUserInteractionEnabled = true
-            sataliteBtn.isUserInteractionEnabled = true
-            currentLocationBtn.isUserInteractionEnabled = true
-            goAddEventBtn.isUserInteractionEnabled = true
-        }
-        
-        if CLLocationManager.locationServicesEnabled() {
-            switch(CLLocationManager.authorizationStatus()) {
-            case .notDetermined, .restricted, .denied:
-                //open setting app when location services are disabled
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-                self.upDownBtn.isUserInteractionEnabled = false
-                self.isViewUp = false
-                self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-                Defaults.allowMyLocationSettings = false
-                self.removeGestureSwipeSubView()
-                NotificationCenter.default.post(name: Notification.Name("updateMapVC"), object: nil, userInfo: nil)
-                locationManager.stopUpdatingLocation()
-                self.zoomingStatisticsView.isHidden = true
-            case .authorizedAlways, .authorizedWhenInUse:
-                print("Access")
-                Defaults.allowMyLocationSettings = true
-                DispatchQueue.main.asyncAfter(deadline: .now()) {
-                    self.updateUserInterface()
-                }
-                
-                locationManager.showsBackgroundLocationIndicator = false
-                locationManager.stopUpdatingLocation()
-                
-                DispatchQueue.main.async {
-                    self.isViewUp = false
-                    self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-                    self.upDownBtn.isUserInteractionEnabled = true
-                    self.setupSwipeSubView()
-                    self.zoomingStatisticsView.isHidden = false
-                }
-            default:
-                break
-            }
-        }
-        else {
-            print("Location services are not enabled")
-            self.upDownBtn.isUserInteractionEnabled = false
-            self.isViewUp = false
-            self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-            Defaults.allowMyLocationSettings = false
-            self.removeGestureSwipeSubView()
-            self.zoomingStatisticsView.isHidden = true
-        }
-        
-    }
-    
-    func checkLocationPermissionBtns() {
-        if CLLocationManager.locationServicesEnabled() {
-            switch(CLLocationManager.authorizationStatus()) {
-            case .notDetermined, .restricted, .denied:
-                //open setting app when location services are disabled
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-                Defaults.allowMyLocationSettings = false
-            case .authorizedAlways, .authorizedWhenInUse:
-                print("Access")
-                locationManager.showsBackgroundLocationIndicator = false
-                Defaults.allowMyLocationSettings = true
-            default:
-                break
-            }
-        }
-        else {
-            print("Location in not allow")
-            Defaults.allowMyLocationSettings = false
-            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-        }
-    }
-}
-
-//MARK: - UISearchBarDelegate
-extension MapVC: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // Update the GMSAutocompleteTableDataSource with the search text.
-        if searchText != "" {
-            tableView.isHidden = false
-            tableDataSource.sourceTextHasChanged(searchText)
-        } else {
-            tableView.isHidden = true
-        }
-    }
-}
-
-//MARK: - GMSAutocompleteTableDataSourceDelegate
-extension MapVC: GMSAutocompleteTableDataSourceDelegate {
-    func didUpdateAutocompletePredictions(for tableDataSource: GMSAutocompleteTableDataSource) {
-        // Turn the network activity indicator off.
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        // Reload table data
-        tableView.isHidden = false
-        tableView.reloadData()
-    }
-    
-    func didRequestAutocompletePredictions(for tableDataSource: GMSAutocompleteTableDataSource) {
-        // Turn the network activity indicator on.
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-        // Reload table data.
-        tableView.isHidden = false
-        tableView.reloadData()
-    }
-    
-    func tableDataSource(_ tableDataSource: GMSAutocompleteTableDataSource, didAutocompleteWith place: GMSPlace) {
-        // Do something with the selected place.
-        self.locationManager.stopUpdatingLocation()
-        tableView.isHidden = true
-        
-        //        setupMarker(for: CLLocationCoordinate2D.init(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude))
-        self.locationName = (place.name)!
-        print(self.locationName)
-        print("\(self.location!.latitude) : \(self.location!.longitude)")
-        let camera = GMSCameraPosition.camera(withLatitude: place.coordinate.latitude, longitude: place.coordinate.longitude, zoom: 17.0)
-        self.mapView.animate(to: camera)
-        self.searchBar.text = place.name
-        
-        geocode(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude) { (PM, error) in
-            
-            guard let error = error else {
-                self.currentPlaceMark = PM!
-                let place = self.currentPlaceMark?.addressDictionary
-                
-                if let city = place?["locality"] as? String {
-                    print(city)
-                } else {
-                    print("\(self.currentPlaceMark?.locality ?? "")")
-                }
-                
-                if let street = place?["thoroughfare"] as? String {
-                    print(street)
-                } else {
-                    print("\(self.currentPlaceMark?.thoroughfare ?? "")")
-                    
-                }
-                
-                return
-            }
-            
-            print("\(self.location!.latitude)","\(self.location!.longitude)")
-            
-            self.showAlert(withMessage: error.localizedDescription)
-        }
-    }
-    
-    func tableDataSource(_ tableDataSource: GMSAutocompleteTableDataSource, didFailAutocompleteWithError error: Error) {
-        // Handle the error.
-        print("Error: \(error.localizedDescription)")
-        self.showAlert(withMessage: error.localizedDescription)
-    }
-    
-    func tableDataSource(_ tableDataSource: GMSAutocompleteTableDataSource, didSelect prediction: GMSAutocompletePrediction) -> Bool {
-        return true
-    }
-}
-
-//MARK: - UITableViewDataSource
-extension MapVC:UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sliderEventList?.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = eventsTableView.dequeueReusableCell(withIdentifier: eventCellID, for: indexPath) as? EventsInLocationTableViewCell else {return UITableViewCell()}
-        let model = sliderEventList?[indexPath.row]
-        cell.eventTitleLbl.text = model?.title
-        cell.eventDateLbl.text = model?.eventdate
-        cell.joinedLbl.text = "Attendees : \(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
-        
-        cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-        cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-        
-        cell.directionBtn.isHidden = true
-        
-        cell.HandleDirectionBtn = {
-            let lat = Double("\(model?.lat ?? "")")
-            let lng = Double("\(model?.lang ?? "")")
-            
-            if UIApplication.shared.canOpenURL(URL(string:"comgooglemaps://")!) {
-                UIApplication.shared.open(URL(string: "comgooglemaps://?saddr=&daddr=\(model?.lat ?? ""),\(model?.lang ?? "")&directionsmode=driving")!)
-            }else {
-                let coordinates = CLLocationCoordinate2DMake(lat ?? 0.0, lng ?? 0.0)
-                let source = MKMapItem(coordinate: coordinates, name: "Source")
-                let regionDistance:CLLocationDistance = 10000
-                let destination = MKMapItem(coordinate: coordinates, name: model?.title ?? "")
-                let regionSpan = MKCoordinateRegion(center: coordinates, latitudinalMeters: regionDistance, longitudinalMeters: regionDistance)
-                let options = [
-                    MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center),
-                    MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)
-                ]
-                MKMapItem.openMaps(
-                    with: [source, destination],
-                    launchOptions: options
-                )
-            }
-            
-        }
-        
-        return cell
-    }
+    }    
 }
 
 //MARK: - UITableViewDelegate
@@ -1602,9 +1259,7 @@ extension MapVC:UICollectionViewDataSource {
         if collectionView == catsCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: catsCellId, for: indexPath) as? TagCollectionViewCell else {return UICollectionViewCell()}
             let model = catsviewmodel.cats.value?[indexPath.row]
-            cell.tagNameLbl.text = model?.name ?? ""
-            cell.editBtn.isHidden = true
-            cell.editBtnWidth.constant = 0
+            cell.model = model
             
             if catIDs.contains(model?.id ?? "") {
                 cell.containerView.backgroundColor = UIColor.FriendzrColors.primary
@@ -1612,33 +1267,13 @@ extension MapVC:UICollectionViewDataSource {
             else {
                 cell.containerView.backgroundColor = .black
             }
-            
             cell.layoutSubviews()
             return cell
         }
         else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: nearbyEventCellId, for: indexPath) as? NearbyEventsCollectionViewCell else {return UICollectionViewCell()}
             let model = viewmodel.eventsOnlyMe.value?.data?[indexPath.row]
-            
-            cell.eventTitleLbl.text = model?.title
-            cell.eventDateLbl.text = model?.eventdate
-            cell.joinedLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
-            
-            cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-            
-            //            if model?.eventtype == "External" {
-            //                cell.eventColorView.backgroundColor = UIColor.color("#00284c")
-            //            }else {
-            //                cell.eventColorView.backgroundColor = UIColor.FriendzrColors.primary!
-            //            }
-            
-            //        cell.detailsBtn.backgroundColor = UIColor.color((model?.color ?? ""))
-            
-            cell.detailsBtn.tintColor = UIColor.color((model?.eventtypecolor ?? ""))
-            cell.expandLbl.textColor = UIColor.color((model?.eventtypecolor ?? ""))
-            cell.eventDateLbl.textColor = UIColor.color((model?.eventtypecolor ?? ""))
-            cell.eventColorView.backgroundColor = UIColor.color((model?.eventtypecolor ?? ""))
+            cell.model = model
             
             cell.HandledetailsBtn = {
                 if Defaults.token != "" {
@@ -1738,10 +1373,6 @@ extension MapVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
             
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        
-    }
 }
 
 //MARK: - animation map
@@ -1771,23 +1402,6 @@ extension MapVC {
         }
     }
     func animationZoomingMap(zoomIN:Float,zoomOUT:Float,lat:Double,lng:Double) {
-        //        delay(seconds: 0.5) { () -> () in
-        //            let zoomOut = GMSCameraUpdate.zoom(to: zoomOUT)
-        //            self.mapView.animate(with: zoomOut)
-        //
-        //            self.delay(seconds: 0.5, closure: { () -> () in
-        //
-        //                let updatePos = CLLocationCoordinate2DMake(lat,lng)
-        //                let updateCam = GMSCameraUpdate.setTarget(updatePos)
-        //                self.mapView.animate(with: updateCam)
-        //
-        //                self.delay(seconds: 0.5, closure: { () -> () in
-        //                    let zoomIn = GMSCameraUpdate.zoom(to: zoomIN)
-        //                    self.mapView.animate(with: zoomIn)
-        //                })
-        //            })
-        //        }
-        
         let point = mapView.projection.point(for: CLLocationCoordinate2D(latitude: lat, longitude: lng))
         let camera = mapView.projection.coordinate(for: point)
         let position = GMSCameraUpdate.setTarget(camera)
@@ -1798,360 +1412,6 @@ extension MapVC {
         
         LocationZooming.locationLat = lat
         LocationZooming.locationLng = lng
-        
-        //        delay(seconds: 2.5) { () -> () in
-        //            self.mapView.clear()
-        //            self.setupMarkers()
-        //        }
     }
 }
 
-//MARK: - initFilterBarButton
-extension MapVC {
-    func initFilterBarButton() {
-        switchFilterButton.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
-        switchFilterButton.onTintColor = UIColor.FriendzrColors.primary!
-        switchFilterButton.setBorder()
-        switchFilterButton.offTintColor = UIColor.white
-        switchFilterButton.cornerRadius = 0.5
-        switchFilterButton.thumbCornerRadius = 0.5
-        switchFilterButton.animationDuration = 0.25
-        
-        if Defaults.catIDs.count != 0 {
-            switchFilterButton.isOn = true
-            switchFilterButton.thumbImage = UIImage(named: "filterMap_on_ic")
-        }else {
-            switchFilterButton.isOn = false
-            switchFilterButton.thumbImage = UIImage(named: "filterMap_on_ic")
-        }
-        
-        
-        switchFilterButton.addTarget(self, action:  #selector(handleFilterSwitchBtn), for: .touchUpInside)
-        
-        switchFilterButton.addGestureRecognizer(createFilterSwipeGestureRecognizer(for: .up))
-        switchFilterButton.addGestureRecognizer(createFilterSwipeGestureRecognizer(for: .down))
-        switchFilterButton.addGestureRecognizer(createFilterSwipeGestureRecognizer(for: .left))
-        switchFilterButton.addGestureRecognizer(createFilterSwipeGestureRecognizer(for: .right))
-        let barButton = UIBarButtonItem(customView: switchFilterButton)
-        self.navigationItem.rightBarButtonItem = barButton
-    }
-    
-    @objc private func didFilterSwipe(_ sender: UISwipeGestureRecognizer) {
-        // Current Frame
-        switch sender.direction {
-        case .up:
-            break
-        case .down:
-            break
-        case .left:
-            handleFilterByCategorySwitchBtn()
-        case .right:
-            handleFilterByCategorySwitchBtn()
-        default:
-            break
-        }
-        
-        print("\(switchFilterButton.isOn)")
-    }
-    
-    @objc func handleFilterSwitchBtn() {
-        if (catsviewmodel.cats.value?.count ?? 0) != 0 {
-            handleFilterByCategorySwitchBtn()
-        }
-        else {
-            initFilterBarButton()
-            return
-        }
-    }
-    
-    func handleFilterByCategorySwitchBtn() {
-        if NetworkConected.internetConect {
-            if Defaults.catIDs.count == 0 {
-                switchFilterButton.isUserInteractionEnabled = false
-                self.catsSuperView.isHidden = false
-            }
-            else {
-                self.showAlertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                self.showAlertView?.editBtn.isHidden = false
-                
-                self.showAlertView?.titleLbl.text = "Confirm?".localizedString
-                self.showAlertView?.detailsLbl.text = "Are you sure you want to turn off filters or change the settings?".localizedString
-                
-                DispatchQueue.main.async {
-                    self.switchFilterButton.isUserInteractionEnabled = false
-                }
-                
-                self.showAlertView?.HandleOffBtn = {
-                    if NetworkConected.internetConect {
-                        
-                        self.catIDs.removeAll()
-                        self.catSelectedNames.removeAll()
-                        self.catSelectedArr.removeAll()
-                        Defaults.catIDs.removeAll()
-                        Defaults.catSelectedNames.removeAll()
-                        
-                        DispatchQueue.main.async {
-                            DispatchQueue.main.async {
-                                self.locationsModel.peoplocationDataMV?.removeAll()
-                                self.locationsModel.eventlocationDataMV?.removeAll()
-                                self.locations.removeAll()
-                                self.mapView.clear()
-                            }
-                            
-                            DispatchQueue.main.async {
-                                if Defaults.token != "" {
-                                    self.updateLocation()
-                                }
-                                
-                                self.setupGoogleMap(zoom1: 8, zoom2: 14)
-                            }
-                            
-                            DispatchQueue.main.async {
-                                self.collectionViewHeight.constant = 0
-                                self.noeventNearbyLbl.isHidden = true
-                                self.subViewHeight.constant = 50
-                                self.subView.isHidden = false
-                                self.isViewUp = false
-                                self.hideCollectionView.isHidden = true
-                                self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-                            }
-                            
-                            DispatchQueue.main.async {
-                                self.checkLocationPermission()
-                            }
-                            
-                            DispatchQueue.main.async {
-                                //                                self.currentPage = 1
-                                self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
-                            }
-                        }
-                    }
-                    // handling code
-                    UIView.animate(withDuration: 0.3, animations: {
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
-                            self.switchFilterButton.isUserInteractionEnabled = true
-                        }
-                        
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.showAlertView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.showAlertView?.removeFromSuperview()
-                        self.showAlertView?.alpha = 1
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                    }
-                }
-                
-                self.showAlertView?.HandleHideViewBtn = {
-                    DispatchQueue.main.async {
-                        self.initFilterBarButton()
-                        self.switchFilterButton.isUserInteractionEnabled = true
-                    }
-                    
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.showAlertView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.showAlertView?.removeFromSuperview()
-                        self.showAlertView?.alpha = 1
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                    }
-                }
-                
-                self.showAlertView?.HandleEditBtn = {
-                    // handling code
-                    UIView.animate(withDuration: 0.3, animations: {
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
-                        self.showAlertView?.alpha = 0
-                    }) { (success: Bool) in
-                        self.showAlertView?.removeFromSuperview()
-                        self.showAlertView?.alpha = 1
-                        self.showAlertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
-                    }
-                    
-                    self.initFilterBarButton()
-                    self.switchFilterButton.isUserInteractionEnabled = false
-                    self.catsSuperView.isHidden = false
-                    
-                }
-                
-                self.view.addSubview((self.showAlertView)!)
-            }
-        }
-        else {
-            HandleInternetConnection()
-            if Defaults.catIDs.count != 0 {
-                switchFilterButton.isOn = true
-            }else {
-                switchFilterButton.isOn = false
-            }
-        }
-        
-        initFilterBarButton()
-    }
-    
-    private func createFilterSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
-        // Initialize Swipe Gesture Recognizer
-        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didFilterSwipe(_:)))
-        
-        // Configure Swipe Gesture Recognizer
-        swipeGestureRecognizer.direction = direction
-        
-        return swipeGestureRecognizer
-    }
-    
-    //MARK: - Actions
-    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
-        // Current Frame
-        let frame = subView.frame
-        
-        switch sender.direction {
-        case .up:
-            if NetworkConected.internetConect{
-                print("Up")
-                if Defaults.allowMyLocationSettings {
-                    collectionViewHeight.constant = 140
-                    subViewHeight.constant = 190
-                    subView.isHidden = false
-                    isViewUp = true
-                    arrowUpDownImg.image = UIImage(named: "arrow-white-down_ic")
-                    
-                    DispatchQueue.main.async {
-                        //                        self.currentPage = 1
-                        self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
-                    }
-                }
-                else {
-                    collectionViewHeight.constant = 0
-                    self.noeventNearbyLbl.isHidden = true
-                    subViewHeight.constant = 50
-                    subView.isHidden = false
-                    isViewUp = false
-                    self.hideCollectionView.isHidden = true
-                    arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-                    
-                    createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-                }
-            }else {
-                HandleInternetConnection()
-            }
-        case .down:
-            if NetworkConected.internetConect {
-                print("Down")
-                collectionViewHeight.constant = 0
-                self.hideCollectionView.isHidden = true
-                self.noeventNearbyLbl.isHidden = true
-                subViewHeight.constant = 50
-                subView.isHidden = false
-                isViewUp = false
-                arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-            }else {
-                HandleInternetConnection()
-            }
-        case .left: break
-        case .right: break
-        default:
-            break
-        }
-        
-        UIView.animate(withDuration: 0.25) {
-            self.subView.frame = frame
-        }
-        
-        print("x:\(frame.origin.x),y:\(frame.origin.y)")
-    }
-    
-    //MARK: - Helper Methods
-    private func createSwipeGestureRecognizer(for direction: UISwipeGestureRecognizer.Direction) -> UISwipeGestureRecognizer {
-        // Initialize Swipe Gesture Recognizer
-        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
-        
-        // Configure Swipe Gesture Recognizer
-        swipeGestureRecognizer.direction = direction
-        
-        return swipeGestureRecognizer
-    }
-    
-    func onFilterByCatsCallBack(_ listIDs: [String],_ listNames: [String],_ selectCats:[CategoryObj]) -> () {
-        
-        catIDs = listIDs
-        catSelectedNames = listNames
-        catSelectedArr = selectCats
-        
-        DispatchQueue.main.async {
-            Defaults.catSelectedNames = listNames
-            Defaults.catIDs = listIDs
-        }
-        
-        print("catIDs = \(catIDs)")
-        
-        
-        NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
-        
-        DispatchQueue.main.async {
-            
-            DispatchQueue.main.async {
-                self.locationsModel.peoplocationDataMV?.removeAll()
-                self.locationsModel.eventlocationDataMV?.removeAll()
-                self.locations.removeAll()
-                self.mapView.clear()
-            }
-            
-            DispatchQueue.main.async {
-                if Defaults.token != "" {
-                    self.updateLocation()
-                }
-                self.setupGoogleMap(zoom1: 8, zoom2: 14)
-            }
-            
-            DispatchQueue.main.async {
-                self.collectionViewHeight.constant = 0
-                self.noeventNearbyLbl.isHidden = true
-                self.subViewHeight.constant = 50
-                self.subView.isHidden = false
-                self.isViewUp = false
-                self.hideCollectionView.isHidden = true
-                self.arrowUpDownImg.image = UIImage(named: "arrow-white-up_ic")
-            }
-            
-            DispatchQueue.main.async {
-                self.checkLocationPermission()
-            }
-            
-            DispatchQueue.main.async {
-                //                self.currentPage = 1
-                self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
-            }
-        }
-    }
-
-}
-
-//MARK: - GADBannerViewDelegate
-extension MapVC:GADBannerViewDelegate {
-    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
-        print("bannerViewDidReceiveAd")
-        //        addBannerViewToView(bannerView2)
-    }
-    
-    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-        print("bannerView:didFailToReceiveAdWithError: \(error.localizedDescription)")
-        bannerViewHeight.constant = 0
-    }
-    
-    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-        print("bannerViewDidRecordImpression")
-    }
-    
-    func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-        print("bannerViewWillPresentScreen")
-    }
-    
-    func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
-        print("bannerViewWillDIsmissScreen")
-    }
-    
-    func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-        print("bannerViewDidDismissScreen")
-    }
-}

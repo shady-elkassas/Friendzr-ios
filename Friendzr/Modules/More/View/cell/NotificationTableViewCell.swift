@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class NotificationTableViewCell: UITableViewCell {
 
@@ -14,6 +15,18 @@ class NotificationTableViewCell: UITableViewCell {
     @IBOutlet weak var notificationTitleLbl: UILabel!
     @IBOutlet weak var notificationImg: UIImageView!
     @IBOutlet weak var containerView: UIView!
+    
+    
+    var model: NotificationObj! {
+        didSet {
+            notificationBodyLbl.text = model?.body
+            notificationTitleLbl.text = model?.title
+            notificationDateLbl.text = model?.createdAt
+            
+            notificationImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            notificationImg.sd_setImage(with: URL(string: model?.imageUrl ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -128,6 +128,7 @@ class EventsVC: UIViewController {
     }
     
     func LoadAllEvents(pageNumber:Int) {
+        let startDate = Date()
         self.hideView.isHidden = false
         hideView.showLoader()
         viewmodel.getMyEvents(pageNumber: pageNumber, search: "")
@@ -153,6 +154,8 @@ class EventsVC: UIViewController {
                     }
                 }
                 
+                let executionTimeWithSuccess = Date().timeIntervalSince(startDate)
+                print("executionTimeWithSuccess \(executionTimeWithSuccess) second")
 
             }
         }

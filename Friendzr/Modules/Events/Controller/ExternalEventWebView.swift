@@ -45,7 +45,7 @@ class ExternalEventWebView: UIViewController,WKNavigationDelegate{
     //MARK: - Helper
     func setupWebView() {
         
-        webView = WKWebView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height), configuration: WKWebViewConfiguration() )
+        webView = WKWebView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height - 40 ), configuration: WKWebViewConfiguration() )
         self.view.addSubview(webView)
         webView.backgroundColor = .clear
         webView.navigationDelegate = self

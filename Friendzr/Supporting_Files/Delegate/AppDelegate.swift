@@ -247,7 +247,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     NSLog("[AFSDK] First Launch")
                     if !conversionData.keys.contains("deep_link_value") && conversionData.keys.contains("deep_link_sub1"){
                         switch conversionData["deep_link_sub1"] {
-                        case let eventID as String:
+                        case _ as String:
                             NSLog("This is a deferred deep link opened using conversion data")
 //                            walkToSceneWithParams(eventID: eventID)
                         default:
@@ -259,7 +259,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     NSLog("[AFSDK] Not First Launch")
                     if !conversionData.keys.contains("deep_link_value") && conversionData.keys.contains("deep_link_sub1"){
                         switch conversionData["deep_link_sub1"] {
-                        case let eventID as String:
+                        case _ as String:
                             NSLog("This is a deferred deep link opened using conversion data")
 //                            walkToSceneWithParams(eventID: eventID)
                         default:

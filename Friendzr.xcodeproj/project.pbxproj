@@ -346,6 +346,16 @@
 		43D1A4D62884274700830D8D /* Tutorial1.mov in Resources */ = {isa = PBXBuildFile; fileRef = 43D1A4D52884274700830D8D /* Tutorial1.mov */; };
 		43D1A4D82884277D00830D8D /* Tutorial6.mov in Resources */ = {isa = PBXBuildFile; fileRef = 43D1A4D72884277D00830D8D /* Tutorial6.mov */; };
 		43D1A4DC288435D300830D8D /* TutorialScreensSevenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D1A4DB288435D300830D8D /* TutorialScreensSevenVC.swift */; };
+		43D31F30294F22580036C858 /* MapVC + UISearchBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D31F2F294F22580036C858 /* MapVC + UISearchBarDelegate.swift */; };
+		43D31F6E29505A560036C858 /* SoftExpertTask.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43D31F6D29505A560036C858 /* SoftExpertTask.storyboard */; };
+		43D31F7029505AE00036C858 /* SoftExpertTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D31F6F29505AE00036C858 /* SoftExpertTaskViewController.swift */; };
+		43D31F7229505B9C0036C858 /* SoftExpertTaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D31F7129505B9C0036C858 /* SoftExpertTaskViewModel.swift */; };
+		43D31F7429505BA90036C858 /* SoftExpertTaskModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D31F7329505BA90036C858 /* SoftExpertTaskModel.swift */; };
+		43D31F7A2950844B0036C858 /* FilterCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D31F762950844B0036C858 /* FilterCollectionViewCell.xib */; };
+		43D31F7B2950844B0036C858 /* RecipeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43D31F772950844B0036C858 /* RecipeTableViewCell.xib */; };
+		43D31F7C2950844B0036C858 /* FilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D31F782950844B0036C858 /* FilterCollectionViewCell.swift */; };
+		43D31F7D2950844B0036C858 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D31F792950844B0036C858 /* RecipeTableViewCell.swift */; };
+		43D31F7F2951A90E0036C858 /* ExtensionFeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D31F7E2951A90E0036C858 /* ExtensionFeedVC.swift */; };
 		43D527EC2834FF260002FC64 /* MessagesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D527EB2834FF260002FC64 /* MessagesManager.swift */; };
 		43D545A426CB9DDD0064660A /* AddEventVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545A326CB9DDD0064660A /* AddEventVC.swift */; };
 		43D545A926CBB0450064660A /* EventCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D545A826CBB0450064660A /* EventCalendarView.swift */; };
@@ -781,6 +791,16 @@
 		43D1A4D52884274700830D8D /* Tutorial1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = Tutorial1.mov; sourceTree = "<group>"; };
 		43D1A4D72884277D00830D8D /* Tutorial6.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = Tutorial6.mov; sourceTree = "<group>"; };
 		43D1A4DB288435D300830D8D /* TutorialScreensSevenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialScreensSevenVC.swift; sourceTree = "<group>"; };
+		43D31F2F294F22580036C858 /* MapVC + UISearchBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapVC + UISearchBarDelegate.swift"; sourceTree = "<group>"; };
+		43D31F6D29505A560036C858 /* SoftExpertTask.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SoftExpertTask.storyboard; sourceTree = "<group>"; };
+		43D31F6F29505AE00036C858 /* SoftExpertTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftExpertTaskViewController.swift; sourceTree = "<group>"; };
+		43D31F7129505B9C0036C858 /* SoftExpertTaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftExpertTaskViewModel.swift; sourceTree = "<group>"; };
+		43D31F7329505BA90036C858 /* SoftExpertTaskModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftExpertTaskModel.swift; sourceTree = "<group>"; };
+		43D31F762950844B0036C858 /* FilterCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterCollectionViewCell.xib; sourceTree = "<group>"; };
+		43D31F772950844B0036C858 /* RecipeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RecipeTableViewCell.xib; sourceTree = "<group>"; };
+		43D31F782950844B0036C858 /* FilterCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCollectionViewCell.swift; sourceTree = "<group>"; };
+		43D31F792950844B0036C858 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
+		43D31F7E2951A90E0036C858 /* ExtensionFeedVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionFeedVC.swift; sourceTree = "<group>"; };
 		43D527EB2834FF260002FC64 /* MessagesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesManager.swift; sourceTree = "<group>"; };
 		43D545A326CB9DDD0064660A /* AddEventVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventVC.swift; sourceTree = "<group>"; };
 		43D545A826CBB0450064660A /* EventCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCalendarView.swift; sourceTree = "<group>"; };
@@ -1320,6 +1340,7 @@
 			children = (
 				4362888026C8FEDE00B51E51 /* MapVC.swift */,
 				43526918276A1D6D00540726 /* Extensions + MapVC.swift */,
+				43D31F2F294F22580036C858 /* MapVC + UISearchBarDelegate.swift */,
 				43DC08092863076F00B7A6DD /* CatsVC.swift */,
 				4392277A284CC20700F351C7 /* CategoriesViewController.swift */,
 				431FF240270C8DEA002A15E0 /* GenderDistributionVC.swift */,
@@ -1368,6 +1389,7 @@
 			isa = PBXGroup;
 			children = (
 				4362888526C8FF3A00B51E51 /* FeedVC.swift */,
+				43D31F7E2951A90E0036C858 /* ExtensionFeedVC.swift */,
 				437A4E9226FB7315007AAEF9 /* CompassHeading.swift */,
 				437A4E9426FB7346007AAEF9 /* CompassViewSwiftUI.swift */,
 				431505772705F90E002387A1 /* DegreeScaleView.swift */,
@@ -1866,6 +1888,29 @@
 			path = "Tutorial Animations";
 			sourceTree = "<group>";
 		};
+		43D31F6C29505A380036C858 /* Task */ = {
+			isa = PBXGroup;
+			children = (
+				43D31F752950843A0036C858 /* cell */,
+				43D31F6D29505A560036C858 /* SoftExpertTask.storyboard */,
+				43D31F6F29505AE00036C858 /* SoftExpertTaskViewController.swift */,
+				43D31F7129505B9C0036C858 /* SoftExpertTaskViewModel.swift */,
+				43D31F7329505BA90036C858 /* SoftExpertTaskModel.swift */,
+			);
+			path = Task;
+			sourceTree = "<group>";
+		};
+		43D31F752950843A0036C858 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				43D31F782950844B0036C858 /* FilterCollectionViewCell.swift */,
+				43D31F762950844B0036C858 /* FilterCollectionViewCell.xib */,
+				43D31F792950844B0036C858 /* RecipeTableViewCell.swift */,
+				43D31F772950844B0036C858 /* RecipeTableViewCell.xib */,
+			);
+			path = cell;
+			sourceTree = "<group>";
+		};
 		43D545A526CBB01B0064660A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -1907,6 +1952,7 @@
 		43F974202832643C00F736F3 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				43D31F6C29505A380036C858 /* Task */,
 				43F974232832645600F736F3 /* MessagesHelper */,
 				43F974222832644D00F736F3 /* Controller */,
 				43F974212832644500F736F3 /* View */,
@@ -2156,6 +2202,7 @@
 				43D1A4CA2884252900830D8D /* Tutorial2.mov in Resources */,
 				4382AC9D26C27FF2005C1857 /* Montserrat-Regular.ttf in Resources */,
 				43ABA61128758A20004716E4 /* DIN2014-Bold.ttf in Resources */,
+				43D31F7A2950844B0036C858 /* FilterCollectionViewCell.xib in Resources */,
 				430D425A26D3854200188E42 /* InterestsTableViewCell.xib in Resources */,
 				43967DAF27944DFA005B1F5D /* GenderCollectionViewCell.xib in Resources */,
 				43967D76279443F7005B1F5D /* CalendarView.xib in Resources */,
@@ -2169,6 +2216,7 @@
 				434DAC8028B629C800A25DB0 /* FriendsCommunityCollectionViewCell.xib in Resources */,
 				4382ACC426C2C37A005C1857 /* Lato-Semibold.ttf in Resources */,
 				43ABA6182876C610004716E4 /* MapAlertView.xib in Resources */,
+				43D31F7B2950844B0036C858 /* RecipeTableViewCell.xib in Resources */,
 				43ACFEC427B3B2DE001CD340 /* EventButtonsTableViewCell.xib in Resources */,
 				43D1A4D82884277D00830D8D /* Tutorial6.mov in Resources */,
 				4382AC2326C27195005C1857 /* Assets.xcassets in Resources */,
@@ -2220,6 +2268,7 @@
 				4367E46D27BA4BC600FE1880 /* BestDescribesTableViewCell.xib in Resources */,
 				43D008DA2794386A00370E2C /* EmptyViewTableViewCell.xib in Resources */,
 				43D1A4CC2884252900830D8D /* Tutorial4.mov in Resources */,
+				43D31F6E29505A560036C858 /* SoftExpertTask.storyboard in Resources */,
 				439381432816B009002FFED1 /* GoogleService-Info.plist in Resources */,
 				436850A027453E3800A62287 /* TagCollectionViewCell.xib in Resources */,
 				43967D8B27944D18005B1F5D /* EventCalendarView.xib in Resources */,
@@ -2339,6 +2388,7 @@
 			files = (
 				43ACFEBB27B3B065001CD340 /* EventDetailsViewController.swift in Sources */,
 				437703BC28C87E40006D2B48 /* NewFriendsCommunityCollectionViewCell.swift in Sources */,
+				43D31F7429505BA90036C858 /* SoftExpertTaskModel.swift in Sources */,
 				4362888D26C8FF6500B51E51 /* RequestVC.swift in Sources */,
 				43C64A0C2796C40800C35FA8 /* GroupModel.swift in Sources */,
 				43BA37992700A121003F28FA /* Reachability.swift in Sources */,
@@ -2370,6 +2420,7 @@
 				43148540278D86570048EC01 /* StatisticsCollectionViewCell.swift in Sources */,
 				4344107C26CD54D600F8233E /* CategoriesView.swift in Sources */,
 				43526916276A144A00540726 /* ScrollableBottomSheetViewController.swift in Sources */,
+				43D31F7C2950844B0036C858 /* FilterCollectionViewCell.swift in Sources */,
 				43FED20C26DE3FD900255B96 /* EventsViewModel.swift in Sources */,
 				432E4A9A270AFC5E00963448 /* MessagesModel.swift in Sources */,
 				430A351E26CAB01A00477A94 /* EditEventsVC.swift in Sources */,
@@ -2381,6 +2432,7 @@
 				43886862278344F1004D36B2 /* ConfirmReportButtonTableViewCell.swift in Sources */,
 				43119D7426E4F00000AD2260 /* DescriptionViewModel.swift in Sources */,
 				43B22416274D132C004C6912 /* CategoriesVC.swift in Sources */,
+				43D31F7F2951A90E0036C858 /* ExtensionFeedVC.swift in Sources */,
 				4382AC5026C2788D005C1857 /* StringExtension.swift in Sources */,
 				4367E46827BA4ACE00FE1880 /* InterestsProfileTableViewCell.swift in Sources */,
 				436460BB26E8EE2E007C3F27 /* UserModel.swift in Sources */,
@@ -2405,6 +2457,7 @@
 				43C0E18227FB28CD00555023 /* Celebrity.swift in Sources */,
 				43B8287D27E9C53F005FF1D1 /* EventTypeViewModel.swift in Sources */,
 				436850982745008500A62287 /* InstagramWebVC.swift in Sources */,
+				43D31F30294F22580036C858 /* MapVC + UISearchBarDelegate.swift in Sources */,
 				43D1A4AD28803B8800830D8D /* TutorialScreensFiveVC.swift in Sources */,
 				4369F4532797278000D5E064 /* AddNewUsersForMyGroupVC.swift in Sources */,
 				4320A65226F234BF003604EE /* UpdateLocationViewModel.swift in Sources */,
@@ -2419,6 +2472,7 @@
 				437A4E9326FB7315007AAEF9 /* CompassHeading.swift in Sources */,
 				432C6ADB26F33BE70029FB89 /* CloseButton.swift in Sources */,
 				4309E73D26EF89FE001B227D /* SocialMediaRegisterViewModel.swift in Sources */,
+				43D31F7229505B9C0036C858 /* SoftExpertTaskViewModel.swift in Sources */,
 				4336D12726DB89210093C7A6 /* UserNameViewModel.swift in Sources */,
 				43D545C926CCFBA10064660A /* CircleView.swift in Sources */,
 				43C0E18F27FDAB1A00555023 /* NetworkMonitor.swift in Sources */,
@@ -2466,6 +2520,7 @@
 				4382AC1B26C27195005C1857 /* InboxVC.swift in Sources */,
 				43F974322832977C00F736F3 /* MessagesVC.swift in Sources */,
 				43119D7A26E4F08D00AD2260 /* LocationEventViewModel.swift in Sources */,
+				43D31F7D2950844B0036C858 /* RecipeTableViewCell.swift in Sources */,
 				4336D13726DB95670093C7A6 /* ProfileModel.swift in Sources */,
 				43119D7826E4F07000AD2260 /* CategoryEventViewModel.swift in Sources */,
 				43D545A926CBB0450064660A /* EventCalendarView.swift in Sources */,
@@ -2608,6 +2663,7 @@
 				43EA53B027DA1F2C0022950E /* StatisticsInfoCollectionViewCell.swift in Sources */,
 				4360CD0827F07CDE009A51C7 /* ExternalImageTableViewCell.swift in Sources */,
 				43C64A042795806400C35FA8 /* TitleGroupViewModel.swift in Sources */,
+				43D31F7029505AE00036C858 /* SoftExpertTaskViewController.swift in Sources */,
 				434DAC7F28B629C800A25DB0 /* FriendsCommunityCollectionViewCell.swift in Sources */,
 				43316D1F289BC57A0031BDC9 /* LinkClickModel.swift in Sources */,
 				43A332682781C9B2001ADB84 /* GhostModeTableViewCell.swift in Sources */,
@@ -3067,7 +3123,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.22;
+				MARKETING_VERSION = 1.2.24;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3107,7 +3163,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.22;
+				MARKETING_VERSION = 1.2.24;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

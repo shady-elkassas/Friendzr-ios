@@ -21,121 +21,6 @@ import FirebaseAnalytics
 let screenH: CGFloat = UIScreen.main.bounds.height
 let screenW: CGFloat = UIScreen.main.bounds.width
 
-extension FeedVC {
-    
-    func checkLocationPermission() {
-        
-        self.refreshControl.endRefreshing()
-        if CLLocationManager.locationServicesEnabled() {
-            switch(CLLocationManager.authorizationStatus()) {
-            case .notDetermined, .restricted, .denied:
-                //open setting app when location services are disabled
-                //                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-                Defaults.allowMyLocationSettings = false
-                hideView.isHidden = true
-                NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-                switchCompassBarButton.isUserInteractionEnabled = false
-                switchGhostModeBarButton.isUserInteractionEnabled = false
-                self.switchSortedByInterestsButton.isUserInteractionEnabled = false
-            case .authorizedAlways, .authorizedWhenInUse:
-                print("Access")
-                Defaults.allowMyLocationSettings = true
-                hideView.isHidden = true
-                
-                if !Defaults.isFirstOpenFeed {
-                    showCompassExplainedView.isHidden = false
-                    showPrivateModeExplainedView.isHidden = true
-                    showSortByInterestsExplainedView.isHidden = true
-                    
-                    switchSortedByInterestsButton.isUserInteractionEnabled = false
-                    switchCompassBarButton.isUserInteractionEnabled = false
-                    switchGhostModeBarButton.isUserInteractionEnabled = false
-                }else {
-                    showCompassExplainedView.isHidden = true
-                    showPrivateModeExplainedView.isHidden = true
-                    showSortByInterestsExplainedView.isHidden = true
-                    
-                    switchSortedByInterestsButton.isUserInteractionEnabled = true
-                    switchCompassBarButton.isUserInteractionEnabled = true
-                    switchGhostModeBarButton.isUserInteractionEnabled = true
-                }
-                
-                setupCompassContainerView()
-                
-                DispatchQueue.main.async {
-                    self.updateUserInterface()
-                }
-                
-                switchCompassBarButton.isUserInteractionEnabled = true
-                switchGhostModeBarButton.isUserInteractionEnabled = true
-                switchSortedByInterestsButton.isUserInteractionEnabled = true
-                //                locationManager.showsBackgroundLocationIndicator = false
-            default:
-                break
-            }
-        }
-        else {
-            print("Location in not allow")
-            Defaults.allowMyLocationSettings = false
-            hideView.isHidden = true
-            switchCompassBarButton.isUserInteractionEnabled = false
-            switchGhostModeBarButton.isUserInteractionEnabled = false
-            switchSortedByInterestsButton.isUserInteractionEnabled = false
-            NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
-            //            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-        }
-    }
-    
-    //create alert when user not access location
-    func createSettingsAlertController(title: String, message: String) {
-        
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancel".localizedString, style: .cancel)
-        let settingsAction = UIAlertAction(title: NSLocalizedString("Settings".localizedString, comment: ""), style: .default) { (UIAlertAction) in
-            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)! as URL, options: [:], completionHandler: nil)
-        }
-        alertController.addAction(cancelAction)
-        alertController.addAction(settingsAction)
-        self.present(alertController, animated: true, completion: nil)
-        
-    }
-    
-    func checkLocationPermissionBtns() {
-        self.refreshControl.endRefreshing()
-        if CLLocationManager.locationServicesEnabled() {
-            switch(CLLocationManager.authorizationStatus()) {
-            case .notDetermined, .restricted, .denied:
-                //open setting app when location services are disabled
-                createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-                Defaults.allowMyLocationSettings = false
-                hideView.isHidden = true
-                switchCompassBarButton.isUserInteractionEnabled = false
-                switchGhostModeBarButton.isUserInteractionEnabled = false
-                switchSortedByInterestsButton.isUserInteractionEnabled = false
-            case .authorizedAlways, .authorizedWhenInUse:
-                print("Access")
-                Defaults.allowMyLocationSettings = true
-                hideView.isHidden = true
-                switchCompassBarButton.isUserInteractionEnabled = true
-                switchGhostModeBarButton.isUserInteractionEnabled = true
-                switchSortedByInterestsButton.isUserInteractionEnabled = true
-                locationManager.showsBackgroundLocationIndicator = false
-            default:
-                break
-            }
-        }
-        else {
-            print("Location in not allow")
-            Defaults.allowMyLocationSettings = false
-            hideView.isHidden = true
-            switchCompassBarButton.isUserInteractionEnabled = false
-            switchGhostModeBarButton.isUserInteractionEnabled = false
-            switchSortedByInterestsButton.isUserInteractionEnabled = false
-            createSettingsAlertController(title: "", message: "We are unable to use your location to show Friendzrs in the area. Please click below to consent and adjust your settings".localizedString)
-        }
-    }
-}
 
 class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
@@ -166,7 +51,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var privateModelDialogueLbl: UILabel!
     @IBOutlet weak var compasslDialogueLbl: UILabel!
     
-    var bannerView2: GADBannerView!
     
     //MARK: - Properties
     private lazy var currLocation: CLLocation = CLLocation()
@@ -186,7 +70,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     
     lazy var showSortView = Bundle.main.loadNibNamed("SortFeedView", owner: self, options: nil)?.first as? SortFeedView
     
-    private func createLocationManager() {
+    func createLocationManager() {
         locationManager.delegate = self
         locationManager.distanceFilter = 0
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
@@ -247,27 +131,33 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     var isCompassOpen:Bool = false
     var sortByInterestMatch:Bool = false
     
+    var bannerView2: GADBannerView!
+
+    var deeplinkValue:String = ""
+    var deeplinksub1:String = ""
+    var deeplinksub2:String = ""
+
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Feed".localizedString
         pullToRefresh()
-        addCompassView()
-        
+        createCompassView()
         setupNavBar()
+        
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         initCompassSwitchBarButton()
+        Defaults.availableVC = ""
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         
-        Defaults.availableVC = ""
         if Defaults.availableVC != "FeedVC" {
             currentPage = 1
             
@@ -277,35 +167,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
             
-            if Defaults.isDeeplinkDirectionalFiltering {
-                self.switchCompassBarButton.isOn = true
-                
-                self.isCompassOpen = true
-                
-                if Defaults.isSubscribe == false {
-                    DispatchQueue.main.async {
-                        self.setupAds()
-                    }
-                    self.bannerViewHeight.constant = 50
-                }
-                else {
-                    self.bannerViewHeight.constant = 0
-                }
-
-                self.createLocationManager()
-                self.filterDir = true
-                self.filterBtn.isHidden = false
-                self.compassContanierView.isHidden = false
-                if Defaults.isIPhoneLessThan2500 {
-                    self.compassContainerViewHeight.constant = 200
-                }else {
-                    self.compassContainerViewHeight.constant = 270
-                }
-                
-                self.compassContanierView.setCornerforTop(withShadow: true, cornerMask: [.layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 35)
-                
-                Defaults.isDeeplinkDirectionalFiltering = false
-            }
+            self.deeplinkDirectionalFiltering()
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -315,43 +177,36 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             }
         }
         
-        setup()
+        setupViews()
+        
         Defaults.availableVC = "FeedVC"
         print("availableVC >> \(Defaults.availableVC)")
         
         CancelRequest.currentTask = false
-        setupHideView()
         
-        if Defaults.isSubscribe == false {
-            requestIDFA()
-            bannerViewHeight.constant = 50
-        }else {
-            bannerViewHeight.constant = 0
-        }
-        
-        
+        hideShimmerViews()
+        showandhideAds()
         
         initGhostModeAndSortSwitchButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.hideLoading()
         CancelRequest.currentTask = true
     }
-    
-    
+        
+    func onFeedTransactionCallBack(_ isFeed: Bool) -> () {
+        if isFeed {
+            Defaults.availableVC = "FeedVC"
+        }else {
+            Defaults.availableVC = ""
+        }
+    }
     //MARK: - APIs
+    
     func updateUserInterface() {
         appDelegate.networkReachability()
         
-        //        Analytics.logEvent(AnalyticsEventSelectContent, parameters: [
-        //          AnalyticsParameterItemID: "id-\(title!)",
-        //          AnalyticsParameterItemName: title!,
-        //          AnalyticsParameterContentType: "cont",
-        //        ])
-        
-        switch Network.reachability.status {
-        case .unreachable:
+        if Network.reachability.status == .unreachable {
             DispatchQueue.main.async {
                 self.emptyView.isHidden = false
                 self.hideView.isHidden = true
@@ -367,118 +222,25 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 NetworkConected.internetConect = false
                 self.HandleInternetConnection()
             }
-        case .wwan:
-            DispatchQueue.main.async {
-                self.emptyView.isHidden = true
-                self.hideView.isHidden = false
-                
-                if !Defaults.isFirstOpenFeed {
-                    if Defaults.token != "" {
-                        self.privateModelDialogueLbl.text = "Choose who you want to see and be seen by with Private Mode."
-                        self.compasslDialogueLbl.text = "Point your phone in any direction; Friendzrs are listed nearest first in that direction."
-                        self.sortDialogueLbl.text = "Toggle to sort your Friendzr feed by shared interests."
-                    }else {
-                        self.privateModelDialogueLbl.text = "You can filter the Feed by the groups you want to see (and be seen by)."
-                        self.compasslDialogueLbl.text = "You can sort the Feed by those nearest to you by pointing the phone in any direction."
-                        self.sortDialogueLbl.text = "You can sort the Feed by those who share your interests here."
-                    }
-                    
-                    self.showCompassExplainedView.isHidden = false
-                    self.showPrivateModeExplainedView.isHidden = true
-                    self.showSortByInterestsExplainedView.isHidden = true
-                    
-                    self.switchSortedByInterestsButton.isUserInteractionEnabled = false
-                    self.switchCompassBarButton.isUserInteractionEnabled = false
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = false
-                }else {
-                    self.showCompassExplainedView.isHidden = true
-                    self.showPrivateModeExplainedView.isHidden = true
-                    self.showSortByInterestsExplainedView.isHidden = true
-                    
-                    self.switchSortedByInterestsButton.isUserInteractionEnabled = true
-                    self.switchCompassBarButton.isUserInteractionEnabled = true
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                }
-                
-                NetworkConected.internetConect = true
-                
-                if self.isCompassOpen {
-                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
-                }else {
-                    if self.sortByInterestMatch {
-                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
-                    }else {
-                        self.LoadAllFeeds(pageNumber: 1)
-                    }
-                }
-                
-                if Defaults.allowMyLocationSettings == true {
-                    self.allowLocView.isHidden = true
-                }else {
-                    self.allowLocView.isHidden = false
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now()) {
-                    if Defaults.token != "" {
-                        self.updateMyLocation()
-                    }
-                }
+        }
+        else {
+            self.emptyView.isHidden = true
+            self.hideView.isHidden = false
+            NetworkConected.internetConect = true
+            
+            whenFirstOpenFeed()
+            
+            self.compassOpenOrClose()
+            
+            if Defaults.allowMyLocationSettings == true {
+                self.allowLocView.isHidden = true
+            }else {
+                self.allowLocView.isHidden = false
             }
-        case .wifi:
+            
             DispatchQueue.main.async {
-                self.emptyView.isHidden = true
-                self.hideView.isHidden = false
-                
-                if !Defaults.isFirstOpenFeed {
-                    if Defaults.token != "" {
-                        self.privateModelDialogueLbl.text = "Choose who you want to see and be seen by with Private Mode."
-                        self.compasslDialogueLbl.text = "Point your phone in any direction; Friendzrs are listed nearest first in that direction."
-                        self.sortDialogueLbl.text = "Toggle to sort your Friendzr feed by shared interests."
-                    }else {
-                        self.privateModelDialogueLbl.text = "You can filter the Feed by the groups you want to see (and be seen by)."
-                        self.compasslDialogueLbl.text = "You can sort the Feed by those nearest to you by pointing the phone in any direction."
-                        self.sortDialogueLbl.text = "You can sort the Feed by those who share your interests here."
-                    }
-                    
-                    self.showCompassExplainedView.isHidden = false
-                    self.showPrivateModeExplainedView.isHidden = true
-                    self.showSortByInterestsExplainedView.isHidden = true
-                    
-                    self.switchSortedByInterestsButton.isUserInteractionEnabled = false
-                    self.switchCompassBarButton.isUserInteractionEnabled = false
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = false
-                }else {
-                    self.showCompassExplainedView.isHidden = true
-                    self.showPrivateModeExplainedView.isHidden = true
-                    self.showSortByInterestsExplainedView.isHidden = true
-                    
-                    self.switchSortedByInterestsButton.isUserInteractionEnabled = true
-                    self.switchCompassBarButton.isUserInteractionEnabled = true
-                    self.switchGhostModeBarButton.isUserInteractionEnabled = true
-                }
-                
-                NetworkConected.internetConect = true
-                
-                if self.isCompassOpen {
-                    self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
-                }else {
-                    if self.sortByInterestMatch {
-                        self.filterFeedsBy(isCompassOpen: self.isCompassOpen, degree: self.compassDegree, sortByInterestMatch: self.sortByInterestMatch, pageNumber: 1)
-                    }else {
-                        self.LoadAllFeeds(pageNumber: 1)
-                    }
-                }
-                
-                if Defaults.allowMyLocationSettings == true {
-                    self.allowLocView.isHidden = true
-                }else {
-                    self.allowLocView.isHidden = false
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now()) {
-                    if Defaults.token != "" {
-                        self.updateMyLocation()
-                    }
+                if Defaults.token != "" {
+                    self.updateMyLocation()
                 }
             }
         }
@@ -506,35 +268,9 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             }
             
             self.allowLocView.isHidden = true
-            if !Defaults.isFirstOpenFeed {
-                
-                if Defaults.token != "" {
-                    privateModelDialogueLbl.text = "Choose who you want to see and be seen by with Private Mode."
-                    compasslDialogueLbl.text = "Point your phone in any direction; Friendzrs are listed nearest first in that direction."
-                    sortDialogueLbl.text = "Toggle to sort your Friendzr feed by shared interests."
-                }else {
-                    privateModelDialogueLbl.text = "You can sort the Feed by those who share your interests here."
-                    compasslDialogueLbl.text = "You can sort the Feed by those nearest to you by pointing the phone in any direction."
-                    sortDialogueLbl.text = "You can filter the Feed by the groups you want to see (and be seen by)"
-                }
-                
-                
-                showCompassExplainedView.isHidden = false
-                showPrivateModeExplainedView.isHidden = true
-                showSortByInterestsExplainedView.isHidden = true
-                
-                switchSortedByInterestsButton.isUserInteractionEnabled = false
-                switchCompassBarButton.isUserInteractionEnabled = false
-                switchGhostModeBarButton.isUserInteractionEnabled = false
-            }else {
-                showCompassExplainedView.isHidden = true
-                showPrivateModeExplainedView.isHidden = true
-                showSortByInterestsExplainedView.isHidden = true
-                switchSortedByInterestsButton.isUserInteractionEnabled = true
-                switchCompassBarButton.isUserInteractionEnabled = true
-                switchGhostModeBarButton.isUserInteractionEnabled = true
-            }
-        }else {
+            self.whenFirstOpenFeed()
+        }
+        else {
             self.emptyView.isHidden = true
             self.allowLocView.isHidden = false
             switchCompassBarButton.isUserInteractionEnabled = false
@@ -617,8 +353,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                         self?.tableView.reloadData()
                     }
                     
-                    let executionTimeWithSuccessFeed = Date().timeIntervalSince(startDate)
-                    print("executionTimeWithSuccessFeed \(executionTimeWithSuccessFeed) second")
+                    let executionTimeWithSuccess = Date().timeIntervalSince(startDate)
+                    print("executionTimeWithSuccess \(executionTimeWithSuccess) second")
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         self?.isLoadingList = false
@@ -740,9 +476,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     //MARK: - Helper
-    var deeplinkValue:String = ""
-    var deeplinksub1:String = ""
-    var deeplinksub2:String = ""
 
     // When the user clicks on the link, he listens here,
     // and then we return to the application to the location of opening the required link
@@ -889,30 +622,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    func addCompassView() {
-        if Defaults.isIPhoneLessThan2500 {
-            let child = UIHostingController(rootView: CompassViewSwiftUIForIPhoneSmall())
-            compassContanierView.addSubview(child.view)
-            
-            child.view.translatesAutoresizingMaskIntoConstraints = false
-            let horizontalConstraint = child.view.centerXAnchor.constraint(equalTo: compassContanierView.centerXAnchor)
-            let verticalConstraint = child.view.centerYAnchor.constraint(equalTo: compassContanierView.centerYAnchor)
-            let widthConstraint = child.view.widthAnchor.constraint(equalToConstant: 200)
-            let heightConstraint = child.view.heightAnchor.constraint(equalToConstant: 200)
-            compassContanierView.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-            
-        }else {
-            let child = UIHostingController(rootView: CompassViewSwiftUIForIPhoneSmall2())
-            compassContanierView.addSubview(child.view)
-            
-            child.view.translatesAutoresizingMaskIntoConstraints = false
-            let horizontalConstraint = child.view.centerXAnchor.constraint(equalTo: compassContanierView.centerXAnchor)
-            let verticalConstraint = child.view.centerYAnchor.constraint(equalTo: compassContanierView.centerYAnchor)
-            let widthConstraint = child.view.widthAnchor.constraint(equalToConstant: 200)
-            let heightConstraint = child.view.heightAnchor.constraint(equalToConstant: 200)
-            compassContanierView.addConstraints([horizontalConstraint, verticalConstraint, widthConstraint, heightConstraint])
-        }
-    }
     
     //request Ads Tracking authorization
     func requestIDFA() {
@@ -942,7 +651,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         bannerView.addSubview(bannerView2)
     }
     
-    func setupHideView() {
+    func hideShimmerViews() {
         for itm in hidesImgs {
             itm.cornerRadiusView(radius: 12)
         }
@@ -951,7 +660,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
             item.cornerRadiusForHeight()
         }
     }
-    
     
     func HandleinvalidUrl() {
         emptyView.isHidden = false
@@ -1015,7 +723,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         return footerview
     }
     
-    func setup() {
+    func setupViews() {
         tableView.register(UINib(nibName:cellID, bundle: nil), forCellReuseIdentifier: cellID)
         tableView.register(UINib(nibName:emptyCellID, bundle: nil), forCellReuseIdentifier: emptyCellID)
         tryAgainBtn.cornerRadiusView(radius: 8)
@@ -1161,32 +869,7 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 Defaults.allowMyLocationSettings = true
                 hideView.isHidden = true
                 
-                if !Defaults.isFirstOpenFeed {
-                    
-                    if Defaults.token != "" {
-                        privateModelDialogueLbl.text = "Choose who you want to see and be seen by with Private Mode."
-                        compasslDialogueLbl.text = "Point your phone in any direction; Friendzrs are listed nearest first in that direction."
-                        sortDialogueLbl.text = "Toggle to sort your Friendzr feed by shared interests."
-                    }else {
-                        privateModelDialogueLbl.text = "You can sort the Feed by those who share your interests here."
-                        compasslDialogueLbl.text = "You can sort the Feed by those nearest to you by pointing the phone in any direction."
-                        sortDialogueLbl.text = "You can filter the Feed by the groups you want to see (and be seen by)"
-                    }
-                    
-                    showCompassExplainedView.isHidden = false
-                    showPrivateModeExplainedView.isHidden = true
-                    showSortByInterestsExplainedView.isHidden = true
-                    switchSortedByInterestsButton.isUserInteractionEnabled = false
-                    switchCompassBarButton.isUserInteractionEnabled = false
-                    switchGhostModeBarButton.isUserInteractionEnabled = false
-                }else {
-                    showCompassExplainedView.isHidden = true
-                    showPrivateModeExplainedView.isHidden = true
-                    showSortByInterestsExplainedView.isHidden = true
-                    switchSortedByInterestsButton.isUserInteractionEnabled = true
-                    switchCompassBarButton.isUserInteractionEnabled = true
-                    switchGhostModeBarButton.isUserInteractionEnabled = true
-                }
+                whenFirstOpenFeed()
                 
                 setupCompassContainerView()
                 
@@ -1232,23 +915,8 @@ extension FeedVC:UITableViewDataSource {
         if viewmodel.feeds.value?.data?.count != 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? UsersFeedTableViewCell else {return UITableViewCell()}
             let model = viewmodel.feeds.value?.data?[indexPath.row]
-            cell.friendRequestNameLbl.text = model?.userName
-            cell.friendRequestUserNameLbl.text = "@\(model?.displayedUserName ?? "")"
-            
-            
-            cell.loaderImg.isHidden = true
-            cell.friendRequestImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.friendRequestImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-            
-            if Defaults.token != "" {
-                cell.interestMatchPercentLbl.isHidden = false
-                cell.progressBarView.isHidden = false
-                cell.interestMatchPercentLbl.text = "\(model?.interestMatchPercent ?? 0) % interests match"
-                cell.progressBarView.progress = Float(model?.interestMatchPercent ?? 0) / 100
-            }else {
-                cell.interestMatchPercentLbl.isHidden = true
-                cell.progressBarView.isHidden = true
-            }
+//            cell.parenVC = self
+            cell.model = model
             
             if indexPath.row == 0 {
                 cell.upView.isHidden = false
@@ -1302,8 +970,6 @@ extension FeedVC:UITableViewDataSource {
                     vc.isEventAdmin = false
                     CancelRequest.currentTask = false
                     self.navigationController?.pushViewController(vc, animated: true)
-                }else {
-                    return
                 }
             }
             
@@ -1323,8 +989,6 @@ extension FeedVC:UITableViewDataSource {
                             NotificationCenter.default.post(name: Notification.Name("updateFeeds"), object: nil, userInfo: nil)
                         }
                     }
-                }else {
-                    return
                 }
             }
             
@@ -1381,14 +1045,12 @@ extension FeedVC:UITableViewDelegate {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                     vc.userID = viewmodel.feeds.value?.data?[indexPath.row].userId ?? ""
                     vc.isFeedVC = true
+                    vc.onFeedTransactionCallBackResponse = self.onFeedTransactionCallBack
                     self.navigationController?.pushViewController(vc, animated: true)
-                }else {
-                    return
                 }
-            }else {
-                return
             }
-        }else {
+        }
+        else {
             Router().toOptionsSignUpVC(IsLogout: false)
         }
     }
@@ -1407,9 +1069,6 @@ extension FeedVC:UITableViewDelegate {
                 }
             }else {
                 self.tableView.tableFooterView = nil
-                DispatchQueue.main.async {
-                    //                    self.view.makeToast("No more data".localizedString)
-                }
                 return
             }
         }

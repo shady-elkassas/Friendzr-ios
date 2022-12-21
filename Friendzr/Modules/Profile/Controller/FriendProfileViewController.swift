@@ -46,6 +46,8 @@ class FriendProfileViewController: UIViewController {
     var btnSelect:Bool = false
     var isFeedVC:Bool = false
     
+    var onFeedTransactionCallBackResponse: ((_ isFeed: Bool) -> ())?
+
     private let formatterDate: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .full
@@ -107,6 +109,12 @@ class FriendProfileViewController: UIViewController {
         
         CancelRequest.currentTask = true
         AMShimmer.stop(for: self.hideView)
+        
+        if isFeedVC {
+            onFeedTransactionCallBackResponse?(true)
+        }else {
+            onFeedTransactionCallBackResponse?(false)
+        }
     }
     
     //MARK: - APIs

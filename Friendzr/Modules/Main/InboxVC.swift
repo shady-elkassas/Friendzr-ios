@@ -340,6 +340,7 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
         tryAgainBtn.cornerRadiusView(radius: 8)
         bannerView.setCornerforTop()
     }
+    
     //setup SearchBar
     func setupSearchBar() {
         searchBar.delegate = self

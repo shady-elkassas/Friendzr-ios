@@ -17,6 +17,13 @@ class TagCollectionViewCell: UICollectionViewCell {
     
     var HandleEditBtn: (()->())?
 
+    var model:CategoryObj! {
+        didSet {
+            tagNameLbl.text = model?.name ?? ""
+            editBtn.isHidden = true
+            editBtnWidth.constant = 0
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
