@@ -915,7 +915,6 @@ extension FeedVC:UITableViewDataSource {
         if viewmodel.feeds.value?.data?.count != 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as? UsersFeedTableViewCell else {return UITableViewCell()}
             let model = viewmodel.feeds.value?.data?[indexPath.row]
-//            cell.parenVC = self
             cell.model = model
             
             if indexPath.row == 0 {
@@ -2104,3 +2103,4 @@ extension FeedVC {
         }
     }
 }
+//2107

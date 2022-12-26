@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class RecentlyConnectedCollectionViewCell: UICollectionViewCell {
 
@@ -15,6 +16,14 @@ class RecentlyConnectedCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var userImage: UIImageView!
     
     
+    var model :RecentlyConnectedObj! {
+        didSet {
+            userImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            userImage.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            userNameLbl.text = model?.name
+            connectedDateLbl.text = "Connected: \(model?.date ?? "")"
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

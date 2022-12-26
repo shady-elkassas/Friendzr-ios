@@ -102,10 +102,11 @@ class InboxVC: UIViewController ,UIGestureRecognizerDelegate {
             tabBarController?.tabBar.isHidden = true
             initLogoutBarButton()
         }else {
-            initNewConversationBarButton()
             initProfileBarButton(didTap: true)
         }
         
+        initNewConversationBarButton()
+
         if Defaults.token != "" {
             DispatchQueue.main.async {
                 self.updateUserInterface()
@@ -536,9 +537,9 @@ extension InboxVC: UISearchBarDelegate{
     
     func initNewConversationBarButton() {
         let button = UIButton.init(type: .custom)
-        button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+//        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+//        button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         let image = UIImage(named: "newMessage_ic")?.withRenderingMode(.automatic)
-        
         button.setImage(image, for: .normal)
         button.tintColor = UIColor.setColor(lightColor: .black, darkColor: .white)
         button.addTarget(self, action: #selector(PresentNewConversation), for: .touchUpInside)
@@ -547,8 +548,6 @@ extension InboxVC: UISearchBarDelegate{
     }
     
     @objc func PresentNewConversation() {
-        print("PresentNewConversation")
-        
         if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "NewConversationNC") as? UINavigationController, let _ = controller.viewControllers.first as? NewConversationVC {
             self.present(controller, animated: true)
         }
@@ -557,18 +556,16 @@ extension InboxVC: UISearchBarDelegate{
     
     func initLogoutBarButton() {
         let button = UIButton.init(type: .custom)
-        button.setTitle("Logout", for: .normal)
-//        button.frame = CGRect(x: 0, y: 0, width: 70, height: 35)
-        button.setTitleColor(UIColor.red, for: .normal)
-        button.titleLabel?.font = UIFont(name: "Montserrat-Bold", size: 12)
-        button.backgroundColor = .clear
-        button.cornerRadiusView(radius: 8)
-        button.tintColor = UIColor.setColor(lightColor: UIColor.black, darkColor: UIColor.white)
+        button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        let image = UIImage(named: "logout_ic")?.withRenderingMode(.automatic)
+        button.setImage(image, for: .normal)
+        button.tintColor = UIColor.setColor(lightColor: .black, darkColor: .white)
         button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         let barButton = UIBarButtonItem(customView: button)
-        self.navigationItem.rightBarButtonItem = barButton
+        self.navigationItem.leftBarButtonItem = barButton
     }
-    
+
     @objc func handleLogout() {
         alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         

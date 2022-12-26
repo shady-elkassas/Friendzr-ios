@@ -145,13 +145,7 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
         
         CancelRequest.currentTask = false
         Defaults.isCommunityVC = true
-        
-//        Defaults.bannerAdsCount1 = 0
-//        Defaults.bannerAdsCount2 = 0
-        
-//        setupAds1()
-//        setupAds2()
-        
+                
         Defaults.availableVC = "CommunityVC"
         
         if Defaults.isSubscribe == false {
@@ -386,23 +380,14 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     func updateUserInterface() {
         appDelegate.networkReachability()
         
-        switch Network.reachability.status {
-        case .unreachable:
+        if Network.reachability.status == .unreachable {
             DispatchQueue.main.async {
                 NetworkConected.internetConect = false
                 self.HandleInternetConnection()
             }
-        case .wwan:
+        }else {
             DispatchQueue.main.async {
                 self.superEmptyView.isHidden = true
-                NetworkConected.internetConect = true
-                self.showRecommendedPeople()
-                self.showRecommendedEvent()
-                self.showRecentlyConnected()
-            }
-        case .wifi:
-            self.superEmptyView.isHidden = true
-            DispatchQueue.main.async {
                 NetworkConected.internetConect = true
                 self.showRecommendedPeople()
                 self.showRecommendedEvent()
@@ -469,8 +454,6 @@ class CommunityVC: UIViewController,UIPopoverPresentationControllerDelegate,UIGe
     
 }
 
-
-
 //MARK: - UICollectionViewDataSource
 extension CommunityVC:UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -491,29 +474,8 @@ extension CommunityVC:UICollectionViewDataSource {
             let actionDate = formatterDate.string(from: Date())
 
             let model = recommendedPeopleViewModel.recommendedPeople.value
-            cell.nameTitleLbl.text = model?.name
+            cell.model = model
             
-            let kmNum:Double = (model?.distanceFromYou ?? 0) * 1.60934 //convert miles to kms
-            cell.milesLbl.text = "\(kmNum.rounded(toPlaces: 1)) km from you"
-            cell.interestMatchLbl.text = "\(Int(model?.interestMatchPercent ?? 0.0)) % interest match"
-            
-            cell.userImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.userImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-            
-            
-            cell.seemoreBtn.isHidden = true
-            cell.seemoreLbl.isHidden = true
-
-            cell.tagsView.removeAllTags()
-            if (model?.matchedInterests?.count ?? 0) == 0 {
-                cell.noAvailableInterestLbl.isHidden = false
-            }
-            else {
-                cell.noAvailableInterestLbl.isHidden = true
-                for item in model?.matchedInterests ?? [] {
-                    cell.tagsView.addTag(tagId: item, title: "#" + (item).capitalizingFirstLetter())
-                }
-            }
             cell.HandleViewProfileBtn = {
                 guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                 vc.userID = model?.userId ?? ""
@@ -525,7 +487,6 @@ extension CommunityVC:UICollectionViewDataSource {
                 self.isBtnSelected = true
                 Defaults.bannerAdsCount1 += 1
                 self.getRecommendedPeopleBy(userID: model?.userId ?? "")
-//                self.animationFor(collectionView: self.friendsCommunityCollectionView)
             }
             
             cell.HandleSendRequestBtn = {
@@ -547,7 +508,6 @@ extension CommunityVC:UICollectionViewDataSource {
                     
                     DispatchQueue.main.async {
                         self.getRecommendedPeopleBy(userID: model?.userId ?? "")
-//                        self.animationFor(collectionView: self.friendsCommunityCollectionView)
                     }
                 }
             }
@@ -557,17 +517,9 @@ extension CommunityVC:UICollectionViewDataSource {
             guard let cell = eventCollectionView.dequeueReusableCell(withReuseIdentifier: cellID2, for: indexPath) as? RecommendedEventCollectionViewCell else {return UICollectionViewCell()}
             
             let model = recommendedEventViewModel.recommendedEvent.value
-            cell.enventNameLbl.text = model?.title
-            cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-            cell.infoLbl.text = model?.descriptionEvent
-            cell.attendeesLbl.text = "Attendees: \(model?.attendees ?? 0) / \(model?.from ?? 0)"
-            cell.startDateLbl.text = model?.eventDate
-            cell.bgView.backgroundColor =  UIColor.color((model?.eventtypecolor ?? ""))
+            cell.model = model
             
             cell.HandleSkipBtn = {
-//                Defaults.bannerAdsCount2 += 1
-//                self.animationFor(collectionView: self.eventCollectionView)
                 self.isBtnSelected = true
                 self.getRecommendedEventBy(eventID: model?.eventId ?? "")
             }
@@ -589,10 +541,7 @@ extension CommunityVC:UICollectionViewDataSource {
         else if collectionView == recentlyConnectedCollectionView {
             guard let cell = recentlyConnectedCollectionView.dequeueReusableCell(withReuseIdentifier: cellID3, for: indexPath) as? RecentlyConnectedCollectionViewCell else {return UICollectionViewCell()}
             let model = recentlyConnectedViewModel.recentlyConnected.value?.data?[indexPath.row]
-            cell.userImage.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.userImage.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-            cell.userNameLbl.text = model?.name
-            cell.connectedDateLbl.text = "Connected: \(model?.date ?? "")"
+            cell.model = model
             return cell
         }
         else {
@@ -644,24 +593,7 @@ extension CommunityVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == friendsCommunityCollectionView {
-            
-        }
-        else if collectionView == eventCollectionView {
-//            let model = recommendedEventViewModel.recommendedEvent.value
-            
-//            if model?.eventtype == "External" {
-//                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExternalEventDetailsVC") as? ExternalEventDetailsVC else {return}
-//                vc.eventId = model?.eventId ?? ""
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            }else {
-//                guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsViewController") as? EventDetailsViewController else {return}
-//                vc.eventId = model?.eventId ?? ""
-//                self.navigationController?.pushViewController(vc, animated: true)
-//            }
-        }
-        
-        else if collectionView == recentlyConnectedCollectionView {
+        if collectionView == recentlyConnectedCollectionView {
             if Defaults.token != "" {
                 if NetworkConected.internetConect {
                     if recentlyConnectedViewModel.recentlyConnected.value?.data?.count != 0 {
@@ -673,9 +605,6 @@ extension CommunityVC:UICollectionViewDelegate,UICollectionViewDelegateFlowLayou
             }else {
                 Router().toOptionsSignUpVC(IsLogout: false)
             }
-        }
-        else {
-            
         }
     }
 }
@@ -710,7 +639,6 @@ extension CommunityVC: HorizontalPaginationManagerDelegate {
                 print("self.currentPage >> \(self.currentPage)")
                 self.loadMoreItemsForList()
             }else {
-//                self.paginationManager.removeLeftLoader()
                 self.paginationManager.removeRightLoader()
             }
             
@@ -737,14 +665,8 @@ extension CommunityVC {
         badgeCount.text = "\(Defaults.frindRequestNumber)"
 
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
-//        button.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-//        button.setTitle("Requests", for: .normal)
         let image = UIImage(named: "request_unselected_ic")?.withRenderingMode(.alwaysOriginal)
         button.setImage(image, for: .normal)
-//        button.setTitleColor(.black, for: .normal)
-//        button.titleLabel?.font = UIFont(name: "Montserrat-Medium", size: 10)!
-//        button.imageEdgeInsets.left = 80
-//        button.titleEdgeInsets.left = -20
         button.addTarget(self, action: #selector(goToRequestsPage), for: .touchUpInside)
         
         if Defaults.frindRequestNumber > 0 {

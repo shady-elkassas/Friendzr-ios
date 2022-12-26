@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import SDWebImage
 
 class FriendsCommunityCollectionViewCell: UICollectionViewCell {
-
+    
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var nameTitleLbl: UILabel!
     @IBOutlet weak var skipBtn: UIButton!
@@ -32,14 +33,42 @@ class FriendsCommunityCollectionViewCell: UICollectionViewCell {
     var HandleCancelRequestBtn: (()->())?
     var HandleSkipBtn: (()->())?
     var HandleSeeMoreBtn: (()->())?
-
+    
+    var model:RecommendedPeopleObj! {
+        didSet {
+            nameTitleLbl.text = model?.name
+            
+            let kmNum:Double = (model?.distanceFromYou ?? 0) * 1.60934 //convert miles to kms
+            milesLbl.text = "\(kmNum.rounded(toPlaces: 1)) km from you"
+            interestMatchLbl.text = "\(Int(model?.interestMatchPercent ?? 0.0)) % interest match"
+            
+            userImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            userImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            
+            
+            seemoreBtn.isHidden = true
+            seemoreLbl.isHidden = true
+            
+            tagsView.removeAllTags()
+            if (model?.matchedInterests?.count ?? 0) == 0 {
+                noAvailableInterestLbl.isHidden = false
+            }
+            else {
+                noAvailableInterestLbl.isHidden = true
+                for item in model?.matchedInterests ?? [] {
+                    tagsView.addTag(tagId: item, title: "#" + (item).capitalizingFirstLetter())
+                }
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
         setupView()
     }
-
+    
     func setupView() {
         viewProfileBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
         userImg.cornerRadiusView(radius: 10)

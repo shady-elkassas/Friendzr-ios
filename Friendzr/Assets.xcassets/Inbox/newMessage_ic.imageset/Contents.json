@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "icn_scribe_dark.png",
+      "filename" : "19067155231543238878-20.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icn_scribe_dark@2x.png",
+      "filename" : "19067155231543238878-32.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "icn_scribe_dark@3x.png",
+      "filename" : "19067155231543238878-64.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

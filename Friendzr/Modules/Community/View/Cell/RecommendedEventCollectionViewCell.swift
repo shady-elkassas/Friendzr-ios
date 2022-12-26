@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class RecommendedEventCollectionViewCell: UICollectionViewCell {
 
@@ -24,6 +25,17 @@ class RecommendedEventCollectionViewCell: UICollectionViewCell {
     var HandleExpandBtn: (()->())?
     var HandleSkipBtn: (()->())?
 
+    var model:RecommendedEventObj! {
+        didSet {
+            enventNameLbl.text = model?.title
+            eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+            eventImg.sd_setImage(with: URL(string: model?.image ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+            infoLbl.text = model?.descriptionEvent
+            attendeesLbl.text = "Attendees: \(model?.attendees ?? 0) / \(model?.from ?? 0)"
+            startDateLbl.text = model?.eventDate
+            bgView.backgroundColor =  UIColor.color((model?.eventtypecolor ?? ""))
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -38,9 +50,6 @@ class RecommendedEventCollectionViewCell: UICollectionViewCell {
         containerView.cornerRadiusView(radius: 8)
         skipBtn.cornerRadiusView(radius: 6)
         skipBtnView.cornerRadiusView(radius: 6)
-        
-//        skipBtn.imageEdgeInsets.left = skipBtn.frame.width
-//        skipBtn.titleEdgeInsets.left = -10
     }
     @IBAction func expandBtn(_ sender: Any) {
         HandleExpandBtn?()
