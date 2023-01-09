@@ -67,6 +67,10 @@
 		4320A65226F234BF003604EE /* UpdateLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4320A65126F234BF003604EE /* UpdateLocationViewModel.swift */; };
 		4325E20C26F0A048008F73C4 /* ChangePasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E20B26F0A048008F73C4 /* ChangePasswordVC.swift */; };
 		4325E21026F0AF34008F73C4 /* DeleteEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4325E20F26F0AF34008F73C4 /* DeleteEventViewModel.swift */; };
+		43269FC62962CBCE00F1DAA2 /* ImagesSliderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43269FC42962CBCE00F1DAA2 /* ImagesSliderTableViewCell.swift */; };
+		43269FC72962CBCE00F1DAA2 /* ImagesSliderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43269FC52962CBCE00F1DAA2 /* ImagesSliderTableViewCell.xib */; };
+		43269FCE2962CD0400F1DAA2 /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43269FCC2962CD0400F1DAA2 /* ImageCollectionViewCell.swift */; };
+		43269FCF2962CD0400F1DAA2 /* ImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43269FCD2962CD0400F1DAA2 /* ImageCollectionViewCell.xib */; };
 		4326A8F526F87AD400D471E0 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4326A8F426F87AD400D471E0 /* SettingsModel.swift */; };
 		4326A8F726F87AE000D471E0 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4326A8F626F87AE000D471E0 /* SettingsViewModel.swift */; };
 		43271A2728894E8B003116A4 /* HorizontalPaginationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43271A2628894E8B003116A4 /* HorizontalPaginationManager.swift */; };
@@ -137,6 +141,7 @@
 		434DAC8028B629C800A25DB0 /* FriendsCommunityCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434DAC7E28B629C800A25DB0 /* FriendsCommunityCollectionViewCell.xib */; };
 		434DAC8328B635D500A25DB0 /* RecommendedEventCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434DAC8128B635D500A25DB0 /* RecommendedEventCollectionViewCell.swift */; };
 		434DAC8428B635D500A25DB0 /* RecommendedEventCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 434DAC8228B635D500A25DB0 /* RecommendedEventCollectionViewCell.xib */; };
+		4351F527295D7DD900F2B379 /* KeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4351F526295D7DD900F2B379 /* KeyChain.swift */; };
 		43526909276A0EDC00540726 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43526908276A0EDC00540726 /* BottomSheetViewController.swift */; };
 		43526916276A144A00540726 /* ScrollableBottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43526914276A144A00540726 /* ScrollableBottomSheetViewController.swift */; };
 		43526917276A144A00540726 /* ScrollableBottomSheetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43526915276A144A00540726 /* ScrollableBottomSheetViewController.xib */; };
@@ -500,6 +505,10 @@
 		4320A65126F234BF003604EE /* UpdateLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateLocationViewModel.swift; sourceTree = "<group>"; };
 		4325E20B26F0A048008F73C4 /* ChangePasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordVC.swift; sourceTree = "<group>"; };
 		4325E20F26F0AF34008F73C4 /* DeleteEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteEventViewModel.swift; sourceTree = "<group>"; };
+		43269FC42962CBCE00F1DAA2 /* ImagesSliderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesSliderTableViewCell.swift; sourceTree = "<group>"; };
+		43269FC52962CBCE00F1DAA2 /* ImagesSliderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImagesSliderTableViewCell.xib; sourceTree = "<group>"; };
+		43269FCC2962CD0400F1DAA2 /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		43269FCD2962CD0400F1DAA2 /* ImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCollectionViewCell.xib; sourceTree = "<group>"; };
 		4326A8F426F87AD400D471E0 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		4326A8F626F87AE000D471E0 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		43271A2628894E8B003116A4 /* HorizontalPaginationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPaginationManager.swift; sourceTree = "<group>"; };
@@ -570,6 +579,7 @@
 		434DAC7E28B629C800A25DB0 /* FriendsCommunityCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendsCommunityCollectionViewCell.xib; sourceTree = "<group>"; };
 		434DAC8128B635D500A25DB0 /* RecommendedEventCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedEventCollectionViewCell.swift; sourceTree = "<group>"; };
 		434DAC8228B635D500A25DB0 /* RecommendedEventCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecommendedEventCollectionViewCell.xib; sourceTree = "<group>"; };
+		4351F526295D7DD900F2B379 /* KeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChain.swift; sourceTree = "<group>"; };
 		43526908276A0EDC00540726 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		43526914276A144A00540726 /* ScrollableBottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableBottomSheetViewController.swift; sourceTree = "<group>"; };
 		43526915276A144A00540726 /* ScrollableBottomSheetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ScrollableBottomSheetViewController.xib; sourceTree = "<group>"; };
@@ -1583,6 +1593,10 @@
 				43FC58D3286B05B8001ADE2C /* PreferToTableViewCell.xib */,
 				4367E46E27BA4C4B00FE1880 /* AboutMeTableViewCell.swift */,
 				4367E46F27BA4C4B00FE1880 /* AboutMeTableViewCell.xib */,
+				43269FC42962CBCE00F1DAA2 /* ImagesSliderTableViewCell.swift */,
+				43269FC52962CBCE00F1DAA2 /* ImagesSliderTableViewCell.xib */,
+				43269FCC2962CD0400F1DAA2 /* ImageCollectionViewCell.swift */,
+				43269FCD2962CD0400F1DAA2 /* ImageCollectionViewCell.xib */,
 			);
 			path = "Profile Cell";
 			sourceTree = "<group>";
@@ -1965,6 +1979,7 @@
 				436DD06B27E489A500A4A7F7 /* CustomOverlay.swift */,
 				436DD06D27E489B600A4A7F7 /* CustomCropperViewController.swift */,
 				43C0E18E27FDAB1A00555023 /* NetworkMonitor.swift */,
+				4351F526295D7DD900F2B379 /* KeyChain.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2189,6 +2204,7 @@
 				43D008E8279438B300370E2C /* Request.storyboard in Resources */,
 				43D008CC279431E000370E2C /* Feed.storyboard in Resources */,
 				430A351026CA7A2200477A94 /* MoreTableViewCell.xib in Resources */,
+				43269FC72962CBCE00F1DAA2 /* ImagesSliderTableViewCell.xib in Resources */,
 				43967D7D2794440F005B1F5D /* AddNewTagView.xib in Resources */,
 				43ACFED027B3B6A5001CD340 /* EventStatisticsTableViewCell.xib in Resources */,
 				4367E46527BA4A0E00FE1880 /* ProfileUserNameTableViewCell.xib in Resources */,
@@ -2224,6 +2240,7 @@
 				43E7EC45279C3E7500631AA0 /* VerifyFaceRegistrationAlertView.xib in Resources */,
 				43967DB627944E15005B1F5D /* StatisticsCollectionViewCell.xib in Resources */,
 				4367E46D27BA4BC600FE1880 /* BestDescribesTableViewCell.xib in Resources */,
+				43269FCF2962CD0400F1DAA2 /* ImageCollectionViewCell.xib in Resources */,
 				43D008DA2794386A00370E2C /* EmptyViewTableViewCell.xib in Resources */,
 				43D1A4CC2884252900830D8D /* Tutorial4.mov in Resources */,
 				439381432816B009002FFED1 /* GoogleService-Info.plist in Resources */,
@@ -2396,6 +2413,7 @@
 				4336D13526DB94ED0093C7A6 /* LogoutViewModel.swift in Sources */,
 				4336D11F26DB86BD0093C7A6 /* LoginViewModel.swift in Sources */,
 				43B22436274E82B6004C6912 /* TagsLayout.swift in Sources */,
+				43269FC62962CBCE00F1DAA2 /* ImagesSliderTableViewCell.swift in Sources */,
 				4336D12526DB88C00093C7A6 /* MobilenumberViewModel.swift in Sources */,
 				430A350B26CA5C9D00477A94 /* CalendarView.swift in Sources */,
 				437EE47226E8B39700765089 /* LeaveEventViewModel.swift in Sources */,
@@ -2510,6 +2528,7 @@
 				436288A526C9334900B51E51 /* ChatListTableViewCell.swift in Sources */,
 				43119D6826E4C18A00AD2260 /* GenderViewModel.swift in Sources */,
 				43DAF9DE27D62A9A00D16462 /* ImageDownloader.swift in Sources */,
+				43269FCE2962CD0400F1DAA2 /* ImageCollectionViewCell.swift in Sources */,
 				43E7EC47279C3EAB00631AA0 /* VerifyFaceRegistrationAlertView.swift in Sources */,
 				4397236F2709D8870062D684 /* ChatModel.swift in Sources */,
 				43271A2728894E8B003116A4 /* HorizontalPaginationManager.swift in Sources */,
@@ -2620,6 +2639,7 @@
 				43316D1F289BC57A0031BDC9 /* LinkClickModel.swift in Sources */,
 				43A332682781C9B2001ADB84 /* GhostModeTableViewCell.swift in Sources */,
 				43B8288227EC93AB005FF1D1 /* AddFriendsToPrivateEventTableViewCell.swift in Sources */,
+				4351F527295D7DD900F2B379 /* KeyChain.swift in Sources */,
 				4309E73726EF422F001B227D /* RequestFriendStatusViewModel.swift in Sources */,
 				43D545AF26CBD76E0064660A /* TagsVC.swift in Sources */,
 			);
@@ -3075,7 +3095,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.25;
+				MARKETING_VERSION = 1.2.26;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -3115,7 +3135,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Friendzr/Modules/DemoApp/Assets/Adjust/iOS",
 				);
-				MARKETING_VERSION = 1.2.25;
+				MARKETING_VERSION = 1.2.26;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.FriendzSocialMediaLimited.Friendzr-ios";
 				PRODUCT_NAME = "$(TARGET_NAME)";

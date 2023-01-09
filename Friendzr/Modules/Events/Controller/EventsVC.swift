@@ -170,8 +170,8 @@ class EventsVC: UIViewController {
                 }else {
                     DispatchQueue.main.async {
                         self?.view.makeToast(error)
+//                        self?.onPopup()
                     }
-                    
                 }
             }
         }

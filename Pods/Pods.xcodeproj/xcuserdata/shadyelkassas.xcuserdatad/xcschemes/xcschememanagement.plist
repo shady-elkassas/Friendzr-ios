@@ -331,91 +331,98 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>52</integer>
+			<integer>53</integer>
 		</dict>
-		<key>InMobiSDK.xcscheme</key>
+		<key>ImageSlideshow.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>51</integer>
 		</dict>
-		<key>Libuv-gRPC.xcscheme</key>
+		<key>InMobiSDK.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>54</integer>
+			<integer>52</integer>
 		</dict>
-		<key>ListPlaceholder.xcscheme</key>
+		<key>Libuv-gRPC.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>55</integer>
 		</dict>
-		<key>MSImagePickerSheetController.xcscheme</key>
+		<key>ListPlaceholder.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>56</integer>
 		</dict>
-		<key>MultiSlider.xcscheme</key>
+		<key>MSImagePickerSheetController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>57</integer>
 		</dict>
-		<key>ObjectMapper.xcscheme</key>
+		<key>MultiSlider.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>59</integer>
+			<integer>58</integer>
 		</dict>
-		<key>Pods-Friendzr.xcscheme</key>
+		<key>ObjectMapper.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>60</integer>
 		</dict>
-		<key>PromisesObjC.xcscheme</key>
+		<key>Pods-Friendzr.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>61</integer>
 		</dict>
-		<key>QCropper.xcscheme</key>
+		<key>PromisesObjC.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>62</integer>
 		</dict>
-		<key>RevealingSplashView.xcscheme</key>
+		<key>QCropper.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>63</integer>
 		</dict>
-		<key>SDWebImage.xcscheme</key>
+		<key>RevealingSplashView.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>64</integer>
 		</dict>
-		<key>SweeterSwift.xcscheme</key>
+		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
 			<integer>65</integer>
+		</dict>
+		<key>SweeterSwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>66</integer>
 		</dict>
 		<key>abseil.xcscheme</key>
 		<dict>
@@ -450,14 +457,14 @@
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>53</integer>
+			<integer>54</integer>
 		</dict>
 		<key>nanopb.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 			<key>orderHint</key>
-			<integer>58</integer>
+			<integer>59</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>

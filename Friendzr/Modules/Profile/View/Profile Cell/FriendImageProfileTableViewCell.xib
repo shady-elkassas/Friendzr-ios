@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -29,8 +29,13 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="URm-zQ-O8Y">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="243"/>
                     </imageView>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qpP-t8-g4L" customClass="ImageSlideshow" customModule="ImageSlideshow">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="243"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PH6-pw-v9d" customClass="GradientView" customModule="Friendzr" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="121.5" width="320" height="121.5"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
                                 <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -52,6 +57,23 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Age" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDp-eh-sZa">
                                 <rect key="frame" x="0.0" y="18.5" width="24.5" height="15"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="owD-cA-47v">
+                        <rect key="frame" x="64.5" y="201.5" width="45.5" height="33.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Male" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZgM-Gi-geX">
+                                <rect key="frame" x="0.0" y="0.0" width="45.5" height="17.5"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BQd-IG-dBZ">
+                                <rect key="frame" x="0.0" y="18.5" width="45.5" height="15"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -139,23 +161,17 @@
                                     <action selector="unFriendBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="uKA-Pq-10c"/>
                                 </connections>
                             </button>
-                        </subviews>
-                    </stackView>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="owD-cA-47v">
-                        <rect key="frame" x="64.5" y="201.5" width="45.5" height="33.5"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Male" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZgM-Gi-geX">
-                                <rect key="frame" x="0.0" y="0.0" width="45.5" height="17.5"/>
-                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="14"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BQd-IG-dBZ">
-                                <rect key="frame" x="0.0" y="18.5" width="45.5" height="15"/>
-                                <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GyG-Mc-9LD">
+                                <rect key="frame" x="118.5" y="0.0" width="0.0" height="30"/>
+                                <color key="backgroundColor" name="primaryColor"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="12"/>
+                                <state key="normal" title="UnBlock">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="unBlockBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="nRo-Y5-KJC"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </stackView>
                 </subviews>
@@ -167,16 +183,20 @@
                     <constraint firstItem="jQg-L6-SAb" firstAttribute="width" secondItem="Xq5-ul-Ewy" secondAttribute="width" id="Cub-9B-s4R"/>
                     <constraint firstAttribute="trailing" secondItem="PH6-pw-v9d" secondAttribute="trailing" id="Gkq-L7-mOt"/>
                     <constraint firstItem="jQg-L6-SAb" firstAttribute="centerY" secondItem="Xq5-ul-Ewy" secondAttribute="centerY" id="Rmj-V1-6Re"/>
-                    <constraint firstItem="PH6-pw-v9d" firstAttribute="height" secondItem="URm-zQ-O8Y" secondAttribute="height" multiplier="1:2" id="Tgz-qp-MQX"/>
+                    <constraint firstAttribute="bottom" secondItem="qpP-t8-g4L" secondAttribute="bottom" id="SRN-ZA-fwq"/>
+                    <constraint firstItem="qpP-t8-g4L" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Wfd-Nu-cMR"/>
                     <constraint firstItem="4EA-8j-zLg" firstAttribute="centerY" secondItem="Xq5-ul-Ewy" secondAttribute="centerY" id="XYW-Al-Ysr"/>
                     <constraint firstAttribute="trailing" secondItem="Xq5-ul-Ewy" secondAttribute="trailing" constant="20" id="b0u-Ti-U3o"/>
-                    <constraint firstItem="PH6-pw-v9d" firstAttribute="bottom" secondItem="URm-zQ-O8Y" secondAttribute="bottom" id="bkW-9i-yZ3"/>
                     <constraint firstItem="jQg-L6-SAb" firstAttribute="height" secondItem="Xq5-ul-Ewy" secondAttribute="height" id="eep-Ty-Nom"/>
                     <constraint firstAttribute="trailing" secondItem="URm-zQ-O8Y" secondAttribute="trailing" id="erx-ll-gNg"/>
+                    <constraint firstItem="PH6-pw-v9d" firstAttribute="bottom" secondItem="qpP-t8-g4L" secondAttribute="bottom" id="hbd-H9-9zG"/>
                     <constraint firstItem="owD-cA-47v" firstAttribute="leading" secondItem="4EA-8j-zLg" secondAttribute="trailing" constant="20" id="lH2-R2-CNx"/>
                     <constraint firstItem="owD-cA-47v" firstAttribute="centerY" secondItem="Xq5-ul-Ewy" secondAttribute="centerY" id="mDj-9y-Vhx"/>
                     <constraint firstItem="URm-zQ-O8Y" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="rh0-Cl-JRN"/>
+                    <constraint firstItem="qpP-t8-g4L" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="tz0-BD-1CU"/>
                     <constraint firstItem="Xq5-ul-Ewy" firstAttribute="bottom" secondItem="PH6-pw-v9d" secondAttribute="bottom" constant="-10" id="u3O-y2-rcW"/>
+                    <constraint firstItem="PH6-pw-v9d" firstAttribute="height" secondItem="qpP-t8-g4L" secondAttribute="height" multiplier="0.5" id="wh2-If-Mvz"/>
+                    <constraint firstAttribute="trailing" secondItem="qpP-t8-g4L" secondAttribute="trailing" id="wok-zM-4qc"/>
                     <constraint firstItem="PH6-pw-v9d" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="x3E-2z-39S"/>
                     <constraint firstItem="Xq5-ul-Ewy" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="1:2.7" id="zZw-NG-A2D"/>
                 </constraints>
@@ -190,10 +210,12 @@
                 <outlet property="friendStackView" destination="jQg-L6-SAb" id="gwR-oe-a0Y"/>
                 <outlet property="genderLlb" destination="ZgM-Gi-geX" id="yPG-gV-llT"/>
                 <outlet property="gradientView" destination="PH6-pw-v9d" id="wax-ot-0Sy"/>
+                <outlet property="imagesSlider" destination="qpP-t8-g4L" id="lfc-wJ-BcP"/>
                 <outlet property="messageBtn" destination="qfQ-cV-gue" id="vyS-Ce-0Gb"/>
                 <outlet property="profileImg" destination="URm-zQ-O8Y" id="7Rw-lt-dZj"/>
                 <outlet property="refuseBtn" destination="fP1-js-OQV" id="qRo-aJ-VxT"/>
                 <outlet property="sendRequestBtn" destination="EIh-J7-FNH" id="eVk-nI-40b"/>
+                <outlet property="unBlockBtn" destination="GyG-Mc-9LD" id="Yka-4V-OLf"/>
                 <outlet property="unfriendBtn" destination="MlD-kx-rk4" id="dK8-bV-tGE"/>
             </connections>
             <point key="canvasLocation" x="162" y="107"/>

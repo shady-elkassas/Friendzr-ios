@@ -227,6 +227,7 @@ class AddNewUsersForMyGroupVC: UIViewController {
                 if let error = error {
                     DispatchQueue.main.async {
                         self.view.makeToast(error)
+                        self.doneBtn.setTitle("Done", for: .normal)
                     }
                     return
                 }

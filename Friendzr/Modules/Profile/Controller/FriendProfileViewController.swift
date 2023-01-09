@@ -10,6 +10,7 @@ import ListPlaceholder
 import Network
 import SDWebImage
 import AMShimmer
+import ImageSlideshow
 
 class FriendProfileViewController: UIViewController {
     
@@ -62,7 +63,7 @@ class FriendProfileViewController: UIViewController {
         return formatter
     }()
     
-    var selectedVC:Bool = false
+//    var selectedVC:Bool = false
     
     //MARK: - Life Cycle
     override func viewDidLoad() {
@@ -72,11 +73,7 @@ class FriendProfileViewController: UIViewController {
             self.updateUserInterface()
         }
         
-        if selectedVC {
-            initCloseBarButton()
-        }else {
-            initBackButton()
-        }
+        initBackButton()
         
         clearNavigationBar()
         setupView()
@@ -102,6 +99,10 @@ class FriendProfileViewController: UIViewController {
         
         setupNavBar()
         hideNavigationBar(NavigationBar: false, BackButton: false)
+        
+        if Defaults.isWhiteLable {
+            self.tabBarController?.tabBar.isHidden = true
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -279,6 +280,35 @@ class FriendProfileViewController: UIViewController {
             self.updateUserInterface()
         }
     }
+    
+//    @objc func didTap(_ cell: FriendImageProfileTableViewCell) {
+//        let fullScreenController = cell.imagesSlider.presentFullScreenController(from: self)
+//        // set the activity indicator for full screen controller (skipping the line will show no activity indicator)
+//        fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .medium, color: nil)
+//        print("Did Tap")
+//    }
+    
+    func setupSliderShow(_ cell: FriendImageProfileTableViewCell, _ model: FriendObj?) {
+        cell.imagesSlider.slideshowInterval = 5.0
+        cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .under)
+        cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
+        
+        // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
+        cell.imagesSlider.activityIndicator = DefaultActivityIndicator()
+        cell.imagesSlider.delegate = self
+        
+        //        imagesSlider.setImageInputs(localSource)
+        cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model?.userImage ?? "") ?? SDWebImageSource(urlString: "https://images.unsplash.com/photo-1432679963831-2dab49187847?w=1080")!])
+        
+//        let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
+//        cell.imagesSlider.addGestureRecognizer(recognizer)
+    }
+}
+
+extension FriendProfileViewController: ImageSlideshowDelegate {
+    func imageSlideshow(_ imageSlideshow: ImageSlideshow, didChangeCurrentPageTo page: Int) {
+        print("current page:", page)
+    }
 }
 
 //MARK: - UITableViewDataSource
@@ -299,14 +329,42 @@ extension FriendProfileViewController:UITableViewDataSource {
             cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.ageLbl.text = "\(model?.age ?? 0)"
+            cell.parentVC = self
             
             if model?.gender == "other" {
                 cell.genderLlb.text = "other(".localizedString + "\(model?.otherGenderName ?? "")" + ")"
             }else {
                 cell.genderLlb.text = model?.gender
             }
+                        
+//            setupSliderShow(cell, model)
             
-            statusFriend(model, cell)
+            if Defaults.isWhiteLable {
+                if model?.key == 4 {
+                    //Status = I block user
+                    cell.acceptBtn.isHidden = true
+                    cell.refuseBtn.isHidden = true
+                    cell.cancelBtn.isHidden = true
+                    cell.sendRequestBtn.isHidden = true
+                    cell.messageBtn.isHidden = true
+                    cell.unfriendBtn.isHidden = true
+                    cell.unBlockBtn.isHidden = false
+                    cell.friendStackView.isHidden = false
+
+                }else {
+                    cell.acceptBtn.isHidden = true
+                    cell.refuseBtn.isHidden = true
+                    cell.cancelBtn.isHidden = true
+                    cell.sendRequestBtn.isHidden = true
+                    cell.messageBtn.isHidden = false
+                    cell.unfriendBtn.isHidden = true
+                    cell.unBlockBtn.isHidden = true
+                    cell.friendStackView.isHidden = false
+                }
+            }
+            else {
+                statusFriend(model, cell)
+            }
             
             cell.HandleSendRequestBtn = {
                 self.btnSelect = true
@@ -335,6 +393,10 @@ extension FriendProfileViewController:UITableViewDataSource {
             
             cell.HandleUnFriendBtn = {
                 self.showAlertForUnFriend(cell, "\(actionDate) \(actionTime)")
+            }
+            
+            cell.HandleUnblockBtn = {
+                self.showAlertForUnBlock()
             }
             cell.HandleMessageBtn = { //messages chat
                 self.btnSelect = true
@@ -504,6 +566,7 @@ extension FriendProfileViewController:UITableViewDelegate, UIPopoverPresentation
             present(popupVC, animated: true, completion: nil)
         }
     }
+    
 }
 
 extension FriendProfileViewController {
@@ -525,16 +588,11 @@ extension FriendProfileViewController {
     
     func reportActionSheet() {
         let actionSheet  = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        //        if isFriendNow {
-        //            actionSheet.addAction(UIAlertAction(title: "Unfriend".localizedString, style: .default, handler: { action in
-        //                self.showAlertForUnFriend()
-        //            }))
-        
-        actionSheet.addAction(UIAlertAction(title: "Block".localizedString, style: .default, handler: { action in
-            self.showAlertForBlock()
-        }))
-        //        }
+        if viewmodel.model.value?.key != 4 {
+            actionSheet.addAction(UIAlertAction(title: "Block".localizedString, style: .default, handler: { action in
+                self.showAlertForBlock()
+            }))
+        }
         
         actionSheet.addAction(UIAlertAction(title: "Report".localizedString, style: .default, handler: { action in
             if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ReportNC") as? UINavigationController, let vc = controller.viewControllers.first as? ReportVC {
@@ -604,7 +662,8 @@ extension FriendProfileViewController {
             cell.sendRequestBtn.isHidden = true
             cell.messageBtn.isHidden = true
             cell.unfriendBtn.isHidden = true
-            cell.friendStackView.isHidden = true
+            cell.unBlockBtn.isHidden = false
+            cell.friendStackView.isHidden = false
             break
         case 5:
             //Status = user block me
@@ -725,14 +784,8 @@ extension FriendProfileViewController {
             
             guard let _ = message else {return}
             
-            if self.selectedVC {
-                DispatchQueue.main.async {
-                    Router().toHome()
-                }
-            }else {
-                DispatchQueue.main.async {
-                    self.getFriendProfileInformation()
-                }
+            DispatchQueue.main.async {
+                self.getFriendProfileInformation()
             }
         }
     }
@@ -846,6 +899,7 @@ extension FriendProfileViewController {
         
         self.view.addSubview((self.alertView)!)
     }
+    
     func blockFriendRequest() {
         
         let actionDate = formatterDate.string(from: Date())
@@ -861,14 +915,64 @@ extension FriendProfileViewController {
             
             guard let _ = message else {return}
             
-            if self.selectedVC {
-                Router().toFeed()
+            if Defaults.isWhiteLable {
+                Router().toInbox()
             }else {
                 self.onPopup()
             }
         }
     }
+    
+    func showAlertForUnBlock() {
+        self.btnSelect = true
+        self.alertView?.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        self.alertView?.titleLbl.text = "Confirm?".localizedString
+        self.alertView?.detailsLbl.text = "Are you sure you want to unblock this account?".localizedString
+        
+        self.alertView?.HandleConfirmBtn = {
+            // handling code
+            if NetworkConected.internetConect == true {
+                self.unblockFriendRequest()
+            }
+            
+            UIView.animate(withDuration: 0.3, animations: {
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
+                self.alertView?.alpha = 0
+            }) { (success: Bool) in
+                self.alertView?.removeFromSuperview()
+                self.alertView?.alpha = 1
+                self.alertView?.transform = CGAffineTransform.init(scaleX: 1, y: 1)
+            }
+        }
+        
+        self.view.addSubview((self.alertView)!)
+    }
 
+    func unblockFriendRequest() {
+        
+        let actionDate = formatterDate.string(from: Date())
+        let actionTime = formatterTime.string(from: Date())
+        
+        self.requestFriendVM.requestFriendStatus(withID: self.userID, AndKey: 4, isNotFriend: isNotFriend,requestdate: "\(actionDate) \(actionTime)") { error, message in
+            if let error = error {
+                DispatchQueue.main.async {
+                    self.view.makeToast(error)
+                }
+                return
+            }
+            
+            guard let _ = message else {return}
+            
+            DispatchQueue.main.async {
+                if Defaults.isWhiteLable {
+                    Router().toInbox()
+                }else {
+                    self.getFriendProfileInformation()
+                }
+            }
+        }
+    }
+    
     func setupTitleBtns(_ cell: FriendImageProfileTableViewCell) {
         cell.sendRequestBtn.setTitle("Send Request".localizedString, for: .normal)
         cell.cancelBtn.setTitle("Cancel Request".localizedString, for: .normal)
@@ -876,5 +980,6 @@ extension FriendProfileViewController {
         cell.refuseBtn.setTitle("Cancel".localizedString, for: .normal)
         cell.unfriendBtn.setTitle("Unfriend".localizedString, for: .normal)
         cell.messageBtn.setTitle("Message".localizedString, for: .normal)
+        cell.unBlockBtn.setTitle("Unblock", for: .normal)
     }
 }

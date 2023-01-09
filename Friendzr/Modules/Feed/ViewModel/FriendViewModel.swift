@@ -13,7 +13,7 @@ import MobileCoreServices
 class FriendViewModel {
     
     var model : DynamicType<FriendObj> = DynamicType<FriendObj>()
-
+    
     // Fields that bind to our view's
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
@@ -25,7 +25,7 @@ class FriendViewModel {
         
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
         let parameters:[String : Any] = ["userid": id]
-
+        
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: parameters, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<FriendModel>().map(JSON: data!) else {

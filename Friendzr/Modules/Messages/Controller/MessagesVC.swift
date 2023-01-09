@@ -552,15 +552,10 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
                     if !model.sender.isWhitelabel {
                         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                         vc.userID = model.sender.senderId
-                        vc.selectedVC = false
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }
             }
-            
-            
-            //            let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureCellAction))
-            //            cell.contentView.addGestureRecognizer(panGestureRecognizer)
             
             return cell
         }
@@ -586,7 +581,6 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
                     if !model.sender.isWhitelabel {
                         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                         vc.userID = model.sender.senderId
-                        vc.selectedVC = false
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }
@@ -635,7 +629,6 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
                     if !model.sender.isWhitelabel {
                         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                         vc.userID = model.sender.senderId
-                        vc.selectedVC = false
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }
@@ -673,7 +666,6 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
                     if !model.sender.isWhitelabel {
                         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                         vc.userID = model.sender.senderId
-                        vc.selectedVC = false
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }
@@ -1176,9 +1168,7 @@ extension MessagesVC {
             if isChatGroup == true {
                 if leaveGroup == 0 {
                     messageInputBarView.isHidden = false
-                    if Defaults.isWhiteLable {
-                        initOptionsInChatEventWhiteLableButton()
-                    }else {
+                    if !Defaults.isWhiteLable {
                         initOptionsInChatEventButton()
                     }
                 }
@@ -1189,7 +1179,9 @@ extension MessagesVC {
             else {
                 if isFriend == true {
                     messageInputBarView.isHidden = false
-                    initOptionsInChatUserButton()
+                    if !Defaults.isWhiteLable {
+                        initOptionsInChatUserButton()
+                    }
                 }
                 else {
                     setupDownView(textLbl: "You are no longer connected to this Friendzr. \nReconnect to message them.".localizedString)
@@ -1347,21 +1339,20 @@ extension MessagesVC {
         
         let btn = UIButton(frame: titleView.frame)
         
-        if !Defaults.isWhiteLable {
-            if isEvent == true {
+        if isEvent == true {
+            if !Defaults.isWhiteLable {
                 btn.addTarget(self, action: #selector(goToEventDetailsVC), for: .touchUpInside)
             }
-            else {
-                if isChatGroup {
-                    if self.leaveGroup == 0 {
-                        btn.addTarget(self, action: #selector(goToGroupVC), for: .touchUpInside)
-                    }
-                }else {
-                    btn.addTarget(self, action: #selector(goToUserProfileVC), for: .touchUpInside)
+        }
+        else {
+            if isChatGroup {
+                if self.leaveGroup == 0 {
+                    btn.addTarget(self, action: #selector(goToGroupVC), for: .touchUpInside)
                 }
+            }else {
+                btn.addTarget(self, action: #selector(goToUserProfileVC), for: .touchUpInside)
             }
         }
-       
         
         titleView.addSubview(btn)
         
@@ -1379,7 +1370,7 @@ extension MessagesVC {
     @objc func goToUserProfileVC() {
         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
         vc.userID = self.chatuserID
-        vc.selectedVC = false
+//        vc.selectedVC = false
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -1438,10 +1429,10 @@ extension MessagesVC {
     }
     
     @objc func handleAttendeesWhiteLable() {
-        guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AttendeesVC") as? AttendeesVC else {return}
-        vc.eventID = self.eventChatID
-        vc.eventKey = 1
-        self.navigationController?.pushViewController(vc, animated: true)
+            guard let vc = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "AttendeesVC") as? AttendeesVC else {return}
+            vc.eventID = self.eventChatID
+            vc.eventKey = 1
+            self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func initOptionsInChatEventButton() {
@@ -1869,7 +1860,8 @@ extension MessagesVC : UIImagePickerControllerDelegate,UINavigationControllerDel
                         NotificationCenter.default.post(name: Notification.Name("reloadChatList"), object: nil, userInfo: nil)
                     }
                 }
-            }else {
+            }
+            else {
                 if isChatGroup {
                     viewmodel.SendMessage(withGroupId: groupId, AndMessageType: 2, AndMessage: "", messagesdate: messageDate, messagestime: messageTime, attachedImg: true, AndAttachImage: image, fileUrl: url!,eventShareid: "") { error, data in
                         if let error = error {
@@ -1920,7 +1912,6 @@ extension MessagesVC : UIImagePickerControllerDelegate,UINavigationControllerDel
             }
             
             picker.dismiss(animated:true, completion: {
-                
             })
         }
         

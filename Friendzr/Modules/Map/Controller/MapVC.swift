@@ -216,7 +216,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         super.viewDidLoad()
         
         setupViews()
-        title = "Map".localizedString
+        title = "Events".localizedString
         
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
@@ -248,7 +248,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             initProfileBarButton(didTap: Defaults.isFirstOpenMap)
         }
         
-        clearNavigationBar()
+        clearNavigationBar(size: 16)
         
         DispatchQueue.main.async {
             self.updateLocation()
@@ -573,11 +573,8 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
 //        }
                 
         DispatchQueue.main.async {
-//            if model.eventlocationDataMV?.count != 0 || model.peoplocationDataMV?.count != 0 {
             for item in self.locations {
                 self.createMarker(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, eventsCount: item.eventsCount,isEvent: item.isEvent,peopleCount: item.peopleCount, eventTypee: item.eventType)
-                
-                //                    print("item.eventType ?? \(item.markerIcon)")
             }
         }
         

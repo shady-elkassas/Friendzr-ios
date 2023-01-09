@@ -42,6 +42,9 @@ target 'Friendzr' do
   
   pod 'AMShimmer'
 
+  pod 'ImageSlideshow', '~> 1.9.0'
+  pod "ImageSlideshow/SDWebImage"
+
   post_install do |installer|
     installer.pods_project.build_configurations.each do |config|
       config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"

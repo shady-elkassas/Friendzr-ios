@@ -871,6 +871,12 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 3.0, >= 1.5)
   - GTMSessionFetcher/Core (2.1.0)
+  - ImageSlideshow (1.9.2):
+    - ImageSlideshow/Core (= 1.9.2)
+  - ImageSlideshow/Core (1.9.2)
+  - ImageSlideshow/SDWebImage (1.9.2):
+    - ImageSlideshow/Core
+    - SDWebImage (>= 3.7)
   - InMobiSDK/Core (10.1.0)
   - IQKeyboardManager (6.5.10)
   - leveldb-library (1.22.1)
@@ -922,6 +928,8 @@ DEPENDENCIES:
   - GoogleMobileAdsMediationInMobi
   - GooglePlaces
   - GoogleSignIn
+  - ImageSlideshow (~> 1.9.0)
+  - ImageSlideshow/SDWebImage
   - IQKeyboardManager
   - ListPlaceholder
   - MSImagePickerSheetController
@@ -980,6 +988,7 @@ SPEC REPOS:
     - gRPC-Core
     - GTMAppAuth
     - GTMSessionFetcher
+    - ImageSlideshow
     - InMobiSDK
     - IQKeyboardManager
     - leveldb-library
@@ -1043,6 +1052,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 943e491cb0d45598b0b0eb9e910c88080369290b
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: ffbb25ec00ebcb5201adab0a56d808f6f1902d9f
+  ImageSlideshow: be305b54eaf2b2cfc7a7141c7c734605d44dc07d
   InMobiSDK: faedaff7a06ce78d653d0f4005176fe9c12f3a0e
   IQKeyboardManager: 45a1fa55c1a5b02c61ac0fd7fd5b62bb4ad20d97
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
@@ -1058,6 +1068,6 @@ SPEC CHECKSUMS:
   SDWebImage: 23d714cd599354ee7906dbae26dff89b421c4370
   SweeterSwift: 61baeda1c0c27d1dc57c8112c3d6a82e5aff3139
 
-PODFILE CHECKSUM: 029100cad344402a5f7e726e45e7abf7be5b7ab3
+PODFILE CHECKSUM: c2512e885f328b2d8ffd423990b92ba8f7f9b6f4
 
 COCOAPODS: 1.11.3

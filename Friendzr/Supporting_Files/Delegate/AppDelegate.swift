@@ -1587,8 +1587,13 @@ extension AppDelegate: DeepLinkDelegate {
                     Router().toFeed()
                 }
             }
+            else if deeplinkValue == "map" {
+                if !Defaults.isWhiteLable {
+                    Defaults.availableVC = ""
+                    Router().toMap()
+                }
+            }
         }
-        
         print("deeplinkValue : \(deeplinkValue)")
     }
 }

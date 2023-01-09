@@ -33,10 +33,10 @@ class FriendObj: NSObject,Mappable {
     var tiktok: String?
     var userName: String?
     var displayedUserName:String?
-    var userid:String?
-    var key:Int?
-    var email:String?
-    var userImage:String?
+    var userid:String? = ""
+    var key:Int? = 0
+    var email:String? = ""
+    var userImage:String = ""
     var bio:String?
     var lang:String?
     var lat:String?

@@ -592,7 +592,12 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 Defaults.isDeeplinkDirectionalFiltering = false
             }
         }
-        
+        else if deeplinkValue == "map" {
+            if !Defaults.isWhiteLable {
+                Defaults.availableVC = ""
+                Router().toMap()
+            }
+        }
         
     }
 
