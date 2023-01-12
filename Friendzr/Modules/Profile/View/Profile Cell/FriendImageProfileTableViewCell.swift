@@ -35,9 +35,7 @@ class FriendImageProfileTableViewCell: UITableViewCell {
     let localSource = [BundleImageSource(imageString: "image1"), BundleImageSource(imageString: "image2"), BundleImageSource(imageString: "image3"), BundleImageSource(imageString: "image4"),BundleImageSource(imageString: "image5")]
 
     var parentVC:UIViewController = UIViewController()
-    
-    var sdWebImageSource:[SDWebImageSource]? = [SDWebImageSource(urlString: "https://images.unsplash.com/photo-1432679963831-2dab49187847?w=1080")!]
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -53,8 +51,8 @@ class FriendImageProfileTableViewCell: UITableViewCell {
         messageBtn.setBorder(color: UIColor.white.cgColor, width: 1)
         refuseBtn.setBorder(color: UIColor.white.cgColor, width: 1)
         
-//        let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
-//        imagesSlider.addGestureRecognizer(recognizer)
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        imagesSlider.addGestureRecognizer(recognizer)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -63,12 +61,11 @@ class FriendImageProfileTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-//    @objc func didTap() {
-//        let fullScreenController = imagesSlider.presentFullScreenController(from: parentVC)
-//        // set the activity indicator for full screen controller (skipping the line will show no activity indicator)
-//        fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .medium, color: nil)
-//        print("Did Tap")
-//    }
+    @objc func didTap() {
+        let fullScreenController = imagesSlider.presentFullScreenController(from: parentVC)
+        fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .medium, color: nil)
+        print("Did Tap")
+    }
     
     @IBAction func unFriendBtn(_ sender: Any) {
         HandleUnFriendBtn?()

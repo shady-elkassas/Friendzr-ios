@@ -203,13 +203,13 @@ class Router {
             go(withVC: controller)
         }
     }
-    func toGroupVC(groupId:String,isGroupAdmin:Bool)  {
-        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
-            vc.groupId = groupId
-            vc.isGroupAdmin = isGroupAdmin
-            go(withVC: controller)
-        }
-    }
+//    func toGroupVC(groupId:String,isGroupAdmin:Bool)  {
+//        if let controller = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "GroupDetailsNC") as? UINavigationController, let vc = controller.viewControllers.first as? GroupDetailsVC {
+//            vc.groupId = groupId
+//            vc.isGroupAdmin = isGroupAdmin
+//            go(withVC: controller)
+//        }
+//    }
     
     func toEventDetailsVC(eventId:String,isConv:Bool,isEventAdmin:Bool)  {
         if let controller = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "EventDetailsNavC") as? UINavigationController, let vc = controller.viewControllers.first as? EventDetailsViewController {

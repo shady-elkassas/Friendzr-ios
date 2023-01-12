@@ -73,6 +73,7 @@ class MessagesVC: UIViewController {
     var groupId:String = ""
     var leaveGroup:Int = 0
     
+    var isCommunityGroup:Bool = false
     var fileUpload = ""
     
     var messageTableViewViewBottomInset: CGFloat = 0 {
@@ -548,13 +549,13 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.messageDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
             
             cell.HandleUserProfileBtn = {
-                if !Defaults.isWhiteLable {
+//                if !Defaults.isWhiteLable {
                     if !model.sender.isWhitelabel {
                         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                         vc.userID = model.sender.senderId
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
-                }
+//                }
             }
             
             return cell
@@ -577,13 +578,13 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.attachmentDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
             
             cell.HandleProfileBtn = {
-                if !Defaults.isWhiteLable {
+//                if !Defaults.isWhiteLable {
                     if !model.sender.isWhitelabel {
                         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                         vc.userID = model.sender.senderId
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
-                }
+//                }
             }
             
             cell.attachmentContainerView.setBorder()
@@ -625,13 +626,13 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.attachmentContainerView.setBorder()
             
             cell.HandleProfileBtn = {
-                if !Defaults.isWhiteLable {
+//                if !Defaults.isWhiteLable {
                     if !model.sender.isWhitelabel {
                         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                         vc.userID = model.sender.senderId
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
-                }
+//                }
             }
             
             cell.HandleTapAttachmentBtn = {
@@ -662,13 +663,13 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.startEventDateLbl.text = model.messageLink.messsageLinkEventDate
             
             cell.HandleUserProfileBtn = {
-                if !Defaults.isWhiteLable {
+//                if !Defaults.isWhiteLable {
                     if !model.sender.isWhitelabel {
                         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                         vc.userID = model.sender.senderId
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
-                }
+//                }
             }
             cell.HandleTapEventLinkBtn = {
                 if !Defaults.isWhiteLable {
@@ -1350,7 +1351,13 @@ extension MessagesVC {
                     btn.addTarget(self, action: #selector(goToGroupVC), for: .touchUpInside)
                 }
             }else {
-                btn.addTarget(self, action: #selector(goToUserProfileVC), for: .touchUpInside)
+                if Defaults.isWhiteLable {
+                    btn.addTarget(self, action: #selector(goToUserProfileVC), for: .touchUpInside)
+                }else {
+//                    if self.isFriend == true {
+                        btn.addTarget(self, action: #selector(goToUserProfileVC), for: .touchUpInside)
+//                    }
+                }
             }
         }
         
@@ -1364,13 +1371,13 @@ extension MessagesVC {
         vc.groupId = self.groupId
         vc.isGroupAdmin = self.isChatGroupAdmin
         vc.selectedVC = false
+        vc.isCommunityGroup = self.isCommunityGroup
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func goToUserProfileVC() {
         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
         vc.userID = self.chatuserID
-//        vc.selectedVC = false
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -1506,6 +1513,7 @@ extension MessagesVC {
                 vc.groupId = self.groupId
                 vc.isGroupAdmin = self.isChatGroupAdmin
                 vc.selectedVC = false
+                vc.isCommunityGroup = self.isCommunityGroup
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }))

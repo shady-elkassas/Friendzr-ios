@@ -209,7 +209,7 @@ class RegisterVC: UIViewController {
             
             DispatchQueue.main.async {
                 if Defaults.isWhiteLable {
-//                    Router().toInbox()
+                    Router().toInbox()
                 }else {
                     if Defaults.needUpdate == 1 {
                         Defaults.isFirstLogin = true

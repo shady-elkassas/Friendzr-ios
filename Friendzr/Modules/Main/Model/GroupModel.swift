@@ -39,6 +39,7 @@ class GroupModel: Mappable {
     var listOfUserIDs: [String]? = []
     var registrationDateTime: String? = ""
     var chatGroupSubscribers:[UserConversationModel]? = []
+    var isCommunityGroup:Bool = false
     
     required init?(map: Map) {
     }
@@ -53,5 +54,6 @@ class GroupModel: Mappable {
         chatGroupSubscribers  <- map["chatGroupSubscribers"]
         isChatGroupAdmin  <- map["isChatGroupAdmin"]
         leaveGroup  <- map["leaveGroup"]
+        isCommunityGroup  <- map["isCommunityGroup"]
     }
 }

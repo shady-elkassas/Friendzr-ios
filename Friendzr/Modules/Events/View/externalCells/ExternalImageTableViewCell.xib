@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -15,21 +16,25 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ExternalImageTableViewCell" rowHeight="226" id="KGk-i7-Jjw" customClass="ExternalImageTableViewCell" customModule="Friendzr" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="226"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ExternalImageTableViewCell" rowHeight="173" id="KGk-i7-Jjw" customClass="ExternalImageTableViewCell" customModule="Friendzr" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="173"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="226"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="173"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nBO-oR-IjD">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="226"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="173"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeHolderApp" translatesAutoresizingMaskIntoConstraints="NO" id="M8u-fw-mJr">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="226"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="173"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DN2-Xm-ziO" customClass="ImageSlideshow" customModule="ImageSlideshow">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="198"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MQv-PQ-ZJq" customClass="GradientView" customModule="Friendzr" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="150.5" width="320" height="75.5"/>
+                                <rect key="frame" x="0.0" y="104" width="320" height="69"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
                                         <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -41,7 +46,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pZw-c6-Vrp">
-                                <rect key="frame" x="20" y="216" width="280" height="0.0"/>
+                                <rect key="frame" x="20" y="163" width="280" height="0.0"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -49,14 +54,18 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="DN2-Xm-ziO" secondAttribute="bottom" constant="-25" id="5gf-Vf-eD7"/>
+                            <constraint firstAttribute="trailing" secondItem="DN2-Xm-ziO" secondAttribute="trailing" id="73w-Kx-SNw"/>
+                            <constraint firstItem="DN2-Xm-ziO" firstAttribute="top" secondItem="nBO-oR-IjD" secondAttribute="top" id="7jV-g3-3Dd"/>
                             <constraint firstAttribute="trailing" secondItem="MQv-PQ-ZJq" secondAttribute="trailing" id="Dqs-IP-tYU"/>
-                            <constraint firstItem="MQv-PQ-ZJq" firstAttribute="height" secondItem="M8u-fw-mJr" secondAttribute="height" multiplier="1:3" id="MlX-0j-qqh"/>
+                            <constraint firstItem="MQv-PQ-ZJq" firstAttribute="height" secondItem="M8u-fw-mJr" secondAttribute="height" multiplier="0.4" id="MlX-0j-qqh"/>
                             <constraint firstItem="M8u-fw-mJr" firstAttribute="leading" secondItem="nBO-oR-IjD" secondAttribute="leading" id="PDu-zk-MSo"/>
                             <constraint firstAttribute="trailing" secondItem="pZw-c6-Vrp" secondAttribute="trailing" constant="20" id="RgJ-Hl-kTL"/>
                             <constraint firstAttribute="bottom" secondItem="MQv-PQ-ZJq" secondAttribute="bottom" id="Vf9-OB-K26"/>
                             <constraint firstItem="MQv-PQ-ZJq" firstAttribute="leading" secondItem="nBO-oR-IjD" secondAttribute="leading" id="Vwb-J2-eJB"/>
                             <constraint firstAttribute="trailing" secondItem="M8u-fw-mJr" secondAttribute="trailing" id="W4C-RP-IV2"/>
                             <constraint firstAttribute="bottom" secondItem="pZw-c6-Vrp" secondAttribute="bottom" constant="10" id="XMw-dZ-PGZ"/>
+                            <constraint firstItem="DN2-Xm-ziO" firstAttribute="leading" secondItem="nBO-oR-IjD" secondAttribute="leading" id="avO-Co-yY0"/>
                             <constraint firstItem="M8u-fw-mJr" firstAttribute="top" secondItem="nBO-oR-IjD" secondAttribute="top" id="isb-oE-cp3"/>
                             <constraint firstItem="pZw-c6-Vrp" firstAttribute="leading" secondItem="nBO-oR-IjD" secondAttribute="leading" constant="20" id="uOI-de-OyX"/>
                             <constraint firstAttribute="bottom" secondItem="M8u-fw-mJr" secondAttribute="bottom" id="vod-TE-0Bh"/>
@@ -76,12 +85,16 @@
                 <outlet property="containerView" destination="nBO-oR-IjD" id="L2N-dN-oAy"/>
                 <outlet property="eventImg" destination="M8u-fw-mJr" id="s5K-DF-otg"/>
                 <outlet property="gradiendView" destination="MQv-PQ-ZJq" id="f2R-97-rSq"/>
+                <outlet property="imagesSlider" destination="DN2-Xm-ziO" id="a2H-OK-XRS"/>
                 <outlet property="titleLbl" destination="pZw-c6-Vrp" id="Php-ew-lwl"/>
             </connections>
-            <point key="canvasLocation" x="195.6521739130435" y="94.419642857142847"/>
+            <point key="canvasLocation" x="195.6521739130435" y="76.674107142857139"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="placeHolderApp" width="2583" height="2479"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

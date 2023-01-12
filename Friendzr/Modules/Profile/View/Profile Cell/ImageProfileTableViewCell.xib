@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -34,8 +34,12 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="236"/>
                                 <color key="backgroundColor" systemColor="systemGray4Color"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GlI-up-JSS" customClass="ImageSlideshow" customModule="ImageSlideshow">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="261"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Om-o2-pgM" customClass="GradientView" customModule="Friendzr" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="118" width="320" height="118"/>
+                                <rect key="frame" x="0.0" y="141.5" width="320" height="94.5"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
                                         <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -94,19 +98,17 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="KGO-wt-og0">
-                                <rect key="frame" x="150" y="108" width="20" height="20"/>
-                                <color key="color" name="primaryColor"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="5B8-Wv-LyA" secondAttribute="trailing" constant="20" id="1KK-A9-ovs"/>
-                            <constraint firstItem="4Om-o2-pgM" firstAttribute="height" secondItem="oRC-l4-8rf" secondAttribute="height" multiplier="1:2" id="3I5-fF-hOl"/>
+                            <constraint firstItem="4Om-o2-pgM" firstAttribute="height" secondItem="oRC-l4-8rf" secondAttribute="height" multiplier="0.4" id="3I5-fF-hOl"/>
                             <constraint firstAttribute="bottom" secondItem="oRC-l4-8rf" secondAttribute="bottom" id="9Ny-gP-ys4"/>
+                            <constraint firstItem="GlI-up-JSS" firstAttribute="leading" secondItem="kQ8-8a-btW" secondAttribute="leading" id="BAy-7Z-h6m"/>
                             <constraint firstItem="oRC-l4-8rf" firstAttribute="top" secondItem="kQ8-8a-btW" secondAttribute="top" id="DHn-Zh-FIQ"/>
                             <constraint firstAttribute="bottom" secondItem="5B8-Wv-LyA" secondAttribute="bottom" constant="10" id="M1z-2n-gz1"/>
                             <constraint firstAttribute="trailing" secondItem="4Om-o2-pgM" secondAttribute="trailing" id="MbN-U3-Nfr"/>
+                            <constraint firstAttribute="trailing" secondItem="GlI-up-JSS" secondAttribute="trailing" id="OXU-Cn-f1o"/>
                             <constraint firstItem="y2w-AH-Cey" firstAttribute="centerY" secondItem="5B8-Wv-LyA" secondAttribute="centerY" id="Qx4-r4-WIO"/>
                             <constraint firstItem="5B8-Wv-LyA" firstAttribute="bottom" secondItem="4Om-o2-pgM" secondAttribute="bottom" constant="-10" id="Sjt-3a-BhS"/>
                             <constraint firstItem="oRC-l4-8rf" firstAttribute="leading" secondItem="kQ8-8a-btW" secondAttribute="leading" id="Wut-kh-5uA"/>
@@ -114,9 +116,9 @@
                             <constraint firstAttribute="trailing" secondItem="oRC-l4-8rf" secondAttribute="trailing" id="aoF-RT-4cb"/>
                             <constraint firstItem="y2w-AH-Cey" firstAttribute="leading" secondItem="wUm-1F-Tdr" secondAttribute="trailing" constant="20" id="c35-wq-192"/>
                             <constraint firstItem="wUm-1F-Tdr" firstAttribute="leading" secondItem="kQ8-8a-btW" secondAttribute="leading" constant="20" id="dIf-3h-GsC"/>
-                            <constraint firstItem="KGO-wt-og0" firstAttribute="centerY" secondItem="kQ8-8a-btW" secondAttribute="centerY" id="dmz-x6-Fha"/>
+                            <constraint firstItem="GlI-up-JSS" firstAttribute="top" secondItem="kQ8-8a-btW" secondAttribute="top" id="evX-cz-YGq"/>
                             <constraint firstItem="5B8-Wv-LyA" firstAttribute="width" secondItem="4Om-o2-pgM" secondAttribute="width" multiplier="1:3" id="g8g-kN-2Bg"/>
-                            <constraint firstItem="KGO-wt-og0" firstAttribute="centerX" secondItem="kQ8-8a-btW" secondAttribute="centerX" id="gYy-rC-bL2"/>
+                            <constraint firstAttribute="bottom" secondItem="GlI-up-JSS" secondAttribute="bottom" constant="-25" id="lw2-Ai-tpd"/>
                             <constraint firstItem="4Om-o2-pgM" firstAttribute="leading" secondItem="kQ8-8a-btW" secondAttribute="leading" id="oYm-o8-3qz"/>
                             <constraint firstItem="wUm-1F-Tdr" firstAttribute="centerY" secondItem="5B8-Wv-LyA" secondAttribute="centerY" id="yki-iK-xUJ"/>
                         </constraints>
@@ -136,8 +138,8 @@
                 <outlet property="editBtn" destination="5B8-Wv-LyA" id="GCy-st-jxC"/>
                 <outlet property="genderlbl" destination="Ybi-1j-PrO" id="Ojl-00-DV9"/>
                 <outlet property="gradientView" destination="4Om-o2-pgM" id="TTP-YB-J11"/>
+                <outlet property="imagesSlider" destination="GlI-up-JSS" id="nmn-rX-ICO"/>
                 <outlet property="profileImg" destination="oRC-l4-8rf" id="YC6-KN-ljE"/>
-                <outlet property="profileImgLoader" destination="KGO-wt-og0" id="fp6-1X-Ooe"/>
             </connections>
             <point key="canvasLocation" x="161" y="102"/>
         </tableViewCell>

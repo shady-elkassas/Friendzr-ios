@@ -161,9 +161,7 @@ extension CAGradientLayer {
         layer.startPoint = CGPoint.zero
         return layer
     }()
-
-    //MARK: -
-
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 

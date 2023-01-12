@@ -75,7 +75,7 @@ class UserChatObj: NSObject,Mappable {
     var eventtype:String = ""
     var isSelected:Bool? = false
     var message_not_Read:Int = 0
-    
+    var isCommunityGroup:Bool = false
     var isSendEvent:Bool = false
     
     override init() {
@@ -105,6 +105,7 @@ class UserChatObj: NSObject,Mappable {
         isChatGroupAdmin  <- map["isChatGroupAdmin"]
         leaveGroup <- map["leaveGroup"]
         eventtype <- map["eventtype"]
+        isCommunityGroup <- map["isCommunityGroup"]
         message_not_Read <- map["message_not_Read"]
     }
 }

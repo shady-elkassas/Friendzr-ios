@@ -74,7 +74,11 @@ class AddGroupVC: UIViewController {
         print("availableVC >> \(Defaults.availableVC)")
 
         CancelRequest.currentTask = false
-        self.tabBarController?.tabBar.isHidden = false
+        if Defaults.isWhiteLable {
+            self.tabBarController?.tabBar.isHidden = true
+        }else {
+            self.tabBarController?.tabBar.isHidden = false
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -109,6 +113,7 @@ class AddGroupVC: UIViewController {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
+    
     func setupSearchBar() {
         searchbar.delegate = self
         searchBarView.cornerRadiusView(radius: 6)
@@ -125,6 +130,7 @@ class AddGroupVC: UIViewController {
         searchbar.searchTextField.addDoneOnKeyboard(withTarget: self, action: #selector(dismissKeyboard))
         searchbar.searchTextField.addTarget(self, action: #selector(updateSearchResult), for: .editingChanged)
     }
+    
     func setupViews() {
         tableView.allowsMultipleSelection = true
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
@@ -145,6 +151,7 @@ class AddGroupVC: UIViewController {
         currentPage += 1
         getAllFriends(pageNumber: currentPage, search: searchbar.text ?? "")
     }
+    
     func getAllFriends(pageNumber:Int,search:String) {
         viewmodel.getAllFriendes(pageNumber: pageNumber, search: search)
         viewmodel.friends.bind { [weak self] value in
@@ -225,6 +232,7 @@ class AddGroupVC: UIViewController {
             emptyView.isHidden = false
         }
     }
+    
     func createFooterView() -> UIView {
         let footerview = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 100))
         let indicatorView = UIActivityIndicatorView()

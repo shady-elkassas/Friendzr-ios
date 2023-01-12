@@ -149,7 +149,7 @@ class OptionsSignUpVC: UIViewController,UIGestureRecognizerDelegate {
             
             DispatchQueue.main.async {
                 if Defaults.isWhiteLable {
-//                    Router().toInbox()
+                    Router().toInbox()
                 }else {
                     if Defaults.needUpdate == 1 {
                         Defaults.isFirstLogin = true

@@ -281,13 +281,6 @@ class FriendProfileViewController: UIViewController {
         }
     }
     
-//    @objc func didTap(_ cell: FriendImageProfileTableViewCell) {
-//        let fullScreenController = cell.imagesSlider.presentFullScreenController(from: self)
-//        // set the activity indicator for full screen controller (skipping the line will show no activity indicator)
-//        fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .medium, color: nil)
-//        print("Did Tap")
-//    }
-    
     func setupSliderShow(_ cell: FriendImageProfileTableViewCell, _ model: FriendObj?) {
         cell.imagesSlider.slideshowInterval = 5.0
         cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .under)
@@ -299,9 +292,6 @@ class FriendProfileViewController: UIViewController {
         
         //        imagesSlider.setImageInputs(localSource)
         cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model?.userImage ?? "") ?? SDWebImageSource(urlString: "https://images.unsplash.com/photo-1432679963831-2dab49187847?w=1080")!])
-        
-//        let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
-//        cell.imagesSlider.addGestureRecognizer(recognizer)
     }
 }
 
@@ -326,8 +316,8 @@ extension FriendProfileViewController:UITableViewDataSource {
         if indexPath.row == 0 {//image
             guard let cell = tableView.dequeueReusableCell(withIdentifier: imageCellId, for: indexPath) as? FriendImageProfileTableViewCell else {return UITableViewCell()}
             
-            cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+//            cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+//            cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.ageLbl.text = "\(model?.age ?? 0)"
             cell.parentVC = self
             
@@ -337,7 +327,7 @@ extension FriendProfileViewController:UITableViewDataSource {
                 cell.genderLlb.text = model?.gender
             }
                         
-//            setupSliderShow(cell, model)
+            setupSliderShow(cell, model)
             
             if Defaults.isWhiteLable {
                 if model?.key == 4 {
@@ -553,18 +543,18 @@ extension FriendProfileViewController:UITableViewDelegate, UIPopoverPresentation
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = viewmodel.model.value
-        if indexPath.row == 0 {
-            guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
-            popupVC.modalPresentationStyle = .overCurrentContext
-            popupVC.modalTransitionStyle = .crossDissolve
-            let pVC = popupVC.popoverPresentationController
-            pVC?.permittedArrowDirections = .any
-            pVC?.delegate = self
-            pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
-            popupVC.imgURL = model?.userImage
-            present(popupVC, animated: true, completion: nil)
-        }
+//        let model = viewmodel.model.value
+//        if indexPath.row == 0 {
+//            guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
+//            popupVC.modalPresentationStyle = .overCurrentContext
+//            popupVC.modalTransitionStyle = .crossDissolve
+//            let pVC = popupVC.popoverPresentationController
+//            pVC?.permittedArrowDirections = .any
+//            pVC?.delegate = self
+//            pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+//            popupVC.imgURL = model?.userImage
+//            present(popupVC, animated: true, completion: nil)
+//        }
     }
     
 }

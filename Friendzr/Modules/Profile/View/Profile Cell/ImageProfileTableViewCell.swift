@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import ImageSlideshow
+import SDWebImage
 
 class ImageProfileTableViewCell: UITableViewCell {
 
@@ -14,18 +16,27 @@ class ImageProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var genderlbl: UILabel!
     @IBOutlet weak var ageLbl: UILabel!
-    
-    @IBOutlet weak var profileImgLoader: UIActivityIndicatorView!
+    @IBOutlet weak var imagesSlider: ImageSlideshow!
     
     var HandleEditBtn: (()->())?
-    
+    var parentVC:UIViewController = UIViewController()
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
         editBtn.cornerRadiusForHeight()
+        
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        imagesSlider.addGestureRecognizer(recognizer)
     }
 
+    @objc func didTap() {
+        let fullScreenController = imagesSlider.presentFullScreenController(from: parentVC)
+        fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .medium, color: nil)
+        print("Did Tap")
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

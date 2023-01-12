@@ -10,6 +10,7 @@ import SDWebImage
 import ListPlaceholder
 import Network
 import AMShimmer
+import ImageSlideshow
 
 class MyProfileViewController: UIViewController {
     
@@ -197,11 +198,30 @@ class MyProfileViewController: UIViewController {
         triAgainBtn.cornerRadiusView(radius: 8)
     }
     
+    func setupSliderShow(_ cell: ImageProfileTableViewCell, _ model: ProfileObj?) {
+        cell.imagesSlider.slideshowInterval = 5.0
+        cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .under)
+        cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
+        
+        // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
+        cell.imagesSlider.activityIndicator = DefaultActivityIndicator()
+        cell.imagesSlider.delegate = self
+        
+        //        imagesSlider.setImageInputs(localSource)
+        cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model?.userImage ?? "") ?? SDWebImageSource(urlString: "https://images.unsplash.com/photo-1432679963831-2dab49187847?w=1080")!])
+    }
+    
     //MARK: - Actions
     @IBAction func tryAgainBtn(_ sender: Any) {
         DispatchQueue.main.async {
             self.updateUserInterface()
         }
+    }
+}
+
+extension MyProfileViewController: ImageSlideshowDelegate {
+    func imageSlideshow(_ imageSlideshow: ImageSlideshow, didChangeCurrentPageTo page: Int) {
+        print("current page:", page)
     }
 }
 
@@ -217,9 +237,9 @@ extension MyProfileViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: imageCellID, for: indexPath) as? ImageProfileTableViewCell else {return UITableViewCell()}
             
-            cell.profileImgLoader.isHidden = true
-            cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
+//            cell.profileImgLoader.isHidden = true
+//            cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+//            cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             
             cell.ageLbl.text = "\(model?.age ?? 0)"
             if model?.gender == "other" {
@@ -227,6 +247,9 @@ extension MyProfileViewController: UITableViewDataSource {
             }else {
                 cell.genderlbl.text = model?.gender
             }
+            
+            cell.parentVC = self
+            setupSliderShow(cell, model)
             
             cell.HandleEditBtn = {
                 self.btnSelect = true
@@ -357,18 +380,18 @@ extension MyProfileViewController: UITableViewDelegate, UIPopoverPresentationCon
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let model = viewmodel.userModel.value
-        if indexPath.row == 0 {
-            guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
-            popupVC.modalPresentationStyle = .overCurrentContext
-            popupVC.modalTransitionStyle = .crossDissolve
-            let pVC = popupVC.popoverPresentationController
-            pVC?.permittedArrowDirections = .any
-            pVC?.delegate = self
-            pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
-            popupVC.imgURL = model?.userImage
-            present(popupVC, animated: true, completion: nil)
-        }
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let model = viewmodel.userModel.value
+//        if indexPath.row == 0 {
+//            guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
+//            popupVC.modalPresentationStyle = .overCurrentContext
+//            popupVC.modalTransitionStyle = .crossDissolve
+//            let pVC = popupVC.popoverPresentationController
+//            pVC?.permittedArrowDirections = .any
+//            pVC?.delegate = self
+//            pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+//            popupVC.imgURL = model?.userImage
+//            present(popupVC, animated: true, completion: nil)
+//        }
+//    }
 }

@@ -393,15 +393,15 @@ extension BlockedListVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        btnsSelect = true
-        if NetworkConected.internetConect {
-            if viewmodel.blocklist.value?.data?.count != 0 {
-                let model = viewmodel.blocklist.value?.data?[indexPath.row]
-                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-                vc.userID = model?.userId ?? ""
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-        }
+//        btnsSelect = true
+//        if NetworkConected.internetConect {
+//            if viewmodel.blocklist.value?.data?.count != 0 {
+//                let model = viewmodel.blocklist.value?.data?[indexPath.row]
+//                guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+//                vc.userID = model?.userId ?? ""
+//                self.navigationController?.pushViewController(vc, animated: true)
+//            }
+//        }
 
     }
     

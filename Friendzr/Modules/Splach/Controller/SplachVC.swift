@@ -86,8 +86,8 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
             
             DispatchQueue.main.asyncAfter(wallDeadline: .now()) {
                 if Defaults.isWhiteLable {
-//                    Router().toInbox()
-                    Router().toOptionsSignUpVC(IsLogout: true)
+                    Router().toInbox()
+//                    Router().toOptionsSignUpVC(IsLogout: true)
                 }else {
                     if Defaults.needUpdate == 1 {
                         DispatchQueue.main.async {
@@ -245,8 +245,8 @@ class SplachVC: UIViewController , CLLocationManagerDelegate, CAAnimationDelegat
     func HandleInternetConnection() {
         DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.5) {
             if Defaults.isWhiteLable {
-//                Router().toInbox()
-                Router().toOptionsSignUpVC(IsLogout: true)
+                Router().toInbox()
+//                Router().toOptionsSignUpVC(IsLogout: true)
             }else {
                 if Defaults.needUpdate == 1 {
                     DispatchQueue.main.async {

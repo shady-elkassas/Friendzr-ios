@@ -15,21 +15,21 @@ import GoogleMobileAds
 import FirebaseCore
 import FirebaseDynamicLinks
 import FirebaseAuth
+import ImageSlideshow
+import SDWebImage
 
 class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRecognizerDelegate,UIPopoverPresentationControllerDelegate {
     
     //MARK:- Outlets
-    @IBOutlet weak var profileImg: UIImageView!
     @IBOutlet weak var nameLbl: UILabel!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var showProfileImg: UIButton!
-    @IBOutlet weak var profileImgH: NSLayoutConstraint!
-    @IBOutlet weak var profileImgW: NSLayoutConstraint!
-    
+    @IBOutlet weak var imagesSliderContainerView: UIView!
+    @IBOutlet weak var imagesSlider: ImageSlideshow!
     @IBOutlet var bannerView: UIView!
     @IBOutlet weak var bannerViewHeight: NSLayoutConstraint!
-
+    @IBOutlet weak var imagesSliderWidth: NSLayoutConstraint!
+    @IBOutlet weak var imagesSliderHeight: NSLayoutConstraint!
     
     //MARK: - Properties
     let cellID = "MoreTableViewCell"
@@ -98,18 +98,18 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         return true
     }
     
-    
-    @IBAction func showProfileImgBtn(_ sender: Any) {
-        guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
-        popupVC.modalPresentationStyle = .overCurrentContext
-        popupVC.modalTransitionStyle = .crossDissolve
-        let pVC = popupVC.popoverPresentationController
-        pVC?.permittedArrowDirections = .any
-        pVC?.delegate = self
-        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
-        popupVC.imgURL = Defaults.Image
-        present(popupVC, animated: true, completion: nil)
-    }
+
+//    @IBAction func showProfileImgBtn(_ sender: Any) {
+//        guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
+//        popupVC.modalPresentationStyle = .overCurrentContext
+//        popupVC.modalTransitionStyle = .crossDissolve
+//        let pVC = popupVC.popoverPresentationController
+//        pVC?.permittedArrowDirections = .any
+//        pVC?.delegate = self
+//        pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+//        popupVC.imgURL = Defaults.Image
+//        present(popupVC, animated: true, completion: nil)
+//    }
     
     //MARK: - Helpers
     
@@ -173,22 +173,41 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         moreList.append(("Log Out".localizedString, UIImage(named: "logout_ic")!))
         
         if Defaults.isIPhoneLessThan2500 {
-            profileImgH.constant = 150
-            profileImgW.constant = 150
-            profileImg.cornerRadiusView(radius: 75)
+            imagesSliderHeight.constant = 150
+            imagesSliderWidth.constant = 150
+            imagesSliderContainerView.cornerRadiusView(radius: 75)
         }else {
-            profileImgH.constant = 200
-            profileImgW.constant = 200
-            profileImg.cornerRadiusView(radius: 100)
+            imagesSliderHeight.constant = 200
+            imagesSliderWidth.constant = 200
+            imagesSliderContainerView.cornerRadiusView(radius: 100)
         }
         
-        profileImg.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 2)
+        imagesSliderContainerView.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 2)
         bannerView.setCornerforTop()
     }
     
     func setupUserData() {
-        profileImg.sd_setImage(with: URL(string: Defaults.Image), placeholderImage: UIImage(named: "placeHolderApp"))
+        imagesSlider.slideshowInterval = 5.0
+        imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
+        imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
+        
+        // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
+        imagesSlider.activityIndicator = DefaultActivityIndicator()
+        imagesSlider.delegate = self
+        
+        //        imagesSlider.setImageInputs(localSource)
+        imagesSlider.setImageInputs([SDWebImageSource(urlString: Defaults.Image) ?? SDWebImageSource(urlString: "https://images.unsplash.com/photo-1432679963831-2dab49187847?w=1080")!])
+        
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        imagesSlider.addGestureRecognizer(recognizer)
+
         nameLbl.text = Defaults.userName
+    }
+    
+    @objc func didTap() {
+        let fullScreenController = imagesSlider.presentFullScreenController(from: self)
+        fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .medium, color: nil)
+        print("Did Tap")
     }
     
     //mail compose controller
@@ -294,6 +313,13 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         }
         
         self.view.addSubview((alertView)!)
+    }
+}
+
+
+extension MoreVC: ImageSlideshowDelegate {
+    func imageSlideshow(_ imageSlideshow: ImageSlideshow, didChangeCurrentPageTo page: Int) {
+        print("current page:", page)
     }
 }
 

@@ -56,6 +56,8 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
     var selectedFrineds = [UserConversationModel]()
     var groupImgStr:String = ""
 
+    var isCommunityGroup:Bool = false
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,37 +67,31 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
         getGroupDetails(search: "")
         setupSearchBar()
         
-        if selectedVC {
-            initCloseBarButton()
-        }else {
-            initBackButton()
-        }
+        initBackButton()
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateGroupDetails), name: Notification.Name("updateGroupDetails"), object: nil)
         
         editOrShowImageBtn.isHidden = false
-        
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if selectedVC {
-            Defaults.availableVC = "PresentGroupDetailsVC"
-        }else {
-            Defaults.availableVC = "GroupDetailsVC"
-        }
-        
+        Defaults.availableVC = "GroupDetailsVC"
+
         print("availableVC >> \(Defaults.availableVC)")
         
         title = "Group Details"
         hideNavigationBar(NavigationBar: false, BackButton: false)
         setupNavBar()
+        
+        if Defaults.isWhiteLable {
+            self.tabBarController?.tabBar.isHidden = true
+        }else {
+            self.tabBarController?.tabBar.isHidden = false
+        }
     }
     
-    
-
     //MARK: - APIs
     func getGroupDetails(search:String) {
         self.superView.showLoader()
@@ -137,6 +133,7 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
         // Set View Model Event Listener
         viewmodel.errorMsg.bind { [weak self]error in
             DispatchQueue.main.async {
+                print(error)
             }
         }
     }
@@ -153,7 +150,7 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
         groupImg.cornerRadiusForHeight()
         addUsersBtn.cornerRadiusView(radius: 8)
         
-        initEditAndOptionButton()
+        initEditAndOptionButton(isCommunityGroup: self.isCommunityGroup)
         
         if isGroupAdmin {
             addUsersBtn.isHidden = false
@@ -235,7 +232,7 @@ class GroupDetailsVC: UIViewController,UIPopoverPresentationControllerDelegate {
 
 extension GroupDetailsVC {
     //MARK: - Edit And Option Button
-    func initEditAndOptionButton(btnColor: UIColor? = .red) {
+    func initEditAndOptionButton(btnColor: UIColor? = .red,isCommunityGroup:Bool) {
         let btn1 = UIButton.init(type: .custom)
         btn1.setImage(UIImage(named: "menu_H_ic"), for: .normal)
         btn1.tintColor = .black
@@ -258,14 +255,18 @@ extension GroupDetailsVC {
         let barButton2 = UIBarButtonItem(customView: btn2)
         
         if isGroupAdmin == true {
-            self.navigationItem.rightBarButtonItems = [barButton1,barButton2]
+            if Defaults.isWhiteLable && isCommunityGroup {
+                self.navigationItem.rightBarButtonItems = [barButton2]
+            }else {
+                self.navigationItem.rightBarButtonItems = [barButton1,barButton2]
+            }
         }else {
             self.navigationItem.rightBarButtonItems = [barButton1]
         }
     }
     
     //MARK: - Save And Option Button
-    func initSaveAndOptionButton(btnColor: UIColor? = .red) {
+    func initSaveAndOptionButton(btnColor: UIColor? = .red,isCommunityGroup:Bool) {
         let btn1 = UIButton.init(type: .custom)
         btn1.setImage(UIImage(named: "menu_H_ic"), for: .normal)
         btn1.tintColor = .black
@@ -289,7 +290,11 @@ extension GroupDetailsVC {
         let barButton2 = UIBarButtonItem(customView: btn2)
         
         if isGroupAdmin == true {
-            self.navigationItem.rightBarButtonItems = [barButton1,barButton2]
+            if Defaults.isWhiteLable && isCommunityGroup {
+                self.navigationItem.rightBarButtonItems = [barButton2]
+            }else {
+                self.navigationItem.rightBarButtonItems = [barButton1,barButton2]
+            }
         }else {
             self.navigationItem.rightBarButtonItems = [barButton1]
         }
@@ -298,7 +303,7 @@ extension GroupDetailsVC {
     @objc func handleEditBtn() {
         self.nameTxt.isUserInteractionEnabled = true
         self.cameraBtn.isHidden = false
-        self.initSaveAndOptionButton()
+        self.initSaveAndOptionButton(isCommunityGroup: self.isCommunityGroup)
         self.editOrShowImageBtn.isHidden = true
     }
     
@@ -317,7 +322,7 @@ extension GroupDetailsVC {
             DispatchQueue.main.async {
                 self.nameTxt.isUserInteractionEnabled = false
                 self.cameraBtn.isHidden = true
-                self.initEditAndOptionButton()
+                self.initEditAndOptionButton(isCommunityGroup: self.isCommunityGroup)
                 self.editOrShowImageBtn.isHidden = false
             }
         }
@@ -423,8 +428,8 @@ extension GroupDetailsVC : UITableViewDataSource {
     func setupActionSheet(_ model:UserConversationModel?) {
         let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
         
-        settingsActionSheet.addAction(UIAlertAction(title:"Delete".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
-            self.showAlertView(messageString: "delete".localizedString, userID: model?.userId ?? "", Stutus: 1)
+        settingsActionSheet.addAction(UIAlertAction(title:"Remove".localizedString.localizedString, style:UIAlertAction.Style.default, handler:{ action in
+            self.showAlertView(messageString: "remove".localizedString, userID: model?.userId ?? "", Stutus: 1)
         }))
         settingsActionSheet.addAction(UIAlertAction(title:"Cancel".localizedString, style:UIAlertAction.Style.cancel, handler:nil))
         

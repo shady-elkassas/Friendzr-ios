@@ -11,7 +11,7 @@ import SDWebImage
 import GoogleMaps
 import Alamofire
 import ListPlaceholder
-//import GoogleMobileAds
+import ImageSlideshow
 import MapKit
 import Network
 
@@ -300,9 +300,28 @@ class EventDetailsViewController: UIViewController {
         }
     }
     
+    func setupSliderShow(_ cell: EventImageTableViewCell, _ model: EventObj?) {
+        cell.imagesSlider.slideshowInterval = 5.0
+        cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .under)
+        cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
+        
+        // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
+        cell.imagesSlider.activityIndicator = DefaultActivityIndicator()
+        cell.imagesSlider.delegate = self
+        
+        //        imagesSlider.setImageInputs(localSource)
+        cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model?.image ?? "") ?? SDWebImageSource(urlString: "https://images.unsplash.com/photo-1432679963831-2dab49187847?w=1080")!])
+    }
+    
     //change title for any btns
     func changeTitleBtns(btn:UIButton,title:String) {
         btn.setTitle(title, for: .normal)
+    }
+}
+
+extension EventDetailsViewController: ImageSlideshowDelegate {
+    func imageSlideshow(_ imageSlideshow: ImageSlideshow, didChangeCurrentPageTo page: Int) {
+        print("current page:", page)
     }
 }
 
@@ -329,11 +348,16 @@ extension EventDetailsViewController: UITableViewDataSource {
         if indexPath.row == 0 {//image
             guard let cell = tableView.dequeueReusableCell(withIdentifier: eventImgCellId, for: indexPath) as?  EventImageTableViewCell else {return UITableViewCell()}
             
-            cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            cell.eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
+//            cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
+//            cell.eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
+            
             cell.titleLbl.text = model?.title
             cell.categoryLbl.text = model?.categorie
             cell.attendeesLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"
+            
+            cell.parentVC = self
+            setupSliderShow(cell, model)
+            
             return cell
         }
         
@@ -518,18 +542,19 @@ extension EventDetailsViewController: UITableViewDelegate , UIPopoverPresentatio
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let model = self.viewmodel.event.value
-        if indexPath.row == 0 {
-            guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
-            popupVC.modalPresentationStyle = .overCurrentContext
-            popupVC.modalTransitionStyle = .crossDissolve
-            let pVC = popupVC.popoverPresentationController
-            pVC?.permittedArrowDirections = .any
-            pVC?.delegate = self
-            pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
-            popupVC.imgURL = model?.image
-            present(popupVC, animated: true, completion: nil)
-        }
-        else if indexPath.row == 3 {
+//        if indexPath.row == 0 {
+//            guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
+//            popupVC.modalPresentationStyle = .overCurrentContext
+//            popupVC.modalTransitionStyle = .crossDissolve
+//            let pVC = popupVC.popoverPresentationController
+//            pVC?.permittedArrowDirections = .any
+//            pVC?.delegate = self
+//            pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
+//            popupVC.imgURL = model?.image
+//            present(popupVC, animated: true, completion: nil)
+//        }
+//        else
+        if indexPath.row == 3 {
             if model?.eventTypeName == "adminExternal" && (model?.descriptionEvent?.count ?? 0) > 180 {
                 guard let popupVC = UIViewController.viewController(withStoryboard: .Events, AndContollerID: "ExpandDescriptionVC") as? ExpandDescriptionVC else {return}
                 popupVC.modalPresentationStyle = .overCurrentContext

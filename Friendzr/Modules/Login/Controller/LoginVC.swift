@@ -147,7 +147,7 @@ class LoginVC: UIViewController {
             
             DispatchQueue.main.async {
                 if Defaults.isWhiteLable {
-//                    Router().toInbox()
+                    Router().toInbox()
 //                    self.view.makeToast("")
                 }else {
                     if Defaults.needUpdate == 1 {

@@ -1008,6 +1008,7 @@ extension InboxVC {
                     vc.isChatGroup = model?.isChatGroup ?? false
                     vc.groupId = model?.id ?? ""
                     vc.isEventAdmin = false
+                    vc.isCommunityGroup = model?.isCommunityGroup ?? false
                 }
                 else {
                     vc.isEvent = false
