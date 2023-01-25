@@ -283,15 +283,20 @@ class FriendProfileViewController: UIViewController {
     
     func setupSliderShow(_ cell: FriendImageProfileTableViewCell, _ model: FriendObj?) {
         cell.imagesSlider.slideshowInterval = 5.0
-        cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .under)
+        cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
         cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
         
         // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
         cell.imagesSlider.activityIndicator = DefaultActivityIndicator()
         cell.imagesSlider.delegate = self
         
-        //        imagesSlider.setImageInputs(localSource)
-        cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model?.userImage ?? "") ?? SDWebImageSource(urlString: "https://images.unsplash.com/photo-1432679963831-2dab49187847?w=1080")!])
+        var sdWebImageSource = [SDWebImageSource(urlString: model?.userImage ?? "") ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!]
+        
+        for item in model?.userImages ?? [] {
+            sdWebImageSource.append(SDWebImageSource(urlString: item)!)
+        }
+        
+        cell.imagesSlider.setImageInputs(sdWebImageSource)
     }
 }
 
@@ -316,8 +321,6 @@ extension FriendProfileViewController:UITableViewDataSource {
         if indexPath.row == 0 {//image
             guard let cell = tableView.dequeueReusableCell(withIdentifier: imageCellId, for: indexPath) as? FriendImageProfileTableViewCell else {return UITableViewCell()}
             
-//            cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-//            cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.ageLbl.text = "\(model?.age ?? 0)"
             cell.parentVC = self
             

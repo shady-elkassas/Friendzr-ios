@@ -30,11 +30,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="243"/>
                     </imageView>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qpP-t8-g4L" customClass="ImageSlideshow" customModule="ImageSlideshow">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="273"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="243"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PH6-pw-v9d" customClass="GradientView" customModule="Friendzr" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="134" width="320" height="109"/>
+                        <rect key="frame" x="0.0" y="146" width="320" height="97"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="firstColor">
@@ -183,7 +183,7 @@
                     <constraint firstItem="jQg-L6-SAb" firstAttribute="width" secondItem="Xq5-ul-Ewy" secondAttribute="width" id="Cub-9B-s4R"/>
                     <constraint firstAttribute="trailing" secondItem="PH6-pw-v9d" secondAttribute="trailing" id="Gkq-L7-mOt"/>
                     <constraint firstItem="jQg-L6-SAb" firstAttribute="centerY" secondItem="Xq5-ul-Ewy" secondAttribute="centerY" id="Rmj-V1-6Re"/>
-                    <constraint firstAttribute="bottom" secondItem="qpP-t8-g4L" secondAttribute="bottom" constant="-30" id="SRN-ZA-fwq"/>
+                    <constraint firstAttribute="bottom" secondItem="qpP-t8-g4L" secondAttribute="bottom" id="SRN-ZA-fwq"/>
                     <constraint firstAttribute="bottom" secondItem="PH6-pw-v9d" secondAttribute="bottom" id="UiW-Pe-Lbg"/>
                     <constraint firstItem="qpP-t8-g4L" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Wfd-Nu-cMR"/>
                     <constraint firstItem="4EA-8j-zLg" firstAttribute="centerY" secondItem="Xq5-ul-Ewy" secondAttribute="centerY" id="XYW-Al-Ysr"/>

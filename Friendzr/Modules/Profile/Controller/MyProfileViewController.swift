@@ -200,15 +200,22 @@ class MyProfileViewController: UIViewController {
     
     func setupSliderShow(_ cell: ImageProfileTableViewCell, _ model: ProfileObj?) {
         cell.imagesSlider.slideshowInterval = 5.0
-        cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .under)
+        cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
         cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
         
         // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
         cell.imagesSlider.activityIndicator = DefaultActivityIndicator()
         cell.imagesSlider.delegate = self
         
+        cell.imagesSlider.pageIndicator = UIPageControl.withSlideshowColors()
         //        imagesSlider.setImageInputs(localSource)
-        cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model?.userImage ?? "") ?? SDWebImageSource(urlString: "https://images.unsplash.com/photo-1432679963831-2dab49187847?w=1080")!])
+        var sdWebImageSource = [SDWebImageSource(urlString: model?.userImage ?? "") ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!]
+        
+        for item in model?.userImages ?? [] {
+            sdWebImageSource.append(SDWebImageSource(urlString: item)!)
+        }
+        
+        cell.imagesSlider.setImageInputs(sdWebImageSource)
     }
     
     //MARK: - Actions
@@ -237,10 +244,6 @@ extension MyProfileViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: imageCellID, for: indexPath) as? ImageProfileTableViewCell else {return UITableViewCell()}
             
-//            cell.profileImgLoader.isHidden = true
-//            cell.profileImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-//            cell.profileImg.sd_setImage(with: URL(string: model?.userImage ?? "" ), placeholderImage: UIImage(named: "placeHolderApp"))
-            
             cell.ageLbl.text = "\(model?.age ?? 0)"
             if model?.gender == "other" {
                 cell.genderlbl.text = "other(".localizedString + "\(model?.otherGenderName ?? "")" + ")"
@@ -257,13 +260,9 @@ extension MyProfileViewController: UITableViewDataSource {
                     guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "EditMyProfileVC") as? EditMyProfileVC else {return}
                     vc.profileModel = self.viewmodel.userModel.value
                     Defaults.isFirstLogin = false
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
-                else {
-                    return
+                    self.navigationController?.pushViewController(vc, animated: true)                    
                 }
             }
-            
             return cell
         }
         else if indexPath.row == 1 {//name & username

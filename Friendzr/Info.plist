@@ -133,13 +133,13 @@
 	<key>NSLocalizedDescription</key>
 	<string>House Ad</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) requires your permission to track your location so you can be seen in the Friendzr ‘Feed’, enable ‘Nearby Events’ to be displayed relative to your location and show you on &apos;Map&apos;.</string>
+	<string>$(PRODUCT_NAME) requires your permission to track your location so you can be seen in the Friendzr ‘Feed’, enable ‘Nearby Events’ to be displayed relative to your location and show you on 'Map'.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>$(PRODUCT_NAME) requires your permission to track your location so you can be seen in the Friendzr ‘Feed’, enable ‘Nearby Events’ to be displayed relative to your location and show you on &apos;Map&apos;.</string>
+	<string>$(PRODUCT_NAME) requires your permission to track your location so you can be seen in the Friendzr ‘Feed’, enable ‘Nearby Events’ to be displayed relative to your location and show you on 'Map'.</string>
 	<key>NSLocationUsageDescription</key>
-	<string>$(PRODUCT_NAME) requ$(PRODUCT_NAME) requires your permission to track your location so you can be seen in the Friendzr ‘Feed’, enable ‘Nearby Events’ to be displayed relative to your location and show you on &apos;Map&apos;.ires your permission to track your location so you can be seen in the Friendzr ‘Feed’ and to enable ‘Nearby Events’ to be displayed relative to your location.</string>
+	<string>$(PRODUCT_NAME) requ$(PRODUCT_NAME) requires your permission to track your location so you can be seen in the Friendzr ‘Feed’, enable ‘Nearby Events’ to be displayed relative to your location and show you on 'Map'.ires your permission to track your location so you can be seen in the Friendzr ‘Feed’ and to enable ‘Nearby Events’ to be displayed relative to your location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>$(PRODUCT_NAME) requires your permission to track your location so you can be seen in the Friendzr ‘Feed’, enable ‘Nearby Events’ to be displayed relative to your location and show you on &apos;Map&apos;.</string>
+	<string>$(PRODUCT_NAME) requires your permission to track your location so you can be seen in the Friendzr ‘Feed’, enable ‘Nearby Events’ to be displayed relative to your location and show you on 'Map'.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) require your permission to access your photo library to upload your chosen profile photo.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

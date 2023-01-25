@@ -993,6 +993,7 @@ extension InboxVC {
                 vc.groupId = ""
                 vc.isEventAdmin = model?.myevent ?? false
                 vc.eventType = model?.eventtype ?? ""
+                vc.isUserWhiteLabel = model?.isWhiteLabel ?? false
             }
             else {
                 if (model?.isChatGroup ?? false) == true {
@@ -1009,6 +1010,7 @@ extension InboxVC {
                     vc.groupId = model?.id ?? ""
                     vc.isEventAdmin = false
                     vc.isCommunityGroup = model?.isCommunityGroup ?? false
+                    vc.isUserWhiteLabel = model?.isWhiteLabel ?? false
                 }
                 else {
                     vc.isEvent = false
@@ -1022,6 +1024,7 @@ extension InboxVC {
                     vc.isChatGroupAdmin = false
                     vc.isChatGroup = false
                     vc.groupId = ""
+                    vc.isUserWhiteLabel = model?.isWhiteLabel ?? false
                     vc.isEventAdmin = false
                 }
             }
@@ -1031,6 +1034,7 @@ extension InboxVC {
             CancelRequest.currentTask = false
             
             Defaults.message_Count = Defaults.message_Count - (model?.message_not_Read ?? 0)
+            UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
             NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
             self.navigationController?.pushViewController(vc, animated: true)
         }

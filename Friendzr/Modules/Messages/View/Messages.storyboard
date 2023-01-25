@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21223" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="h8E-U0-Bgy">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="h8E-U0-Bgy">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -290,13 +290,21 @@
                                                                 <constraint firstAttribute="width" constant="100" id="h4n-Si-cLw"/>
                                                             </constraints>
                                                         </imageView>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="chn-rp-hcN" customClass="ImageSlideshow" customModule="ImageSlideshow">
+                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        </view>
                                                     </subviews>
                                                     <color key="backgroundColor" name="primaryColor"/>
                                                     <constraints>
+                                                        <constraint firstItem="chn-rp-hcN" firstAttribute="width" secondItem="lXw-R5-SUI" secondAttribute="width" id="1yf-WR-UvC"/>
                                                         <constraint firstAttribute="trailing" secondItem="lXw-R5-SUI" secondAttribute="trailing" id="CUw-eU-fwN"/>
                                                         <constraint firstAttribute="bottom" secondItem="lXw-R5-SUI" secondAttribute="bottom" id="QY7-UL-guQ"/>
                                                         <constraint firstItem="lXw-R5-SUI" firstAttribute="leading" secondItem="vdE-gm-nat" secondAttribute="leading" id="Z0f-lS-QLZ"/>
+                                                        <constraint firstItem="chn-rp-hcN" firstAttribute="centerY" secondItem="lXw-R5-SUI" secondAttribute="centerY" id="hqd-Sr-RDb"/>
                                                         <constraint firstItem="lXw-R5-SUI" firstAttribute="top" secondItem="vdE-gm-nat" secondAttribute="top" id="obS-g4-4Em"/>
+                                                        <constraint firstItem="chn-rp-hcN" firstAttribute="height" secondItem="lXw-R5-SUI" secondAttribute="height" id="prY-Y7-QyQ"/>
+                                                        <constraint firstItem="chn-rp-hcN" firstAttribute="centerX" secondItem="lXw-R5-SUI" secondAttribute="centerX" id="r0k-eE-tsH"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -361,6 +369,7 @@
                                             <outlet property="attachmentImageView" destination="lXw-R5-SUI" id="DBi-0R-2TF"/>
                                             <outlet property="attachmentImageViewHeightConstraint" destination="1yK-qB-3sJ" id="lNz-6B-W8v"/>
                                             <outlet property="attachmentImageViewWidthConstraint" destination="h4n-Si-cLw" id="7Y5-My-6gn"/>
+                                            <outlet property="imagesSlider" destination="chn-rp-hcN" id="gOJ-5D-7bx"/>
                                             <outlet property="tapImageBtn" destination="VXb-GD-iYp" id="pOT-C9-Wr9"/>
                                         </connections>
                                     </tableViewCell>
@@ -381,13 +390,21 @@
                                                                 <constraint firstAttribute="width" constant="240" id="rxO-VH-qsd"/>
                                                             </constraints>
                                                         </imageView>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhp-kl-oHK" customClass="ImageSlideshow" customModule="ImageSlideshow">
+                                                            <rect key="frame" x="0.0" y="0.0" width="240" height="80"/>
+                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        </view>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.90196078431372551" green="0.90196078431372551" blue="0.90196078431372551" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="0Hn-Zy-bn5" firstAttribute="top" secondItem="yAX-ZV-YkT" secondAttribute="top" id="KGI-zK-Voh"/>
+                                                        <constraint firstItem="jhp-kl-oHK" firstAttribute="height" secondItem="0Hn-Zy-bn5" secondAttribute="height" id="jE6-KN-A3x"/>
                                                         <constraint firstItem="0Hn-Zy-bn5" firstAttribute="leading" secondItem="yAX-ZV-YkT" secondAttribute="leading" id="ooO-EH-uMM"/>
                                                         <constraint firstAttribute="bottom" secondItem="0Hn-Zy-bn5" secondAttribute="bottom" id="pez-T4-KJD"/>
                                                         <constraint firstAttribute="trailing" secondItem="0Hn-Zy-bn5" secondAttribute="trailing" id="qbd-8f-m5Q"/>
+                                                        <constraint firstItem="jhp-kl-oHK" firstAttribute="width" secondItem="0Hn-Zy-bn5" secondAttribute="width" id="ul6-6b-GlP"/>
+                                                        <constraint firstItem="jhp-kl-oHK" firstAttribute="centerX" secondItem="0Hn-Zy-bn5" secondAttribute="centerX" id="vIV-S0-mlc"/>
+                                                        <constraint firstItem="jhp-kl-oHK" firstAttribute="centerY" secondItem="0Hn-Zy-bn5" secondAttribute="centerY" id="ziQ-s3-9lO"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -477,6 +494,7 @@
                                             <outlet property="attachmentImageView" destination="0Hn-Zy-bn5" id="85w-bg-eA1"/>
                                             <outlet property="attachmentImageViewHeightConstraint" destination="bjG-nh-Pme" id="mWu-cP-bR9"/>
                                             <outlet property="attachmentImageViewWidthConstraint" destination="rxO-VH-qsd" id="xyr-zo-mSf"/>
+                                            <outlet property="imagesSlider" destination="jhp-kl-oHK" id="r6e-xE-79w"/>
                                             <outlet property="profilePic" destination="zf6-HX-DtE" id="Uld-6t-vv0"/>
                                             <outlet property="tapImageBtn" destination="n3H-CT-vrI" id="QdH-Ad-XO4"/>
                                             <outlet property="userProfileBtn" destination="4tM-28-LCm" id="S3O-fe-9s0"/>

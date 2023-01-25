@@ -172,6 +172,127 @@ class EditProfileViewModel {
         }
     }
     
+    
+    func UpdateUserImages(WithAchedImg attachedImgs:Bool,AndUserImage userImages:[UIImage],completion: @escaping (_ error: String?, _ data: Bool) -> ()) {
+        
+        CancelRequest.currentTask = false
+        let url = URLs.baseURLFirst + "Account/UpdateUserImages"
+        
+        if attachedImgs {
+            
+            var mediaImages:[Media]? = [Media]()
+            
+            for item in userImages {
+                mediaImages?.append(Media(withImage: item, forKey: "files")!)
+//                print(mediaImages?.count)
+            }
+            print(mediaImages!)
+            guard let urlRequest = URL(string: url) else { return }
+            var request = URLRequest(url: urlRequest)
+            request.httpMethod = "POST"
+            let boundary = generateBoundary()
+            
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            request.addValue("Bearer \(Defaults.token)", forHTTPHeaderField: "Authorization")
+            let dataBody = createDataBody(withParameters: nil, media: mediaImages, boundary: boundary)
+            request.httpBody = dataBody
+            
+            print(dataBody as Data)
+            let session = URLSession.shared
+            
+            let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+                
+                let httpResponse = response as? HTTPURLResponse
+                let code  = httpResponse?.statusCode
+                print("statusCode: \(code ?? 0)")
+                print("**MD** response: \(String(describing: response))")
+                
+                if let data = data {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        let valJsonBlock = json as! [String : Any]
+                        guard let userResponse = Mapper<UserImagesModel>().map(JSON: valJsonBlock) else {
+                            completion(self.errorMsg, false)
+                            return
+                        }
+                        
+                        if code == 200 || code == 201 {
+                            if let toAdd = userResponse.data {
+                                completion(nil,toAdd)
+                            }
+                        }else {
+                            if let error = userResponse.message {
+                                print ("Error while fetching data \(error)")
+                                self.errorMsg = error
+                                completion(self.errorMsg,false)
+                            }
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+            })
+            if CancelRequest.currentTask == true {
+                task.cancel()
+            }else {
+                task.resume()
+            }
+        }
+        else {
+            guard let urlRequest = URL(string: url) else { return }
+            var request = URLRequest(url: urlRequest)
+            request.httpMethod = "POST"
+            let boundary = generateBoundary()
+            
+            request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            request.addValue("Bearer \(Defaults.token)", forHTTPHeaderField: "Authorization")
+            let dataBody = createDataBody(withParameters: nil, media: nil, boundary: boundary)
+            request.httpBody = dataBody
+            
+            print(dataBody as Data)
+            let session = URLSession.shared
+            
+            let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+                
+                let httpResponse = response as? HTTPURLResponse
+                let code  = httpResponse?.statusCode
+                print("statusCode: \(code ?? 0)")
+                print("**MD** response: \(String(describing: response))")
+                
+                if let data = data {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data, options: [])
+                        let valJsonBlock = json as! [String : Any]
+                        guard let userResponse = Mapper<UserImagesModel>().map(JSON: valJsonBlock) else {
+                            completion(self.errorMsg, false)
+                            return
+                        }
+                        
+                        if code == 200 || code == 201 {
+                            if let toAdd = userResponse.data {
+                                completion(nil,toAdd)
+                            }
+                        }else {
+                            if let error = userResponse.message {
+                                print ("Error while fetching data \(error)")
+                                self.errorMsg = error
+                                completion(self.errorMsg,false)
+                            }
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+            })
+            if CancelRequest.currentTask == true {
+                task.cancel()
+            }else {
+                task.resume()
+            }
+        }
+    }
+    
+    
     func initProfileCash(user:ProfileObj) {
         Defaults.userName = user.userName
         Defaults.Email = user.email

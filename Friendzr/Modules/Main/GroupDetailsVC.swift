@@ -249,7 +249,7 @@ extension GroupDetailsVC {
         
         let btn2 = UIButton.init(type: .custom)
         btn2.setTitle("Edit".localizedString, for: .normal)
-        btn2.setTitleColor(.blue, for: .normal)
+        btn2.setTitleColor(UIColor.FriendzrColors.primary, for: .normal)
         btn2.titleLabel?.font = UIFont(name: "Montserrat-Medium", size: 14)
         btn2.addTarget(self, action:  #selector(handleEditBtn), for: .touchUpInside)
         let barButton2 = UIBarButtonItem(customView: btn2)
@@ -284,7 +284,7 @@ extension GroupDetailsVC {
         
         let btn2 = UIButton.init(type: .custom)
         btn2.setTitle("Save".localizedString, for: .normal)
-        btn2.setTitleColor(.blue, for: .normal)
+        btn2.setTitleColor(UIColor.FriendzrColors.primary, for: .normal)
         btn2.titleLabel?.font = UIFont(name: "Montserrat-Medium", size: 14)
         btn2.addTarget(self, action:  #selector(handleSaveBtn), for: .touchUpInside)
         let barButton2 = UIBarButtonItem(customView: btn2)

@@ -10,7 +10,6 @@ import SwiftUI
 import ListPlaceholder
 import Network
 import SDWebImage
-
 import GoogleMobileAds
 import AppTrackingTransparency
 import AdSupport

@@ -49,6 +49,7 @@ class FriendObj: NSObject,Mappable {
     var regestdata:String? = ""
     var otherGenderName:String? = ""
     var isSentRequest:Int = 0
+    var userImages:[String] = [String]()
     
     required init?(map: Map) {
     }
@@ -82,5 +83,6 @@ class FriendObj: NSObject,Mappable {
         regestdata    <- map["regestdata"]
         otherGenderName    <- map["otherGenderName"]
         isSentRequest    <- map["isSentRequest"]
+        userImages    <- map["userImages"]
     }
 }

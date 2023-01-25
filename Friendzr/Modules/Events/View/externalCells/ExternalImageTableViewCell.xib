@@ -30,7 +30,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="173"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DN2-Xm-ziO" customClass="ImageSlideshow" customModule="ImageSlideshow">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="198"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="173"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MQv-PQ-ZJq" customClass="GradientView" customModule="Friendzr" customModuleProvider="target">
@@ -54,7 +54,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="DN2-Xm-ziO" secondAttribute="bottom" constant="-25" id="5gf-Vf-eD7"/>
+                            <constraint firstAttribute="bottom" secondItem="DN2-Xm-ziO" secondAttribute="bottom" id="5gf-Vf-eD7"/>
                             <constraint firstAttribute="trailing" secondItem="DN2-Xm-ziO" secondAttribute="trailing" id="73w-Kx-SNw"/>
                             <constraint firstItem="DN2-Xm-ziO" firstAttribute="top" secondItem="nBO-oR-IjD" secondAttribute="top" id="7jV-g3-3Dd"/>
                             <constraint firstAttribute="trailing" secondItem="MQv-PQ-ZJq" secondAttribute="trailing" id="Dqs-IP-tYU"/>

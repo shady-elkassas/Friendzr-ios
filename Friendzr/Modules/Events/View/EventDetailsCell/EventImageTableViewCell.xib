@@ -30,7 +30,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="186"/>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m4O-bj-OSR" customClass="ImageSlideshow" customModule="ImageSlideshow">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="211"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="186"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Veu-v7-ih4" customClass="GradientView" customModule="Friendzr" customModuleProvider="target">
@@ -92,7 +92,7 @@
                     <constraint firstItem="DPf-0G-o2y" firstAttribute="bottom" secondItem="Veu-v7-ih4" secondAttribute="bottom" constant="-10" id="VT4-tx-tul"/>
                     <constraint firstItem="m4O-bj-OSR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="WJD-OU-geB"/>
                     <constraint firstItem="Veu-v7-ih4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="bFN-Mg-vcz"/>
-                    <constraint firstAttribute="bottom" secondItem="m4O-bj-OSR" secondAttribute="bottom" constant="-25" id="bK8-ft-ZVW"/>
+                    <constraint firstAttribute="bottom" secondItem="m4O-bj-OSR" secondAttribute="bottom" id="bK8-ft-ZVW"/>
                     <constraint firstItem="m4O-bj-OSR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="cNn-3M-5S6"/>
                     <constraint firstAttribute="bottom" secondItem="pDL-oI-ozb" secondAttribute="bottom" constant="10" id="l4L-hd-0n5"/>
                     <constraint firstItem="DPf-0G-o2y" firstAttribute="leading" secondItem="pDL-oI-ozb" secondAttribute="trailing" constant="10" id="onA-0I-NoK"/>

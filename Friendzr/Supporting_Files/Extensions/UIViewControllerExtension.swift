@@ -66,11 +66,11 @@ extension UIViewController {
     func initBackColorButton() {
         
         var imageName = ""
-//        if Language.currentLanguage() == "ar" {
+        //        if Language.currentLanguage() == "ar" {
         imageName = "backWhite_icon"
-//        }else {
-//            imageName = "backWhite_icon"
-//        }
+        //        }else {
+        //            imageName = "backWhite_icon"
+        //        }
         
         let button = UIButton.init(type: .custom)
         let image = UIImage.init(named: imageName)
@@ -255,7 +255,7 @@ extension UIViewController {
     }
     
     
-
+    
     @objc func handleSkipBtn(){
         Router().toFeed()
     }
@@ -298,5 +298,39 @@ extension UIViewController {
     
     func hideKeyboard() {
         view.endEditing(true)
+    }
+    
+    
+    func convertToImage(imagURL:String) -> UIImage {
+        var image: UIImage? = UIImage()
+        
+        let imgURL = URL(string: imagURL) ?? URL(string: "jpeg.ly/G2tv")!
+        do {
+            let imgData = try NSData(contentsOf: imgURL, options: NSData.ReadingOptions())
+            image = UIImage(data: imgData as Data)
+        } catch {
+        }
+        
+        return image!
+    }
+    
+    
+    func showToast(message:String, font:UIFont? = UIFont(name: "Montserrat-Medium", size: 12)) {
+        
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-100, width: 150, height: 35))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = font ??  UIFont(name: "Montserrat-Medium", size: 12)
+        toastLabel.textAlignment = .center;
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
+            toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
     }
 }

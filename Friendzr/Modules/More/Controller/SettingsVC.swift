@@ -197,6 +197,8 @@ class SettingsVC: UIViewController {
             Defaults.deleteUserData()
             KeychainItem.deleteUserIdentifierFromKeychain()
             
+            UIApplication.shared.applicationIconBadgeNumber = 0
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 Router().toOptionsSignUpVC(IsLogout: true)
             }

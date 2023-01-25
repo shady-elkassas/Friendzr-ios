@@ -147,7 +147,8 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         setupNavBar()
         
         NotificationCenter.default.addObserver(self, selector: #selector(updateFeeds), name: Notification.Name("updateFeeds"), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateMyLocation), name: Notification.Name("handleUpdateMyLocation"), object: nil)
+
         self.navigationController?.interactivePopGestureRecognizer?.delegate = self
         
         initCompassSwitchBarButton()
@@ -475,6 +476,10 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    @objc func handleUpdateMyLocation() {
+        self.updateMyLocation()
+    }
+    
     //MARK: - Helper
 
     // When the user clicks on the link, he listens here,
@@ -598,7 +603,6 @@ class FeedVC: UIViewController, UIGestureRecognizerDelegate {
                 Router().toMap()
             }
         }
-        
     }
 
     func walkToSceneWithParams(eventID: String,eventType:String) {

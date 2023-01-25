@@ -196,7 +196,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
         imagesSlider.delegate = self
         
         //        imagesSlider.setImageInputs(localSource)
-        imagesSlider.setImageInputs([SDWebImageSource(urlString: Defaults.Image) ?? SDWebImageSource(urlString: "https://images.unsplash.com/photo-1432679963831-2dab49187847?w=1080")!])
+        imagesSlider.setImageInputs([SDWebImageSource(urlString: Defaults.Image) ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!])
         
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
         imagesSlider.addGestureRecognizer(recognizer)
@@ -292,6 +292,7 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
                     
                     // For the purpose of this demo app, delete the user identifier that was previously stored in the keychain.
                     KeychainItem.deleteUserIdentifierFromKeychain()
+                    UIApplication.shared.applicationIconBadgeNumber = 0
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 , execute: {
                         Router().toOptionsSignUpVC(IsLogout: true)
                     })
@@ -338,9 +339,11 @@ extension MoreVC : UITableViewDataSource {
         if indexPath.row == 2 {
             if Defaults.notificationcount == 0 {
                 cell.badgeView.isHidden = true
+                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
             }
             else {
                 cell.badgeLbl.text = "\(Defaults.notificationcount)"
+                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
                 cell.badgeView.isHidden = false
             }
         }
@@ -380,6 +383,7 @@ extension MoreVC : UITableViewDelegate {
                 guard let vc = UIViewController.viewController(withStoryboard: .More, AndContollerID: "NotificationsVC") as? NotificationsVC else {return}
                 UIApplication.shared.applicationIconBadgeNumber = 0
                 Defaults.notificationcount = 0
+                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
                 self.tableView.reloadData()
                 self.navigationController?.pushViewController(vc, animated: true)
             }

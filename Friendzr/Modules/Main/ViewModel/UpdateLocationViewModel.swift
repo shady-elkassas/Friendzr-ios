@@ -67,6 +67,7 @@ class UpdateLocationViewModel {
         Defaults.frindRequestNumber = user.frindRequestNumber
         //        Defaults.isWhiteLable = user.isWhiteLable
         //        Defaults.universityCode = user.universityCode
+        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
         
         Defaults.interestIds.removeAll()
         for itm in user.listoftagsmodel ?? [] {

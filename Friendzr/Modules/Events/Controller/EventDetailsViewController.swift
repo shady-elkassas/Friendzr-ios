@@ -302,7 +302,7 @@ class EventDetailsViewController: UIViewController {
     
     func setupSliderShow(_ cell: EventImageTableViewCell, _ model: EventObj?) {
         cell.imagesSlider.slideshowInterval = 5.0
-        cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .under)
+        cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
         cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
         
         // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
@@ -310,7 +310,7 @@ class EventDetailsViewController: UIViewController {
         cell.imagesSlider.delegate = self
         
         //        imagesSlider.setImageInputs(localSource)
-        cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model?.image ?? "") ?? SDWebImageSource(urlString: "https://images.unsplash.com/photo-1432679963831-2dab49187847?w=1080")!])
+        cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model?.image ?? "") ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!])
     }
     
     //change title for any btns
@@ -347,10 +347,7 @@ extension EventDetailsViewController: UITableViewDataSource {
         
         if indexPath.row == 0 {//image
             guard let cell = tableView.dequeueReusableCell(withIdentifier: eventImgCellId, for: indexPath) as?  EventImageTableViewCell else {return UITableViewCell()}
-            
-//            cell.eventImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
-//            cell.eventImg.sd_setImage(with: URL(string: model?.image ?? ""), placeholderImage: UIImage(named: "placeHolderApp"))
-            
+
             cell.titleLbl.text = model?.title
             cell.categoryLbl.text = model?.categorie
             cell.attendeesLbl.text = "Attendees : ".localizedString + "\(model?.joined ?? 0) / \(model?.totalnumbert ?? 0)"

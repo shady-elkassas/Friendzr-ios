@@ -77,6 +77,7 @@ class UserChatObj: NSObject,Mappable {
     var message_not_Read:Int = 0
     var isCommunityGroup:Bool = false
     var isSendEvent:Bool = false
+    var isWhiteLabel:Bool = false
     
     override init() {
         super.init()
@@ -107,6 +108,7 @@ class UserChatObj: NSObject,Mappable {
         eventtype <- map["eventtype"]
         isCommunityGroup <- map["isCommunityGroup"]
         message_not_Read <- map["message_not_Read"]
+        isWhiteLabel <- map["isWhiteLabel"]
     }
 }
 

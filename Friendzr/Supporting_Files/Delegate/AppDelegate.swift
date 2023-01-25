@@ -111,6 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NotificationCenter.default.addObserver(self, selector: #selector(registrationFCM), name: Notification.Name("registrationFCM"), object: nil)
         
+        Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
         if #available(iOS 10.0, *) {
             let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
@@ -124,7 +125,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             application.registerUserNotificationSettings(settings)
         }
         
-        Messaging.messaging().delegate = self
         application.registerForRemoteNotifications()
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
@@ -169,6 +169,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        if (deepLinkFromAppClip()) {
 //            NSLog("[AFSDK] Deep linking originated from app clip")
 //        }
+        UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
+
         return true
     }
     
@@ -471,7 +473,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         center.add(request, withCompletionHandler: nil)
         
-        NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
     }
@@ -488,10 +489,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Print full message.
         print(userInfo)
-                
-        NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
-        NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
-        NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
+
+        NotificationCenter.default.post(name: Notification.Name("handleUpdateMyLocation"), object: nil, userInfo: nil)
         
         locationManager.startUpdatingLocation()
         Messaging.messaging().appDidReceiveMessage(userInfo)
@@ -516,18 +515,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         switch state {
         case .inactive:
             print("Inactive")
-            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            UIApplication.shared.applicationIconBadgeNumber +=  1
         case .background:
             print("Background")
             // update badge count here
-            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            UIApplication.shared.applicationIconBadgeNumber +=  1
         case .active:
             print("Active")
-            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            UIApplication.shared.applicationIconBadgeNumber +=  1
         default:
             break
         }
     }
+
 }
 
 extension AppDelegate : MessagingDelegate{
@@ -571,6 +571,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             
                 
             let userInfo = response.notification.request.content.userInfo
+            self.userInfoo = userInfo
             Messaging.messaging().appDidReceiveMessage(userInfo)
             let action = userInfo["Action"] as? String //action transaction
             let actionId = userInfo["Action_code"] as? String //userid
@@ -775,6 +776,7 @@ extension AppDelegate: CLLocationManagerDelegate {
                 guard let _ = data else {return}
                 Defaults.LocationLat = "\(location.latitude)"
                 Defaults.LocationLng = "\(location.longitude)"
+                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
             }
         }else {
             Defaults.LocationLat = "\(location.latitude)"
@@ -858,6 +860,7 @@ final class FakeVisit: CLVisit {
 }
 
 extension AppDelegate {
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application, and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -871,6 +874,7 @@ extension AppDelegate {
         
         setupUpdateLocation()
         //        FIRMessaging.messaging().disconnect()
+        print("applicationDidEnterBackground")
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -878,6 +882,8 @@ extension AppDelegate {
         if #available(iOS 9.0, *) {
             locationManager.allowsBackgroundLocationUpdates = true
         }
+        
+        print("applicationWillEnterForeground")
     }
     
     //    func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
@@ -889,10 +895,13 @@ extension AppDelegate {
         application.applicationIconBadgeNumber = 0
         registrationFCM()
         AppsFlyerLib.shared().start()
+        print("applicationDidBecomeActive")
+
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        print("applicationWillTerminate")
     }
     
     func checkLocationPermission() {
@@ -1089,6 +1098,9 @@ extension AppDelegate {
     }
     
     func updateAppWhenPresentNotification(_ action: String?, _ actionId: String?) {
+        
+        NotificationCenter.default.post(name: Notification.Name("handleUpdateMyLocation"), object: nil, userInfo: nil)
+
         if action == "Friend_Request" {
             Defaults.frindRequestNumber += 1
             NotificationCenter.default.post(name: Notification.Name("updatebadgeRequests"), object: nil, userInfo: nil)
@@ -1177,18 +1189,18 @@ extension AppDelegate {
         if action == "user_chat" || action == "event_chat" || action == "user_chatGroup" || action == "Friend_request_cancelled" {
         }
         else {
-            NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
             Defaults.notificationcount = UIApplication.shared.applicationIconBadgeNumber
             NotificationCenter.default.post(name: Notification.Name("updateNotificationBadge"), object: nil, userInfo: nil)
             NotificationCenter.default.post(name: Notification.Name("updatebadgeMore"), object: nil, userInfo: nil)
+            NotificationCenter.default.post(name: Notification.Name("updateBadgeApp"), object: nil, userInfo: nil)
         }
-        
         
         //badge inbox
         if action == "user_chat" ||  action == "event_chat" || action == "user_chatGroup" {
             if Defaults.availableVC != "MessagesVC" || Defaults.ConversationID != actionId {
                 
                 Defaults.message_Count += 1
+                UIApplication.shared.applicationIconBadgeNumber = Defaults.message_Count + Defaults.notificationcount
                 NotificationCenter.default.post(name: Notification.Name("updatebadgeInbox"), object: nil, userInfo: nil)
                 
                 DispatchQueue.main.async {
@@ -1197,7 +1209,9 @@ extension AppDelegate {
             }
         }
     }
+    
     func setupMuteNotification(_ action: String?, _ actionId: String?, _ isMute: String,_ completionHandler: (UNNotificationPresentationOptions) -> Void) {
+        
         if Defaults.pushnotification == false {
             completionHandler([[]])
         }

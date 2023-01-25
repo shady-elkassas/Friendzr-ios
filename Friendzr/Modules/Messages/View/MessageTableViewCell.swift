@@ -7,6 +7,9 @@
 
 import UIKit
 import MapKit
+import ImageSlideshow
+import SDWebImage
+
 
 protocol MessageTableViewCellDelegate: class {
     func messageTableViewCellUpdate()
@@ -53,9 +56,10 @@ class MessageAttachmentTableViewCell: MessageTableViewCell {
     @IBOutlet weak var attachmentDateLbl: UILabel!
     @IBOutlet weak var tapImageBtn: UIButton!
     @IBOutlet weak var userProfileBtn: UIButton!
-
+    @IBOutlet weak var imagesSlider: ImageSlideshow!
+    
     weak var delegate: MessageTableViewCellDelegate?
-
+    var parentVC:UIViewController = UIViewController()
     var HandleTapAttachmentBtn: (() -> ())?
     var HandleProfileBtn: (() -> ())?
 
@@ -66,6 +70,9 @@ class MessageAttachmentTableViewCell: MessageTableViewCell {
         attachmentImageView.contentMode = .scaleAspectFill
         attachmentImageViewHeightConstraint.constant = 250
         attachmentImageViewWidthConstraint.constant = 250
+        
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        imagesSlider.addGestureRecognizer(recognizer)
     }
     
     override func prepareForReuse() {
@@ -74,6 +81,12 @@ class MessageAttachmentTableViewCell: MessageTableViewCell {
         attachmentImageView.image = nil
         attachmentImageViewHeightConstraint.constant = 250
         attachmentImageViewWidthConstraint.constant = 250
+    }
+    
+    @objc func didTap() {
+        let fullScreenController = imagesSlider.presentFullScreenController(from: parentVC)
+        fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .medium, color: nil)
+        print("Did Tap")
     }
     
     override func layoutSubviews() {
@@ -87,7 +100,6 @@ class MessageAttachmentTableViewCell: MessageTableViewCell {
     @IBAction func userProfileBtn(_ sender: Any) {
         HandleProfileBtn?()
     }
-    
 }
 
 class ShareLocationTableViewCell: UITableViewCell {

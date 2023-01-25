@@ -68,6 +68,7 @@ class ProfileObj: Mappable {
         message_Count <- map["message_Count"]
         isWhiteLable <- map["isWhiteLable"]
         universityCode <- map["universityCode"]
+        userImages <- map["userImages"]
     }
     
     
@@ -105,4 +106,24 @@ class ProfileObj: Mappable {
     var message_Count:Int = 0
     var isWhiteLable:Bool = false
     var universityCode:String = ""
+    var userImages:[String] = [String]()
+}
+
+
+class UserImagesModel: Mappable {
+    
+    var isSuccessful: Bool? = false
+    var message: String? = ""
+    var data: Bool? = false
+    var status:Int? = 0
+
+    required init?(map: Map) {
+    }
+    // Mappable
+    func mapping(map: Map) {
+        data    <- map["model"]
+        isSuccessful   <- map["isSuccessful"]
+        message  <- map["message"]
+        status  <- map["status"]
+    }
 }

@@ -13,7 +13,7 @@ import AVKit
 import ListPlaceholder
 import SwiftUI
 import SDWebImage
-//import MSImagePickerSheetController
+import ImageSlideshow
 import Photos
 import ListPlaceholder
 import MapKit
@@ -75,6 +75,7 @@ class MessagesVC: UIViewController {
     
     var isCommunityGroup:Bool = false
     var fileUpload = ""
+    var isUserWhiteLabel:Bool = false
     
     var messageTableViewViewBottomInset: CGFloat = 0 {
         didSet {
@@ -208,7 +209,35 @@ class MessagesVC: UIViewController {
     }
     
     //MARK: - Setup Messages
+    func setupImageShow(_ cell: MessageAttachmentTableViewCell, _ model: MessageImage) {
+        cell.imagesSlider.slideshowInterval = 5.0
+        cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
+        cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
+        
+        // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
+        cell.imagesSlider.activityIndicator = DefaultActivityIndicator()
+        cell.imagesSlider.delegate = self
+        if model.image == "" {
+            cell.imagesSlider.setImageInputs([ImageSource(image: model.imageView)])
+        }else {
+            cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model.image) ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!])
+        }
+    }
     
+    func setupFileShow(_ cell: MessageAttachmentTableViewCell, _ model: MessageFile) {
+        cell.imagesSlider.slideshowInterval = 5.0
+        cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
+        cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
+        
+        // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
+        cell.imagesSlider.activityIndicator = DefaultActivityIndicator()
+        cell.imagesSlider.delegate = self
+        if model.file == "" {
+            cell.imagesSlider.setImageInputs([ImageSource(image: model.fileView)])
+        }else {
+            cell.imagesSlider.setImageInputs([SDWebImageSource(urlString: model.file) ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!])
+        }
+    }
     
     func substring(string: String, fromIndex: Int, toIndex: Int) -> String? {
         if fromIndex < toIndex && toIndex < string.count /*use string.characters.count for swift3*/{
@@ -548,14 +577,14 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
             cell.messageDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
             
+            
+            
             cell.HandleUserProfileBtn = {
-//                if !Defaults.isWhiteLable {
                     if !model.sender.isWhitelabel {
                         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                         vc.userID = model.sender.senderId
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
-//                }
             }
             
             return cell
@@ -564,60 +593,53 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: model.sender.senderId == Defaults.token ? "MessageAttachmentTableViewCell" : "UserMessageAttachmentTableViewCell") as! MessageAttachmentTableViewCell
             
             cell.attachmentImageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+
+//            if model.messageImage.image == "" {
+//                cell.attachmentImageView.image = model.messageImage.imageView
+//            }
+//            else {
+//                cell.attachmentImageView.sd_setImage(with: URL(string: model.messageImage.image), placeholderImage: UIImage(named: "placeHolderApp"))
+//            }
+            cell.imagesSlider.isHidden = false
+            cell.attachmentImageView.isHidden = true
+            cell.tapImageBtn.isHidden = true
+            setupImageShow(cell, model.messageImage)
             
-            if model.messageImage.image == "" {
-                cell.attachmentImageView.image = model.messageImage.imageView
-            }
-            else {
-                cell.attachmentImageView.sd_setImage(with: URL(string: model.messageImage.image), placeholderImage: UIImage(named: "placeHolderApp"))
-            }
-            
+            cell.parentVC = self
             cell.profilePic?.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
             
             cell.attachmentDateLbl.text = self.messageDateTime(date: model.messageDate, time: model.messageTime)
             
             cell.HandleProfileBtn = {
-//                if !Defaults.isWhiteLable {
                     if !model.sender.isWhitelabel {
                         guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
                         vc.userID = model.sender.senderId
                         self.navigationController?.pushViewController(vc, animated: true)
                     }
-//                }
             }
             
             cell.attachmentContainerView.setBorder()
             
             cell.HandleTapAttachmentBtn = {
-                if model.messageType == 2 {
-                    guard let popupVC = UIViewController.viewController(withStoryboard: .Main, AndContollerID: "ShowImageVC") as? ShowImageVC else {return}
-                    popupVC.modalPresentationStyle = .overCurrentContext
-                    popupVC.modalTransitionStyle = .crossDissolve
-                    let pVC = popupVC.popoverPresentationController
-                    pVC?.permittedArrowDirections = .any
-                    pVC?.delegate = self
-                    pVC?.sourceRect = CGRect(x: 100, y: 100, width: 1, height: 1)
-                    
-                    if model.messageImage.image == "" {
-                        return
-                    }
-                    else {
-                        popupVC.imgURL = model.messageImage.image
-                    }
-                    
-                    self.present(popupVC, animated: true, completion: nil)
-                }
+                
             }
             return cell
         }
         else if model.messageType == 3 { //file
             let cell = tableView.dequeueReusableCell(withIdentifier: model.sender.senderId == Defaults.token ? "MessageAttachmentTableViewCell" : "UserMessageAttachmentTableViewCell") as! MessageAttachmentTableViewCell
+            
+            cell.imagesSlider.isHidden = true
+            cell.attachmentImageView.isHidden = false
+            cell.tapImageBtn.isHidden = false
+
             if model.messageFile.file == "" {
                 cell.attachmentImageView.image = model.messageFile.fileView
             }else {
                 cell.attachmentImageView.sd_setImage(with: URL(string: model.messageFile.file), placeholderImage: UIImage(named: "placeHolderApp"))
             }
+            
+//            setupFileShow(cell, model.messageFile)
             
             cell.profilePic?.sd_imageIndicator = SDWebImageActivityIndicator.gray
             cell.profilePic?.sd_setImage(with: URL(string: model.sender.photoURL), placeholderImage: UIImage(named: "placeHolderApp"))
@@ -626,13 +648,11 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             cell.attachmentContainerView.setBorder()
             
             cell.HandleProfileBtn = {
-//                if !Defaults.isWhiteLable {
-                    if !model.sender.isWhitelabel {
-                        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
-                        vc.userID = model.sender.senderId
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
-//                }
+                if !model.sender.isWhitelabel {
+                    guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "FriendProfileViewController") as? FriendProfileViewController else {return}
+                    vc.userID = model.sender.senderId
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
             }
             
             cell.HandleTapAttachmentBtn = {
@@ -1350,19 +1370,15 @@ extension MessagesVC {
                 if self.leaveGroup == 0 {
                     btn.addTarget(self, action: #selector(goToGroupVC), for: .touchUpInside)
                 }
-            }else {
-                if Defaults.isWhiteLable {
+            }
+            else {
+                if Defaults.isWhiteLable || !isUserWhiteLabel {
                     btn.addTarget(self, action: #selector(goToUserProfileVC), for: .touchUpInside)
-                }else {
-//                    if self.isFriend == true {
-                        btn.addTarget(self, action: #selector(goToUserProfileVC), for: .touchUpInside)
-//                    }
                 }
             }
         }
         
         titleView.addSubview(btn)
-        
         navigationItem.titleView = titleView
     }
     
@@ -2160,5 +2176,11 @@ extension MessagesVC {
         self.view.backgroundColor = .white
         navigationController?.navigationBar.layoutIfNeeded()
         self.view.layoutIfNeeded()
+    }
+}
+
+extension MessagesVC: ImageSlideshowDelegate {
+    func imageSlideshow(_ imageSlideshow: ImageSlideshow, didChangeCurrentPageTo page: Int) {
+        print("current page:", page)
     }
 }

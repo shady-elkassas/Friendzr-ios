@@ -60,6 +60,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var ProcessingLbl: UILabel!
     @IBOutlet weak var universalCodeView: UIView!
     @IBOutlet weak var universalCodeTxt: UITextField!
+    @IBOutlet weak var additionalPhotoBtn: UIButton!
+    @IBOutlet weak var additionalPhotoBtnView: UIView!
     
     //MARK: - Properties
     lazy var logoutAlertView = Bundle.main.loadNibNamed("BlockAlertView", owner: self, options: nil)?.first as? BlockAlertView
@@ -122,6 +124,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     
     var checkoutName:String = ""
 
+    var profileImages:[UIImage] = [UIImage]()
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -160,9 +164,11 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         if needUpdateVC == true {
             logoutBtn.isHidden = false
             initCloseApp()
+//            additionalPhotoBtnView.isHidden = true
         }else {
             logoutBtn.isHidden = true
             initBackButton()
+//            additionalPhotoBtnView.isHidden = false
         }
         
         CancelRequest.currentTask = false
@@ -175,6 +181,7 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     override func viewWillDisappear(_ animated: Bool) {
         self.hideLoading()
         CancelRequest.currentTask = true
+
     }
     
     //MARK: - APIs
@@ -233,7 +240,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         }
     }
     
-    
     //MARK: - Helpers
     func updateUserInterface() {
         appDelegate.networkReachability()
@@ -282,8 +288,8 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
     }
     
     func setup() {
-        //        saveBtn.cornerRadiusView(radius: 8)
         nameView.cornerRadiusView(radius: 8)
+        additionalPhotoBtn.cornerRadiusView(radius: 8)
         dateView.cornerRadiusView(radius: 8)
         bioTxtView.cornerRadiusView(radius: 8)
         universalCodeView.cornerRadiusView(radius: 8)
@@ -293,7 +299,6 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
         aboutMeView.cornerRadiusView(radius: 8)
         otherGenderSubView.cornerRadiusView(radius: 8)
         logoutBtn.cornerRadiusView(radius: 8)
-        
         logoutBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
         
         profileImg.cornerRadiusForHeight()
@@ -495,9 +500,18 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
                 genderString = "other"
             }
             
+            self.profileImages.removeAll()
+            for item in profileModel?.userImages ?? [] {
+                profileImages.append(convertToImage(imagURL: item))
+            }
         }
     }
     
+    func onAdditionalPhotosCallBack(_ data: [UIImage], _ value: [String]) -> () {
+        print("self.profileImages.cout \(self.profileImages.count)")
+        self.profileImages = data
+    }
+
     func OnInterestsCallBack(_ data: [String], _ value: [String]) -> () {
         print(data, value)
         
@@ -981,6 +995,13 @@ class EditMyProfileVC: UIViewController,UIPopoverPresentationControllerDelegate 
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
+    @IBAction func additionalPhotoBtn(_ sender: Any) {
+        guard let vc = UIViewController.viewController(withStoryboard: .Profile, AndContollerID: "AddEditProfileImagesVC") as? AddEditProfileImagesVC else {return}
+        vc.onAdditionalPhotosCallBackResponse = self.onAdditionalPhotosCallBack
+        vc.profileImages = self.profileImages
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 //MARK: - Extensions UIImagePickerControllerDelegate && UINavigationControllerDelegate
@@ -1123,7 +1144,6 @@ extension EditMyProfileVC : TagListViewDelegate {
 
 extension EditMyProfileVC {
     func initCloseApp() {
-        
         var imageName = ""
         imageName = "back_icon"
         let button = UIButton.init(type: .custom)
@@ -1219,27 +1239,64 @@ extension EditMyProfileVC {
             print("executionTimeWithSuccess-edit \(executionTimeWithSuccessFeed2) second")
 
             guard let _ = data else {return}
-            DispatchQueue.main.async {
-                if Defaults.isWhiteLable {
-                    Router().toInbox()
-                }else {
-                    if Defaults.needUpdate == 1 {
+            
+            if self.profileImages.count != 0 {
+                self.viewmodel.UpdateUserImages(WithAchedImg: true, AndUserImage: self.profileImages) { error, data in
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.view.makeToast(error)
+                        }
                         return
-                    } else {
-                        if Defaults.isFirstLogin == false {//toprofile
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                self.onPopup()
+                    }
+                    
+                    guard data != nil else {return}
+                    
+                    DispatchQueue.main.async {
+                        if Defaults.isWhiteLable {
+                            Router().toInbox()
+                        }else {
+                            if Defaults.needUpdate == 1 {
+                                return
+                            } else {
+                                if Defaults.isFirstLogin == false {//toprofile
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                        self.onPopup()
+                                    }
+                                }
+                                else if Defaults.isFirstLogin == true {//tofeed if socail media login
+                                    Router().toFeed()
+                                }
+                                else {//to login
+                                    Router().toOptionsSignUpVC(IsLogout: true)
+                                }
                             }
-                        }
-                        else if Defaults.isFirstLogin == true {//tofeed if socail media login
-                            Router().toFeed()
-                        }
-                        else {//to login
-                            Router().toOptionsSignUpVC(IsLogout: true)
                         }
                     }
                 }
 
+            }
+            else {
+                DispatchQueue.main.async {
+                    if Defaults.isWhiteLable {
+                        Router().toInbox()
+                    }else {
+                        if Defaults.needUpdate == 1 {
+                            return
+                        } else {
+                            if Defaults.isFirstLogin == false {//toprofile
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    self.onPopup()
+                                }
+                            }
+                            else if Defaults.isFirstLogin == true {//tofeed if socail media login
+                                Router().toFeed()
+                            }
+                            else {//to login
+                                Router().toOptionsSignUpVC(IsLogout: true)
+                            }
+                        }
+                    }
+                }
             }
         }
     }

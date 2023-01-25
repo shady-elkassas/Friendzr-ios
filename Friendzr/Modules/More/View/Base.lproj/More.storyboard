@@ -67,14 +67,13 @@
                                 <rect key="frame" x="207" y="92" width="0.0" height="0.0"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="90X-R9-2q9" customClass="ImageSlideshow" customModule="ImageSlideshow">
-                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="90X-R9-2q9" firstAttribute="leading" secondItem="m29-v9-K82" secondAttribute="leading" id="1vJ-YH-UX7"/>
-                                    <constraint firstAttribute="bottom" secondItem="90X-R9-2q9" secondAttribute="bottom" constant="-30" id="2xN-li-5Oi"/>
+                                    <constraint firstAttribute="bottom" secondItem="90X-R9-2q9" secondAttribute="bottom" id="2xN-li-5Oi"/>
                                     <constraint firstAttribute="trailing" secondItem="90X-R9-2q9" secondAttribute="trailing" id="6je-j7-PuF"/>
                                     <constraint firstAttribute="width" id="8Th-P3-1zc"/>
                                     <constraint firstAttribute="height" id="Apw-WP-fjS"/>

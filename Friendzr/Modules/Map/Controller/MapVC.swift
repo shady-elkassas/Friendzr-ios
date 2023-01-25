@@ -632,8 +632,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         let imageView:UIImageView = UIImageView()
         
         if isWhiteLabel == true {
-            imageView.sd_imageIndicator = SDWebImageActivityIndicator.gray
-            imageView.sd_setImage(with: URL(string: iconMarker), placeholderImage: UIImage(named: "placeHolderApp"))
+            imageView.image = convertToImage(imagURL: iconMarker)
         }else {
             imageView.image = UIImage(named: iconMarker)
         }
@@ -1111,6 +1110,20 @@ extension MapVC : GMSMapViewDelegate {
         }
     }
     
+    fileprivate func getEventsByMarkerLocation(_ pos: CLLocationCoordinate2D?) {
+        viewmodel.getEventsByLoction(lat: (pos?.latitude ?? 0.0), lng: (pos?.longitude ?? 0.0))
+        viewmodel.events.bind { [weak self] value in
+            
+            DispatchQueue.main.async {
+                self?.eventsTableView.delegate = self
+                self?.eventsTableView.dataSource = self
+                self?.eventsTableView.reloadData()
+                
+                self?.sliderEventList = value
+            }
+        }
+    }
+    
     func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
         if NetworkConected.internetConect {
             var pos: CLLocationCoordinate2D? = nil
@@ -1151,7 +1164,9 @@ extension MapVC : GMSMapViewDelegate {
                             self.eventsTableView.reloadData()
                         }
                         
-                        CreateSlideUpMenu()
+//                        self.getEventsByMarkerLocation(pos)
+                        
+                        self.CreateSlideUpMenu()
                     }
                 }
                 else {

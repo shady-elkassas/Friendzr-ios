@@ -701,7 +701,6 @@ class Defaults {
         defaults.removeObject(forKey: "message_Count")
         defaults.removeObject(forKey: "isWhiteLable")
         defaults.removeObject(forKey: "universityCode")
-
         defaults.removeObject(forKey: "userName_MaxLength")
         defaults.removeObject(forKey: "userName_MinLength")
         defaults.removeObject(forKey: "userIAM_MaxLength")
