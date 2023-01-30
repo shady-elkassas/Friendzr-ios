@@ -390,10 +390,153 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cab-aE-geA">
-                                        <rect key="frame" x="0.0" y="663" width="414" height="102"/>
+                                        <rect key="frame" x="0.0" y="513" width="414" height="252"/>
                                         <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter events by category " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Odk-hg-9Z8">
+                                                <rect key="frame" x="20" y="12" width="156.5" height="15"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter events by date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WVD-yE-baX">
+                                                <rect key="frame" x="20" y="51" width="126" height="15"/>
+                                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fmm-Z5-ySJ">
+                                                <rect key="frame" x="19" y="39" width="376" height="0.0"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" id="P08-0Y-Bgk"/>
+                                                </constraints>
+                                                <collectionViewLayout key="collectionViewLayout" id="ir4-ge-ngn" customClass="TagsLayout" customModule="Friendzr" customModuleProvider="target"/>
+                                                <cells/>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="Y6W-OH-hqX" id="Qw2-T5-sti"/>
+                                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="bXb-mC-RYJ"/>
+                                                </connections>
+                                            </collectionView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="WYI-YM-okh">
+                                                <rect key="frame" x="20" y="78" width="374" height="30"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dFM-sA-bPn">
+                                                        <rect key="frame" x="0.0" y="0.0" width="111.5" height="30"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Today">
+                                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="todayBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="pQH-GW-IiZ"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZF-dL-zYB">
+                                                        <rect key="frame" x="131.5" y="0.0" width="111" height="30"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="This Week">
+                                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="thisWeekBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="gvS-8J-bYa"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eaz-TX-GzZ">
+                                                        <rect key="frame" x="262.5" y="0.0" width="111.5" height="30"/>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="This Month">
+                                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="thisMonthBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="wns-jG-FHy"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="drb-mB-vzK"/>
+                                                </constraints>
+                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UjG-fb-Y15">
+                                                <rect key="frame" x="20" y="120" width="111.5" height="30"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="bXJ-P9-LLk"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="12"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Custom">
+                                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="customBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="gNj-uO-EH9"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EQf-4w-agr">
+                                                <rect key="frame" x="141.5" y="120" width="210" height="30"/>
+                                                <subviews>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Nsw-V7-upz">
+                                                        <rect key="frame" x="0.0" y="0.0" width="210" height="30"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z8a-nk-EFe">
+                                                                <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
+                                                                <subviews>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Start Date" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jj3-pW-Dco">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
+                                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                    </textField>
+                                                                </subviews>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <constraints>
+                                                                    <constraint firstItem="Jj3-pW-Dco" firstAttribute="leading" secondItem="z8a-nk-EFe" secondAttribute="leading" id="4tE-p3-0fO"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="Jj3-pW-Dco" secondAttribute="trailing" id="8La-VY-vAT"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="Jj3-pW-Dco" secondAttribute="bottom" id="Mqj-nT-ffX"/>
+                                                                    <constraint firstItem="Jj3-pW-Dco" firstAttribute="top" secondItem="z8a-nk-EFe" secondAttribute="top" id="rYL-mV-zTn"/>
+                                                                    <constraint firstAttribute="width" constant="100" id="x4Q-0y-0hg"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gMY-J8-L4j">
+                                                                <rect key="frame" x="110" y="0.0" width="100" height="30"/>
+                                                                <subviews>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Start Date" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4YN-C1-Kpf">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
+                                                                        <fontDescription key="fontDescription" name="Montserrat-Medium" family="Montserrat" pointSize="12"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                    </textField>
+                                                                </subviews>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="bottom" secondItem="4YN-C1-Kpf" secondAttribute="bottom" id="3vo-Gy-uTZ"/>
+                                                                    <constraint firstItem="4YN-C1-Kpf" firstAttribute="top" secondItem="gMY-J8-L4j" secondAttribute="top" id="GAu-YO-by4"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="4YN-C1-Kpf" secondAttribute="trailing" id="GXi-nz-v9M"/>
+                                                                    <constraint firstItem="4YN-C1-Kpf" firstAttribute="leading" secondItem="gMY-J8-L4j" secondAttribute="leading" id="kp1-Tl-5mi"/>
+                                                                </constraints>
+                                                            </view>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="30" id="LSS-jx-jBi"/>
+                                                        </constraints>
+                                                    </stackView>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="Nsw-V7-upz" secondAttribute="trailing" id="0Wz-Ig-pqA"/>
+                                                    <constraint firstItem="Nsw-V7-upz" firstAttribute="leading" secondItem="EQf-4w-agr" secondAttribute="leading" id="52S-g8-AZH"/>
+                                                    <constraint firstItem="Nsw-V7-upz" firstAttribute="top" secondItem="EQf-4w-agr" secondAttribute="top" id="iie-Mp-gaW"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Nsw-V7-upz" secondAttribute="bottom" id="nz6-r1-Xbd"/>
+                                                </constraints>
+                                            </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MtW-VZ-XWz">
-                                                <rect key="frame" x="138" y="30" width="138" height="42"/>
+                                                <rect key="frame" x="138" y="180" width="138" height="42"/>
                                                 <color key="backgroundColor" name="primaryColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="42" id="0Zw-Va-QDk"/>
@@ -407,27 +550,26 @@
                                                     <action selector="applyBtn:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Rjc-5J-fnx"/>
                                                 </connections>
                                             </button>
-                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fmm-Z5-ySJ">
-                                                <rect key="frame" x="19" y="10" width="376" height="0.0"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" id="P08-0Y-Bgk"/>
-                                                </constraints>
-                                                <collectionViewLayout key="collectionViewLayout" id="ir4-ge-ngn" customClass="TagsLayout" customModule="Friendzr" customModuleProvider="target"/>
-                                                <cells/>
-                                                <connections>
-                                                    <outlet property="dataSource" destination="Y6W-OH-hqX" id="Qw2-T5-sti"/>
-                                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="bXb-mC-RYJ"/>
-                                                </connections>
-                                            </collectionView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
-                                            <constraint firstItem="MtW-VZ-XWz" firstAttribute="top" secondItem="fmm-Z5-ySJ" secondAttribute="bottom" constant="20" id="0XL-D9-0Bs"/>
+                                            <constraint firstItem="EQf-4w-agr" firstAttribute="leading" secondItem="UjG-fb-Y15" secondAttribute="trailing" constant="10" id="0k1-wv-a7r"/>
+                                            <constraint firstItem="UjG-fb-Y15" firstAttribute="leading" secondItem="WYI-YM-okh" secondAttribute="leading" id="5KA-f5-Pcj"/>
+                                            <constraint firstItem="WYI-YM-okh" firstAttribute="top" secondItem="WVD-yE-baX" secondAttribute="bottom" constant="12" id="GAv-Xo-JRg"/>
+                                            <constraint firstItem="Odk-hg-9Z8" firstAttribute="top" secondItem="cab-aE-geA" secondAttribute="top" constant="12" id="LPT-Ra-Vwx"/>
                                             <constraint firstAttribute="trailing" secondItem="fmm-Z5-ySJ" secondAttribute="trailing" constant="19" id="LWh-GP-0Rg"/>
-                                            <constraint firstItem="fmm-Z5-ySJ" firstAttribute="top" secondItem="cab-aE-geA" secondAttribute="top" constant="10" id="LZc-CM-mji"/>
+                                            <constraint firstItem="UjG-fb-Y15" firstAttribute="width" secondItem="dFM-sA-bPn" secondAttribute="width" id="MBZ-ic-Yyl"/>
+                                            <constraint firstItem="WVD-yE-baX" firstAttribute="top" secondItem="fmm-Z5-ySJ" secondAttribute="bottom" constant="12" id="P3x-25-CYI"/>
                                             <constraint firstItem="MtW-VZ-XWz" firstAttribute="centerX" secondItem="cab-aE-geA" secondAttribute="centerX" id="PxA-SV-iYS"/>
+                                            <constraint firstItem="WVD-yE-baX" firstAttribute="leading" secondItem="cab-aE-geA" secondAttribute="leading" constant="20" id="V1h-Q8-y4V"/>
+                                            <constraint firstItem="Odk-hg-9Z8" firstAttribute="leading" secondItem="cab-aE-geA" secondAttribute="leading" constant="20" id="V2S-2V-yTz"/>
                                             <constraint firstItem="MtW-VZ-XWz" firstAttribute="width" secondItem="cab-aE-geA" secondAttribute="width" multiplier="1:3" id="W3i-da-fYR"/>
+                                            <constraint firstItem="EQf-4w-agr" firstAttribute="centerY" secondItem="UjG-fb-Y15" secondAttribute="centerY" id="ZS3-WV-1rN"/>
+                                            <constraint firstItem="fmm-Z5-ySJ" firstAttribute="top" secondItem="Odk-hg-9Z8" secondAttribute="bottom" constant="12" id="ezG-If-kkB"/>
+                                            <constraint firstItem="UjG-fb-Y15" firstAttribute="top" secondItem="WYI-YM-okh" secondAttribute="bottom" constant="12" id="fYA-Pe-No9"/>
+                                            <constraint firstAttribute="trailing" secondItem="WYI-YM-okh" secondAttribute="trailing" constant="20" id="q2b-Hl-wOg"/>
+                                            <constraint firstItem="MtW-VZ-XWz" firstAttribute="top" secondItem="EQf-4w-agr" secondAttribute="bottom" constant="30" id="rME-sQ-rpC"/>
+                                            <constraint firstItem="WYI-YM-okh" firstAttribute="leading" secondItem="cab-aE-geA" secondAttribute="leading" constant="20" id="t21-0O-7JQ"/>
                                             <constraint firstItem="fmm-Z5-ySJ" firstAttribute="leading" secondItem="cab-aE-geA" secondAttribute="leading" constant="19" id="vHr-OY-pBG"/>
                                             <constraint firstAttribute="bottom" secondItem="MtW-VZ-XWz" secondAttribute="bottom" constant="30" id="xbB-ft-Dje"/>
                                         </constraints>
@@ -600,6 +742,10 @@
                         <outlet property="collectionView" destination="9VD-SG-N5s" id="9c0-C6-zz4"/>
                         <outlet property="collectionViewHeight" destination="b2d-8e-jzV" id="GB0-T5-4GF"/>
                         <outlet property="currentLocationBtn" destination="Erl-g5-LHz" id="kVF-Lh-oW4"/>
+                        <outlet property="customBtn" destination="UjG-fb-Y15" id="BXr-uF-5xZ"/>
+                        <outlet property="dateView" destination="EQf-4w-agr" id="l9L-qX-mnN"/>
+                        <outlet property="endDateTxt" destination="4YN-C1-Kpf" id="RBi-wa-6gM"/>
+                        <outlet property="endDateView" destination="gMY-J8-L4j" id="rFc-Ll-uND"/>
                         <outlet property="fakeAddEventBtn" destination="crd-BU-le9" id="sZq-L3-KvT"/>
                         <outlet property="filterDialogueLbl" destination="c6u-GD-6PG" id="7O7-Bj-EKU"/>
                         <outlet property="goAddEventBtn" destination="FgW-BM-DOW" id="Db3-fT-2eS"/>
@@ -621,8 +767,13 @@
                         <outlet property="showAddEventExplainedView" destination="b8F-Wr-fAL" id="HXF-6N-ffD"/>
                         <outlet property="showFilterExplainedView" destination="vDN-YU-jFp" id="s2p-bN-Bvw"/>
                         <outlet property="showNearByEventsExplainedView" destination="f81-Sc-Bbl" id="wvj-tG-Ajt"/>
+                        <outlet property="startDateTxt" destination="Jj3-pW-Dco" id="qoO-iH-faa"/>
+                        <outlet property="startDateView" destination="z8a-nk-EFe" id="LSe-fJ-wvk"/>
                         <outlet property="subView" destination="wUG-6d-BKB" id="SHh-dr-scR"/>
                         <outlet property="subViewHeight" destination="vsw-T0-lGF" id="Szl-Z0-A8j"/>
+                        <outlet property="thisMonthBtn" destination="eaz-TX-GzZ" id="M23-px-IZq"/>
+                        <outlet property="thisWeekBtn" destination="UZF-dL-zYB" id="UWs-Cu-b0K"/>
+                        <outlet property="todayBtn" destination="dFM-sA-bPn" id="e0L-pn-dwX"/>
                         <outlet property="topContainerView" destination="6Ik-au-9Lj" id="CmH-PC-rt6"/>
                         <outlet property="upDownBtn" destination="FTg-wr-6YI" id="7aM-NL-tab"/>
                         <outlet property="upDownViewBtn" destination="FTg-wr-6YI" id="3S9-4t-MoF"/>

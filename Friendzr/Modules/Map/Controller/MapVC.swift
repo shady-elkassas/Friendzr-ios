@@ -149,9 +149,22 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     
     
+    @IBOutlet weak var todayBtn: UIButton!
+    @IBOutlet weak var thisWeekBtn: UIButton!
+    @IBOutlet weak var thisMonthBtn: UIButton!
+    @IBOutlet weak var customBtn: UIButton!
+    @IBOutlet weak var dateView: UIView!
+    @IBOutlet weak var startDateView: UIView!
+    @IBOutlet weak var endDateView: UIView!
+    @IBOutlet weak var startDateTxt: UITextField!
+    @IBOutlet weak var endDateTxt: UITextField!
+    
+    
+    
     //MARK: - Properties
     lazy var showAlertView = Bundle.main.loadNibNamed("MapAlertView", owner: self, options: nil)?.first as? MapAlertView
-    
+    lazy var dateAlertView = Bundle.main.loadNibNamed("EventCalendarView", owner: self, options: nil)?.first as? EventCalendarView
+
     var locations:[EventsLocation] = [EventsLocation]()
     var location: CLLocationCoordinate2D? = nil
     let locationManager = CLLocationManager()
@@ -189,7 +202,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     var switchFilterButton: CustomSwitch = CustomSwitch()
     var iconMarker = ""
-
+    
     private var layout: UICollectionViewFlowLayout!
     
     var currentPage : Int = 1
@@ -200,7 +213,14 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     var pepoleLocations = [CLLocationCoordinate2D]()
     
-    
+    var dateTypeSelected = ""
+    let datePicker1 = UIDatePicker()
+    let datePicker2 = UIDatePicker()
+    var startDate = ""
+    var endDate = ""
+    var minimumDate:Date = Date()
+    var maximumDate:Date = Date()
+
     private lazy var paginationManager: HorizontalPaginationManager = {
         let manager = HorizontalPaginationManager(scrollView: self.collectionView)
         manager.delegate = self
@@ -210,7 +230,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     private var isDragging: Bool {
         return self.collectionView.isDragging
     }
-
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -228,7 +248,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         isViewUp = false
     }
     
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -236,7 +256,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         
         initFilterBarButton()
         
-//        checkDeepLinkDirection()
+        //        checkDeepLinkDirection()
         
         CancelRequest.currentTask = false
         
@@ -271,7 +291,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
     }
     
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         
         collectionViewHeight.constant = 0
@@ -294,7 +314,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     
     //MARK: - APIs
     func getEventsOnlyAroundMe(pageNumber:Int) {
-        let startDate = Date()
+        let startDatee = Date()
         
         self.subView.isHidden = false
         self.upDownViewBtn.isHidden = false
@@ -308,7 +328,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         self.hideCollectionView.showLoader()
-        viewmodel.getAllEventsOnlyAroundMe(ByCatIds: catIDs, pageNumber: pageNumber)
+        viewmodel.getAllEventsOnlyAroundMe(ByCatIds: catIDs, pageNumber: pageNumber, dateCriteria: dateTypeSelected, startDate: startDateTxt.text!, endDate: endDateTxt.text!)
         viewmodel.eventsOnlyMe.bind { [weak self] value in
             
             DispatchQueue.main.async {
@@ -329,7 +349,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                         self?.isLoadingList = false
                     }
                     
-                    let executionTimeWithSuccess41 = Date().timeIntervalSince(startDate)
+                    let executionTimeWithSuccess41 = Date().timeIntervalSince(startDatee)
                     print("executionTimeWithSuccess41 \(executionTimeWithSuccess41) second")
                 }
             }
@@ -344,19 +364,19 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func bindToModel() {
-        let startDate = Date()
+        let startDatee = Date()
         
-        viewmodel.getAllEventsAroundMe(ByCatIds: catIDs)
-        let executionTimeWithSuccess40 = Date().timeIntervalSince(startDate)
+        viewmodel.getAllEventsAroundMe(ByCatIds: catIDs, dateCriteria: dateTypeSelected, startDate: startDateTxt.text!, endDate: endDateTxt.text!)
+        let executionTimeWithSuccess40 = Date().timeIntervalSince(startDatee)
         print("executionTimeWithSuccess40 \(executionTimeWithSuccess40) second")
-
+        
         viewmodel.locations.bind { [weak self] value in
-            let executionTimeWithSuccess43 = Date().timeIntervalSince(startDate)
+            let executionTimeWithSuccess43 = Date().timeIntervalSince(startDatee)
             print("executionTimeWithSuccess43 \(executionTimeWithSuccess43) second")
-
+            
             DispatchQueue.main.async {
                 
-                let executionTimeWithSuccess45 = Date().timeIntervalSince(startDate)
+                let executionTimeWithSuccess45 = Date().timeIntervalSince(startDatee)
                 print("executionTimeWithSuccess45 \(executionTimeWithSuccess45) second")
                 
                 DispatchQueue.main.async {
@@ -371,7 +391,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
                     }
                 }
                 
-                let executionTimeWithSuccess46 = Date().timeIntervalSince(startDate)
+                let executionTimeWithSuccess46 = Date().timeIntervalSince(startDatee)
                 print("executionTimeWithSuccess46 \(executionTimeWithSuccess46) second")
             }
         }
@@ -490,7 +510,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         print("Reachable:", Network.reachability.isReachable)
         print("Wifi:", Network.reachability.isReachableViaWiFi)
     }
-
+    
     //MARK: - Helpers
     
     func setupAds() {
@@ -534,15 +554,15 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         subViewHeight.constant = 50
     }
     
-
+    
     // locations markers
     func setupMarkers(model:EventsAroundList) {
         
         locations.removeAll()
         
-//        pepoleLocations.removeAll()
-//        self.generateLocs()
-
+        //        pepoleLocations.removeAll()
+        //        self.generateLocs()
+        
         for item in model.eventlocationDataMV ?? [] {
             
             if item.eventTypeName == "Private" {
@@ -557,7 +577,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             else {
                 iconMarker = "eventMarker_ic"
             }
-
+            
             locations.append(EventsLocation(location: CLLocationCoordinate2D(latitude: item.lat ?? 0.0, longitude: item.lang ?? 0.0), markerIcon: iconMarker, typelocation: "event", eventsCount: item.eventData?.count ?? 0, markerId: (item.eventData?.count ?? 0) == 1 ? item.eventData?[0].id ?? "" : "",isEvent: true,peopleCount: 0, eventType: item.eventTypeName, eventList: item.eventData))
         }
         
@@ -568,10 +588,10 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         
-//        for item in pepoleLocations {
-//            self.locations.append(EventsLocation(location:  item, markerIcon: "markerLocations_ic", typelocation: "people", eventsCount: 1, markerId: "1",isEvent: false,peopleCount: 1, eventType: "", eventList: []))
-//        }
-                
+        //        for item in pepoleLocations {
+        //            self.locations.append(EventsLocation(location:  item, markerIcon: "markerLocations_ic", typelocation: "people", eventsCount: 1, markerId: "1",isEvent: false,peopleCount: 1, eventType: "", eventList: []))
+        //        }
+        
         DispatchQueue.main.async {
             for item in self.locations {
                 self.createMarker(for: item.location, markerIcon: item.markerIcon, typelocation: item.typelocation, markerID: item.markerId, eventsCount: item.eventsCount,isEvent: item.isEvent,peopleCount: item.peopleCount, eventTypee: item.eventType)
@@ -620,7 +640,7 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     }
     
     func createMarkerImage(isWhiteLabel:Bool,iconMarker:String,count: String) -> UIImage {
-
+        
         let color = UIColor.black
         let string = count //"\(UInt(count))"
         let paragraphStyle = NSMutableParagraphStyle()
@@ -638,19 +658,108 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         }
         
         UIGraphicsBeginImageContext(CGSize(width: 32, height: 32))
-
-//        UIGraphicsBeginImageContextWithOptions(CGSize(width: 32, height: 32), false, 0.0)
+        
+        //        UIGraphicsBeginImageContextWithOptions(CGSize(width: 32, height: 32), false, 0.0)
         
         imageView.image?.draw(in: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(32), height: CGFloat(32)))
         
         let rect = CGRect(x: CGFloat(Defaults.isIPhoneLessThan2500 ? 4 : 0), y: CGFloat(8), width: CGFloat(Defaults.isIPhoneLessThan2500 ? 24 : 32), height: CGFloat(Defaults.isIPhoneLessThan2500 ? 24 : 32))
         
         attrStr.draw(in: rect)
-
+        
         let markerImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
         return markerImage
+    }
+    
+    
+    func setupFilterDateViews(didselect:String) {
+        if didselect == "ThisDay" {
+            todayBtn.isSelected = true
+            thisWeekBtn.isSelected = false
+            thisMonthBtn.isSelected = false
+            customBtn.isSelected = false
+            todayBtn.backgroundColor = UIColor.FriendzrColors.primary
+            todayBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 0.5)
+            thisWeekBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            thisMonthBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            customBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            thisWeekBtn.backgroundColor = .clear
+            thisMonthBtn.backgroundColor = .clear
+            customBtn.backgroundColor = .clear
+            dateView.isHidden = true
+        }
+        else if didselect == "ThisWeek" {
+            todayBtn.isSelected = false
+            thisWeekBtn.isSelected = true
+            thisMonthBtn.isSelected = false
+            customBtn.isSelected = false
+            todayBtn.backgroundColor = .clear
+            thisWeekBtn.backgroundColor = UIColor.FriendzrColors.primary
+            thisWeekBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+            todayBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            thisMonthBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            customBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            thisMonthBtn.backgroundColor = .clear
+            customBtn.backgroundColor = .clear
+            
+            dateView.isHidden = true
+        }
+        else if didselect == "ThisMonth" {
+            todayBtn.isSelected = false
+            thisWeekBtn.isSelected = false
+            thisMonthBtn.isSelected = true
+            customBtn.isSelected = false
+            todayBtn.backgroundColor = .clear
+            thisWeekBtn.backgroundColor = .clear
+            thisMonthBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+            todayBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            thisWeekBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            customBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            thisMonthBtn.backgroundColor = UIColor.FriendzrColors.primary
+            customBtn.backgroundColor = .clear
+            
+            dateView.isHidden = true
+        }
+        else if didselect == "Custom" {
+            todayBtn.isSelected = false
+            thisWeekBtn.isSelected = false
+            thisMonthBtn.isSelected = false
+            customBtn.isSelected = true
+            todayBtn.backgroundColor = .clear
+            thisWeekBtn.backgroundColor = .clear
+            thisMonthBtn.backgroundColor = .clear
+            customBtn.setBorder(color: UIColor.FriendzrColors.primary?.cgColor, width: 1.0)
+            todayBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            thisWeekBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            thisMonthBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            customBtn.backgroundColor = UIColor.FriendzrColors.primary
+            dateView.isHidden = false
+        }
+        else {
+            todayBtn.isSelected = false
+            thisWeekBtn.isSelected = false
+            thisMonthBtn.isSelected = false
+            customBtn.isSelected = false
+            todayBtn.backgroundColor = .clear
+            thisWeekBtn.backgroundColor = .clear
+            thisMonthBtn.backgroundColor = .clear
+            customBtn.backgroundColor = .clear
+            
+            customBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            todayBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            thisWeekBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+            thisMonthBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+
+            dateView.isHidden = true
+        }
+        
+        
+        dateTypeSelected = didselect
+        Defaults.dateTypeSelected = didselect
+        
+        print("dateTypeSelected = \(dateTypeSelected) = \(Defaults.dateTypeSelected)")
     }
     
     func setupViews() {
@@ -670,6 +779,29 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         bannerView.cornerRadiusView(radius: 8)
         nearByEventsDialogueView.cornerRadiusView(radius: 8)
         nearByEventsExplainedSubView.setCornerforTop()
+        
+        todayBtn.cornerRadiusView(radius: 8)
+        thisWeekBtn.cornerRadiusView(radius: 8)
+        thisMonthBtn.cornerRadiusView(radius: 8)
+        customBtn.cornerRadiusView(radius: 8)
+        
+        todayBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+        thisWeekBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+        thisMonthBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+        customBtn.setBorder(color: UIColor.black.cgColor, width: 1.0)
+        
+        startDateView.cornerRadiusView(radius: 8)
+        startDateView.setBorder(color: UIColor.black.cgColor, width: 1.0)
+        endDateView.cornerRadiusView(radius: 8)
+        endDateView.setBorder(color: UIColor.black.cgColor, width: 1.0)
+
+        setupFilterDateViews(didselect: "")
+        
+        DispatchQueue.main.async {
+            self.setupDatePickerForStartDate()
+//            self.startDateTxt.addDoneOnKeyboard(withTarget: self, action: #selector(self.dismissKeyboard))
+//            self.endDateTxt.addDoneOnKeyboard(withTarget: self, action: #selector(self.dismissKeyboard))
+        }
         
         profileImg.isHidden = true
         searchBar.delegate = self
@@ -863,10 +995,11 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
     //MARK: - Actions
     @IBAction func applyBtn(_ sender: Any) {
         if Defaults.token != "" {
-            print("catIDs = \(catIDs) \\ \(Defaults.catIDs)")
+            print("catIDs = \(catIDs) \\ \(Defaults.catIDs),\\ \(Defaults.dateTypeSelected)")
             
             Defaults.catIDs = catIDs
             Defaults.catSelectedNames = catSelectedNames
+            Defaults.dateTypeSelected = dateTypeSelected
             
             NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)
             
@@ -1036,7 +1169,6 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
         searchBar.text = ""
     }
     
-    
     @IBAction func upDownBtn(_ sender: Any) {
         if NetworkConected.internetConect {
             isViewUp.toggle()
@@ -1082,6 +1214,53 @@ class MapVC: UIViewController ,UIGestureRecognizerDelegate {
             HandleInternetConnection()
         }
     }
+    
+    @IBAction func todayBtn(_ sender: Any) {
+        todayBtn.isSelected = !todayBtn.isSelected
+        if todayBtn.isSelected {
+            setupFilterDateViews(didselect: "ThisDay")
+        }else {
+            setupFilterDateViews(didselect: "")
+        }
+        
+        startDateTxt.text = ""
+        endDateTxt.text = ""
+    }
+    
+    @IBAction func thisWeekBtn(_ sender: Any) {
+        thisWeekBtn.isSelected = !thisWeekBtn.isSelected
+        
+        if thisWeekBtn.isSelected {
+            setupFilterDateViews(didselect: "ThisWeek")
+        }else {
+            setupFilterDateViews(didselect: "")
+        }
+        
+        startDateTxt.text = ""
+        endDateTxt.text = ""
+    }
+    
+    @IBAction func thisMonthBtn(_ sender: Any) {
+        thisMonthBtn.isSelected = !thisMonthBtn.isSelected
+        if thisMonthBtn.isSelected {
+            setupFilterDateViews(didselect: "ThisMonth")
+        }else {
+            setupFilterDateViews(didselect: "")
+        }
+        
+        startDateTxt.text = ""
+        endDateTxt.text = ""
+    }
+    
+    @IBAction func customBtn(_ sender: Any) {
+        customBtn.isSelected = !customBtn.isSelected
+        
+        if customBtn.isSelected {
+            setupFilterDateViews(didselect: "Custom")
+        }else {
+            setupFilterDateViews(didselect: "")
+        }
+    }
 }
 
 //MARK: - GMSMap View Delegate
@@ -1110,7 +1289,7 @@ extension MapVC : GMSMapViewDelegate {
         }
     }
     
-    fileprivate func getEventsByMarkerLocation(_ pos: CLLocationCoordinate2D?) {
+    func getEventsByMarkerLocation(_ pos: CLLocationCoordinate2D?) {
         viewmodel.getEventsByLoction(lat: (pos?.latitude ?? 0.0), lng: (pos?.longitude ?? 0.0))
         viewmodel.events.bind { [weak self] value in
             

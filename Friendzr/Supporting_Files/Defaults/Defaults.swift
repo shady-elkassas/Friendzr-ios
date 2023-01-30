@@ -151,6 +151,16 @@ class Defaults {
         }
     }
     
+    static var dateTypeSelected: String {
+        set{
+            UserDefaults.standard.set(newValue, forKey: "dateTypeSelected")
+            UserDefaults.standard.synchronize()
+        }
+        get{
+            return UserDefaults.standard.string(forKey: "dateTypeSelected") ?? ""
+        }
+    }
+    
     static var myAppearanceTypes: Array<Int> {
         set{
             UserDefaults.standard.set(newValue, forKey: "myAppearanceTypes")
@@ -737,6 +747,7 @@ class Defaults {
         defaults.removeObject(forKey: "isFirstOpenFeed")
         defaults.removeObject(forKey: "catSelectedNames")
         defaults.removeObject(forKey: "catIDs")
+        defaults.removeObject(forKey: "dateTypeSelected")
         defaults.removeObject(forKey: "isUserStillOnMap")
         defaults.removeObject(forKey: "isDeeplinkClicked")
         defaults.removeObject(forKey: "isDeeplinkDirectionalFiltering")

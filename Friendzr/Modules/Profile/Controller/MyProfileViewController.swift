@@ -199,7 +199,7 @@ class MyProfileViewController: UIViewController {
     }
     
     func setupSliderShow(_ cell: ImageProfileTableViewCell, _ model: ProfileObj?) {
-        cell.imagesSlider.slideshowInterval = 5.0
+//        cell.imagesSlider.slideshowInterval = 5.0
         cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
         cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
         
@@ -208,12 +208,13 @@ class MyProfileViewController: UIViewController {
         cell.imagesSlider.delegate = self
         
         cell.imagesSlider.pageIndicator = UIPageControl.withSlideshowColors()
-        //        imagesSlider.setImageInputs(localSource)
+
         var sdWebImageSource = [SDWebImageSource(urlString: model?.userImage ?? "") ?? SDWebImageSource(urlString: "jpeg.ly/G2tv")!]
         
         for item in model?.userImages ?? [] {
             sdWebImageSource.append(SDWebImageSource(urlString: item)!)
         }
+        
         
         cell.imagesSlider.setImageInputs(sdWebImageSource)
     }

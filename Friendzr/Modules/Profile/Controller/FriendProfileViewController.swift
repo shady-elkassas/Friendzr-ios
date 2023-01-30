@@ -282,7 +282,7 @@ class FriendProfileViewController: UIViewController {
     }
     
     func setupSliderShow(_ cell: FriendImageProfileTableViewCell, _ model: FriendObj?) {
-        cell.imagesSlider.slideshowInterval = 5.0
+//        cell.imagesSlider.slideshowInterval = 5.0
         cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
         cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
         

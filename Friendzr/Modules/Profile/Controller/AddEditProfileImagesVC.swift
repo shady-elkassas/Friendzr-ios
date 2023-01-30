@@ -7,6 +7,7 @@
 
 import UIKit
 import QCropper
+import QuartzCore
 
 class AddEditProfileImagesVC: UIViewController {
 
@@ -133,36 +134,42 @@ extension AddEditProfileImagesVC {
     
     @objc func handleAddImg() {
         print("Add Images")
-        let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
-        
-        let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
-            self.openCamera()
+        if profileImages.count != 5 {
+            let settingsActionSheet: UIAlertController = UIAlertController(title:nil, message:nil, preferredStyle:UIAlertController.Style.actionSheet)
+            
+            let cameraBtn = UIAlertAction(title: "Camera", style: .default) {_ in
+                self.openCamera()
+            }
+            let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
+                self.openLibrary()
+            }
+            
+            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
+            cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
+            
+            settingsActionSheet.addAction(cameraBtn)
+            settingsActionSheet.addAction(libraryBtn)
+            settingsActionSheet.addAction(cancelBtn)
+            
+            present(settingsActionSheet, animated: true, completion: nil)
         }
-        let libraryBtn = UIAlertAction(title: "Photo Library", style: .default) {_ in
-            self.openLibrary()
+        else {
+            self.view.makeToast("You can only add 5 additional photos.")
         }
-        
-        let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        cameraBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-        libraryBtn.setValue(UIColor.FriendzrColors.primary, forKey: "titleTextColor")
-        cancelBtn.setValue(UIColor.red, forKey: "titleTextColor")
-        
-        settingsActionSheet.addAction(cameraBtn)
-        settingsActionSheet.addAction(libraryBtn)
-        settingsActionSheet.addAction(cancelBtn)
-        
-        present(settingsActionSheet, animated: true, completion: nil)
     }
 }
 
 //MARK: - Extensions UIImagePickerControllerDelegate && UINavigationControllerDelegate
-extension AddEditProfileImagesVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+extension AddEditProfileImagesVC : UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate {
     //MARK: - Take Picture
     func openCamera(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
+            imagePicker.mediaTypes = ["kUTTypeMovie"]
             imagePicker.sourceType = UIImagePickerController.SourceType.camera;
             imagePicker.allowsEditing = false
             self.present(imagePicker, animated: true, completion: nil)
@@ -173,6 +180,7 @@ extension AddEditProfileImagesVC : UIImagePickerControllerDelegate,UINavigationC
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             imagePicker.delegate = self
             imagePicker.sourceType = .photoLibrary
+            imagePicker.mediaTypes = ["kUTTypeMovie"]
             imagePicker.allowsEditing = false
             self.present(imagePicker, animated: true, completion: nil)
         }
@@ -207,14 +215,8 @@ extension AddEditProfileImagesVC: CropperViewControllerDelegate {
         cropper.onPopup()
         if let state = state,
            let image = cropper.originalImage.cropped(withCropperState: state) {
-            if profileImages.count != 5 {
                 profileImages.append(image)
                 collectionView.reloadData()
-//                onAdditionalPhotosCallBackResponse?(profileImages,["\(profileImages.count)"])
-            } else {
-                self.view.makeToast("To add more photos, please delete one or more of your photos first")
-            }
-            
             self.attachedImg = true
             print(cropper.isCurrentlyInInitialState)
             print(image)

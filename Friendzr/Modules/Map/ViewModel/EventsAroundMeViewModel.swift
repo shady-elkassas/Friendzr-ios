@@ -21,14 +21,35 @@ class EventsAroundMeViewModel {
     var isSuccess : Bool = false
     var error:DynamicType<String> = DynamicType()
     
-    func getAllEventsAroundMe(ByCatIds catIDs: [String]) {
+    func getAllEventsAroundMe(ByCatIds catIDs: [String],dateCriteria:String,startDate:String,endDate:String) {
         CancelRequest.currentTask = false
         var url = URLs.baseURLFirst + "Public/EventsAroundMe"
         if Defaults.token != "" {
-            url = URLs.baseURLFirst + "Events/Eventsaroundme"
+            url = URLs.baseURLFirst + "Events/EventsAroundUser"
         }
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-        let params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"categories": catIDs]
+        var params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng]
+
+        if catIDs.count != 0 {
+            if dateCriteria != "" {
+                if dateCriteria != "Custom" {
+                    params = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"categories": catIDs,"dateCriteria":dateCriteria]
+                }else {
+                    params = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"categories": catIDs,"dateCriteria":dateCriteria,"startDate":startDate,"endDate":endDate]
+                }
+            }else {
+                params = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"categories": catIDs]
+            }
+        }
+        else {
+            if dateCriteria != "" {
+                if dateCriteria != "Custom" {
+                    params = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"dateCriteria":dateCriteria]
+                }else {
+                    params = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"dateCriteria":dateCriteria,"startDate":startDate,"endDate":endDate]
+                }
+            }
+        }
         
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: params, andHeaders: headers) { (data,error) in
             
@@ -50,18 +71,40 @@ class EventsAroundMeViewModel {
     }
     
     
-    func getAllEventsOnlyAroundMe(ByCatIds catIDs: [String],pageNumber:Int) {
+    func getAllEventsOnlyAroundMe(ByCatIds catIDs: [String],pageNumber:Int,dateCriteria:String,startDate:String,endDate:String) {
         CancelRequest.currentTask = false
         
         var url = URLs.baseURLFirst + "Public/OnlyEventsAround"
         
         if Defaults.token != "" {
-            url = URLs.baseURLFirst + "Events/OnlyEventsAround"
+            url = URLs.baseURLFirst + "Events/OnlyEventsAroundUser" 
         }
         
         let headers = RequestComponent.headerComponent([.authorization,.type,.lang])
-        let params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"categories": catIDs,"PageSize":20,"PageNumber":pageNumber]
         
+        var params:[String:Any] = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"PageSize":20,"PageNumber":pageNumber]
+        
+        if catIDs.count != 0 {
+            if dateCriteria != "" {
+                if dateCriteria != "Custom" {
+                    params = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"PageSize":20,"PageNumber":pageNumber,"categories": catIDs,"dateCriteria":dateCriteria]
+                }else {
+                    params = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"PageSize":20,"PageNumber":pageNumber,"categories": catIDs,"dateCriteria":dateCriteria,"startDate":startDate,"endDate":endDate]
+                }
+            }else {
+                params = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"PageSize":20,"PageNumber":pageNumber,"categories": catIDs]
+            }
+        }
+        else {
+            if dateCriteria != "" {
+                if dateCriteria != "Custom" {
+                    params = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"PageSize":20,"PageNumber":pageNumber,"dateCriteria":dateCriteria]
+                }else {
+                    params = ["lat":Defaults.LocationLat,"lang":Defaults.LocationLng,"PageSize":20,"PageNumber":pageNumber,"dateCriteria":dateCriteria,"startDate":startDate,"endDate":endDate]
+                }
+            }
+        }
+
         RequestManager().request(fromUrl: url, byMethod: "POST", withParameters: params, andHeaders: headers) { (data,error) in
             
             guard let userResponse = Mapper<EventsOnlyAroundMeResponse>().map(JSON: data!) else {

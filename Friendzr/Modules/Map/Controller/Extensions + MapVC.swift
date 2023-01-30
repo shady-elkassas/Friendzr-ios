@@ -16,6 +16,103 @@ import ListPlaceholder
 import Network
 import SDWebImage
 
+extension MapVC {
+    func setupDatePickerForStartDate(){
+        //Formate Date
+        
+        endDateTxt.isUserInteractionEnabled = false
+        datePicker1.datePickerMode = .date
+        if #available(iOS 13.4, *) {
+            datePicker1.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        datePicker1.minimumDate = Date()
+        
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker1))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        
+        doneButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.red
+        
+        toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
+        
+        startDateTxt.inputAccessoryView = toolbar
+        startDateTxt.inputView = datePicker1
+        
+    }
+    @objc func donedatePicker1(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        startDateTxt.text = formatter.string(from: datePicker1.date)
+        self.startDate = formatter.string(from: self.datePicker1.date)
+        
+        var comps2:DateComponents = DateComponents()
+        comps2.year = 20
+        comps2.month = 12
+        comps2.day = -1
+        
+        self.minimumDate = (self.datePicker1.date)
+        self.maximumDate = self.datePicker1.calendar.date(byAdding: comps2, to: self.minimumDate)!
+        
+        print(formatter.string(from: self.minimumDate),formatter.string(from: self.maximumDate))
+        
+        endDateTxt.isUserInteractionEnabled = true
+        setupDatePickerForEndDate()
+        self.view.endEditing(true)
+    }
+    
+    func setupDatePickerForEndDate(){
+        //Formate Date
+        datePicker2.datePickerMode = .date
+        if #available(iOS 13.4, *) {
+            datePicker2.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        datePicker2.minimumDate = self.minimumDate
+        datePicker2.maximumDate = self.maximumDate
+        
+        //ToolBar
+        let toolbar = UIToolbar();
+        toolbar.sizeToFit()
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(donedatePicker2))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelDatePicker))
+        
+        doneButton.tintColor = UIColor.FriendzrColors.primary!
+        cancelButton.tintColor = UIColor.red
+        
+        toolbar.setItems([cancelButton,spaceButton,doneButton], animated: false)
+        
+        endDateTxt.inputAccessoryView = toolbar
+        endDateTxt.inputView = datePicker2
+        
+    }
+    
+    @objc func donedatePicker2(){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        endDateTxt.text = formatter.string(from: datePicker2.date)
+        self.endDate = formatter.string(from: datePicker2.date)
+        
+        self.view.endEditing(true)
+    }
+
+
+    @objc func cancelDatePicker(){
+        self.view.endEditing(true)
+    }
+}
+
 //MARK: check Location Permission
 extension MapVC {
     func checkLocationPermission() {
@@ -126,6 +223,7 @@ extension MapVC {
         }
         
         catSelectedNames = Defaults.catSelectedNames
+        dateTypeSelected = Defaults.dateTypeSelected
     }
     
     func checkDeepLinkDirection() {
@@ -220,11 +318,15 @@ extension MapVC {
         if Defaults.catIDs.count != 0 {
             switchFilterButton.isOn = true
             switchFilterButton.thumbImage = UIImage(named: "filterMap_on_ic")
-        }else {
+        }
+        else if Defaults.dateTypeSelected != "" {
+            switchFilterButton.isOn = true
+            switchFilterButton.thumbImage = UIImage(named: "filterMap_on_ic")
+        }
+        else {
             switchFilterButton.isOn = false
             switchFilterButton.thumbImage = UIImage(named: "filterMap_on_ic")
         }
-        
         
         switchFilterButton.addTarget(self, action:  #selector(handleFilterSwitchBtn), for: .touchUpInside)
         
@@ -266,7 +368,7 @@ extension MapVC {
     
     func handleFilterByCategorySwitchBtn() {
         if NetworkConected.internetConect {
-            if Defaults.catIDs.count == 0 {
+            if Defaults.catIDs.count == 0 && Defaults.dateTypeSelected == "" {
                 switchFilterButton.isUserInteractionEnabled = false
                 self.catsSuperView.isHidden = false
             }
@@ -288,7 +390,11 @@ extension MapVC {
                         self.catSelectedNames.removeAll()
                         self.catSelectedArr.removeAll()
                         Defaults.catIDs.removeAll()
+                        Defaults.dateTypeSelected = ""
+                        self.dateTypeSelected = ""
                         Defaults.catSelectedNames.removeAll()
+                        
+                        self.setupFilterDateViews(didselect: "")
                         
                         DispatchQueue.main.async {
                             DispatchQueue.main.async {
@@ -322,7 +428,6 @@ extension MapVC {
                             }
                             
                             DispatchQueue.main.async {
-                                //                                self.currentPage = 1
                                 self.getEventsOnlyAroundMe(pageNumber: self.currentPage)
                             }
                         }
@@ -381,7 +486,7 @@ extension MapVC {
         }
         else {
             HandleInternetConnection()
-            if Defaults.catIDs.count != 0 {
+            if Defaults.catIDs.count != 0 || Defaults.dateTypeSelected != "" {
                 switchFilterButton.isOn = true
             }else {
                 switchFilterButton.isOn = false
@@ -483,8 +588,10 @@ extension MapVC {
             Defaults.catSelectedNames = listNames
             Defaults.catIDs = listIDs
         }
+
+        Defaults.dateTypeSelected = dateTypeSelected
         
-        print("catIDs = \(catIDs)")
+        print("catIDs = \(catIDs) && \(dateTypeSelected)")
         
         
         NotificationCenter.default.post(name: Notification.Name("updateFilterBtn"), object: nil, userInfo: nil)

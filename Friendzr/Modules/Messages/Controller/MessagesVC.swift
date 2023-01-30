@@ -210,7 +210,7 @@ class MessagesVC: UIViewController {
     
     //MARK: - Setup Messages
     func setupImageShow(_ cell: MessageAttachmentTableViewCell, _ model: MessageImage) {
-        cell.imagesSlider.slideshowInterval = 5.0
+//        cell.imagesSlider.slideshowInterval = 5.0
         cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
         cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
         
@@ -225,7 +225,7 @@ class MessagesVC: UIViewController {
     }
     
     func setupFileShow(_ cell: MessageAttachmentTableViewCell, _ model: MessageFile) {
-        cell.imagesSlider.slideshowInterval = 5.0
+//        cell.imagesSlider.slideshowInterval = 5.0
         cell.imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
         cell.imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
         

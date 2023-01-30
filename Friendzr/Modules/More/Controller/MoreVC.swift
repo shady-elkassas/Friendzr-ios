@@ -187,10 +187,9 @@ class MoreVC: UIViewController, MFMailComposeViewControllerDelegate,UIGestureRec
     }
     
     func setupUserData() {
-        imagesSlider.slideshowInterval = 5.0
+//        imagesSlider.slideshowInterval = 5.0
         imagesSlider.pageIndicatorPosition = .init(horizontal: .center, vertical: .top)
         imagesSlider.contentScaleMode = UIViewContentMode.scaleAspectFill
-        
         // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
         imagesSlider.activityIndicator = DefaultActivityIndicator()
         imagesSlider.delegate = self
